@@ -1,13 +1,13 @@
 template(name='nav')
     .ui.fluid.attached.borderless.invert.menu.topnav
+        a.icon.header.item.toggle_leftbar
+            i.bars.large.icon
         a.icon.item(href='/')
             i.big.link.yin.yang.grey.icon
         if currentUser
-            a.icon.header.item.toggle_leftbar
-                i.bars.large.icon
             if connected
                 a.icon.item.set_root(href="/m/model" class="{{isActivePath '/m/model'}}")
-                    i.database.icon
+                    i.large.database.icon
                 if is_admin
                     // .item
                     //     .ui.green.header not connected
@@ -20,11 +20,11 @@ template(name='nav')
                 // a.icon.item(href="/rentals")
                 //     i.clock.icon
                 a.icon.item(href="/shop")
-                    i.store.icon
+                    i.store.large.icon
                 a.icon.item(href="/users")
-                    i.users.icon
+                    i.users.large.icon
                 a.icon.item(href="/one")
-                    i.circle.icon
+                    i.circle.large.icon
             else
                 .item
                     i.yin.yang.loading.big.grey.icon
@@ -218,25 +218,25 @@ template(name='leftbar')
             | Dashboard
         a.item.toggle_leftbar(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_dashboard'}}")
             i.user.icon
-            | Profile
+            | profile
         a.item.toggle_leftbar(href="/finance" class="{{isActivePath '/finance'}}")
             i.money.icon
-            | Finance
+            | finance
         a.item.toggle_leftbar(href="/settings" class="{{isActivePath '/settings'}}")
             i.cog.icon
-            | Settings
+            | settings
         .divider
         a.disabled.item.toggle_leftbar(href="/chat" class="{{isActivePath '/chat'}}" title='chat') 
-            |Chat
+            | chat
             i.chat.icon
         a.disabled.item.toggle_leftbar(href="/chat" class="{{isActivePath '/chat'}}" title='chat') 
-            |Leads
+            |leads
             i.telephone.icon
         a.item.toggle_leftbar(href="/projects" class="{{isActivePath '/projects'}}" title='chat') 
-            |Projects
+            |projects
             i.tasks.icon
         a.disabled.item.toggle_leftbar(href="/chat" class="{{isActivePath '/chat'}}" title='chat') 
-            |Invoices
+            |invoices
             i.invoice.icon
         if is_eric
             a.icon.item.toggle_dev.toggle_leftbar
