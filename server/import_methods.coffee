@@ -110,7 +110,7 @@ Meteor.methods
         console.log 'type of query', typeof(query)
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&limit=10&include_facets=false",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&limit=20&include_facets=true",(err,response)=>
             # console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
@@ -291,12 +291,12 @@ Meteor.methods
                     if found_doc
                         # console.log 'found wiki doc for term', term
                         # console.log 'found wiki doc for term', term, found_doc
-                        # Docs.update found_doc._id,
-                        #     # $pull:
-                        #     #     tags:'wikipedia'
-                        #     $set:
-                        #         title:found_doc.title.toLowerCase()
-                        console.log 'found wiki doc', found_doc
+                        Docs.update found_doc._id,
+                            # $pull:
+                            #     tags:'wikipedia'
+                            $set:
+                                title:found_doc.title.toLowerCase()
+                        # console.log 'found wiki doc', found_doc
                         # Meteor.call 'call_watson', found_doc._id, 'url','url', ->
                     else
                         new_wiki_id = Docs.insert
@@ -306,4 +306,4 @@ Meteor.methods
                             model:'wikipedia'
                             # ups: 1000000
                             url:url
-                        # Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
+                        Meteor.call 'call_watson', new_wiki_id, 'url','url', ->

@@ -1,6 +1,6 @@
 if Meteor.isClient
-    # Template.post_view.onCreated ->
-        # @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.post_view.onCreated ->
+        @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
   
     Template.post_edit.onRendered ->
         # Meteor.setTimeout ->
@@ -35,20 +35,27 @@ if Meteor.isClient
             Meteor.call 'call_wiki', @valueOf(), ->
             Meteor.call 'search_reddit', selected_tags.array(), ->
                 
+    Template.reddit_view.events
+        'click .add_tag': ->
+            selected_tags.push @valueOf()
+            Meteor.call 'call_wiki', @valueOf(), ->
+            Meteor.call 'search_reddit', selected_tags.array(), ->
+            Meteor.call 'search_ph', selected_tags.array(), ->
+            Router.go '/'
                 
     Template.post_card.events
         'click .add_tag': ->
             selected_tags.push @valueOf()
             Meteor.call 'call_wiki', @valueOf(), ->
-            # Meteor.call 'search_ph', selected_tags.array(), ->
+            Meteor.call 'search_ph', selected_tags.array(), ->
             Meteor.call 'search_reddit', selected_tags.array(), ->
                 
-    # Template.vid_card.events
-    #     'click .add_tag': ->
-    #         selected_tags.push @valueOf()
-    #         Meteor.call 'call_wiki', @valueOf(), ->
-    #         Meteor.call 'search_reddit', selected_tags.array(), ->
-            # Meteor.call 'search_ph', selected_tags.array(), ->
+    Template.vid_card.events
+        'click .add_tag': ->
+            selected_tags.push @valueOf()
+            Meteor.call 'call_wiki', @valueOf(), ->
+            Meteor.call 'search_reddit', selected_tags.array(), ->
+            Meteor.call 'search_ph', selected_tags.array(), ->
                 
     Template.post_tag.onCreated ->
         # console.log @

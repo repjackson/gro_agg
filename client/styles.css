@@ -3,14 +3,14 @@ body {
     font-family: 'Ubuntu', sans-serif !important;
     /* font-family: 'Lato+Mono', sans-serif !important; */
     /* font-family: 'Lato', sans-serif !important; */
-     font-size: 90% !important; 
+     /*font-size: 110% !important; */
     /* line-height: 200% !important; */
-     /*background: rgba(0,0,0,.05) !important; */
+     background: rgba(0,0,0,.8) !important; 
     /*scroll-behavior: smooth;*/
     /*margin-top: 5em;*/
     /*background: rgba(200,200,200,1) !important;*/
-     /*filter: invert(1) !important; */
-     /*overscroll-behavior: none; */
+    /* filter: invert(1) !important; */
+     overscroll-behavior: none; 
     transition: all 1s ease !important;
     /* background: #0e0e44 !important; */
 }
@@ -396,7 +396,7 @@ a.title, #title {
 }
 
 .invert{
-  /*filter: invert(1) !important; */
+  filter: invert(1) !important; 
 }
 .left.floated{
     margin:3px !important;
@@ -524,16 +524,16 @@ a.title, #title {
 
 .label {
   margin:3px !important;
-  border-radius: 10px !important; 
+  border-radius: 7px !important; 
 }
 
 input {
     margin: 5px !important;
-    border-radius: 10px !important; 
+    border-radius: 7px !important; 
 }
 
 ::-webkit-scrollbar {
-  width: 0px !important;
+  width: 3px !important;
   /*border-radius: 10px !important;*/
 }
 .wrap_input {
@@ -581,12 +581,17 @@ input {
 }
 .scrolling{
     max-height: 90vh !important;
-    min-height: 50vh !important;
+    /*min-height: 50vh !important;*/
+    /* padding: 5px !important;
+    border-radius: 10px !important;
+    border-width: 1px !important;
+    border-color: grey !important;
+    border-style: solid !important; */
     overflow-y:scroll;
-    overflow-x:scroll;
+    overflow-x:hidden;
     /*margin-top: 1em; */
-    /*padding-top: .5em; */
-    padding: 1em;
+    padding-top: .5em; 
+    padding: .4em;
     /*padding-left: 1em;*/
 }
 .forty {

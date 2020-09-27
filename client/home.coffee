@@ -1,27 +1,22 @@
 
 @selected_tags = new ReactiveArray []
 
-# Template.body.events
-#     'click a:not(.select_term)': ->
-#         $('.global_container')
-#         .transition('fade out', 200)
-#         .transition('fade in', 200)
-#         # unless Meteor.user().invert_class is 'invert'
+Template.body.events
+    'click a:not(.select_term)': ->
+        $('.global_container')
+        .transition('fade out', 200)
+        .transition('fade in', 200)
+        # unless Meteor.user().invert_class is 'invert'
+
+Router.route '/', (->
+    @layout 'layout'
+    @render 'home'
+    ), name:'home'
 
 
-Template.reddit_card.events
-    'keyup .tag_post': (e,t)->
-        # console.log 
-        if e.which is 13
-            # $(e.currentTarget).closest('.button')
-            tag = $(e.currentTarget).closest('.tag_post').val().toLowerCase().trim()
-            Docs.update @_id,
-                $addToSet: tags: tag
-            $(e.currentTarget).closest('.tag_post').val('')
-            # console.log tag
 
 Template.home.onCreated ->
-    # @autorun -> Meteor.subscribe('me')
+    @autorun -> Meteor.subscribe('me')
     @autorun -> Meteor.subscribe('dtags',
         # Session.get('query')
         selected_tags.array()
@@ -77,12 +72,21 @@ Template.home.helpers
 
         Docs.find(match).count() is 1
 
+    two_posts: -> 
+        match = {model:$in:['post','wikipedia','reddit']}
+        # match = {model:$in:['post','wikipedia','reddit','porn']}
+        
+        # match = {model:'post'}
+        if selected_tags.array().length>0
+            match.tags = $in:selected_tags.array()
+        Docs.find(match).count() is 2
+    three_posts: -> Docs.find().count() is 3
 
 
     docs: ->
         # match = {model:$in:['porn']}
         # match = {model:$in:['post','wikipedia','reddit','porn']}
-        match = {model:$in:['post','reddit']}
+        match = {model:$in:['post','wikipedia','reddit']}
         
         # match = {model:'post'}
         if selected_tags.array().length>0
@@ -95,7 +99,7 @@ Template.home.helpers
                 views:-1
                 _timestamp:-1
                 # "#{Session.get('sort_key')}": Session.get('sort_direction')
-            limit:1
+            limit:5
         # if cur.count() is 1
         # Docs.find match
     home_button_class: ->
@@ -113,35 +117,20 @@ Template.home.helpers
     
     selected_tags: -> selected_tags.array()
     tag_results: ->
-        # # doc_count = Docs.find({model:$in:['post','wikipedia','reddit','porn']}).count()
-        # doc_count = Docs.find({model:$in:['porn']}).count()
-        # if 0 < doc_count < 3 
-        #     Tag_results.find({ 
-        #         count:$lt:doc_count 
-        #     })
-        # else 
-        Tag_results.find()
+        # doc_count = Docs.find({model:$in:['post','wikipedia','reddit','porn']}).count()
+        doc_count = Docs.find({model:$in:['porn']}).count()
+        if 0 < doc_count < 3 
+            Tag_results.find({ 
+                count:$lt:doc_count 
+            })
+        else 
+            Tag_results.find()
 
             
 Template.vid_card.events
     'click .fork': -> 
         console.log @
         Meteor.call 'tagify_vid', @_id, ->
-# Template.reddit_card.events
-#     'click .autotag': ->
-#         # console.log @
-#         # if @rd and @rd.selftext_html
-#         #     dom = document.createElement('textarea')
-#         #     # dom.innerHTML = doc.body
-#         #     dom.innerHTML = @rd.selftext_html
-#         #     # console.log 'innner html', dom.value
-#         #     # return dom.value
-#         #     Docs.update @_id,
-#         #         $set:
-#         #             parsed_selftext_html:dom.value
-        
-#         # doc = Template.parentData()
-#         Meteor.call 'call_watson', @_id, 'url', 'url', ->
 
 Template.home.events
     # 'click .delete': -> 
@@ -167,14 +156,13 @@ Template.home.events
         # Session.set('query',search)
         if e.which is 13
             console.log search
-            if search.length>0
-                selected_tags.push search
-                # if Meteor.user()
-                # Meteor.call 'search_ph', selected_tags.array(), ->
-                Meteor.call 'call_wiki', search, ->
-                Meteor.call 'search_reddit', selected_tags.array(), ->
-                Session.set('query','')
-                search = $('.search_title').val('')
+            selected_tags.push search
+            # if Meteor.user()
+            # Meteor.call 'search_ph', selected_tags.array(), ->
+            Meteor.call 'call_wiki', search, ->
+            Meteor.call 'search_reddit', selected_tags.array(), ->
+            Session.set('query','')
+            search = $('.search_title').val('')
         # if e.which is 8
         #     if search.length is 0
         #         selected_tags.pop()

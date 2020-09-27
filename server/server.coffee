@@ -22,25 +22,25 @@ Docs.allow
             user_id is doc._author_id
 
 
-# Meteor.users.allow
-#     insert: (user_id, doc, fields, modifier) ->
-#         user_id
-#         # true
-#         # if user_id and doc._id == user_id
-#         #     true
-#     update: (user_id, doc, fields, modifier) ->
-#         user_id
-#         # user = Meteor.users.findOne user_id
-#         # if user_id and doc._id is user_id
-#         #     true
-#         # else if user_id and 'dev' in user.roles
-#         #     true
-#     remove: (user_id, doc, fields, modifier) ->
-#         user = Meteor.users.findOne user_id
-#         if user_id and 'dev' in user.roles
-#             true
-#         # if userId and doc._id == userId
-#         #     true
+Meteor.users.allow
+    insert: (user_id, doc, fields, modifier) ->
+        # user_id
+        true
+        # if user_id and doc._id == user_id
+        #     true
+    update: (user_id, doc, fields, modifier) ->
+        user_id
+        # user = Meteor.users.findOne user_id
+        # if user_id and doc._id is user_id
+        #     true
+        # else if user_id and 'dev' in user.roles
+        #     true
+    remove: (user_id, doc, fields, modifier) ->
+        user = Meteor.users.findOne user_id
+        if user_id and 'dev' in user.roles
+            true
+        # if userId and doc._id == userId
+        #     true
 
 
 Meteor.publish 'doc_by_title', (title)->
@@ -57,7 +57,7 @@ Meteor.publish 'docs', (
     match = {}
     # match.model = $in:['porn']
     # match.model = $in:['post','wikipedia','reddit','porn']
-    match.model = $in:['post','reddit']
+    match.model = $in:['post','wikipedia','reddit']
     
     # match.model = 'post'
     # if Meteor.user()
@@ -70,19 +70,16 @@ Meteor.publish 'docs', (
         Docs.find match,
             limit:5
             sort:
-                # points:-1
+                points:-1
+                views:-1
                 ups:-1
-                # _timestamp:-1
-                # views:-1
     else
-        match.tags = $in:['dao']
+        # match.tags = $in:['love']
         # console.log match
         Docs.find match,
             limit:5
             sort:
                 _timestamp:-1
-                # points:-1
-                ups:-1
                     
                     
 Meteor.publish 'dtags', (
@@ -102,7 +99,7 @@ Meteor.publish 'dtags', (
     if selected_tags.length > 0 
         match.tags = $all: selected_tags
     else
-        match.tags = $in:['life']
+        match.tags = $in:['love']
 
     tag_cloud = Docs.aggregate [
         { $match: match }
@@ -111,7 +108,7 @@ Meteor.publish 'dtags', (
         { $group: _id: "$tags", count: $sum: 1 }
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
-        { $limit: 10 }
+        { $limit: 5 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # console.log 'cloud: ', tag_cloud
