@@ -1,4 +1,25 @@
 if Meteor.isClient
+    Router.route '/tribes', -> @render 'tribes'
+        
+    Template.tribes.onCreated ->
+        @autorun -> Meteor.subscribe 'tribes'
+        
+        
+    Template.tribes.helpers
+        tribes: ->
+            Docs.find
+                model:'tribe'
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
     Template.user_tribes.onCreated ->
         @autorun -> Meteor.subscribe 'user_member_tribes', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_leader_tribes', Router.current().params.username
@@ -63,6 +84,11 @@ if Meteor.isServer
         Docs.find
             model:'tribe'
             tribe_leader_ids:$in:[user._id]
+            
+    Meteor.publish 'tribes', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find
+            model:'tribe'
             
             
             

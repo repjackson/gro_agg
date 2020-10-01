@@ -1,7 +1,7 @@
 template(name='profile')
     with user
         .ui.stackable.padded.grid
-            .sixteen.wide.column
+            .four.wide.column
                 span.mobile.only
                     a(href="/u/#{username}/")
                         img.ui.centered.tiny.inline.spaced.circular.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
@@ -75,6 +75,7 @@ template(name='profile')
                         +user_friend_button 
                 if is_dev
                     +print_this
+            .twelve.wide.column
                 +session_edit_value_button key='view_user_section' value='dashboard' label='dashboard' icon='dashboard'
                 if session_key_value_is 'view_user_section' 'dashboard'
                     +user_dashboard
@@ -84,14 +85,13 @@ template(name='profile')
                     +user_about
                     if editing_mode
                         +account
-                // +session_edit_value_button key='view_user_section' value='badges' label='badges' icon='certificate'
-                // if session_key_value_is 'view_user_section' 'badges'
-                //     +user_badges
+                +session_edit_value_button key='view_user_section' value='badges' label='badges' icon='certificate'
+                if session_key_value_is 'view_user_section' 'badges'
+                    +user_badges
                 +session_edit_value_button key='view_user_section' value='services' label='services' icon='wrench'
                 +session_edit_value_button key='view_user_section' value='projects' label='projects' icon='tasks'
                 +session_edit_value_button key='view_user_section' value='chat' label='chat' icon='chat'
                 +session_edit_value_button key='view_user_section' value='rentals' label='rentals' icon='clock'
-                +session_edit_value_button key='view_user_section' value='tribes' label='tribes' icon='campfire'
                 +session_edit_value_button key='view_user_section' value='leads' label='leads' icon='phone'
                 +session_edit_value_button key='view_user_section' value='privacy' label='privacy' icon='privacy'
                 if session_key_value_is 'view_user_section' 'privacy'
@@ -99,8 +99,8 @@ template(name='profile')
                     if editing_mode
                         +account
                         +edit_privacy
-                +session_edit_value_button key='view_user_section' value='groups' label='groups' icon='groups'
-                if session_key_value_is 'view_user_section' 'groups'
+                +session_edit_value_button key='view_user_section' value='tribes' label='tribes' icon='campfire'
+                if session_key_value_is 'view_user_section' 'tribes'
                     +user_friends
                 +session_edit_value_button key='view_user_section' value='cloud_comparison' label='cloud comparison' icon='exchange'
                 if session_key_value_is 'view_user_section' 'cloud_comparison'

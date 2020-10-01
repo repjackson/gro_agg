@@ -16,7 +16,7 @@ template(name='tribe_view')
                     +session_edit_value_button key='view_tribe_section' value='karma' label='karma' icon='money'
                     // +session_edit_value_button key='view_tribe_section' value='alerts' label='alerts' icon='rss'
                     +session_edit_value_button key='view_tribe_section' value='events' label='events' icon='calendar'
-                    +session_edit_value_button key='view_tribe_section' value='people' label='people' icon='groups'
+                    +session_edit_value_button key='view_tribe_section' value='people' label='people' icon='tribes'
                     +session_edit_value_button key='view_tribe_section' value='badges' label='badges' icon='certificate'
                     +session_edit_value_button key='view_tribe_section' value='comments' label='comments' icon='chat'
                     if session_key_value_is 'view_tribe_section' 'latest'
@@ -217,7 +217,7 @@ template(name='tribe_events')
 template(name='tribe_finance')
     .ui.icon.button.calc_tribe_finance
         i.refresh.icon
-    .ui.header #{total_child_docs} total tribe docs
+    .ui.header #{total_child_docs} total group docs
     .ui.header inner exchange volume
     .ui.list 
         .item #{inner_transaction_count} inner transaction count
@@ -229,7 +229,7 @@ template(name='tribe_finance')
     // |karma to nonmembers
 
 
-template(name='tribe_alerts')
+template(name='group_alerts')
     .ui.header(data-tooltip="choose how you'll see posts from this page in your news feed")
         i.rss.icon
         |alerts
@@ -265,6 +265,6 @@ template(name='tribe_alerts')
                     |off
 
 
-template(name='tribe_people')
+template(name='group_people')
     +multi_user_view key='admin_ids' label='admins' icon='shield' direct=true
     +multi_user_view key='member_ids' label='members' icon='groups' direct=true

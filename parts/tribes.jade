@@ -1,3 +1,28 @@
+template(name='tribes')
+    .ui.inline.header
+        +icolor name='campfire'
+        | tribes
+    .ui.grid
+        .four.wide.column
+            if currentUser
+                a.ui.circular.basic.icon.button(href="/user/#{current_user.username}/edit/tribes")
+                    i.pencil.icon
+            .ui.header leader of
+            .ui.header member of
+            each user_member_tribes
+                .ui.segment
+                    a.ui.header(href="/m/tribe/#{_id}/view") #{title}
+                    if is_current_user
+                        +enter_tribe
+        .twelve.wide.column
+            .ui.header tribes
+            .ui.segments
+                each tribes
+                    .ui.segment.zoom.pointer
+                        a.ui.header(href="/m/tribe/#{_id}/view") 
+                            img.ui.raw.image(src="{{c.url image_id width=400 height=300 crop='fill'}}" class=currentUser.invert_class)    
+                            |#{title}
+                
 template(name='user_tribes')
     .ui.inline.header
         +icolor name='campfire'

@@ -18,8 +18,8 @@ template(name='reddit_view')
                             |!{description}
                             // |!{body}
                     // if is_admin
-                    if url
-                        iframe(width='100%' height='500' src=url frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='' class=currentUser.invert_class)
+                    // if url
+                    //     iframe(width='100%' height='500' src=url frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='' class=currentUser.invert_class)
                     
                     if watson 
                         +watson_view
@@ -122,8 +122,8 @@ template(name='reddit_card')
                     i.chevron.right.icon
             .description
                 +comments_view_small   
-                if url
-                    iframe(width='100%' height='500' src=url frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='' class=currentUser.invert_class)
+                // if url
+                //     iframe(width='100%' height='500' src=url frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='' class=currentUser.invert_class)
 
         // .ui.divider
     

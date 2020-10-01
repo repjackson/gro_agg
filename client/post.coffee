@@ -29,12 +29,6 @@ if Meteor.isClient
             if confirm 
                 Docs.remove @_id
 
-    Template.one_post_view.events
-        'click .add_tag': ->
-            selected_tags.push @valueOf()
-            Meteor.call 'call_wiki', @valueOf(), ->
-            Meteor.call 'search_reddit', selected_tags.array(), ->
-                
     Template.reddit_view.events
         'click .add_tag': ->
             selected_tags.push @valueOf()

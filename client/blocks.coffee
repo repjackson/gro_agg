@@ -577,7 +577,8 @@ if Meteor.isClient
                 if Session.equals(@key,@value)
                     res += ' active large compact'
                 else
-                    res += ' compact displaynone'
+                    # res += ' compact displaynone'
+                    res += ' compact'
                 # console.log res
                 res
 
