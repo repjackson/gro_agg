@@ -141,15 +141,15 @@ Meteor.methods
             console.log 'searching subreddit for', subreddit.display_name
             # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
             # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
-            # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&limit=20&include_facets=true",(err,response)=>
-            #     # console.log response.data
-            #     if err then console.log err
-            #     else if response.data.data.dist > 1
-            #         # console.log 'found data'
-            #         # console.log 'data length', response.data.data.children.length
-            #         _.each(response.data.data.children, (item)=>
-            #             # console.log item.data
-
+            HTTP.get "http://reddit.com/r/#{subreddit.display_name}/search.json?q=#{query}&nsfw=1&limit=3&restrict_sr=true",(err,response)=>
+                console.log response.data
+                if err then console.log err
+                else if response.data.data.dist > 1
+                    # console.log 'found data'
+                    # console.log 'data length', response.data.data.children.length
+                    _.each(response.data.data.children, (item)=>
+                        console.log item.data
+                    )
 
 
 
