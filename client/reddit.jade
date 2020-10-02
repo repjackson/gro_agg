@@ -33,7 +33,11 @@ template(name='reddit_view')
                             i.large.pencil.icon
                     | imported #{when}
                     .ui.label #{points}p
-                    .ui.label #{imported_points}ip
+                    .ui.large.label #{author} author
+                    .ui.large.label #{subreddit} sub
+                    .ui.label #{rd.ups} ups
+
+                    +call_reddit
                     +call_watson
                     +autotag
                     +call_tone

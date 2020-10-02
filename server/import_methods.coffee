@@ -145,10 +145,49 @@ Meteor.methods
                 console.log response.data
                 if err then console.log err
                 else if response.data.data.dist > 1
+
                     # console.log 'found data'
                     # console.log 'data length', response.data.data.children.length
                     _.each(response.data.data.children, (item)=>
+                        data = item.data
                         console.log item.data
+                        reddit_post =
+                            reddit_id: data.id
+                            url: data.url
+                            domain: data.domain
+                            comment_count: data.num_comments
+                            permalink: data.permalink
+                            title: data.title
+                            # root: query
+                            selftext: false
+                            # thumbnail: false
+                            tags: [query]
+                            model:'reddit'
+                            source:'reddit'
+                        # console.log 'reddit post', reddit_post
+                        existing_doc = Docs.findOne url:data.url
+                        if existing_doc
+                            # if Meteor.isDevelopment
+                                # console.log 'skipping existing url', data.url
+                                # console.log 'adding', query, 'to tags'
+                            # console.log 'type of tags', typeof(existing_doc.tags)
+                            # if typeof(existing_doc.tags) is 'string'
+                            #     # console.log 'unsetting tags because string', existing_doc.tags
+                            #     Doc.update
+                            #         $unset: tags: 1
+                            Docs.update existing_doc._id,
+                                $addToSet: tags: query
+
+                            # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
+                        unless existing_doc
+                            # console.log 'importing url', data.url
+                            new_reddit_post_id = Docs.insert reddit_post
+                            # Meteor.users.update Meteor.userId(),
+                            #     $inc:points:1
+                            # console.log 'calling watson on ', reddit_post.title
+                            Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
+                                # console.log 'get post res', res
+                            
                     )
 
 

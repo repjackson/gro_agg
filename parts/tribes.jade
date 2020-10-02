@@ -14,17 +14,24 @@ template(name='tribes')
                     a.ui.header(href="/m/tribe/#{_id}/view") #{title}
                     if is_current_user
                         +enter_tribe
-        .twelve.wide.column
             .ui.icon.input
                 i.search.icon
                 input.search_tribe(type='text')
-            .ui.segments
+        .twelve.wide.column
+            .ui.segments.scrolling
                 each tribes
-                    .ui.segment.zoom.pointer
-                        a.ui.header(href="/m/tribe/#{_id}/view") 
-                            img.ui.raw.image(src="{{c.url image_id width=400 height=300 crop='fill'}}" class=currentUser.invert_class)    
-                            img.ui.raw.image(src=icon_img class=currentUser.invert_class)    
-                            |#{title}
+                    .ui.segment.pointer
+                        if image_id
+                            img.ui.tiny.inline.image(src="{{c.url image_id width=400 height=400 crop='fill'}}" class=currentUser.invert_class)    
+                        else if icon_img
+                            img.ui.tiny.inline.image(src=icon_img class=currentUser.invert_class)    
+                        a.ui.header(href="/m/tribe/#{_id}/view" style="color:#{primary_color};") 
+                            |#{display_name}: #{title}
+                        div
+                        |#{subscribers} subs
+                        +join                
+                
+                
                 
 template(name='user_tribes')
     .ui.inline.header

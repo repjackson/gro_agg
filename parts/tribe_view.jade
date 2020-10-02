@@ -3,12 +3,11 @@ template(name='tribe_view')
         .ui.stackable.padded.grid
             .centered.row
                 .twelve.wide.column
-                    .ui.inline.header(title='tribe')
-                        i.grey.fire.icon
-                        |#{title}
-                    .ui.inline.header(title='tribe')
+                    .ui.inline.large.header(title='tribe')
                         i.grey.fire.icon
                         |#{display_name}
+                    .ui.inline.grey.header(title='tribe')
+                        |#{title}
                     // +image_view key='banner_id' height='200' crop='crop' direct=true
                     +session_edit_value_button key='view_tribe_section' value='images' label='images' icon='picture'
                     +session_edit_value_button key='view_tribe_section' value='posts' label='posts' icon='blog'
@@ -18,9 +17,9 @@ template(name='tribe_view')
                     +session_edit_value_button key='view_tribe_section' value='info' label='info' icon='info'
                     +session_edit_value_button key='view_tribe_section' value='karma' label='karma' icon='money'
                     // +session_edit_value_button key='view_tribe_section' value='alerts' label='alerts' icon='rss'
-                    +session_edit_value_button key='view_tribe_section' value='events' label='events' icon='calendar'
-                    +session_edit_value_button key='view_tribe_section' value='people' label='people' icon='tribes'
-                    +session_edit_value_button key='view_tribe_section' value='badges' label='badges' icon='certificate'
+                    // +session_edit_value_button key='view_tribe_section' value='events' label='events' icon='calendar'
+                    +session_edit_value_button key='view_tribe_section' value='people' label='people' icon='groups'
+                    // +session_edit_value_button key='view_tribe_section' value='badges' label='badges' icon='certificate'
                     +session_edit_value_button key='view_tribe_section' value='comments' label='comments' icon='chat'
                     if session_key_value_is 'view_tribe_section' 'latest'
                         .ui.header stats
@@ -32,8 +31,6 @@ template(name='tribe_view')
                     if session_key_value_is 'view_tribe_section' 'people'
                         +tribe_people
                     if session_key_value_is 'view_tribe_section' 'posts'
-                        .ui.input
-                            input.search_subreddit(type='text')
                         .ui.feed.scrolling
                             each latest_updates
                                 .event
@@ -62,11 +59,11 @@ template(name='tribe_view')
                                             i.large.newspaper.icon
                                         else
                                             .ui.label #{model}
-                        .ui.icon.circular.button.add_tribe_post
-                            i.plus.icon
-                        .ui.link.large.selection.list
-                            each tribe_posts
-                                a.item(href="/post/#{_id}/view") #{title}
+                        // .ui.icon.circular.button.add_tribe_post
+                        //     i.plus.icon
+                        // .ui.link.large.selection.list
+                        //     each tribe_posts
+                        //         a.item(href="/post/#{_id}/view") #{title}
                     if session_key_value_is 'view_tribe_section' 'latest'
                         each latest_offers
                             a(href="/m/offer/#{_id}/view")
@@ -125,9 +122,41 @@ template(name='tribe_view')
                     if session_key_value_is 'view_tribe_section' 'badges'
                         +tribe_badges
                     //- +array_view key='location_tags' label='location_tags' direct=true
-                .four.wide.column
+                    .ui.icon.input
+                        i.search.icon
+                        input.search_subreddit(type='text')
+                    .ui.segments.scrolling
+                        each tribe_reddit_posts
+                            .ui.segment
+                                img.ui.tiny.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                                img.ui.tiny.image(src=rd.thumnail class=currentUser.invert_class)
+                                .content
+                                    a.ui.header.pointer.zoom(href="/m/#{model}/#{_id}/view") #{title}
+                                    .summary
+                                        a.user(href="/u/#{author}") #{author}
+                                        |!{description}
+                                        |!{body}
+                                        each tags 
+                                            .ui.large.basic.label #{this}
+                                    if image_id
+                                        .extra.images
+                                            a.superzoom(href="/m/#{model}/#{_id}/view")
+                                                img.ui.medium.rounded.inline.superzoom.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                                    .meta
+                                        a.date(href="/m/post/#{_id}/view")
+                                            i.clock.icon 
+                                            |#{when}
+                                        +voting_small
+                                    if key_value_is 'model' 'debit'
+                                        i.large.gift.icon
+                                        |#{seller.username}
+                                    else if key_value_is 'model' 'post'
+                                        i.large.newspaper.icon
+                                    +print_this
+                                    +autotag key='url' mode='url'
+                .four.wide.column.scrolling
                     // if can_edit
-                    a(href="/m/tribe" title='tribes')
+                    a(href="/tribes" title='tribes')
                         i.circular.large.fire.link.icon
                     if can_edit
                         a.edit_tribe(href="/m/tribe/#{_id}/edit")
@@ -136,6 +165,7 @@ template(name='tribe_view')
                     .ui.segment
                         .ui.header about
                         |#{public_description}
+                        .ui.header about
                         |!{description}
                         // |#{description}
                         .ui.header about
@@ -208,6 +238,24 @@ template(name='tribe_badges')
                     .content
                         .header #{title}
 template(name='tribe_events')
+    .title
+        .ui.inline.header 
+            // i.calendar.icon
+            +i name='calendar'
+            |#{events.count} events
+        each badges
+            img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        i.dropdown.icon
+    .content
+        if user_id_in 'admin_ids'
+            i.large.plus.circular.link.icon.add_badge
+        .ui.cards
+            each badges
+                a.ui.card(href="/m/badge/#{_id}/view") 
+                    img.ui.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                    .content
+                        .header #{title}
+template(name='tribe_people')
     .title
         .ui.inline.header 
             // i.calendar.icon

@@ -93,7 +93,8 @@ template(name='session_boolean_toggle')
                 
                 
 template(name='session_edit_value_button')
-    .ui.circular.button.set_session_value(class=calculated_class)
+    // .ui.circular.compact.button.set_session_value(class=calculated_class)
+    a.ui.image.large.link.label.set_session_value(class=calculated_class)
         if icon
             // i.icon(class=icon)
             +i name=icon cl='ui avatar image'

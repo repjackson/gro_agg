@@ -58,6 +58,12 @@ template(name='call_watson')
         // |autotag
     if page_doc.watson 
         i.checkmark.icon
+template(name='call_reddit')
+    button.ui.large.icon.circular.button.call_reddit
+        i.reddit.icon
+        // |autotag
+    if rd
+        i.checkmark.icon
 template(name='autotag')
     button.ui.large.icon.circular.button.autotag
         i.dna.icon

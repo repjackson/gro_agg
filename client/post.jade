@@ -140,15 +140,13 @@ template(name='post_view')
                             i.large.pencil.icon
                     +vote
                     .ui.inline.small.grey.header #{when}
-                    // .ui.label #{points}p
                     +call_watson key='url' mode='url'
                     if watson
                         +call_tone mode='url' key='url'
                     
-                    // .ui.label #{views} views
+                    .ui.label #{views} views
                     |#{tags.length}
                     +array_edit key='tags' direct=true
-                    .ui.label #{rd.ups} ups
                     each tags 
                         +post_tag
                     if dev

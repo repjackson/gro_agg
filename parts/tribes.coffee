@@ -7,9 +7,9 @@ if Meteor.isClient
         
     Template.tribes.helpers
         tribes: ->
-            Docs.find
+            Docs.find {
                 model:'tribe'
-        
+            }, sort:_timestamp:-1
     Template.tribes.events
         'keyup .search_tribe': (e,t)->
             val = $('.search_tribe').val()
@@ -47,7 +47,9 @@ if Meteor.isClient
             Docs.find {
                 model:'reddit'
                 subreddit:tribe.display_name
-            }, limit:10
+            }, 
+                sort:_timestamp:-1
+                limit:10
 
         
         
@@ -114,7 +116,9 @@ if Meteor.isServer
         Docs.find {
             model:'reddit'
             subreddit:tribe.display_name
-        }, limit:10
+        }, 
+            sort:_timestamp:-1
+            limit:10
             
     Meteor.publish 'user_member_tribes', (username)->
         user = Meteor.users.findOne username:username
@@ -128,23 +132,26 @@ if Meteor.isServer
             model:'tribe'
             tribe_leader_ids:$in:[user._id]
             
-    Meteor.publish 'tribes', (username)->
-        user = Meteor.users.findOne username:username
-        Docs.find
+    Meteor.publish 'tribes', (sort_by='subscribers')->
+        # user = Meteor.users.findOne username:username
+        Docs.find {
             model:'tribe'
+        }, 
+            sort:"#{sort_by}":-1
+            limit:20
             
             
             
 if Meteor.isClient
     Template.tribe_card.onRendered ->
-        Meteor.setTimeout ->
-            $('.ui.embed').embed();
-        , 1000
+        # Meteor.setTimeout ->
+        #     $('.ui.embed').embed();
+        # , 1000
 
     Template.tribe_edit.onRendered ->
-        Meteor.setTimeout ->
-            $('.ui.accordion').accordion()
-        , 2000
+        # Meteor.setTimeout ->
+        #     $('.ui.accordion').accordion()
+        # , 2000
 
     Template.tribe_card.events
         'click .view_tribe': ->

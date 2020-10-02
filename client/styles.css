@@ -371,6 +371,7 @@ a.goto_article {
 
 .zoom:hover {
     transition: all .1s ease !important; 
+    z-index: 1000 !important;
     transform: scale(1.05) !important;
 }
 .superzoom:hover {
@@ -588,7 +589,8 @@ input {
     border-color: grey !important;
     border-style: solid !important; */
     overflow-y:scroll;
-    overflow-x:hidden;
+    /*overflow-x:hidden;*/
+    /*z-index:1001;*/
     /*margin-top: 1em; */
     padding-top: .5em; 
     padding: .4em;
