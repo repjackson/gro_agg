@@ -6,6 +6,9 @@ template(name='tribe_view')
                     .ui.inline.header(title='tribe')
                         i.grey.fire.icon
                         |#{title}
+                    .ui.inline.header(title='tribe')
+                        i.grey.fire.icon
+                        |#{display_name}
                     // +image_view key='banner_id' height='200' crop='crop' direct=true
                     +session_edit_value_button key='view_tribe_section' value='images' label='images' icon='picture'
                     +session_edit_value_button key='view_tribe_section' value='posts' label='posts' icon='blog'
@@ -29,6 +32,8 @@ template(name='tribe_view')
                     if session_key_value_is 'view_tribe_section' 'people'
                         +tribe_people
                     if session_key_value_is 'view_tribe_section' 'posts'
+                        .ui.input
+                            input.search_subreddit(type='text')
                         .ui.feed.scrolling
                             each latest_updates
                                 .event
@@ -130,6 +135,11 @@ template(name='tribe_view')
                     +image_view key='image_id' label='image' direct=true
                     .ui.segment
                         .ui.header about
+                        |#{public_description}
+                        |!{description}
+                        // |#{description}
+                        .ui.header about
+                        |{{from_now created}}
                         +vote
                         if private
                             i.lock.icon(title='private')
@@ -157,6 +167,7 @@ template(name='tribe_view')
                         // i.concierge.bell.icon
                         +i name='product' cl='ui avatar image'
                         |offer
+                    +print_this
 
 
 

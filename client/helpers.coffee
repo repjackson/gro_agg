@@ -267,7 +267,6 @@ Template.registerHelper 'current_day', ()-> moment(Date.now()).format("DD")
 Template.registerHelper 'loading_class', ()->
     if Session.get 'loading' then 'disabled' else ''
 
-# Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
 
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
 
@@ -278,7 +277,5 @@ Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
 
 Template.registerHelper 'loading_class', ()->
     if Session.get 'loading' then 'disabled' else ''
-
-Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
 
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment

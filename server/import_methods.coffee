@@ -102,6 +102,54 @@ Meteor.methods
             Meteor.call 'tagify_vid', vid._id
     
 
+    search_subreddits: (query)->
+        console.log 'searching reddit for', query
+        console.log 'type of query', typeof(query)
+        # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
+        # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
+        HTTP.get "http://reddit.com/subreddits/search.json?q=#{query}&nsfw=1&limit=20&include_facets=true",(err,response)=>
+            console.log response.data
+            if err then console.log err
+            else if response.data.data.dist > 1
+                console.log 'found data'
+                console.log 'data length', response.data.data.children.length
+                _.each(response.data.data.children, (item)=>
+                    console.log item.data.url
+                    # console.log _.keys(item.data)
+                    existing = 
+                        Docs.findOne 
+                            model:'tribe'
+                            url:item.data.url
+                    unless existing
+                        item.data.model = 'tribe'
+                        
+                        new_tribe_id = 
+                            Docs.insert item.data
+                        console.log 'new tribe', Docs.findOne(new_tribe_id)
+                    else
+                        console.log 'existing', existing
+                                
+                )
+
+    search_subreddit: (query, subreddit_id)->
+        subreddit = 
+            Docs.findOne
+                model:'tribe'
+                _id:subreddit_id
+        if subreddit
+            console.log 'searching reddit for', query
+            console.log 'searching subreddit for', subreddit.display_name
+            # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
+            # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
+            # HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&limit=20&include_facets=true",(err,response)=>
+            #     # console.log response.data
+            #     if err then console.log err
+            #     else if response.data.data.dist > 1
+            #         # console.log 'found data'
+            #         # console.log 'data length', response.data.data.children.length
+            #         _.each(response.data.data.children, (item)=>
+            #             # console.log item.data
+
 
 
 

@@ -10,9 +10,45 @@ if Meteor.isClient
             Docs.find
                 model:'tribe'
         
+    Template.tribes.events
+        'keyup .search_tribe': (e,t)->
+            val = $('.search_tribe').val()
+            if e.which is 13
+                console.log val
+                Meteor.call 'search_subreddits', val, (err,res)->
+                    $('.search_tribe').val('')
+                    
+                        
         
+    Template.tribe_view.onCreated ->
+        # @autorun -> Meteor.subscribe 'user_member_tribes', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'user_leader_tribes', Router.current().params.username
+        # @autorun => Meteor.subscribe 'user_tribes', Router.current().params.username
+        @autorun => Meteor.subscribe 'tribe_reddit_posts', Router.current().params.doc_id
+    Template.tribe_view.onRendered ->
+        Meteor.call 'log_view', Router.current().params.doc_id
+        # Meteor.setTimeout ->
+        #     $('.ui.accordion').accordion()
+        # , 2000
+        # Meteor.setTimeout ->
+        #     $('.ui.embed').embed();
+        # , 1000
+        Meteor.call 'mark_read', Router.current().params.doc_id, ->
+
+    Template.tribe_view.events
+        'keyup .search_subreddit': (e,t)->
+            if e.which is 13
+                val = $('.search_subreddit').val()
+                Meteor.call 'search_subreddit', val, Router.current().params.doc_id, ->
         
-        
+    Template.tribe_view.helpers
+        tribe_reddit_posts: ->
+            tribe = Docs.findOne Router.current().params.doc_id
+            Docs.find {
+                model:'reddit'
+                subreddit:tribe.display_name
+            }, limit:10
+
         
         
         
@@ -73,6 +109,13 @@ if Meteor.isServer
                 $set:
                     current_tribe_id:tribe_id
     
+    Meteor.publish 'tribe_reddit_posts', (tribe_id)->
+        tribe = Docs.findOne tribe_id
+        Docs.find {
+            model:'reddit'
+            subreddit:tribe.display_name
+        }, limit:10
+            
     Meteor.publish 'user_member_tribes', (username)->
         user = Meteor.users.findOne username:username
         Docs.find
@@ -102,15 +145,6 @@ if Meteor.isClient
         Meteor.setTimeout ->
             $('.ui.accordion').accordion()
         , 2000
-    Template.tribe_view.onRendered ->
-        Meteor.call 'log_view', Router.current().params.doc_id
-        Meteor.setTimeout ->
-            $('.ui.accordion').accordion()
-        , 2000
-        Meteor.setTimeout ->
-            $('.ui.embed').embed();
-        , 1000
-        Meteor.call 'mark_read', Router.current().params.doc_id, ->
 
     Template.tribe_card.events
         'click .view_tribe': ->
@@ -167,10 +201,6 @@ if Meteor.isServer
     
     
 if Meteor.isClient
-    Template.tribe_edit.onCreated ->
-        @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
-
-
     Template.tribe_edit.events
         'click .delete_tribe': ->
             Swal.fire({

@@ -15,12 +15,15 @@ template(name='tribes')
                     if is_current_user
                         +enter_tribe
         .twelve.wide.column
-            .ui.header tribes
+            .ui.icon.input
+                i.search.icon
+                input.search_tribe(type='text')
             .ui.segments
                 each tribes
                     .ui.segment.zoom.pointer
                         a.ui.header(href="/m/tribe/#{_id}/view") 
                             img.ui.raw.image(src="{{c.url image_id width=400 height=300 crop='fill'}}" class=currentUser.invert_class)    
+                            img.ui.raw.image(src=icon_img class=currentUser.invert_class)    
                             |#{title}
                 
 template(name='user_tribes')
