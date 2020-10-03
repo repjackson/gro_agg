@@ -1,32 +1,32 @@
 template(name='nav')
     .ui.fluid.attached.borderless.invert.menu.topnav
-        a.icon.header.item.toggle_leftbar
+        a.icon.header.item.zoom.pointer.toggle_leftbar
             i.bars.large.icon
-        a.icon.item(href='/')
+        a.icon.item.zoom.pointer(href='/' class="{{isActivePath '/'}}")
             i.big.link.yin.yang.grey.icon
         if currentUser
             if connected
-                a.icon.item.set_root(href="/m/model" class="{{isActivePath '/m/model'}}")
+                a.icon.item.zoom.pointer.set_root(href="/m/model" class="{{isActivePath '/m/model'}}")
                     i.large.database.icon
                 if is_admin
-                    // .item
+                    // .item.zoom.pointer
                     //     .ui.green.header not connected
-                // .icon.item
+                // .icon.item.zoom.pointer
                 //     i.wikipedia.icon
-                // .icon.item
+                // .icon.item.zoom.pointer
                 //     i.reddit.icon
-                // .icon.item
+                // .icon.item.zoom.pointer
                 //     i.video.icon
-                // a.icon.item(href="/rentals")
+                // a.icon.item.zoom.pointer(href="/rentals")
                 //     i.clock.icon
-                a.icon.item(href="/shop")
+                a.icon.item.zoom.pointer(href="/shop")
                     i.store.large.icon
-                a.icon.item(href="/tribes")
+                a.icon.item.zoom.pointer(href="/tribes")
                     i.fire.large.icon
-                a.icon.item(href="/one")
+                a.icon.item.zoom.pointer(href="/one")
                     i.circle.large.icon
             else
-                .item
+                .item.zoom.pointer
                     i.yin.yang.loading.big.grey.icon
                     +status    
         .right.menu

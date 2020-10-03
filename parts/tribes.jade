@@ -1,9 +1,9 @@
 template(name='tribes')
-    .ui.inline.header
-        +icolor name='campfire'
-        | tribes
-    .ui.grid
+    .ui.stackable.grid
         .four.wide.column
+            .ui.inline.header
+                +icolor name='campfire'
+                | tribes
             if currentUser
                 a.ui.circular.basic.icon.button(href="/user/#{current_user.username}/edit/tribes")
                     i.pencil.icon
@@ -14,10 +14,13 @@ template(name='tribes')
                     a.ui.header(href="/m/tribe/#{_id}/view") #{title}
                     if is_current_user
                         +enter_tribe
-            .ui.icon.input
-                i.search.icon
-                input.search_tribe(type='text')
         .twelve.wide.column
+            .ui.icon.input
+                if searching_tribe
+                    i.remove.link.icon
+                else
+                    i.search.link.icon.clear_search
+                input.search_tribe(type='text' placeholder='title' value=searching_tribe)
             .ui.segments.scrolling
                 each tribes
                     .ui.segment.pointer
@@ -25,8 +28,12 @@ template(name='tribes')
                             img.ui.tiny.inline.image(src="{{c.url image_id width=400 height=400 crop='fill'}}" class=currentUser.invert_class)    
                         else if icon_img
                             img.ui.tiny.inline.image(src=icon_img class=currentUser.invert_class)    
-                        a.ui.header(href="/m/tribe/#{_id}/view" style="color:#{primary_color};") 
-                            |#{display_name}: #{title}
+                        // a.ui.header(href="/m/tribe/#{_id}/view" style="color:#{primary_color};") 
+                        a.ui.header(href="/m/tribe/#{_id}/view") 
+                            if display_name
+                                |#{display_name}: #{title}
+                            else
+                                |#{title}
                         div
                         |#{subscribers} subs
                         +join                

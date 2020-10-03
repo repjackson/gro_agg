@@ -2,22 +2,39 @@ if Meteor.isClient
     Router.route '/tribes', -> @render 'tribes'
         
     Template.tribes.onCreated ->
-        @autorun -> Meteor.subscribe 'tribes'
+        Session.setDefault('searching_tribe','')
+        @autorun -> Meteor.subscribe 'tribes',
+            Session.get('searching_tribe')
         
         
     Template.tribes.helpers
+        searching_tribe: -> Session.get('searching_tribe')
         tribes: ->
-            Docs.find {
-                model:'tribe'
-            }, sort:_timestamp:-1
+            match = {model:'tribe'}
+            query = Session.get('searching_tribe')
+            if query.length > 0
+                match.title = {$regex:"#{query}", $options: 'i'}
+    
+            Docs.find match,
+                sort:_timestamp:-1
+                # sort:"#{sort_by}":-1
+                # limit:20
+            
     Template.tribes.events
+        'click .clear_search': (e,t)->
+            $('.search_tribe').val('')
+            Session.set('searching_tribe','')
         'keyup .search_tribe': (e,t)->
             val = $('.search_tribe').val()
+            Session.set('searching_tribe',val)
             if e.which is 13
                 console.log val
                 Meteor.call 'search_subreddits', val, (err,res)->
                     $('.search_tribe').val('')
-                    
+            else if e.keyCode is 27
+                # console..log 'esc'
+                $('.search_tribe').val('')
+                Session.set('searching_tribe','')
                         
         
     Template.tribe_view.onCreated ->
@@ -106,10 +123,10 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.methods 
-        enter_tribe: (tribe_id)->
-            Meteor.users.update Meteor.userId(),
-                $set:
-                    current_tribe_id:tribe_id
+        # enter_tribe: (tribe_id)->
+        #     Meteor.users.update Meteor.userId(),
+        #         $set:
+        #             current_tribe_id:tribe_id
     
     Meteor.publish 'tribe_reddit_posts', (tribe_id)->
         tribe = Docs.findOne tribe_id
@@ -132,11 +149,13 @@ if Meteor.isServer
             model:'tribe'
             tribe_leader_ids:$in:[user._id]
             
-    Meteor.publish 'tribes', (sort_by='subscribers')->
+    Meteor.publish 'tribes', (query,sort_by='subscribers')->
         # user = Meteor.users.findOne username:username
-        Docs.find {
-            model:'tribe'
-        }, 
+        match = {model:'tribe'}
+        if query and query.length > 0
+            match.title = {$regex:"#{query}", $options: 'i'}
+
+        Docs.find match,
             sort:"#{sort_by}":-1
             limit:20
             

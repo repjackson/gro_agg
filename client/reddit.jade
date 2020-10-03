@@ -4,12 +4,12 @@ template(name='reddit_view')
             .row 
                 .ten.wide.column
                     .ui.header #{title}
-                    if image_id
-                        a(href="{{c.url image_id }}" target='_window')
-                            img.ui.rounded.image(src="{{c.url image_id gravity='face' crop='fit'}}" class=currentUser.invert_class)
                     // if youtube_id
                     //     +youtube_view key='youtube_id' direct=true
                     .description.f11.scrolling
+                        if url
+                            img(src=url class='invert')    
+                    
                         if tone
                             +tone
                         else if body
@@ -18,14 +18,17 @@ template(name='reddit_view')
                             |!{description}
                             // |!{body}
                     // if is_admin
-                    // if url
-                    //     iframe(width='100%' height='500' src=url frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='' class=currentUser.invert_class)
+                    if url
+                        iframe(width='100%' height='500' src=url frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='' class=currentUser.invert_class)
                     
                     if watson 
                         +watson_view
                     +viewing
                     +comments
                 .six.wide.column
+                    a(href=rd.thumbnail target='_window')
+                        img.ui.rounded.image(src=rd.thumbnail class=currentUser.invert_class)
+                
                     if domain
                         .ui.label(title='domain') #{domain}
                     if can_edit
