@@ -121,7 +121,7 @@ Meteor.methods
         # console.log key
         # console.log mode
         doc = Docs.findOne doc_id
-        console.log 'calling watson on', doc.title
+        console.log 'calling watson on', doc
         # if doc.skip_watson is false
         #     console.log 'skipping flagged doc', doc.title
         # else
@@ -284,7 +284,8 @@ Meteor.methods
                 if mode is 'url'
                     if doc.model is 'wikipedia'
                         Meteor.call 'call_tone', doc_id, 'body', 'text', ->
-                
+                Meteor.call 'clear_blocklist_doc', doc_id, ->
+
                 # Meteor.call 'log_doc_terms', doc_id, ->
                 # Meteor.call 'clear_blocklist_doc', doc_id, ->
                 # if Meteor.isDevelopment

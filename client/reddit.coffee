@@ -70,7 +70,7 @@
             Meteor.call 'call_wiki', @valueOf(), ->
             Meteor.call 'search_reddit', selected_tags.array(), ->
 
-            # Router.go '/'
+            Router.go '/'
     
     
     Template.reddit_card.events

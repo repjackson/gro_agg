@@ -12,7 +12,7 @@ template(name='post_card')
             if youtube_id
                 +youtube_view key='youtube_id' direct=true
             if image_id
-                a.image(href="/m/post/#{_id}/view")
+                a.zoom.pointer.image(href="/m/post/#{_id}/view")
                     img.ui.rounded.image(src="{{c.url image_id }}" class='invert')
             if thumbnail
                 a.image(href="/m/post/#{_id}/view")
@@ -49,7 +49,7 @@ template(name='post_card')
                     +print_this
                 +array_edit key='tags' direct=true
                 each tags
-                    a.ui.large.image.label.add_tag
+                    a.ui.large.image.zoom.pointer.label.add_tag
                         if tag_term
                             img.ui.invert.image(src=tag_term.watson.metadata.image)    
                     
@@ -58,9 +58,9 @@ template(name='post_card')
                         // i.plus.link.grey.icon.plus_tag(title='pay a point to promote tag')
                 |#{when}
                 if can_edit 
-                    a.ui.circular.icon.button(href="/m/post/#{_id}/edit")
+                    a.ui.circular.icon.zoom.pointer.button(href="/m/post/#{_id}/edit")
                         i.pencil.icon
-                a.ui.icon.button(href="/m/post/#{_id}/view")
+                a.ui.icon.zoom.pointer.button(href="/m/post/#{_id}/view")
                     i.chevron.right.icon
                 // +call_watson mode='url' key='url'
                 // if watson
