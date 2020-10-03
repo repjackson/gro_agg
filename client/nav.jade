@@ -31,27 +31,27 @@ template(name='nav')
                     +status    
         .right.menu
             if connected
-                a.icon.item.post(title='add')
+                a.icon.pointer.zoom.item.post(title='add')
                     i.large.plus.icon
             if currentUser
                 if connected
                     if unread_count
-                        a.item.alerts.select_term(href="#" class=alert_toggle_class)
+                        a.pointer.zoom.item.alerts.select_term(href="#" class=alert_toggle_class)
                             i.large.bell.icon
                             if unread_count
                                 |#{unread_count}
                     else
-                        a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+                        a.icon.pointer.zoom.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
                             i.large.outline.bell.icon
-            a.icon.item(href="/chat" title='chat') 
+            a.icon.pointer.zoom.item(href="/chat" title='chat') 
                 i.chat.outline.large.icon
-            // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
+            // a.icon.pointer.zoom.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
             if is_dev 
-                .icon.item
+                .icon.pointer.zoom.item
                     i.large.code.icon
                 
             if currentUser
-                a.large.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'profile'}}")
+                a.large.pointer.zoom.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'profile'}}")
                     //- i.large.user.large.icon
                     |{{money_format currentUser.points}}c
                     |&nbsp;
@@ -63,7 +63,7 @@ template(name='nav')
                 // a.icon.large.item.toggle_rightbar.select_term
                 //     i.bars.large.icon
             else
-                a.item(href="/login" title='login')
+                a.pointer.zoom.item(href="/login" title='login')
                     i.large.sign.in.icon
                     // |enter
 
