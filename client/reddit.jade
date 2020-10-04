@@ -36,8 +36,16 @@ template(name='reddit_view')
                             i.large.pencil.icon
                     | imported #{when}
                     .ui.label #{points}p
-                    .ui.large.label #{author} author
-                    .ui.large.label #{subreddit} sub
+                    .ui.dividing.header 
+                        i.reddit.icon
+                        |#{subreddit}
+                    a.ui.circular.icon.button(href="https://www.reddit.com/r/#{subreddit}" target='_window' title='subreddit')
+                        i.external.icon
+                    .ui.dividing.header
+                        i.user.icon
+                        |#{rd.author}
+                    a.ui.circular.icon.button(href="https://www.reddit.com/u/#{rd.author}" target='_window' title='author')
+                        i.external.icon
                     .ui.label #{rd.ups} ups
 
                     +call_reddit

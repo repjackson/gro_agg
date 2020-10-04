@@ -52,6 +52,8 @@
     'social network'
     'society'
     'reddit app reddit'
+    'use of this site'
+    'trademarks of reddit'
     'reddit post'
     'user account menu'
     'reddit premium reddit'
