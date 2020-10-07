@@ -132,6 +132,7 @@ template(name='post_view')
                         // +watson_view
                         // if is_admin
                         +viewing
+                    +comments
                 .six.wide.column.scrolling
                     if watson.metadata.image
                         img.ui.rounded.image(src=watson.metadata.image class='invert')    
@@ -151,6 +152,13 @@ template(name='post_view')
                         +post_tag
                     if dev
                         +print_this
+                    +author_block
+                    
+                    
+                    
+template(name='author_block')
+    .ui.segment 
+        a.ui.header(href="/u/#{_author.username}") #{_author.username}
                         
                         
 template(name='post_tag')

@@ -7,6 +7,7 @@ if Meteor.isClient
 
     Template.profile.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username
     
     Template.profile.onRendered ->
         Meteor.setTimeout ->
@@ -26,6 +27,10 @@ if Meteor.isClient
         user: -> Meteor.users.findOne username:Router.current().params.username
         is_current_user: ->
             Meteor.user().username is Router.current().params.username
+        posts: ->
+            Docs.find 
+                model:'post'
+                _author_id: Meteor.userId()
 
     Template.profile.events
         # 'click a.select_term': ->
@@ -100,6 +105,11 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.publish 'user_posts', (username)->
+        user = Meteor.users.findOne(username:username)
+        Docs.find 
+            model:'post'
+            _author_id:user._id
     Meteor.methods
         # calc_test_sessions: (user_id)->
         #     user = Meteor.users.findOne user_id

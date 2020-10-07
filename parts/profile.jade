@@ -76,38 +76,46 @@ template(name='profile')
                 if is_dev
                     +print_this
             .twelve.wide.column
+                .ui.header 
+                    i.newspaper.icon
+                    |posts
+                .ui.link.large.list.medscroll
+                    each posts
+                        a.item(href="/m/post/#{_id}/view") #{title}
                 +session_edit_value_button key='view_user_section' value='dashboard' label='dashboard' icon='dashboard'
-                if session_key_value_is 'view_user_section' 'dashboard'
-                    +user_dashboard
                 +session_edit_value_button key='view_user_section' value='about' label='about' icon='info'
-                if session_key_value_is 'view_user_section' 'info'
-                    +user_info
-                    +user_about
-                    if editing_mode
-                        +account
                 +session_edit_value_button key='view_user_section' value='badges' label='badges' icon='certificate'
-                if session_key_value_is 'view_user_section' 'badges'
-                    +user_badges
                 +session_edit_value_button key='view_user_section' value='services' label='services' icon='wrench'
                 +session_edit_value_button key='view_user_section' value='projects' label='projects' icon='tasks'
                 +session_edit_value_button key='view_user_section' value='chat' label='chat' icon='chat'
                 +session_edit_value_button key='view_user_section' value='rentals' label='rentals' icon='clock'
                 +session_edit_value_button key='view_user_section' value='leads' label='leads' icon='phone'
                 +session_edit_value_button key='view_user_section' value='privacy' label='privacy' icon='privacy'
+                +session_edit_value_button key='view_user_section' value='tribes' label='tribes' icon='campfire'
+                +session_edit_value_button key='view_user_section' value='cloud_comparison' label='cloud comparison' icon='exchange'
+                +session_edit_value_button key='view_user_section' value='membership' label='membership' icon='shield'
+
+                +session_edit_value_button key='view_user_section' value='authored_overlap' label='authored overlap' icon='change'
+                +session_edit_value_button key='view_user_section' value='karma' label='karma' icon='dashboard'
+                .spacer
+                if session_key_value_is 'view_user_section' 'dashboard'
+                    +user_dashboard
+                if session_key_value_is 'view_user_section' 'info'
+                    +user_info
+                    +user_about
+                    if editing_mode
+                        +account
+                if session_key_value_is 'view_user_section' 'cloud_comparison'
+                    +cloud_comparison
+                if session_key_value_is 'view_user_section' 'badges'
+                    +user_badges
+                if session_key_value_is 'view_user_section' 'tribes'
+                    +user_friends
                 if session_key_value_is 'view_user_section' 'privacy'
                     +alerts
                     if editing_mode
                         +account
                         +edit_privacy
-                +session_edit_value_button key='view_user_section' value='tribes' label='tribes' icon='campfire'
-                if session_key_value_is 'view_user_section' 'tribes'
-                    +user_friends
-                +session_edit_value_button key='view_user_section' value='cloud_comparison' label='cloud comparison' icon='exchange'
-                if session_key_value_is 'view_user_section' 'cloud_comparison'
-                    +cloud_comparison
-                +session_edit_value_button key='view_user_section' value='membership' label='membership' icon='shield'
-
-                +session_edit_value_button key='view_user_section' value='karma' label='karma' icon='dashboard'
                 if session_key_value_is 'view_user_section' 'karma'
                     // +user_kin
                     // .ui.header karma out
@@ -127,7 +135,6 @@ template(name='profile')
                     //     |cash out at $100
                     // +user_kout
                     // +user_karma
-                +session_edit_value_button key='view_user_section' value='authored_overlap' label='authored overlap' icon='change'
                 if session_key_value_is 'view_user_section' 'authored_overlap'
                     +authored_overlap
                 if session_key_value_is 'view_user_section' 'membership'
