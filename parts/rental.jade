@@ -1,4 +1,20 @@
 template(name='rentals')
+    .ui.padded.stackable.grid
+        .row
+            .four.wide.column
+                .ui.header 
+                    i.clock.icon
+                    |rentals
+            .twelve.wide.column
+                .ui.cards
+                    each rentals
+                        .ui.card 
+                            .content
+                                a.ui.header(href="/m/rental/#{_id}/view") #{title}
+            
+            
+        
+template(name='item_rentals')
     .ui.header 
         i.clock.icon
         |rentals

@@ -1,4 +1,10 @@
 if Meteor.isClient
+    Router.route '/rentals', (->
+        @layout 'layout'
+        @render 'rentals'
+        ), name:'rentals'
+    
+
     Template.rentals.onCreated ->
         @autorun => Meteor.subscribe 'rentals', Router.current().params.username
         @autorun => Meteor.subscribe 'model_docs', 'rental'
@@ -11,6 +17,9 @@ if Meteor.isClient
 
 
     Template.rentals.helpers
+        rentals: ->
+            Docs.find 
+                model:'rental'
         user_rentals: ->
             target_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find

@@ -82,6 +82,7 @@ template(name='profile')
                 +session_edit_value_button key='view_user_section' value='services' label='services' icon='wrench'
                 +session_edit_value_button key='view_user_section' value='projects' label='projects' icon='tasks'
                 +session_edit_value_button key='view_user_section' value='chat' label='chat' icon='chat'
+                +session_edit_value_button key='view_user_section' value='finance' label='finance' icon='money'
                 +session_edit_value_button key='view_user_section' value='rentals' label='rentals' icon='clock'
                 +session_edit_value_button key='view_user_section' value='posts' label='posts' icon='blog'
                 +session_edit_value_button key='view_user_section' value='leads' label='leads' icon='phone'
@@ -108,6 +109,8 @@ template(name='profile')
                         each posts
                             a.item(href="/m/post/#{_id}/view") #{title}
 
+                if session_key_value_is 'view_user_section' 'finance'
+                    .ui.header finance
                 if session_key_value_is 'view_user_section' 'cloud_comparison'
                     +cloud_comparison
                 if session_key_value_is 'view_user_section' 'badges'
@@ -187,6 +190,17 @@ template(name='profile')
               
 
 
+template(name='user_finance')
+    .ui.header user finance
+    .ui.button.request_payment
+        |request
+    .ui.button.send_payment
+        |send
+    
+
+
+
+
 template(name='authored_overlap')
     .ui.inline.header
         i.edit.icon
@@ -206,6 +220,7 @@ template(name='authored_overlap')
                 .ui.label #{title}:#{count}
 
 
+template(name='user_rentals')
 template(name='user_dashboard')
     .ui.stackable.padded.grid
         .five.wide.column

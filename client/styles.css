@@ -235,7 +235,7 @@ html.ios body {
    /*border-radius: 10px !important; */
 }
 .topnav::-webkit-scrollbar {
-    height: 1px !important;
+    height: 0px !important;
    /*border-radius: 10px !important; */
 }
 
