@@ -208,7 +208,8 @@ template(name='user_dashboard')
                     .two.wide.column
                     .fourteen.wide.column
                         each replies
-                            .ui.tiny.header #{body}
+                            div
+                            .ui.tiny.inline.header #{body}
                             if is_author
                                 +remove_icon
         .eight.wide.column
@@ -226,11 +227,14 @@ template(name='user_dashboard')
            
                 
 template(name='emotion_picker')
-    i.smile.icon
-    i.frown.icon
-    i.smile.icon
-    i.smile.icon
-    i.smile.icon
+    +emotion_pick key='joy' icon='smile' color='green' 
+    +emotion_pick key='sadness' icon='frown' color='blue'
+    +emotion_pick key='anger' icon='anger' color='red'
+    +emotion_pick key='disgust' icon='tongue' color='orange'
+    +emotion_pick key='fear' icon='exclamation' color='grey' 
+    
+template(name='emotion_pick')
+    i.link.icon.pick(class="#{icon} #{pick_class} invert" title=key)
 
 
 template(name='user_friend_button')

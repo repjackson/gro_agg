@@ -1,4 +1,15 @@
 if Meteor.isClient
+    Template.emotion_pick.events
+        'click .pick': ->
+            console.log Template.parentData()
+            Docs.update Template.parentData()._id,
+                $set:
+                    emotion:@key
+
+    Template.emotion_pick.helpers
+        pick_class: ->
+            if Template.parentData().emotion is @key then @color else 'grey'
+
     Template.print_this.events
         'click .print_this': ->
             console.log @
