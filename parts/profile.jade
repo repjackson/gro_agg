@@ -194,13 +194,23 @@ template(name='user_dashboard')
                 .ui.segment 
                     .ui.small.header #{body}
                     +voting_small
-                    i.reply.icon
+                    i.reply.link.icon
                     i.clock.icon
                     i.eye.icon
                     i.remove.link.icon.remove_post
                     i.archive.link.icon
                     i.share.icon
                     +emotion_picker
+                if replying
+                    .ui.fluid.input
+                        input.reply_body(type='text')
+                .ui.grid
+                    .two.wide.column
+                    .fourteen.wide.column
+                        each replies
+                            .ui.tiny.header #{body}
+                            if is_author
+                                +remove_icon
         .eight.wide.column
             .ui.header 
                 i.big.money.icon(title='log events')

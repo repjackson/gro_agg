@@ -7,7 +7,7 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'user_completed_requests', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_event_tickets', Router.current().params.username
         # @autorun -> Meteor.subscribe 'model_docs', 'event'
-        # @autorun -> Meteor.subscribe 'model_docs', 'log_event'
+        @autorun -> Meteor.subscribe 'model_docs', 'reply'
         
     Template.user_dashboard.events
         'click .user_credit_segment': ->
@@ -15,6 +15,23 @@ if Meteor.isClient
             
         'click .user_debit_segment': ->
             Router.go "/debit/#{@_id}/view"
+ 
+ 
+        'keyup .reply_body': (e,t)->
+            if e.which is 13
+                body = $('.reply_body').val()
+                Docs.insert 
+                    model:'reply'
+                    parent_id:@_id
+                    body:body
+                body = $('.reply_body').val('')
+                Session.set('replying_id', null)
+        'click .reply': ->
+            Session.set('replying_id', @_id)
+            
+        'click .cancel': ->
+            Session.set('replying_id', null)
+            
  
         'keyup .add_post': (e,t)->
             if e.which is 13
@@ -32,6 +49,11 @@ if Meteor.isClient
             
             
     Template.user_dashboard.helpers
+        replies:-> 
+            Docs.find 
+                model:'reply'
+                parent_id:@_id
+        replying:-> Session.equals('replying_id', @_id)
         log_events: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find 
