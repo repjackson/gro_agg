@@ -17,6 +17,22 @@ if Meteor.isClient
             
             
     Template.user_dashboard.helpers
+        latest_posts: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find {
+                model:'post'
+                _author_id: current_user._id
+            }, 
+                limit: 10
+                sort: _timestamp:-1
+        latest_thoughts: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find {
+                model:'thought'
+                _author_id: current_user._id
+            }, 
+                limit: 10
+                sort: _timestamp:-1
         user_debits: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find {

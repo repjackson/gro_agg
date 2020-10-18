@@ -230,35 +230,13 @@ template(name='authored_overlap')
 template(name='user_rentals')
 template(name='user_dashboard')
     .ui.stackable.padded.grid
-        .five.wide.column
-            // +
-            // +porch_badge
-        .five.wide.column
-            .ui.segment 
-                .ui.header Professional information
-                .ui.small.header address
-                .ui.small.header phone
-        .four.wide.column
         .eight.wide.column
-            .ui.segment 
-                .ui.header reviews
-                each reviews 
-                    .ui.header #{title}
+            each latest_posts
+                .ui.header #{body}
         .eight.wide.column
-            .ui.segment 
-                .ui.header projects
-                each projects 
-                    .ui.header #{title}
-        .eight.wide.column
-            .ui.segment 
-                .ui.header service area
-                if is_current_user
-                    if currentUser.edit_mode
-                        +array_edit key='service_area_codes' label='service area codes' direct=true
-                each service_area_codes 
-                    .ui.header #{this}
-
-
+            each latest_thoughts
+                .ui.header #{body}
+                
 template(name='porch_badge')
     .ui.segment 
         |Average rating

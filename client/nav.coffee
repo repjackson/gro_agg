@@ -89,16 +89,17 @@ Template.chatpop.helpers
             sort:_timestamp:-1
             limit:10
 Template.chatpop.events
-    'keyup .add_chat': _.throttle((e,t)->
+    # 'keyup .add_chat': _.throttle((e,t)->
+    'keyup .add_chat': (e,t)->
         if e.which is 13
             comment = t.$('.add_chat').val()
             Docs.insert
                 # parent_id: parent._id
                 model:'global_chat'
                 body:comment
-    
+            Meteor.call 'add_chat', comment, ->
             t.$('.add_chat').val('')
-    , 2000)
+        # , 2000)
 Template.rightbar.events
     'click .logout': ->
         Session.set 'logging_out', true

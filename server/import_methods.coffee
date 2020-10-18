@@ -394,3 +394,31 @@ Meteor.methods
                             # ups: 1000000
                             url:url
                         Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
+
+
+
+    add_chat: (chat)->
+        @unblock()
+        # console.log 'chatting alpha for', chat
+        now = Date.now()
+        # found_last_chat = 
+        #     Docs.findOne { 
+        #         model:'chat'
+        #         _timestamp: $lt:now
+        #     }, limit:1
+        # console.log 'last', found_last_chat
+        # new_id = 
+        #     Docs.insert 
+        #         model:'chat'
+        #         body:chat
+        #         bot:false
+        # console.log 'creating new chat for ', chat
+        HTTP.get "http://api.wolframalpha.com/v1/conversation.jsp?appid=UULLYY-QR2ALYJ9JU&i=#{chat}",(err,response)=>
+            if err then console.log err
+            else
+                console.log response
+                parsed = JSON.parse(response.content)
+                Docs.insert
+                    model:'global_chat'
+                    bot:true
+                    body:parsed.result
