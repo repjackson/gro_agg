@@ -23,13 +23,14 @@ template(name='profile')
                 //- .ui.compact.icon.button.refresh_user_stats(title='refresh stats')
                 //-     i.refresh.icon
                 if is_current_user
-                    +boolean_edit key='edit_mode' label='edit mode' direct=true
+                    a(href="/u/#{username}/edit")
+                        i.big.cog.link.icon
+                    // +boolean_edit key='edit_mode' label='edit mode' direct=true
                     if editing_mode
                         +boolean_edit key='online' label='online' direct=true
                         +text_edit key='current_status' label='status' icon='clock' direct=true
                         +text_edit key='first_name' label='first name' direct=true
                         +text_edit key='last_name' label='last name' direct=true
-                        
                     else
                         .ui.inline.header 
                             |#{first_name}
@@ -66,7 +67,7 @@ template(name='profile')
                         span request
                         
                 if is_current_user
-                    a.ui.circular.icon.button.logout(href="#" title='log out')
+                    a.ui.circular.button.logout(href="#" title='log out')
                         i.sign.out.big.icon
                         |log out
                 
@@ -246,7 +247,9 @@ template(name='user_dashboard')
                     i.share.icon
         .eight.wide.column
             each log_events
-                .ui.header #{body}
+                div
+                .ui.inline.header #{body}
+                |#{when}
                 
 template(name='porch_badge')
     .ui.segment 

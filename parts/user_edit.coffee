@@ -1,4 +1,9 @@
 if Meteor.isClient
+    Router.route '/u/:username/edit', (->
+        @layout 'layout'
+        @render 'account'
+        ), name:'account'
+    
     Template.registerHelper 'current_user', () -> Meteor.users.findOne username:Router.current().params.username
 
     # Template.phone_editor.helpers
