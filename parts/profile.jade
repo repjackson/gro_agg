@@ -91,7 +91,7 @@ template(name='profile')
                 // +session_edit_value_button key='view_user_section' value='services' label='services' icon='wrench'
                 // +session_edit_value_button key='view_user_section' value='projects' label='projects' icon='tasks'
                 +session_edit_value_button key='view_user_section' value='chat' label='chat' icon='chat'
-                +session_edit_value_button key='view_user_section' value='finance' label='finance' icon='money'
+                // +session_edit_value_button key='view_user_section' value='finance' label='finance' icon='money'
                 +session_edit_value_button key='view_user_section' value='rentals' label='rentals' icon='clock'
                 +session_edit_value_button key='view_user_section' value='posts' label='posts' icon='blog'
                 // +session_edit_value_button key='view_user_section' value='leads' label='leads' icon='phone'
@@ -101,7 +101,6 @@ template(name='profile')
                 // +session_edit_value_button key='view_user_section' value='membership' label='membership' icon='shield'
 
                 +session_edit_value_button key='view_user_section' value='authored_overlap' label='authored overlap' icon='change'
-                +session_edit_value_button key='view_user_section' value='karma' label='karma' icon='dashboard'
                 .spacer
                 if session_key_value_is 'view_user_section' 'dashboard'
                     +user_dashboard
@@ -131,25 +130,6 @@ template(name='profile')
                     if editing_mode
                         +account
                         +edit_privacy
-                if session_key_value_is 'view_user_section' 'karma'
-                    // +user_kin
-                    // .ui.header karma out
-                    // |#{upvoted_count} # of tips
-                    // each expenses
-                    //     .ui.header #{when}
-                    // .ui.header karma in
-                    // each accounts_received
-                    //     .ui.header #{when}
-                    // .ui.header deposit
-                    // .ui.button
-                    //     |topup
-                    +user_credit
-                    
-                    // .ui.header cash out
-                    // .ui.button 
-                    //     |cash out at $100
-                    // +user_kout
-                    // +user_karma
                 if session_key_value_is 'view_user_section' 'authored_overlap'
                     +authored_overlap
                 if session_key_value_is 'view_user_section' 'membership'
