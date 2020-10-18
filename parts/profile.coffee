@@ -117,9 +117,12 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'user_posts', (username)->
         user = Meteor.users.findOne(username:username)
-        Docs.find 
+        Docs.find {
             model:'post'
             _author_id:user._id
+        },
+            limit:20
+            sort:_timestamp:-1
     Meteor.methods
         # calc_test_sessions: (user_id)->
         #     user = Meteor.users.findOne user_id

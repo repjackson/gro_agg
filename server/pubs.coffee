@@ -19,6 +19,14 @@ Meteor.publish 'user_model_docs', (model,username)->
         model:model
         _author_id:user._id
 
+Meteor.publish 'user_log_events', (username)->
+    # console.log 'pulling doc'
+    user = Meteor.users.findOne username:username
+    Docs.find {
+        model:'log_event'
+        _author_id:user._id
+    }, limit:20
+
 
 Meteor.publish 'recipient_from_debit_id', (debit_id)->
     # console.log 'pulling doc'

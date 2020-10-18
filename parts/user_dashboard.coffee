@@ -2,11 +2,12 @@ if Meteor.isClient
     Template.user_dashboard.onCreated ->
         # @autorun -> Meteor.subscribe 'user_credits', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_debits', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_log_events', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_requests', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_completed_requests', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_event_tickets', Router.current().params.username
         # @autorun -> Meteor.subscribe 'model_docs', 'event'
-        @autorun -> Meteor.subscribe 'model_docs', 'log_event'
+        # @autorun -> Meteor.subscribe 'model_docs', 'log_event'
         
     Template.user_dashboard.events
         'click .user_credit_segment': ->
@@ -32,9 +33,10 @@ if Meteor.isClient
             
     Template.user_dashboard.helpers
         log_events: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find 
                 model:'log_event'
-                # _author_id: Meteor.userId()
+                _author_id: current_user._id
 
         latest_posts: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)

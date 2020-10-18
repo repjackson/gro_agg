@@ -12,14 +12,10 @@ template(name='profile')
                         a(href="/u/#{username}/")
                             img.ui.small.inline.circular.invert.image.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
                 a.ui.header.refresh_user_stats(href="/u/#{username}") 
-                    if spirit_animal
-                        span(title="spirit animal #{spirit_animal}")
-                            +icolor name=spirit_animal cl='ui inline image'
                     |#{name}
                 // div
                 a.ui.small.header.refresh_user_stats(href="/u/#{username}") 
                     |@#{username}
-                |#{boops} boops
                 //- .ui.compact.icon.button.refresh_user_stats(title='refresh stats')
                 //-     i.refresh.icon
                 if is_current_user
@@ -30,12 +26,9 @@ template(name='profile')
                         +boolean_edit key='online' label='online' direct=true
                         +text_edit key='current_status' label='status' icon='clock' direct=true
                         div
-                        +text_edit key='first_name' label='first name' direct=true
-                        +text_edit key='last_name' label='last name' direct=true
+                        // +text_edit key='first_name' label='first name' direct=true
+                        // +text_edit key='last_name' label='last name' direct=true
                     else
-                        .ui.header 
-                            |#{first_name}
-                            |#{last_name}
                         +boolean_view key='online' label='online' direct=true
                         +text_view key='current_status' label='status' icon='clock' direct=true
                 else 
@@ -95,8 +88,8 @@ template(name='profile')
                 +session_edit_value_button key='view_user_section' value='rentals' label='rentals' icon='clock'
                 +session_edit_value_button key='view_user_section' value='posts' label='posts' icon='blog'
                 // +session_edit_value_button key='view_user_section' value='leads' label='leads' icon='phone'
-                +session_edit_value_button key='view_user_section' value='privacy' label='privacy' icon='privacy'
-                +session_edit_value_button key='view_user_section' value='tribes' label='tribes' icon='campfire'
+                // +session_edit_value_button key='view_user_section' value='privacy' label='privacy' icon='privacy'
+                // +session_edit_value_button key='view_user_section' value='tribes' label='tribes' icon='campfire'
                 +session_edit_value_button key='view_user_section' value='cloud_comparison' label='cloud comparison' icon='exchange'
                 // +session_edit_value_button key='view_user_section' value='membership' label='membership' icon='shield'
 
