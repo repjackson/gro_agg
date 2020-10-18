@@ -10,7 +10,7 @@ template(name='profile')
                         +image_edit key='profile_image_id' icon='picture' title='avatar' direct=true
                     else 
                         a(href="/u/#{username}/")
-                            img.ui.small.inline.circular.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
+                            img.ui.small.inline.circular.image.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
                 // a.ui.header.refresh_user_stats(href="/u/#{username}") 
                 //     if spirit_animal
                 //         span(title="spirit animal #{spirit_animal}")
@@ -19,6 +19,7 @@ template(name='profile')
                 // div
                 a.ui.small.inline.header.refresh_user_stats(href="/u/#{username}") 
                     |@#{username}
+                |#{boops} boops
                 //- .ui.compact.icon.button.refresh_user_stats(title='refresh stats')
                 //-     i.refresh.icon
                 if is_current_user
@@ -78,18 +79,18 @@ template(name='profile')
             .twelve.wide.column
                 +session_edit_value_button key='view_user_section' value='dashboard' label='dashboard' icon='dashboard'
                 +session_edit_value_button key='view_user_section' value='about' label='about' icon='info'
-                +session_edit_value_button key='view_user_section' value='badges' label='badges' icon='certificate'
-                +session_edit_value_button key='view_user_section' value='services' label='services' icon='wrench'
-                +session_edit_value_button key='view_user_section' value='projects' label='projects' icon='tasks'
+                // +session_edit_value_button key='view_user_section' value='badges' label='badges' icon='certificate'
+                // +session_edit_value_button key='view_user_section' value='services' label='services' icon='wrench'
+                // +session_edit_value_button key='view_user_section' value='projects' label='projects' icon='tasks'
                 +session_edit_value_button key='view_user_section' value='chat' label='chat' icon='chat'
                 +session_edit_value_button key='view_user_section' value='finance' label='finance' icon='money'
                 +session_edit_value_button key='view_user_section' value='rentals' label='rentals' icon='clock'
                 +session_edit_value_button key='view_user_section' value='posts' label='posts' icon='blog'
-                +session_edit_value_button key='view_user_section' value='leads' label='leads' icon='phone'
+                // +session_edit_value_button key='view_user_section' value='leads' label='leads' icon='phone'
                 +session_edit_value_button key='view_user_section' value='privacy' label='privacy' icon='privacy'
                 +session_edit_value_button key='view_user_section' value='tribes' label='tribes' icon='campfire'
                 +session_edit_value_button key='view_user_section' value='cloud_comparison' label='cloud comparison' icon='exchange'
-                +session_edit_value_button key='view_user_section' value='membership' label='membership' icon='shield'
+                // +session_edit_value_button key='view_user_section' value='membership' label='membership' icon='shield'
 
                 +session_edit_value_button key='view_user_section' value='authored_overlap' label='authored overlap' icon='change'
                 +session_edit_value_button key='view_user_section' value='karma' label='karma' icon='dashboard'

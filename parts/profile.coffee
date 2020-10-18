@@ -37,6 +37,14 @@ if Meteor.isClient
         #     $('.profile_yield')
         #         .transition('fade out', 200)
         #         .transition('fade in', 200)
+        
+        'click .boop': ->
+            user = Meteor.users.findOne(username:Router.current().params.username)
+            Meteor.users.update user._id, 
+                $inc:boops:1
+        #     $('.profile_yield')
+        #         .transition('fade out', 200)
+        #         .transition('fade in', 200)
     
         'click .refresh_user_stats': ->
             user = Meteor.users.findOne(username:Router.current().params.username)
