@@ -51,8 +51,8 @@ Template.nav.events
 
 Template.nav.onRendered ->
     Meteor.setTimeout ->
-        # $('.menu .item')
-        #     .popup()
+        $('.menu .item')
+            .popup()
         $('.ui.left.sidebar')
             .sidebar({
                 context: $('.bottom.segment')

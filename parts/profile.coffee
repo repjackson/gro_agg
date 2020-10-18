@@ -8,12 +8,13 @@ if Meteor.isClient
     Template.profile.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_friends', Router.current().params.username
     
     Template.profile.onRendered ->
         Meteor.setTimeout ->
             $('.profile_nav_item')
                 .popup()
-        , 1000
+        , 2000
         user = Meteor.users.findOne(username:Router.current().params.username)
         # Meteor.call 'calc_user_stats', user._id, ->
         Meteor.setTimeout ->

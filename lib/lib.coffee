@@ -62,11 +62,19 @@ Meteor.users.helpers
         if @tags
             @tags[..3]
     has_points: -> @points > 0
+    initials: ->
+        @username[..1]
     name: ->
         if @nickname
             @nickname
         else 
             @username
+    friends: ->
+        if @friend_ids
+            Meteor.users.find
+                _id:$in: @friend_ids
+
+
 
 Docs.before.insert (userId, doc)->
     if Meteor.user()
