@@ -139,7 +139,7 @@ template(name='rental_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row 
-                .sixteen.wide.column
+                .twelve.wide.column
                     a.ui.icon.circular.large.button(href="/m/rental/#{_id}/view" title='save' class=currentUser.invert_class)
                         i.checkmark.big.icon
                     .ui.inline.large.header 
@@ -152,12 +152,19 @@ template(name='rental_edit')
                     +youtube_edit key='youtube_id' label='youtube id' direct=true
                     
                     i.remove.link.circular.big.icon.delete_rental(title='delete rental')
-                                    
+                .four.wide.column
+                    +boolean_edit key='daily' label='daily' direct=true
+                    if daily
+                        +number_edit key='daily_rental_price' label='daily rental price' direct=true
+                    +boolean_edit key='weekly' label='weekly' direct=true              
+                    if weekly
+                        +number_edit key='weekly_rental_price' label='weekly rental price' direct=true
+                    
 template(name='rental_view')
     with current_doc
         .ui.stackable.padded.grid
             .row 
-                .sixteen.wide.column
+                .twelve.wide.column
                     if can_edit 
                         a.ui.icon.circular.large.button(href="/m/rental/#{_id}/edit" title='edit' class=currentUser.invert_class)
                             i.pencil.icon
@@ -169,4 +176,13 @@ template(name='rental_view')
                     +array_view key='tags' direct=true
                     +html_view key='description' label='description' direct=true
                     +youtube_view key='youtube_id' label='youtube id' direct=true
-                                    
+                .four.wide.column
+                    .ui.button.rent
+                        |rent
+                    +boolean_view key='daily' label='daily' direct=true
+                    if daily
+                        +number_view key='daily_rental_price' label='daily rental price' direct=true
+                    +boolean_view key='weekly' label='weekly' direct=true              
+                    if weekly
+                        +number_view key='weekly_rental_price' label='weekly rental price' direct=true
+           

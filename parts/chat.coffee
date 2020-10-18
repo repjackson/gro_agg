@@ -76,7 +76,7 @@ if Meteor.isClient
 
     Template.chat_messages_pane.onCreated ->
         # @autorun => Meteor.subscribe 'doc', @data._id
-        @autorun => Meteor.subscribe 'classroom_docs', @data._id
+        # @autorun => Meteor.subscribe 'classroom_docs', @data._id
         @autorun => Meteor.subscribe 'people_list', @data._id
 
     Template.chat_messages_pane.helpers
@@ -167,7 +167,7 @@ if Meteor.isServer
 if Meteor.isClient
     Template.chat_list.onCreated ->
         # @autorun => Meteor.subscribe 'my_chats'
-        @autorun => Meteor.subscribe 'docs', selected_tags.array(), 'chat'
+        @autorun => Meteor.subscribe 'docs', selected_tags.array(), 'chat_channel'
     Template.chat_list_item.onCreated ->
         @autorun => Meteor.subscribe 'classroom_docs', @data._id
         @autorun => Meteor.subscribe 'people_list', @data._id
@@ -176,7 +176,7 @@ if Meteor.isClient
     Template.chat_list.helpers
         chat_list_items: ->
             Docs.find
-                model: 'chat'
+                model: 'chat_channel'
                 # participant_ids: $in: [Meteor.userId()]
 
         message_segment_class: -> if Meteor.userId() in @read_ids then 'basic' else ''
