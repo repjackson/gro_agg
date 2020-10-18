@@ -585,7 +585,7 @@ if Meteor.isClient
                     res += ' active large compact'
                 else
                     # res += ' compact displaynone'
-                    res += ' compact'
+                    res += ' compact tertiary basic'
                 # console.log res
                 res
 

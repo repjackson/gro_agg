@@ -85,7 +85,9 @@ Template.chatpop.helpers
     last_messages: ->
         Docs.find {
             model:'global_chat'
-        }, sort:_timestamp:-1
+        }, 
+            sort:_timestamp:-1
+            limit:10
 Template.chatpop.events
     'keyup .add_chat': _.throttle((e,t)->
         if e.which is 13

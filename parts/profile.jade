@@ -76,12 +76,6 @@ template(name='profile')
                 if is_dev
                     +print_this
             .twelve.wide.column
-                .ui.header 
-                    i.newspaper.icon
-                    |posts
-                .ui.link.large.list.medscroll
-                    each posts
-                        a.item(href="/m/post/#{_id}/view") #{title}
                 +session_edit_value_button key='view_user_section' value='dashboard' label='dashboard' icon='dashboard'
                 +session_edit_value_button key='view_user_section' value='about' label='about' icon='info'
                 +session_edit_value_button key='view_user_section' value='badges' label='badges' icon='certificate'
@@ -89,6 +83,7 @@ template(name='profile')
                 +session_edit_value_button key='view_user_section' value='projects' label='projects' icon='tasks'
                 +session_edit_value_button key='view_user_section' value='chat' label='chat' icon='chat'
                 +session_edit_value_button key='view_user_section' value='rentals' label='rentals' icon='clock'
+                +session_edit_value_button key='view_user_section' value='posts' label='posts' icon='blog'
                 +session_edit_value_button key='view_user_section' value='leads' label='leads' icon='phone'
                 +session_edit_value_button key='view_user_section' value='privacy' label='privacy' icon='privacy'
                 +session_edit_value_button key='view_user_section' value='tribes' label='tribes' icon='campfire'
@@ -105,6 +100,14 @@ template(name='profile')
                     +user_about
                     if editing_mode
                         +account
+                if session_key_value_is 'view_user_section' 'posts'
+                    .ui.header 
+                        i.newspaper.icon
+                        |posts
+                    .ui.link.large.list.medscroll
+                        each posts
+                            a.item(href="/m/post/#{_id}/view") #{title}
+
                 if session_key_value_is 'view_user_section' 'cloud_comparison'
                     +cloud_comparison
                 if session_key_value_is 'view_user_section' 'badges'

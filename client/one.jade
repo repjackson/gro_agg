@@ -1,35 +1,35 @@
 template(name='one')
-    .ui.big.compact.circular.button.debit
+    .ui.big.compact.circular.tertiary.button.debit
         i.gift.red.icon
         |send points
-    .ui.big.compact.circular.button.request
+    .ui.big.compact.circular.tertiary.button.request
         i.concierge.bell.teal.icon
         |+ request
-    .ui.big.compact.circular.button.offer
+    .ui.big.compact.circular.tertiary.button.offer
         i.hand.holding.heart.olive.icon
         |+ offer
-    .ui.big.compact.circular.button.add_message
+    .ui.big.compact.circular.tertiary.button.add_message
         i.chat.blue.icon
         |+ message
-    .ui.big.compact.circular.button.add_event
+    .ui.big.compact.circular.tertiary.button.add_event
         i.calendar.purple.icon
         |+ event
-    .ui.big.compact.circular.button.add_expense
+    .ui.big.compact.circular.tertiary.button.add_expense
         i.dollar.purple.icon
         |+ expense
-    .ui.big.compact.circular.button.add_bug
+    .ui.big.compact.circular.tertiary.button.add_bug
         i.bug.red.icon
         |+ bug
-    a.ui.big.circular.button(href='/register')
+    a.ui.big.circular.tertiary.button(href='/register')
         i.user.plus.green.icon
         |member
 
     .ui.stackable.grid
         .row 
             // if is_admin
-            //     .ui.big.button.check_notifications
+            //     .ui.big.tertiary.button.check_notifications
             //         |check
-            //     .ui.big.button.send_notification
+            //     .ui.big.tertiary.button.send_notification
             //         |send
             if template_subs_ready
                 +finance_bar
@@ -55,12 +55,12 @@ template(name='one')
                 // if can_debit
             // .four.wide.column
             //     // if can_debit
-            //     .ui.fluid.teal.button.request
+            //     .ui.fluid.teal.tertiary.button.request
             //         // i.hand.holding.heart.icon
             //         +icolor name='compass' cl='ui mini inline image'
             //         |add explorer
                 // else
-                //     .ui.fluid.teal.disabled.button
+                //     .ui.fluid.teal.disabled.tertiary.button
                 //         // i.hand.holding.heart.icon
                 //         +icolor name='request-service' cl='ui mini inline image'
                 //         |request
@@ -328,7 +328,7 @@ template(name='debit_card')
             +comments_view_small
                                     
 template(name='join_button')
-    .ui.fluid.green.button.join
+    .ui.fluid.green.tertiary.button.join
         i.checkmark.icon
         |join
 
