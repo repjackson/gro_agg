@@ -45,6 +45,9 @@ Template.login.events
                 # if Meteor.user().roles and 'admin' in Meteor.user().roles
                 #     Router.go "/admin"
                 # else
+                Docs.insert 
+                    model:'log_event'
+                    body:'logged in'
                 Router.go "/u/#{Meteor.user().username}"
                 # Router.go "/u/#{username}"
 

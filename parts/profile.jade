@@ -231,10 +231,21 @@ template(name='user_rentals')
 template(name='user_dashboard')
     .ui.stackable.padded.grid
         .eight.wide.column
+            .ui.icon.fluid.input
+                i.plus.icon
+                input.add_post(type='text')
             each latest_posts
-                .ui.header #{body}
+                .ui.segment 
+                    .ui.small.header #{body}
+                    +voting_small
+                    i.reply.icon
+                    i.clock.icon
+                    i.eye.icon
+                    i.remove.link.icon.remove_post
+                    i.archive.link.icon
+                    i.share.icon
         .eight.wide.column
-            each latest_thoughts
+            each log_events
                 .ui.header #{body}
                 
 template(name='porch_badge')

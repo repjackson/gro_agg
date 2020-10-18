@@ -1,11 +1,12 @@
 if Meteor.isClient
     Template.user_dashboard.onCreated ->
-        @autorun -> Meteor.subscribe 'user_credits', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_debits', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_requests', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_completed_requests', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_event_tickets', Router.current().params.username
-        @autorun -> Meteor.subscribe 'model_docs', 'event'
+        # @autorun -> Meteor.subscribe 'user_credits', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'user_debits', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'user_requests', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'user_completed_requests', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'user_event_tickets', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'model_docs', 'event'
+        @autorun -> Meteor.subscribe 'model_docs', 'log_event'
         
     Template.user_dashboard.events
         'click .user_credit_segment': ->
@@ -13,10 +14,28 @@ if Meteor.isClient
             
         'click .user_debit_segment': ->
             Router.go "/debit/#{@_id}/view"
-            
+ 
+        'keyup .add_post': (e,t)->
+            if e.which is 13
+                body = $('.add_post').val()
+                console.log body
+                
+                Docs.insert 
+                    model:'post'
+                    body:body
+                $('.add_post').val('')
+                
+        'click .remove_post': (e,t)->
+            if confirm 'delete post?'
+                Docs.remove @_id
             
             
     Template.user_dashboard.helpers
+        log_events: ->
+            Docs.find 
+                model:'log_event'
+                # _author_id: Meteor.userId()
+
         latest_posts: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find {

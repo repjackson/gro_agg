@@ -33,6 +33,7 @@ if Meteor.isClient
                 model:'post'
                 _author_id: Meteor.userId()
 
+        
     Template.profile.events
         # 'click a.select_term': ->
         #     $('.profile_yield')
