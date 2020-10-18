@@ -17,22 +17,23 @@ template(name='profile')
                             +icolor name=spirit_animal cl='ui inline image'
                     |#{name}
                 // div
-                a.ui.small.inline.header.refresh_user_stats(href="/u/#{username}") 
+                a.ui.small.header.refresh_user_stats(href="/u/#{username}") 
                     |@#{username}
                 |#{boops} boops
                 //- .ui.compact.icon.button.refresh_user_stats(title='refresh stats')
                 //-     i.refresh.icon
                 if is_current_user
                     a(href="/u/#{username}/edit")
-                        i.big.cog.link.icon
+                        i.big.cog.link.circular.icon
                     // +boolean_edit key='edit_mode' label='edit mode' direct=true
                     if editing_mode
                         +boolean_edit key='online' label='online' direct=true
                         +text_edit key='current_status' label='status' icon='clock' direct=true
+                        div
                         +text_edit key='first_name' label='first name' direct=true
                         +text_edit key='last_name' label='last name' direct=true
                     else
-                        .ui.inline.header 
+                        .ui.header 
                             |#{first_name}
                             |#{last_name}
                         +boolean_view key='online' label='online' direct=true
@@ -245,38 +246,27 @@ template(name='user_dashboard')
                     i.remove.link.icon.remove_post
                     i.archive.link.icon
                     i.share.icon
+                    +emotion_picker
         .eight.wide.column
+            .ui.header 
+                i.big.money.icon(title='log events')
+                |earnings
+            .ui.header #{points} points
+            i.big.rss.icon(title='log events')
             each log_events
-                div
                 .ui.inline.header #{body}
                 |#{when}
+           
+           
+           
+           
                 
-template(name='porch_badge')
-    .ui.segment 
-        |Average rating
-        .ui.big.center.aligned.header
-            i.yellow.star.icon
-            |4.90
-        |based on 80 online reviews
-        // if background_checked
-        .ui.list
-            // .item
-            //     i.users.icon
-            //     |owner Background Checked  
-            .item No neighbor data for this pro
-            .item
-                i.calendar.icon
-                |1 year in business
-            .item
-                i.home.icon
-                |Typical home value is unknown
-            .item
-                i.tasks.icon
-                |Median project cost is unknown
-            .item
-                i.clock.icon
-                |Response rate is unknown
-
+template(name='emotion_picker')
+    i.smile.icon
+    i.frown.icon
+    i.smile.icon
+    i.smile.icon
+    i.smile.icon
 
 
 template(name='user_friend_button')
