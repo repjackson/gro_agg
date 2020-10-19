@@ -1,9 +1,9 @@
-Template.chatpop.onCreated ->
+Template.view_chatpop.onCreated ->
     @autorun => Meteor.subscribe 'model_docs', 'global_chat'
 Template.nav.onCreated ->
     @autorun => Meteor.subscribe 'me'
-    @autorun => Meteor.subscribe 'all_users'
-    @autorun => Meteor.subscribe 'my_unread_messages'
+    # @autorun => Meteor.subscribe 'all_users'
+    # @autorun => Meteor.subscribe 'my_unread_messages'
 
 Template.nav.onRendered ->
     Meteor.setTimeout ->

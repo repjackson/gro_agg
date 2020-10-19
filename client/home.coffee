@@ -16,6 +16,7 @@ Router.route '/', (->
 
 
 Template.home.onCreated ->
+    Session.setDefault('query','')
     # @autorun -> Meteor.subscribe('me')
     # @autorun -> Meteor.subscribe('dtags',
     #     # Session.get('query')
@@ -26,8 +27,8 @@ Template.home.onCreated ->
     #     # Session.get('query')
     #     )
     @autorun -> Meteor.subscribe('questions',
-        selected_tags.array()
-        # Session.get('query')
+        Session.get('query')
+        # selected_tags.array()
         )
 
     
@@ -137,10 +138,6 @@ Template.home.helpers
             Tag_results.find()
 
             
-Template.vid_card.events
-    'click .fork': -> 
-        console.log @
-        Meteor.call 'tagify_vid', @_id, ->
 
 Template.home.events
     # 'click .delete': -> 
@@ -156,14 +153,26 @@ Template.home.events
                 
         Router.go "/post/#{new_post_id}/edit"
 
-    
+    'keydown .search_questions': (e,t)->
+        search = $('.search_questions').val().toLowerCase().trim()
+        Session.set('query',search)
+        if e.which is 13
+            console.log search
+            # selected_tags.push search
+            # if Meteor.user()
+            Session.set('query','')
+            search = $('.search_questions').val('')
+        # if e.which is 8
+        #     if search.length is 0
+        #         selected_tags.pop()
+
 
     'click #clear_tags': -> selected_tags.clear()
 
 
     'keydown .search_title': (e,t)->
         search = $('.search_title').val().toLowerCase().trim()
-        # Session.set('query',search)
+        Session.set('query',search)
         if e.which is 13
             console.log search
             selected_tags.push search

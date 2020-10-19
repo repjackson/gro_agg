@@ -1,4 +1,11 @@
 template(name='home')
+    .ui.header questions
+    .ui.icon.input
+        i.search.icon
+        input.search_questions(type='text' placeholder='search questions')
+    .ui.icon.input
+        i.plus.icon
+        input.ask_question(type='text' placeholder='ask question')
     each questions
         .ui.segment
             .ui.header.select_question #{title}
