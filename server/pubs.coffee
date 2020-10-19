@@ -19,10 +19,21 @@ Meteor.publish 'user_model_docs', (model,username)->
         model:model
         _author_id:user._id
 
-Meteor.publish 'questions', (query)->
+Meteor.publish 'questions', (
+    query
+    view_open
+    view_your_questions
+    view_your_answers
+    )->
     # console.log 'pulling question'
     # user = Meteor.users.findOne username:username
     match = {model:'question'}
+    if view_open
+        match.open = true
+    if view_your_questions
+        match._author_id = Meteor.userId()
+    if view_your_answers
+        match.answer_user_ids = $in:[Meteor.userId()]
     if query and query.length > 0
         match.title = {$regex:"#{query}", $options: 'i'}
 

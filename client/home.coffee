@@ -10,69 +10,13 @@
 
 Router.route '/', (->
     @layout 'layout'
-    @render 'home'
-    ), name:'home'
+    @render 'questions'
+    ), name:'questions'
 
 
-
-Template.home.onCreated ->
-    Session.setDefault('query','')
-    # @autorun -> Meteor.subscribe('me')
-    # @autorun -> Meteor.subscribe('dtags',
-    #     # Session.get('query')
-    #     selected_tags.array()
-    #     )
-    # @autorun -> Meteor.subscribe('docs',
-    #     selected_tags.array()
-    #     # Session.get('query')
-    #     )
-    @autorun -> Meteor.subscribe('questions',
-        Session.get('query')
-        # selected_tags.array()
-        )
 
     
-# Template.tag_selector.onCreated ->
-#     # console.log @
-#     @autorun => Meteor.subscribe('doc_by_title', @data.name)
-# Template.tag_selector.helpers
-#     term: ->
-#         Docs.findOne 
-#             title:@name
-# Template.tag_selector.events
-#     'click .select_tag': -> 
-#         selected_tags.push @name
-#         # if Meteor.user()
-#         Meteor.call 'call_wiki', @name, ->
-#             # Meteor.call 'calc_term', @title, ->
-#             # Meteor.call 'omega', @title, ->
-            
-#         Meteor.call 'search_reddit', selected_tags.array(), ->
-#         # Meteor.call 'search_ph', selected_tags.array(), ->
-
-# Template.unselect_tag.onCreated ->
-#     # console.log @
-#     @autorun => Meteor.subscribe('doc_by_title', @data)
-# Template.unselect_tag.helpers
-#     term: ->
-#         Docs.findOne 
-#             model:'wikipedia'
-#             title:@valueOf()
-# Template.unselect_tag.events
-#   'click .unselect_tag': -> 
-#         selected_tags.remove @valueOf()
-#         Meteor.call 'search_reddit', selected_tags.array(), ->
-#         # Meteor.call 'search_ph', selected_tags.array(), ->
-
-            
-Template.home.helpers
-    questions: -> 
-        Docs.find 
-            model:'question'
-    
-    
-    
-    many_tags: -> selected_tags.array().length > 1
+    # many_tags: -> selected_tags.array().length > 1
     # one_post: ->
     #     match = {model:$in:['post','wikipedia','reddit']}
     #     # match = {model:$in:['post','wikipedia','reddit','porn']}
@@ -113,11 +57,11 @@ Template.home.helpers
     #         limit:5
     #     # if cur.count() is 1
     #     # Docs.find match
-    home_button_class: ->
-        if Template.instance().subscriptionsReady()
-            ''
-        else
-            'disabled loading'
+    # home_button_class: ->
+    #     if Template.instance().subscriptionsReady()
+    #         ''
+    #     else
+    #         'disabled loading'
 
         
     # term: ->
@@ -143,31 +87,7 @@ Template.session_key_value_edit.events
         Session.set("#{@key}",@value)
         
         
-Template.question.helpers
-    vote_true_class: ->
-        if @voter_true_ids and Meteor.userId() in @voter_true_ids then 'active' else 'basic'
-    vote_false_class: ->
-        if @voter_false_ids and Meteor.userId() in @voter_false_ids then 'active' else 'basic'
-    vote_true_icon_class: ->
-        if @voter_true_ids and Meteor.userId() in @voter_true_ids then 'green invert' else 'outline'
-    vote_false_icon_class: ->
-        if @voter_false_ids and Meteor.userId() in @voter_false_ids then 'red invert' else 'outline'
-Template.question.events
-    'click .vote_true': ->
-        Docs.update @_id, 
-            $addToSet:
-                voter_true_ids: Meteor.userId()
-            $pull:
-                voter_false_ids: Meteor.userId()
-                
-    'click .vote_false': ->
-        Docs.update @_id, 
-            $addToSet:
-                voter_false_ids: Meteor.userId()
-            $pull:
-                voter_true_ids: Meteor.userId()
-                
-Template.home.events
+Template.questions.events
     # 'click .delete': -> 
     #     console.log @
     #     Docs.remove @_id
