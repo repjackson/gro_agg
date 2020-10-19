@@ -138,7 +138,35 @@ Template.home.helpers
     #         Tag_results.find()
 
             
-
+Template.session_key_value_edit.events
+    'click .set_session_var': ->
+        Session.set("#{@key}",@value)
+        
+        
+Template.question.helpers
+    vote_true_class: ->
+        if @voter_true_ids and Meteor.userId() in @voter_true_ids then 'active' else 'basic'
+    vote_false_class: ->
+        if @voter_false_ids and Meteor.userId() in @voter_false_ids then 'active' else 'basic'
+    vote_true_icon_class: ->
+        if @voter_true_ids and Meteor.userId() in @voter_true_ids then 'green invert' else 'outline'
+    vote_false_icon_class: ->
+        if @voter_false_ids and Meteor.userId() in @voter_false_ids then 'red invert' else 'outline'
+Template.question.events
+    'click .vote_true': ->
+        Docs.update @_id, 
+            $addToSet:
+                voter_true_ids: Meteor.userId()
+            $pull:
+                voter_false_ids: Meteor.userId()
+                
+    'click .vote_false': ->
+        Docs.update @_id, 
+            $addToSet:
+                voter_false_ids: Meteor.userId()
+            $pull:
+                voter_true_ids: Meteor.userId()
+                
 Template.home.events
     # 'click .delete': -> 
     #     console.log @
