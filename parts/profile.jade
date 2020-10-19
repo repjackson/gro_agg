@@ -244,8 +244,10 @@ template(name='user_dashboard')
                             i.checkmark.icon
                         +remove_button
                 each questions_asked
-                    .ui.segment
-                        a.ui.header.select_question #{title}s1
+                    .ui.segment.select_question
+                        a.ui.pointer.header q:#{title}
+                        .ui.label #{bounty}pts
+                        
             .ui.header 
                 i.big.money.icon(title='log events')
                 |earnings

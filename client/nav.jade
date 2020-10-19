@@ -1,7 +1,7 @@
 template(name='nav')
     .ui.fluid.attached.borderless.invert.menu.topnav
-        a.icon.header.item.zoom.pointer.toggle_leftbar
-            i.bars.large.icon
+        // a.icon.header.item.zoom.pointer.toggle_leftbar
+        //     i.bars.large.icon
         a.icon.item.zoom.pointer(href='/' class="{{isActivePath '/'}}")
             i.big.link.yin.yang.grey.icon
         if currentUser
@@ -68,6 +68,14 @@ template(name='nav')
                     else 
                         i.large.user.large.icon
                     strong.mobile.hidden #{currentUser.username}
+                // .ui.dropdown.item
+                //     i.bars.large.icon
+                //     |menu
+                //     .menu
+                //         .item hi
+                //         .item hi
+                //         .item hi
+                //         .item hi
                 // a.icon.large.item.toggle_rightbar.select_term
                 //     i.bars.large.icon
             else

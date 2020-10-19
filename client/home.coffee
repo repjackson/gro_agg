@@ -16,12 +16,16 @@ Router.route '/', (->
 
 
 Template.home.onCreated ->
-    @autorun -> Meteor.subscribe('me')
-    @autorun -> Meteor.subscribe('dtags',
-        # Session.get('query')
-        selected_tags.array()
-        )
-    @autorun -> Meteor.subscribe('docs',
+    # @autorun -> Meteor.subscribe('me')
+    # @autorun -> Meteor.subscribe('dtags',
+    #     # Session.get('query')
+    #     selected_tags.array()
+    #     )
+    # @autorun -> Meteor.subscribe('docs',
+    #     selected_tags.array()
+    #     # Session.get('query')
+    #     )
+    @autorun -> Meteor.subscribe('questions',
         selected_tags.array()
         # Session.get('query')
         )
@@ -61,6 +65,12 @@ Template.unselect_tag.events
 
             
 Template.home.helpers
+    questions: -> 
+        Docs.find 
+            model:'question'
+    
+    
+    
     many_tags: -> selected_tags.array().length > 1
     one_post: ->
         match = {model:$in:['post','wikipedia','reddit']}

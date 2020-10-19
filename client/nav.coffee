@@ -5,9 +5,10 @@ Template.nav.onCreated ->
     @autorun => Meteor.subscribe 'all_users'
     @autorun => Meteor.subscribe 'my_unread_messages'
 
-
-Template.nav.onCreated ->
-    @autorun => Meteor.subscribe 'me'
+Template.nav.onRendered ->
+    Meteor.setTimeout ->
+        $('.ui.dropdown').dropdown()
+    , 2000
 
 Template.nav.events
 #     'click .logout': ->

@@ -1,4 +1,20 @@
 template(name='home')
+    each questions
+        .ui.segment
+            .ui.header.select_question #{title}
+            .ui.list 
+                .item #{views} views
+                .item 
+                    i.user.outline.icon
+                    |#{_author.username}
+                .item 
+                    |bounty: 
+                    |#{bounty}pts
+                .item 
+                    each tags 
+                        .ui.label #{this}
+
+template(name='old_home')
     // iframe(frameborder="0" width="400" height="200" src="https://drive.google.com/file/d/1_encX_RKyZhOU26r7_cNTtl0rLvEQSai/preview")
     // i.large.yin.yang.icon(class=home_button_class)
     .ui.stackable.grid

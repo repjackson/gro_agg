@@ -19,6 +19,13 @@ Meteor.publish 'user_model_docs', (model,username)->
         model:model
         _author_id:user._id
 
+Meteor.publish 'questions', (model,username)->
+    # console.log 'pulling doc'
+    user = Meteor.users.findOne username:username
+    Docs.find
+        model:'question'
+        # _author_id:user._id
+
 Meteor.publish 'user_log_events', (username)->
     # console.log 'pulling doc'
     user = Meteor.users.findOne username:username
