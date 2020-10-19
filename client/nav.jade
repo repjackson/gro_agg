@@ -41,19 +41,19 @@ template(name='nav')
             if connected
                 a.icon.pointer.item.post(title='add')
                     i.large.plus.icon
-            if currentUser
-                if connected
-                    if unread_count
-                        a.pointer.item.alerts.select_term(href="#" class=alert_toggle_class)
-                            i.large.bell.icon
-                            if unread_count
-                                |#{unread_count}
-                    else
-                        a.icon.pointer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
-                            i.large.outline.bell.icon
-            a.icon.pointer.item(href="/chat" title='chat') 
-                i.chat.outline.large.icon
-            // a.icon.pointer.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
+            // if currentUser
+            //     if connected
+            //         if unread_count
+            //             a.pointer.item.alerts.select_term(href="#" class=alert_toggle_class)
+            //                 i.large.bell.icon
+            //                 if unread_count
+            //                     |#{unread_count}
+            //         else
+            //             a.icon.pointer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+            //                 i.large.outline.bell.icon
+            // a.icon.pointer.item(href="/chat" title='chat') 
+            //     i.chat.outline.large.icon
+            // // a.icon.pointer.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
             if is_dev 
                 .icon.pointer.item
                     i.large.code.icon
