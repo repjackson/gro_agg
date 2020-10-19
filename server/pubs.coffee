@@ -20,7 +20,7 @@ Meteor.publish 'user_model_docs', (model,username)->
         _author_id:user._id
 
 Meteor.publish 'questions', (query)->
-    console.log 'pulling question'
+    # console.log 'pulling question'
     # user = Meteor.users.findOne username:username
     match = {model:'question'}
     if query and query.length > 0
