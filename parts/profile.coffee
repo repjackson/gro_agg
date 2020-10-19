@@ -33,13 +33,25 @@ if Meteor.isClient
                 model:'post'
                 _author_id: Meteor.userId()
 
-        
+                
     Template.profile.events
         # 'click a.select_term': ->
         #     $('.profile_yield')
         #         .transition('fade out', 200)
         #         .transition('fade in', 200)
         
+        'click .save_question': ->
+            Session.set('asking_question_id',null)
+        'click .ask_question': ->
+            user = Meteor.users.findOne(username:Router.current().params.username)
+            new_question_id = 
+                Docs.insert 
+                    model:'question'
+                    target_user_id:user._id
+                    target_username:user.username
+            Session.set('asking_question_id',new_question_id)
+        'click .select_question': ->
+            Session.set('asking_question_id', @_id)
         'click .boop': ->
             user = Meteor.users.findOne(username:Router.current().params.username)
             Meteor.users.update user._id, 
@@ -120,6 +132,14 @@ if Meteor.isServer
         Docs.find {
             model:'post'
             _author_id:user._id
+        },
+            limit:20
+            sort:_timestamp:-1
+    Meteor.publish 'user_questions', (username)->
+        user = Meteor.users.findOne(username:username)
+        Docs.find {
+            model:'question'
+            target_user_id:user._id
         },
             limit:20
             sort:_timestamp:-1

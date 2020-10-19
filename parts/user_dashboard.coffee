@@ -8,13 +8,14 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'user_event_tickets', Router.current().params.username
         # @autorun -> Meteor.subscribe 'model_docs', 'event'
         @autorun -> Meteor.subscribe 'model_docs', 'reply'
-        
+        @autorun -> Meteor.subscribe 'user_questions', Router.current().params.username
+
     Template.user_dashboard.events
-        'click .user_credit_segment': ->
-            Router.go "/debit/#{@_id}/view"
+        # 'click .user_credit_segment': ->
+        #     Router.go "/debit/#{@_id}/view"
             
-        'click .user_debit_segment': ->
-            Router.go "/debit/#{@_id}/view"
+        # 'click .user_debit_segment': ->
+        #     Router.go "/debit/#{@_id}/view"
  
  
         'keyup .reply_body': (e,t)->
@@ -49,6 +50,14 @@ if Meteor.isClient
             
             
     Template.user_dashboard.helpers
+        questions_asked: ->
+            user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find 
+                model:'question'
+                target_user_id:user._id
+        asking_question: -> Session.get('asking_question_id') 
+        question_asking: -> Docs.findOne Session.get('asking_question_id') 
+    
         replies:-> 
             Docs.find 
                 model:'reply'
