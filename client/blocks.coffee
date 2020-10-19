@@ -267,14 +267,6 @@ if Meteor.isClient
             Meteor.call 'downvote', @, ->
 
 
-    Template.call_reddit.events
-        'click .call_reddit': ->
-            doc = Docs.findOne Router.current().params.doc_id
-            console.log doc
-            console.log @
-    
-            Meteor.call 'get_reddit_post', doc._id, doc.reddit_id, ->
-
 #
 #     Template.role_editor.onCreated ->
 #         @autorun => Meteor.subscribe 'model', 'role'

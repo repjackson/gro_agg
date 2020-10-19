@@ -58,17 +58,9 @@ template(name='question_card')
         .twelve.wide.column
             .content
                 a.ui.header.pointer(href="/m/question/#{_id}/view" class=question_header_class)
-                    if key_value_is 'model' 'wikipedia'
-                        i.wikipedia.grey.icon
-                    else if key_value_is 'model' 'reddit'
-                        i.reddit.grey.icon
-                    if is_youtube
-                        i.video.grey.icon
                     |#{title}
                 .description.f11.smallscroll
-                    if tone
-                        +tone
-                    else if body
+                    if body
                         |{{nl2br body}}
                     else if description
                         |!{description}
@@ -177,20 +169,19 @@ template(name='question_view')
                     each question_answers
                         .ui.segment
                             .ui.header #{title}
+                            if can_edit
+                                +session_boolean_toggle 
                             if is_editing
                                 +text_edit key='title' direct=true
+                            .ui.label 
+                                i.user.outline.icon
+                                |#{_author.username}
                 .six.wide.column.scrolling
-                    if watson.metadata.image
-                        img.ui.rounded.image(src=watson.metadata.image class='invert')    
                     if can_edit
                         a.ui.circular.icon.button.edit_question(href="/m/question/#{_id}/edit")
                             i.large.pencil.icon
                     +vote
                     .ui.inline.small.grey.header #{when}
-                    +call_watson key='url' mode='url'
-                    if watson
-                        +call_tone mode='url' key='url'
-                    
                     .ui.label #{views} views
                     |#{tags.length}
                     +array_edit key='tags' direct=true

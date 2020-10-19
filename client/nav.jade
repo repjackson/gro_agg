@@ -2,12 +2,13 @@ template(name='nav')
     .ui.fluid.attached.borderless.invert.menu.topnav
         // a.icon.header.item.zoom.pointer.toggle_leftbar
         //     i.bars.large.icon
-        a.icon.item.zoom.pointer(href='/' class="{{isActivePath '/'}}")
-            i.big.link.yin.yang.grey.icon
+        if connected
+            a.icon.item.zoom.pointer(href='/' class="{{isActivePath '/'}}")
+                i.big.link.yin.yang.grey.icon
         if currentUser
-            if connected
-                a.icon.item.pointer.set_root(href="/m/model" class="{{isActivePath '/m/model'}}")
-                    i.large.database.icon
+            // if connected
+                // a.icon.item.pointer.set_root(href="/m/model" class="{{isActivePath '/m/model'}}")
+                //     i.large.database.icon
                 // if is_admin
                     // .item.pointer
                     //     .ui.green.header not connected
@@ -25,13 +26,13 @@ template(name='nav')
                 //     i.clock.large.icon
                 // a.icon.item.pointer(href="/shop")
                 //     i.store.large.icon
-                a.icon.item.pointer(href="/tribes")
-                    i.fire.large.icon
-                a.icon.item.pointer(href="/mail")
-                    i.envelope.grey.large.icon
-                if currentUser.nsfw_enabled
-                    a.icon.item.zoom.pointer(href="/ph")
-                        i.exclamation.large.icon
+                // a.icon.item.pointer(href="/tribes")
+                //     i.fire.large.icon
+                // a.icon.item.pointer(href="/mail")
+                //     i.envelope.grey.large.icon
+                // if currentUser.nsfw_enabled
+                //     a.icon.item.zoom.pointer(href="/ph")
+                //         i.exclamation.large.icon
             unless connected
                 .item.pointer
                     i.yin.yang.loading.big.grey.icon
