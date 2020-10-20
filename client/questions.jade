@@ -10,6 +10,17 @@ template(name='questions')
             //     input.ask_question(type='text' placeholder='ask question')
             .ui.header total bounty available
             .ui.header total bounty earned
+            if selected_tags
+                // if many_tags
+                //     a#clear_tags.ui.black.icon.small.compact.circular.button.select_term
+                //         i.remove.icon
+                each selected_tags
+                    +unselect_tag
+            .ui.inline.input 
+                input.search_title(type='text' autofocus='')
+            each tag_results
+                +tag_selector
+            
             +session_boolean_toggle key='view_open' label='view open'
             +session_boolean_toggle key='view_your_questions' label='your questions'
             +session_boolean_toggle key='view_your_answers' label='your answers'
@@ -21,16 +32,43 @@ template(name='questions')
                 |your answers
             
         .twelve.wide.column
-            .ui.cards
-                each questions
-                    +question
+            +session_key_value_edit key='view_mode' value='cards' label='cards' icon='clone'
+            +session_key_value_edit key='view_mode' value='list' label='list' icon='list'
+            .spacer
+            if session_key_value_is 'view_mode' 'list'
+                .ui.list 
+                    each questions 
+                        .item #{title}
+            else
+                .ui.cards
+                    each questions
+                        +question
                 
         
 template(name='session_key_value_edit')    
     .ui.button.set_session_var
+        if icon 
+            i.icon(class=icon)
         |#{label}
                         
 // template(name='key_value_edit')    
 //     .ui.button.set_key_value
 //         |#{label}
+                        
+                        
+                        
+template(name='unselect_tag')
+    a.unselect_tag.ui.black.big.image.circular.label.select_term(href='#')
+        if term
+            img.ui.avatar.compact.image(src=term.watson.metadata.image)    
+        strong #{this}
+
+template(name='tag_selector')
+    // a.ui.big.image.circular.label.pointer.select_tag.select_term(href='#' title="#{count} results" class=selector_header_class)
+    a.ui.tertiary.basic.circular.button.select_tag.select_term(href='#' title="#{count} results" class=selector_header_class)
+        if term
+            if term.watson.metadata.image
+                img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    
+        | #{name}
+        // small #{count}
                         

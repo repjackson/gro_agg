@@ -1,9 +1,11 @@
 template(name='question')
     .ui.card
         if image_id
-            img.ui.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+            // a(href="/question/#{_id}/view")
+            img.ui.pointer.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         else if image_url
-            img.ui.image(src=image_url class=currentUser.invert_class)
+            // a(href="/question/#{_id}/view")
+            img.ui.pointer.image(src=image_url class=currentUser.invert_class)
         .content
             a.ui.header.select_question(href="/question/#{_id}/view") #{title}
             .ui.list 
@@ -53,17 +55,20 @@ template(name='question_view')
                         .ui.header(class=question_header_class) #{title}
             .row 
                 .eight.wide.column
-                    .scrollin
-                        if url 
-                            a(href=url target='_window') #{url}
-                            img.ui.image(src=url class='invert')    
-                        if image_id
-                            a(href="{{c.url image_id }}" target='_window')
-                                img.ui.rounded.image(src="{{c.url image_id gravity='face' crop='fit'}}" class='invert')
-                        if youtube_id
-                            +youtube_view key='youtube_id' direct=true
-                        .f12
-                            |!{description}
+                    if url 
+                        a(href=url target='_window') #{url}
+                        img.ui.image(src=url class='invert')    
+                    if image_id
+                        a(href="{{c.url image_id }}" target='_window')
+                            img.ui.rounded.image(src="{{c.url image_id gravity='face' crop='fit'}}" class='invert')
+                    else if image_url
+                        // a(href="/question/#{_id}/view")
+                        img.ui.pointer.image(src=image_url class=currentUser.invert_class)
+                
+                    if youtube_id
+                        +youtube_view key='youtube_id' direct=true
+                    .f12
+                        |!{body}
                     +comments
                     .ui.button.add_answer
                         i.plus.icon 
@@ -85,6 +90,12 @@ template(name='question_view')
                             i.large.pencil.icon
                     +vote
                     div
+                    .ui.segment
+                        .ui.grey.header 
+                            i.hand.holding.heart.icon
+                            |bounties
+                        each bounties
+                            .ui.header #{amount}
                 .four.wide.column
                     .ui.segment
                         .ui.grey.header 

@@ -2,17 +2,21 @@ template(name='question_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row 
-                .sixteen.wide.column
-                    +text_edit key='title' label='title' input_class='fluid large' direct=true
-            .row 
-                .five.wide.column
+                .four.wide.column
                     a.ui.icon.circular.large.button(href="/question/#{_id}/view" title='save' class='invert')
                         i.checkmark.big.icon
                     .ui.inline.large.header 
                         small edit question
                         // |#{title}
+                .twelve.wide.column
+                    +text_edit key='title' label='title' input_class='fluid large' direct=true
+            .row 
+                .five.wide.column
                     div
-                    +image_edit key='image_id' label='image' direct=true
+                    +boolean_edit key='has_image' label='has image' direct=true
+                    if has_image
+                        +image_edit key='image_id' label='image' direct=true
+                        +text_edit key='image_url' label='image link' direct=true
                     div
                     +key_value_edit key='question_type' value='boolean' label='boolean' icon='toggle on'
                     +key_value_edit key='question_type' value='multiple_choice' label='multiple choice' icon='list'
@@ -38,19 +42,19 @@ template(name='question_edit')
                     // +key_value_edit key='question_type' value='open' label='open'
                 .six.wide.column
                     +html_edit key='body' label='body' direct=true
-                    +number_edit key='bounty_total' label='total bounty' direct=true
-                    div
-                    +number_edit key='points_per_answer' label='points per answer' direct=true
-                    div
-                    +number_edit key='bounties_available' label='bounties available' direct=true
-                    .ui.header subtotal = points/answer*bounties = #{subtotal}pts
+                    // +number_edit key='bounty_total' label='total bounty' direct=true
+                    // div
+                    // +number_edit key='points_per_answer' label='points per answer' direct=true
+                    // div
+                    // +number_edit key='bounties_available' label='bounties available' direct=true
+                    // .ui.header subtotal = points/answer*bounties = #{subtotal}pts
                     div
                 .five.wide.column
                     +boolean_edit key='has_recipient' label='has recipient' direct=true
-                    // if has_recipient
-                    +single_user_edit key='recipient_id' key2='recipient_username' label='recipient' direct=true
-                    div
-                    +number_edit key='point_amount' label='point amount' direct=true
+                    if has_recipient
+                        +single_user_edit key='recipient_id' key2='recipient_username' label='recipient' direct=true
+                    // div
+                    // +number_edit key='point_amount' label='point amount' direct=true
                     div
                     +boolean_edit key='has_link' label='has link' direct=true
                     if has_link
@@ -64,6 +68,8 @@ template(name='question_edit')
                     div
                     if description
                         +html_edit key='description' label='description' direct=true
-                    +youtube_edit key='youtube_id' label='youtube id' direct=true
+                    +boolean_edit key='has_youtube' label='has video' direct=true
+                    if has_youtube
+                        +youtube_edit key='youtube_id' label='youtube id' direct=true
                     i.remove.link.circular.big.icon.delete_question(title='delete question')
                     

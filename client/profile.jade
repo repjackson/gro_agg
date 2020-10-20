@@ -58,7 +58,6 @@ template(name='profile')
                             img.ui.mini.inline.circular.invert.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
                         else
                             .ui.circular.label #{initials}
-                +session_edit_value_button key='view_user_section' value='authored_overlap' label='authored overlap' icon='change'
             .twelve.wide.column
                 .spacer
                 // if session_key_value_is 'view_user_section' 'dashboard'
