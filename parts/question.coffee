@@ -104,23 +104,7 @@ if Meteor.isClient
                     
     
 
-    Template.question_card.onRendered ->
-        Meteor.setTimeout ->
-            $('.ui.embed').embed();
-        , 1000
-    Template.question_card.events
-        'click .view_question': ->
-            Router.go "/question/#{@_id}/view"
-
                 
-    Template.questions.onCreated ->
-        @autorun => Meteor.subscribe
-    Template.question_card.events
-        'click .add_tag': ->
-            selected_tags.push @valueOf()
-            Meteor.call 'call_wiki', @valueOf(), ->
-            Meteor.call 'search_ph', selected_tags.array(), ->
-            Meteor.call 'search_reddit', selected_tags.array(), ->
     
 if Meteor.isClient
     Template.question_edit.onCreated ->

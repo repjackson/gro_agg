@@ -2,6 +2,9 @@ template(name='question_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row 
+                .sixteen.wide.column
+                    +text_edit key='title' label='title' input_class='fluid large' direct=true
+            .row 
                 .five.wide.column
                     a.ui.icon.circular.large.button(href="/question/#{_id}/view" title='save' class='invert')
                         i.checkmark.big.icon
@@ -9,26 +12,21 @@ template(name='question_edit')
                         small edit question
                         // |#{title}
                     div
-                    +text_edit key='title' label='title' input_class='fluid' direct=true
-                    .ui.header dependents
-                    each dependents
-                        a.ui.header(href="/question/#{_id}/view") #{title}
-                    // .ui.header #{dependency_ids}
-                    .ui.header dependencies
-                    each dependencies
-                        a.ui.header(href="/question/#{_id}/view") #{title}
-                    // .ui.header #{dependency_ids}
                     +image_edit key='image_id' label='image' direct=true
                     div
-                    +key_value_edit key='question_type' value='boolean' label='boolean' icon='switch-on'
-                    +key_value_edit key='question_type' value='multiple_choice' label='multiple choice'
-                    +key_value_edit key='question_type' value='open' label='open'
+                    +key_value_edit key='question_type' value='boolean' label='boolean' icon='toggle on'
+                    +key_value_edit key='question_type' value='multiple_choice' label='multiple choice' icon='list'
+                    +key_value_edit key='question_type' value='open' label='open' icon='text width'
                     div
                     if key_value_is 'question_type' 'multiple_choice'
                         .ui.dividing.header multiple choice
+                        div
                         +text_edit key='mc_option_1' label='option 1'
+                        div
                         +text_edit key='mc_option_2' label='option 2'
+                        div
                         +text_edit key='mc_option_3' label='option 3'
+                        div
                         +text_edit key='mc_option_4' label='option 4'
                         
                     if key_value_is 'question_type' 'open'
@@ -51,7 +49,9 @@ template(name='question_edit')
                     +boolean_edit key='has_recipient' label='has recipient' direct=true
                     // if has_recipient
                     +single_user_edit key='recipient_id' key2='recipient_username' label='recipient' direct=true
+                    div
                     +number_edit key='point_amount' label='point amount' direct=true
+                    div
                     +boolean_edit key='has_link' label='has link' direct=true
                     if has_link
                         +link_edit key='link' label='link' direct=true
@@ -59,7 +59,9 @@ template(name='question_edit')
                     if has_enddate
                         +date_edit key='date' label='date' direct=true
                     // |tag = -1p
+                    div
                     +smart_tagger
+                    div
                     if description
                         +html_edit key='description' label='description' direct=true
                     +youtube_edit key='youtube_id' label='youtube id' direct=true

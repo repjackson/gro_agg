@@ -498,9 +498,12 @@ template(name='user_string_toggle')
 
 template(name='author_block')
     .ui.segment 
-        img.ui.avatar.invert.image(src=tag_term.watson.metadata.image)    
+        img.ui.avatar.image.refresh_user_stats(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         a.ui.header(href="/u/#{_author.username}") #{_author.username}
-                        
+        .ui.list
+            .item #{total_question_count} questions asked
+            .item #{open_question_count} open questions
+            .item #{total_bounty_offered} total bounty offered
 
 
 template(name='key_value_edit')

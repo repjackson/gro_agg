@@ -37,84 +37,22 @@ template(name='question')
                 //     +text_edit key='answer_choice_two' label='answer choice two' direct=true
     
 
-template(name='question_card')
-    .ui.stackable.grid
-        .four.wide.column
-            a.ui.fluid.rounded.image.pointer(href="/question/#{_id}/view")
-                if watson.metadata.image
-                    img(src=watson.metadata.image class='invert')    
-                else if is_youtube
-                    .ui.embed(data-source="youtube" data-id=youtube_parse class='invert')
-                else if is_image
-                    if url
-                        img(src=url class='invert')    
-            if youtube_id
-                +youtube_view key='youtube_id' direct=true
-            if image_id
-                a.zoom.pointer.image(href="/question/#{_id}/view")
-                    img.ui.rounded.image(src="{{c.url image_id }}" class='invert')
-            if thumbnail
-                a.image(href="/question/#{_id}/view")
-                    img.ui.rounded.image(src=thumbnail class='invert')
-        .twelve.wide.column
-            .content
-                a.ui.header.pointer(href="/question/#{_id}/view" class=question_header_class)
-                    |#{title}
-                .description.f11.smallscroll
-                    if body
-                        |{{nl2br body}}
-                    else if description
-                        |!{description}
-                if domain
-                    .ui.label(title='domain') #{domain}
-                    // if tone
-                    //     +tone
-                    // |!{body}
-                if rd.ups
-                    .ui.label #{rd.ups} ups
-                +autotag
-                +vote
-                // a(href="/question/#{_id}/view")
-                //     i.right.chevron.circular.link.big.icon
-                if is_admin
-                    +print_this
-                +array_edit key='tags' direct=true
-                each tags
-                    a.ui.large.image.zoom.pointer.label.add_tag
-                        if tag_term
-                            img.ui.invert.image(src=tag_term.watson.metadata.image)    
-                    
-                        // i.minus.link.grey.icon.minus_tag(title='pay a point to lessen tag')
-                        | #{this}
-                        // i.plus.link.grey.icon.plus_tag(title='pay a point to promote tag')
-                |#{when}
-                if can_edit 
-                    a.ui.circular.icon.zoom.pointer.button(href="/question/#{_id}/edit")
-                        i.pencil.icon
-                a.ui.icon.zoom.pointer.button(href="/question/#{_id}/view")
-                    i.chevron.right.icon
-                // +call_watson mode='url' key='url'
-                // if watson
-                //     +call_tone mode='url' key='url'
-            
-        // .ui.divider
-    
-
                     
 template(name='question_view')
     with current_doc
         .ui.stackable.padded.grid
             .row 
-                .ten.wide.column
-                    // a.ui.circular.icon.button(href='/')
-                    //     i.big.yin.yang.icon
-                    if title 
+                .sixteen.wide.column
+                    if is_editing
+                        +text_edit key='title' label='title' input_class='fluid large' direct=true
+                    else
                         .ui.header(class=question_header_class) #{title}
+            .row 
+                .eight.wide.column
                     .scrollin
                         if url 
                             a(href=url target='_window') #{url}
                             img.ui.image(src=url class='invert')    
-                            
                         if image_id
                             a(href="{{c.url image_id }}" target='_window')
                                 img.ui.rounded.image(src="{{c.url image_id gravity='face' crop='fit'}}" class='invert')
@@ -122,7 +60,6 @@ template(name='question_view')
                             +youtube_view key='youtube_id' direct=true
                         .f12
                             |!{description}
-                        +viewing
                     +comments
                     .ui.button.add_answer
                         i.plus.icon 
@@ -137,22 +74,32 @@ template(name='question_view')
                             .ui.label 
                                 i.user.outline.icon
                                 |#{_author.username}
-                .six.wide.column
+                .four.wide.column
                     .ui.header question type: #{question_type}
                     if can_edit
                         a.ui.circular.icon.big.button.edit_question(href="/question/#{_id}/edit")
                             i.large.pencil.icon
                     +vote
                     div
-                    .ui.inline.header 
+                .four.wide.column
+                    .ui.segment
+                        .ui.header 
+                            i.fork.icon
+                            |dependencies
+                        .ui.button.add_dependency
+                            i.plus.icon
+                            |add dependency
+                        each dependencies
+                            a.ui.header(href="/question/#{_id}/view") #{title}
+                    .ui.segment
+                        .ui.header 
+                            i.sitemap.icon
+                            |dependents
+                        each dependents
+                            a.ui.header(href="/question/#{_id}/view") #{title}
+                    .ui.button.connect_existing
                         i.fork.icon
-                        |dependencies
-                    .ui.button.add_dependency
-                        i.plus.icon
-                        |add dependency
-                    // .ui.button.connect_existing
-                    //     i.fork.icon
-                    //     |connect existing
+                        |connect existing
                     div
                     .ui.selection.link.large.list
                         each dependencies
@@ -175,5 +122,6 @@ template(name='question_view')
                     if dev
                         +print_this
                     +author_block
+                    +viewing
                     
                     

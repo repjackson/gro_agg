@@ -6,40 +6,13 @@ template(name='nav')
             a.icon.item.zoom.pointer(href='/' class="{{isActivePath '/'}}")
                 i.big.link.yin.yang.grey.icon
         if currentUser
-            // if connected
-                // a.icon.item.pointer.set_root(href="/m/model" class="{{isActivePath '/m/model'}}")
-                //     i.large.database.icon
-                // if is_admin
-                    // .item.pointer
-                    //     .ui.green.header not connected
-                // .icon.item.pointer
-                //     i.wikipedia.large.icon
-                // .icon.item.pointer
-                //     i.reddit.large.icon
-                // .icon.item.pointer
-                //     i.video.large.icon
-                // a.icon.item.pointer(href="/rentals")
-                //     i.bitcoin.large.icon
-                // a.icon.item.pointer(href="/rentals")
-                //     i.biohazard.large.icon
-                // a.icon.item.pointer(href="/rentals")
-                //     i.clock.large.icon
-                // a.icon.item.pointer(href="/shop")
-                //     i.store.large.icon
-                // a.icon.item.pointer(href="/tribes")
-                //     i.fire.large.icon
-                // a.icon.item.pointer(href="/mail")
-                //     i.envelope.grey.large.icon
-                // if currentUser.nsfw_enabled
-                //     a.icon.item.zoom.pointer(href="/ph")
-                //         i.exclamation.large.icon
             unless connected
                 .item.pointer
                     i.yin.yang.loading.big.grey.icon
                     +status    
         .right.menu
             if connected
-                a.icon.pointer.item.post(title='add')
+                a.icon.pointer.item.add(title='add')
                     i.large.plus.icon
             // if currentUser
             //     if connected

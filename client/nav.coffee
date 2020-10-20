@@ -11,11 +11,11 @@ Template.nav.onRendered ->
     , 2000
 
 Template.nav.events
-#     'click .logout': ->
-#         Session.set 'logging_out', true
-#         Meteor.logout ->
-#             Session.set 'logging_out', false
-#             Router.go '/login'
+    #     'click .logout': ->
+    #         Session.set 'logging_out', true
+    #         Meteor.logout ->
+    #             Session.set 'logging_out', false
+    #             Router.go '/login'
     
     'click .toggle_nightmode': ->
         if Meteor.user().invert_class is 'invert'
@@ -38,14 +38,11 @@ Template.nav.events
     'click .home': -> Router.go '/'
     'click .reconnect': -> Meteor.reconnect()
 
-    'click .post': ->
-        new_post_id =
+    'click .add': ->
+        new_question_id =
             Docs.insert
-                model:'post'
-                source:'self'
-                # buyer_id:Meteor.userId()
-                # buyer_username:Meteor.user().username
-        Router.go "/m/post/#{new_post_id}/edit"
+                model:'question'
+        Router.go "/question/#{new_question_id}/edit"
 
 
 
