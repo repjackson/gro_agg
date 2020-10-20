@@ -37,6 +37,10 @@ Docs.helpers
     seven_tags: ->
         if @tags
             @tags[..7]
+    question_bounties: ->
+        Docs.find 
+            model:'bounty'
+            question_id:@_id
     upvoters: ->
         if @upvoter_ids
             upvoters = []

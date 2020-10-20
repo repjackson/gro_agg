@@ -219,10 +219,6 @@ Template.registerHelper 'nl2br', (text)->
     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
     new Spacebars.SafeString(nl2br)
 
-
-
-
-Template.registerHelper 'dev', -> Meteor.isDevelopment
 Template.registerHelper 'fixed', (number)->
     # console.log number
     number.toFixed(2)
@@ -261,8 +257,8 @@ Template.registerHelper 'session_is', (key)->
 
 Template.registerHelper 'is_loading', -> Session.get 'loading'
 Template.registerHelper 'long_time', (input)-> 
-        console.log 'long time', input
-        moment(input).format("h:mm a")
+    console.log 'long time', input
+    moment(input).format("h:mm a")
 Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM Do h:mm a")
 Template.registerHelper 'home_long_date', (input)-> moment(input).format("dd MMM D h:mma")
 Template.registerHelper 'short_date', (input)-> moment(input).format("dddd, MMMM Do")
@@ -278,12 +274,6 @@ Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
 Template.registerHelper 'current_month', ()-> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', ()-> moment(Date.now()).format("DD")
 
-
-Template.registerHelper 'loading_class', ()->
-    if Session.get 'loading' then 'disabled' else ''
-
-
-Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
 
 Template.registerHelper 'is_eric', ()-> if Meteor.userId() and Meteor.userId() in ['vwCi2GTJgvBJN5F6c'] then true else false
 Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()

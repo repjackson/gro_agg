@@ -24,6 +24,11 @@ Meteor.publish 'question_answers', (question_id)->
         model:'answer'
         question_id:question_id
         
+Meteor.publish 'question_bounties', (question_id)->
+    Docs.find 
+        model:'bounty'
+        question_id:question_id
+        
 Meteor.publish 'all_questions', (question_id)->
     Docs.find 
         model:'question'

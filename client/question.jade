@@ -52,8 +52,8 @@ template(name='question_view')
                             |bounties
                         .ui.circular.icon.button.add_bounty(title='add bounty')
                             i.plus.icon
-                        each bounties
-                            .ui.header #{amount}
+                        each question_bounties
+                            +question_bounty
                 .four.wide.column
                     .ui.segment
                         .ui.grey.header 
@@ -95,3 +95,11 @@ template(name='question_view')
                     +viewing
                     
                     
+                    
+template(name='question_bounty')
+    .ui.segment
+        .ui.header #{amount}
+        if can_edit
+            +session_boolean_toggle key='editing_mode' label='edit'
+        if session_is 'editing_mode'
+            +number_edit key='amount' direct=true

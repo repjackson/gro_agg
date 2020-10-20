@@ -1,11 +1,13 @@
 Template.question_view.onCreated ->
     @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
     @autorun -> Meteor.subscribe 'question_answers', Router.current().params.doc_id
+    @autorun -> Meteor.subscribe 'question_bounties', Router.current().params.doc_id
     @autorun -> Meteor.subscribe 'all_questions'
 
 Template.question_edit.onCreated ->
     @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
     @autorun -> Meteor.subscribe 'question_answers', Router.current().params.doc_id
+    @autorun -> Meteor.subscribe 'question_bounties', Router.current().params.doc_id
     @autorun -> Meteor.subscribe 'all_questions'
 
 Template.question_edit.onRendered ->
@@ -38,17 +40,26 @@ Template.question_view.events
     'click .add_answer': ->
         new_id = Docs.insert 
             model:'answer'
-            question_id:Router.current().params.doc_id
+            question_id:@_id
             published:false
         Session.set('editing_answer_id', new_id)    
             
     'click .add_dependency': ->
         new_id = Docs.insert 
             model:'question'
-            dependency_ids:[Router.current().params.doc_id]
+            dependency_ids:[@_id]
             published:false
         Router.go "/question/#{new_id}/edit"
         Session.set('editing_answer_id', new_id)    
+            
+            
+    'click .add_bounty': ->
+        new_id = Docs.insert 
+            model:'bounty'
+            question_id:@_id
+            published:false
+        # Router.go "/bounty/#{new_id}/edit"
+        # Session.set('editing_answer_id', new_id)    
             
             
 
