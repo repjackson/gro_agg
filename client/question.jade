@@ -1,5 +1,9 @@
 template(name='question')
     .ui.card
+        if image_id
+            img.ui.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        else if image_url
+            img.ui.image(src=image_url class=currentUser.invert_class)
         .content
             a.ui.header.select_question(href="/question/#{_id}/view") #{title}
             .ui.list 
@@ -83,41 +87,38 @@ template(name='question_view')
                     div
                 .four.wide.column
                     .ui.segment
-                        .ui.header 
+                        .ui.grey.header 
                             i.fork.icon
                             |dependencies
                         .ui.button.add_dependency
                             i.plus.icon
                             |add dependency
-                        each dependencies
-                            a.ui.header(href="/question/#{_id}/view") #{title}
+                        .ui.selection.link.large.list
+                            each dependencies
+                                a.item(href="/question/#{_id}/view") #{title}
                     .ui.segment
-                        .ui.header 
+                        .ui.inline.grey.header 
                             i.sitemap.icon
+                            |#{dependents.length}
                             |dependents
-                        each dependents
-                            a.ui.header(href="/question/#{_id}/view") #{title}
-                    .ui.button.connect_existing
-                        i.fork.icon
-                        |connect existing
+                        .ui.icon.circular.button.add_dependent
+                            i.plus.icon
+                        .ui.selection.link.large.list
+                            each dependents
+                                a.item(href="/question/#{_id}/view") #{title}
+                        // .ui.button.connect_existing
+                        //     i.fork.icon
+                        //     |connect existing
+                        // div
+                        div
+                    .ui.inline.small.grey.header 
+                        i.grey.clock.icon
+                        |#{when}
                     div
-                    .ui.selection.link.large.list
-                        each dependencies
-                            a.item(href="/question/#{_id}/view") #{title}
-                    div
-                    .ui.inline.header 
-                        i.fork.icon
-                        |#{dependents.length}
-                        |dependants
-                    .ui.icon.button.add_dependent
-                        i.plus.icon
-                    div
-                    .ui.selection.link.large.list
-                        each dependents
-                            a.item(href="/question/#{_id}/view") #{title}
-                    .ui.inline.small.grey.header #{when}
                     .ui.label #{views} views
+                    div
                     |#{tags.length}
+                    i.tag.icon
                     +array_view key='tags' direct=true
                     if dev
                         +print_this
