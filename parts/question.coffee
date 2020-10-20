@@ -2,6 +2,12 @@ if Meteor.isClient
     Template.question_view.onCreated ->
         @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun -> Meteor.subscribe 'question_answers', Router.current().params.doc_id
+        @autorun -> Meteor.subscribe 'all_questions'
+  
+    Template.question_edit.onCreated ->
+        @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun -> Meteor.subscribe 'question_answers', Router.current().params.doc_id
+        @autorun -> Meteor.subscribe 'all_questions'
   
     Template.question_edit.onRendered ->
         # Meteor.setTimeout ->
@@ -17,16 +23,18 @@ if Meteor.isClient
         #     $('.ui.embed').embed();
         # , 1000
         # Meteor.call 'mark_read', Router.current().params.doc_id, ->
+    Template.question_edit.helpers
+        subtotal: -> @bounties_available*@points_per_answer
     Template.question_view.helpers
         question_answers: ->
             Docs.find 
                 model:'answer'
                 question_id:Router.current().params.doc_id
-        dependencies: ->
-            Docs.find 
-                model:'question'
-                dependency_ids:$in:[Router.current().params.doc_id]
-                question_id:Router.current().params.doc_id
+        # dependencies: ->
+        #     Docs.find 
+        #         model:'question'
+        #         dependency_ids:$in:[Router.current().params.doc_id]
+        #         question_id:Router.current().params.doc_id
     Template.question_view.events
         'click .add_answer': ->
             new_id = Docs.insert 
@@ -149,3 +157,10 @@ if Meteor.isServer
         Docs.find 
             model:'answer'
             question_id:question_id
+            
+    Meteor.publish 'all_questions', (question_id)->
+        Docs.find 
+            model:'question'
+            # question_id:question_id
+            
+            

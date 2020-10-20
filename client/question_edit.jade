@@ -1,0 +1,45 @@
+template(name='question_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row 
+                .five.wide.column
+                    a.ui.icon.circular.large.button(href="/question/#{_id}/view" title='save' class='invert')
+                        i.checkmark.big.icon
+                    .ui.inline.large.header 
+                        small edit question
+                        // |#{title}
+                    div
+                    +text_edit key='title' label='title' direct=true
+                    .ui.header dependents
+                    each dependents
+                        a.ui.header(href="/question/#{_id}/view") #{title}
+                    // .ui.header #{dependency_ids}
+                    .ui.header dependencies
+                    each dependencies
+                        a.ui.header(href="/question/#{_id}/view") #{title}
+                    // .ui.header #{dependency_ids}
+                    +image_edit key='image_id' label='image' direct=true
+                    div
+                .six.wide.column
+                    // +link_edit key='link' label='link' direct=true
+                    // +date_edit key='date' label='date' direct=true
+                    +number_edit key='bounty_total' label='total bounty' direct=true
+                    div
+                    +number_edit key='points_per_answer' label='points per answer' direct=true
+                    div
+                    +number_edit key='bounties_available' label='bounties available' direct=true
+                    .ui.header subtotal = points/answer*bounties = #{subtotal}pts
+                    div
+                    +boolean_edit key='has_recipient' label='has recipient' direct=true
+                    // if has_recipient
+                    +single_user_edit key='recipient_id' key2='recipient_username' label='recipient' direct=true
+                    +number_edit key='point_amount' label='point amount' direct=true
+                .five.wide.column
+                    |tag = -1p
+                    +smart_tagger
+                    +textarea_edit key='body' label='body' direct=true
+                    if description
+                        +html_edit key='description' label='description' direct=true
+                    +youtube_edit key='youtube_id' label='youtube id' direct=true
+                    i.remove.link.circular.big.icon.delete_question(title='delete question')
+                    

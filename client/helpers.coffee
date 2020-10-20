@@ -34,6 +34,19 @@ Template.registerHelper 'enabled_features', () ->
         model:'feature'
         _id:@enabled_feature_ids
     
+Template.registerHelper 'dependencies', () ->
+    # console.log @
+    Docs.find
+        model:'question'
+        _id:$in:@dependency_ids
+    
+    
+Template.registerHelper 'dependents', () ->
+    # console.log @
+    Docs.find
+        model:'question'
+        dependency_ids:$in:[@_id]
+    
     
 Template.registerHelper 'user_from_id', (user_id) ->
     # console.log @

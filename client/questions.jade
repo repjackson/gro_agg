@@ -21,8 +21,9 @@ template(name='questions')
                 |your answers
             
         .twelve.wide.column
-            each questions
-                +question
+            .ui.cards
+                each questions
+                    +question
                 
         
 template(name='session_key_value_edit')    
@@ -33,122 +34,3 @@ template(name='session_key_value_edit')
 //     .ui.button.set_key_value
 //         |#{label}
                         
-
-// template(name='old_home')
-//     // iframe(frameborder="0" width="400" height="200" src="https://drive.google.com/file/d/1_encX_RKyZhOU26r7_cNTtl0rLvEQSai/preview")
-//     // i.large.yin.yang.icon(class=home_button_class)
-//     .ui.stackable.grid
-//         .four.wide.column
-//             // +session_boolean_toggle key='view_authors' label='authors' icon='user outline'
-//             // if session_is 'view_authors'
-//             // div
-//             .ui.inline.header
-//                 i.large.user.outline.icon
-//                 |author
-//             if selected_authors
-//                 a#clear_authors.ui.black.icon.compact.large.circular.button.select_term
-//                     i.remove.icon
-//                 each selected_authors
-//                     a.unselect_author.ui.black.compact.large.circular.button.select_termn
-//                         strong #{this}
-                
-//             each author_results
-//                 a.ui.large.compact.circular.button.select_author.select_term(href='#')
-//                     strong #{name}
-//             // div
-//             // +session_boolean_toggle key='view_upvoters' label='upvoters' icon='thumbs up outline'
-//             // if session_is 'view_upvoters'
-//             .ui.inline.header
-//                 i.large.thumbs.up.outline.icon
-//                 |upvoters
-//             if selected_upvoters
-//                 a#clear_upvoters.ui.black.icon.compact.large.circular.button.select_term
-//                     i.remove.icon
-//                 each selected_upvoters
-//                     a.unselect_upvoter.ui.black.compact.large.circular.button.select_termn
-//                         strong #{this}
-                
-//             each upvoter_results
-//                 a.ui.large.compact.circular.button.select_upvoter.select_term(href='#')
-//                     strong #{name}
-//             // .spacer
-//             // div
-//             // +session_boolean_toggle key='view_sources' label='sources' icon='database'
-//             // if session_is 'view_sources'
-//             //     // .ui.inline.header
-//             //     //     i.large.thumbs.up.outline.icon
-//             //     //     |sources
-//             //     if selected_sources
-//             //         a#clear_sources.ui.black.icon.compact.large.circular.button.select_term
-//             //             i.remove.icon
-//             //         each selected_sources
-//             //             a.unselect_source.ui.black.compact.large.circular.button.select_termn
-//             //                 strong #{this}
-                    
-//             //     each source_results
-//             //         a.ui.large.compact.circular.button.select_source.select_term(href='#')
-//             //             strong #{name}
-                
-//         .twelve.wide.column
-//             if selected_tags
-//                 if many_tags
-//                     a#clear_tags.ui.black.icon.compact.circular.button.select_term
-//                         i.remove.icon
-//                 each selected_tags
-//                     +unselect_tag
-//             .ui.left.icon.large.input 
-//                 i.search.icon
-//                 input.search_title(type='text' autofocus='')
-//             each tag_results
-//                 +tag_selector
-//             .spacer
-//             .scrolling
-//                 // if two_posts
-//                 //     .ui.stackable.two.cards
-//                 //         each docs
-//                 //             +one_post_view
-//                 // else if one_post
-//                 //     .ui.stackable.cards
-//                 //         each docs
-//                 //             +one_post_view
-//                 // else
-//                 each docs
-//                     if key_value_is 'model' 'porn'
-//                         +vid_card
-//                     else if key_value_is 'model' 'reddit'
-//                         +reddit_card
-//                     else
-//                         +post_card
-//                     .ui.divider
-                // .ui.stackable.cards
-
-
-// template(name='unselect_tag')
-//     a.unselect_tag.ui.black.big.image.zoom.pointer.label.select_termn
-//         if term
-//             img.ui.avatar.compact.image(src=term.watson.metadata.image class=currentUser.invert_class)    
-//         | #{this}
-
-// template(name='tag_selector')
-//     a.ui.big.image.zoom.pointer.label.select_tag.select_term(href='#')
-//         // img.ui.avatar.compact.image(src="{{c.url term.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-//         // img.ui.avatar.compact.image(src=term.rd.thumbnail class=currentUser.invert_class)
-//         if term
-//             img.ui.avatar.compact.image(src=term.watson.metadata.image class=currentUser.invert_class)    
-//         | #{name}
-
-
-            
-// template(name='sort_button')
-//     .ui.button.toggle_sort(class=sort_button_class)
-//         if icon 
-//             i.icon(class=icon)
-//         |#{label}
-//         if is_selected
-//             if sorting_up
-//                 i.chevron.up.icon
-//             else
-//                 i.chevron.down.icon
-
-
-
