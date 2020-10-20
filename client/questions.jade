@@ -1,8 +1,7 @@
 template(name='questions')
     .ui.grid
         .four.wide.column
-            .ui.inline.header questions
-            .ui.icon.input
+            .ui.icon.fluid.input
                 i.search.icon
                 input.search_questions(type='text' placeholder='search questions')
             // .ui.icon.input
@@ -20,25 +19,27 @@ template(name='questions')
                 input.search_title(type='text' autofocus='')
             each tag_results
                 +tag_selector
-            
             +session_boolean_toggle key='view_open' label='view open'
             +session_boolean_toggle key='view_your_questions' label='your questions'
             +session_boolean_toggle key='view_your_answers' label='your answers'
-            .ui.button.view_open
-                |view open
-            .ui.button.view_your_questions
-                |your questions
-            .ui.button.view_your_answers
-                |your answers
-            
+        
         .twelve.wide.column
+            |limit
+            +session_key_value_edit key='limit' value=1 label='1'
+            +session_key_value_edit key='limit' value=10 label='10'
+            |sort
+            +session_key_value_edit key='sort_key' value='_timestamp' label='when'
+            +session_key_value_edit key='sort_key' value='bounty' label='bounty'
+            +session_key_value_edit key='sort_direction' value=-1 label='up'
+            +session_key_value_edit key='sort_direction' value=1 label='down'
+            |view
             +session_key_value_edit key='view_mode' value='cards' label='cards' icon='clone'
             +session_key_value_edit key='view_mode' value='list' label='list' icon='list'
             .spacer
             if session_key_value_is 'view_mode' 'list'
-                .ui.list 
+                .ui.large.link.list 
                     each questions 
-                        .item #{title}
+                        a.item(href="/question/#{_id}/view") #{title}
             else
                 .ui.cards
                     each questions

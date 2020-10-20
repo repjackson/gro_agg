@@ -52,31 +52,6 @@ if Meteor.isClient
             Session.set('editing_answer_id', new_id)    
                 
                 
-    Template.questions.onCreated ->
-        Session.setDefault('query','')
-        # @autorun -> Meteor.subscribe('me')
-        # @autorun -> Meteor.subscribe('dtags',
-        #     # Session.get('query')
-        #     selected_tags.array()
-        #     )
-        # @autorun -> Meteor.subscribe('docs',
-        #     selected_tags.array()
-        #     # Session.get('query')
-        #     )
-        @autorun -> Meteor.subscribe('questions',
-            Session.get('query')
-            Session.get('view_open')
-            Session.get('view_your_questions')
-            Session.get('view_your_answers')
-            # selected_tags.array()
-            )
-    
-                
-    Template.questions.helpers
-        questions: -> 
-            Docs.find 
-                model:'question'
-        
     
     Template.question.helpers
         vote_true_class: ->

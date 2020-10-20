@@ -8,6 +8,37 @@
 #         .transition('fade in', 200)
 #         # unless Meteor.user().invert_class is 'invert'
 
+
+Template.questions.onCreated ->
+    Session.setDefault('query','')
+    # @autorun -> Meteor.subscribe('me')
+    # @autorun -> Meteor.subscribe('dtags',
+    #     # Session.get('query')
+    #     selected_tags.array()
+    #     )
+    # @autorun -> Meteor.subscribe('docs',
+    #     selected_tags.array()
+    #     # Session.get('query')
+    #     )
+    @autorun -> Meteor.subscribe('questions',
+        Session.get('query')
+        Session.get('view_open')
+        Session.get('view_your_questions')
+        Session.get('view_your_answers')
+        # selected_tags.array()
+        )
+
+            
+Template.questions.helpers
+    questions: -> 
+        Docs.find {
+            model:'question'
+        }, 
+            limit:Session.get('limit')
+            sort:
+                "#{Session.get('sort_key')}":Session.get('sort_direction')
+
+
 Router.route '/', (->
     @layout 'layout'
     @render 'questions'
@@ -91,15 +122,6 @@ Template.questions.events
     # 'click .delete': -> 
     #     console.log @
     #     Docs.remove @_id
-    'click .post': ->
-        new_post_id =
-            Docs.insert
-                model:'post'
-                source:'self'
-                # buyer_id:Meteor.userId()
-                # buyer_username:Meteor.user().username
-                
-        Router.go "/post/#{new_post_id}/edit"
 
     'keydown .search_questions': (e,t)->
         search = $('.search_questions').val().toLowerCase().trim()
@@ -149,9 +171,6 @@ Template.questions.events
             console.log search
             selected_tags.push search
             # if Meteor.user()
-            # Meteor.call 'search_ph', selected_tags.array(), ->
-            Meteor.call 'call_wiki', search, ->
-            Meteor.call 'search_reddit', selected_tags.array(), ->
             Session.set('query','')
             search = $('.search_title').val('')
         # if e.which is 8
