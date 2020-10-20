@@ -13,14 +13,19 @@ if Meteor.isClient
         # Meteor.setTimeout ->
         #     $('.ui.accordion').accordion()
         # , 2000
-        Meteor.setTimeout ->
-            $('.ui.embed').embed();
-        , 1000
+        # Meteor.setTimeout ->
+        #     $('.ui.embed').embed();
+        # , 1000
         # Meteor.call 'mark_read', Router.current().params.doc_id, ->
     Template.question_view.helpers
         question_answers: ->
             Docs.find 
                 model:'answer'
+                question_id:Router.current().params.doc_id
+        dependencies: ->
+            Docs.find 
+                model:'question'
+                dependency_ids:$in:[Router.current().params.doc_id]
                 question_id:Router.current().params.doc_id
     Template.question_view.events
         'click .add_answer': ->
@@ -28,6 +33,14 @@ if Meteor.isClient
                 model:'answer'
                 question_id:Router.current().params.doc_id
                 published:false
+            Session.set('editing_answer_id', new_id)    
+                
+        'click .add_dependency': ->
+            new_id = Docs.insert 
+                model:'question'
+                dependency_ids:[Router.current().params.doc_id]
+                published:false
+            Router.go "/question/#{new_id}/edit"
             Session.set('editing_answer_id', new_id)    
                 
                 

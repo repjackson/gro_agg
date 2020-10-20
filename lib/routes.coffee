@@ -71,3 +71,10 @@ Router.route '/forgot_password', -> @render 'forgot_password'
 Router.route '/reset_password/:token', (->
     @render 'reset_password'
     ), name:'reset_password'
+
+Router.route '/question/:doc_id/view', (->
+    @render 'question_view'
+    ), name:'question_view'
+Router.route '/question/:doc_id/edit', (->
+    @render 'question_edit'
+    ), name:'question_edit'

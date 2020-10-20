@@ -58,102 +58,102 @@ template(name='profile')
                             img.ui.mini.inline.circular.invert.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
                         else
                             .ui.circular.label #{initials}
-                +session_edit_value_button key='view_user_section' value='dashboard' label='dashboard' icon='dashboard'
-                +session_edit_value_button key='view_user_section' value='about' label='about' icon='info'
-                +session_edit_value_button key='view_user_section' value='badges' label='badges' icon='certificate'
-                +session_edit_value_button key='view_user_section' value='services' label='services' icon='wrench'
-                +session_edit_value_button key='view_user_section' value='projects' label='projects' icon='tasks'
-                +session_edit_value_button key='view_user_section' value='chat' label='chat' icon='chat'
-                +session_edit_value_button key='view_user_section' value='finance' label='finance' icon='money'
-                +session_edit_value_button key='view_user_section' value='rentals' label='rentals' icon='clock'
-                +session_edit_value_button key='view_user_section' value='posts' label='posts' icon='blog'
-                +session_edit_value_button key='view_user_section' value='leads' label='leads' icon='phone'
-                +session_edit_value_button key='view_user_section' value='privacy' label='privacy' icon='privacy'
-                +session_edit_value_button key='view_user_section' value='tribes' label='tribes' icon='campfire'
-                +session_edit_value_button key='view_user_section' value='cloud_comparison' label='cloud comparison' icon='exchange'
-                +session_edit_value_button key='view_user_section' value='membership' label='membership' icon='shield'
+                // +session_edit_value_button key='view_user_section' value='dashboard' label='dashboard' icon='dashboard'
+                // +session_edit_value_button key='view_user_section' value='about' label='about' icon='info'
+                // +session_edit_value_button key='view_user_section' value='badges' label='badges' icon='certificate'
+                // +session_edit_value_button key='view_user_section' value='services' label='services' icon='wrench'
+                // +session_edit_value_button key='view_user_section' value='projects' label='projects' icon='tasks'
+                // +session_edit_value_button key='view_user_section' value='chat' label='chat' icon='chat'
+                // +session_edit_value_button key='view_user_section' value='finance' label='finance' icon='money'
+                // +session_edit_value_button key='view_user_section' value='rentals' label='rentals' icon='clock'
+                // +session_edit_value_button key='view_user_section' value='posts' label='posts' icon='blog'
+                // +session_edit_value_button key='view_user_section' value='leads' label='leads' icon='phone'
+                // +session_edit_value_button key='view_user_section' value='privacy' label='privacy' icon='privacy'
+                // +session_edit_value_button key='view_user_section' value='tribes' label='tribes' icon='campfire'
+                // +session_edit_value_button key='view_user_section' value='cloud_comparison' label='cloud comparison' icon='exchange'
+                // +session_edit_value_button key='view_user_section' value='membership' label='membership' icon='shield'
 
                 +session_edit_value_button key='view_user_section' value='authored_overlap' label='authored overlap' icon='change'
             .twelve.wide.column
-                .ui.menu
-                    .item info
-                    .item stats
-                    .item chat
+                // .ui.menu
+                //     .item info
+                //     .item stats
+                //     .item chat
                 .spacer
-                if session_key_value_is 'view_user_section' 'dashboard'
-                    +user_dashboard
-                if session_key_value_is 'view_user_section' 'info'
-                    +user_info
-                    +user_about
-                    if editing_mode
-                        +account
-                if session_key_value_is 'view_user_section' 'posts'
-                    .ui.header 
-                        i.newspaper.icon
-                        |posts
-                    .ui.link.large.list.medscroll
-                        each posts
-                            a.item(href="/m/post/#{_id}/view") #{title}
+                // if session_key_value_is 'view_user_section' 'dashboard'
+                +user_dashboard
+                // if session_key_value_is 'view_user_section' 'info'
+                //     +user_info
+                //     +user_about
+                //     if editing_mode
+                //         +account
+                // if session_key_value_is 'view_user_section' 'posts'
+                //     .ui.header 
+                //         i.newspaper.icon
+                //         |posts
+                //     .ui.link.large.list.medscroll
+                //         each posts
+                //             a.item(href="/m/post/#{_id}/view") #{title}
 
-                if session_key_value_is 'view_user_section' 'finance'
-                    .ui.header finance
-                if session_key_value_is 'view_user_section' 'cloud_comparison'
-                    +cloud_comparison
-                if session_key_value_is 'view_user_section' 'badges'
-                    +user_badges
-                if session_key_value_is 'view_user_section' 'tribes'
-                    +user_friends
-                if session_key_value_is 'view_user_section' 'privacy'
-                    +alerts
-                    if editing_mode
-                        +account
-                        +edit_privacy
-                if session_key_value_is 'view_user_section' 'authored_overlap'
-                    +authored_overlap
-                if session_key_value_is 'view_user_section' 'membership'
-                    +membership
-                if session_key_value_is 'view_user_section' 'rentals'
-                    +user_rentals
-                if session_key_value_is 'view_user_section' 'kin'
-                    |karma in
-                    a.ui.inline.header(href="/u/#{username}/credits")
-                        i.chevron.down.large.icon
-                        |#{credit_count} credits
-                    | (#{total_credit_amount}p)
-                    .ui.label #{total_credit_amount}p total received
-                    // |received
-                    .ui.label(title='received count') #{credit_count} total gifts 
-                    .ui.label(title='rank') #{global_credit_count_rank} count rank
+                // if session_key_value_is 'view_user_section' 'finance'
+                //     .ui.header finance
+                // if session_key_value_is 'view_user_section' 'cloud_comparison'
+                //     +cloud_comparison
+                // if session_key_value_is 'view_user_section' 'badges'
+                //     +user_badges
+                // if session_key_value_is 'view_user_section' 'tribes'
+                //     +user_friends
+                // if session_key_value_is 'view_user_section' 'privacy'
+                //     +alerts
+                //     if editing_mode
+                //         +account
+                //         +edit_privacy
+                // if session_key_value_is 'view_user_section' 'authored_overlap'
+                //     +authored_overlap
+                // if session_key_value_is 'view_user_section' 'membership'
+                //     +membership
+                // if session_key_value_is 'view_user_section' 'rentals'
+                //     +user_rentals
+                // if session_key_value_is 'view_user_section' 'kin'
+                //     |karma in
+                //     a.ui.inline.header(href="/u/#{username}/credits")
+                //         i.chevron.down.large.icon
+                //         |#{credit_count} credits
+                //     | (#{total_credit_amount}p)
+                //     .ui.label #{total_credit_amount}p total received
+                //     // |received
+                //     .ui.label(title='received count') #{credit_count} total gifts 
+                //     .ui.label(title='rank') #{global_credit_count_rank} count rank
                         
-                    i.tags.icon(title='credit tags')
-                    each credit_tags
-                        .ui.circular.label #{title}
-                            | #{count}
-                        #{count}
-                    scroll.ui.segments
-                      each user_credits
-                            +user_credit_segment
-                if session_key_value_is 'view_user_section' 'kout'
-                    +user_kout
-                    .ui.inline.header
-                        |karma out
-                    a.ui.inline.spaced.header(href="/u/#{username}/kout")
-                        i.chevron.up.icon
-                        |#{debit_count}k out
-                        |(#{total_debit_amount}p)
-                        .ui.label #{total_debit_amount}p total sent
-                        .ui.label(title='debit count') #{debit_count} gifts sent
-                        .ui.label(title='rank') #{global_debit_count_rank} gift sent rank
+                //     i.tags.icon(title='credit tags')
+                //     each credit_tags
+                //         .ui.circular.label #{title}
+                //             | #{count}
+                //         #{count}
+                //     scroll.ui.segments
+                //       each user_credits
+                //             +user_credit_segment
+                // if session_key_value_is 'view_user_section' 'kout'
+                //     +user_kout
+                //     .ui.inline.header
+                //         |karma out
+                //     a.ui.inline.spaced.header(href="/u/#{username}/kout")
+                //         i.chevron.up.icon
+                //         |#{debit_count}k out
+                //         |(#{total_debit_amount}p)
+                //         .ui.label #{total_debit_amount}p total sent
+                //         .ui.label(title='debit count') #{debit_count} gifts sent
+                //         .ui.label(title='rank') #{global_debit_count_rank} gift sent rank
                             
-                        i.tags.icon(title='credit tags')
-                        each debit_tags
-                            .ui.label #{title}
-                                |#{count}
-                        .ui.label(title='rank') ##{global_debit_count_rank}
-                if session_key_value_is 'view_user_section' 'topups'
-                    .ui.inline.header
-                        +i name='request-money'
-                        |topups
+                //         i.tags.icon(title='credit tags')
+                //         each debit_tags
+                //             .ui.label #{title}
+                //                 |#{count}
+                //         .ui.label(title='rank') ##{global_debit_count_rank}
+                // if session_key_value_is 'view_user_section' 'topups'
+                //     .ui.inline.header
+                //         +i name='request-money'
+                //         |topups
               
 
 

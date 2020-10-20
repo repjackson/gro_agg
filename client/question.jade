@@ -1,6 +1,6 @@
 template(name='question')
     .ui.segment
-        a.ui.header.select_question(href="/m/question/#{_id}/view") #{title}
+        a.ui.header.select_question(href="/question/#{_id}/view") #{title}
         .ui.list 
             .item #{views} views
             .item 
@@ -39,7 +39,7 @@ template(name='question')
 template(name='question_card')
     .ui.stackable.grid
         .four.wide.column
-            a.ui.fluid.rounded.image.pointer(href="/m/question/#{_id}/view")
+            a.ui.fluid.rounded.image.pointer(href="/question/#{_id}/view")
                 if watson.metadata.image
                     img(src=watson.metadata.image class='invert')    
                 else if is_youtube
@@ -50,14 +50,14 @@ template(name='question_card')
             if youtube_id
                 +youtube_view key='youtube_id' direct=true
             if image_id
-                a.zoom.pointer.image(href="/m/question/#{_id}/view")
+                a.zoom.pointer.image(href="/question/#{_id}/view")
                     img.ui.rounded.image(src="{{c.url image_id }}" class='invert')
             if thumbnail
-                a.image(href="/m/question/#{_id}/view")
+                a.image(href="/question/#{_id}/view")
                     img.ui.rounded.image(src=thumbnail class='invert')
         .twelve.wide.column
             .content
-                a.ui.header.pointer(href="/m/question/#{_id}/view" class=question_header_class)
+                a.ui.header.pointer(href="/question/#{_id}/view" class=question_header_class)
                     |#{title}
                 .description.f11.smallscroll
                     if body
@@ -73,7 +73,7 @@ template(name='question_card')
                     .ui.label #{rd.ups} ups
                 +autotag
                 +vote
-                // a(href="/m/question/#{_id}/view")
+                // a(href="/question/#{_id}/view")
                 //     i.right.chevron.circular.link.big.icon
                 if is_admin
                     +print_this
@@ -88,9 +88,9 @@ template(name='question_card')
                         // i.plus.link.grey.icon.plus_tag(title='pay a point to promote tag')
                 |#{when}
                 if can_edit 
-                    a.ui.circular.icon.zoom.pointer.button(href="/m/question/#{_id}/edit")
+                    a.ui.circular.icon.zoom.pointer.button(href="/question/#{_id}/edit")
                         i.pencil.icon
-                a.ui.icon.zoom.pointer.button(href="/m/question/#{_id}/view")
+                a.ui.icon.zoom.pointer.button(href="/question/#{_id}/view")
                     i.chevron.right.icon
                 // +call_watson mode='url' key='url'
                 // if watson
@@ -104,7 +104,7 @@ template(name='question_edit')
         .ui.stackable.padded.grid
             .row 
                 .eight.wide.column
-                    a.ui.icon.circular.large.button(href="/m/question/#{_id}/view" title='save' class='invert')
+                    a.ui.icon.circular.large.button(href="/question/#{_id}/view" title='save' class='invert')
                         i.checkmark.big.icon
                     .ui.inline.large.header 
                         small edit question
@@ -112,6 +112,7 @@ template(name='question_edit')
                     div
                     +text_edit key='title' label='title' direct=true
                     div
+                    .ui.header #{dependency_ids}
                     +image_edit key='image_id' label='image' direct=true
                     div
                     +link_edit key='link' label='link' direct=true
@@ -176,11 +177,24 @@ template(name='question_view')
                             .ui.label 
                                 i.user.outline.icon
                                 |#{_author.username}
-                .six.wide.column.scrolling
+                .six.wide.column
                     if can_edit
-                        a.ui.circular.icon.button.edit_question(href="/m/question/#{_id}/edit")
+                        a.ui.circular.icon.big.button.edit_question(href="/question/#{_id}/edit")
                             i.large.pencil.icon
                     +vote
+                    .ui.header dependants
+                    .ui.button.add_dependency
+                        i.plus.icon
+                    .ui.header dependencies
+                    .ui.button.add_dependency
+                        i.plus.icon
+                        |new dependency
+                    // .ui.button.connect_existing
+                    //     i.fork.icon
+                    //     |connect existing
+                    each dependencies
+                        a.ui.small.header(href="/question/#{_id}/view") #{title}
+                    div
                     .ui.inline.small.grey.header #{when}
                     .ui.label #{views} views
                     |#{tags.length}
