@@ -138,10 +138,12 @@ template(name='question_view')
                                 i.user.outline.icon
                                 |#{_author.username}
                 .six.wide.column
+                    .ui.header question type: #{question_type}
                     if can_edit
                         a.ui.circular.icon.big.button.edit_question(href="/question/#{_id}/edit")
                             i.large.pencil.icon
                     +vote
+                    div
                     .ui.inline.header 
                         i.fork.icon
                         |dependencies
@@ -152,7 +154,7 @@ template(name='question_view')
                     //     i.fork.icon
                     //     |connect existing
                     div
-                    .ui.selection.link.list
+                    .ui.selection.link.large.list
                         each dependencies
                             a.item(href="/question/#{_id}/view") #{title}
                     div
@@ -163,7 +165,7 @@ template(name='question_view')
                     .ui.icon.button.add_dependent
                         i.plus.icon
                     div
-                    .ui.selection.link.list
+                    .ui.selection.link.large.list
                         each dependents
                             a.item(href="/question/#{_id}/view") #{title}
                     .ui.inline.small.grey.header #{when}

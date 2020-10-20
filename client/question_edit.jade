@@ -9,7 +9,7 @@ template(name='question_edit')
                         small edit question
                         // |#{title}
                     div
-                    +text_edit key='title' label='title' direct=true
+                    +text_edit key='title' label='title' input_class='fluid' direct=true
                     .ui.header dependents
                     each dependents
                         a.ui.header(href="/question/#{_id}/view") #{title}
@@ -20,9 +20,26 @@ template(name='question_edit')
                     // .ui.header #{dependency_ids}
                     +image_edit key='image_id' label='image' direct=true
                     div
+                    +key_value_edit key='question_type' value='boolean' label='boolean' icon='switch-on'
+                    +key_value_edit key='question_type' value='multiple_choice' label='multiple choice'
+                    +key_value_edit key='question_type' value='open' label='open'
+                    div
+                    if key_value_is 'question_type' 'multiple_choice'
+                        .ui.dividing.header multiple choice
+                        +text_edit key='mc_option_1' label='option 1'
+                        +text_edit key='mc_option_2' label='option 2'
+                        +text_edit key='mc_option_3' label='option 3'
+                        +text_edit key='mc_option_4' label='option 4'
+                        
+                    if key_value_is 'question_type' 'open'
+                        .ui.dividing.header open answer
+                        +key_value_edit key='open_answer_type' value='text' label='text' icon='header'
+                        +key_value_edit key='open_answer_type' value='number' label='number' icon='hashtag'
+                        +key_value_edit key='open_answer_type' value='list' label='list' icon='list'
+                        
+                    // +key_value_edit key='question_type' value='open' label='open'
                 .six.wide.column
-                    // +link_edit key='link' label='link' direct=true
-                    // +date_edit key='date' label='date' direct=true
+                    +html_edit key='body' label='body' direct=true
                     +number_edit key='bounty_total' label='total bounty' direct=true
                     div
                     +number_edit key='points_per_answer' label='points per answer' direct=true
@@ -30,14 +47,19 @@ template(name='question_edit')
                     +number_edit key='bounties_available' label='bounties available' direct=true
                     .ui.header subtotal = points/answer*bounties = #{subtotal}pts
                     div
+                .five.wide.column
                     +boolean_edit key='has_recipient' label='has recipient' direct=true
                     // if has_recipient
                     +single_user_edit key='recipient_id' key2='recipient_username' label='recipient' direct=true
                     +number_edit key='point_amount' label='point amount' direct=true
-                .five.wide.column
-                    |tag = -1p
+                    +boolean_edit key='has_link' label='has link' direct=true
+                    if has_link
+                        +link_edit key='link' label='link' direct=true
+                    +boolean_edit key='has_enddate' label='has enddate' direct=true
+                    if has_enddate
+                        +date_edit key='date' label='date' direct=true
+                    // |tag = -1p
                     +smart_tagger
-                    +textarea_edit key='body' label='body' direct=true
                     if description
                         +html_edit key='description' label='description' direct=true
                     +youtube_edit key='youtube_id' label='youtube id' direct=true

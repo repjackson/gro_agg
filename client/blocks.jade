@@ -496,6 +496,13 @@ template(name='user_string_toggle')
 
 
 
+template(name='author_block')
+    .ui.segment 
+        img.ui.avatar.invert.image(src=tag_term.watson.metadata.image)    
+        a.ui.header(href="/u/#{_author.username}") #{_author.username}
+                        
+
+
 template(name='key_value_edit')
     a.ui.compact.large.circular.button.set_key_value.select_term(class=set_key_value_class title=value href='#')
         if icon
