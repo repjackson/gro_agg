@@ -37,17 +37,72 @@ template(name='questions')
             +session_key_value_edit key='view_mode' value='list' label='list' icon='list'
             .spacer
             if session_key_value_is 'view_mode' 'list'
-                .ui.large.link.list 
+                .ui.big.link.selection.list 
                     each questions 
-                        a.item(href="/question/#{_id}/view") #{title}
+                        a.item(href="/question/#{_id}/view")
+                            if image_id
+                                // a(href="/question/#{_id}/view")
+                                img.ui.avatar.image.view(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                            else if image_url
+                                // a(href="/question/#{_id}/view")
+                                img.ui.avatar.image.view(src=image_url class=currentUser.invert_class)
+                            .content
+                                .header #{title}
             else
                 .ui.cards
                     each questions
-                        +question
+                        +question_card
                 
+template(name='question_card')
+    .ui.card
+        if image_id
+            // a(href="/question/#{_id}/view")
+            img.ui.pointer.image.view(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        else if image_url
+            // a(href="/question/#{_id}/view")
+            img.ui.pointer.image.view(src=image_url class=currentUser.invert_class)
+        .content
+            a.ui.header.select_question(href="/question/#{_id}/view") #{title}
+            .ui.list 
+                .item #{views} views
+                .item 
+                    i.user.outline.icon
+                    |#{_author.username}
+                .item 
+                    |bounty: 
+                    |#{bounty}pts
+                .item 
+                    |bounty: 
+                    |#{bounty_total}pts
+                .item 
+                    each tags 
+                        .ui.label #{this}
+            .ui.big.circular.icon.compact.button.vote_true(class=vote_true_class)
+                i.thumbs.up.icon(class=vote_true_icon_class)
+            .ui.big.circular.icon.compact.button.vote_false(class=vote_false_class)
+                i.thumbs.down.icon(class=vote_false_icon_class)
+            if can_edit
+                +session_key_value_edit key='edit_question_id' value=_id label='edit'
+            if session_key_value_is 'edit_question_id' _id
+                .ui.inline.header editing
+                +text_edit key='title' direct=true
+                +number_edit key='bounty' direct=true
+                +session_key_value_edit key='edit_question_id' value=null label='save'
+                +number_edit key='bounty_total' label='total bounty' direct=true
+                // +key_value_edit key='question_type' value='true_false' label='true/false'
+                // +key_value_edit key='question_type' value='multiple_choice' label='multiple choice'
+                // if key_value_is 'question_type' 'multiple_choice'
+                //     // +number_edit key='answer_count' label='number of answers' direct=true
+                //     // each answers
+                //     +text_edit key='answer_choice_one' label='answer choice one' direct=true
+                //     +text_edit key='answer_choice_two' label='answer choice two' direct=true
+    
+        
+        
+        
         
 template(name='session_key_value_edit')    
-    .ui.button.set_session_var
+    .ui.compact.circular.button.set_session_var(class=session_button_clas)
         if icon 
             i.icon(class=icon)
         |#{label}

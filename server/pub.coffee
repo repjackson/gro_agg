@@ -19,6 +19,18 @@ Meteor.publish 'user_model_docs', (model,username)->
         model:model
         _author_id:user._id
 
+Meteor.publish 'question_answers', (question_id)->
+    Docs.find 
+        model:'answer'
+        question_id:question_id
+        
+Meteor.publish 'all_questions', (question_id)->
+    Docs.find 
+        model:'question'
+        # question_id:question_id
+            
+            
+
 Meteor.publish 'questions', (
     query
     view_open

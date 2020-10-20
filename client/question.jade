@@ -1,47 +1,3 @@
-template(name='question')
-    .ui.card
-        if image_id
-            // a(href="/question/#{_id}/view")
-            img.ui.pointer.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        else if image_url
-            // a(href="/question/#{_id}/view")
-            img.ui.pointer.image(src=image_url class=currentUser.invert_class)
-        .content
-            a.ui.header.select_question(href="/question/#{_id}/view") #{title}
-            .ui.list 
-                .item #{views} views
-                .item 
-                    i.user.outline.icon
-                    |#{_author.username}
-                .item 
-                    |bounty: 
-                    |#{bounty}pts
-                .item 
-                    |bounty: 
-                    |#{bounty_total}pts
-                .item 
-                    each tags 
-                        .ui.label #{this}
-            .ui.big.circular.icon.compact.button.vote_true(class=vote_true_class)
-                i.thumbs.up.icon(class=vote_true_icon_class)
-            .ui.big.circular.icon.compact.button.vote_false(class=vote_false_class)
-                i.thumbs.down.icon(class=vote_false_icon_class)
-            if can_edit
-                +session_key_value_edit key='edit_question_id' value=_id label='edit'
-            if session_key_value_is 'edit_question_id' _id
-                .ui.inline.header editing
-                +text_edit key='title' direct=true
-                +number_edit key='bounty' direct=true
-                +session_key_value_edit key='edit_question_id' value=null label='save'
-                +number_edit key='bounty_total' label='total bounty' direct=true
-                // +key_value_edit key='question_type' value='true_false' label='true/false'
-                // +key_value_edit key='question_type' value='multiple_choice' label='multiple choice'
-                // if key_value_is 'question_type' 'multiple_choice'
-                //     // +number_edit key='answer_count' label='number of answers' direct=true
-                //     // each answers
-                //     +text_edit key='answer_choice_one' label='answer choice one' direct=true
-                //     +text_edit key='answer_choice_two' label='answer choice two' direct=true
-    
 
                     
 template(name='question_view')
@@ -77,8 +33,8 @@ template(name='question_view')
                         .ui.segment
                             .ui.header #{title}
                             if can_edit
-                                +session_boolean_toggle 
-                            if is_editing
+                                +session_boolean_toggle key='is_editing'
+                            if session is_editing
                                 +text_edit key='title' direct=true
                             .ui.label 
                                 i.user.outline.icon
@@ -94,6 +50,8 @@ template(name='question_view')
                         .ui.grey.header 
                             i.hand.holding.heart.icon
                             |bounties
+                        .ui.circular.icon.button.add_bounty(title='add bounty')
+                            i.plus.icon
                         each bounties
                             .ui.header #{amount}
                 .four.wide.column

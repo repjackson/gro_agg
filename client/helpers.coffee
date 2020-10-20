@@ -132,6 +132,8 @@ Template.registerHelper 'tag_term', () ->
 
 Template.registerHelper 'is_logging_out', () -> Session.get('logging_out')
 
+Template.registerHelper 'session', () -> Session.get(@key)
+
 
 Template.registerHelper 'is_admin', () ->
     # Meteor.users.findOne username:Router.current().params.username
