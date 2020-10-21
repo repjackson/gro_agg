@@ -37,6 +37,7 @@ Meteor.publish 'all_questions', (question_id)->
             
 
 Meteor.publish 'questions', (
+    selected_tags
     query
     view_open
     view_your_questions
@@ -53,6 +54,8 @@ Meteor.publish 'questions', (
         match.answer_user_ids = $in:[Meteor.userId()]
     if query and query.length > 0
         match.title = {$regex:"#{query}", $options: 'i'}
+    if selected_tags and selected_tags.length > 0
+        match.tags = $all: selected_tags
 
     Docs.find match
 

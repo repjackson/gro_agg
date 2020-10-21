@@ -10,7 +10,7 @@ template(name='question_view')
                     else
                         .ui.header(class=question_header_class) #{title}
             .row 
-                .eight.wide.column
+                .six.wide.column
                     if url 
                         a(href=url target='_window') #{url}
                         img.ui.image(src=url class='invert')    
@@ -39,7 +39,7 @@ template(name='question_view')
                             .ui.label 
                                 i.user.outline.icon
                                 |#{_author.username}
-                .four.wide.column
+                .five.wide.column
                     .ui.header question type: #{question_type}
                     if can_edit
                         a.ui.circular.icon.big.button.edit_question(href="/question/#{_id}/edit")
@@ -54,7 +54,7 @@ template(name='question_view')
                             i.plus.icon
                         each question_bounties
                             +question_bounty
-                .four.wide.column
+                .five.wide.column
                     .ui.segment
                         .ui.grey.header 
                             i.fork.icon

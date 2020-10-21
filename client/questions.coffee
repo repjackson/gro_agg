@@ -21,6 +21,7 @@ Template.questions.onCreated ->
     #     # Session.get('query')
     #     )
     @autorun -> Meteor.subscribe('questions',
+        selected_tags.array()
         Session.get('query')
         Session.get('view_open')
         Session.get('view_your_questions')
