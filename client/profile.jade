@@ -16,8 +16,6 @@ template(name='profile')
                 // div
                 a.ui.small.header.refresh_user_stats(href="/u/#{username}") 
                     |@#{username}
-                //- .ui.compact.icon.button.refresh_user_stats(title='refresh stats')
-                //-     i.refres bh.icon
                 if is_current_user
                     a(href="/u/#{username}/edit")
                         i.big.cog.link.circular.icon
@@ -58,22 +56,10 @@ template(name='profile')
                             img.ui.mini.inline.circular.invert.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
                         else
                             .ui.circular.label #{initials}
-            .twelve.wide.column
-                .spacer
-                // if session_key_value_is 'view_user_section' 'dashboard'
+            .twelve.wide.column 
+                .ui.header #{points_earned}pts earned
                 +user_dashboard
               
-
-
-template(name='user_finance')
-    .ui.header user finance
-    .ui.button.request_payment
-        |request
-    .ui.button.send_payment
-        |send
-    
-
-
 
 
 template(name='authored_overlap')
@@ -113,17 +99,17 @@ template(name='user_dashboard')
                     i.archive.link.grey.icon
                     i.share.grey.icon
                     +emotion_picker
-                if replying
-                    .ui.fluid.input
-                        input.reply_body(type='text')
-                .ui.grid
-                    .two.wide.column
-                    .fourteen.wide.column
-                        each replies
-                            div
-                            .ui.tiny.inline.header #{body}
-                            if is_author
-                                +remove_icon
+                    if replying
+                        .ui.fluid.input
+                            input.reply_body(type='text')
+                    .ui.grid
+                        .two.wide.column
+                        .fourteen.wide.column
+                            each replies
+                                div
+                                .ui.tiny.inline.header #{body}
+                                if is_author
+                                    +remove_icon
         .eight.wide.column
             .ui.segment
                 .ui.header 

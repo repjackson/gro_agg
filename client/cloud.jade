@@ -30,13 +30,13 @@ template(name='cloud')
         // .ui.hidden.fitted.divider
     i.grey.tags.icon
     if selected_tags
-        #clear_tags.ui.active.icon.compact.button
+        #clear_tags.ui.active.icon.compact.circular.button
             i.remove.icon
         each selected_tags
-            .unselect_tag.ui.active.compact.button
+            .unselect_tag.ui.active.compact.circular.button
                 strong #{this}
     each all_tags
-        .ui.compact.button.select_tag(class=cloud_tag_class) 
+        .ui.compact.circular.button.select_tag(class=cloud_tag_class) 
             strong #{this.name}
 
 

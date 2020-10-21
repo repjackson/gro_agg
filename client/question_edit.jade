@@ -9,67 +9,67 @@ template(name='question_edit')
                         small edit question
                         // |#{title}
                 .twelve.wide.column
-                    +text_edit key='title' label='title' input_class='fluid large' direct=true
+                    +text_edit key='title' l='title' input_class='fluid large' direct=true
             .row 
                 .five.wide.column
                     div
-                    +boolean_edit key='has_image' label='has image' direct=true
+                    +boolean_edit key='has_image' l='has image' direct=true
                     if has_image
-                        +image_edit key='image_id' label='image' direct=true
-                        +text_edit key='image_url' label='image link' direct=true
+                        +image_edit key='image_id' l='image' direct=true
+                        +text_edit key='image_url' l='image link' direct=true
                     div
-                    +key_value_edit key='question_type' value='boolean' label='boolean' icon='toggle on'
-                    +key_value_edit key='question_type' value='multiple_choice' label='multiple choice' icon='list'
-                    +key_value_edit key='question_type' value='open' label='open' icon='text width'
+                    +kve key='question_type' v='boolean' l='boolean' i='toggle on'
+                    +kve key='question_type' v='multiple_choice' l='multiple choice' i='list'
+                    +kve key='question_type' v='open' l='open' i='text width'
                     div
                     if key_value_is 'question_type' 'multiple_choice'
                         .ui.dividing.header multiple choice
                         div
-                        +text_edit key='mc_option_1' label='option 1'
+                        +text_edit key='mc_option_1' l='option 1' direct=true
                         div
-                        +text_edit key='mc_option_2' label='option 2'
+                        +text_edit key='mc_option_2' l='option 2' direct=true
                         div
-                        +text_edit key='mc_option_3' label='option 3'
+                        +text_edit key='mc_option_3' l='option 3' direct=true
                         div
-                        +text_edit key='mc_option_4' label='option 4'
+                        +text_edit key='mc_option_4' l='option 4' direct=true
                         
                     if key_value_is 'question_type' 'open'
                         .ui.dividing.header open answer
-                        +key_value_edit key='open_answer_type' value='text' label='text' icon='header'
-                        +key_value_edit key='open_answer_type' value='number' label='number' icon='hashtag'
-                        +key_value_edit key='open_answer_type' value='list' label='list' icon='list'
+                        +kve key='open_answer_type' v='text' l='text' i='header'
+                        +kve key='open_answer_type' v='number' l='number' i='hashtag'
+                        +kve key='open_answer_type' v='list' l='list' i='list'
                         
-                    // +key_value_edit key='question_type' value='open' label='open'
+                    // +kve key='question_type' v='open' l='open'
                 .six.wide.column
-                    +html_edit key='body' label='body' direct=true
-                    // +number_edit key='bounty_total' label='total bounty' direct=true
+                    +html_edit key='body' l='body' direct=true
+                    // +number_edit key='bounty_total' l='total bounty' direct=true
                     // div
-                    // +number_edit key='points_per_answer' label='points per answer' direct=true
+                    // +number_edit key='points_per_answer' l='points per answer' direct=true
                     // div
-                    // +number_edit key='bounties_available' label='bounties available' direct=true
+                    // +number_edit key='bounties_available' l='bounties available' direct=true
                     // .ui.header subtotal = points/answer*bounties = #{subtotal}pts
                     div
                 .five.wide.column
-                    +boolean_edit key='has_recipient' label='has recipient' direct=true
+                    +boolean_edit key='has_recipient' l='has recipient' direct=true
                     if has_recipient
-                        +single_user_edit key='recipient_id' key2='recipient_username' label='recipient' direct=true
+                        +single_user_edit key='recipient_id' key2='recipient_username' l='recipient' direct=true
                     // div
-                    // +number_edit key='point_amount' label='point amount' direct=true
+                    // +number_edit key='point_amount' l='point amount' direct=true
                     div
-                    +boolean_edit key='has_link' label='has link' direct=true
+                    +boolean_edit key='has_link' l='has link' direct=true
                     if has_link
-                        +link_edit key='link' label='link' direct=true
-                    +boolean_edit key='has_enddate' label='has enddate' direct=true
+                        +link_edit key='link' l='link' direct=true
+                    +boolean_edit key='has_enddate' l='has enddate' direct=true
                     if has_enddate
-                        +date_edit key='date' label='date' direct=true
+                        +date_edit key='date' l='date' direct=true
                     // |tag = -1p
                     div
                     +smart_tagger
                     div
                     if description
-                        +html_edit key='description' label='description' direct=true
-                    +boolean_edit key='has_youtube' label='has video' direct=true
+                        +html_edit key='description' l='description' direct=true
+                    +boolean_edit key='has_youtube' l='has video' direct=true
                     if has_youtube
-                        +youtube_edit key='youtube_id' label='youtube id' direct=true
+                        +youtube_edit key='youtube_id' l='youtube id' direct=true
                     i.remove.link.circular.big.icon.delete_question(title='delete question')
                     

@@ -1,5 +1,5 @@
 template(name='questions')
-    .ui.grid
+    .ui.padded.stackable.grid
         .four.wide.column
             .ui.icon.fluid.input
                 i.search.icon
@@ -8,8 +8,8 @@ template(name='questions')
             //     i.plus.icon
             //     input.ask_question(type='text' placeholder='ask question')
             +cloud filter='question'
-            .ui.header total bounty available
-            .ui.header total bounty earned
+            .ui.small.grey.header total bounty available
+            .ui.small.grey.header total bounty earned
             if selected_tags
                 // if many_tags
                 //     a#clear_tags.ui.black.icon.small.compact.circular.button.select_term
@@ -26,16 +26,16 @@ template(name='questions')
         
         .twelve.wide.column
             |limit
-            +session_key_value_edit key='limit' value=1 label='1'
-            +session_key_value_edit key='limit' value=10 label='10'
+            +session_kve key='limit' value=1 label='1'
+            +session_kve key='limit' value=10 label='10'
             |sort
-            +session_key_value_edit key='sort_key' value='_timestamp' label='when'
-            +session_key_value_edit key='sort_key' value='bounty' label='bounty'
-            +session_key_value_edit key='sort_direction' value=-1 label='up'
-            +session_key_value_edit key='sort_direction' value=1 label='down'
+            +session_kve key='sort_key' value='_timestamp' label='when'
+            +session_kve key='sort_key' value='bounty' label='bounty'
+            +session_kve key='sort_direction' value=-1 label='up'
+            +session_kve key='sort_direction' value=1 label='down'
             |view
-            +session_key_value_edit key='view_mode' value='cards' label='cards' icon='clone'
-            +session_key_value_edit key='view_mode' value='list' label='list' icon='list'
+            +session_kve key='view_mode' value='cards' label='cards' icon='clone'
+            +session_kve key='view_mode' value='list' label='list' icon='list'
             .spacer
             if session_key_value_is 'view_mode' 'list'
                 .ui.big.link.selection.list 
@@ -83,15 +83,15 @@ template(name='question_card')
             .ui.big.circular.icon.compact.button.vote_false(class=vote_false_class)
                 i.thumbs.down.icon(class=vote_false_icon_class)
             if can_edit
-                +session_key_value_edit key='edit_question_id' value=_id label='edit'
+                +session_kve key='edit_question_id' value=_id label='edit'
             if session_key_value_is 'edit_question_id' _id
                 .ui.inline.header editing
                 +text_edit key='title' direct=true
                 +number_edit key='bounty' direct=true
-                +session_key_value_edit key='edit_question_id' value=null label='save'
+                +session_kve key='edit_question_id' value=null label='save'
                 +number_edit key='bounty_total' label='total bounty' direct=true
-                // +key_value_edit key='question_type' value='true_false' label='true/false'
-                // +key_value_edit key='question_type' value='multiple_choice' label='multiple choice'
+                // +kve key='question_type' value='true_false' label='true/false'
+                // +kve key='question_type' value='multiple_choice' label='multiple choice'
                 // if key_value_is 'question_type' 'multiple_choice'
                 //     // +number_edit key='answer_count' label='number of answers' direct=true
                 //     // each answers
@@ -102,13 +102,13 @@ template(name='question_card')
         
         
         
-template(name='session_key_value_edit')    
+template(name='session_kve')    
     .ui.compact.circular.button.set_session_var(class=session_button_clas)
         if icon 
             i.icon(class=icon)
         |#{label}
                         
-// template(name='key_value_edit')    
+// template(name='kve')    
 //     .ui.button.set_key_value
 //         |#{label}
                         

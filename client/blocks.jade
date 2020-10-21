@@ -160,18 +160,18 @@ template(name='comments')
 
 
 template(name='month_selector')
-    +key_value_edit key='month' value='jan'
-    +key_value_edit key='month' value='feb'
-    +key_value_edit key='month' value='mar'
-    +key_value_edit key='month' value='april'
-    +key_value_edit key='month' value='may'
-    +key_value_edit key='month' value='jun'
-    +key_value_edit key='month' value='jul'
-    +key_value_edit key='month' value='aug'
-    +key_value_edit key='month' value='sep'
-    +key_value_edit key='month' value='oct'
-    +key_value_edit key='month' value='nov'
-    +key_value_edit key='month' value='dec'
+    +kve key='month' value='jan'
+    +kve key='month' value='feb'
+    +kve key='month' value='mar'
+    +kve key='month' value='april'
+    +kve key='month' value='may'
+    +kve key='month' value='jun'
+    +kve key='month' value='jul'
+    +kve key='month' value='aug'
+    +kve key='month' value='sep'
+    +kve key='month' value='oct'
+    +kve key='month' value='nov'
+    +kve key='month' value='dec'
 
 
 
@@ -506,25 +506,25 @@ template(name='author_block')
             .item #{total_bounty_offered} total bounty offered
 
 
-template(name='key_value_edit')
+template(name='kve')
     a.ui.compact.large.circular.button.set_key_value.select_term(class=set_key_value_class title=value href='#')
-        if icon
+        if i
             // +icon name=icon cl='ui avatar image'
-            i.icon(class=icon)
+            i.icon(class=i)
         unless icon_only
-            if label
-                |#{label}
+            if l
+                |#{l}
             else 
-                |#{value}
+                |#{v}
         
-template(name='user_key_value_edit')
+template(name='user_kve')
     .ui.compact.button.set_key_value(class=set_key_value_class)
         if icon 
             i.icon(class=icon)
         if label
             |#{label}
         else 
-            |#{value}
+            |#{v}
 
 
 template(name='session_key_value')

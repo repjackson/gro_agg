@@ -114,7 +114,7 @@ Router.route '/', (->
     #         Tag_results.find()
 
             
-Template.session_key_value_edit.events
+Template.session_kve.events
     'click .set_session_var': ->
         Session.set("#{@key}",@value)
         
