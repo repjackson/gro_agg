@@ -6,14 +6,19 @@ template(name='question_view')
             .row 
                 .sixteen.wide.center.aligned.column
                     if is_editing
-                        +text_edit key='title' label='title' input_class='fluid large' direct=true
+                        +text_edit key='title' label='title' input_class='fluid large' d=true
                     else
                         .ui.header(class=question_header_class) #{title}
             .row 
                 .five.wide.column
-                    .ui.grey.header 
+                    .ui.grey.inline.header 
                         i.brain.icon
-                        |auto
+                    .ui.icon.large.icon.circular.button(title='call tone')
+                        i.smile.icon
+                    .ui.icon.large.icon.circular.button(title='call alpha')
+                        i.brain.icon
+                    .ui.large.icon.circular.button(title='call duck')
+                        i.search.icon
                 .six.wide.column
                     if url 
                         a(href=url target='_window') #{url}
@@ -26,7 +31,7 @@ template(name='question_view')
                         img.ui.pointer.rounded.inset.image(src=image_url class=currentUser.invert_class)
                 
                     if youtube_id
-                        +youtube_view key='youtube_id' direct=true
+                        +youtube_view key='youtube_id' d=true
                     .f12
                         |!{body}
                     if key_value_is 'question_type' 'multiple_choice'
@@ -38,16 +43,16 @@ template(name='question_view')
                     .ui.button.add_answer
                         i.plus.icon 
                         |answer
-                    each question_answers
-                        .ui.segment
-                            .ui.header #{title}
-                            if can_edit
-                                +session_boolean_toggle key='is_editing'
-                            if session is_editing
-                                +text_edit key='title' direct=true
-                            .ui.label 
-                                i.user.outline.icon
-                                |#{_author.username}
+                    // each question_answers
+                    //     .ui.segment
+                    //         .ui.header #{title}
+                    //         if can_edit
+                    //             +session_boolean_toggle key='is_editing'
+                    //         if session is_editing
+                    //             +text_edit key='title' d=true
+                    //         .ui.label 
+                    //             i.user.outline.icon
+                    //             |#{_author.username}
                 .five.wide.column
                     .ui.header question type: #{question_type}
                     if can_edit
@@ -59,41 +64,38 @@ template(name='question_view')
                         .ui.grey.header 
                             i.eye.icon
                             |visible
-                        +kve k='vis' v='public'
-                        +kve k='vis' v='friends'
-                        +kve k='vis' v='list'
-                    .ui.segment
-                        .ui.grey.inline.header 
-                            i.hand.holding.heart.icon
-                            |bounties
-                        .ui.circular.icon.button.add_bounty(title='add bounty')
-                            i.plus.icon
-                        each question_bounties
-                            +question_bounty
-                    .ui.segment
-                        .ui.grey.inline.header 
-                            i.fork.icon
-                            |dependencies
-                        .ui.circular.icon.button.add_dependency(title='add dependency')
-                            i.plus.icon
-                        .ui.selection.link.large.list
-                            each dependencies
-                                a.item(href="/question/#{_id}/view") #{title}
-                    .ui.segment
-                        .ui.inline.grey.header 
-                            i.sitemap.icon
-                            |#{dependents.length}
-                            |dependents
-                        .ui.icon.circular.button.add_dependent
-                            i.plus.icon
-                        .ui.selection.link.large.list
-                            each dependents
-                                a.item(href="/question/#{_id}/view") #{title}
-                        // .ui.button.connect_existing
-                        //     i.fork.icon
-                        //     |connect existing
-                        // div
-                        div
+                        // +kve k='vis' v='public'
+                        // +kve k='vis' v='friends'
+                        // +kve k='vis' v='list'
+                    .ui.grey.inline.header 
+                        i.hand.holding.heart.icon
+                        |bounties
+                    .ui.circular.icon.button.add_bounty(title='add bounty')
+                        i.plus.icon
+                    // each question_bounties
+                    //     +question_bounty
+                    .ui.grey.inline.header 
+                        i.fork.icon
+                        |dependencies
+                    .ui.circular.icon.button.add_dependency(title='add dependency')
+                        i.plus.icon
+                    .ui.selection.link.large.list
+                        // each dependencies
+                        //     a.item(href="/question/#{_id}/view") #{title}
+                    .ui.inline.grey.inline.header 
+                        i.sitemap.icon
+                        |#{dependents.length}
+                        |dependents
+                    .ui.icon.circular.button.add_dependent
+                        i.plus.icon
+                    .ui.selection.link.large.list
+                        // each dependents
+                        //     a.item(href="/question/#{_id}/view") #{title}
+                    // .ui.button.connect_existing
+                    //     i.fork.icon
+                    //     |connect existing
+                    // div
+                    div
                     .ui.inline.small.grey.header 
                         i.grey.clock.icon
                         |#{when}
@@ -102,7 +104,7 @@ template(name='question_view')
                     div
                     |#{tags.length}
                     i.tag.icon
-                    +array_view key='tags' direct=true
+                    // +array_view key='tags' d=true
                     if dev
                         +print_this
                     +author_block
@@ -116,4 +118,4 @@ template(name='question_bounty')
         if can_edit
             +session_boolean_toggle key='editing_mode' label='edit'
         if session_is 'editing_mode'
-            +number_edit key='amount' direct=true
+            +number_edit key='amount' d=true

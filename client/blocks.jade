@@ -116,7 +116,7 @@ template(name='session_toggle_button')
 template(name='comments')
     // .ui.top.attached.tabular.menu.top_rounded.comments_menu
     //     a.item.active(data-tab='first')
-    .ui.header(data-tooltip='comments cost 1p each which goes to post op')
+    .ui.grey.header(data-tooltip='comments cost 1p each which goes to post op')
         i.chat.outline.icon
         | #{doc_comments.count} comments
         // a.item(data-tab='second') second
@@ -245,7 +245,7 @@ template(name='big_user_card')
                 a.header(href="/u/#{username}")
                      |#{username} 
                     //- .meta @#{username}
-                    //- +array_view key='tags' label='Tags' direct=true
+                    //- +array_view key='tags' label='Tags' d=true
 
 
 template(name='user_info')
@@ -352,7 +352,7 @@ template(name='bookmark_button')
 //     // +vote_button amount=25
 //     with user_vote
 //         if is_dev
-//             +number_edit key='points' label='edit points' direct=true
+//             +number_edit key='points' label='edit points' d=true
 //         if points
 //             strong #{points}
 //         // if anon_points
@@ -379,7 +379,7 @@ template(name='voting')
     each downvoter_ids
         +user_info_small
     if is_dev
-        +number_edit key='points' label='edit points' direct=true
+        +number_edit key='points' label='edit points' d=true
     if points
         strong #{points} pts
     if anon_points

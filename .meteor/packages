@@ -37,4 +37,5 @@ francocatena:status
 ecmascript@0.14.3
 flowkey:hotkeys
 zimme:active-route
-
+http@1.4.2
+tmeasday:publish-counts

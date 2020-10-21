@@ -7,7 +7,7 @@ template(name='profile')
                         img.ui.centered.tiny.inline.spaced.circular.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
                 span.mobile.hidden
                     if editing_mode
-                        +image_edit key='profile_image_id' icon='picture' title='avatar' direct=true
+                        +image_edit key='profile_image_id' icon='picture' title='avatar' d=true
                     else 
                         a(href="/u/#{username}/")
                             img.ui.small.inline.circular.invert.image.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
@@ -19,9 +19,9 @@ template(name='profile')
                 if is_current_user
                     a(href="/u/#{username}/edit")
                         i.big.cog.link.circular.icon
-                    // +boolean_edit key='edit_mode' label='edit mode' direct=true
+                    // +boolean_edit key='edit_mode' label='edit mode' d=true
                     // else
-                    //     +boolean_view key='online' label='online' direct=true
+                    //     +boolean_view key='online' label='online' d=true
                 if is_dev
                     .ui.small.inline.header #{_id}
                 if i_have_points
@@ -132,8 +132,8 @@ template(name='user_dashboard')
                     i.plus.icon
                 if asking_question
                     with question_asking
-                        +text_edit key='title' direct=true
-                        +number_edit key='bounty' direct=true 
+                        +text_edit key='title' d=true
+                        +number_edit key='bounty' d=true 
                         .ui.button.save_question
                             i.checkmark.icon
                         +remove_button
@@ -278,7 +278,7 @@ template(name='edit_privacy')
     .ui.grid 
         .row 
             .four.wide.column
-                +boolean_edit key='publish_profile' label='publish profile' direct=true
+                +boolean_edit key='publish_profile' label='publish profile' d=true
             .twelve.wide.column
                 .ui.header 
                     |make profile public 

@@ -179,7 +179,7 @@ Template.registerHelper 'field_value', () ->
     parent5 = Template.parentData(5)
     parent6 = Template.parentData(6)
 
-    if @direct
+    if @d
         parent = Template.parentData()
     else if parent5
         if parent5._id
@@ -189,7 +189,7 @@ Template.registerHelper 'field_value', () ->
             parent = Template.parentData(6)
     # console.log 'parent', parent
     if parent
-        parent["#{@key}"]
+        parent["#{@k}"]
 
 
 

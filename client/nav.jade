@@ -65,7 +65,7 @@ template(name='footer')
                 .ui.header #{connect_status.status}
                 with currentUser
                     if is_dev
-                        +textarea_edit key='notes' direct=true
+                        +textarea_edit key='notes' d=true
                 if is_dev    
                     //with current_user
                     //    +role_switcher
@@ -99,10 +99,10 @@ template(name='role_switcher')
             |#{username} role switcher
         if is_eric
             //- +user_array_element_toggle key='roles' value='dev' user=currentUser
-            +multi_doc_edit key='roles' label='roles' ref_model='role' direct=true
+            +multi_doc_edit key='roles' label='roles' ref_model='role' d=true
         if current_user
             with current_user
-                +multi_doc_edit key='roles' label='roles' ref_model='role' direct=true
+                +multi_doc_edit key='roles' label='roles' ref_model='role' d=true
         //- +user_array_element_toggle key='roles' value='dev' user=currentUser
         //- +user_array_element_toggle key='roles' value='user' user=currentUser
         //- +user_array_element_toggle key='roles' value='staff' user=currentUser
