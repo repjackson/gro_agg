@@ -39,24 +39,24 @@ template(name='question_view')
                     .f12
                         |!{body}
                     if key_value_is 'question_type' 'multiple_choice'
-                        .ui.button #{mc_option_1}
-                        .ui.button #{mc_option_2}
-                        .ui.button #{mc_option_3}
-                        .ui.button #{mc_option_4}
+                        +mc_select n=1
+                        +mc_select n=2
+                        +mc_select n=3
+                        +mc_select n=4
                     +comments
                     .ui.button.add_answer
                         i.plus.icon 
                         |answer
-                    // each question_answers
-                    //     .ui.segment
-                    //         .ui.header #{title}
-                    //         if can_edit
-                    //             +session_boolean_toggle key='is_editing'
-                    //         if session is_editing
-                    //             +text_edit key='title' d=true
-                    //         .ui.label 
-                    //             i.user.outline.icon
-                    //             |#{_author.username}
+                    each question_answers
+                        .ui.segment
+                            .ui.header #{title}
+                            if can_edit
+                                +session_boolean_toggle key='is_editing'
+                            if session is_editing
+                                +text_edit key='title' d=true
+                            .ui.label 
+                                i.user.outline.icon
+                                |#{_author.username}
                 .five.wide.column
                     .ui.header question type: #{question_type}
                     if can_edit
@@ -80,8 +80,8 @@ template(name='question_view')
                         |bounties
                     .ui.circular.icon.button.add_bounty(title='add bounty')
                         i.plus.icon
-                    // each question_bounties
-                    //     +question_bounty
+                    each question_bounties
+                        +question_bounty
                     div
                     .ui.grey.inline.header 
                         i.fork.icon
@@ -89,8 +89,8 @@ template(name='question_view')
                     .ui.circular.icon.button.add_dependency(title='add dependency')
                         i.plus.icon
                     .ui.selection.link.large.list
-                        // each dependencies
-                        //     a.item(href="/question/#{_id}/view") #{title}
+                        each dependencies
+                            a.item(href="/question/#{_id}/view") #{title}
                     .ui.inline.grey.inline.header 
                         i.sitemap.icon
                         |#{dependents.length}
@@ -98,8 +98,8 @@ template(name='question_view')
                     .ui.icon.circular.button.add_dependent
                         i.plus.icon
                     .ui.selection.link.large.list
-                        // each dependents
-                        //     a.item(href="/question/#{_id}/view") #{title}
+                        each dependents
+                            a.item(href="/question/#{_id}/view") #{title}
                     // .ui.button.connect_existing
                     //     i.fork.icon
                     //     |connect existing
@@ -113,12 +113,19 @@ template(name='question_view')
                     div
                     |#{tags.length}
                     i.tag.icon
-                    // +array_view key='tags' d=true
+                    each tags
+                        .ui.label #{this}
+                    // +array_view key='tags' d=1
                     if dev
                         +print_this
                     +author_block
                     +viewing
                     
+                    
+template(name='mc_select')
+    .ui.big.circular.button.select_option(class=mc_select_class) #{choice_text} 
+    // |{{mc_option_"#{n}"}}
+
                     
                     
 template(name='question_bounty')

@@ -12,8 +12,9 @@ template(name='question_edit')
                     +text_edit k='title' l='title' input_class='fluid large' d=true
             .row 
                 .five.wide.column
+                    +boolean_edit k='published' l='published' d=true
                     div
-                    +boolean_edit k='has_image' l='has image' d=true
+                    +boolean_edit k='has_image' l='image' d=true
                     if has_image
                         +image_edit k='image_id' l='image' d=true
                         +text_edit k='image_url' l='image link' d=true
@@ -41,7 +42,7 @@ template(name='question_edit')
                         
                     // +kve k='question_type' v='open' l='open'
                 .ten.wide.column
-                    +boolean_edit k='has_description' l='has description' d=true
+                    +boolean_edit k='has_description' l='description' d=true
                     if has_description
                         +html_edit k='description' l='description' d=true
                     // +number_edit k='bounty_total' l='total bounty' d=true
@@ -51,22 +52,22 @@ template(name='question_edit')
                     // +number_edit k='bounties_available' l='bounties available' d=true
                     // .ui.header subtotal = points/answer*bounties = #{subtotal}pts
                     div
-                    +boolean_edit k='has_recipient' l='has recipient' d=true
+                    +boolean_edit k='has_recipient' l='recipient' d=true
                     if has_recipient
                         +single_user_edit k='recipient_id' key2='recipient_username' l='recipient' d=true
                     // div
                     // +number_edit k='point_amount' l='point amount' d=true
                     div
-                    +boolean_edit k='has_link' l='has link' d=true
+                    +boolean_edit k='has_link' l='link' d=true
                     if has_link
                         +link_edit k='link' l='link' d=true
-                    +boolean_edit k='has_enddate' l='has enddate' d=true
+                    +boolean_edit k='has_enddate' l='enddate' d=true
                     if has_enddate
                         +date_edit k='date' l='date' d=true
                     // |tag = -1p
                     div
                     +smart_tagger
-                    +boolean_edit k='has_youtube' l='has video' d=true
+                    +boolean_edit k='has_youtube' l='video' d=true
                     if has_youtube
                         +youtube_edit k='youtube_id' l='youtube id' d=true
                     i.remove.link.circular.big.icon.delete_question(title='delete question')

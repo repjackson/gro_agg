@@ -28,11 +28,11 @@ Template.registerHelper 'current_tribe', () ->
         Docs.findOne 
             _id:Meteor.user().current_tribe_id
     
-Template.registerHelper 'enabled_features', () ->
-    # console.log @
-    Docs.find
-        model:'feature'
-        _id:@enabled_feature_ids
+# Template.registerHelper 'enabled_features', () ->
+#     # console.log @
+#     Docs.find
+#         model:'feature'
+#         _id:@enabled_feature_ids
     
 Template.registerHelper 'dependencies', () ->
     # console.log @
@@ -123,7 +123,7 @@ Template.registerHelper 'tag_term', () ->
         title:@valueOf()
 
 
-# Template.registerHelper 'field_value', () ->
+# Template.registerHelper 'fv', () ->
 #     # console.log @
 #     parent = Template.parentData()
 #     # console.log 'parent', parent
@@ -173,7 +173,7 @@ Template.registerHelper 'to', () ->
 
 
 
-Template.registerHelper 'field_value', () ->
+Template.registerHelper 'fv', () ->
     # console.log @
     parent = Template.parentData()
     parent5 = Template.parentData(5)

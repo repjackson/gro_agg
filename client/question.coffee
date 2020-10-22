@@ -47,6 +47,14 @@ Template.question_view.events
     'click .add_dependency': ->
         new_id = Docs.insert 
             model:'question'
+            dependent_ids:[@_id]
+            published:false
+        Router.go "/question/#{new_id}/edit"
+        Session.set('editing_answer_id', new_id)    
+            
+    'click .add_dependent': ->
+        new_id = Docs.insert 
+            model:'question'
             dependency_ids:[@_id]
             published:false
         Router.go "/question/#{new_id}/edit"
@@ -61,7 +69,43 @@ Template.question_view.events
         # Router.go "/bounty/#{new_id}/edit"
         # Session.set('editing_answer_id', new_id)    
             
-            
+Template.mc_select.events
+    'click .select_option': ->
+        console.log @
+        
+        e = Docs.findOne 
+            model:'answer'
+            question_id:Router.current().params.doc_id
+            _author_id:Meteor.userId()
+        if e
+            Docs.update e._id,
+                $set:
+                    choice_num:@n
+        else
+            Docs.insert
+                model:'answer'
+                question_id:Router.current().params.doc_id
+                choice_num:@n
+
+Template.mc_select.helpers
+    choice_text: ->
+        p = Template.parentData()
+        # console.log @
+        p["mc_option_#{@n}"] 
+    
+    mc_select_class: ->
+        e = Docs.findOne 
+            model:'answer'
+            question_id:Router.current().params.doc_id
+            _author_id:Meteor.userId()
+        if e
+            console.log e
+            if e.choice_num is @n
+                'active'
+        
+        # p = Template.parentData()
+        # # console.log @
+        # p["mc_option_#{@n}"] 
 
 Template.question_card.helpers
     vote_true_class: ->
