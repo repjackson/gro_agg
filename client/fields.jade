@@ -4,10 +4,10 @@ template(name='number_edit')
         if icon
             +i name=icon
             //- i.grey.icon(class=icon)
-        if title
-            |#{title}
-        else if label
-            |#{label}
+        if t
+            |#{t}
+        else if l
+            |#{l}
         else
             |#{key}
     .ui.input
@@ -22,12 +22,12 @@ template(name='number_view')
             if icon
                 +i name=icon
                 //- i.grey.icon(class=icon)
-            if title
-                |#{title}
+            if t
+                |#{t}
             else if label
                 |#{label}
-            else if key
-                |#{key}
+            else if k
+                |#{k}
             else
                 |#{this}
         strong &nbsp; #{fv}
@@ -39,10 +39,10 @@ template(name='icon_edit')
         //- i.grey.icon(class=icon)
         +icon name=icon cl='ui avatar image'
     .ui.inline.header
-        if title
-            |#{title}
-        else if key
-            |#{key}
+        if t
+            |#{t}
+        else if k
+            |#{k}
         else
             |#{this}    
     if fv
@@ -64,8 +64,8 @@ template(name='time_edit')
         .ui.tiny.inline.header
             if icon
                 i.grey.icon(class=icon)            
-            if title
-                |#{title}
+            if t
+                |#{t}
             else if label
                 |#{label}
             //- else
@@ -80,12 +80,12 @@ template(name='time_view')
             if icon
                 i.grey.icon(class=icon)
                 //- +i name=icon
-            if title
-                |#{title}
+            if t
+                |#{t}
             else if label
                 |#{label}
-            else if key
-                |#{key}
+            else if k
+                |#{k}
             else
                 |#{this}
         strong &nbsp; #{fv}
@@ -97,8 +97,8 @@ template(name='datetime_edit')
                 if icon
                     //- i.grey.icon(class=icon)
                     +i name=icon
-                if title
-                    |#{title}
+                if t
+                    |#{t}
                 else if label
                     |#{label}
                 else
@@ -107,9 +107,9 @@ template(name='datetime_edit')
             input.edit_datetime(type='datetime-local' value=fv placeholder=placeholder autocomplete="off")
 
 template(name='datetime_view')
-    if icon
-        i.icon(class=icon)
-    if title
+    if i
+        i.icon(class=i)
+    if t
         |#{title}
     else if label
         |#{label}        
@@ -149,8 +149,8 @@ template(name='date_view')
                 |#{title}
             else if label
                 |#{label}
-            else if key
-                |#{key}
+            else if k
+                |#{k}
             else
                 |#{this}
         strong &nbsp; #{fv}
@@ -186,12 +186,12 @@ template(name='youtube_view')
 template(name='phone_edit')
     .ui.inline.header 
         i.phone.icon
-        if title
-            |#{title}
-        else if label
-            |#{label}
-        else if key
-            |#{key}
+        if t
+            |#{t}
+        else if l
+            |#{l}
+        else if k
+            |#{k}
         else
             |#{this}
     .ui.fluid.input
@@ -209,8 +209,8 @@ template(name='phone_view')
                     |#{title}
                 else if label
                     |#{label}
-                else if key
-                    |#{key}
+                else if k
+                    |#{k}
                 else
                     |#{this}
         strong &nbsp; #{fv}
@@ -248,8 +248,8 @@ template(name='html_edit')
                     |#{title}
                 else if label
                     |#{label}
-                else if key
-                    |#{key}
+                else if k
+                    |#{k}
                 else
                     |#{this}
                 // +call_watson mode='html' key=key
@@ -267,47 +267,47 @@ template(name='html_edit')
 
 template(name='i')
     //- i.icon(class=name)
-    // img(src="https://img.icons8.com/cotton/48/000000/#{name}.png" class="#{cl} #{currentUser.invert_class}" title=title)
-    // img(src="https://img.icons8.com/fluent/48/000000/#{name}.png" class=cl title=title)
+    // img(src="https://img.icons8.com/cotton/48/000000/#{name}.png" class="#{cl} #{currentUser.invert_class}" title=t)
+    // img(src="https://img.icons8.com/fluent/48/000000/#{name}.png" class=cl title=t)
     // if currentUser and currentUser.invert_class
-    //     // img(src="https://img.icons8.com/fluent/48/000000/#{name}.png" class="#{cl} #{currentUser.invert_class}" title=title)
-    //     img(src="https://img.icons8.com/ultraviolet/48/000000/#{name}.png" class="#{cl} #{currentUser.invert_class}" title=title)
+    //     // img(src="https://img.icons8.com/fluent/48/000000/#{name}.png" class="#{cl} #{currentUser.invert_class}" title=t)
+    //     img(src="https://img.icons8.com/ultraviolet/48/000000/#{name}.png" class="#{cl} #{currentUser.invert_class}" title=t)
     // else
-    img(src="https://img.icons8.com/fluent/48/000000/#{name}.png" class="#{cl} #{currentUser.invert_class}" title=title)
-    // img.icon8(src="https://img.icons8.com/ios/50/000000/#{name}.png" class=cl title=title)
-    // img(src="https://img.icons8.com/ultraviolet/48/000000/#{name}.png" class=cl title=title)
-    // img(src="https://img.icons8.com/office/48/000000/#{name}.png" class=cl title=title)
+    img(src="https://img.icons8.com/fluent/48/000000/#{name}.png" class="#{cl} #{currentUser.invert_class}" title=t)
+    // img.icon8(src="https://img.icons8.com/ios/50/000000/#{name}.png" class=cl title=t)
+    // img(src="https://img.icons8.com/ultraviolet/48/000000/#{name}.png" class=cl title=t)
+    // img(src="https://img.icons8.com/office/48/000000/#{name}.png" class=cl title=t)
     // if cl.length
-    //     img(src="https://img.icons8.com/#{gs.icon_theme}/48/000000/#{name}.png" class=cl title=title)
+    //     img(src="https://img.icons8.com/#{gs.icon_theme}/48/000000/#{name}.png" class=cl title=t)
     // else 
-    //     img.ui.mini.inline.image(src="https://img.icons8.com/#{gs.icon_theme}/48/000000/#{name}.png" class=cl title=title)
-    // img(src="https://img.icons8.com/plasticine/48/000000/#{name}.png" class=cl title=title)
+    //     img.ui.mini.inline.image(src="https://img.icons8.com/#{gs.icon_theme}/48/000000/#{name}.png" class=cl title=t)
+    // img(src="https://img.icons8.com/plasticine/48/000000/#{name}.png" class=cl title=t)
 template(name='ismall')
-    img(src="https://img.icons8.com/pastel-glyph/24/000000/#{name}.png" class=cl title=title)
-    //- img(src="https://img.icons8.com/ultraviolet/24/000000/#{name}.png" class=cl title=title)
+    img(src="https://img.icons8.com/pastel-glyph/24/000000/#{name}.png" class=cl title=t)
+    //- img(src="https://img.icons8.com/ultraviolet/24/000000/#{name}.png" class=cl title=t)
     
 template(name='ioffice')
-    img(src="https://img.icons8.com/office/48/000000/#{name}.png" class=cl title=title)
+    img(src="https://img.icons8.com/office/48/000000/#{name}.png" class=cl title=t)
 template(name='icolor')
     // i.icon(name=name)
-    img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl title=title)
-    // img(src="https://img.icons8.com/dusk/48/000000/#{name}.png" class=cl title=title)
+    img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl title=t)
+    // img(src="https://img.icons8.com/dusk/48/000000/#{name}.png" class=cl title=t)
 template(name='icolorlg')
     // i.icon(name=name)
-    img(src="https://img.icons8.com/color/96/000000/#{name}.png" class=cl title=title)
+    img(src="https://img.icons8.com/color/96/000000/#{name}.png" class=cl title=t)
 template(name='iios')
-    img(src="https://img.icons8.com/ios/48/000000/#{name}.png" class=cl title=title)
-    //- img(src="https://img.icons8.com/ultraviolet/48/000000/#{name}.png" class=cl title=title)
+    img(src="https://img.icons8.com/ios/48/000000/#{name}.png" class=cl title=t)
+    //- img(src="https://img.icons8.com/ultraviolet/48/000000/#{name}.png" class=cl title=t)
 
 //- template(name='icon')
 //-     i.icon(class=name)
-//-     //- img.ui.middle.aligned.image(src="https://img.icons8.com/cotton/24/000000/#{name}.png" class=cl title=title)
-//-     //- img(src="https://img.icons8.com/office/24/000000/#{name}.png" class=cl title=title)
-//-     //- img.ui.middle.aligned.image(src="https://img.icons8.com/plasticine/24/000000/#{name}.png" class=cl title=title)
-//-     //- img(src="https://img.icons8.com/plasticine/24/000000/#{name}.png" class=cl title=title)
-//-     //- img.ui.inline.image(src="https://img.icons8.com/#{gs.icon_theme}/24/000000/#{name}.png" class=cl title=title)
-//-     //- img(src="https://img.icons8.com/ultraviolet/24/000000/#{name}.png" class=cl title=title)
-//-     //- img(src="https://img.icons8.com/ios/24/000000/#{name}.png" class=cl title=title) 
+//-     //- img.ui.middle.aligned.image(src="https://img.icons8.com/cotton/24/000000/#{name}.png" class=cl title=t)
+//-     //- img(src="https://img.icons8.com/office/24/000000/#{name}.png" class=cl title=t)
+//-     //- img.ui.middle.aligned.image(src="https://img.icons8.com/plasticine/24/000000/#{name}.png" class=cl title=t)
+//-     //- img(src="https://img.icons8.com/plasticine/24/000000/#{name}.png" class=cl title=t)
+//-     //- img.ui.inline.image(src="https://img.icons8.com/#{gs.icon_theme}/24/000000/#{name}.png" class=cl title=t)
+//-     //- img(src="https://img.icons8.com/ultraviolet/24/000000/#{name}.png" class=cl title=t)
+//-     //- img(src="https://img.icons8.com/ios/24/000000/#{name}.png" class=cl title=t) 
 //-     //- |&nbsp;
 
 template(name='iblue')
@@ -321,8 +321,8 @@ template(name='iflat')
 
 template(name='link_edit')
     div
-    if icon
-        i.icon(class=icon)
+    if i
+        i.icon(class=i)
     .ui.inline.header
         |#{title} #{label}
     .ui.fluid.input
@@ -366,15 +366,15 @@ template(name='image_view')
 
 
 template(name='image_edit')
-    if icon
-        i.icon(class=icon)
+    if i
+        i.icon(class=i)
     .ui.inline.header
-        if title
-            |#{title}
-        else if label
-            |#{label}
-        else if key
-            |#{key}
+        if t
+            |#{t}
+        else if l
+            |#{l}
+        else if k
+            |#{k}
         else
             |#{this}            
     if fv
@@ -445,12 +445,12 @@ template(name='text_edit')
         //- i.grey.icon(class=icon)
         +icon name=icon cl='ui avatar image'
     .ui.inline.small.header
-        if title
-            |#{title}
-        else if label
-            |#{label}
-        else if key
-            |#{key}
+        if t
+            |#{t}
+        else if l
+            |#{l}
+        else if k
+            |#{k}
             //- +clear_value
     .ui.input(class=input_class)
         input.edit_text(type='text' value=fv placeholder=placeholder autocomplete="off")
@@ -467,8 +467,8 @@ template(name='text_view')
                 |#{title}
             else if label
                 |#{label}
-            else if key
-                |#{key}
+            else if k
+                |#{k}
             else
                 |#{this}
         .ui.inline.header #{fv}
@@ -483,11 +483,11 @@ template(name='array_edit')
     //     +icon name=icon cl='ui avatar image'
     .ui.inline.header
         if title
-            |#{title}
-        else if label
-            |#{label}
-        else if key
-            |#{key}
+            |#{t}
+        else if l
+            |#{l}
+        else if k
+            |#{k}
     .ui.icon.input
         i.plus.icon
         input.new_element(type='text' placeholder='tag' autocomplete="off")
@@ -505,7 +505,7 @@ template(name='array_view')
         if i
             i.icon(class=i)
         if label
-            .ui.inline.small.grey.header(title=t)
+            .ui.inline.small.grey.header(t=t)
                 |#{l}
         each fv
             .ui.label #{this}
@@ -514,8 +514,8 @@ template(name='array_view')
 template(name='children_edit')
     div
     .ui.inline.header 
-        |#{title}
-    .ui.icon.large.button.add_child(title="add child #{ref_model}")
+        |#{t}
+    .ui.icon.large.button.add_child(t="add child #{ref_model}")
         i.plus.icon
     .ui.styled.fluid.accordion
         each children
@@ -523,8 +523,8 @@ template(name='children_edit')
 
 
 template(name='child_edit')
-    .title
-        .ui.header child doc: #{title} #{key} #{parent.slug}
+    .t
+        .ui.header child doc: #{t} #{key} #{parent.slug}
     .content
         each child_fields
             +Template.dynamic template=edit_template 
@@ -548,16 +548,16 @@ template(name='child_edit')
 
 template(name='children_view')
     .ui.accordion
-        .title
+        .t
             //- if icon
             //-     +i name=icon                
             .ui.inline.header
-                if title
-                    |#{title}
+                if t
+                    |#{t}
                 else if label
                     |#{label}
-                else if key
-                    |#{key}
+                else if k
+                    |#{k}
                 else
                     |#{this}
                 i.dropdown.icon
@@ -569,7 +569,7 @@ template(name='children_view')
 
 template(name='child_view')
     each child_fields
-        //- |#{rank} #{title} #{title}
+        //- |#{rank} #{t} #{t}
         //- |#{key}
         +Template.dynamic template=view_template 
     +remove_button
@@ -599,7 +599,7 @@ template(name='child_view')
 
 template(name='boolean_edit')
     //- div
-    .ui.circular.button.toggle_boolean(class="#{boolean_toggle_class} #{cl}" title=tooltip)
+    .ui.circular.button.toggle_boolean(class="#{boolean_toggle_class} #{cl}" t=tooltip)
         if fv
             i.green.checkmark.large.invert.icon
         else
@@ -631,17 +631,17 @@ template(name='boolean_edit')
 
 
 template(name='boolean_view')
-    span(title=title)
+    span(t=t)
         .ui.inline.grey.small.header
             if icon
                 //- i.grey.icon(class=icon)
                 +icon name=icon cl='ui inline mini image'
-            if title
-                |#{title}
+            if t
+                |#{t}
             else if label
                 |#{label}
-            else if key
-                |#{key}
+            else if k
+                |#{k}
             else
                 |#{this}
         if fv
@@ -655,42 +655,42 @@ template(name='single_doc_view')
         if icon
             //- i.grey.icon(class=icon)
             +icon name=icon
-        .ui.inline.header(title=key)
-            |#{title}
+        .ui.inline.header(t=key)
+            |#{t}
         .ui.label
             if icon
                 //- i.grey.icon(class=icon)
                 +icon name=icon cl='ui avatar image'
             |#{fv}
-            |#{doc.title}
+            |#{doc.t}
 
 template(name='single_doc_edit')
     div
-    .ui.inline.header(title=key) 
+    .ui.inline.header(t=key) 
         if icon
             //- i.grey.icon(class=icon)
             +i name=icon
             if image_id 
                 img.ui.avatar.compact.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
 
-        |#{label} #{title}
+        |#{label} #{t}
     each choices
         .ui.compact.button.select_choice(class=choice_class)
             if icon
                 //- i.grey.icon(class=icon)
                 +icon name=icon cl='ui middle aligned mini image'
                 //- +i name=icon cl='ui mini inline image'
-            |#{calculated_label} #{title}
+            |#{calculated_label} #{t}
             |#{slug}
             
             
 template(name='single_tribe_edit')
     div
-    .ui.inline.header(title=key) 
+    .ui.inline.header(t=key) 
         |select tribe
     each tribes
         .ui.compact.button.select_tribe(class=select_tribe_class)
-            | #{title}
+            | #{t}
 
 
 template(name='multi_doc_edit')
@@ -698,8 +698,8 @@ template(name='multi_doc_edit')
     if icon
         +icon name=icon cl='ui mini inline image'
         +i name=icon cl='ui mini inline image'
-    .ui.inline.header(title=key)
-        |#{title} #{label}    
+    .ui.inline.header(t=key)
+        |#{t} #{label}    
     each choices
         .ui.compact.button.select_choice(class=choice_class)
             if icon
@@ -707,27 +707,27 @@ template(name='multi_doc_edit')
                 +i name=icon cl='ui avatar image'
             if image_id
                 img.ui.avatar.compact.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            // |#{title} #{slug}
+            // |#{t} #{slug}
 
-            |#{title}
+            |#{t}
     //- .ui.sub.header 
     //-     if icon
     //-         i.grey.icon(class=icon)
-    //-     |#{title}
+    //-     |#{t}
     //- select.ui.fluid.multiple.selection.dropdown(multiple='')
     //-     each choices
-    //-         option(value=slug) #{title} #{unit_number}
+    //-         option(value=slug) #{t} #{unit_number}
     //- .ui.fluid.multiple.selection.dropdown
     //-  // input(type='hidden' name='multi_doc_edit')
     //-  // i.dropdown.icon
     //-  // .default.text 
-    //-  //     |#{title}
+    //-  //     |#{t}
     //-  // .menu
     //-  //     each choices
     //-  //         .item(data-value=slug) 
     //-  //             if icon
     //-  i.grey.icon(class=icon)
-    //-  //             |#{title}
+    //-  //             |#{t}
     
     
     
@@ -737,8 +737,8 @@ template(name='multi_doc_view')
     //- if icon
     //-     +i name=icon cl='ui mini inline image'
     if fv
-        .ui.inline.header(title=key)
-            |#{title} #{label}
+        .ui.inline.header(t=key)
+            |#{t} #{label}
         each sorted_fvs
             .ui.large.label
                 |#{this}
@@ -747,12 +747,12 @@ template(name='multi_doc_view')
 
 template(name='single_user_edit')
     div
-    if icon
-        i.icon(class=icon)
+    if i
+        i.icon(class=i)
     .ui.inline.header 
-        |#{label} #{title}
+        |#{label} #{t}
     // if fv
-    //     .pull_user.ui.icon.compact.button(title='remove user')
+    //     .pull_user.ui.icon.compact.button(t='remove user')
     //         i.remove.icon
             //- |clear #{fv}
     unless fv
@@ -787,7 +787,7 @@ template(name='single_user_view')
         if icon
             +icon name=icon    
         .ui.inline.header 
-            |#{title}
+            |#{t}
             |#{label}
         with fv
             with user_from_id this
@@ -806,12 +806,12 @@ template(name='multi_user_edit')
         if icon
             i.icon(class=icon)
             //- +i name=icon
-        if title
-            |#{title}
-        else if label
-            |#{label}
-        else if key
-            |#{key}
+        if t
+            |#{t}
+        else if l
+            |#{l}
+        else if k
+            |#{k}
         else
             |#{this}
     .ui.input
@@ -842,8 +842,8 @@ template(name='multi_doc_input')
         //- .ui.inline.header
         //-     if icon
         //-         i.grey.icon(class=icon)
-        //-     if title
-        //-         |#{title}
+        //-     if t
+        //-         |#{t}
         //-     else if label
         //-         |#{label}
         //-     else if key
@@ -851,7 +851,7 @@ template(name='multi_doc_input')
         //-     else
         //-         |#{this}
     .ui.big.input
-        input#multi_doc_select_input(type='text' placeholder=title autocomplete="off")
+        input#multi_doc_select_input(type='text' placeholder=t autocomplete="off")
         //- input#multi_doc_select_input(type='text' placeholder="Lookup #{ref_model}.." autocomplete="off")
     each selections
         .ui.large.label
@@ -889,7 +889,7 @@ template(name='multi_user_view')
             // i.icon(class=icon)
             +i name=icon cl='ui avatar image'
         |#{fv.length}
-        |#{title} #{label}
+        |#{t} #{label}
         //- #{key} #{label}
     each fv
         with user_from_id this

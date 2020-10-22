@@ -54,6 +54,7 @@ template(name='question_view')
                                 +session_boolean_toggle key='is_editing'
                             if session is_editing
                                 +text_edit key='title' d=true
+                            .ui.label #{choice_num}
                             .ui.label 
                                 i.user.outline.icon
                                 |#{_author.username}

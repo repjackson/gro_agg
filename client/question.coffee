@@ -71,8 +71,7 @@ Template.question_view.events
             
 Template.mc_select.events
     'click .select_option': ->
-        console.log @
-        
+        # console.log @
         e = Docs.findOne 
             model:'answer'
             question_id:Router.current().params.doc_id
@@ -99,7 +98,7 @@ Template.mc_select.helpers
             question_id:Router.current().params.doc_id
             _author_id:Meteor.userId()
         if e
-            console.log e
+            # congsole.log e
             if e.choice_num is @n
                 'active'
         
