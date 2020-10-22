@@ -68,9 +68,12 @@ template(name='question_view')
                         .ui.grey.header 
                             i.eye.icon
                             |visible
-                        // +kve k='vis' v='public'
-                        // +kve k='vis' v='friends'
-                        // +kve k='vis' v='list'
+                        if can_edit
+                            +kve k='vis' v='public'
+                            +kve k='vis' v='friends'
+                            +kve k='vis' v='list'
+                        else
+                            .ui.small.header #{vis}
                     div
                     .ui.grey.inline.header 
                         i.hand.holding.heart.icon
@@ -79,6 +82,7 @@ template(name='question_view')
                         i.plus.icon
                     // each question_bounties
                     //     +question_bounty
+                    div
                     .ui.grey.inline.header 
                         i.fork.icon
                         |dependencies
