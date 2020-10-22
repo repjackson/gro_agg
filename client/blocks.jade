@@ -116,7 +116,8 @@ template(name='session_toggle_button')
 template(name='comments')
     // .ui.top.attached.tabular.menu.top_rounded.comments_menu
     //     a.item.active(data-tab='first')
-    .ui.grey.header(data-tooltip='comments cost 1p each which goes to post op')
+    // .ui.grey.header(data-tooltip='comments cost 1p each which goes to post op')
+    .ui.grey.header
         i.chat.outline.icon
         | #{doc_comments.count} comments
         // a.item(data-tab='second') second
@@ -507,7 +508,7 @@ template(name='author_block')
 
 
 template(name='kve')
-    a.ui.compact.large.circular.button.set_key_value.select_term(class=set_key_value_class title=value href='#')
+    a.ui.compact.large.circular.button.set_key_value.select_term(class=set_kv_class title=value href='#')
         if i
             // +icon name=icon cl='ui avatar image'
             i.icon(class=i)
@@ -518,11 +519,11 @@ template(name='kve')
                 |#{v}
         
 template(name='user_kve')
-    .ui.compact.button.set_key_value(class=set_key_value_class)
+    .ui.compact.button.set_key_value(class=set_kv_class)
         if icon 
             i.icon(class=icon)
         if label
-            |#{label}
+            |#{l}
         else 
             |#{v}
 
@@ -531,7 +532,7 @@ template(name='session_key_value')
     .ui.button.set_session_value(class=button_class) 
         if icon 
             i.icon(class=icon)
-        if label
-            |#{label}
+        if l
+            |#{l}
         else 
             |#{value}

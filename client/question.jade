@@ -12,13 +12,17 @@ template(name='question_view')
             .row 
                 .five.wide.column
                     .ui.grey.inline.header 
-                        i.brain.icon
-                    .ui.icon.large.icon.circular.button(title='call tone')
+                        i.calculator.icon
+                        |alpha
+                    .ui.icon.large.circular.button(title='call tone')
                         i.smile.icon
-                    .ui.icon.large.icon.circular.button(title='call alpha')
+                        |tone
+                    .ui.icon.large.circular.button(title='call alpha')
                         i.brain.icon
-                    .ui.large.icon.circular.button(title='call duck')
+                        |watson
+                    .ui.large.circular.button(title='call duck')
                         i.search.icon
+                        |duck it
                 .six.wide.column
                     if url 
                         a(href=url target='_window') #{url}
@@ -67,6 +71,7 @@ template(name='question_view')
                         // +kve k='vis' v='public'
                         // +kve k='vis' v='friends'
                         // +kve k='vis' v='list'
+                    div
                     .ui.grey.inline.header 
                         i.hand.holding.heart.icon
                         |bounties
