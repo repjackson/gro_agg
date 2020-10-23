@@ -636,7 +636,7 @@ body {
 }
 
 
-.icon{
+.icon:not(.loading){
     animation: fadein .5s !important;
     transition: all 1s ease !important;
     /* -webkit-transition: opacity .1s ease-out; */

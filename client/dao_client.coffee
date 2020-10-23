@@ -114,7 +114,7 @@ Template.alpha.onRendered ->
     # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[1].plaintext
     if @data.voice
         window.speechSynthesis.speak new SpeechSynthesisUtterance @data.voice
-    else
+    else if @data
         window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[0].plaintext
     # console.log response.queryresult.pods[1].subpods
     # Meteor.setTimeout( =>
@@ -249,7 +249,9 @@ Template.tag_selector.events
         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         Meteor.call 'call_alpha', selected_tags.array().toString(), ->
         # Meteor.call 'call_alpha', @name, ->
+        Session.set('thinking',true)
         Meteor.call 'call_wiki', @name, ->
+            Session.set('thinking', false)
         Meteor.call 'search_ddg', @name, ->
         Session.set('viewing_doc',null)
         Meteor.call 'search_reddit', selected_tags.array(), ->
@@ -557,7 +559,7 @@ Template.view_mode.events
 
 Template.emotion_mode.helpers
     toggle_emotion_class: -> 
-        if Session.equals('emotion_mode',@k) then "#{@i} huge orange" else "#{@i} big grey"
+        if Session.equals('emotion_mode',@k) then "#{@i2} huge #{@c}" else "#{@i2} big grey"
     selected_emotion: ->  Session.equals('emotion_mode',@k)
 
 Template.emotion_mode.events

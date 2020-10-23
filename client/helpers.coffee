@@ -208,6 +208,7 @@ Template.registerHelper 'kv_is', (key, value) ->
 
 
 Template.registerHelper 'template_subs_ready', () ->
+    console.log 'ready?', Template.instance().subscriptionsReady()
     Template.instance().subscriptionsReady()
 
 Template.registerHelper 'global_subs_ready', () ->
@@ -255,7 +256,6 @@ Template.registerHelper 'is_youtube', ()->
 Template.registerHelper 'session_is', (key)->
     Session.get(key)
 
-Template.registerHelper 'is_loading', -> Session.get 'loading'
 Template.registerHelper 'long_time', (input)-> 
     console.log 'long time', input
     moment(input).format("h:mm a")
@@ -280,7 +280,7 @@ Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
 
 
 
-Template.registerHelper 'loading_class', ()->
-    if Session.get 'loading' then 'disabled' else ''
+Template.registerHelper 'thinking_class', ()->
+    if Session.get 'thinking' then 'disabled' else ''
 
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
