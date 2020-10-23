@@ -50,15 +50,18 @@ template(name='profile')
                             .content
                                 .header #{username}
             .twelve.wide.column 
-                +session_kv_button k='profile_section' v='dashboard' l='dashboard' i='dashboard'
-                +session_kv_button k='profile_section' v='friends' l='friends' i='groups'
-                +session_kv_button k='profile_section' v='finance' l='finance' i='money'
-                +session_kv_button k='profile_section' v='posts' l='posts' i='blog'
-                +session_kv_button k='profile_section' v='questions' l='questions' i='faq'
-                +session_kv_button k='profile_section' v='answers' l='answers' i='rss'
-
-                .ui.header #{points_earned}pts earned
-                +user_dashboard
+                +skve k='profile_section' v='dashboard' l='dashboard' i='dashboard'
+                +skve k='profile_section' v='friends' l='friends' i='groups'
+                +skve k='profile_section' v='finance' l='finance' i='money'
+                +skve k='profile_section' v='posts' l='posts' i='blog'
+                +skve k='profile_section' v='questions' l='questions' i='faq'
+                +skve k='profile_section' v='answers' l='answers' i='rss'
+                if skv_is 'profile_section' 'dashboard'
+                    .ui.header #{points_earned}pts earned
+                    +user_dashboard
+                if skv_is 'profile_section' 'friends'
+                    .ui.header friends
+                    // +user_dashboard
               
 
 
