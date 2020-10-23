@@ -8,13 +8,13 @@ template(name='nav')
                 i.large.yin.yang.grey.icon
             a.icon.item.zoom(href='/web' class="{{isActivePath '/web'}}")
                 i.large.globe.grey.icon
-            a.icon.item.zoom(href='/reddit' class="{{isActivePath '/reddit'}}")
+            a.icon.disabled.item.zoom(href='/reddit' class="{{isActivePath '/reddit'}}")
                 i.large.reddit.grey.icon
-            a.icon.item.zoom(href='/stack' class="{{isActivePath '/stack'}}")
+            a.icon.disabled.item.zoom(href='/stack' class="{{isActivePath '/stack'}}")
                 i.large.stack.exchange.grey.icon
-            a.icon.item.zoom(href='/wikipedia' class="{{isActivePath '/wikipedia'}}")
+            a.icon.disabled.item.zoom(href='/wikipedia' class="{{isActivePath '/wikipedia'}}")
                 i.large.wikipedia.grey.icon
-            a.icon.item.zoom(href='/questions' class="{{isActivePath '/questions'}}")
+            a.icon.disabled.item.zoom(href='/questions' class="{{isActivePath '/questions'}}")
                 i.large.question.grey.icon
             a.icon.item.zoom(href='/m/model' class="{{isActivePath '/m/model'}}")
                 i.large.database.grey.icon
@@ -220,12 +220,9 @@ template(name='rightbar')
 
 template(name='leftbar')
     .ui.left.sidebar.vertical.borderless.invert.menu
-        // a.item.toggle_leftbar(href="/" class="{{isActiveRoute '/'}}")
-        //     img.ui.avatar.compact.image(src="{{c.url 'homestar_logo' height=200 width=200 gravity='face' crop='fill'}}")
-        //     |One
         a.item.toggle_leftbar(href="/" class="{{isActivePath '/'}}")
-            i.dashboard.icon
-            | Dashboard
+            i.yin.yang.icon
+            | dao
         a.item.toggle_leftbar(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_dashboard'}}")
             i.user.icon
             | profile
@@ -236,18 +233,24 @@ template(name='leftbar')
             i.cog.icon
             | settings
         .divider
-        a.icon.item.zoom.toggle_leftbar(href='/web' class="{{isActivePath '/web'}}")
+        a.item.zoom.toggle_leftbar(href='/web' class="{{isActivePath '/web'}}")
             i.large.globe.grey.icon
-        a.icon.item.zoom.toggle_leftbar(href='/reddit' class="{{isActivePath '/reddit'}}")
+            |web
+        a.item.zoom.toggle_leftbar(href='/reddit' class="{{isActivePath '/reddit'}}")
             i.large.reddit.grey.icon
-        a.icon.item.zoom.toggle_leftbar(href='/stack' class="{{isActivePath '/stack'}}")
+            |reddit
+        a.item.zoom.toggle_leftbar(href='/stack' class="{{isActivePath '/stack'}}")
             i.large.stack.exchange.grey.icon
-        a.icon.item.zoom.toggle_leftbar(href='/wikipedia' class="{{isActivePath '/wikipedia'}}")
+            |stackexchange
+        a.item.zoom.toggle_leftbar(href='/wikipedia' class="{{isActivePath '/wikipedia'}}")
             i.large.wikipedia.grey.icon
-        a.icon.item.zoom.toggle_leftbar(href='/questions' class="{{isActivePath '/questions'}}")
+            |wikipedia
+        a.item.zoom.toggle_leftbar(href='/questions' class="{{isActivePath '/questions'}}")
             i.large.question.grey.icon
-        a.icon.item.zoom.toggle_leftbar(href='/m/model' class="{{isActivePath '/m/model'}}")
+            |questions
+        a.item.zoom.toggle_leftbar(href='/m/model' class="{{isActivePath '/m/model'}}")
             i.large.database.grey.icon
+            |database
         
         .divider
         a.disabled.item.toggle_leftbar(href="/chat" class="{{isActivePath '/chat'}}" title='chat') 

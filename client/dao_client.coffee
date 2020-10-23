@@ -543,31 +543,31 @@ Template.dao.events
 
 
 Template.view_mode.helpers
-    toggle_view_class: -> if Session.equals('view_mode',@key) then "#{@icon} huge #{@color}" else "#{@icon} big grey"
+    toggle_view_class: -> if Session.equals('view_mode',@k) then "#{@i} huge #{@c}" else "#{@i} big grey"
 
 Template.view_mode.events
     'click .toggle_view': -> 
-        if Session.equals('view_mode', @key)
+        if Session.equals('view_mode', @k)
             Session.set('view_mode', null)
         else
-            Session.set('view_mode', @key)
+            Session.set('view_mode', @k)
             # window.speechSynthesis.cancel()
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @key
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @k
 
 
 Template.emotion_mode.helpers
     toggle_emotion_class: -> 
-        if Session.equals('emotion_mode',@key) then "#{@icon} huge orange" else "#{@icon} big grey"
-    selected_emotion: ->  Session.equals('emotion_mode',@key)
+        if Session.equals('emotion_mode',@k) then "#{@i} huge orange" else "#{@i} big grey"
+    selected_emotion: ->  Session.equals('emotion_mode',@k)
 
 Template.emotion_mode.events
     'click .toggle_emotion': -> 
-        if Session.equals('emotion_mode', @key)
+        if Session.equals('emotion_mode', @k)
             Session.set('emotion_mode', null)
         else
-            Session.set('emotion_mode', @key)
+            Session.set('emotion_mode', @k)
             # window.speechSynthesis.cancel()
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @key
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @k
 
 
 

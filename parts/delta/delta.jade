@@ -152,8 +152,11 @@ template(name='model_top')
                 a.ui.icon.basic.compact.circular.button.go_home
                     i.big.home.icon
         a.ui.inline.large.header.reset(title="#{description}, #{views} views")
-            // i.large.icon(class=icon)
-            +i name=icon
+            // +i name=icon
+            if color_icon
+                +i name=icon
+            else 
+                i.large.icon(class=icon)
             | #{current_model.title}
     unless is_loading
         if currentUser
@@ -165,7 +168,7 @@ template(name='model_top')
                 if is_admin
                     .ui.icon.basic.circular.button.add_model_doc(title="add #{slug}")
                         i.plus.large.green.icon
-        //- +user_list_toggle k='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' label="bookmark"
+        +user_list_toggle k='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' label="bookmark"
         if is_admin
             i.cog.large.circular.link.icon.edit_model(title='edit model')
         if cd
@@ -230,11 +233,9 @@ template(name='facet')
             else 
                 |#{key}
                 //- i.dropdown.icon
-        // .ui.icon.tiny.input
-        //     i.search.icon
-        //     input.add_filter(type='text')
-            //- .active.content
-                //- div
+        .ui.icon.tiny.input
+            i.search.icon
+            input.add_filter(type='text')
         if viewing_results
             each filtering_res
                 // if name
