@@ -270,7 +270,7 @@ Template.doc_tag.helpers
         if term
             if term.max_emotion_name
                 switch term.max_emotion_name
-                    when 'joy' then 'green'
+                    when 'joy' then 'invert green'
                     when 'anger' then 'red'
                     when 'sadness' then 'blue'
                     when 'disgust' then 'orange'
@@ -479,7 +479,7 @@ Template.doc.events
 
 Template.dao.events
     'click #clear_tags': -> 
-        # selected_tags.clear()
+        selected_tags.clear()
         window.speechSynthesis.cancel()
 
 

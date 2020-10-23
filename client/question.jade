@@ -35,15 +35,15 @@ template(name='question_view')
                         img.ui.pointer.rounded.inset.image(src=image_url class=currentUser.invert_class)
                 
                     if youtube_id
-                        +youtube_view key='youtube_id' d=true
+                        +youtube_view k='youtube_id' d=true
                     .f12
                         |!{body}
-                    if key_value_is 'question_type' 'multiple_choice'
+                    if kv_is 'question_type' 'multiple_choice'
                         +mc_select n=1
                         +mc_select n=2
                         +mc_select n=3
                         +mc_select n=4
-                    if key_value_is 'question_type' 'boolean'
+                    if kv_is 'question_type' 'boolean'
                         .ui.big.circular.icon.button.mark_true(title='true')
                             i.checkmark.big.icon
                             // |true

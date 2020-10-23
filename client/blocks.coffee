@@ -170,26 +170,8 @@ if Meteor.isClient
         'click .unfollow': ->
             Docs.update @_id,
                 $pull:follower_ids:Meteor.userId()
-#
-#
-#
-#     Template.session_key_v.events
-#         'click .set_session_v': ->
-#             console.log @
-#             if Session.equals(@k,@v)
-#                 Session.set(@k, null)
-#             else
-#                 Session.set(@k, @v)
-#
-#     Template.session_key_v.helpers
-#         button_class: ->
-#             console.log @
-#             if Session.equals(@k, @v) then 'active' else 'basic'
-#
-#
-#
-#
-#
+
+
     Template.voting.events
         'click .upvote': (e,t)->
             # $(e.currentTarget).closest('.button').transition('pulse',200)
@@ -568,7 +550,7 @@ if Meteor.isClient
             # console.log parent
             if p["#{@k}"] is @value then 'active' else 'basic'
 
-    Template.session_edit_v_button.events
+    Template.session_kv_button.events
         'click .set_session_v': ->
             # console.log @k
             # console.log @v
@@ -577,7 +559,7 @@ if Meteor.isClient
             else
                 Session.set(@k, @v)
 
-    Template.session_edit_v_button.helpers
+    Template.session_kv_button.helpers
         calculated_class: ->
             res = ''
             # console.log @

@@ -16,7 +16,18 @@ template(name='dao')
                 each tag_results
                     +tag_selector
         .row
-            .four.wide.column
+            .five.wide.column
+                unless viewing_doc
+                    each alphas
+                        if response.queryresult
+                            +alpha 
+                    // if many_tags
+                    //     each alpha_singles
+                    //         if response.queryresult
+                    //             +alpha 
+                unless viewing_doc
+                    each ducks
+                        +duck 
                 .ui.large.basic.label(title='results') #{doc_count} results
                 +view_mode key='twitter' icon='twitter' color='blue'
                 +view_mode key='video' icon='youtube' color='red'
@@ -68,25 +79,28 @@ template(name='dao')
                 // i.smile.large.icon
                 div
                 // .five.wide.right.aligned.column
-                unless viewing_doc
-                    each alphas
-                        if response.queryresult
-                            +alpha 
-                    if many_tags
-                        each alpha_singles
-                            if response.queryresult
-                                +alpha 
-                unless viewing_doc
-                    each ducks
-                        +duck 
                 // .eleven.wide.column
-            .twelve.wide.column
-                .ui.centered.cards
+            .eleven.wide.column
+                |limit
+                +session_kve key='limit' value=1 label='1'
+                +session_kve key='limit' value=10 label='10'
+                |sort
+                +session_kve key='sort_key' value='_timestamp' label='when'
+                +session_kve key='sort_key' value='bounty' label='bounty'
+                +session_kve key='sort_direction' value=-1 label='up'
+                +session_kve key='sort_direction' value=1 label='down'
+                |view
+                +session_kve key='view_mode' value='cards' label='cards' icon='clone'
+                +session_kve key='view_mode' value='list' label='list' icon='list'
+            
+                .ui.cards
                     each docs
                         if key_value 'model' 'porn'
                             +vid_card
                         else
                             +doc
+                
+                //     +session_edit_value_button key='view_section' value='tone' label='tone' icon='smile'
                 
                 
 template(name="doc")
@@ -101,7 +115,7 @@ template(name="doc")
             img.ui.rounded.inline.pointer.zoomer.image.invert.toggle_view(src=watson.metadata.image)    
 
         .content
-            span.ui.pointer.text.f13.zoomer.toggle_view(class=post_header_class) #{title}
+            span.ui.pointer.text.f13.zoom.toggle_view(class=post_header_class) #{title}
                 // small #{max_emotion_name}
             // |#{points}
                 // unless one_post
@@ -111,9 +125,12 @@ template(name="doc")
                     i.caret.down.big.grey.icon
                 .ui.circular.icon.basic.button.vote_up
                     i.caret.up.big.grey.icon
-                .ui.circular.icon.big.basic.button.read 
+                .ui.circular.big.basic.button.read 
                     i.rss.icon
                     |read
+                .ui.circular.icon.button.bookmark
+                    i.bookmark.icon
+                
                 // if is_image
                 //     img.ui.centered.image(src=url)
                 span.invert
@@ -156,7 +173,7 @@ template(name="doc")
                 // .nl2br
                 // if viewing
                 
-                // +call_watson
+                +call_watson
                 if watson    
                     unless tone
                         +call_tone    
@@ -187,7 +204,6 @@ template(name="doc")
                 // div
                 if tone
                     +tone
-                //     +session_edit_value_button key='view_section' value='tone' label='tone' icon='smile'
                 each tags
                     +doc_tag
                 |#{tags.length}
@@ -232,7 +248,7 @@ template(name='unselect_tag')
 
 template(name='tag_selector')
     // a.ui.tertiary.basic.circular.button.select_tag.select_term(href='#' title="#{count} results" class=selector_class)
-    a.ui.big.image.basic.label.pointer.select_tag.select_term(href='#' title="#{count} results" class=selector_class)
+    a.ui.large.image.basic.label.pointer.select_tag.select_term(href='#' title="#{count} results" class=selector_class)
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    
@@ -269,7 +285,7 @@ template(name='duck')
         each RelatedTopics
             if Text
                 // .ui.compact.button.topic
-                .ui.small.tertiary.basic.button.topic
+                .ui.tertiary.basic.button.topic
                     img.ui.tiny.inline.rounded.image(src=Icon.URL)
                     |#{Text}
                     // | {{lowered Text}}
@@ -318,7 +334,7 @@ template(name='alpha')
             // .ui.list
             each subpods
                 // .ui.small.inline.header #{title}
-                img.ui.zoomer.pointer.image.alphatemp(src=img.src)
+                img.ui.zoomer.pointer.image.invert.alphatemp(src=img.src)
                 // .item.alphatemp
                 // |#{plaintext}
                 // .item title: #{title}

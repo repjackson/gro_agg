@@ -144,13 +144,13 @@ Meteor.methods
                 limit:10
             features:
                 entities:
-                    emotion: true
-                    sentiment: true
-                    mentions: true
+                    emotion: false
+                    sentiment: false
+                    mentions: false
                     limit: 10
                 keywords:
-                    emotion: true
-                    sentiment: true
+                    emotion: false
+                    sentiment: false
                     limit: 10
                 concepts: {}
                 categories:
@@ -180,12 +180,12 @@ Meteor.methods
                     parameters.clean = true
                 when 'video'
                     parameters.url = "https://www.reddit.com#{doc.permalink}"
-                    parameters.returnAnalyzedText = false
+                    parameters.returnAnalyzedText = true
                     parameters.clean = true
                     # console.log 'calling video'
                 when 'image'
                     parameters.url = "https://www.reddit.com#{doc.permalink}"
-                    parameters.returnAnalyzedText = false
+                    parameters.returnAnalyzedText = true
                     parameters.clean = true
                     console.log 'calling image'
 
@@ -239,7 +239,7 @@ Meteor.methods
                 # if mode is 'url'
                 Docs.update { _id: doc_id },
                     $set:
-                        # analyzed_text:response.analyzed_text
+                        analyzed_text:response.analyzed_text
                         watson: response
                         max_emotion_name:max_emotion_name
                         max_emotion_percent:max_emotion_percent

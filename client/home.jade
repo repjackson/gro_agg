@@ -37,7 +37,7 @@ template(name='questions')
             +session_kve key='view_mode' value='cards' label='cards' icon='clone'
             +session_kve key='view_mode' value='list' label='list' icon='list'
             .spacer
-            if session_key_value_is 'view_mode' 'list'
+            if session_kv_is 'view_mode' 'list'
                 .ui.big.link.selection.list 
                     each questions 
                         a.item(href="/question/#{_id}/view")
@@ -84,7 +84,7 @@ template(name='question_card')
                 i.thumbs.down.icon(class=vote_false_icon_class)
             if can_edit
                 +session_kve key='edit_question_id' value=_id label='edit'
-            if session_key_value_is 'edit_question_id' _id
+            if session_kv_is 'edit_question_id' _id
                 .ui.inline.header editing
                 +text_edit key='title' d=true
                 +number_edit key='bounty' d=true
@@ -92,7 +92,7 @@ template(name='question_card')
                 +number_edit key='bounty_total' label='total bounty' d=true
                 // +kve key='question_type' value='true_false' label='true/false'
                 // +kve key='question_type' value='multiple_choice' label='multiple choice'
-                // if key_value_is 'question_type' 'multiple_choice'
+                // if kv_is 'question_type' 'multiple_choice'
                 //     // +number_edit key='answer_count' label='number of answers' d=true
                 //     // each answers
                 //     +text_edit key='answer_choice_one' label='answer choice one' d=true

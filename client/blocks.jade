@@ -1,6 +1,6 @@
 template(name='icon')    
-    i.icon(class=name)
-    // img.ui.image(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl)
+    // i.icon(class=name)
+    img.ui.image(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/plasticine/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/ios/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl)
@@ -92,16 +92,16 @@ template(name='session_boolean_toggle')
                 |#{v}
                 
                 
-template(name='session_edit_v_button')
+template(name='session_kv_button')
     // a.ui.image.big.link.label.set_session_v(class=calculated_class)
     .ui.circular.zoom.button.set_session_v(class=calculated_class)
-        if icon
+        if i
             // i.icon(class=icon)
-            +i name=icon cl='ui mini image'
-        // if label
-        //     |#{label}
-        // else 
-        //     |#{v}
+            +i name=i cl='ui mini inline image'
+        if l
+            |#{l}
+        else 
+            |#{v}
 
 
 

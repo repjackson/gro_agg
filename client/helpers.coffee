@@ -196,12 +196,12 @@ Template.registerHelper 'fv', () ->
 Template.registerHelper 'lowered', (input)-> input.toLowerCase()
 Template.registerHelper 'money_format', (input)-> (input/100).toFixed(2)
 
-Template.registerHelper 'session_key_value_is', (key, value) ->
+Template.registerHelper 'session_kv_is', (key, value) ->
     # console.log 'key', key
     # console.log 'value', value
     Session.equals key,value
 
-Template.registerHelper 'key_value_is', (key, value) ->
+Template.registerHelper 'kv_is', (key, value) ->
     # console.log 'key', key
     # console.log 'value', value
     @["#{key}"] is value
