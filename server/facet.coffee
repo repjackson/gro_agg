@@ -132,6 +132,8 @@ Meteor.publish 'docs', (
         when 'posts'
             match.model = 'reddit'
             # match.domain = $nin:['i.imgur.com','i.reddit.com','i.redd.it','imgur.com','youtube.com','youtu.be','m.youtube.com','v.redd.it','vimeo.com']
+        when 'porn'
+            match.model = 'porn'
         else 
             match.model = $in:['wikipedia','reddit']
     # console.log 'doc match', match
@@ -161,8 +163,8 @@ Meteor.publish 'dtags', (
     if emotion_mode
         match.max_emotion_name = emotion_mode
     if selected_emotions.length > 0 then match.max_emotion_name = $all:selected_emotions
-    # if selected_subreddits.length > 0 then match.subreddit = selected_subreddits.toString()
-    # if selected_models.length > 0 then match.model = $all:selected_models
+    if selected_subreddits.length > 0 then match.subreddit = selected_subreddits.toString()
+    if selected_models.length > 0 then match.model = $all:selected_models
 
     # console.log 'emotion mode', emotion_mode
     # if selected_tags.length > 0
@@ -182,14 +184,17 @@ Meteor.publish 'dtags', (
             match.domain = $in:['youtube.com','youtu.be','m.youtube.com','v.redd.it','vimeo.com']
         when 'wikipedia'
             match.model = 'wikipedia'
+        when 'porn'
+            match.model = 'porn'
         else
             match.model = $in:['wikipedia','reddit']
             # match.model = $in:['wikipedia']
     if selected_tags.length > 0 
         match.tags = $all: selected_tags
     else
-        # unless selected_subreddits.length>0
-        match.tags = $in:['life']
+        unless selected_subreddits.length>0
+            unless view_mode is 'porn'
+                match.tags = $in:['life']
     # else if view_mode in ['reddit',null]
     doc_count = Docs.find(match).count()
     # console.log 'count',doc_count
@@ -279,8 +284,11 @@ Meteor.publish 'dtags', (
             name: emotion.name
             count: emotion.count
             model:'emotion'
-  
-    # tag_limit = 15
+    
+    if view_mode is 'porn'
+        tag_limit = 20
+    else
+        tag_limit = 9
   
     tag_cloud = Docs.aggregate [
         { $match: match }
@@ -290,7 +298,7 @@ Meteor.publish 'dtags', (
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:11 }
+        { $limit:tag_limit }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # # console.log 'cloud: ', tag_cloud

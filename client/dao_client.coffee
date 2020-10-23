@@ -346,7 +346,7 @@ Template.dao.helpers
         if Session.get('viewing_doc')
             Docs.find Session.get('viewing_doc')
         else
-            match = {model:$in:['post','wikipedia','reddit']}
+            match = {model:$in:['post','wikipedia','reddit','porn']}
             # match = {model:$in:['post','wikipedia','reddit']}
             # match = {model:'wikipedia'}
             if selected_tags.array().length>0
