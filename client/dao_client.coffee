@@ -527,11 +527,13 @@ Template.dao.events
                     Meteor.call 'search_ddg', search, ->
                     window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
                     $('body').toast(
+                        showIcon: 'brain'
                         message: 'apha start'
                     )
                     Meteor.call 'call_alpha', selected_tags.array().toString(), ->
                         $('body').toast(
                             message: 'apha done'
+                            showIcon: 'brain'
                             showProgress: 'bottom'
                             class: 'success'
                             displayTime: 1000,
@@ -539,13 +541,15 @@ Template.dao.events
                     Meteor.call 'call_wiki', search, ->
                         $('body').toast(
                             message: 'wiki done'
+                            showIcon: 'wikipedia'
                             showProgress: 'bottom'
-                            class: 'success'
+                            class: 'info'
                             displayTime: 1000,
                         )
                     Meteor.call 'search_reddit', selected_tags.array(), ->
                         $('body').toast(
                             message: 'reddit done'
+                            showIcon: 'reddit'
                             showProgress: 'bottom'
                             class: 'success'
                             displayTime: 1000,

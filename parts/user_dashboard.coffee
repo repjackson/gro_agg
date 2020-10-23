@@ -109,6 +109,47 @@ if Meteor.isClient
             }, 
                 sort: _timestamp:-1
                 limit: 10
+    Template.post_segment.events
+        'click .remove_post': (e,t)->
+            $('body').toast
+                message: "confirm delete #{@title}?"
+                displayTime: 0
+                class: 'black'
+                showIcon: 'trash'
+                actions: [
+                    {
+                        text: 'delete'
+                        icon: 'remove'
+                        class: 'red'
+                        click: =>
+                            $(e.currentTarget).closest('.comment').transition('fly right', 1000)
+                            Meteor.setTimeout =>
+                                Docs.remove @_id
+                            , 1000
+                            $('body').toast 
+                                message: 'deleted'
+                                class: 'error'
+                    }
+                    {
+                        icon: 'ban'
+                        text: 'cancel'
+                        class: 'icon yellow'
+                    }
+                ]
+        'keyup .reply_body': (e,t)->
+            if e.which is 13
+                body = $('.reply_body').val()
+                Docs.insert 
+                    model:'reply'
+                    parent_id:@_id
+                    body:body
+                body = $('.reply_body').val('')
+                Session.set('replying_id', null)
+        'click .reply': ->
+            Session.set('replying_id', @_id)
+            
+        'click .cancel': ->
+            Session.set('replying_id', null)
 
 
 if Meteor.isServer

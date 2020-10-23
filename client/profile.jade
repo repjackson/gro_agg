@@ -40,7 +40,7 @@ template(name='profile')
                         +user_friend_button 
                 if is_dev
                     +print_this
-                .ui.selection.link.list
+                .ui.selection.link.list.smallscroll
                     each friends
                         a.profile_nav_item.item(href="/u/#{username}" title=username)
                             if profile_image_id
@@ -57,12 +57,21 @@ template(name='profile')
                 +skve k='profile_section' v='tribes' l='tribes' i='campfire'
                 +skve k='profile_section' v='questions' l='questions' i='faq'
                 +skve k='profile_section' v='answers' l='answers' i='rss'
+                +skve k='profile_section' v='overlap' l='overlap' i='exchange'
                 +skve k='profile_section' v='privacy' l='privacy' i='rss'
+                +skve k='profile_section' v='credits' l='credits' i='rss'
+                +skve k='profile_section' v='debits' l='debits' i='rss'
                 if skv_is 'profile_section' 'dashboard'
                     .ui.header #{points_earned}pts earned
                     +user_dashboard
                 else if skv_is 'profile_section' 'friends'
                     .ui.header friends
+                else if skv_is 'profile_section' 'authored_overlap'
+                    +authored_overlap
+                else if skv_is 'profile_section' 'privacy'
+                    +edit_privacy
+                else if skv_is 'profile_section' 'alerts'
+                    +alerts
                 else if skv_is 'profile_section' 'finance'
                     .ui.header finance
                     
