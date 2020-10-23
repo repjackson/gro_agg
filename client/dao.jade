@@ -3,11 +3,11 @@ template(name='dao')
         .row
             .sixteen.wide.center.aligned.column
                 unless viewing_doc
-                    i#clear_tags.link.yin.yang.big.icon(class=loading_class)
+                    // i#clear_tags.link.yin.yang.big.icon(class=loading_class)
                     if selected_tags
-                        // if many_tags
-                        //     a#clear_tags.ui.black.icon.small.compact.circular.button.select_term
-                        //         i.remove.icon
+                        if many_tags
+                            a#clear_tags.ui.black.icon.small.compact.circular.button.select_term
+                                i.remove.icon
                         each selected_tags
                             +unselect_tag
                     .ui.inline.input 
@@ -15,24 +15,25 @@ template(name='dao')
                     each tag_results
                         +tag_selector
                     .ui.circular.basic.label(title='results') #{doc_count}
-                    // +view_mode key='twitter' icon='twitter' color='blue'
+                    +view_mode key='twitter' icon='twitter' color='blue'
                     +view_mode key='video' icon='youtube' color='red'
                     +view_mode key='image' icon='picture' color='green'
                     +view_mode key='posts' icon='newspaper' color='teal'
                     +view_mode key='wikipedia' icon='wikipedia' color='purple'
-                    // .ui.inline.header 
-                    //     i.smile.large.grey.icon
-                    //     |emotion
-                    // +emotion_mode key='joy' icon='happy--v1' i2='smile' color='green'
-                    // +emotion_mode key='sadness' icon='sad--v1' i2='surprise' color='blue'
-                    // +emotion_mode key='anger' icon='angry--v1' i2='frown' color='red'
-                    // +emotion_mode key='disgust' icon='disgusting' i2='grin tongue squint' color='orange'
-                    // +emotion_mode key='fear' icon='scream' i2='tired' color='black'
-                    // i.grin.tongue.squint.outline.big.icon
-                    // i.surprise.outline.big.icon
-                    // i.smile.outline.big.icon
-                    // i.frown.outline.big.icon
-                    // i.tired.outline.big.icon
+                    +view_mode key='stackexchange' icon='stack exchange disabled'
+                    +view_mode key='github' icon='github disabled'
+                    +view_mode key='alpha' icon='disabled brain'
+                    +view_mode key='porn' icon='mercury'
+                    +view_mode key='bitcoin' icon='bitcoin disabled'
+                    +view_mode key='covid' icon='covid disabled'
+                    .ui.inline.header 
+                        i.smile.large.grey.icon
+                        |emotion
+                    +emotion_mode key='joy' icon='happy--v1' i2='smile' color='invert green'
+                    +emotion_mode key='sadness' icon='sad--v1' i2='sadness' color='invert blue'
+                    +emotion_mode key='anger' icon='angry--v1' i2='frown' color='invert red'
+                    +emotion_mode key='disgust' icon='disgusting' i2='grin tongue squint' color='invert orange'
+                    +emotion_mode key='fear' icon='scream' i2='tired' color='black'
                     each selected_emotions
                         .ui.black.circular.compact.button.unselect_emotion
                             |#{this}
@@ -40,33 +41,27 @@ template(name='dao')
                         if name
                             .ui.compact.circular.basic.button.select_emotion
                                 |#{name}
-                // +view_mode key='stackexchange' icon='stack exchange disabled'
-                // +view_mode key='github' icon='github disabled'
-                // +view_mode key='alpha' icon='disabled brain'
-                // +view_mode key='porn' icon='mercury'
-                // +view_mode key='bitcoin' icon='bitcoin disabled'
-                // +view_mode key='covid' icon='covid disabled'
+                .spacer
+                .ui.inline.header 
+                    i.users.large.grey.icon
+                    |group
+                each selected_subreddits
+                    .ui.black.circular.compact.button.unselect_subreddit
+                        |#{this}
+                each subreddit_results
+                    +select_subreddit
                 // .spacer
-                // .ui.inline.header 
-                //     i.users.large.grey.icon
-                //     |group
-                // each selected_subreddits
-                //     .ui.black.circular.compact.button.unselect_subreddit
-                //         |#{this}
-                // each subreddit_results
-                //     +select_subreddit
-                // // .spacer
-                // .spacer
-                // .ui.inline.header 
-                //     i.database.large.icon
-                //     |sources
-                // each selected_models
-                //     .ui.black.circular.compact.button.unselect_model
-                //         |#{this}
-                // each model_results
-                //     .ui.compact.circular.button.select_model
-                //         |#{name}
-                // // i.smile.large.icon
+                .spacer
+                .ui.inline.header 
+                    i.database.large.icon
+                    |sources
+                each selected_models
+                    .ui.black.circular.compact.button.unselect_model
+                        |#{this}
+                each model_results
+                    .ui.compact.circular.button.select_model
+                        |#{name}
+                // i.smile.large.icon
                 div
         .row
             .sixteen.wide.center.aligned.column
@@ -103,7 +98,7 @@ template(name="doc")
             img.ui.rounded.inline.pointer.zoomer.image.invert.toggle_view(src=watson.metadata.image)    
 
         .content
-            span.ui.pointer.text.invert.f13.zoomer.invert.toggle_view(class=post_header_class) #{title}
+            span.ui.pointer.text.f13.zoomer.toggle_view(class=post_header_class) #{title}
                 // small #{max_emotion_name}
             // |#{points}
                 // unless one_post
@@ -140,16 +135,16 @@ template(name="doc")
                 // .medscroll
                 // 
                 a.ui.circular.label(href="https://www.reddit.com#{permalink}" target="_window") r/#{subreddit}
-                // .ui.big.label 
-                //     i.user.outline.icon
-                //     |#{author}
-                // .ui.circular.label
-                //     i.thumbs.up.outline.icon
-                //     |#{ups}
-                // a.ui.inline.header(href=url target='_window')
-                //     | #{url}
-                // .ui.label
-                //     | #{domain}
+                .ui.big.label 
+                    i.user.outline.icon
+                    |#{author}
+                .ui.circular.label
+                    i.thumbs.up.outline.icon
+                    |#{ups}
+                a.ui.inline.header(href=url target='_window')
+                    | #{url}
+                .ui.label
+                    | #{domain}
                 // .spacer
                 // .nl2br
                 // |!{html}
@@ -201,16 +196,16 @@ template(name="doc")
             
                 
 template(name='view_mode')
-    i.link.zoomer.icon.toggle_view(class=toggle_view_class title=key)
+    i.link.zoomer.icon.toggle_view(class=toggle_view_class title=k)
 
 
 template(name='emotion_mode')
     if selected_emotion
-        i.huge.pointer.zoomer.icon.toggle_emotion(class="#{i2} #{color}" title=title)
-        // img.ui.inline.image.toggle_emotion.zoomer.pointer(src="https://img.icons8.com/color/50/000000/#{icon}.png" class=cl title=title)
+        i.huge.pointer.zoomer.icon.toggle_emotion(class="#{i2} #{color}" title=t)
+        // img.ui.inline.image.toggle_emotion.zoomer.pointer(src="https://img.icons8.com/color/50/000000/#{icon}.png" class=cl title=t)
     else
-        i.big.grey.pointer.zoomer.icon.toggle_emotion(class="#{i2} outline")
-        // img.ui.inline.image.toggle_emotion.zoomer.pointer(src="https://img.icons8.com/ios/36/000000/#{icon}.png" class=cl title=title)
+        i.big.grey.pointer.zoomer.icon.toggle_emotion(class="#{i2} outline" title=t)
+        // img.ui.inline.image.toggle_emotion.zoomer.pointer(src="https://img.icons8.com/ios/36/000000/#{icon}.png" class=cl title=t)
 
 
 template(name='pull_reddit')
@@ -227,14 +222,14 @@ template(name='convert')
 
 
 template(name='unselect_tag')
-    a.unselect_tag.ui.black.big.image.circular.label.select_term(href='#')
+    a.unselect_tag.ui.black.big.image.label.invert.select_term(href='#')
         if term
             img.ui.avatar.compact.image(src=term.watson.metadata.image)    
         strong #{this}
 
 template(name='tag_selector')
-    // a.ui.big.image.circular.label.pointer.select_tag.select_term(href='#' title="#{count} results" class=selector_header_class)
-    a.ui.tertiary.basic.circular.button.select_tag.select_term(href='#' title="#{count} results" class=selector_header_class)
+    // a.ui.tertiary.basic.circular.button.select_tag.select_term(href='#' title="#{count} results" class=selector_header_class)
+    a.ui.big.image.basic.label.pointer.select_tag.select_term(href='#' title="#{count} results" class=selector_class)
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    
