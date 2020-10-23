@@ -18,21 +18,6 @@ if Meteor.isClient
         #     Router.go "/debit/#{@_id}/view"
  
  
-        'keyup .reply_body': (e,t)->
-            if e.which is 13
-                body = $('.reply_body').val()
-                Docs.insert 
-                    model:'reply'
-                    parent_id:@_id
-                    body:body
-                body = $('.reply_body').val('')
-                Session.set('replying_id', null)
-        'click .reply': ->
-            Session.set('replying_id', @_id)
-            
-        'click .cancel': ->
-            Session.set('replying_id', null)
-            
  
         'keyup .add_post': (e,t)->
             if e.which is 13
@@ -44,10 +29,6 @@ if Meteor.isClient
                     body:body
                 $('.add_post').val('')
                 
-        'click .remove_post': (e,t)->
-            if confirm 'delete post?'
-                Docs.remove @_id
-            
             
     Template.user_dashboard.helpers
         questions_asked: ->

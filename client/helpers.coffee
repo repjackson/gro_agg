@@ -281,6 +281,6 @@ Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
 
 
 Template.registerHelper 'thinking_class', ()->
-    if Session.get 'thinking' then 'disabled' else ''
+    if Session.get('thinking') then 'disabled' else ''
 
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment

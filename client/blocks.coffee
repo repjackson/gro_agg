@@ -441,34 +441,81 @@ if Meteor.isClient
 #
     Template.remove_button.events
         'click .remove_doc': (e,t)->
-            if confirm "remove #{@model}?"
-                # if $(e.currentTarget).closest('.card')
-                #     $(e.currentTarget).closest('.card').transition('fly right', 1000)
-                # else
-                #     $(e.currentTarget).closest('.segment').transition('fly right', 1000)
-                #     $(e.currentTarget).closest('.item').transition('fly right', 1000)
-                #     $(e.currentTarget).closest('.content').transition('fly right', 1000)
-                #     $(e.currentTarget).closest('tr').transition('fly right', 1000)
-                #     $(e.currentTarget).closest('.event').transition('fly right', 1000)
-                # Meteor.setTimeout =>
-                Docs.remove @_id
-                # , 1000
+            $('body').toast
+              message: "confirm delete #{@title}?"
+              displayTime: 0
+              class: 'black'
+              actions: [
+                {
+                  text: 'yes'
+                  icon: 'remove'
+                  class: 'red'
+                  click: ->
+                    Docs.remove @_id
+                    $('body').toast message: 'deleted'
+                }
+                {
+                  icon: 'ban'
+                  text: 'cancel'
+                  class: 'icon yellow'
+                }
+                # {
+                #   text: '?'
+                #   class: 'blue'
+                #   click: ->
+                #     $('body').toast message: 'Returning false from the click handler avoids closing the toast '
+                #     false
+            
+                # }
+              ]
+            # if confirm "remove #{@model}?"
+            #     # if $(e.currentTarget).closest('.card')
+            #     #     $(e.currentTarget).closest('.card').transition('fly right', 1000)
+            #     # else
+            #     #     $(e.currentTarget).closest('.segment').transition('fly right', 1000)
+            #     #     $(e.currentTarget).closest('.item').transition('fly right', 1000)
+            #     #     $(e.currentTarget).closest('.content').transition('fly right', 1000)
+            #     #     $(e.currentTarget).closest('tr').transition('fly right', 1000)
+            #     #     $(e.currentTarget).closest('.event').transition('fly right', 1000)
+            #     # Meteor.setTimeout =>
+            #     # , 1000
 
 
     Template.remove_icon.events
         'click .remove_doc': (e,t)->
-            if confirm "remove #{@model}?"
-                if $(e.currentTarget).closest('.card')
-                    $(e.currentTarget).closest('.card').transition('fly right', 1000)
-                else
-                    $(e.currentTarget).closest('.segment').transition('fly right', 1000)
-                    $(e.currentTarget).closest('.item').transition('fly right', 1000)
-                    $(e.currentTarget).closest('.content').transition('fly right', 1000)
-                    $(e.currentTarget).closest('tr').transition('fly right', 1000)
-                    $(e.currentTarget).closest('.event').transition('fly right', 1000)
-                Meteor.setTimeout =>
-                    Docs.remove @_id
-                , 1000
+            console.log 'hi'
+            $('body').toast
+                message: "confirm delete #{@title}?"
+                displayTime: 0
+                class: 'black'
+                actions: [
+                    {
+                        text: 'yes'
+                        icon: 'remove'
+                        class: 'red'
+                        click: ->
+                            Docs.remove @_id
+                            $('body').toast message: 'deleted'
+                    }
+                    {
+                        icon: 'ban'
+                        text: 'cancel'
+                        class: 'icon yellow'
+                    }
+                ]
+            
+            # if confirm "remove #{@model}?"
+            #     if $(e.currentTarget).closest('.card')
+            #         $(e.currentTarget).closest('.card').transition('fly right', 1000)
+            #     else
+            #         $(e.currentTarget).closest('.segment').transition('fly right', 1000)
+            #         $(e.currentTarget).closest('.item').transition('fly right', 1000)
+            #         $(e.currentTarget).closest('.content').transition('fly right', 1000)
+            #         $(e.currentTarget).closest('tr').transition('fly right', 1000)
+            #         $(e.currentTarget).closest('.event').transition('fly right', 1000)
+            #     Meteor.setTimeout =>
+            #         Docs.remove @_id
+            #     , 1000
 
 #
 #     Template.view_user_button.events

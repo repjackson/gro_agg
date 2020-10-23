@@ -5,14 +5,14 @@ template(name='dao')
                 if skv_is 'thinking' true
                     i.big.yin.yang.loading.icon
                 // unless viewing_doc
-                    // i#clear_tags.link.yin.yang.big.icon(class=loading_class)
+                    // i#clear_tags.link.yin.yang.big.icon(class=thinking_class)
                 if selected_tags
                     if many_tags
-                        a#clear_tags.ui.black.icon.small.compact.circular.button.select_term
+                        a#clear_tags.ui.black.invert.icon.small.compact.circular.button.select_term
                             i.remove.icon
                     each selected_tags
                         +unselect_tag
-                .ui.left.icon.input
+                .ui.left.icon.input(class=thinking_class)
                     i.search.grey.icon
                     input.search_title(type='text' autofocus='')
                 each tag_results
@@ -106,122 +106,134 @@ template(name='dao')
                 
                 
 template(name="doc")
-    .ui.card(class=card_class)
-        // if embed
-        //     .rounded.full
-        //         |!{embed}
-        // else
-        if is_image
-            img.ui.centered.image.pointer.zoomer.invert.toggle_view(src=url)
-        else if watson.metadata.image
-            img.ui.rounded.inline.pointer.zoomer.image.invert.toggle_view(src=watson.metadata.image)    
-
-        .content
-            span.ui.pointer.text.f13.zoom.toggle_view(class=post_header_class) #{title}
-                // small #{max_emotion_name}
-            // |#{points}
-                // unless one_post
-                //     i.chevron.right.big.circular.grey.link.icon.forward
-            if viewing_doc
-                .ui.circular.icon.basic.button.vote_down
-                    i.caret.down.big.grey.icon
-                .ui.circular.icon.basic.button.vote_up
-                    i.caret.up.big.grey.icon
-                .ui.circular.big.basic.button.read 
-                    i.rss.icon
-                    |read
-                .ui.circular.icon.button.bookmark
-                    i.bookmark.icon
-                
-                // if is_image
-                //     img.ui.centered.image(src=url)
-                span.invert
-                    |!{embed}
-                // else if is_twitter
-                //     blockquote.twitter-tweet(data-dnt='true' data-theme='dark')
-                //         p(lang='en' dir='ltr')
-                //             | Twitter Support you must have the patience of 1000 camels waiting for a drink of water while the baby camels get the first drinks...does that make sense? Thank you for your dedication and time you selfishly give to each of us. You are always appreciated.
-                //         | — KayeMc76 (@KayeMc76) 
-                //         a(href=url) October 3, 2020
-                // else if is_youtube
-                //     div
-                //     .ui.fluid.embed
-                //         iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
-                    // iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                    // else if is_video
+    .ui.card(class="#{card_class} #{thinking_class}")
+        if skv_is 'thinking'
+            .ui.placeholder
+                .rectangular.image
+            .content
+                .ui.fluid.placeholder
+                    .header
+                        .line
+                    .line
+                    .line
+                    .line
+                    .line
+        else
+            // if embed
+            //     .rounded.full
+            //         |!{embed}
+            // else
+            if is_image
+                img.ui.centered.image.pointer.zoomer.invert.toggle_view(src=url)
+            else if watson.metadata.image
+                img.ui.rounded.inline.pointer.zoomer.image.invert.toggle_view(src=watson.metadata.image)    
+    
+            .content
+                span.ui.pointer.text.f13.zoom.toggle_view(class=post_header_class) #{title}
+                    // small #{max_emotion_name}
+                // |#{points}
+                    // unless one_post
+                    //     i.chevron.right.big.circular.grey.link.icon.forward
+                if viewing_doc
+                    .ui.circular.icon.basic.button.vote_down
+                        i.caret.down.big.grey.icon
+                    .ui.circular.icon.basic.button.vote_up
+                        i.caret.up.big.grey.icon
+                    .ui.circular.big.basic.button.read 
+                        i.rss.icon
+                        |read
+                    .ui.circular.icon.button.bookmark
+                        i.bookmark.icon
+                    
+                    // if is_image
+                    //     img.ui.centered.image(src=url)
+                    span.invert
+                        |!{embed}
+                    // else if is_twitter
+                    //     blockquote.twitter-tweet(data-dnt='true' data-theme='dark')
+                    //         p(lang='en' dir='ltr')
+                    //             | Twitter Support you must have the patience of 1000 camels waiting for a drink of water while the baby camels get the first drinks...does that make sense? Thank you for your dedication and time you selfishly give to each of us. You are always appreciated.
+                    //         | — KayeMc76 (@KayeMc76) 
+                    //         a(href=url) October 3, 2020
+                    // else if is_youtube
                     //     div
-                    //     // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                    //     iframe(width="100%" height="600" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                // else
-                //     iframe(width="100%" height="500" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
-                // .medscroll
-                // 
-                a.ui.circular.label(href="https://www.reddit.com#{permalink}" target="_window") r/#{subreddit}
-                .ui.big.label 
-                    i.user.outline.icon
-                    |#{author}
-                .ui.circular.label
-                    i.thumbs.up.outline.icon
-                    |#{ups}
-                a.ui.inline.header(href=url target='_window')
-                    | #{url}
-                .ui.label
-                    | #{domain}
-                // .spacer
-                // .nl2br
-                // |!{html}
-                // .spacer
-                // pre
-                // .nl2br
-                // if viewing
+                    //     .ui.fluid.embed
+                    //         iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
+                        // iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                        // else if is_video
+                        //     div
+                        //     // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                        //     iframe(width="100%" height="600" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                    // else
+                    //     iframe(width="100%" height="500" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
+                    // .medscroll
+                    // 
+                    a.ui.circular.label(href="https://www.reddit.com#{permalink}" target="_window") r/#{subreddit}
+                    .ui.big.label 
+                        i.user.outline.icon
+                        |#{author}
+                    .ui.circular.label
+                        i.thumbs.up.outline.icon
+                        |#{ups}
+                    a.ui.inline.header(href=url target='_window')
+                        | #{url}
+                    .ui.label
+                        | #{domain}
+                    // .spacer
+                    // .nl2br
+                    // |!{html}
+                    // .spacer
+                    // pre
+                    // .nl2br
+                    // if viewing
+                    
+                    +call_watson
+                    if watson    
+                        unless tone
+                            +call_tone    
+                    if parsed_selftext_html
+                        .ui.segment
+                            |!{parsed_selftext_html}
+                    else if selftext
+                        .ui.segment
+                            |{{nl2br selftext}}
+                    else if body
+                        div
+                        .ui.segment
+                            |{{nl2br body}}
+                    // else if tone
+                    //     .spacer
+                    //     +tone
+                    // div(style='position:relative; padding-bottom:calc(125.00% + 44px)')
+                    //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
+                    // |{{selftext}}
+                    // +convert
+                    a.ui.circular.icon.big.basic.button(href=url target='_window' title=domain)
+                        i.external.icon
+                        |view site 
+                        |#{domain}
+                    // a.ui.center.aligned.header(href=url target='_window' class=post_header_class title=url) #{title}
+    
+                    // .spacer
+                    // div
+                    if tone
+                        +tone
+                    each tags
+                        +doc_tag
+                    |#{tags.length}
+                    .ui.input
+                        i.plus.grey.icon
+                        input.tag_post(type='text')
+                    i.code.link.icon.print_me
                 
-                +call_watson
-                if watson    
-                    unless tone
-                        +call_tone    
-                if parsed_selftext_html
-                    .ui.segment
-                        |!{parsed_selftext_html}
-                else if selftext
-                    .ui.segment
-                        |{{nl2br selftext}}
-                else if body
-                    div
-                    .ui.segment
-                        |{{nl2br body}}
-                // else if tone
-                //     .spacer
-                //     +tone
-                // div(style='position:relative; padding-bottom:calc(125.00% + 44px)')
-                //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
-                // |{{selftext}}
-                // +convert
-                a.ui.circular.icon.big.basic.button(href=url target='_window' title=domain)
-                    i.external.icon
-                    |view site 
-                    |#{domain}
-                // a.ui.center.aligned.header(href=url target='_window' class=post_header_class title=url) #{title}
-
-                // .spacer
-                // div
-                if tone
-                    +tone
-                each tags
-                    +doc_tag
-                |#{tags.length}
-                .ui.input
-                    i.plus.grey.icon
-                    input.tag_post(type='text')
-                i.code.link.icon.print_me
-            
             
                 
 template(name='view_mode')
-    i.link.zoomer.icon.toggle_view(class=toggle_view_class title=k)
+    i.link.zoomer.icon.toggle_view(class="#{toggle_view_class} #{thinking_class}" title=k)
 
 
 template(name='emotion_mode')
-    i.link.zoomer.icon.toggle_emotion(class=toggle_emotion_class title=t)
+    i.link.zoomer.icon.toggle_emotion(class="#{toggle_emotion_class} #{thinking_class}" title=t)
     // if selected_emotion
     //     i.huge.pointer.zoomer.icon.toggle_emotion(class="#{i2} #{color}" title=t)
     //     // img.ui.inline.image.toggle_emotion.zoomer.pointer(src="https://img.icons8.com/color/50/000000/#{icon}.png" class=cl title=t)
@@ -250,8 +262,8 @@ template(name='unselect_tag')
         strong #{this}
 
 template(name='tag_selector')
-    // a.ui.tertiary.basic.circular.button.select_tag.select_term(href='#' title="#{count} results" class=selector_class)
-    a.ui.large.image.basic.label.pointer.select_tag.select_term(href='#' title="#{count} results" class=selector_class)
+    // a.ui.tertiary.basic.circular.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.large.image.basic.label.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    
@@ -259,8 +271,8 @@ template(name='tag_selector')
         // small #{count}
         
 template(name='select_subreddit')
-    // a.ui.tertiary.basic.circular.button.select_tag.select_term(href='#' title="#{count} results" class=selector_class)
-    a.ui.image.basic.label.pointer.select_tag.select_term(href='#' title="#{count} results" class=selector_class)
+    // a.ui.tertiary.basic.circular.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.image.basic.label.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    
@@ -268,7 +280,7 @@ template(name='select_subreddit')
         // small #{count}
 
 template(name='doc_tag')
-    a.ui.image.large.circular.label.pointer.select_tag.select_term(href='#' title="#{count} results" class=selector_class)
+    a.ui.image.large.circular.label.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             img.ui.avatar.compact.image(src=term.watson.metadata.image)    
         | #{this}
@@ -288,7 +300,7 @@ template(name='duck')
         each RelatedTopics
             if Text
                 // .ui.compact.button.topic
-                .ui.tertiary.basic.button.topic
+                .ui.tertiary.basic.button.topic(class=thinking_class)
                     img.ui.tiny.inline.rounded.image(src=Icon.URL)
                     |#{Text}
                     // | {{lowered Text}}

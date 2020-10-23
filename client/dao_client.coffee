@@ -114,7 +114,7 @@ Template.alpha.onRendered ->
     # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[1].plaintext
     if @data.voice
         window.speechSynthesis.speak new SpeechSynthesisUtterance @data.voice
-    else if @data
+    else if @data.response.queryresult
         window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[0].plaintext
     # console.log response.queryresult.pods[1].subpods
     # Meteor.setTimeout( =>
@@ -186,13 +186,13 @@ Template.unselect_tag.events
         selected_tags.remove @valueOf()
         Session.set('skip',0)
         if selected_tags.array().length > 0
-            # if Session.equals('view_mode','porn')
-            #     Meteor.call 'search_ph', selected_tags.array(), ->
-            # else
-            Meteor.call 'call_alpha', selected_tags.array().toString(), ->
-            Meteor.call 'call_wiki', @valueOf(), ->
-            Meteor.call 'search_reddit', selected_tags.array(), ->
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+            if Session.equals('view_mode','porn')
+                Meteor.call 'search_ph', selected_tags.array(), ->
+            else
+                Meteor.call 'call_alpha', selected_tags.array().toString(), ->
+                Meteor.call 'call_wiki', @valueOf(), ->
+                Meteor.call 'search_reddit', selected_tags.array(), ->
+                # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
             Meteor.setTimeout( ->
                 Session.set('toggle',!Session.get('toggle'))
             , 10000)
@@ -519,16 +519,39 @@ Template.dao.events
                 selected_tags.push search
                 # console.log 'selected tags', selected_tags.array()
                 # Meteor.call 'call_alpha', search, ->
-                Meteor.call 'search_ddg', search, ->
-                # if Session.equals('view_mode','porn')
-                #     Meteor.call 'search_ph', search, ->
-                # else
-                # window.speechSynthesis.speak new SpeechSynthesisUtterance search
-                window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-                Meteor.call 'call_alpha', selected_tags.array().toString(), ->
-                Meteor.call 'call_wiki', search, ->
-                Meteor.call 'search_reddit', selected_tags.array(), ->
-                Session.set('viewing_doc',null)
+                if Session.equals('view_mode','porn')
+                    Meteor.call 'search_ph', search, ->
+                else
+                    # window.speechSynthesis.speak new SpeechSynthesisUtterance search
+                    Session.set('thinking',true)
+                    Meteor.call 'search_ddg', search, ->
+                    window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+                    $('body').toast(
+                        message: 'apha start'
+                    )
+                    Meteor.call 'call_alpha', selected_tags.array().toString(), ->
+                        $('body').toast(
+                            message: 'apha done'
+                            showProgress: 'bottom'
+                            class: 'success'
+                            displayTime: 1000,
+                        )
+                    Meteor.call 'call_wiki', search, ->
+                        $('body').toast(
+                            message: 'wiki done'
+                            showProgress: 'bottom'
+                            class: 'success'
+                            displayTime: 1000,
+                        )
+                    Meteor.call 'search_reddit', selected_tags.array(), ->
+                        $('body').toast(
+                            message: 'reddit done'
+                            showProgress: 'bottom'
+                            class: 'success'
+                            displayTime: 1000,
+                        )
+                        Session.set('thinking',false)
+                    Session.set('viewing_doc',null)
 
                 Session.set('skip',0)
                 # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()

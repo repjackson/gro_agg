@@ -11,6 +11,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_friends', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_topups', Router.current().params.username
         # @autorun -> Meteor.subscribe 'all_users', Router.current().params.username
+        Session.setDefault('profile_section','dashboard')
     
     Template.profile.onRendered ->
         Meteor.setTimeout ->
@@ -122,6 +123,43 @@ if Meteor.isClient
             Meteor.logout ->
                 Session.set 'logging_out', false
 
+
+    Template.post_segment.events
+        'click .remove_post': (e,t)->
+            $('body').toast
+                message: "confirm delete #{@title}?"
+                displayTime: 0
+                class: 'black'
+                actions: [
+                    {
+                        text: 'yes'
+                        icon: 'remove'
+                        class: 'red'
+                        click: =>
+                            Docs.remove @_id
+                            $('body').toast message: 'deleted'
+                    }
+                    {
+                        icon: 'ban'
+                        text: 'cancel'
+                        class: 'icon yellow'
+                    }
+                ]
+        'keyup .reply_body': (e,t)->
+            if e.which is 13
+                body = $('.reply_body').val()
+                Docs.insert 
+                    model:'reply'
+                    parent_id:@_id
+                    body:body
+                body = $('.reply_body').val('')
+                Session.set('replying_id', null)
+        'click .reply': ->
+            Session.set('replying_id', @_id)
+            
+        'click .cancel': ->
+            Session.set('replying_id', null)
+            
 
     Template.edit_privacy.events
         'click .logout_other_clients': -> 

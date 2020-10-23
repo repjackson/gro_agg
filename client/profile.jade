@@ -57,6 +57,7 @@ template(name='profile')
                 +skve k='profile_section' v='tribes' l='tribes' i='campfire'
                 +skve k='profile_section' v='questions' l='questions' i='faq'
                 +skve k='profile_section' v='answers' l='answers' i='rss'
+                +skve k='profile_section' v='privacy' l='privacy' i='rss'
                 if skv_is 'profile_section' 'dashboard'
                     .ui.header #{points_earned}pts earned
                     +user_dashboard
@@ -94,8 +95,9 @@ template(name='user_dashboard')
             .ui.icon.fluid.input
                 i.plus.icon
                 input.add_post(type='text')
-            each latest_posts
-                +post_segment
+            .ui.comments.smallscroll
+                each latest_posts
+                    +post_segment
         .eight.wide.column
             .ui.segment
                 .ui.header 
@@ -153,27 +155,37 @@ template(name='user_dashboard')
            
            
 template(name='post_segment')           
-    .ui.segment 
-        .ui.small.header #{body}
-        +voting_small
-        i.reply.link.grey.icon
-        i.clock.grey.icon
-        i.eye.grey.icon
-        i.remove.link.grey.icon.remove_post
-        i.archive.link.grey.icon
-        i.share.grey.icon
-        +emotion_picker
-        if replying
-            .ui.fluid.input
-                input.reply_body(type='text')
-        .ui.grid
-            .two.wide.column
-            .fourteen.wide.column
-                each replies
-                    div
-                    .ui.tiny.inline.header #{body}
-                    if is_author
-                        +remove_icon
+    .ui.comment
+        .avatar
+            img.ui.avatar.compact.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+
+        .content
+            .text #{body}
+            a.author(href="/u/#{_author.username}") #{_author.username}
+            .metadata
+                span.date 
+                    i.clock.grey.icon
+                    |#{when}
+                .actions
+                    // i.eye.grey.icon
+                    +voting_small
+                    // i.reply.link.grey.icon
+                    a.remove_post
+                        i.remove.link.grey.icon
+                // i.archive.link.grey.icon
+                // i.share.grey.icon
+                // +emotion_picker
+            // if replying
+            //     .ui.fluid.small.input
+            //         input.reply_body(type='text')
+            // .ui.grid
+            //     .two.wide.column
+            //     .fourteen.wide.column
+            //         each replies
+            //             div
+            //             .ui.tiny.inline.header #{body}
+            //             if is_author
+            //                 +remove_icon
            
            
                 
