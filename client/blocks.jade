@@ -25,7 +25,7 @@ template(name='smart_tagger')
         |tags
     .ui.input
         input.new_tag(type='text' placeholder='+' autocomplete="off")
-        //- +clear_value                
+        //- +clear_v                
     each terms 
         a.ui.large.circular.basic.button.select_term(href='#')
             if image
@@ -89,19 +89,19 @@ template(name='session_boolean_toggle')
             if label
                 |#{label}
             else 
-                |#{value}
+                |#{v}
                 
                 
-template(name='session_edit_value_button')
-    // a.ui.image.big.link.label.set_session_value(class=calculated_class)
-    .ui.circular.zoom.button.set_session_value(class=calculated_class)
+template(name='session_edit_v_button')
+    // a.ui.image.big.link.label.set_session_v(class=calculated_class)
+    .ui.circular.zoom.button.set_session_v(class=calculated_class)
         if icon
             // i.icon(class=icon)
             +i name=icon cl='ui mini image'
         // if label
         //     |#{label}
         // else 
-        //     |#{value}
+        //     |#{v}
 
 
 
@@ -161,18 +161,18 @@ template(name='comments')
 
 
 template(name='month_selector')
-    +kve key='month' value='jan'
-    +kve key='month' value='feb'
-    +kve key='month' value='mar'
-    +kve key='month' value='april'
-    +kve key='month' value='may'
-    +kve key='month' value='jun'
-    +kve key='month' value='jul'
-    +kve key='month' value='aug'
-    +kve key='month' value='sep'
-    +kve key='month' value='oct'
-    +kve key='month' value='nov'
-    +kve key='month' value='dec'
+    +kve key='month' v='jan'
+    +kve key='month' v='feb'
+    +kve key='month' v='mar'
+    +kve key='month' v='april'
+    +kve key='month' v='may'
+    +kve key='month' v='jun'
+    +kve key='month' v='jul'
+    +kve key='month' v='aug'
+    +kve key='month' v='sep'
+    +kve key='month' v='oct'
+    +kve key='month' v='nov'
+    +kve key='month' v='dec'
 
 
 
@@ -489,11 +489,11 @@ template(name='user_array_list')
             
 template(name='user_array_element_toggle')
     .ui.compact.button.toggle_element(class=user_array_element_toggle_class)
-        |#{value}
+        |#{v}
 
 template(name='user_string_toggle')
     .ui.button.toggle_element(class=user_string_element_toggle_class)
-        |#{value}
+        |#{v}
 
 
 
@@ -508,7 +508,7 @@ template(name='author_block')
 
 
 template(name='kve')
-    a.ui.compact.large.circular.button.set_key_value.select_term(class=set_kv_class title=value href='#')
+    a.ui.compact.large.circular.button.set_key_v.select_term(class=set_kv_class title=v href='#')
         if i
             // +icon name=icon cl='ui avatar image'
             i.icon(class=i)
@@ -519,7 +519,7 @@ template(name='kve')
                 |#{v}
         
 template(name='user_kve')
-    .ui.compact.button.set_key_value(class=set_kv_class)
+    .ui.compact.button.set_key_v(class=set_kv_class)
         if icon 
             i.icon(class=icon)
         if label
@@ -528,11 +528,37 @@ template(name='user_kve')
             |#{v}
 
 
-template(name='session_key_value')
-    .ui.button.set_session_value(class=button_class) 
+template(name='session_key_v')
+    .ui.button.set_session_v(class=button_class) 
         if icon 
             i.icon(class=icon)
         if l
             |#{l}
         else 
-            |#{value}
+            |#{v}
+            
+            
+template(name='vid_card')
+    .ui.stackable.grid
+        .sixteen.wide.center.aligned.column
+            each thumbs
+                img.ui.small.superzoom.rounded.inline.image.mobile.hidden(src=src)    
+                // img.ui.tiny.zoom.rounded.inline.image.mobile.only(src=src)    
+            iframe.invert(src="https://www.pornhub.com/embed/#{video_id}" frameborder="0" width="100%" height='500' scrolling="no")
+            // img.ui.image.rounded.pointer(src=default_thumb)
+            //- a.ui.small.header(href=url target='_window') #{title}
+            a.ui.grey.center.aligned.header(href="/m/vid/#{_id}/view" class=emotion_color_class) !{lowered_title}
+            .spacer
+                
+            |#{when}
+            if dev
+                +print_this
+                i.remove.big.icon
+                i.fork.big.icon
+            .ui.label #{views}
+            // .ui.basic.label #{rating} rating
+            // .ui.basic.label #{ratings} ratings
+            // .ui.basic.label #{views} views
+            // if dev 
+            //     i.code.link.icon.print_me
+            

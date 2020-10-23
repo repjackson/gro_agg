@@ -1,4 +1,5 @@
 @Docs = new Meteor.Collection 'docs'
+@results = new Meteor.Collection 'results'
 
 @Tags = new Meteor.Collection 'tags'
 @Tag_results = new Meteor.Collection 'tag_results'
@@ -176,6 +177,20 @@ Meteor.methods
             { _id:doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
             { $inc: { "tone.result.sentences_tone.$.weight": -1 } }
         )
+    check_url: (str)->
+        # console.log 'testing', str
+        pattern = new RegExp('^(https?:\\/\\/)?'+ # protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ # domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))'+ # OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ # port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?'+ # query string
+        '(\\#[-a-z\\d_]*)?$','i') # fragment locator
+        return !!pattern.test(str)
+
+    # var url = "http://scratch99.com/web-development/javascript/";
+    # var domain = url.replace('http://','').replace('https://','').split(/[/?#]/)[0];
+
+            
 
     upvote: (doc_id,amount)->
         # console.log 'doc_id', doc_id

@@ -18,7 +18,7 @@ template(name='question_edit')
                     if has_image
                         +image_edit k='image_id' l='image' d=true
                         +text_edit k='image_url' l='image link' d=true
-                    div
+                    .ui.small.header question type
                     +kve k='question_type' v='boolean' l='boolean' i='toggle on'
                     +kve k='question_type' v='multiple_choice' l='multiple choice' i='list'
                     +kve k='question_type' v='open' l='open' i='text width'

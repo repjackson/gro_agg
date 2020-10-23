@@ -6,7 +6,7 @@ Meteor.publish 'user_from_username', (username)->
 Meteor.publish 'user_friends', (username)->
     # console.log 'pulling doc'
     user = 
-        Meteor.users.find
+        Meteor.users.findOne
             username:username
     if user
         if user.friend_ids

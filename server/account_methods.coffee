@@ -1,4 +1,82 @@
 Meteor.methods
+    # calc_user_stats: (user_id)->
+    #     user = Meteor.users.findOne user_id
+    #     doc_count = 
+    #         Docs.find(_author_id:user_id).count()
+       
+    #     topups =
+    #         Docs.find(
+    #             model:'topup'
+    #             _author_id: user_id
+    #         )
+       
+    #     topup_count = topups.count()
+    #     total_topup_amount = 0
+    #     for topup in topups.fetch()
+    #         total_topup_amount += topup.amount
+        
+    #     gift_count =
+    #         Docs.find(
+    #             model:'gift'
+    #             _author_id: user_id
+    #         ).count()
+
+    #     credit_count =
+    #         Docs.find(
+    #             model:'gift'
+    #             target_id: user_id
+    #         ).count()
+
+    #     Meteor.users.update user_id,
+    #         $set:
+    #             gift_count:gift_count
+    #             credit_count:credit_count
+
+
+    #     gift_count_ranking =
+    #         Meteor.users.find({},
+    #             sort:
+    #                 gift_count: -1
+    #             fields:
+    #                 username: 1
+    #         ).fetch()
+    #     gift_count_ranking_ids = _.pluck gift_count_ranking, '_id'
+
+    #     # console.log 'gift_count_ranking', gift_count_ranking
+    #     # console.log 'gift_count_ranking ids', gift_count_ranking_ids
+    #     # my_rank = _.indexOf(gift_count_ranking_ids, user_id)+1
+    #     # console.log 'my rank', my_rank
+    #     # Meteor.users.update user_id,
+    #     #     $set:
+    #     #         global_gift_count_rank:my_rank
+
+
+
+    #     points = 
+
+
+    #     credit_count_ranking =
+    #         Meteor.users.find(
+    #             {},
+    #             sort:
+    #                 credit_count: -1
+    #             fields:
+    #                 username: 1
+    #         ).fetch()
+    #     credit_count_ranking_ids = _.pluck credit_count_ranking, '_id'
+
+    #     console.log 'credit_count_ranking', credit_count_ranking
+    #     console.log 'credit_count_ranking ids', credit_count_ranking_ids
+    #     my_rank = _.indexOf(credit_count_ranking_ids, user_id)+1
+    #     console.log 'my rank', my_rank
+    #     Meteor.users.update user_id,
+    #         $set:
+    #             "stats.doc_count":doc_count
+    #             "stats.topup_count":topup_count
+    #             "stats.total_topup_amount":total_topup_amount
+    #             "points":points
+
+
     set_user_password: (user, password)->
         result = Accounts.setPassword(user._id, password)
         console.log result

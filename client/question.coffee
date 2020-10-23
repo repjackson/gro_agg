@@ -85,6 +85,39 @@ Template.mc_select.events
                 model:'answer'
                 question_id:Router.current().params.doc_id
                 choice_num:@n
+                
+                
+Template.question_view.events  
+    'click .mark_true': ->
+        # console.log @
+        e = Docs.findOne 
+            model:'answer'
+            question_id:Router.current().params.doc_id
+            _author_id:Meteor.userId()
+        if e
+            Docs.update e._id,
+                $set:
+                    boolean_choice:true
+        else
+            Docs.insert
+                model:'answer'
+                question_id:Router.current().params.doc_id
+                choice_num:@n
+    'click .mark_false': ->
+        # console.log @
+        e = Docs.findOne 
+            model:'answer'
+            question_id:Router.current().params.doc_id
+            _author_id:Meteor.userId()
+        if e
+            Docs.update e._id,
+                $set:
+                    boolean_choice:false
+        else
+            Docs.insert
+                model:'answer'
+                question_id:Router.current().params.doc_id
+                choice_num:@n
 
 Template.mc_select.helpers
     choice_text: ->

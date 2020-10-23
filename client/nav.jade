@@ -3,8 +3,11 @@ template(name='nav')
         // a.icon.header.item.zoom.pointer.toggle_leftbar
         //     i.bars.large.icon
         if connected
-            a.icon.item.zoom.pointer(href='/' class="{{isActivePath '/'}}")
+            // a.icon.item.zoom.pointer(href='/' class="{{isActivePath '/'}}")
+            a.icon.item.zoom.pointer(href='/')
                 i.big.link.yin.yang.grey.icon
+            a.icon.item.zoom.pointer(href='/web')
+                i.big.link.globe.grey.icon
         if currentUser
             unless connected
                 .item.pointer

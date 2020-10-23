@@ -118,6 +118,10 @@ Template.session_kve.events
     'click .set_session_var': ->
         Session.set("#{@key}",@value)
         
+Template.session_kve.helpers
+    session_button_class: ->
+        if Session.equals("#{@key}",@value) then 'active' else ''
+        
         
 Template.questions.events
     # 'click .delete': -> 

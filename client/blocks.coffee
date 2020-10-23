@@ -49,7 +49,7 @@ if Meteor.isClient
         , 250)
 
         'click .remove_element': (e,t)->
-            element = @valueOf()
+            element = @vOf()
             field = Template.currentData()
             selected_tags.remove element
             Docs.update Router.current().params.doc_id,
@@ -173,15 +173,15 @@ if Meteor.isClient
 #
 #
 #
-#     Template.session_key_value.events
-#         'click .set_session_value': ->
+#     Template.session_key_v.events
+#         'click .set_session_v': ->
 #             console.log @
 #             if Session.equals(@k,@v)
 #                 Session.set(@k, null)
 #             else
 #                 Session.set(@k, @v)
 #
-#     Template.session_key_value.helpers
+#     Template.session_key_v.helpers
 #         button_class: ->
 #             console.log @
 #             if Session.equals(@k, @v) then 'active' else 'basic'
@@ -277,14 +277,14 @@ if Meteor.isClient
 #     Template.small_horizontal_user_card.onCreated ->
 #         @autorun => Meteor.subscribe 'user_from_username', @data
 #     Template.small_horizontal_user_card.helpers
-#         user: -> Meteor.users.findOne username:@valueOf()
+#         user: -> Meteor.users.findOne username:@vOf()
 #
 #
 #
 #     Template.big_user_card.onCreated ->
 #         @autorun => Meteor.subscribe 'user_from_username', @data
 #     Template.big_user_card.helpers
-#         user: -> Meteor.users.findOne username:@valueOf()
+#         user: -> Meteor.users.findOne username:@vOf()
 #
 #
 #
@@ -293,10 +293,10 @@ if Meteor.isClient
 #         @autorun => Meteor.subscribe 'user_from_username', @data
 #     Template.username_info.events
 #         'click .goto_profile': ->
-#             user = Meteor.users.findOne username:@valueOf()
+#             user = Meteor.users.findOne username:@vOf()
 #             Router.go "/u/#{user.username}/"
 #     Template.username_info.helpers
-#         user: -> Meteor.users.findOne username:@valueOf()
+#         user: -> Meteor.users.findOne username:@vOf()
 #
 #
 #
@@ -304,23 +304,23 @@ if Meteor.isClient
     Template.user_info.onCreated ->
         @autorun => Meteor.subscribe 'user_from_id', @data
     Template.user_info.helpers
-        user: -> Meteor.users.findOne @valueOf()
+        user: -> Meteor.users.findOne @vOf()
     
     Template.user_info_small.onCreated ->
         @autorun => Meteor.subscribe 'user_from_id', @data
     Template.user_info_small.helpers
-        user: -> Meteor.users.findOne @valueOf()
+        user: -> Meteor.users.findOne @vOf()
     
     Template.user_info_tiny.onCreated ->
         @autorun => Meteor.subscribe 'user_from_id', @data
     Template.user_info_tiny.helpers
-        user: -> Meteor.users.findOne @valueOf()
+        user: -> Meteor.users.findOne @vOf()
 
 #
     Template.user_avatar.onCreated ->
         @autorun => Meteor.subscribe 'user_from_id', @data
     Template.user_avatar.helpers
-        user: -> Meteor.users.findOne @valueOf()
+        user: -> Meteor.users.findOne @vOf()
 
 #
 #     Template.toggle_edit.events
@@ -343,7 +343,7 @@ if Meteor.isClient
 #     Template.user_list_info.helpers
 #         user: ->
 #             console.log @
-#             Meteor.users.findOne @valueOf()
+#             Meteor.users.findOne @vOf()
 #
 #
 #
@@ -497,20 +497,20 @@ if Meteor.isClient
 #     Template.user_array_element_toggle.helpers
 #         user_array_element_toggle_class: ->
 #             # user = Meteor.users.findOne Router.current().params.username
-#             if @user["#{@k}"] and @value in @user["#{@k}"] then 'active' else 'basic'
+#             if @user["#{@k}"] and @v in @user["#{@k}"] then 'active' else 'basic'
 #     Template.user_array_element_toggle.events
 #         'click .toggle_element': (e,t)->
 #             # user = Meteor.users.findOne Router.current().params.username
 #             if @user["#{@k}"]
-#                 if @value in @user["#{@k}"]
+#                 if @v in @user["#{@k}"]
 #                     Meteor.users.update @user._id,
-#                         $pull: "#{@k}":@value
+#                         $pull: "#{@k}":@v
 #                 else
 #                     Meteor.users.update @user._id,
-#                         $addToSet: "#{@k}":@value
+#                         $addToSet: "#{@k}":@v
 #             else
 #                 Meteor.users.update @user._id,
-#                     $addToSet: "#{@k}":@value
+#                     $addToSet: "#{@k}":@v
 #
 #
 #     Template.user_array_list.helpers
@@ -539,7 +539,7 @@ if Meteor.isClient
 #
 #
     Template.kve.events
-        'click .set_key_value': ->
+        'click .set_key_v': ->
             p = Template.parentData()
             # console.log 'hi'
             # parent = Docs.findOne Router.current().params.doc_id
@@ -554,7 +554,7 @@ if Meteor.isClient
             if p["#{@k}"] is @v then 'active' else 'basic'
     
     Template.user_kve.events
-        'click .set_key_value': ->
+        'click .set_key_v': ->
             p = Template.parentData()
             # console.log 'hi'
             # parent = Docs.findOne Router.current().params.doc_id
@@ -568,16 +568,16 @@ if Meteor.isClient
             # console.log parent
             if p["#{@k}"] is @value then 'active' else 'basic'
 
-    Template.session_edit_value_button.events
-        'click .set_session_value': ->
+    Template.session_edit_v_button.events
+        'click .set_session_v': ->
             # console.log @k
-            # console.log @value
+            # console.log @v
             if Session.equals(@k,@v)
                 Session.set(@k, null)
             else
                 Session.set(@k, @v)
 
-    Template.session_edit_value_button.helpers
+    Template.session_edit_v_button.helpers
         calculated_class: ->
             res = ''
             # console.log @
@@ -619,20 +619,20 @@ if Meteor.isClient
 #         doc_array_toggle_class: ->
 #             p = Template.parentData()
 #             # user = Meteor.users.findOne Router.current().params.username
-#             if p["#{@k}"] and @value in p["#{@k}"] then 'active' else 'basic'
+#             if p["#{@k}"] and @v in p["#{@k}"] then 'active' else 'basic'
 #     Template.doc_array_togggle.events
 #         'click .toggle': (e,t)->
 #             p = Template.parentData()
 #             if p["#{@k}"]
-#                 if @value in p["#{@k}"]
+#                 if @v in p["#{@k}"]
 #                     Docs.update parent._id,
-#                         $pull: "#{@k}":@value
+#                         $pull: "#{@k}":@v
 #                 else
 #                     Docs.update parent._id,
-#                         $addToSet: "#{@k}":@value
+#                         $addToSet: "#{@k}":@v
 #             else
 #                 Docs.update parent._id,
-#                     $addToSet: "#{@k}":@value
+#                     $addToSet: "#{@k}":@v
 #
 #
 #

@@ -23,7 +23,7 @@ template(name='question_view')
                     .ui.large.circular.button(title='call duck')
                         i.search.icon
                         |duck it
-                .six.wide.column
+                .six.wide.center.aligned.column
                     if url 
                         a(href=url target='_window') #{url}
                         img.ui.image(src=url class='invert')    
@@ -43,21 +43,19 @@ template(name='question_view')
                         +mc_select n=2
                         +mc_select n=3
                         +mc_select n=4
+                    if key_value_is 'question_type' 'boolean'
+                        .ui.big.circular.icon.button.mark_true(title='true')
+                            i.checkmark.big.icon
+                            // |true
+                        .ui.big.circular.icon.button.mark_false(title='false')
+                            i.ban.big.icon
+                            // |false/
                     +comments
                     .ui.button.add_answer
                         i.plus.icon 
                         |answer
                     each question_answers
-                        .ui.segment
-                            .ui.header #{title}
-                            if can_edit
-                                +session_boolean_toggle key='is_editing'
-                            if session is_editing
-                                +text_edit key='title' d=true
-                            .ui.label #{choice_num}
-                            .ui.label 
-                                i.user.outline.icon
-                                |#{_author.username}
+                        +answer_segment
                 .five.wide.column
                     .ui.header question type: #{question_type}
                     if can_edit
@@ -122,6 +120,23 @@ template(name='question_view')
                     +author_block
                     +viewing
                     
+                  
+template(name='answer_segment')                  
+    .ui.segment
+        .ui.header #{title}
+        if can_edit
+            +session_boolean_toggle key='is_editing' icon='pencil'
+            +remove_button
+        if session is_editing
+            +text_edit key='title' d=true
+        .ui.label #{choice_num}
+        .ui.label #{boolean_choice}
+        +author_block
+        .ui.label 
+            i.user.outline.icon
+            |#{_author.username}
+            
+
                     
 template(name='mc_select')
     .ui.big.circular.button.select_option(class=mc_select_class) #{choice_text} 
