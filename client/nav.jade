@@ -1,13 +1,23 @@
 template(name='nav')
     .ui.fluid.attached.borderless.invert.menu.topnav
-        // a.icon.header.item.zoom.pointer.toggle_leftbar
-        //     i.bars.large.icon
+        a.icon.header.item.zoom.pointer.toggle_leftbar
+            i.bars.large.grey.icon
         if connected
             // a.icon.item.zoom.pointer(href='/' class="{{isActivePath '/'}}")
             a.icon.item.zoom(href='/')
-                i.big.link.yin.yang.grey.icon
-            a.icon.item.zoom(href='/web')
-                i.big.link.globe.grey.icon
+                i.large.yin.yang.grey.icon
+            a.icon.item.zoom(href='/web' class="{{isActivePath '/web'}}")
+                i.large.globe.grey.icon
+            a.icon.item.zoom(href='/reddit' class="{{isActivePath '/reddit'}}")
+                i.large.reddit.grey.icon
+            a.icon.item.zoom(href='/stack' class="{{isActivePath '/stack'}}")
+                i.large.stack.exchange.grey.icon
+            a.icon.item.zoom(href='/wikipedia' class="{{isActivePath '/wikipedia'}}")
+                i.large.wikipedia.grey.icon
+            a.icon.item.zoom(href='/questions' class="{{isActivePath '/questions'}}")
+                i.large.question.grey.icon
+            a.icon.item.zoom(href='/m/model' class="{{isActivePath '/m/model'}}")
+                i.large.database.grey.icon
         if currentUser
             unless connected
                 .item.pointer
@@ -17,18 +27,18 @@ template(name='nav')
             if connected
                 a.icon.pointer.item.add(title='add')
                     i.large.plus.icon
-            // if currentUser
-            //     if connected
-            //         if unread_count
-            //             a.pointer.item.alerts.select_term(href="#" class=alert_toggle_class)
-            //                 i.large.bell.icon
-            //                 if unread_count
-            //                     |#{unread_count}
-            //         else
-            //             a.icon.pointer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
-            //                 i.large.outline.bell.icon
-            // a.icon.pointer.item(href="/chat" title='chat') 
-            //     i.chat.outline.large.icon
+            if currentUser
+                if connected
+                    if unread_count
+                        a.pointer.item.alerts.select_term(href="#" class=alert_toggle_class)
+                            i.large.bell.icon
+                            if unread_count
+                                |#{unread_count}
+                    else
+                        a.icon.pointer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+                            i.large.outline.bell.icon
+            a.icon.pointer.item(href="/chat" title='chat') 
+                i.chat.outline.large.icon
             // // a.icon.pointer.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
             if is_dev 
                 .icon.pointer.item
@@ -44,8 +54,8 @@ template(name='nav')
                     else 
                         i.large.user.large.icon
                     strong.mobile.hidden #{currentUser.username}
-                // a.icon.large.item.toggle_rightbar.select_term
-                //     i.bars.large.icon
+                a.icon.large.item.toggle_rightbar.select_term
+                    i.bars.large.icon
             else
                 a.pointer.item(href="/login" title='login')
                     i.large.sign.in.icon
@@ -68,7 +78,7 @@ template(name='footer')
                 .ui.header #{connect_status.status}
                 with currentUser
                     if is_dev
-                        +textarea_edit key='notes' d=true
+                        +textarea_edit k='notes' d=true
                 if is_dev    
                     //with current_user
                     //    +role_switcher
@@ -101,16 +111,16 @@ template(name='role_switcher')
             i.shield.icon(title='role switcher')
             |#{username} role switcher
         if is_eric
-            //- +user_array_element_toggle key='roles' value='dev' user=currentUser
-            +multi_doc_edit key='roles' label='roles' ref_model='role' d=true
+            //- +user_array_element_toggle k='roles' value='dev' user=currentUser
+            +multi_doc_edit k='roles' label='roles' ref_model='role' d=true
         if current_user
             with current_user
-                +multi_doc_edit key='roles' label='roles' ref_model='role' d=true
-        //- +user_array_element_toggle key='roles' value='dev' user=currentUser
-        //- +user_array_element_toggle key='roles' value='user' user=currentUser
-        //- +user_array_element_toggle key='roles' value='staff' user=currentUser
-        //- +user_array_element_toggle key='roles' value='resident' user=currentUser
-        //- +user_array_element_toggle key='roles' value='owner' user=currentUser
+                +multi_doc_edit k='roles' label='roles' ref_model='role' d=true
+        //- +user_array_element_toggle k='roles' value='dev' user=currentUser
+        //- +user_array_element_toggle k='roles' value='user' user=currentUser
+        //- +user_array_element_toggle k='roles' value='staff' user=currentUser
+        //- +user_array_element_toggle k='roles' value='resident' user=currentUser
+        //- +user_array_element_toggle k='roles' value='owner' user=currentUser
 
 
 
@@ -225,6 +235,20 @@ template(name='leftbar')
         a.item.toggle_leftbar(href="/settings" class="{{isActivePath '/settings'}}")
             i.cog.icon
             | settings
+        .divider
+        a.icon.item.zoom.toggle_leftbar(href='/web' class="{{isActivePath '/web'}}")
+            i.large.globe.grey.icon
+        a.icon.item.zoom.toggle_leftbar(href='/reddit' class="{{isActivePath '/reddit'}}")
+            i.large.reddit.grey.icon
+        a.icon.item.zoom.toggle_leftbar(href='/stack' class="{{isActivePath '/stack'}}")
+            i.large.stack.exchange.grey.icon
+        a.icon.item.zoom.toggle_leftbar(href='/wikipedia' class="{{isActivePath '/wikipedia'}}")
+            i.large.wikipedia.grey.icon
+        a.icon.item.zoom.toggle_leftbar(href='/questions' class="{{isActivePath '/questions'}}")
+            i.large.question.grey.icon
+        a.icon.item.zoom.toggle_leftbar(href='/m/model' class="{{isActivePath '/m/model'}}")
+            i.large.database.grey.icon
+        
         .divider
         a.disabled.item.toggle_leftbar(href="/chat" class="{{isActivePath '/chat'}}" title='chat') 
             | chat

@@ -252,7 +252,7 @@ template(name='html_edit')
                     |#{k}
                 else
                     |#{this}
-                // +call_watson mode='html' key=key
+                // +call_watson mode='html' k=key
     .ui.fluid.form
         .field.testsun
             textarea#sample.sun-editor-editable
@@ -529,18 +529,18 @@ template(name='child_edit')
         each child_fields
             +Template.dynamic template=edit_template 
         +remove_button
-        //-     +text_edit key='key'
-        //-     +text_edit key='field'
-        //-     +single_doc_edit key='field' ref_model='field_type' ref_key='slug' label='Field Type'
-        //-     +text_edit key='label'
-        //-     +text_edit key='icon'
+        //-     +text_edit k='key'
+        //-     +text_edit k='field'
+        //-     +single_doc_edit k='field' ref_model='field_type' ref_k='slug' label='Field Type'
+        //-     +text_edit k='label'
+        //-     +text_edit k='icon'
         //-     if icon
         //-         i.big.icon(class=icon)
         //- div
 
               //- if is_reference
         
-        //     +single_doc_edit key='ref_model' ref_model='model' ref_key='slug' label='Referenced model (if ref)'
+        //     +single_doc_edit k='ref_model' ref_model='model' ref_k='slug' label='Referenced model (if ref)'
         //     .ui.divider
 
 
@@ -579,16 +579,16 @@ template(name='child_view')
         // else 
 
         // .ui.segment
-        //     +text_edit key='key'
-        //     // +text_edit key='field'
-        //     +single_doc_edit key='field' ref_model='field' ref_key='slug' label='Field Type'
-        //     +text_edit key='label'
-        //     +text_edit key='icon'
+        //     +text_edit k='key'
+        //     // +text_edit k='field'
+        //     +single_doc_edit k='field' ref_model='field' ref_k='slug' label='Field Type'
+        //     +text_edit k='label'
+        //     +text_edit k='icon'
         //     if icon
         //         i.big.icon(class=icon)
         //     // if is_reference
     
-        //     +single_doc_edit key='ref_model' ref_model='model' ref_key='slug' label='Referenced model (if ref)'
+        //     +single_doc_edit k='ref_model' ref_model='model' ref_k='slug' label='Referenced model (if ref)'
         //     .ui.divider
 
 

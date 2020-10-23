@@ -20,24 +20,24 @@ template(name='questions')
                 input.search_title(type='text' autofocus='')
             each tag_results
                 +tag_selector
-            +session_boolean_toggle key='view_open' label='view open'
-            +session_boolean_toggle key='view_your_questions' label='your questions'
-            +session_boolean_toggle key='view_your_answers' label='your answers'
+            +sbt k='view_open' l='view open'
+            +sbt k='view_your_questions' l='your questions'
+            +sbt k='view_your_answers' l='your answers'
         
         .twelve.wide.column
             |limit
-            +session_kve key='limit' value=1 label='1'
-            +session_kve key='limit' value=10 label='10'
+            +skve k='limit' v=1 l='1'
+            +skve k='limit' v=10 l='10'
             |sort
-            +session_kve key='sort_key' value='_timestamp' label='when'
-            +session_kve key='sort_key' value='bounty' label='bounty'
-            +session_kve key='sort_direction' value=-1 label='up'
-            +session_kve key='sort_direction' value=1 label='down'
+            +skve k='sort_key' v='_timestamp' l='when'
+            +skve k='sort_key' v='bounty' l='bounty'
+            +skve k='sort_direction' v=-1 l='up'
+            +skve k='sort_direction' v=1 l='down'
             |view
-            +session_kve key='view_mode' value='cards' label='cards' icon='clone'
-            +session_kve key='view_mode' value='list' label='list' icon='list'
+            +skve k='view_mode' v='cards' l='cards' icon='clone'
+            +skve k='view_mode' v='list' l='list' icon='list'
             .spacer
-            if session_kv_is 'view_mode' 'list'
+            if skv_is 'view_mode' 'list'
                 .ui.big.link.selection.list 
                     each questions 
                         a.item(href="/question/#{_id}/view")
@@ -83,31 +83,25 @@ template(name='question_card')
             .ui.big.circular.icon.compact.button.vote_false(class=vote_false_class)
                 i.thumbs.down.icon(class=vote_false_icon_class)
             if can_edit
-                +session_kve key='edit_question_id' value=_id label='edit'
-            if session_kv_is 'edit_question_id' _id
+                +skve k='edit_question_id' v=_id l='edit'
+            if skv_is 'edit_question_id' _id
                 .ui.inline.header editing
-                +text_edit key='title' d=true
-                +number_edit key='bounty' d=true
-                +session_kve key='edit_question_id' value=null label='save'
-                +number_edit key='bounty_total' label='total bounty' d=true
-                // +kve key='question_type' value='true_false' label='true/false'
-                // +kve key='question_type' value='multiple_choice' label='multiple choice'
+                +text_edit k='title' d=true
+                +number_edit k='bounty' d=true
+                +skve k='edit_question_id' v=null l='save'
+                +number_edit k='bounty_total' l='total bounty' d=true
+                // +kve k='question_type' v='true_false' l='true/false'
+                // +kve k='question_type' v='multiple_choice' l='multiple choice'
                 // if kv_is 'question_type' 'multiple_choice'
-                //     // +number_edit key='answer_count' label='number of answers' d=true
+                //     // +number_edit k='answer_count' l='number of answers' d=true
                 //     // each answers
-                //     +text_edit key='answer_choice_one' label='answer choice one' d=true
-                //     +text_edit key='answer_choice_two' label='answer choice two' d=true
+                //     +text_edit k='answer_choice_one' l='answer choice one' d=true
+                //     +text_edit k='answer_choice_two' l='answer choice two' d=true
     
         
         
         
         
-template(name='session_kve')    
-    .ui.compact.circular.button.set_session_var(class=session_button_class)
-        if icon 
-            i.icon(class=icon)
-        |#{label}
-                        
 // template(name='kve')    
 //     .ui.button.set_key_value
 //         |#{label}

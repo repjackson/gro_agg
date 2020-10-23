@@ -6,7 +6,7 @@ template(name='question_view')
             .row 
                 .sixteen.wide.center.aligned.column
                     if is_editing
-                        +text_edit key='title' label='title' input_class='fluid large' d=true
+                        +text_edit k='title' label='title' input_class='fluid large' d=true
                     else
                         .ui.header(class=question_header_class) #{title}
             .row 
@@ -114,7 +114,7 @@ template(name='question_view')
                     i.tag.icon
                     each tags
                         .ui.label #{this}
-                    // +array_view key='tags' d=1
+                    // +array_view k='tags' d=1
                     if dev
                         +print_this
                     +author_block
@@ -125,10 +125,10 @@ template(name='answer_segment')
     .ui.segment
         .ui.header #{title}
         if can_edit
-            +session_boolean_toggle key='is_editing' icon='pencil'
+            +sbt k='is_editing' icon='pencil'
             +remove_button
         if session is_editing
-            +text_edit key='title' d=true
+            +text_edit k='title' d=true
         .ui.label #{choice_num}
         .ui.label #{boolean_choice}
         +author_block
@@ -148,6 +148,6 @@ template(name='question_bounty')
     .ui.segment
         .ui.header #{amount}
         if can_edit
-            +session_boolean_toggle key='editing_mode' label='edit'
+            +sbt k='editing_mode' label='edit'
         if session_is 'editing_mode'
-            +number_edit key='amount' d=true
+            +number_edit k='amount' d=true

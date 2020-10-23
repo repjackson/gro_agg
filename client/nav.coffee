@@ -44,6 +44,14 @@ Template.nav.events
                 model:'question'
         Router.go "/question/#{new_question_id}/edit"
 
+    'click .post': ->
+        new_post_id =
+            Docs.insert
+                model:'post'
+                source:'self'
+                # buyer_id:Meteor.userId()
+                # buyer_username:Meteor.user().username
+        Router.go "/m/post/#{new_post_id}/edit"
 
 
 

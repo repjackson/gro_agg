@@ -550,7 +550,7 @@ if Meteor.isClient
             # console.log parent
             if p["#{@k}"] is @value then 'active' else 'basic'
 
-    Template.session_kv_button.events
+    Template.skve.events
         'click .set_session_v': ->
             # console.log @k
             # console.log @v
@@ -559,7 +559,7 @@ if Meteor.isClient
             else
                 Session.set(@k, @v)
 
-    Template.session_kv_button.helpers
+    Template.skve.helpers
         calculated_class: ->
             res = ''
             # console.log @
@@ -576,12 +576,12 @@ if Meteor.isClient
 
 
 
-    Template.session_boolean_toggle.events
+    Template.sbt.events
         'click .toggle_session_key': ->
             console.log @k
             Session.set(@k, !Session.get(@k))
 
-    Template.session_boolean_toggle.helpers
+    Template.sbt.helpers
         calculated_class: ->
             res = ''
             # console.log @

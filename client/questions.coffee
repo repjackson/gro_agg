@@ -114,11 +114,11 @@ Router.route '/', (->
     #         Tag_results.find()
 
             
-Template.session_kve.events
+Template.skve.events
     'click .set_session_var': ->
         Session.set("#{@key}",@value)
         
-Template.session_kve.helpers
+Template.skve.helpers
     session_button_class: ->
         if Session.equals("#{@key}",@value) then 'active' else ''
         

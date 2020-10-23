@@ -7,7 +7,7 @@ template(name='profile')
                         img.ui.centered.tiny.inline.spaced.circular.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
                 span.mobile.hidden
                     if editing_mode
-                        +image_edit key='profile_image_id' icon='picture' title='avatar' d=true
+                        +image_edit k='profile_image_id' icon='picture' title='avatar' d=true
                     else 
                         a(href="/u/#{username}/")
                             img.ui.small.inline.circular.invert.image.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
@@ -54,14 +54,17 @@ template(name='profile')
                 +skve k='profile_section' v='friends' l='friends' i='groups'
                 +skve k='profile_section' v='finance' l='finance' i='money'
                 +skve k='profile_section' v='posts' l='posts' i='blog'
+                +skve k='profile_section' v='tribes' l='tribes' i='campfire'
                 +skve k='profile_section' v='questions' l='questions' i='faq'
                 +skve k='profile_section' v='answers' l='answers' i='rss'
                 if skv_is 'profile_section' 'dashboard'
                     .ui.header #{points_earned}pts earned
                     +user_dashboard
-                if skv_is 'profile_section' 'friends'
+                else if skv_is 'profile_section' 'friends'
                     .ui.header friends
-                    // +user_dashboard
+                else if skv_is 'profile_section' 'finance'
+                    .ui.header finance
+                    
               
 
 
@@ -125,8 +128,8 @@ template(name='user_dashboard')
                     i.plus.icon
                 if asking_question
                     with question_asking
-                        +text_edit key='title' d=true
-                        +number_edit key='bounty' d=true 
+                        +text_edit k='title' d=true
+                        +number_edit k='bounty' d=true 
                         .ui.button.save_question
                             i.checkmark.icon
                         +remove_button
@@ -175,11 +178,11 @@ template(name='post_segment')
            
                 
 template(name='emotion_picker')
-    +emotion_pick key='joy' icon='smile' color='green' 
-    +emotion_pick key='sadness' icon='frown' color='blue'
-    +emotion_pick key='anger' icon='anger' color='red'
-    +emotion_pick key='disgust' icon='tongue' color='orange'
-    +emotion_pick key='fear' icon='exclamation' color='grey' 
+    +emotion_pick k='joy' icon='smile' color='green' 
+    +emotion_pick k='sadness' icon='frown' color='blue'
+    +emotion_pick k='anger' icon='anger' color='red'
+    +emotion_pick k='disgust' icon='tongue' color='orange'
+    +emotion_pick k='fear' icon='exclamation' color='grey' 
     
 template(name='emotion_pick')
     i.link.icon.pick(class="#{icon} #{pick_class} invert" title=key)
@@ -297,7 +300,7 @@ template(name='edit_privacy')
     .ui.grid 
         .row 
             .four.wide.column
-                +boolean_edit key='publish_profile' label='publish profile' d=true
+                +boolean_edit k='publish_profile' label='publish profile' d=true
             .twelve.wide.column
                 .ui.header 
                     |make profile public 

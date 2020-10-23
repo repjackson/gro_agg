@@ -1,10 +1,10 @@
 template(name='icon')    
     // i.icon(class=name)
-    img.ui.image(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl)
+    // img.ui.image(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/plasticine/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/ios/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl)
-    //- img.ui.image(src="https://img.icons8.com/fluent/48/000000/#{name}.png" class=cl)
+    img.ui.image(src="https://img.icons8.com/fluent/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/cotton/48/000000/#{name}.png" class=cl)
     //- img.ui.image(src="https://img.icons8.com/office/48/000000/#{name}.png" class=cl)
 
@@ -79,11 +79,11 @@ template(name='vote')
         i.thumbs.down.outline.big.icon
 
 
-template(name='session_boolean_toggle')
+template(name='sbt')
     .ui.compact.large.circular.button.toggle_session_key(class=calculated_class)
         // +icolor name=icon cl='ui avatar image'
-        i.icon(class=icon)
-        |#{label}
+        i.icon(class=i)
+        |#{l}
         //- if icon_view 
         //- else 
             if label
@@ -92,7 +92,7 @@ template(name='session_boolean_toggle')
                 |#{v}
                 
                 
-template(name='session_kv_button')
+template(name='skve')
     // a.ui.image.big.link.label.set_session_v(class=calculated_class)
     .ui.circular.zoom.button.set_session_v(class=calculated_class)
         if i
@@ -103,6 +103,7 @@ template(name='session_kv_button')
         else 
             |#{v}
 
+                        
 
 
 template(name='session_toggle_button')
@@ -161,18 +162,18 @@ template(name='comments')
 
 
 template(name='month_selector')
-    +kve key='month' v='jan'
-    +kve key='month' v='feb'
-    +kve key='month' v='mar'
-    +kve key='month' v='april'
-    +kve key='month' v='may'
-    +kve key='month' v='jun'
-    +kve key='month' v='jul'
-    +kve key='month' v='aug'
-    +kve key='month' v='sep'
-    +kve key='month' v='oct'
-    +kve key='month' v='nov'
-    +kve key='month' v='dec'
+    +kve k='month' v='jan'
+    +kve k='month' v='feb'
+    +kve k='month' v='mar'
+    +kve k='month' v='april'
+    +kve k='month' v='may'
+    +kve k='month' v='jun'
+    +kve k='month' v='jul'
+    +kve k='month' v='aug'
+    +kve k='month' v='sep'
+    +kve k='month' v='oct'
+    +kve k='month' v='nov'
+    +kve k='month' v='dec'
 
 
 
@@ -181,7 +182,7 @@ template(name='follow')
         .ui.header
             i.user.plus.icon
             |follow
-        +user_list_toggle key='follower_ids' icon='rss' add_label='Follow' remove_label='Unfollow' color='black'
+        +user_list_toggle k='follower_ids' icon='rss' add_label='Follow' remove_label='Unfollow' color='black'
 
 
 template(name='toggle_edit')
@@ -246,7 +247,7 @@ template(name='big_user_card')
                 a.header(href="/u/#{username}")
                      |#{username} 
                     //- .meta @#{username}
-                    //- +array_view key='tags' label='Tags' d=true
+                    //- +array_view k='tags' label='Tags' d=true
 
 
 template(name='user_info')
@@ -353,7 +354,7 @@ template(name='bookmark_button')
 //     // +vote_button amount=25
 //     with user_vote
 //         if is_dev
-//             +number_edit key='points' label='edit points' d=true
+//             +number_edit k='points' label='edit points' d=true
 //         if points
 //             strong #{points}
 //         // if anon_points
@@ -380,7 +381,7 @@ template(name='voting')
     each downvoter_ids
         +user_info_small
     if is_dev
-        +number_edit key='points' label='edit points' d=true
+        +number_edit k='points' label='edit points' d=true
     if points
         strong #{points} pts
     if anon_points

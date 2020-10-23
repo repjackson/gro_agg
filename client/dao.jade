@@ -29,26 +29,26 @@ template(name='dao')
                     each ducks
                         +duck 
                 .ui.large.basic.label(title='results') #{doc_count} results
-                +view_mode key='twitter' icon='twitter' color='blue'
-                +view_mode key='video' icon='youtube' color='red'
-                +view_mode key='image' icon='picture' color='green'
-                +view_mode key='posts' icon='newspaper' color='teal'
-                +view_mode key='wikipedia' icon='wikipedia' color='purple'
-                // +view_mode key='stackexchange' icon='stack exchange disabled'
-                // +view_mode key='github' icon='github disabled'
-                // +view_mode key='alpha' icon='disabled brain'
-                +view_mode key='porn' icon='mercury'
-                // +view_mode key='bitcoin' icon='bitcoin disabled'
-                +view_mode key='covid' icon='covid disabled'
+                +view_mode k='twitter' icon='twitter' color='blue'
+                +view_mode k='video' icon='youtube' color='red'
+                +view_mode k='image' icon='picture' color='green'
+                +view_mode k='posts' icon='newspaper' color='teal'
+                +view_mode k='wikipedia' icon='wikipedia' color='purple'
+                // +view_mode k='stackexchange' icon='stack exchange disabled'
+                // +view_mode k='github' icon='github disabled'
+                // +view_mode k='alpha' icon='disabled brain'
+                +view_mode k='porn' icon='mercury'
+                // +view_mode k='bitcoin' icon='bitcoin disabled'
+                +view_mode k='covid' icon='covid disabled'
                 // .ui.header 
                 //     i.smile.large.grey.icon
                 //     |emotion
                 .spacer
-                +emotion_mode key='joy' icon='happy--v1' i2='smile' color='invert green'
-                +emotion_mode key='sadness' icon='sad--v1' i2='sad tear' color='invert blue'
-                +emotion_mode key='anger' icon='angry--v1' i2='frown' color='invert red'
-                +emotion_mode key='disgust' icon='disgusting' i2='grin tongue squint' color='invert orange'
-                +emotion_mode key='fear' icon='scream' i2='tired' color='black'
+                +emotion_mode k='joy' icon='happy--v1' i2='smile' color='invert green'
+                +emotion_mode k='sadness' icon='sad--v1' i2='sad tear' color='invert blue'
+                +emotion_mode k='anger' icon='angry--v1' i2='frown' color='invert red'
+                +emotion_mode k='disgust' icon='disgusting' i2='grin tongue squint' color='invert orange'
+                +emotion_mode k='fear' icon='scream' i2='tired' color='black'
                 each selected_emotions
                     .ui.black.circular.compact.button.unselect_emotion
                         |#{this}
@@ -82,16 +82,16 @@ template(name='dao')
                 // .eleven.wide.column
             .eleven.wide.column
                 |limit
-                +session_kve key='limit' value=1 label='1'
-                +session_kve key='limit' value=10 label='10'
+                +skve k='limit' value=1 l='1'
+                +skve k='limit' value=10 l='10'
                 |sort
-                +session_kve key='sort_key' value='_timestamp' label='when'
-                +session_kve key='sort_key' value='bounty' label='bounty'
-                +session_kve key='sort_direction' value=-1 label='up'
-                +session_kve key='sort_direction' value=1 label='down'
+                +skve k='sort_key' value='_timestamp' l='when'
+                +skve k='sort_key' value='bounty' l='bounty'
+                +skve k='sort_direction' value=-1 l='up'
+                +skve k='sort_direction' value=1 l='down'
                 |view
-                +session_kve key='view_mode' value='cards' label='cards' icon='clone'
-                +session_kve key='view_mode' value='list' label='list' icon='list'
+                +skve k='view_mode' value='cards' l='cards' icon='clone'
+                +skve k='view_mode' value='list' l='list' icon='list'
             
                 .ui.cards
                     each docs
@@ -100,7 +100,7 @@ template(name='dao')
                         else
                             +doc
                 
-                //     +session_edit_value_button key='view_section' value='tone' label='tone' icon='smile'
+                //     +session_edit_value_button k='view_section' value='tone' l='tone' icon='smile'
                 
                 
 template(name="doc")

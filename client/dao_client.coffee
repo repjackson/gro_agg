@@ -144,10 +144,10 @@ Template.doc.onRendered ->
     unless @data.watson
         # console.log 'call'
         Meteor.call 'call_watson', @data._id, 'url','url',->
-    # if @data.watson
-    unless @data.tone
-        # console.log 'call'
-        Meteor.call 'call_tone', @data._id,->
+    if @data.watson
+        unless @data.tone
+            # console.log 'call'
+            Meteor.call 'call_tone', @data._id,->
     Meteor.call 'uniq', @data._id, ->
     unless @data.points
         # console.log 'no points'
