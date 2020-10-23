@@ -50,75 +50,75 @@ Meteor.publish 'doc_by_title', (title)->
         model:'wikipedia'
 
 
-Meteor.publish 'docs', (
-    selected_tags
-    # query=''
-    )->
-    match = {}
-    # match.model = $in:['porn']
-    # match.model = $in:['post','wikipedia','reddit','porn']
-    match.model = $in:['post','wikipedia','reddit']
+# Meteor.publish 'docs', (
+#     selected_tags
+#     # query=''
+#     )->
+#     match = {}
+#     # match.model = $in:['porn']
+#     # match.model = $in:['post','wikipedia','reddit','porn']
+#     match.model = $in:['post','wikipedia','reddit']
     
-    # match.model = 'post'
-    # if Meteor.user()
-    #     match.downvoter_ids = $nin:[Meteor.userId()]
-    # if query.length > 1
-    #     match.title = {$regex:"#{query}", $options: 'i'}
-    if selected_tags.length > 0
-        match.tags = $all:selected_tags
-        # console.log match
-        Docs.find match,
-            limit:5
-            sort:
-                points:-1
-                views:-1
-                ups:-1
-    else
-        # match.tags = $in:['love']
-        # console.log match
-        Docs.find match,
-            limit:5
-            sort:
-                _timestamp:-1
+#     # match.model = 'post'
+#     # if Meteor.user()
+#     #     match.downvoter_ids = $nin:[Meteor.userId()]
+#     # if query.length > 1
+#     #     match.title = {$regex:"#{query}", $options: 'i'}
+#     if selected_tags.length > 0
+#         match.tags = $all:selected_tags
+#         # console.log match
+#         Docs.find match,
+#             limit:5
+#             sort:
+#                 points:-1
+#                 views:-1
+#                 ups:-1
+#     else
+#         # match.tags = $in:['love']
+#         # console.log match
+#         Docs.find match,
+#             limit:5
+#             sort:
+#                 _timestamp:-1
                     
                     
-Meteor.publish 'dtags', (
-    # query=''
-    selected_tags
-    )->
-    self = @
-    match = {}
-    # match.model = $in:['post','wikipedia','reddit','porn']
-    match.model = $in:['post','wikipedia','reddit']
-    # match.model = $in:['porn']
-    # match.model = $in:['post','wikipedia']
-    # match.model = 'post'
+# Meteor.publish 'dtags', (
+#     # query=''
+#     selected_tags
+#     )->
+#     self = @
+#     match = {}
+#     # match.model = $in:['post','wikipedia','reddit','porn']
+#     match.model = $in:['post','wikipedia','reddit']
+#     # match.model = $in:['porn']
+#     # match.model = $in:['post','wikipedia']
+#     # match.model = 'post'
     
-    # if query.length > 1
-    #     match.title = {$regex:"#{query}", $options: 'i'}
-    if selected_tags.length > 0 
-        match.tags = $all: selected_tags
-    else
-        match.tags = $in:['love']
+#     # if query.length > 1
+#     #     match.title = {$regex:"#{query}", $options: 'i'}
+#     if selected_tags.length > 0 
+#         match.tags = $all: selected_tags
+#     else
+#         match.tags = $in:['love']
 
-    tag_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "tags": 1 }
-        { $unwind: "$tags" }
-        { $group: _id: "$tags", count: $sum: 1 }
-        { $match: _id: $nin: selected_tags }
-        { $sort: count: -1, _id: 1 }
-        { $limit: 10 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-        ]
-    # console.log 'cloud: ', tag_cloud
-    # console.log 'tag match', match
-    tag_cloud.forEach (tag, i) ->
-        self.added 'tag_results', Random.id(),
-            name: tag.name
-            count: tag.count
-            index: i
+#     tag_cloud = Docs.aggregate [
+#         { $match: match }
+#         { $project: "tags": 1 }
+#         { $unwind: "$tags" }
+#         { $group: _id: "$tags", count: $sum: 1 }
+#         { $match: _id: $nin: selected_tags }
+#         { $sort: count: -1, _id: 1 }
+#         { $limit: 10 }
+#         { $project: _id: 0, name: '$_id', count: 1 }
+#         ]
+#     # console.log 'cloud: ', tag_cloud
+#     # console.log 'tag match', match
+#     tag_cloud.forEach (tag, i) ->
+#         self.added 'tag_results', Random.id(),
+#             name: tag.name
+#             count: tag.count
+#             index: i
    
-    self.ready()
+#     self.ready()
                     
                     

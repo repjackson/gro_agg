@@ -76,8 +76,11 @@ Meteor.users.helpers
             @username
     friends: ->
         if @friend_ids
+            # without = _.without(@friend_ids, Meteor.userId())
+            # console.log 'without', without
             Meteor.users.find
                 _id:$in: @friend_ids
+                # _id:$in: without
 
 
 

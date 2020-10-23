@@ -1,46 +1,50 @@
 template(name='dao')
     .ui.stackable.padded.grid
         .row
-            .sixteen.wide.center.aligned.column
-                unless viewing_doc
+            .sixteen.wide.column
+                // unless viewing_doc
                     // i#clear_tags.link.yin.yang.big.icon(class=loading_class)
-                    if selected_tags
-                        if many_tags
-                            a#clear_tags.ui.black.icon.small.compact.circular.button.select_term
-                                i.remove.icon
-                        each selected_tags
-                            +unselect_tag
-                    .ui.inline.input 
-                        input.search_title(type='text' autofocus='')
-                    each tag_results
-                        +tag_selector
-                    .ui.circular.basic.label(title='results') #{doc_count}
-                    +view_mode key='twitter' icon='twitter' color='blue'
-                    +view_mode key='video' icon='youtube' color='red'
-                    +view_mode key='image' icon='picture' color='green'
-                    +view_mode key='posts' icon='newspaper' color='teal'
-                    +view_mode key='wikipedia' icon='wikipedia' color='purple'
-                    +view_mode key='stackexchange' icon='stack exchange disabled'
-                    +view_mode key='github' icon='github disabled'
-                    +view_mode key='alpha' icon='disabled brain'
-                    +view_mode key='porn' icon='mercury'
-                    +view_mode key='bitcoin' icon='bitcoin disabled'
-                    +view_mode key='covid' icon='covid disabled'
-                    .ui.inline.header 
-                        i.smile.large.grey.icon
-                        |emotion
-                    +emotion_mode key='joy' icon='happy--v1' i2='smile' color='invert green'
-                    +emotion_mode key='sadness' icon='sad--v1' i2='sadness' color='invert blue'
-                    +emotion_mode key='anger' icon='angry--v1' i2='frown' color='invert red'
-                    +emotion_mode key='disgust' icon='disgusting' i2='grin tongue squint' color='invert orange'
-                    +emotion_mode key='fear' icon='scream' i2='tired' color='black'
-                    each selected_emotions
-                        .ui.black.circular.compact.button.unselect_emotion
-                            |#{this}
-                    each emotion_results
-                        if name
-                            .ui.compact.circular.basic.button.select_emotion
-                                |#{name}
+                if selected_tags
+                    if many_tags
+                        a#clear_tags.ui.black.icon.small.compact.circular.button.select_term
+                            i.remove.icon
+                    each selected_tags
+                        +unselect_tag
+                .ui.left.icon.input
+                    i.search.grey.icon
+                    input.search_title(type='text' autofocus='')
+                each tag_results
+                    +tag_selector
+        .row
+            .four.wide.column
+                .ui.large.basic.label(title='results') #{doc_count} results
+                +view_mode key='twitter' icon='twitter' color='blue'
+                +view_mode key='video' icon='youtube' color='red'
+                +view_mode key='image' icon='picture' color='green'
+                +view_mode key='posts' icon='newspaper' color='teal'
+                +view_mode key='wikipedia' icon='wikipedia' color='purple'
+                // +view_mode key='stackexchange' icon='stack exchange disabled'
+                // +view_mode key='github' icon='github disabled'
+                // +view_mode key='alpha' icon='disabled brain'
+                +view_mode key='porn' icon='mercury'
+                // +view_mode key='bitcoin' icon='bitcoin disabled'
+                +view_mode key='covid' icon='covid disabled'
+                // .ui.header 
+                //     i.smile.large.grey.icon
+                //     |emotion
+                .spacer
+                +emotion_mode key='joy' icon='happy--v1' i2='smile' color='invert green'
+                +emotion_mode key='sadness' icon='sad--v1' i2='sad tear' color='invert blue'
+                +emotion_mode key='anger' icon='angry--v1' i2='frown' color='invert red'
+                +emotion_mode key='disgust' icon='disgusting' i2='grin tongue squint' color='invert orange'
+                +emotion_mode key='fear' icon='scream' i2='tired' color='black'
+                each selected_emotions
+                    .ui.black.circular.compact.button.unselect_emotion
+                        |#{this}
+                each emotion_results
+                    if name
+                        .ui.compact.circular.basic.button.select_emotion
+                            |#{name}
                 .spacer
                 .ui.inline.header 
                     i.users.large.grey.icon
@@ -50,8 +54,8 @@ template(name='dao')
                         |#{this}
                 each subreddit_results
                     +select_subreddit
-                // .spacer
                 .spacer
+                // .spacer
                 .ui.inline.header 
                     i.database.large.icon
                     |sources
@@ -63,8 +67,6 @@ template(name='dao')
                         |#{name}
                 // i.smile.large.icon
                 div
-        .row
-            .sixteen.wide.center.aligned.column
                 // .five.wide.right.aligned.column
                 unless viewing_doc
                     each alphas
@@ -78,14 +80,15 @@ template(name='dao')
                     each ducks
                         +duck 
                 // .eleven.wide.column
+            .twelve.wide.column
                 .ui.centered.cards
                     each docs
-                        // if key_value 'model' 'porn'
-                        //     +vid_card
-                        // else
-                        +doc
-                    // .five.wide.column.scrolling
-                // each docs
+                        if key_value 'model' 'porn'
+                            +vid_card
+                        else
+                            +doc
+                
+                
 template(name="doc")
     .ui.card(class=card_class)
         // if embed
@@ -204,7 +207,7 @@ template(name='emotion_mode')
         i.huge.pointer.zoomer.icon.toggle_emotion(class="#{i2} #{color}" title=t)
         // img.ui.inline.image.toggle_emotion.zoomer.pointer(src="https://img.icons8.com/color/50/000000/#{icon}.png" class=cl title=t)
     else
-        i.big.grey.pointer.zoomer.icon.toggle_emotion(class="#{i2} outline" title=t)
+        i.big.grey.pointer.zoomer.icon.toggle_emotion(class="#{i2}" title=t)
         // img.ui.inline.image.toggle_emotion.zoomer.pointer(src="https://img.icons8.com/ios/36/000000/#{icon}.png" class=cl title=t)
 
 
@@ -228,8 +231,17 @@ template(name='unselect_tag')
         strong #{this}
 
 template(name='tag_selector')
-    // a.ui.tertiary.basic.circular.button.select_tag.select_term(href='#' title="#{count} results" class=selector_header_class)
+    // a.ui.tertiary.basic.circular.button.select_tag.select_term(href='#' title="#{count} results" class=selector_class)
     a.ui.big.image.basic.label.pointer.select_tag.select_term(href='#' title="#{count} results" class=selector_class)
+        if term
+            if term.watson.metadata.image
+                img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    
+        | #{name}
+        // small #{count}
+        
+template(name='select_subreddit')
+    // a.ui.tertiary.basic.circular.button.select_tag.select_term(href='#' title="#{count} results" class=selector_class)
+    a.ui.image.basic.label.pointer.select_tag.select_term(href='#' title="#{count} results" class=selector_class)
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    
@@ -237,7 +249,7 @@ template(name='tag_selector')
         // small #{count}
 
 template(name='doc_tag')
-    a.ui.image.small.circular.label.pointer.select_tag.select_term(href='#' title="#{count} results" class=selector_header_class)
+    a.ui.image.large.circular.label.pointer.select_tag.select_term(href='#' title="#{count} results" class=selector_class)
         if term
             img.ui.avatar.compact.image(src=term.watson.metadata.image)    
         | #{this}

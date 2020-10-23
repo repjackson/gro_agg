@@ -67,7 +67,7 @@ Meteor.methods
                 fields:
                     _id:1
                 })
-        console.log 'images', cur.fetch()
+        # console.log 'images', cur.fetch()
         # domain: $in:['i.imgur.com','i.reddit.com','i.redd.it','imgur.com']
         Docs.update({
             model:'reddit'
@@ -101,8 +101,8 @@ Meteor.publish 'docs', (
     view_mode
     emotion_mode
     toggle
-    # selected_models
-    # selected_subreddits
+    selected_models
+    selected_subreddits
     selected_emotions
     # query=''
     skip
@@ -116,8 +116,8 @@ Meteor.publish 'docs', (
     # console.log 'skip', skip
     # match.model = 'wikipedia'
     if selected_emotions.length > 0 then match.max_emotion_name = $all:selected_emotions
-    # if selected_subreddits.length > 0 then match.subreddit = selected_subreddits.toString()
-    # if selected_models.length > 0 then match.model = $all:selected_models
+    if selected_subreddits.length > 0 then match.subreddit = selected_subreddits.toString()
+    if selected_models.length > 0 then match.model = $all:selected_models
     
     switch view_mode 
         when 'image'
@@ -134,7 +134,7 @@ Meteor.publish 'docs', (
             # match.domain = $nin:['i.imgur.com','i.reddit.com','i.redd.it','imgur.com','youtube.com','youtu.be','m.youtube.com','v.redd.it','vimeo.com']
         else 
             match.model = $in:['wikipedia','reddit']
-    console.log 'doc match', match
+    # console.log 'doc match', match
     Docs.find match,
         limit:8
         skip:skip
@@ -149,15 +149,15 @@ Meteor.publish 'dtags', (
     view_mode
     emotion_mode
     toggle
-    # selected_models
-    # selected_subreddits
+    selected_models
+    selected_subreddits
     selected_emotions
     # query=''
     )->
     # @unblock()
     self = @
     match = {}
-    console.log 'tags', selected_tags
+    # console.log 'tags', selected_tags
     if emotion_mode
         match.max_emotion_name = emotion_mode
     if selected_emotions.length > 0 then match.max_emotion_name = $all:selected_emotions
@@ -217,46 +217,46 @@ Meteor.publish 'dtags', (
     #             model:'tag'
     #     # self.ready()
     # else
-    # model_cloud = Docs.aggregate [
-    #     { $match: match }
-    #     { $project: "model": 1 }
-    #     # { $unwind: "$models" }
-    #     { $group: _id: "$model", count: $sum: 1 }
-    #     { $match: _id: $nin: selected_models }
-    #     { $sort: count: -1, _id: 1 }
-    #     { $match: count: $lt: doc_count }
-    #     { $limit:10 }
-    #     { $project: _id: 0, name: '$_id', count: 1 }
-    #     ]
-    # # # console.log 'cloud: ', model_cloud
-    # # console.log 'model match', match
-    # model_cloud.forEach (model, i) ->
-    #     self.added 'results', Random.id(),
-    #         name: model.name
-    #         count: model.count
-    #         model:'model'
+    model_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "model": 1 }
+        # { $unwind: "$models" }
+        { $group: _id: "$model", count: $sum: 1 }
+        { $match: _id: $nin: selected_models }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:10 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    # # console.log 'cloud: ', model_cloud
+    # console.log 'model match', match
+    model_cloud.forEach (model, i) ->
+        self.added 'results', Random.id(),
+            name: model.name
+            count: model.count
+            model:'model'
   
   
-    # unless selected_subreddits.length > 0
-    #     subreddit_cloud = Docs.aggregate [
-    #         { $match: match }
-    #         { $project: "subreddit": 1 }
-    #         # { $unwind: "$subreddits" }
-    #         { $group: _id: "$subreddit", count: $sum: 1 }
-    #         # { $match: _id: $nin: selected_subreddits }
-    #         { $sort: count: -1, _id: 1 }
-    #         { $match: count: $lt: doc_count }
-    #         { $limit:10 }
-    #         { $project: _id: 0, name: '$_id', count: 1 }
-    #         ]
-    #     # # console.log 'cloud: ', subreddit_cloud
-    #     # console.log 'subreddit match', match
-    #     subreddit_cloud.forEach (subreddit, i) ->
-    #         # console.log subreddit
-    #         self.added 'results', Random.id(),
-    #             name: subreddit.name
-    #             count: subreddit.count
-    #             model:'subreddit'
+    unless selected_subreddits.length > 0
+        subreddit_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "subreddit": 1 }
+            # { $unwind: "$subreddits" }
+            { $group: _id: "$subreddit", count: $sum: 1 }
+            # { $match: _id: $nin: selected_subreddits }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+        # # console.log 'cloud: ', subreddit_cloud
+        # console.log 'subreddit match', match
+        subreddit_cloud.forEach (subreddit, i) ->
+            # console.log subreddit
+            self.added 'results', Random.id(),
+                name: subreddit.name
+                count: subreddit.count
+                model:'subreddit'
       
   
   
@@ -280,7 +280,7 @@ Meteor.publish 'dtags', (
             count: emotion.count
             model:'emotion'
   
-    tag_limit = 15
+    # tag_limit = 15
   
     tag_cloud = Docs.aggregate [
         { $match: match }
@@ -294,7 +294,7 @@ Meteor.publish 'dtags', (
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # # console.log 'cloud: ', tag_cloud
-    console.log 'tag match', match
+    # console.log 'tag match', match
     tag_cloud.forEach (tag, i) ->
         self.added 'results', Random.id(),
             name: tag.name

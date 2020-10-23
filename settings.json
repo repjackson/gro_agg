@@ -25,7 +25,15 @@
 	        "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
 	        "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/1a5125f977724658a10776a2be77fa4f::serviceid:ServiceId-29fd900e-ddab-4cfa-b56c-3c7be59485c4",
 	        "url": "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/b5195ac7-a729-46ea-b099-deb37d1dc65b"
-	    }
+	    },
+		"visual": {
+            "apikey": "JEYJRbRNiOposxwFwUHUw76WZXTcevgl9VqXWEJn5O2a",
+            "iam_apikey_description": "Auto-generated for key 8cff1a6d-8195-4301-8c93-4bf9fd55149e",
+            "iam_apikey_name": "Auto-generated service credentials",
+            "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+            "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/f18c8f41459468045d98bcffc36f39d4::serviceid:ServiceId-95aa9f8c-3abd-44a3-828e-f897748abbd9",
+            "url": "https://api.us-south.visual-recognition.watson.cloud.ibm.com/instances/a215dc07-48ca-41f5-be89-6e311afcb7e6"
+		}
 	},
 	"galaxy.meteor.com": {
 		"env": {

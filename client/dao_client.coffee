@@ -1,6 +1,6 @@
 @selected_tags = new ReactiveArray []
-# @selected_models = new ReactiveArray []
-# @selected_subreddits = new ReactiveArray []
+@selected_models = new ReactiveArray []
+@selected_subreddits = new ReactiveArray []
 @selected_emotions = new ReactiveArray []
 
 Template.registerHelper 'skip_is_zero', ()-> Session.equals('skip', 0)
@@ -76,8 +76,8 @@ Template.dao.onCreated ->
         selected_tags.array()
         Session.get('view_mode')
         Session.get('emotion_mode')
-        # selected_models.array()
-        # selected_subreddits.array()
+        selected_models.array()
+        selected_subreddits.array()
         selected_emotions.array()
         )
     @autorun => Meteor.subscribe('dtags',
@@ -85,8 +85,8 @@ Template.dao.onCreated ->
         Session.get('view_mode')
         Session.get('emotion_mode')
         Session.get('toggle')
-        # selected_models.array()
-        # selected_subreddits.array()
+        selected_models.array()
+        selected_subreddits.array()
         selected_emotions.array()
         # Session.get('query')
         )
@@ -95,8 +95,8 @@ Template.dao.onCreated ->
         Session.get('view_mode')
         Session.get('emotion_mode')
         Session.get('toggle')
-        # selected_models.array()
-        # selected_subreddits.array()
+        selected_models.array()
+        selected_subreddits.array()
         selected_emotions.array()
         # Session.get('query')
         Session.get('skip')
@@ -179,7 +179,7 @@ Template.unselect_tag.helpers
             Docs.findOne 
                 # model:'wikipedia'
                 title:@valueOf()
-         console.log found
+        #  console.log found
          found
 Template.unselect_tag.events
    'click .unselect_tag': -> 
@@ -207,7 +207,7 @@ Template.tag_selector.onCreated ->
     # console.log @
     @autorun => Meteor.subscribe('doc_by_title', @data.name)
 Template.tag_selector.helpers
-    selector_header_class: ()->
+    selector_class: ()->
         # console.log @
         term = 
             Docs.findOne 
@@ -215,7 +215,7 @@ Template.tag_selector.helpers
         if term
             if term.max_emotion_name
                 switch term.max_emotion_name
-                    when 'joy' then ' basic green'
+                    when 'joy' then ' basic pink'
                     when 'anger' then ' basic red'
                     when 'sadness' then ' basic blue'
                     when 'disgust' then ' basic orange'
@@ -226,21 +226,21 @@ Template.tag_selector.helpers
             title:@name
             
 Template.dao.events
-    # 'click .select_model': -> selected_models.push @name
+    'click .select_model': -> selected_models.push @name
     'click .select_emotion': -> selected_emotions.push @name
-    # 'click .select_location': -> selected_locations.push @name
+    'click .select_location': -> selected_locations.push @name
     
-    # 'click .unselect_location': -> selected_locations.remove @valueOf()
-    # 'click .unselect_model': -> selected_models.remove @valueOf()
-    # 'click .unselect_subreddit': -> selected_subreddits.remove @valueOf()
+    'click .unselect_location': -> selected_locations.remove @valueOf()
+    'click .unselect_model': -> selected_models.remove @valueOf()
+    'click .unselect_subreddit': -> selected_subreddits.remove @valueOf()
     'click .unselect_emotion': -> selected_emotions.remove @valueOf()
             
             
 Template.tag_selector.events
     'click .select_tag': -> 
         # results.update
-        # window.speechSynthesis.cancel()
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+        window.speechSynthesis.cancel()
+        window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
         
         selected_tags.push @name
         Session.set('query','')
@@ -262,7 +262,7 @@ Template.doc_tag.onCreated ->
     # console.log @
     @autorun => Meteor.subscribe('doc_by_title', @data)
 Template.doc_tag.helpers
-    selector_header_class: ()->
+    selector_class: ()->
         # console.log @
         term = 
             Docs.findOne 
@@ -270,7 +270,7 @@ Template.doc_tag.helpers
         if term
             if term.max_emotion_name
                 switch term.max_emotion_name
-                    when 'joy' then 'joy'
+                    when 'joy' then 'green'
                     when 'anger' then 'red'
                     when 'sadness' then 'blue'
                     when 'disgust' then 'orange'
@@ -378,13 +378,13 @@ Template.dao.helpers
     #         title:@valueOf()
     
     selected_tags: -> selected_tags.array()
-    # selected_models: -> selected_models.array()
-    # selected_subreddits: -> selected_subreddits.array()
+    selected_models: -> selected_models.array()
+    selected_subreddits: -> selected_subreddits.array()
     selected_emotions: -> selected_emotions.array()
    
     emotion_results: -> results.find(model:'emotion')
-    # model_results: -> results.find(model:'model')
-    # subreddit_results: -> results.find(model:'subreddit')
+    model_results: -> results.find(model:'model')
+    subreddit_results: -> results.find(model:'subreddit')
     tag_results: ->
         # match = {model:'wikipedia'}
         # doc_count = Docs.find(match).count()
@@ -428,14 +428,14 @@ Template.doc.events
             window.speechSynthesis.speak new SpeechSynthesisUtterance @title
             if @tone 
                 for sentence in @tone.result.sentences_tone
-                    console.log sentence
+                    # console.log sentence
                     Session.set('current_reading_sentence',sentence)
                     window.speechSynthesis.speak new SpeechSynthesisUtterance sentence.text
     'click .read': (e,t)-> 
         if @tone 
             window.speechSynthesis.cancel()
             for sentence in @tone.result.sentences_tone
-                console.log sentence
+                # console.log sentence
                 Session.set('current_reading_sentence',sentence)
                 window.speechSynthesis.speak new SpeechSynthesisUtterance sentence.text
     'click .print_me': (e,t)-> console.log @
@@ -447,7 +447,7 @@ Template.doc.events
             # $(e.currentTarget).closest('.button')
             tag = $(e.currentTarget).closest('.tag_post').val().toLowerCase().trim()
             # console.log tag
-            console.log @
+            # console.log @
             Docs.update @_id,
                 $addToSet: tags: tag
             $(e.currentTarget).closest('.tag_post').val('')
