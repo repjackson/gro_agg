@@ -40,13 +40,6 @@ Template.questions.helpers
                 "#{Session.get('sort_key')}":Session.get('sort_direction')
 
 
-Router.route '/', (->
-    @layout 'layout'
-    @render 'questions'
-    ), name:'questions'
-
-
-
     
     # many_tags: -> selected_tags.array().length > 1
     # one_post: ->

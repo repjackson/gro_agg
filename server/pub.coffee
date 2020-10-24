@@ -128,6 +128,11 @@ Meteor.publish 'latest_debits', ()->
 Meteor.publish 'all_users', ()->
     Meteor.users.find()
 
+Meteor.publish 'my_unread_messages', ()->
+    Docs.find
+        model:'message'
+        read:false
+
 
 
 Meteor.publish 'doc', (doc_id)->

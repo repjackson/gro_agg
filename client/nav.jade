@@ -37,7 +37,8 @@ template(name='nav')
                     else
                         a.icon.pointer.zoomer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
                             i.large.outline.bell.icon
-            a.icon.pointer.zoomer.item(href="/chat" title='chat') 
+            // a.icon.pointer.zoomer.item(href="/chat" title='chat') 
+            a.icon.pointer.zoomer.item.new_message(title='chat') 
                 i.chat.outline.large.icon
             // // a.icon.pointer.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
             if is_dev 

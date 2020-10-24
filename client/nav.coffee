@@ -9,6 +9,17 @@ Template.nav.onRendered ->
     Meteor.setTimeout ->
         $('.ui.dropdown').dropdown()
     , 2000
+    count = 0
+    cursor = Docs.find({ model: 'message', read: false });
+    console.log 'found messages', cursor.count()
+    handle = cursor.observeChanges({
+        added: (id, message)->
+            count += 1
+            console.log("#{message.body} brings the total to #{count} admins.")
+        removed: ->
+            count -= 1;
+            console.log("Lost one. We're now down to #{count} admins.")
+    })
 
 Template.nav.events
     #     'click .logout': ->
@@ -25,6 +36,11 @@ Template.nav.events
             Meteor.users.update Meteor.userId(),
                 $set:invert_class:'invert'
 
+    'click .new_message': ->
+        Docs.insert 
+            model:'message'
+            read:false
+            body:'hi there'
 
 
     'click .toggle_admin': ->

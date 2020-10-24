@@ -20,6 +20,7 @@ Router.onBeforeAction(force_loggedin, {
         # 'profile'
         # 'shop'
         'chat'
+        'web'
         'dao'
         'model_doc_view'
         'reddit_view'
@@ -70,6 +71,13 @@ Router.route '*', -> @render 'not_found'
 # Router.route '/user/:username/m/:type', -> @render 'profile_layout', 'user_section'
 
 Router.route '/forgot_password', -> @render 'forgot_password'
+
+
+Router.route '/', (->
+    @layout 'layout'
+    @render 'web'
+    ), name:'web'
+
 
 
 Router.route '/reset_password/:token', (->

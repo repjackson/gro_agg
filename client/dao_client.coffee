@@ -63,6 +63,8 @@ Template.doc.onRendered ->
 
 
         
+
+    
 Template.dao.onCreated ->
     # window.speechSynthesis.cancel()
     # window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
@@ -114,7 +116,7 @@ Template.alpha.onRendered ->
     # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[1].plaintext
     if @data.voice
         window.speechSynthesis.speak new SpeechSynthesisUtterance @data.voice
-    else if @data.response.queryresult
+    else if @data.response.queryresult.pods
         window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[0].plaintext
     # console.log response.queryresult.pods[1].subpods
     # Meteor.setTimeout( =>
@@ -524,11 +526,25 @@ Template.dao.events
                 else
                     # window.speechSynthesis.speak new SpeechSynthesisUtterance search
                     Session.set('thinking',true)
+                    $('body').toast(
+                        showIcon: 'search'
+                        message: 'duck duck go started'
+                        displayTime: 500,
+                    )
                     Meteor.call 'search_ddg', search, ->
+                        $('body').toast(
+                            showIcon: 'search'
+                            message: 'duck duck go done'
+                            showIcon: 'brain'
+                            showProgress: 'bottom'
+                            class: 'success'
+                            displayTime: 500,
+                        )
                     window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
                     $('body').toast(
                         showIcon: 'brain'
                         message: 'apha start'
+                        displayTime: 500,
                     )
                     Session.set('loading_alpha', true)
                     Meteor.call 'call_alpha', selected_tags.array().toString(), ->
@@ -537,24 +553,34 @@ Template.dao.events
                             showIcon: 'brain'
                             showProgress: 'bottom'
                             class: 'success'
-                            displayTime: 1000,
+                            displayTime: 500,
                         )
                         Session.set('loading_alpha', false)
+                    $('body').toast(
+                        showIcon: 'wikipedia'
+                        message: 'wikipedia started'
+                        displayTime: 500,
+                    )
                     Meteor.call 'call_wiki', search, ->
                         $('body').toast(
                             message: 'wiki done'
                             showIcon: 'wikipedia'
                             showProgress: 'bottom'
                             class: 'info'
-                            displayTime: 1000,
+                            displayTime: 500,
                         )
+                    $('body').toast(
+                        showIcon: 'reddit'
+                        message: 'reddit started'
+                        displayTime: 500,
+                    )
                     Meteor.call 'search_reddit', selected_tags.array(), ->
                         $('body').toast(
                             message: 'reddit done'
                             showIcon: 'reddit'
                             showProgress: 'bottom'
                             class: 'success'
-                            displayTime: 1000,
+                            displayTime: 500,
                         )
                         Session.set('thinking',false)
                     Session.set('viewing_doc',null)
