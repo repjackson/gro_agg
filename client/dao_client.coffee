@@ -530,6 +530,7 @@ Template.dao.events
                         showIcon: 'brain'
                         message: 'apha start'
                     )
+                    Session.set('loading_alpha', true)
                     Meteor.call 'call_alpha', selected_tags.array().toString(), ->
                         $('body').toast(
                             message: 'apha done'
@@ -538,6 +539,7 @@ Template.dao.events
                             class: 'success'
                             displayTime: 1000,
                         )
+                        Session.set('loading_alpha', false)
                     Meteor.call 'call_wiki', search, ->
                         $('body').toast(
                             message: 'wiki done'

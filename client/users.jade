@@ -38,7 +38,7 @@ template(name='user_cloud')
 
 template(name='member_item')
     .item
-        a.zoom.pointer.mobile.hidden(href="/u/#{username}")
+        a.zoomer.pointer.mobile.hidden(href="/u/#{username}")
             img.ui.avatar.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
 
             a.ui.inline.header.pointer(href="/u/#{username}" style="color:#{theme_color};")
@@ -55,7 +55,7 @@ template(name='member_item')
             //     i.blue.chat.pointer.message.big.disabled.icon
 template(name='user_item')
     .item
-        a.zoom.pointer.mobile.hidden(href="/u/#{username}")
+        a.zoomer.pointer.mobile.hidden(href="/u/#{username}")
             img.ui.avatar.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
 
             a.ui.inline.header.pointer(href="/u/#{username}" style="color:#{theme_color};")
@@ -76,7 +76,7 @@ template(name='user_item')
 template(name='member_card')
     .card.rounded.calc_points
         img.ui.image.mobile.only(class=currentUser.invert_class src="{{c.url profile_image_id width=400 height=300 crop='fill'}}")    
-        a.zoom.pointer.mobile.hidden(href="/u/#{username}")
+        a.zoomer.pointer.mobile.hidden(href="/u/#{username}")
             unless avatar_image_id
                 img.ui.image(class=currentUser.invert_class src="{{c.url profile_image_id width=400 height=300 crop='fill'}}")    
             if avatar_image_id

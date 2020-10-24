@@ -17,20 +17,6 @@ template(name='dao')
                     input.search_title(type='text' autofocus='')
                 each tag_results
                     +tag_selector
-        .row
-            .five.wide.column
-                unless viewing_doc
-                    each alphas
-                        if response.queryresult
-                            +alpha 
-                    // if many_tags
-                    //     each alpha_singles
-                    //         if response.queryresult
-                    //             +alpha 
-                unless viewing_doc
-                    each ducks
-                        +duck 
-                .ui.large.basic.label(title='results') #{doc_count} results
                 +view_mode k='twitter' i='twitter' c='blue'
                 +view_mode k='video' i='youtube' c='red'
                 +view_mode k='image' i='picture' c='green'
@@ -45,7 +31,7 @@ template(name='dao')
                 // .ui.header 
                 //     i.smile.large.grey.icon
                 //     |emotion
-                .spacer
+                // .spacer
                 +emotion_mode k='joy' i='happy--v1' i2='smile' c='invert green'
                 +emotion_mode k='sadness' i='sad--v1' i2='sad tear' c='invert blue'
                 +emotion_mode k='anger' i='angry--v1' i2='frown' c='invert red'
@@ -58,7 +44,7 @@ template(name='dao')
                     if name
                         .ui.compact.circular.basic.button.select_emotion
                             |#{name}
-                .spacer
+                // .spacer
                 .ui.inline.header 
                     i.users.large.grey.icon
                     |group
@@ -67,34 +53,57 @@ template(name='dao')
                         |#{this}
                 each subreddit_results
                     +select_subreddit
-                .spacer
                 // .spacer
-                .ui.inline.header 
-                    i.database.large.icon
-                    |sources
-                each selected_models
-                    .ui.black.circular.compact.button.unselect_model
-                        |#{this}
-                each model_results
-                    .ui.compact.circular.button.select_model
-                        |#{name}
+                // .spacer
+                // .ui.inline.header 
+                //     i.database.large.icon
+                //     |sources
+                // each selected_models
+                //     .ui.black.circular.compact.button.unselect_model
+                //         |#{this}
+                // each model_results
+                //     .ui.compact.circular.button.select_model
+                //         |#{name}
                 // i.smile.large.icon
                 div
                 // .five.wide.right.aligned.column
                 // .eleven.wide.column
+        .row
+            .five.wide.column
+                unless viewing_doc
+                    if skv_is 'loading_alpha' true
+                        i.big.brain.loading.icon 
+                        |alpha...
+                    else
+                        each alphas
+                            if response.queryresult
+                                +alpha 
+                    // if many_tags
+                    //     each alpha_singles
+                    //         if response.queryresult
+                    //             +alpha 
+                    if skv_is 'loading_alpha' true
+                        i.big.brain.loading.icon 
+                        |alpha...
+                    else
+                        unless viewing_doc
+                            each ducks
+                                +duck 
+                .ui.large.basic.label(title='results') #{doc_count} results
             .eleven.wide.column
-                |limit
-                +skve k='limit' value=1 l='1'
-                +skve k='limit' value=10 l='10'
-                |sort
-                +skve k='sort_key' value='_timestamp' l='when'
-                +skve k='sort_key' value='bounty' l='bounty'
-                +skve k='sort_direction' value=-1 l='up'
-                +skve k='sort_direction' value=1 l='down'
-                |view
-                +skve k='view_mode' value='cards' l='cards' i='clone'
-                +skve k='view_mode' value='list' l='list' i='list'
-            
+                unless viewing_doc
+                    |limit
+                    +skve k='limit' value=1 l='1'
+                    +skve k='limit' value=10 l='10'
+                    |sort
+                    +skve k='sort_key' value='_timestamp' l='when'
+                    +skve k='sort_key' value='bounty' l='bounty'
+                    +skve k='sort_direction' value=-1 l='up'
+                    +skve k='sort_direction' value=1 l='down'
+                    |view
+                    +skve k='view_mode' value='cards' l='cards' i='clone'
+                    +skve k='view_mode' value='list' l='list' i='list'
+                
                 .ui.cards
                     each docs
                         if key_value 'model' 'porn'
@@ -106,8 +115,8 @@ template(name='dao')
                 
                 
 template(name="doc")
-    .ui.card(class="#{card_class} #{thinking_class}")
-        if skv_is 'thinking'
+    .ui.card(class=card_class)
+        if skv_is 'thinking' true
             .ui.placeholder
                 .rectangular.image
             .content
@@ -129,7 +138,7 @@ template(name="doc")
                 img.ui.rounded.inline.pointer.zoomer.image.invert.toggle_view(src=watson.metadata.image)    
     
             .content
-                span.ui.pointer.text.f13.zoom.toggle_view(class=post_header_class) #{title}
+                span.ui.pointer.text.f13.zoomer.toggle_view(class=post_header_class) #{title}
                     // small #{max_emotion_name}
                 // |#{points}
                     // unless one_post

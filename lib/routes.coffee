@@ -3,6 +3,9 @@ Router.configure
     notFoundTemplate: 'not_found'
     loadingTemplate: 'splash'
     trackPageView: false
+# 	progressTick: false
+# 	progressDelay: 100
+
 
 force_loggedin =  ()->
     if !Meteor.userId()
@@ -17,6 +20,7 @@ Router.onBeforeAction(force_loggedin, {
         # 'profile'
         # 'shop'
         'chat'
+        'dao'
         'model_doc_view'
         'reddit_view'
         'doc_view'

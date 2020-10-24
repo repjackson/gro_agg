@@ -1,22 +1,22 @@
 template(name='nav')
     .ui.fluid.attached.borderless.invert.menu.topnav
-        a.icon.header.item.zoom.pointer.toggle_leftbar
+        a.icon.header.item.zoomer.pointer.toggle_leftbar
             i.bars.large.grey.icon
         if connected
-            // a.icon.item.zoom.pointer(href='/' class="{{isActivePath '/'}}")
-            a.icon.item.zoom(href='/')
+            // a.icon.item.zoomer.pointer(href='/' class="{{isActivePath '/'}}")
+            a.icon.item.zoomer(href='/')
                 i.large.yin.yang.grey.icon
-            a.icon.item.zoom(href='/web' class="{{isActivePath '/web'}}")
+            a.icon.item.zoomer(href='/web' class="{{isActivePath '/web'}}")
                 i.large.globe.grey.icon
-            a.icon.disabled.item.zoom(href='/reddit' class="{{isActivePath '/reddit'}}")
-                i.large.reddit.grey.icon
-            a.icon.disabled.item.zoom(href='/stack' class="{{isActivePath '/stack'}}")
-                i.large.stack.exchange.grey.icon
-            a.icon.disabled.item.zoom(href='/wikipedia' class="{{isActivePath '/wikipedia'}}")
-                i.large.wikipedia.grey.icon
-            a.icon.disabled.item.zoom(href='/questions' class="{{isActivePath '/questions'}}")
+            // a.icon.disabled.item.zoomer(href='/reddit' class="{{isActivePath '/reddit'}}")
+            //     i.large.reddit.grey.icon
+            // a.icon.disabled.item.zoomer(href='/stack' class="{{isActivePath '/stack'}}")
+            //     i.large.stack.exchange.grey.icon
+            // a.icon.disabled.item.zoomer(href='/wikipedia' class="{{isActivePath '/wikipedia'}}")
+            //     i.large.wikipedia.grey.icon
+            a.icon.disabled.item.zoomer(href='/questions' class="{{isActivePath '/questions'}}")
                 i.large.question.grey.icon
-            a.icon.item.zoom(href='/m/model' class="{{isActivePath '/m/model'}}")
+            a.icon.item.zoomer(href='/m/model' class="{{isActivePath '/m/model'}}")
                 i.large.database.grey.icon
         if currentUser
             unless connected
@@ -25,19 +25,19 @@ template(name='nav')
                     +status    
         .right.menu
             if connected
-                a.icon.pointer.item.add(title='add')
+                a.icon.zoomer.pointer.item.add(title='add')
                     i.large.plus.icon
             if currentUser
                 if connected
                     if unread_count
-                        a.pointer.item.alerts.select_term(href="#" class=alert_toggle_class)
+                        a.pointer.zoomer.item.alerts.select_term(href="#" class=alert_toggle_class)
                             i.large.bell.icon
                             if unread_count
                                 |#{unread_count}
                     else
-                        a.icon.pointer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+                        a.icon.pointer.zoomer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
                             i.large.outline.bell.icon
-            a.icon.pointer.item(href="/chat" title='chat') 
+            a.icon.pointer.zoomer.item(href="/chat" title='chat') 
                 i.chat.outline.large.icon
             // // a.icon.pointer.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
             if is_dev 
@@ -233,22 +233,22 @@ template(name='leftbar')
             i.cog.icon
             | settings
         .divider
-        a.item.zoom.toggle_leftbar(href='/web' class="{{isActivePath '/web'}}")
+        a.item.zoomer.toggle_leftbar(href='/web' class="{{isActivePath '/web'}}")
             i.large.globe.grey.icon
             |web
-        a.item.zoom.toggle_leftbar(href='/reddit' class="{{isActivePath '/reddit'}}")
+        a.item.zoomer.toggle_leftbar(href='/reddit' class="{{isActivePath '/reddit'}}")
             i.large.reddit.grey.icon
             |reddit
-        a.item.zoom.toggle_leftbar(href='/stack' class="{{isActivePath '/stack'}}")
+        a.item.zoomer.toggle_leftbar(href='/stack' class="{{isActivePath '/stack'}}")
             i.large.stack.exchange.grey.icon
             |stackexchange
-        a.item.zoom.toggle_leftbar(href='/wikipedia' class="{{isActivePath '/wikipedia'}}")
+        a.item.zoomer.toggle_leftbar(href='/wikipedia' class="{{isActivePath '/wikipedia'}}")
             i.large.wikipedia.grey.icon
             |wikipedia
-        a.item.zoom.toggle_leftbar(href='/questions' class="{{isActivePath '/questions'}}")
+        a.item.zoomer.toggle_leftbar(href='/questions' class="{{isActivePath '/questions'}}")
             i.large.question.grey.icon
             |questions
-        a.item.zoom.toggle_leftbar(href='/m/model' class="{{isActivePath '/m/model'}}")
+        a.item.zoomer.toggle_leftbar(href='/m/model' class="{{isActivePath '/m/model'}}")
             i.large.database.grey.icon
             |database
         
