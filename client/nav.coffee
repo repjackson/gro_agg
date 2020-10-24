@@ -16,6 +16,14 @@ Template.nav.onRendered ->
         added: (id, message)->
             count += 1
             console.log("#{message.body} brings the total to #{count} admins.")
+            $('body').toast(
+                message: "message: #{message.body}"
+                showIcon: 'mail'
+                showProgress: 'bottom'
+                class: 'success'
+                displayTime: 1000,
+            )
+            
         removed: ->
             count -= 1;
             console.log("Lost one. We're now down to #{count} admins.")
@@ -241,15 +249,17 @@ Template.nav.helpers
     unread_count: ->
         Docs.find( 
             model:'message'
-            recipient_id:Meteor.userId()
-            read_ids:$nin:[Meteor.userId()]
+            read:false
+            # recipient_id:Meteor.userId()
+            # read_ids:$nin:[Meteor.userId()]
         ).count()
 Template.topbar.helpers
     recent_alerts: ->
         Docs.find 
             model:'message'
-            recipient_id:Meteor.userId()
-            read_ids:$nin:[Meteor.userId()]
+            read:false
+            # recipient_id:Meteor.userId()
+            # read_ids:$nin:[Meteor.userId()]
         , sort:_timestamp:-1
         
 Template.recent_alert.events

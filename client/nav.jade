@@ -37,8 +37,8 @@ template(name='nav')
                     else
                         a.icon.pointer.zoomer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
                             i.large.outline.bell.icon
-            // a.icon.pointer.zoomer.item(href="/chat" title='chat') 
             a.icon.pointer.zoomer.item.new_message(title='chat') 
+            // a.icon.pointer.zoomer.item(href="/chat" title='chat') 
                 i.chat.outline.large.icon
             // // a.icon.pointer.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
             if is_dev 
@@ -61,13 +61,28 @@ template(name='nav')
                 a.pointer.item(href="/login" title='login')
                     i.large.sign.in.icon
                     // |enter
-    // .ui.large.breadcrumb
-    //     .section home
-    //     .divider \
-    //     .section store
-    //     .divider \
-    //     .active.section t-shirt
+    if skv_is 'viewing_alerts' true
+        +topbar
 
+
+
+template(name='topbar')
+    .ui.fluid.large.attached.segment(style="background-color:#{currentUser.theme_color};" class=currentUser.invert_class)
+        .ui.middle.aligned.divided.list
+            each recent_alerts
+                +recent_alert
+        a.ui.icon.attached.basic.button.item.close_topbar(href="/inbox")
+            i.inbox.large.icon
+            |inbox
+template(name='recent_alert')        
+    .item.alert
+        .right.floated.content
+            i.circular.eye.link.large.icon.mark_read(title='mark read')
+        img.ui.avatar.image(src="{{c.url author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+        .content
+            .header
+                |#{description} 
+            .description #{author.name} #{made_when}
 
 
 
@@ -148,25 +163,6 @@ template(name='view_chatpop')
 
 
 
-template(name='topbar')
-    .ui.fluid.large.attached.segment
-        .ui.middle.aligned.divided.list
-            each recent_alerts
-                +recent_alert
-        a.ui.icon.attached.basic.button.item.close_topbar(href="/inbox")
-            i.inbox.large.icon
-            |inbox
-        
-template(name='recent_alert')        
-    .item.alert
-        .right.floated.content
-            i.circular.eye.link.large.icon.mark_read(title='mark read')
-        img.ui.avatar.image(src="{{c.url author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
-        .content
-            .header
-                |#{description} 
-            .description #{author.name} #{made_when}
-            
             
             
             

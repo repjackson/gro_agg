@@ -164,10 +164,10 @@ html.ios body {
 
 
 #iron-router-progress.spinner:before {
-	border-color : green;
+	border-color : purple;
 }
 #iron-router-progress {
-	background-color : green;
+	background-color : purple;
 	box-shadow       : 0 0 5px grey;
 }
 
