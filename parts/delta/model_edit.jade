@@ -16,8 +16,8 @@ template(name='model_edit_layout')
                         i.big.checkmark.icon
                     i#delete_model.trash.red.circular.link.icon
                     // .ui.divider
-                    +boolean_edit k='show_filter_bar' label='show filter bar' direct=true
-                    +boolean_edit k='show_facets' label='show facets' direct=true
+                    +boolean_edit k='show_filter_bar' l='show filter bar' d=true
+                    +boolean_edit k='show_facets' l='show facets' d=true
                     a.ui.large.button(href="/model/edit/#{current_doc._id}/" class="{{isActiveRoute 'model_edit_dashboard'}}")
                         i.dashboard.icon
                         |dashboard
@@ -36,17 +36,17 @@ template(name='model_edit_layout')
                     
 template(name='model_edit_dashboard')
     .ui.form
-        +text_edit k='title' label='title' direct=true
-        +text_edit k='slug' label='slug' direct=true
-        +icon_edit k='icon' label='icon' direct=true
-        +textarea_edit k='description' label='description' direct=true
-        +array_edit k='tags' label='tags' direct=true
-        //- +text_edit k='collection' label='collection' direct=true
-        +kve k='collection' value='docs' icon='document'
-        +kve k='collection' value='users' icon='users'
+        +text_edit k='title' l='title' d=true
+        +text_edit k='slug' l='slug' d=true
+        +icon_edit k='icon' l='icon' d=true
+        +textarea_edit k='description' l='description' d=true
+        +array_edit k='tags' l='tags' d=true
+        //- +text_edit k='collection' l='collection' d=true
+        +kve k='collection' v='docs' i='document'
+        +kve k='collection' v='users' i='users'
 
-        //- +multi_doc_edit k='actions' label='actions' ref_model='action' direct=true
-        //- +text_edit k='app' label='app' direct=true
+        //- +multi_doc_edit k='actions' l='actions' ref_model='action' d=true
+        //- +text_edit k='app' l='app' d=true
         
 template(name='model_edit_fields')
     //- |#{model}
@@ -66,17 +66,17 @@ template(name='model_edit_fields')
 template(name='model_edit_modules')
     .ui.segment
         .ui.header
-            +icon name='module'
+            +icon n='module'
             |modules
-        +boolean_edit k='show_comments' label='comments' icon='chat' direct=true
-        +boolean_edit k='show_voting' label='voting' icon='elections' direct=true
+        +boolean_edit k='show_comments' l='comments' i='chat' d=true
+        +boolean_edit k='show_voting' l='voting' i='elections' d=true
     .spacer
     +comments
 
 
 template(name='model_edit_permissions')
     .ui.header permissions
-    +multi_doc_edit k='view_roles' label='view roles' ref_model='role' direct=true
+    +multi_doc_edit k='view_roles' l='view roles' ref_model='role' d=true
 
 
 template(name='field_edit')
@@ -104,50 +104,50 @@ template(name='field_edit')
                 i.large.caret.right.grey.icon
         if viewing_content
             .content
-                +text_edit k='title' label='label' direct=true
-                +text_edit k='key' label='key' direct=true
-                +number_edit k='rank' label='rank' direct=true      
-                +icon_edit k='icon' label='icon' direct=true       
-                //- +textarea_edit k='description' label='description' direct=true
+                +text_edit k='title' l='label' d=true
+                +text_edit k='key' l='key' d=true
+                +number_edit k='rank' l='rank' d=true      
+                +icon_edit k='icon' l='icon' d=true       
+                //- +textarea_edit k='description' l='description' d=true
                 .spacer
                 if is_dev
-                    +text_edit k='field_type' label='field type' direct=true
-                +kve k='field_type' value='text' icon='header'
-                +kve k='field_type' value='array' icon='list'
-                +kve k='field_type' value='boolean' icon='green toggle off'
-                +kve k='field_type' value='number' icon='blue hashtag'
-                +kve k='field_type' value='float' icon='blue hashtag'
-                +kve k='field_type' value='html' icon='code'
-                +kve k='field_type' value='textarea' icon='content'
-                +kve k='field_type' value='image' icon='picture'
-                +kve k='field_type' value='date' icon='calendar'
-                +kve k='field_type' value='time' icon='clock'
-                +kve k='field_type' value='link' icon='linkify'
-                +kve k='field_type' value='youtube' icon='video'
-                +kve k='field_type' value='color' icon='paint brush'
-                +kve k='field_type' value='single_doc' icon='clone'
-                +kve k='field_type' value='multi_doc' icon='clone'
-                +kve k='field_type' value='single_user' icon='clone'
-                +kve k='field_type' value='multi_user' icon='clone'
+                    +text_edit k='field_type' l='field type' d=true
+                +kve k='field_type' v='text' i='header'
+                +kve k='field_type' v='array' i='list'
+                +kve k='field_type' v='boolean' i='green toggle off'
+                +kve k='field_type' v='number' i='blue hashtag'
+                +kve k='field_type' v='float' i='blue hashtag'
+                +kve k='field_type' v='html' i='code'
+                +kve k='field_type' v='textarea' i='content'
+                +kve k='field_type' v='image' i='picture'
+                +kve k='field_type' v='date' i='calendar'
+                +kve k='field_type' v='time' i='clock'
+                +kve k='field_type' v='link' i='linkify'
+                +kve k='field_type' v='youtube' i='video'
+                +kve k='field_type' v='color' i='paint brush'
+                +kve k='field_type' v='single_doc' i='clone'
+                +kve k='field_type' v='multi_doc' i='clone'
+                +kve k='field_type' v='single_user' i='clone'
+                +kve k='field_type' v='multi_user' i='clone'
                 if is_dev
                     i.large.code.icon
-                    +single_doc_edit k='field_type' ref_model='field_type' label='field type' direct=true        
+                    +single_doc_edit k='field_type' ref_model='field_type' l='field type' d=true        
                     .spacer
-                    // +text_edit k='field_type_id' label='field type id' direct=true        
-                    // +single_doc_edit k='field_type_id' ref_model_slug='field_type' label='field type id' direct=true        
+                    // +text_edit k='field_type_id' l='field type id' d=true        
+                    // +single_doc_edit k='field_type_id' ref_model_slug='field_type' l='field type id' d=true        
                     .spacer
-                    +multi_doc_edit k='view_roles' ref_model_slug='role' label='view roles' direct=true icon='eye'          
+                    +multi_doc_edit k='view_roles' ref_model_slug='role' l='view roles' d=true i='eye'          
                     .spacer
-                    +multi_doc_edit k='edit_roles' ref_model_slug='role' label='edit roles' direct=true icon='pencil'        
-                    +text_edit k='ref_model' label='reference model' direct=true
+                    +multi_doc_edit k='edit_roles' ref_model_slug='role' l='edit roles' d=true i='pencil'        
+                    +text_edit k='ref_model' l='reference model' d=true
                 .spacer
-                +boolean_edit k='faceted' label='faceted' icon='diamond' direct=true
-                +boolean_edit k='sortable' label='sortable' icon='chevron-down' direct=true
+                +boolean_edit k='faceted' l='faceted' i='diamond' d=true
+                +boolean_edit k='sortable' l='sortable' i='chevron-down' d=true
                 .spacer
                 if is_ref  
-                    +single_doc_edit k='ref_model' ref_model_slug='model' label='reference model' direct=true
+                    +single_doc_edit k='ref_model' ref_model_slug='model' l='reference model' d=true
                 else if is_user_ref
-                    +single_doc_edit k='role_filter' ref_model_slug='role' label='role filter' direct=true
+                    +single_doc_edit k='role_filter' ref_model_slug='role' l='role filter' d=true
                 div             
                 +remove_button
                 if is_admin
@@ -158,4 +158,4 @@ template(name='field_view')
     +text_view k='title'                    
     +text_view k='key'                    
     +text_view k='field_type'                    
-    +number_view k='rank' label='rank'                  
+    +number_view k='rank' l='rank'                  

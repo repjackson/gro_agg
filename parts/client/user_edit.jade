@@ -4,7 +4,7 @@ template(name='phone_editor')
         |phone
     .ui.icon.fluid.input(title='Add Phone')
         i.plus.icon
-        input#phone.form-control(type='phone', name='phone', value='{{newNumber}}')
+        input#phone.form-control(type='phone', name='phone', v='{{newNumber}}')
     //- if current_user.profile.phone
     //-     if current_user.profile.phone_verified
     //-         .ui.label verified
@@ -22,7 +22,7 @@ template(name='phone_editor')
 
 template(name='password_edit')
     .ui.small.header
-        //- +i name='password'
+        //- +i n='password'
         i.lock.icon
         |change password
     //- .ui.fluid.input
@@ -37,7 +37,7 @@ template(name='password_edit')
             |reset password
     .ui.fluid.large.button.set_password
         i.lock.icon
-        //- +i name='password' cl='ui mini inline image'
+        //- +i n='password' cl='ui mini inline image'
         | set password
             
             
@@ -93,7 +93,7 @@ template(name='account')
         .twelve.wide.column
             .ui.two.column.stackable.grid
                 .column
-                    // +image_edit k='banner_image_id' icon='picture' title='banner image' d=true
+                    // +image_edit k='banner_image_id' i='picture' title='banner image' d=true
                     +password_edit
                 .column
                     .ui.header 
@@ -104,15 +104,15 @@ template(name='account')
                         .ui.segment
                             i.code.icon
                             +username_edit
-                            +boolean_edit k='disabled' label='disabled' d=true
-                            +multi_user_edit k='user_representatives' label='user representatives' d=true
+                            +boolean_edit k='disabled' l='disabled' d=true
+                            +multi_user_edit k='user_representatives' l='user representatives' d=true
                             div
                             with current_user
                                 .ui.button.remove_user 
                                     i.remove.icon
                                     |delete user
                     .spacer
-                    +phone_edit k='phone' label='phone' icon='phone' d=true
+                    +phone_edit k='phone' l='phone' i='phone' d=true
         
                     //- +phone_editor
         

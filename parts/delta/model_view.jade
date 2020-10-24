@@ -28,7 +28,7 @@ template(name='model_view')
                             |edit
                     each model.actions
                         +Template.dynamic template=this data=current_doc
-                    +user_list_toggle k='bookmark_ids' icon='bookmark' label='Bookmark' color='red'
+                    +user_list_toggle k='bookmark_ids' i='bookmark' l='Bookmark' color='red'
                     +creation_info
                 .twelve.wide.column
                     .ui.header

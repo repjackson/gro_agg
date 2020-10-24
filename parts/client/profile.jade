@@ -1,102 +1,112 @@
 template(name='profile')
-    with user
-        .ui.stackable.padded.grid
-            .four.wide.column
-                span.mobile.only
-                    a(href="/u/#{username}/")
-                        img.ui.centered.tiny.inline.spaced.circular.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
-                span.mobile.hidden
-                    if editing_mode
-                        +image_edit k='profile_image_id' icon='picture' title='avatar' d=true
-                    else 
-                        a(href="/u/#{username}/")
-                            img.ui.small.inline.circular.invert.image.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
-                a.ui.header.refresh_user_stats(href="/u/#{username}") 
-                    |#{name}
-                // div
-                a.ui.small.header.refresh_user_stats(href="/u/#{username}") 
-                    |@#{username}
-                if is_current_user
-                    a(href="/u/#{username}/edit")
-                        i.big.cog.pointer.icon
-                if is_dev
-                    .ui.small.inline.header #{_id}
-                if i_have_points
-                    .ui.circular.button.send(title='send points')
-                        i.gift.large.icon
-                        span send pts
-                    // .ui.circular.button.request(title='request points')
-                    //     i.concierge.bell.large.teal.icon
-                    //     span request
-                        
-                if is_current_user
-                    a.ui.circular.button.logout(href="#" title='log out')
-                        i.sign.out.large.icon
-                        |log out
+    +nav
+    .ui.bottom.attached.pushable.segment
+        +leftbar
+        +rightbar
                 
-                unless is_current_user
-                    if currentUser
+        // #main_area.global_container.pusher.invert
+        #main_area.global_container.pusher(class=currentUser.invert_class)
+            with user
+                .ui.stackable.padded.grid
+                    .four.wide.column
+                        span.mobile.only
+                            a(href="/u/#{username}/")
+                                img.ui.centered.tiny.inline.spaced.circular.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
+                        span.mobile.hidden
+                            if editing_mode
+                                +image_edit k='profile_image_id' i='picture' title='avatar' d=true
+                            else 
+                                a(href="/u/#{username}/")
+                                    img.ui.small.inline.circular.invert.image.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
+                        a.ui.header.refresh_user_stats(href="/u/#{username}") 
+                            |#{name}
                         // div
-                        +user_friend_button 
-                if is_dev
-                    +print_this
-                .ui.fluid.dropdown.button
-                    i.users.icon
-                    | friends
-                    .menu 
-                        each friends
-                            a.item(href="/u/#{username}" title=username)
-                                if profile_image_id
-                                    img.ui.avatar.invert.image(src="{{c.url profile_image_id height=500 width=300 gravity='face' crop='fill'}}")
-                                // else
-                                //     .ui.circular.label.image #{initials}
-                                | #{username}
-                .ui.selection.link.list.smallscroll
-                    each friends
-                        a.item(href="/u/#{username}" title=username)
-                            if profile_image_id
-                                img.ui.avatar.invert.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
-                            else
-                                .ui.circular.label.image #{initials}
-                            .content
-                                .header #{username}
-            .twelve.wide.column 
-                .ui.dropdown
-                    span.text dropdown
-                    i.dropdown.icon
-                    .menu 
-                        +skve k='limit' value=1 l='1'
-                        +skve k='limit' value=10 l='10'
-                        .item 1
-                        .item 5
-                        .item 10
-                        .item 20
-            
-                +skve k='profile_section' v='dashboard' l='dashboard' i='dashboard'
-                +skve k='profile_section' v='friends' l='friends' i='groups'
-                +skve k='profile_section' v='finance' l='finance' i='money'
-                +skve k='profile_section' v='posts' l='posts' i='blog'
-                +skve k='profile_section' v='tribes' l='tribes' i='campfire'
-                +skve k='profile_section' v='questions' l='questions' i='faq'
-                +skve k='profile_section' v='answers' l='answers' i='rss'
-                +skve k='profile_section' v='overlap' l='overlap' i='exchange'
-                +skve k='profile_section' v='privacy' l='privacy' i='rss'
-                +skve k='profile_section' v='credits' l='credits' i='rss'
-                +skve k='profile_section' v='debits' l='debits' i='rss'
-                if skv_is 'profile_section' 'dashboard'
-                    .ui.header #{points_earned}pts earned
-                    +user_dashboard
-                else if skv_is 'profile_section' 'friends'
-                    .ui.header friends
-                else if skv_is 'profile_section' 'authored_overlap'
-                    +authored_overlap
-                else if skv_is 'profile_section' 'privacy'
-                    +edit_privacy
-                else if skv_is 'profile_section' 'alerts'
-                    +alerts
-                else if skv_is 'profile_section' 'finance'
-                    .ui.header finance
+                        a.ui.small.header.refresh_user_stats(href="/u/#{username}") 
+                            |@#{username}
+                        if is_current_user
+                            a(href="/u/#{username}/edit")
+                                i.big.cog.pointer.icon
+                        if is_dev
+                            .ui.small.inline.header #{_id}
+                        if i_have_points
+                            .ui.circular.button.send(title='send points')
+                                i.gift.large.icon
+                                span send pts
+                            // .ui.circular.button.request(title='request points')
+                            //     i.concierge.bell.large.teal.icon
+                            //     span request
+                                
+                        if is_current_user
+                            a.ui.circular.button.logout(href="#" title='log out')
+                                i.sign.out.large.icon
+                                |log out
+                        
+                        unless is_current_user
+                            if currentUser
+                                // div
+                                +user_friend_button 
+                        if is_dev
+                            +print_this
+                        .ui.fluid.dropdown.button
+                            i.users.icon
+                            | #{friends.count} friends
+                            .menu 
+                                each friends
+                                    a.item(href="/u/#{username}" title=username)
+                                        if profile_image_id
+                                            img.ui.avatar.invert.image(src="{{c.url profile_image_id height=500 width=300 gravity='face' crop='fill'}}")
+                                        // else
+                                        //     .ui.circular.label.image #{initials}
+                                        | #{username}
+                        .ui.selection.link.list.smallscroll
+                            each friends
+                                a.item(href="/u/#{username}" title=username)
+                                    if profile_image_id
+                                        img.ui.avatar.invert.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
+                                    else
+                                        .ui.circular.label.image #{initials}
+                                    .content
+                                        .header #{username}
+                    .twelve.wide.column 
+                        .ui.dropdown
+                            span.text dropdown
+                            i.dropdown.icon
+                            .menu 
+                                +skve k='limit' v=1 l='1'
+                                +skve k='limit' v=10 l='10'
+                                .item 1
+                                .item 5
+                                .item 10
+                                .item 20
                     
+                        +skve k='profile_section' v='dashboard' l='dashboard' i='dashboard'
+                        +skve k='profile_section' v='friends' l='friends' i='groups'
+                        +skve k='profile_section' v='finance' l='finance' i='money'
+                        +skve k='profile_section' v='posts' l='posts' i='blog'
+                        +skve k='profile_section' v='tribes' l='tribes' i='campfire'
+                        +skve k='profile_section' v='questions' l='questions' i='faq'
+                        +skve k='profile_section' v='answers' l='answers' i='rss'
+                        +skve k='profile_section' v='overlap' l='overlap' i='exchange'
+                        +skve k='profile_section' v='privacy' l='privacy' i='lock'
+                        +skve k='profile_section' v='debits' l='debits' i='initiate-money-transfer'
+                        +skve k='profile_section' v='credits' l='credits' i='deposit'
+                        if skv_is 'profile_section' 'dashboard'
+                            .ui.header #{points_earned}pts earned
+                            +user_dashboard
+                        else if skv_is 'profile_section' 'friends'
+                            .ui.header friends
+                        else if skv_is 'profile_section' 'authored_overlap'
+                            +authored_overlap
+                        else if skv_is 'profile_section' 'debits'
+                            +user_debits
+                        else if skv_is 'profile_section' 'privacy'
+                            +edit_privacy
+                        else if skv_is 'profile_section' 'alerts'
+                            +alerts
+                        else if skv_is 'profile_section' 'finance'
+                            .ui.header finance
+                        +yield
+    +chatpop
               
 
 
@@ -121,6 +131,87 @@ template(name='authored_overlap')
 
 template(name='user_rentals')
 template(name='user_dashboard')
+    // +user_about
+    // .ui.hidden.divider
+    .ui.stackable.four.column.grid
+        .column
+            .ui.inline.header 
+                +icon n='deposit'
+                |#{total_credit_amount}p
+                |received
+                .ui.basic.circular.label #{credit_count} credits
+                    | ##{global_credit_count_rank}
+            .scrolling
+                each user_credits
+                    .ui.segment
+                        if author.profile_image_id
+                            img.ui.avatar.image(src="{{c.url author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                        .content
+                            .header
+                                strong #{amount}pt 
+                                |from 
+                                a(href="/u/#{author.username}")
+                                    |#{author.username}
+                            .description
+                                a(href="/debit/#{_id}/view")
+                                    |#{when}
+                        .content
+                            .description
+                                |#{description}
+                                each tags
+                                    .ui.mini.basic.label #{this}
+        .column
+            .ui.inline.spaced.header 
+                +icolor n='filled-sent' 
+                |#{total_send_amount}p
+                |sent
+                small(title='send count') (#{send_count}x)
+                    .ui.circular.label ##{global_send_count_rank}
+            div
+            .scrolling
+                each user_debits
+                    .ui.segment
+                        a(href="/debit/#{_id}/view")
+                            if recipient.profile_image_id
+                                img.ui.avatar.image(src="{{c.url recipient.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                            .header
+                                strong #{amount}pt
+                                |#{when}
+                                | to 
+                                a(href="/u/#{recipient.username}")
+                                    |#{recipient.username}
+                            .description
+                                |#{description}
+                                each tags
+                                    .ui.mini.label #{this}
+                                if is_admin
+                                    +remove_button
+        .column
+            .ui.header 
+                // i.hand.holding.heart.icon
+                +icolor n='request-service'
+                |requests
+            .smallscroll
+                each user_requests
+                    a(href="/request/#{_id}/view")
+                        .ui.segment
+                            .header #{point_bounty}pts: #{title}
+                            |#{description}
+                            |status: #{status}
+                            if complete 
+                                |completed by #{completer.name}
+        .column
+            .ui.header 
+                +icolor n='calendar' cl='ui inline spaced image'
+                |events
+            .smallscroll
+                each user_event_tickets
+                    a(href="/event/#{event_id}/view")
+                        .ui.segment
+                            .header #{ticket_event.title}
+                                |#{_author.username}
+                                |#{description}
+                                |#{when}
     .ui.stackable.padded.grid
         .eight.wide.column
             .ui.comments.smallscroll
@@ -145,16 +236,7 @@ template(name='user_dashboard')
                         |+1
             each income
                 .ui.tiny.header #{amount} #{_author.username}
-            .ui.segment
-                .ui.header topups
-                .ui.icon.button.add_topup
-                    i.plus.icon
-                .ui.large.list
-                    each topups
-                        .item
-                            .content
-                                |#{_when} #{amount}
-                                +remove_icon
+            +user_topups
             .ui.segment
                 .ui.header questions
                 .ui.icon.button.ask_question
@@ -184,6 +266,21 @@ template(name='user_dashboard')
                             .meta #{_when}
            
            
+           
+template(name='user_topups')
+    .ui.segment
+        .ui.inline.header 
+            +i n='donation'
+            |topups
+        .ui.icon.button.add_topup
+            i.plus.icon
+        .ui.large.list
+            each topups
+                .item
+                    .content
+                        |#{_when} #{amount}
+                        +remove_icon
+
            
 template(name='post_segment')           
     .ui.comment
@@ -220,11 +317,11 @@ template(name='post_segment')
            
                 
 template(name='emotion_picker')
-    +emotion_pick k='joy' icon='smile' color='green' 
-    +emotion_pick k='sadness' icon='frown' color='blue'
-    +emotion_pick k='anger' icon='anger' color='red'
-    +emotion_pick k='disgust' icon='tongue' color='orange'
-    +emotion_pick k='fear' icon='exclamation' color='grey' 
+    +emotion_pick k='joy' i='smile' color='green' 
+    +emotion_pick k='sadness' i='frown' color='blue'
+    +emotion_pick k='anger' i='anger' color='red'
+    +emotion_pick k='disgust' i='tongue' color='orange'
+    +emotion_pick k='fear' i='exclamation' color='grey' 
     
 template(name='emotion_pick')
     i.link.icon.pick(class="#{icon} #{pick_class} invert" title=key)
@@ -246,7 +343,7 @@ template(name='user_friend_button')
 template(name='cloud_comparison')
     .ui.inline.header
         // i.brain.icon
-        +i name='brain'
+        +i n='brain'
         |cloud comparison
     // i.dropdown.icon
     .ui.two.column.stackable.grid
@@ -262,7 +359,7 @@ template(name='cloud_comparison')
         //             small #{count}
         .column
             .ui.header 
-                +i name='brain'
+                +i n='brain'
                 // i.brain.icon
                 |mind
             // each friended_by
@@ -273,7 +370,7 @@ template(name='cloud_comparison')
                     small #{count}
         .column
             .ui.header 
-                +i name='autumn'
+                +i n='autumn'
                 // i.cubes.icon
                 |matter
             // each friended_by
@@ -337,12 +434,12 @@ template(name='alerts')
         
 template(name='edit_privacy')
     .ui.header
-        +icolor name='private' cl='ui image'
+        +icolor n='private' cl='ui image'
         | privacy
     .ui.grid 
         .row 
             .four.wide.column
-                +boolean_edit k='publish_profile' label='publish profile' d=true
+                +boolean_edit k='publish_profile' l='publish profile' d=true
             .twelve.wide.column
                 .ui.header 
                     |make profile public 

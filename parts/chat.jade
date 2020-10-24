@@ -61,7 +61,7 @@ template(name='chat_list_item')
                 //- .ui.horizontal.list
                 //-     each participants
                 //-         .item(title=username)
-                //-             // a(href="/user/profile/#{_id}")
+                //-             // a(href="/u/profile/#{_id}")
                 //-             img.ui.avatar.image(src="{{c.url image_id width=400 height=400 gravity='face' crop='fill'}}")
                 //-             |#{username}
                 //-             +user_status
@@ -88,7 +88,7 @@ template(name='private_chat_item')
                 //- .ui.horizontal.list
                 //-     each participants
                 //-         .item(title=username)
-                //-             // a(href="/user/profile/#{_id}")
+                //-             // a(href="/u/profile/#{_id}")
                 //-             img.ui.avatar.image(src="{{c.url image_id width=400 height=400 gravity='face' crop='fill'}}")
                 //-             |#{username}
                 //-             +user_status
@@ -111,11 +111,11 @@ template(name='chat_message')
     // .ui.segment.message_segment(class=message_segment_class)
         // .ui.comments
     .comment
-        a.avatar(href="/user/#{author.username}")
-            img.ui.avatar.image(src="{{c.url author.profile_image_id width=400 height=400 gravity='face' crop='fill'}}")
+        a.avatar(href="/u/#{_author.username}")
+            img.ui.avatar.image(src="{{c.url _author.profile_image_id width=400 height=400 gravity='face' crop='fill'}}")
         .content
-            a.author(href="/user/#{author.username}") 
-                |#{author.username}
+            a.author(href="/u/#{_author.username}") 
+                |#{_author.username}
                 +user_status author
             .metadata
                 span.date #{when}
@@ -148,7 +148,7 @@ template(name='view_chat')
             .five.wide.column
                 //- .ui.inline.header #{message_count} messages
                 //- .ui.inline.header #{unread_message_count} unread
-                +text_edit key='title' direct=true
+                +text_edit k='title' d=true
                 .ui.header
                     |participants
                 if currentUser
@@ -167,7 +167,7 @@ template(name='view_chat')
                             img.ui.avatar.image(src="{{c.url image_id width=400 height=400 gravity='face' crop='fill'}}")
                             .content
                                 .header
-                                    a(href="/user/#{username}") #{username}
+                                    a(href="/u/#{username}") #{username}
                                     if subscribed
                                         i.bell.outline.icon(title='subscribed')
                                     else
@@ -180,13 +180,13 @@ template(name='view_chat')
                         i.ban.icon
                         |close chat
                 if can_edit
-                    +array_edit key='tags' label='tags' direct=true
+                    +array_edit k='tags' l='tags' d=true
                 else     
-                    +array_view key='tags' label='tags' direct=true
+                    +array_view k='tags' l='tags' d=true
                 //- if can_edit
-                //-     +multi_doc key='view_roles' label='view roles' ref_model='role' direct=true
+                //-     +multi_doc k='view_roles' l='view roles' ref_model='role' d=true
                 //- else     
-                //-     +multi_doc_view key='view_roles' label='view roles' ref_model='role' direct=true
+                //-     +multi_doc_view k='view_roles' l='view roles' ref_model='role' d=true
                 //- +subscribe_button
                 //- +bookmark_button
                 //- unless is_author
@@ -194,7 +194,7 @@ template(name='view_chat')
                 //-     +thanks_button
                 //- +resonates_list
                 if can_edit
-                    +boolean_edit key='private' label='private' direct=true
+                    +boolean_edit k='private' l='private' d=true
                 .ui.header started by 
-                    img.ui.avatar.image(src="{{c.url author.profile_image_id width=400 height=400 gravity='face' crop='fill'}}")
-                    |#{author.username} #{when}
+                    img.ui.avatar.image(src="{{c.url _author.profile_image_id width=400 height=400 gravity='face' crop='fill'}}")
+                    |#{_author.username} #{when}

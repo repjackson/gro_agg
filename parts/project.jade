@@ -19,12 +19,12 @@ template(name='project_view')
                 .four.wide.center.aligned.column
                     // if can_edit
                     a(href="/m/project" title='projects')
-                        +icolorlg name='project' cl='ui inline image pointer'
+                        +icolorlg n='project' cl='ui inline image pointer'
                 .eight.wide.center.aligned.column
                     if icon
                         +icolorlg name=icon cl='ui inline image'
                     else
-                        +icolorlg name='project' cl='ui inline image'
+                        +icolorlg n='project' cl='ui inline image'
                     .ui.center.aligned.inline.header 
                         small viewing project
                         |#{title}
@@ -39,22 +39,22 @@ template(name='project_view')
                         |#{location}
                     .ui.header 
                         small leader
-                    a.ui.header(href="/user/#{_author.username}") 
+                    a.ui.header(href="/u/#{_author.username}") 
                         img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                         |#{_author.username}
-                    +image_view key='image_id' label='image' direct=true
+                    +image_view k='image_id' l='image' d=true
                 .eight.wide.column
-                    +number_view key='bounty' label='bounty' direct=true
-                    +textarea_view key='description' label='description' direct=true
+                    +number_view k='bounty' l='bounty' d=true
+                    +textarea_view k='description' l='description' d=true
                     div 
-                    +array_view key='tags' label='tags' direct=true
+                    +array_view k='tags' l='tags' d=true
                     .spacer
                     .spacer
                     +comments
-                    //- +array_view key='location_tags' label='location_tags' direct=true
+                    //- +array_view k='location_tags' l='location_tags' d=true
                 .four.wide.column
                     .ui.header 
-                        +icon name='project'
+                        +icon n='project'
                         |projects
                     //- .ui.fluid.green.button.submit
                     //-     i.checkmark.icon
@@ -68,22 +68,22 @@ template(name='project_edit')
                         i.checkmark.big.icon
                 .eight.wide.center.aligned.column
                     .ui.inline.header 
-                        +icon name='project'
+                        +icon n='project'
                         small edit project
                         |#{title}
                 .four.wide.center.aligned.column
                     i.link.big.red.remove.icon.delete_item(title='delete project')
             .row 
                 .five.wide.column
-                    +text_edit key='title' icon='header' direct=true
-                    +image_edit key='image_id' label='image' direct=true
-                    +text_edit key='location' label='location' icon='marker' direct=true
-                    +icon_edit key='icon' label='icon' direct=true
+                    +text_edit k='title' i='header' d=true
+                    +image_edit k='image_id' l='image' d=true
+                    +text_edit k='location' l='location' i='marker' d=true
+                    +icon_edit k='icon' l='icon' d=true
                     div 
-                    +array_edit key='tags' label='tags' direct=true
+                    +array_edit k='tags' l='tags' d=true
                 .six.wide.column
-                    +textarea_edit key='description' label='description' direct=true
-                    +textarea_edit key='goals' label='goals' direct=true
-                    //- +array_edit key='location_tags' label='location_tags' direct=true
+                    +textarea_edit k='description' l='description' d=true
+                    +textarea_edit k='goals' l='goals' d=true
+                    //- +array_edit k='location_tags' l='location_tags' d=true
                 .five.wide.column
-                    +boolean_edit key='published' direct=true
+                    +boolean_edit k='published' d=true

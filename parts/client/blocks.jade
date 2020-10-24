@@ -4,7 +4,7 @@ template(name='icon')
     // img.ui.image(src="https://img.icons8.com/plasticine/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/ios/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl)
-    img.ui.image(src="https://img.icons8.com/fluent/48/000000/#{name}.png" class=cl)
+    img.ui.invert.image(src="https://img.icons8.com/fluent/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/cotton/48/000000/#{name}.png" class=cl)
     //- img.ui.image(src="https://img.icons8.com/office/48/000000/#{name}.png" class=cl)
 
@@ -13,6 +13,9 @@ template(name='user_button')
         img.ui.avatar.compact.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
         |#{name}
 
+template(name='new')
+    .ui.header
+        
 
 // template(name='viewed')
 //     .ui.header viewed by
@@ -97,7 +100,7 @@ template(name='skve')
     .ui.circular.zoomer.compact.button.set_session_v(class=calculated_class title=t)
         if i
             // i.icon(class=icon)
-            +i name=i cl='ui mini inline image'
+            +i n=i cl='ui mini inline image'
         unless ionly
             if l
                 |#{l}
@@ -183,7 +186,7 @@ template(name='follow')
         .ui.header
             i.user.plus.icon
             |follow
-        +user_list_toggle k='follower_ids' icon='rss' add_label='Follow' remove_label='Unfollow' color='black'
+        +user_list_toggle k='follower_ids' i='rss' add_l='Follow' remove_l='Unfollow' color='black'
 
 
 template(name='toggle_edit')
@@ -248,7 +251,7 @@ template(name='big_user_card')
                 a.header(href="/u/#{username}")
                      |#{username} 
                     //- .meta @#{username}
-                    //- +array_view k='tags' label='Tags' d=true
+                    //- +array_view k='tags' l='Tags' d=true
 
 
 template(name='user_info')
@@ -355,7 +358,7 @@ template(name='bookmark_button')
 //     // +vote_button amount=25
 //     with user_vote
 //         if is_dev
-//             +number_edit k='points' label='edit points' d=true
+//             +number_edit k='points' l='edit points' d=true
 //         if points
 //             strong #{points}
 //         // if anon_points
@@ -382,7 +385,7 @@ template(name='voting')
     each downvoter_ids
         +user_info_small
     if is_dev
-        +number_edit k='points' label='edit points' d=true
+        +number_edit k='points' l='edit points' d=true
     if points
         strong #{points} pts
     if anon_points

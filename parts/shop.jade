@@ -19,7 +19,7 @@ template(name='product_view')
             .row 
                 .five.wide.column
                     a(href="/m/product" title='shop')
-                        +icolor name='shop' cl='ui inline image pointer'
+                        +icolor n='shop' cl='ui inline image pointer'
                         // i.store.big.icon
                         // span.mobile.hidden shop
                     .ui.inline.header 
@@ -32,19 +32,19 @@ template(name='product_view')
                             // |edit
                     .ui.header 
                         small author
-                    a.ui.header(href="/user/#{_author.username}") 
+                    a.ui.header(href="/u/#{_author.username}") 
                         img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                         |#{_author.username}
                         
                 .six.wide.column
-                    +boolean_view key='published' label='published' direct=true
-                    +image_view key='image_id' label='image' direct=true
-                    // a.ui.header(href="/user/#{target.username}")
+                    +boolean_view k='published' l='published' d=true
+                    +image_view k='image_id' l='image' d=true
+                    // a.ui.header(href="/u/#{target.username}")
                     //     img.ui.avatar.image(src="{{c.url target.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                     //     |#{target.username}
                     .ui.header $#{usd_price} per item
-                    +number_view key='usd_price' label='usd amount' direct=true
-                    +number_view key='inventory' label='inventory' direct=true
+                    +number_view k='usd_price' l='usd amount' d=true
+                    +number_view k='inventory' l='inventory' d=true
                     // if can_buy
                     //     .ui.big.green.button.buy_usd
                     //         |buy #{usd_price}
@@ -52,17 +52,17 @@ template(name='product_view')
                     //         |buy #{}
                     // .ui.big.green.button.purchase
                     //     |purchase for #{point_price}p and $#{usd_price}
-                    +textarea_view key='description' label='description' direct=true
+                    +textarea_view k='description' l='description' d=true
                     div 
-                    +array_view key='tags' label='tags' direct=true
+                    +array_view k='tags' l='tags' d=true
                     .spacer
                     .spacer
                     +comments
                     +voting_full
-                    //- +array_view key='location_tags' label='location_tags' direct=true
+                    //- +array_view k='location_tags' l='location_tags' d=true
                 .five.wide.column
                     .ui.header 
-                        +icolor name='shopping-cart-loaded'
+                        +icolor n='shopping-cart-loaded'
                         |buy
                     .ui.big.circular.green.button.buy_for_usd
                         // |buy for 
@@ -112,7 +112,7 @@ template(name='product_edit')
                         i.checkmark.big.icon
                 .eight.wide.center.aligned.column
                     .ui.header 
-                        +icon name='product'
+                        +icon n='product'
                         |edit product: #{title}
                 .four.wide.center.aligned.column
                     .ui.circular.red.icon.button.delete_item
@@ -122,21 +122,21 @@ template(name='product_edit')
                     .ui.header 
                         small author
                         |#{_author.username}
-                    +number_edit key='inventory' label='inventory' direct=true                    
+                    +number_edit k='inventory' l='inventory' d=true                    
                 .eight.wide.column
-                    +text_edit key='title' label='title' direct=true
+                    +text_edit k='title' l='title' d=true
                     .ui.header
                         |audience
                             
-                    +number_edit key='point_price' label='point price' icon='hashtag' direct=true
-                    +number_edit key='usd_price' label='usd price' icon='money' direct=true
-                    +textarea_edit key='description' label='description' direct=true
-                    +image_edit key='image_id' label='image' direct=true
+                    +number_edit k='point_price' l='point price' i='hashtag' d=true
+                    +number_edit k='usd_price' l='usd price' i='money' d=true
+                    +textarea_edit k='description' l='description' d=true
+                    +image_edit k='image_id' l='image' d=true
                     div 
-                    +array_edit key='tags' label='tags' direct=true
-                    //- +array_edit key='location_tags' label='location_tags' direct=true
+                    +array_edit k='tags' l='tags' d=true
+                    //- +array_edit k='location_tags' l='location_tags' d=true
                 .four.wide.column
-                    +boolean_edit key='published' label='published' direct=true
+                    +boolean_edit k='published' l='published' d=true
                     // unless published
                     //     a.ui.fluid.green.button.submit(href="/save")
                     //         i.checkmark.icon

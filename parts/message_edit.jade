@@ -15,13 +15,13 @@ template(name='message_edit')
                         .ui.header recipient
                         with recipient
                             i.large.remove.link.icon.remove_recipient
-                            a.pointer(href="/user/#{name}")
+                            a.pointer(href="/u/#{name}")
                                 img.ui.tiny.inline.image(src="{{c.url profile_image_id height=400 width=400 gravity='face' crop='fill'}}")
                                 .ui.inline.header #{name}
                                 .ui.small.grey.inline.header #{points}
                         unless recipient
                             .ui.divider
-                            +single_user_edit key='recipient_id' label='search member' icon='user plus' direct=true
+                            +single_user_edit k='recipient_id' l='search member' i='user plus' d=true
 
                             // i.large.user.plus.icon
                             // // .ui.icon.input
@@ -35,8 +35,8 @@ template(name='message_edit')
                             //         small #{points}p
                                     
                 .six.wide.column
-                    +textarea_edit key='description' label='description' direct=true
-                    // +image_edit key='image_id' label='image' direct=true
+                    +textarea_edit k='description' l='description' d=true
+                    // +image_edit k='image_id' l='image' d=true
                     div 
                     div
                     // .ui.inline.header
@@ -50,7 +50,7 @@ template(name='message_edit')
                     //         i.delete.icon.remove_element
                     //         |#{this}
                     
-                    //- +array_edit key='location_tags' label='location_tags' direct=true
+                    //- +array_edit k='location_tags' l='location_tags' d=true
                 .five.wide.column
                     .ui.center.aligned.basic.segment
                         if can_submit

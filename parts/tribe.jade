@@ -41,26 +41,26 @@ template(name='tribe_view')
             .row 
                 .four.wide.column
                     .ui.header
-                        +icon name='calendar'
+                        +icon n='calendar'
                         |#{title} events
-                    +image_view key='image_id' label='image' direct=true
+                    +image_view k='image_id' l='image' d=true
                 .eight.wide.column
-                    +multi_user_view key='tribe_leader_ids' label='tribe leaders' direct=true
-                    +multi_user_view key='tribe_member_ids' label='tribe members' direct=true
+                    +multi_user_view k='tribe_leader_ids' l='tribe leaders' d=true
+                    +multi_user_view k='tribe_member_ids' l='tribe members' d=true
                     each members
-                        a.ui.header(href="/user/#{username}")
+                        a.ui.header(href="/u/#{username}")
                             img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                             |#{username}
-                    +html_view key='description' label='description' direct=true
+                    +html_view k='description' l='description' d=true
                     div 
-                    +array_view key='tags' label='tags' direct=true
+                    +array_view k='tags' l='tags' d=true
                     .spacer
                     .spacer
                     +comments
-                    //- +array_view key='tribe_tags' label='tribe_tags' direct=true
+                    //- +array_view k='tribe_tags' l='tribe_tags' d=true
                 .four.wide.column
                     .ui.header  
-                        +icolor name='prize'
+                        +icolor n='prize'
                         |badges
                     each tribe_badges
                         .ui.header #{title}
@@ -107,7 +107,7 @@ template(name='tribe_edit')
                         // |save
                 .eight.wide.center.aligned.column
                     .ui.small.inline.header 
-                        +icon name='clock'
+                        +icon n='clock'
                         |edit tribe
                     .ui.inline.header #{title}
                 .four.wide.center.aligned.column
@@ -115,17 +115,17 @@ template(name='tribe_edit')
                         i.large.remove.icon
             .row 
                 .four.wide.column
-                    +multi_user_edit key='tribe_leader_ids' label='tribe leaders' direct=true
-                    +multi_user_edit key='tribe_member_ids' label='tribe members' direct=true
+                    +multi_user_edit k='tribe_leader_ids' l='tribe leaders' d=true
+                    +multi_user_edit k='tribe_member_ids' l='tribe members' d=true
                 .eight.wide.column
-                    +text_edit key='title' label='title' direct=true
-                    +icon_edit key='icon' label='icon' direct=true
-                    +image_edit key='image_id' label='image' direct=true
-                    +html_edit key='description' label='description' direct=true
+                    +text_edit k='title' l='title' d=true
+                    +icon_edit k='icon' l='icon' d=true
+                    +image_edit k='image_id' l='image' d=true
+                    +html_edit k='description' l='description' d=true
                     div 
-                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +array_edit k='tags' l='tags' i='tags' d=true
                 .four.wide.column
-                    +boolean_edit key='private' label='private' direct=true
+                    +boolean_edit k='private' l='private' d=true
                     .ui.header enabled features
                     each enabled_features
                         .ui.active.button.disable_feature

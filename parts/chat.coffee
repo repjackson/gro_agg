@@ -27,7 +27,7 @@ if Meteor.isClient
                 message_count =
                     Docs.find({
                         model: 'message'
-                        classroom_id: self._id }).count()
+                        channel_id: self._id }).count()
                 # $('.comment').transition(
                 #     animation: 'fly right'
                 #     duration: 1000
@@ -53,7 +53,7 @@ if Meteor.isClient
         chat_messages: ->
             Docs.find {
                 model: 'message'
-                classroom_id: @_id },
+                channel_id: @_id },
                 sort: timestamp: -1
 
         in_chat: -> if Meteor.userId() in @participant_ids then true else false
@@ -61,12 +61,12 @@ if Meteor.isClient
         message_count: ->
             Docs.find({
                 model: 'message'
-                classroom_id: @_id }).count()
+                channel_id: @_id }).count()
 
         unread_message_count: ->
             Docs.find({
                 model: 'message'
-                classroom_id: @_id
+                channel_id: @_id
                 read_ids: $nin: [Meteor.userId()]}).count()
 
 
@@ -76,7 +76,7 @@ if Meteor.isClient
 
     Template.chat_messages_pane.onCreated ->
         # @autorun => Meteor.subscribe 'doc', @data._id
-        @autorun => Meteor.subscribe 'classroom_docs', @data._id
+        @autorun => Meteor.subscribe 'channel_chats', @data._id
         @autorun => Meteor.subscribe 'people_list', @data._id
 
     Template.chat_messages_pane.helpers
@@ -86,7 +86,7 @@ if Meteor.isClient
         chat_messages: ->
             Docs.find {
                 model: 'message'
-                classroom_id: @_id },
+                channel_id: @_id },
                 sort: _timestamp: 1
 
         chat_tag_class:-> if @valueOf() in selected_chat_tags.array() then 'black' else ''
@@ -98,10 +98,10 @@ if Meteor.isClient
         'keydown .add_message': (e,t)->
             e.preventDefault
             if e.which is 13
-                classroom_id = @_id
+                channel_id = @_id
                 body = t.find('.add_message').value.trim()
                 if body.length > 0
-                    Meteor.call 'add_message', body, classroom_id, (err,res)=>
+                    Meteor.call 'add_message', body, channel_id, (err,res)=>
                         if err then console.error err
                         else
                     $('.add_message').transition('bounce')
@@ -115,15 +115,15 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.methods
-        add_message: (body,classroom_id)->
+        add_message: (body,channel_id)->
             new_message_id = Docs.insert
                 body: body
                 model: 'message'
-                classroom_id: classroom_id
+                channel_id: channel_id
                 read_ids:[Meteor.userId()]
                 tags: ['chat', 'message']
 
-            chat_doc = Docs.findOne _id: classroom_id
+            chat_doc = Docs.findOne _id: channel_id
             message_doc = Docs.findOne new_message_id
             message_author = Meteor.users.findOne message_doc.author_id
 
@@ -167,16 +167,16 @@ if Meteor.isServer
 if Meteor.isClient
     Template.chat_list.onCreated ->
         # @autorun => Meteor.subscribe 'my_chats'
-        @autorun => Meteor.subscribe 'docs', selected_tags.array(), 'chat'
+        @autorun => Meteor.subscribe 'docs', selected_tags.array(), 'chat_channel'
     Template.chat_list_item.onCreated ->
-        @autorun => Meteor.subscribe 'classroom_docs', @data._id
+        @autorun => Meteor.subscribe 'channel_chats', @data._id
         @autorun => Meteor.subscribe 'people_list', @data._id
 
 
     Template.chat_list.helpers
         chat_list_items: ->
             Docs.find
-                model: 'chat'
+                model: 'chat_channel'
                 # participant_ids: $in: [Meteor.userId()]
 
         message_segment_class: -> if Meteor.userId() in @read_ids then 'basic' else ''
@@ -192,7 +192,7 @@ if Meteor.isClient
         last_message: ->
             Docs.findOne {
                 model: 'message'
-                classroom_id: @_id
+                channel_id: @_id
             },
                 sort: timestamp: -1
                 limit: 1
@@ -265,27 +265,27 @@ if Meteor.isServer
 
 
 Meteor.methods
-    create_chat: (tags=[])->
+    create_channel: (tags=[])->
         Docs.insert
             tags: tags
-            model: 'chat'
+            model: 'chat_channel'
             subscribers: [Meteor.userId()]
             participant_ids: [Meteor.userId()]
         # Router.go "/chat/#{id}"
 
-    close_chat: (chat_id)->
+    close_chat: (channel_id)->
         Docs.remove chat_id
         Docs.remove
             model: 'message'
-            classroom_id: chat_id
+            channel_id: chat_id
 
-    join_chat: (chat_id)->
-        Docs.update chat_id,
+    join_chat: (channel_id)->
+        Docs.update channel_id,
             $addToSet:
                 participant_ids: Meteor.userId()
 
-    leave_chat: (chat_id)->
-        Docs.update chat_id,
+    leave_chat: (channel_id)->
+        Docs.update channel_id,
             $pull:
                 participant_ids: Meteor.userId()
 
@@ -293,7 +293,7 @@ Meteor.methods
 
 if Meteor.isClient
     Template.view_chats.onCreated ->
-        @autorun -> Meteor.subscribe('model_docs', 'message')
+        # @autorun -> Meteor.subscribe('model_docs', 'message')
         @autorun -> Meteor.subscribe('chats', selected_theme_tags.array(), selected_participant_ids.array())
         @view_published = new ReactiveVar(true)
 
@@ -324,7 +324,7 @@ if Meteor.isClient
             for chat in my_chats
                 unread_count = Docs.find(
                     model: 'message'
-                    classroom_id: chat._id
+                    channel_id: chat._id
                     read_ids: $nin: [Meteor.userId()]
                 ).count()
                 count += unread_count

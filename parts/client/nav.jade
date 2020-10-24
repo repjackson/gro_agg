@@ -74,7 +74,7 @@ template(name='nav')
 
 template(name='friendbar')
     .ui.fluid.attached.segment(style="background-color:#{currentUser.theme_color};" class=currentUser.invert_class)
-        .ui.middle.aligned.animated.small.selection.list.smallscroll
+        .ui.middle.aligned.selection.list.smallscroll
             each currentUser.friends
                 a.item(href="/u/#{username}")
                     .right.floated
@@ -144,20 +144,20 @@ template(name='footer')
 template(name='role_switcher')
     .ui.segment
         .ui.grey.inline.center.aligned.small.header 
-            //- +i name='anonymous-mask'
+            //- +i n='anonymous-mask'
             i.shield.icon(title='role switcher')
             |#{username} role switcher
         if is_eric
-            //- +user_array_element_toggle k='roles' value='dev' user=currentUser
-            +multi_doc_edit k='roles' label='roles' ref_model='role' d=true
-        if current_user
+            //- +user_array_element_toggle k='roles' v='dev' user=currentUser
+            +multi_doc_edit k='roles' l='roles' ref_model='role' d=true
+        if current_userh
             with current_user
-                +multi_doc_edit k='roles' label='roles' ref_model='role' d=true
-        //- +user_array_element_toggle k='roles' value='dev' user=currentUser
-        //- +user_array_element_toggle k='roles' value='user' user=currentUser
-        //- +user_array_element_toggle k='roles' value='staff' user=currentUser
-        //- +user_array_element_toggle k='roles' value='resident' user=currentUser
-        //- +user_array_element_toggle k='roles' value='owner' user=currentUser
+                +multi_doc_edit k='roles' l='roles' ref_model='role' d=true
+        //- +user_array_element_toggle k='roles' v='dev' user=currentUser
+        //- +user_array_element_toggle k='roles' v='user' user=currentUser
+        //- +user_array_element_toggle k='roles' v='staff' user=currentUser
+        //- +user_array_element_toggle k='roles' v='resident' user=currentUser
+        //- +user_array_element_toggle k='roles' v='owner' user=currentUser
 
 
 
@@ -202,7 +202,7 @@ template(name='rightbar')
         a.item.toggle_rightbar(href="/u/#{currentUser.username}/kin" class="{{isActiveRoute 'kin'}}")
             | #{currentUser.total_credit_amount}p received
             i.large.chevron.down.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/kout" class="{{isActiveRoute 'user_sent'}}")
+        a.item.toggle_rightbar(href="/u/#{currentUser.username}/kout" class="{{isActiveRoute 'user_debits'}}")
             | #{currentUser.total_debit_amount}k out
             i.large.chevron.up.icon
         a.item.toggle_rightbar(href="/u/#{currentUser.username}/events" class="{{isActiveRoute 'user_events'}}")

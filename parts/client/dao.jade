@@ -97,20 +97,20 @@ template(name='dao')
                         span.text dropdown
                         i.dropdown.icon
                         .menu 
-                            +skve k='limit' value=1 l='1'
-                            +skve k='limit' value=10 l='10'
+                            +skve k='limit' v=1 l='1'
+                            +skve k='limit' v=10 l='10'
                             .item 1
                             .item 5
                             .item 10
                             .item 20
                     |sort
-                    +skve k='sort_key' value='_timestamp' l='when'
-                    +skve k='sort_key' value='bounty' l='bounty'
-                    +skve k='sort_direction' value=-1 l='up'
-                    +skve k='sort_direction' value=1 l='down'
+                    +skve k='sort_key' v='_timestamp' l='when'
+                    +skve k='sort_key' v='bounty' l='bounty'
+                    +skve k='sort_direction' v=-1 l='up'
+                    +skve k='sort_direction' v=1 l='down'
                     |view
-                    +skve k='view_mode' value='cards' l='cards' i='squared-menu' ionly=true
-                    +skve k='view_mode' value='list' l='list' i='list' ionly=true
+                    +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
+                    +skve k='view_mode' v='list' l='list' i='list' ionly=true
                 
                 .ui.cards
                     each docs
@@ -119,7 +119,7 @@ template(name='dao')
                         else
                             +doc
                 
-                //     +session_edit_value_button k='view_section' value='tone' l='tone' i='smile'
+                //     +session_edit_value_button k='view_section' v='tone' l='tone' i='smile'
                 
                 
 template(name="doc")

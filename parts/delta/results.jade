@@ -8,7 +8,7 @@ template(name='delta_result_card')
                     if kv_is 'model' 'model'
                         .ui.header
                             // i.icon(class=icon)
-                            +i name=icon
+                            +i n=icon
                             |#{title}
                     else
                         each fields
@@ -16,11 +16,11 @@ template(name='delta_result_card')
                             div
                     .extra
                         if kv_is 'model' 'model'
-                            //- +user_list_toggle k='bookmark_ids' icon='bookmark' label='bookmark' color='red'
+                            //- +user_list_toggle k='bookmark_ids' i='bookmark' l='bookmark' color='red'
                             //- a.ui.button.route_model(href="/m/#{slug}")
                             //-     |view model
                             //-     i.right.chevron.green.icon
-                                //- +icon name='chevron-right' clases='ui avatar image'
+                                //- +icon n='chevron-right' clases='ui avatar image'
                             if is_admin
                                 a.ui.compact.basic.button.route_model(href="/model/edit/#{_id}")
                                     i.cog.icon
@@ -71,7 +71,7 @@ template(name='delta_list_result')
                             +Template.dynamic template=view_template
                     span.extra
                         if kv_is 'model' 'model'
-                            //- +user_list_toggle k='bookmark_ids' icon='bookmark' label='bookmark' color='red'
+                            //- +user_list_toggle k='bookmark_ids' i='bookmark' l='bookmark' color='red'
                             if is_admin
                                 //- a.ui.button.route_model(href="/m/#{slug}")
                                 //- |view model

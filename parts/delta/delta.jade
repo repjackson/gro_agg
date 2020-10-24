@@ -21,7 +21,7 @@ template(name='delta')
                                 i.link.remove.large.icon.clear_query
                             else
                                 i.search.icon
-                            input#search(type='text' autocomplete="off" value=cd.search_query)
+                            input#search(type='text' autocomplete="off" v=cd.search_query)
                         unless single_doc
                             // - .ui.segment(class=loading_class)
                             .ui.inline.small.grey.header(title='change sort direction')
@@ -74,19 +74,19 @@ template(name='delta')
                             |&nbsp;
                             |&nbsp;
                             // - with delta
-                            // -     +kve k='view_mode' value='list'
-                            // -     +kve k='view_mode' value='cards'
-                            +set_view_mode title='list' icon='list'
-                            +set_view_mode title='cards' icon='clone'
+                            // -     +kve k='view_mode' v='list'
+                            // -     +kve k='view_mode' v='cards'
+                            +set_view_mode title='list' i='list'
+                            +set_view_mode title='cards' i='clone'
                             //- .ui.inline.small.grey.header view
                             //- .ui.simple.dropdown.item
                             //-     |#{cd.view_mode}
                             //-     i.dropdown.icon
                             //-     .menu
-                            //-         //- +set_view_mode title='table' icon='table'
-                                    //- +set_view_mode title='items' icon='list'
-                                    //- +set_view_mode title='map' icon='map'
-                                    //- +set_view_mode title='graph' icon='graph'
+                            //-         //- +set_view_mode title='table' i='table'
+                                    //- +set_view_mode title='items' i='list'
+                                    //- +set_view_mode title='map' i='map'
+                                    //- +set_view_mode title='graph' i='graph'
                             //- .ui.compact.small.icon.button.toggle_right_panel
                             //-     i.table.large.icon
                             //- .spacer
@@ -152,9 +152,9 @@ template(name='model_top')
                 a.ui.icon.basic.compact.circular.button.go_home
                     i.big.home.icon
         a.ui.inline.large.header.reset(title="#{description}, #{views} views")
-            // +i name=icon
+            // +i n=icon
             if color_icon
-                +i name=icon
+                +i n=icon
             else 
                 i.large.icon(class=icon)
             | #{current_model.title}
@@ -168,7 +168,7 @@ template(name='model_top')
                 if is_admin
                     .ui.icon.basic.circular.button.add_model_doc(title="add #{slug}")
                         i.plus.large.green.icon
-        +user_list_toggle k='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' label="bookmark"
+        +user_list_toggle k='bookmark_ids' add_i='bookmark outline' remove_i='bookmark' label="bookmark"
         if is_admin
             i.cog.large.circular.link.icon.edit_model(title='edit model')
         if cd

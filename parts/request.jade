@@ -3,7 +3,7 @@ template(name='requests')
         .row
             .sixteen.wide.column
                 .ui.header 
-                    +icon name='sell'
+                    +icon n='sell'
                     |requests
                 .ui.stackable.cards
                     each requests
@@ -42,10 +42,10 @@ template(name='request_view')
                 .four.wide.center.aligned.column
                     a.ui.circular.button(href="/m/request" title='requests')
                         i.chevron.left.icon
-                        +icolor name='request-service' cl='ui inline image pointer'
+                        +icolor n='request-service' cl='ui inline image pointer'
                 .eight.wide.center.aligned.column
                     .ui.center.aligned.header 
-                        +icon name='request-service'
+                        +icon n='request-service'
                         small viewing request: 
                         |#{title}
                 .four.wide.center.aligned.column
@@ -57,25 +57,25 @@ template(name='request_view')
                     .ui.header
                         |#{point_bounty}pts offered
                     .ui.header
-                        +icon name='warranty'
+                        +icon n='warranty'
                         |required badges
                     .ui.header 
                         small posted by
-                    a.ui.header(href="/user/#{_author.username}") 
+                    a.ui.header(href="/u/#{_author.username}") 
                         img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                         |#{_author.username}
                     .ui.header #{when}
                     .ui.header
-                        +icon name='audience'
+                        +icon n='audience'
                         |audience
                 .eight.wide.column
                     .f13
                         |#{description}
-                    // a.ui.header(href="/user/#{target.username}")
+                    // a.ui.header(href="/u/#{target.username}")
                     //     img.ui.avatar.image(src="{{c.url target.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                     //     |#{target.username}
                             
-                    +image_view key='image_id' label='image' direct=true
+                    +image_view k='image_id' l='image' d=true
                     .spacer
                     i.large.red.tags.icon
                     each tags 
@@ -84,12 +84,12 @@ template(name='request_view')
                     .spacer
                     +comments
                     // +voting_full
-                    //- +array_view key='location_tags' label='location_tags' direct=true
+                    //- +array_view k='location_tags' l='location_tags' d=true
                 .four.wide.column
                     .ui.header status: #{status}
                     if can_claim
                         .ui.fluid.green.button.claim
-                            +icon name='grab' cl='ui inline image'
+                            +icon n='grab' cl='ui inline image'
                             |claim
                     if claimer
                         .ui.header claimed by
@@ -121,7 +121,7 @@ template(name='request_edit')
                     a.ui.green.circular.icon.button(href="/request/#{_id}/view" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
-                        +icon name='request-service'
+                        +icon n='request-service'
                         small edit request
                         |#{title}
                     i.large.red.remove.circular.link.icon.delete_request(title='cancel')
@@ -130,10 +130,10 @@ template(name='request_edit')
                     .ui.header 
                         small author
                         |#{_author.username}
-                    +text_edit key='title' icon='header' direct=true
-                    +date_edit key='date' label='date' icon='calendar' direct=true
+                    +text_edit k='title' i='header' d=true
+                    +date_edit k='date' l='date' i='calendar' d=true
                     .ui.header
-                        +icon name='audience'
+                        +icon n='audience'
                         |audience
                     .ui.disabled.button
                         |everyone
@@ -142,16 +142,16 @@ template(name='request_edit')
                     .ui.disabled.button
                         |specific people
                     .ui.header
-                        +icon name='warranty'
+                        +icon n='warranty'
                         |badges
                 .six.wide.column
-                    +number_edit key='point_bounty' label='point bounty' icon='paper-bag-with-seeds' min='0' direct=true
+                    +number_edit k='point_bounty' l='point bounty' i='paper-bag-with-seeds' min='0' d=true
                     div
-                    +textarea_edit key='description' label='description' direct=true
-                    +image_edit key='image_id' label='image' direct=true
+                    +textarea_edit k='description' l='description' d=true
+                    +image_edit k='image_id' l='image' d=true
                     div 
-                    +array_edit key='tags' label='tags' icon='tags' direct=true
-                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                    +array_edit k='tags' l='tags' i='tags' d=true
+                    +array_edit k='location_tags' l='location tags' i='marker' d=true
                 .four.wide.column
                     .ui.header your points: #{currentUser.points}
                     .ui.small.header.thin publishing request holds points from your balance and dispenses them when request is marked complete
@@ -168,3 +168,21 @@ template(name='request_edit')
                         .ui.fluid.teal.big.button.publish
                             i.checkmark.icon
                             |publish
+
+template(name='user_requests')  
+    .ui.center.aligned.header 
+        +icon n='request-service'
+        |user requests
+    .scrolling
+        each requests
+            .ui.segment
+                a.ui.header(href="/request/#{_id}/view") #{bounty}pts: #{title}
+                | #{description}
+                div
+                if is_admin
+                    +remove_button
+                    +print_this
+                
+                //- div
+                +author_info
+                +creation_info

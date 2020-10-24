@@ -193,12 +193,12 @@ Meteor.methods
         if message
             to_user = Meteor.users.findOne message.to_user_id
     
-            message_link = "https://www.oneriverside.app/user/#{to_user.username}/messages"
+            message_link = "https://www.dao.af/u/#{to_user.username}/messages"
     
         	Email.send({
                 to:["<#{to_user.emails[0].address}>"]
                 from:"relay@dao.af"
-                subject:"One message from #{message._author_username}"
+                subject:"dao message from #{message._author_username}"
                 html: "<h3> #{message._author_username} sent you the message:</h3>"+"<h2> #{message.body}.</h2>"+
                     "<br><h4>view your messages here:<a href=#{message_link}>#{message_link}</a>.</h4>"
             })
@@ -207,7 +207,7 @@ Meteor.methods
         now = Date.now()
         # checkedin_students = Meteor.users.find(healthclub_checkedin:true).fetch()
         checkedin_sessions = Docs.find(
-            model:'healthclub_session',
+            model:'checkin',
             active:true
             garden_key:$ne:true
             ).fetch()
@@ -217,7 +217,7 @@ Meteor.methods
             # checkedin_doc =
             #     Docs.findOne
             #         user_id:student._id
-            #         model:'healthclub_checkin'
+            #         model:'checkin'
             #         active:true
             diff = now-session._timestamp
             minute_difference = diff/1000/60
@@ -241,7 +241,7 @@ Meteor.methods
         checkedin_doc =
             Docs.findOne
                 user_id:user_id
-                model:'healthclub_checkin'
+                model:'checkin'
                 active:true
         if checkedin_doc
             Docs.update checkedin_doc._id,
