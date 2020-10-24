@@ -93,6 +93,16 @@ template(name='dao')
             .eleven.wide.column
                 unless viewing_doc
                     |limit
+                    .ui.dropdown
+                        span.text dropdown
+                        i.dropdown.icon
+                        .menu 
+                            .item hi
+                            .item hi
+                            .item hi
+                            .item hi
+                            .item hi
+
                     +skve k='limit' value=1 l='1'
                     +skve k='limit' value=10 l='10'
                     |sort

@@ -15,7 +15,7 @@ Template.nav.onRendered ->
     handle = cursor.observeChanges({
         added: (id, message)->
             count += 1
-            console.log("#{message.body} brings the total to #{count} admins.")
+            # console.log("#{message.body} brings the total to #{count} admins.")
             $('body').toast(
                 message: "message: #{message.body}"
                 showIcon: 'mail'
@@ -23,10 +23,6 @@ Template.nav.onRendered ->
                 class: 'success'
                 displayTime: 1000,
             )
-            
-        removed: ->
-            count -= 1;
-            console.log("Lost one. We're now down to #{count} admins.")
     })
 
 Template.nav.events
@@ -180,9 +176,9 @@ Template.nav.events
         Session.set 'loading', true
         Meteor.call 'set_facets', 'member', ->
             Session.set 'loading', false
-    'click .set_shift': ->
+    'click .set_tribe': ->
         Session.set 'loading', true
-        Meteor.call 'set_facets', 'shift', ->
+        Meteor.call 'set_facets', 'tribe', ->
             Session.set 'loading', false
     'click .set_request': ->
         Session.set 'loading', true
@@ -266,7 +262,7 @@ Template.recent_alert.events
     'click .mark_read': (e,t)->
         # console.log @
         # console.log $(e.currentTarget).closest('.alert')
-        # $(e.currentTarget).closest('.alert').transition('slide left')
+        $(e.currentTarget).closest('.alert').transition('slide left')
         Meteor.call 'mark_read', @_id, ->
             
         # Meteor.setTimeout ->

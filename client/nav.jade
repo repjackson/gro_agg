@@ -18,6 +18,15 @@ template(name='nav')
                 i.large.question.grey.icon
             a.icon.item.zoomer(href='/m/model' class="{{isActivePath '/m/model'}}")
                 i.large.database.grey.icon
+            .ui.dropdown.item
+                span.text dropdown
+                i.dropdown.icon
+                .menu 
+                    .item hi
+                    .item hi
+                    .item hi
+                    .item hi
+                    .item hi
         if currentUser
             unless connected
                 .item.pointer
@@ -71,18 +80,18 @@ template(name='topbar')
         .ui.middle.aligned.divided.list
             each recent_alerts
                 +recent_alert
-        a.ui.icon.attached.basic.button.item.close_topbar(href="/inbox")
-            i.inbox.large.icon
-            |inbox
+    a.ui.icon.attached.basic.button.item.close_topbar(href="/inbox")
+        i.inbox.large.icon
+        |inbox
 template(name='recent_alert')        
     .item.alert
         .right.floated.content
             i.circular.eye.link.large.icon.mark_read(title='mark read')
-        img.ui.avatar.image(src="{{c.url author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+        img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
         .content
             .header
-                |#{description} 
-            .description #{author.name} #{made_when}
+                |#{body} 
+            .description #{_author.name} #{made_when}
 
 
 
