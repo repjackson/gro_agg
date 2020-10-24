@@ -78,8 +78,8 @@ template(name='friendbar')
             each currentUser.friends
                 a.item(href="/u/#{username}")
                     .right.floated
-                        i.gift.circular.link.icon(title="gift #{username} points") 
-                        .ui.circular.icon.button(title="message #{username}") 
+                        i.gift.link.icon(title="gift #{username} points") 
+                        .ui.icon.button(title="message #{username}") 
                             i.mail.icon
                     img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                     |#{username}
@@ -98,7 +98,7 @@ template(name='topbar')
 template(name='recent_alert')        
     .item.alert
         .right.floated.content
-            i.circular.eye.link.large.icon.mark_read(title='mark read')
+            i.eye.link.large.icon.mark_read(title='mark read')
         img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
         .content
             .header
@@ -166,7 +166,7 @@ template(name='chatpop')
     if viewing_chat
         +view_chatpop
     else 
-        .ui.large.circular.icon.invert.button.open_chat
+        .ui.large.icon.invert.button.open_chat
             i.chat.outline.large.icon
 
 template(name='view_chatpop')
@@ -188,7 +188,7 @@ template(name='view_chatpop')
             
             
 template(name='rightbar')
-    .ui.right.sidebar.vertical.borderless.invert.menu
+    .ui.right.sidebar.vertical.borderless.invert.menu.scrolling
         // a.item.toggle_rightbar(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_layout'}}")
         //     img.ui.avatar.compact.image(src="{{c.url 'homestar_logo' height=200 width=200 gravity='face' crop='fill'}}")
         //     |#{currentUser.name}
@@ -237,7 +237,7 @@ template(name='rightbar')
 
 
 template(name='leftbar')
-    .ui.left.sidebar.vertical.borderless.invert.menu
+    .ui.left.sidebar.vertical.borderless.invert.menu.scrolling
         a.item.toggle_leftbar(href="/" class="{{isActivePath '/'}}")
             i.yin.yang.icon
             | dao
@@ -254,6 +254,9 @@ template(name='leftbar')
         a.item.zoomer.toggle_leftbar(href='/web' class="{{isActivePath '/web'}}")
             i.large.globe.grey.icon
             |web
+        a.item.zoomer.toggle_leftbar(href='/events' class="{{isActivePath '/events'}}")
+            i.large.calendar.grey.icon
+            |events
         a.item.zoomer.toggle_leftbar(href='/reddit' class="{{isActivePath '/reddit'}}")
             i.large.reddit.grey.icon
             |reddit
@@ -310,19 +313,19 @@ template(name='leftbar')
                     i.shield.large.icon
             
         if is_admin
-            // a.item.toggle_leftbar.set_badge(href="/m/badge" class="{{isActivePath 'badges'}}")
-            //     i.certificate.blue.icon
-            //     | badges
-            // a.item.toggle_leftbar.set_debit(href="/m/debit" class="{{isActivePath regex='rentals'}}")
-            //     i.gift.blue.icon
-            //     |gifts
+            a.item.toggle_leftbar.set_badge(href="/m/badge" class="{{isActivePath 'badges'}}")
+                i.certificate.blue.icon
+                | badges
+            a.item.toggle_leftbar.set_debit(href="/m/debit" class="{{isActivePath regex='rentals'}}")
+                i.gift.blue.icon
+                |gifts
             .divider
-            // a.item.toggle_leftbar.set_project(href="/m/project" class="{{isActivePath regex='projects'}}")
-            //     i.tasks.blue.icon
-            //     | projects
-            // a.item.toggle_leftbar(href="/m/room" class="{{isActiveRoute 'requests'}}")
-            //     i.building.blue.icon
-            //     |rooms
+            a.item.toggle_leftbar.set_project(href="/m/project" class="{{isActivePath regex='projects'}}")
+                i.tasks.blue.icon
+                | projects
+            a.item.toggle_leftbar(href="/m/room" class="{{isActiveRoute 'requests'}}")
+                i.building.blue.icon
+                |rooms
             a.blue.item.set_model.toggle_leftbar(href="/m/model" class="{{isActivePath '/m/model'}}")
                 |admin
                 i.database.blue.icon

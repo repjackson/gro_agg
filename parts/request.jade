@@ -25,7 +25,7 @@ template(name='request_card')
             if _author.profile_image_id
                 img.ui.avatar.compact.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
             |#{_author.name}
-            .ui.big.basic.circular.label
+            .ui.big.basic.label
                 |#{point_bounty}pts
             .ui.small.inline.header status:#{status}
             if complete
@@ -40,7 +40,7 @@ template(name='request_view')
         .ui.stackable.padded.grid
             .middle.aligned.row 
                 .four.wide.center.aligned.column
-                    a.ui.circular.button(href="/m/request" title='requests')
+                    a.ui.button(href="/m/request" title='requests')
                         i.chevron.left.icon
                         +icolor n='request-service' cl='ui inline image pointer'
                 .eight.wide.center.aligned.column
@@ -51,7 +51,7 @@ template(name='request_view')
                 .four.wide.center.aligned.column
                     if can_edit
                         a.edit_request(href="/request/#{_id}/edit")
-                            i.big.blue.pencil.circular.icon
+                            i.big.blue.pencil.icon
             .row 
                 .four.wide.column
                     .ui.header
@@ -118,13 +118,13 @@ template(name='request_edit')
         .ui.stackable.padded.grid
             .row 
                 .sixteen.wide.column
-                    a.ui.green.circular.icon.button(href="/request/#{_id}/view" title='save')
+                    a.ui.green.icon.button(href="/request/#{_id}/view" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
                         +icon n='request-service'
                         small edit request
                         |#{title}
-                    i.large.red.remove.circular.link.icon.delete_request(title='cancel')
+                    i.large.red.remove.link.icon.delete_request(title='cancel')
             .row 
                 .five.wide.column
                     .ui.header 

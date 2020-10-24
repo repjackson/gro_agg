@@ -38,18 +38,18 @@ template(name='dao')
                 +emotion_mode k='disgust' i='disgusting' i2='grin tongue squint' c='invert orange'
                 +emotion_mode k='fear' i='scream' i2='tired' c='black'
                 each selected_emotions
-                    .ui.black.circular.compact.button.unselect_emotion
+                    .ui.black.compact.button.unselect_emotion
                         |#{this}
                 each emotion_results
                     if name
-                        .ui.compact.circular.basic.button.select_emotion
+                        .ui.compact.basic.button.select_emotion
                             |#{name}
                 // .spacer
                 .ui.inline.header 
                     i.users.large.grey.icon
                     |group
                 each selected_subreddits
-                    .ui.black.circular.compact.button.unselect_subreddit
+                    .ui.black.compact.button.unselect_subreddit
                         |#{this}
                 each subreddit_results
                     +select_subreddit
@@ -59,10 +59,10 @@ template(name='dao')
                 //     i.database.large.icon
                 //     |sources
                 // each selected_models
-                //     .ui.black.circular.compact.button.unselect_model
+                //     .ui.black.compact.button.unselect_model
                 //         |#{this}
                 // each model_results
-                //     .ui.compact.circular.button.select_model
+                //     .ui.compact.button.select_model
                 //         |#{name}
                 // i.smile.large.icon
                 div
@@ -150,16 +150,16 @@ template(name="doc")
                     // small #{max_emotion_name}
                 // |#{points}
                     // unless one_post
-                    //     i.chevron.right.big.circular.grey.link.icon.forward
+                    //     i.chevron.right.big.grey.link.icon.forward
                 if viewing_doc
-                    .ui.circular.icon.basic.button.vote_down
+                    .ui.icon.basic.button.vote_down
                         i.caret.down.big.grey.icon
-                    .ui.circular.icon.basic.button.vote_up
+                    .ui.icon.basic.button.vote_up
                         i.caret.up.big.grey.icon
-                    .ui.circular.big.basic.button.read 
+                    .ui.big.basic.button.read 
                         i.rss.icon
                         |read
-                    .ui.circular.icon.button.bookmark
+                    .ui.icon.button.bookmark
                         i.bookmark.icon
                     
                     // if is_image
@@ -185,11 +185,11 @@ template(name="doc")
                     //     iframe(width="100%" height="500" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
                     // .medscroll
                     // 
-                    a.ui.circular.label(href="https://www.reddit.com#{permalink}" target="_window") r/#{subreddit}
+                    a.ui.label(href="https://www.reddit.com#{permalink}" target="_window") r/#{subreddit}
                     .ui.big.label 
                         i.user.outline.icon
                         |#{author}
-                    .ui.circular.label
+                    .ui.label
                         i.thumbs.up.outline.icon
                         |#{ups}
                     a.ui.inline.header(href=url target='_window')
@@ -225,7 +225,7 @@ template(name="doc")
                     //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
                     // |{{selftext}}
                     // +convert
-                    a.ui.circular.icon.big.basic.button(href=url target='_window' title=domain)
+                    a.ui.icon.big.basic.button(href=url target='_window' title=domain)
                         i.external.icon
                         |view site 
                         |#{domain}
@@ -260,15 +260,15 @@ template(name='emotion_mode')
 
 
 template(name='pull_reddit')
-    .ui.circular.icon.button.pull
+    .ui.icon.button.pull
         i.reddit.icon
         
 template(name='call_watson')
-    .ui.circular.icon.button.pull
+    .ui.icon.button.pull
         i.dna.icon
 
 template(name='convert')
-    .ui.circular.icon.button.convert
+    .ui.icon.button.convert
         i.exchange.icon
 
 
@@ -279,7 +279,7 @@ template(name='unselect_tag')
         strong #{this}
 
 template(name='tag_selector')
-    // a.ui.tertiary.basic.circular.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    // a.ui.tertiary.basic.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
     a.ui.large.image.basic.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
@@ -288,7 +288,7 @@ template(name='tag_selector')
         // small #{count}
         
 template(name='select_subreddit')
-    // a.ui.tertiary.basic.circular.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    // a.ui.tertiary.basic.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
     a.ui.image.basic.label.pointer.zoomer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
@@ -297,7 +297,7 @@ template(name='select_subreddit')
         // small #{count}
 
 template(name='doc_tag')
-    a.ui.image.large.circular.label.pointer.zoomer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.image.large.label.pointer.zoomer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             img.ui.avatar.compact.image(src=term.watson.metadata.image)    
         | #{this}
@@ -310,7 +310,7 @@ template(name='duck')
         .ui.inline.header #{Heading}
         // .item abstract #{Abstract}
         .item.abstract !{AbstractText}
-        // a.ui.circular.icon.button(href=AbstractURL)
+        // a.ui.icon.button(href=AbstractURL)
         //     // #{AbstractURL}
         //     i.large.external.icon
         img(src=Image)
@@ -331,7 +331,7 @@ template(name='alpha')
     with response.queryresult
         // .ui.inline.header #{datatypes}
         // each split_datatypes
-        //     .ui.button.basic.compact.circular.buton.select_datatype
+        //     .ui.button.basic.compact.buton.select_datatype
         //         |#{this}
         // .ui.list
             // .item success: #{success}
@@ -405,8 +405,8 @@ template(name='tone')
                     // i.chevron.up.link.grey.large.icon.upvote_sentence
                     // i.chevron.down.link.grey.large.icon.downvote_sentence
                     // each tones
-                    //     .ui.inverted.invert.small.compact.circular.label(class="#{tone_label_class}") 
-                        // .ui.small.compact.circular.inverted.label(class="{{calculated_size 'weight'}} #{tone_label_class}") 
+                    //     .ui.inverted.invert.small.compact.label(class="#{tone_label_class}") 
+                        // .ui.small.compact.inverted.label(class="{{calculated_size 'weight'}} #{tone_label_class}") 
                             span.ui.text
                                 |#{tone_id} &nbsp;
                             | {{ to_percent score }}% 
@@ -421,7 +421,7 @@ template(name='tone')
 
 
 template(name='call_tone')
-    button.ui.large.circular.button.call
+    button.ui.large.button.call
         i.big.download.icon
         // |call tone
         |download

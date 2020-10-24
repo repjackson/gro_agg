@@ -116,7 +116,7 @@ template(name='chat_message')
         .content
             a.author(href="/u/#{_author.username}") 
                 |#{_author.username}
-                +user_status author
+                +user_status _author
             .metadata
                 span.date #{when}
             .text

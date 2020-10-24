@@ -59,20 +59,20 @@ template(name='debit_edit')
         .ui.stackable.padded.grid
             .row 
                 .five.wide.column
-                    .ui.large.circular.fluid.button.delete_item
+                    .ui.large.fluid.button.delete_item
                         i.large.red.remove.icon
                         |cancel
                     .ui.segment
                         .ui.header sender
                         .ui.header
-                            img.ui.circular.small.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                            img.ui.small.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                             |#{_author.username}
                     .ui.segment
                         .ui.header recipient
                         with recipient
-                            i.large.remove.circular.link.icon.remove_recipient
+                            i.large.remove.link.icon.remove_recipient
                             a.pointer(href="/u/#{username}")
-                                img.ui.tiny.inline.circular.image(src="{{c.url profile_image_id height=400 width=400 gravity='face' crop='fill'}}")
+                                img.ui.tiny.inline.image(src="{{c.url profile_image_id height=400 width=400 gravity='face' crop='fill'}}")
                                 .ui.inline.header #{username}
                                 .ui.small.grey.inline.header #{points}
                         unless recipient
@@ -99,7 +99,7 @@ template(name='debit_edit')
                         input.new_element(type='text' placeholder='+' autocomplete="off")
                         //- +clear_value                
                     each tags
-                        .ui.big.basic.circular.label
+                        .ui.big.basic.label
                             i.delete.icon.remove_element
                             |#{this}
                     
@@ -109,18 +109,18 @@ template(name='debit_edit')
                     .ui.big.input
                         input(type='number' v=amount)
                     div
-                    +key_value_edit k='amount' v=1
-                    +key_value_edit k='amount' v=5
-                    +key_value_edit k='amount' v=10
-                    +key_value_edit k='amount' v=20
+                    +kve k='amount' v=1
+                    +kve k='amount' v=5
+                    +kve k='amount' v=10
+                    +kve k='amount' v=20
                     .spacer
                     .ui.center.aligned.basic.segment
                         if can_submit
-                            .ui.green.big.icon.circular.button.submit
+                            .ui.green.big.icon.button.submit
                                 i.big.checkmark.icon
                                 // |submit
                         else 
-                            .ui.big.green.big.disabled.circular.button
+                            .ui.big.green.big.disabled.button
                                 i.checkmark.big.icon
                                 // |submit
 

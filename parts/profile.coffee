@@ -102,6 +102,11 @@ if Meteor.isClient
                         recipient_id: user._id
             Router.go "/debit/#{new_debit_id}/edit"
 
+        'click .boop': (e,t)->
+            $(e.currentTarget).closest('.image').transition({
+                animation : 'bounce',
+                duration  : 800,
+            })
 
 
         'click .request': ->

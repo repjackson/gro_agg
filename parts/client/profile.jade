@@ -10,13 +10,13 @@ template(name='profile')
                     .four.wide.column
                         span.mobile.only
                             a(href="/u/#{username}/")
-                                img.ui.centered.tiny.inline.spaced.circular.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
+                                img.ui.centered.tiny.inline.spaced.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
                         span.mobile.hidden
                             if editing_mode
                                 +image_edit k='profile_image_id' i='picture' title='avatar' d=true
                             else 
                                 a(href="/u/#{username}/")
-                                    img.ui.small.inline.circular.invert.image.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
+                                    img.ui.small.inline.invert.rounded.image.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
                         a.ui.header.refresh_user_stats(href="/u/#{username}") 
                             |#{name}
                         // div
@@ -34,45 +34,45 @@ template(name='profile')
                         if is_dev
                             +print_this
                         .ui.vertical.fluid.menu
-                            a.item(href="/u/#{username}" class="{{isActiveRoute 'user_debits'}}")
+                            a.zoomer.item(href="/u/#{username}" class="{{isActiveRoute 'user_debits'}}")
                                 i.dashboard.icon
                                 |dashboard
-                            a.item(href="/u/#{username}/events" class="{{isActiveRoute 'user_debits'}}")
+                            a.zoomer.item(href="/u/#{username}/events" class="{{isActiveRoute 'user_debits'}}")
                                 i.calendar.icon
                                 |events
-                            a.item(href="/u/#{username}/friends" class="{{isActiveRoute 'user_debits'}}")
+                            a.zoomer.item(href="/u/#{username}/friends" class="{{isActiveRoute 'user_debits'}}")
                                 i.users.icon
                                 |friends
-                            a.item(href="/u/#{username}/debits" class="{{isActiveRoute 'user_debits'}}")
+                            a.zoomer.item(href="/u/#{username}/debits" class="{{isActiveRoute 'user_debits'}}")
                                 i.money.icon
                                 |debits
-                            a.item(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}")
+                            a.zoomer.item(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}")
                                 i.money.icon
                                 |credits
-                            a.item(href="/u/#{username}/questions" class="{{isActiveRoute 'user_questions'}}")
+                            a.zoomer.item(href="/u/#{username}/questions" class="{{isActiveRoute 'user_questions'}}")
                                 i.question.icon
                                 |quesions
-                            a.item(href="/u/#{username}/answers" class="{{isActiveRoute 'user_answers'}}")
+                            a.zoomer.item(href="/u/#{username}/answers" class="{{isActiveRoute 'user_answers'}}")
                                 i.money.icon
                                 |answers
-                            a.item(href="/u/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}")
+                            a.zoomer.item(href="/u/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}")
                                 i.fire.icon
                                 |tribes
-                            a.item(href="/u/#{username}/overlap" class="{{isActiveRoute 'user_overlap'}}")
+                            a.zoomer.item(href="/u/#{username}/overlap" class="{{isActiveRoute 'user_overlap'}}")
                                 i.money.icon
                                 |overlap
                             .divider
                             if i_have_points
                                 a.item.send(title='send points')
-                                    i.gift.large.icon
+                                    i.gift.icon
                                     span send pts
                                 // .ui.button.request(title='request points')
-                                //     i.concierge.bell.large.teal.icon
+                                //     i.concierge.bell.teal.icon
                                 //     span request
                                     
                             if is_current_user
                                 a.item.logout(href="#" title='log out')
-                                    i.sign.out.large.icon
+                                    i.sign.out.icon
                                     |log out
                             // if i_have_points
                             //     .ui.button.send(title='send points')
@@ -97,7 +97,7 @@ template(name='profile')
                                         if profile_image_id
                                             img.ui.avatar.invert.image(src="{{c.url profile_image_id height=500 width=300 gravity='face' crop='fill'}}")
                                         // else
-                                        //     .ui.circular.label.image #{initials}
+                                        //     .ui.label.image #{initials}
                                         | #{username}
                         .ui.selection.link.list.smallscroll
                             each friends
@@ -105,7 +105,7 @@ template(name='profile')
                                     if profile_image_id
                                         img.ui.avatar.invert.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
                                     else
-                                        .ui.circular.label.image #{initials}
+                                        .ui.label.image #{initials}
                                     .content
                                         .header #{username}
                     .twelve.wide.column 
@@ -180,7 +180,7 @@ template(name='user_dashboard')
                 +icon n='deposit'
                 |#{total_credit_amount}p
                 |received
-                .ui.basic.circular.label #{credit_count} credits
+                .ui.basic.label #{credit_count} credits
                     | ##{global_credit_count_rank}
             .scrolling
                 each user_credits
@@ -207,7 +207,7 @@ template(name='user_dashboard')
                 |#{total_send_amount}p
                 |sent
                 small(title='send count') (#{send_count}x)
-                    .ui.circular.label ##{global_send_count_rank}
+                    .ui.label ##{global_send_count_rank}
             div
             .scrolling
                 each user_debits
@@ -269,9 +269,9 @@ template(name='user_dashboard')
                     each friends 
                         a.profile_nav_item(href="/u/#{username}" title=username)
                             if profile_image_id
-                                img.ui.mini.inline.circular.invert.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
+                                img.ui.mini.inline.invert.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
                             else
-                                .ui.circular.label #{initials}
+                                .ui.label #{initials}
                 else
                     .ui.button.tip
                         |+1

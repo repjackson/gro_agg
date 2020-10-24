@@ -12,7 +12,7 @@ template(name='questions')
             .ui.small.grey.header total bounty earned
             if selected_tags
                 // if many_tags
-                //     a#clear_tags.ui.black.icon.small.compact.circular.button.select_term
+                //     a#clear_tags.ui.black.icon.small.compact.button.select_term
                 //         i.remove.icon
                 each selected_tags
                     +unselect_tag
@@ -78,9 +78,9 @@ template(name='question_card')
                 .item 
                     each tags 
                         .ui.label #{this}
-            .ui.big.circular.icon.compact.button.vote_true(class=vote_true_class)
+            .ui.big.icon.compact.button.vote_true(class=vote_true_class)
                 i.thumbs.up.icon(class=vote_true_icon_class)
-            .ui.big.circular.icon.compact.button.vote_false(class=vote_false_class)
+            .ui.big.icon.compact.button.vote_false(class=vote_false_class)
                 i.thumbs.down.icon(class=vote_false_icon_class)
             if can_edit
                 +skve k='edit_question_id' v=_id l='edit'
@@ -109,14 +109,14 @@ template(name='question_card')
                         
                         
 // template(name='unselect_tag')
-//     a.unselect_tag.ui.black.big.image.circular.label.select_term(href='#')
+//     a.unselect_tag.ui.black.big.image.label.select_term(href='#')
 //         if term
 //             img.ui.avatar.compact.image(src=term.watson.metadata.image)    
 //         strong #{this}
 
 // template(name='tag_selector')
-//     // a.ui.big.image.circular.label.pointer.select_tag.select_term(href='#' title="#{count} results" class=selector_header_class)
-//     a.ui.tertiary.basic.circular.button.select_tag.select_term(href='#' title="#{count} results" class=selector_header_class)
+//     // a.ui.big.image.label.pointer.select_tag.select_term(href='#' title="#{count} results" class=selector_header_class)
+//     a.ui.tertiary.basic.button.select_tag.select_term(href='#' title="#{count} results" class=selector_header_class)
 //         if term
 //             if term.watson.metadata.image
 //                 img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    

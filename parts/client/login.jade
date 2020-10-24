@@ -26,16 +26,16 @@ template(name='login')
                 //- if username
                 // if logging_in
                 .spacer
-                .ui.fluid.big.circular.button.enter(title="login #{username}" class=enter_class)
+                .ui.fluid.big.button.enter(title="login #{username}" class=enter_class)
                     |login
                     strong #{username}
                     |&nbsp;
                     i.sign.in.alternate.icon
                 .ui.center.aligned.basic.segment    
-                    a.ui.circular.button(href='/forgot_password')
+                    a.ui.button(href='/forgot_password')
                         i.refresh.icon
                         |forgot password
-                    a.ui.circular.button(href='/register')
+                    a.ui.button(href='/register')
                         i.plus.icon
                         |register
 
@@ -149,7 +149,7 @@ template(name='register')
                 //-     input.password2(type='password')
                 if can_register
                     //- if registering
-                    .ui.fluid.big.circular.button.register(class=enter_class)
+                    .ui.fluid.big.button.register(class=enter_class)
                         i.user.plus.icon
                         |register
                 else
@@ -165,7 +165,7 @@ template(name='register')
                     // .ui.small.header by registering you agree to our 
                     //     a(href='/p/privacy' target="_window") privacy policy
                     // unless username
-                    a.ui.circular.button(href='/login') 
+                    a.ui.button(href='/login') 
                         // i.chevron.right.icon
                         small or
                         +i n='login-rounded-right' cl='ui avatar image'

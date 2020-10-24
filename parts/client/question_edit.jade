@@ -3,7 +3,7 @@ template(name='question_edit')
         .ui.stackable.padded.grid
             .row 
                 .four.wide.column
-                    a.ui.icon.circular.large.button(href="/question/#{_id}/view" title='save' class='invert')
+                    a.ui.icon.large.button(href="/question/#{_id}/view" title='save' class='invert')
                         i.checkmark.big.icon
                     .ui.inline.large.header 
                         small edit question
@@ -13,7 +13,7 @@ template(name='question_edit')
             .row 
                 .five.wide.column
                     +boolean_edit k='published' l='published' d=true
-                    div
+                    // div
                     +boolean_edit k='has_image' l='image' d=true
                     if has_image
                         +image_edit k='image_id' l='image' d=true
@@ -51,13 +51,13 @@ template(name='question_edit')
                     // div
                     // +number_edit k='bounties_available' l='bounties available' d=true
                     // .ui.header subtotal = points/answer*bounties = #{subtotal}pts
-                    div
+                    // div
                     +boolean_edit k='has_recipient' l='recipient' d=true
                     if has_recipient
                         +single_user_edit k='recipient_id' key2='recipient_username' l='recipient' d=true
                     // div
                     // +number_edit k='point_amount' l='point amount' d=true
-                    div
+                    // div
                     +boolean_edit k='has_link' l='link' d=true
                     if has_link
                         +link_edit k='link' l='link' d=true
@@ -65,10 +65,10 @@ template(name='question_edit')
                     if has_enddate
                         +date_edit k='date' l='date' d=true
                     // |tag = -1p
-                    div
+                    // div
                     +smart_tagger
                     +boolean_edit k='has_youtube' l='video' d=true
                     if has_youtube
                         +youtube_edit k='youtube_id' l='youtube id' d=true
-                    i.remove.link.circular.big.icon.delete_question(title='delete question')
+                    i.remove.link.big.icon.delete_question(title='delete question')
                     

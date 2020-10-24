@@ -16,7 +16,7 @@ template(name='tribe_card')
             if private
                 i.large.lock.icon(title='private')
             each tags
-                .ui.circular.basic.label #{this}
+                .ui.basic.label #{this}
             i.chess.king.icon
             |#{tribe_leader_ids.length} leaders
             i.chess.queen.icon
@@ -27,7 +27,7 @@ template(name='tribe_view')
         .ui.stackable.padded.grid
             .centered.middle.aligned.row 
                 .four.wide.center.aligned.column
-                    a.ui.circular.button(href="/m/tribe")
+                    a.ui.button(href="/m/tribe")
                         i.chevron.left.icon
                         i.big.fire.icon
                 .eight.wide.center.aligned.column
@@ -36,7 +36,7 @@ template(name='tribe_view')
                         |#{title}
                 .four.wide.center.aligned.column
                     if can_edit 
-                        a.ui.circular.icon.button(href="/m/tribe/#{_id}/edit" title='edit tribe instance')
+                        a.ui.icon.button(href="/m/tribe/#{_id}/edit" title='edit tribe instance')
                             i.pencil.large.icon
             .row 
                 .four.wide.column
@@ -102,7 +102,7 @@ template(name='tribe_edit')
         .ui.stackable.padded.grid
             .middle.aligned.row 
                 .four.wide.center.aligned.column
-                    a.ui.green.icon.circular.button(href="/m/tribe/#{_id}/view" title='save')
+                    a.ui.green.icon.button(href="/m/tribe/#{_id}/view" title='save')
                         i.checkmark.big.icon
                         // |save
                 .eight.wide.center.aligned.column
@@ -132,5 +132,5 @@ template(name='tribe_edit')
                             |#{title}
                     .ui.header disabled features
                     each disabled_features
-                        .ui.basic.circular.button.enable_feature
+                        .ui.basic.button.enable_feature
                             |#{title}

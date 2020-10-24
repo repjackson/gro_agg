@@ -14,13 +14,13 @@ template(name='question_view')
                     .ui.grey.inline.header 
                         i.calculator.icon
                         |alpha
-                    .ui.icon.large.circular.button(title='call tone')
+                    .ui.icon.large.button(title='call tone')
                         i.smile.icon
                         |tone
-                    .ui.icon.large.circular.button(title='call alpha')
+                    .ui.icon.large.button(title='call alpha')
                         i.brain.icon
                         |watson
-                    .ui.large.circular.button(title='call duck')
+                    .ui.large.button(title='call duck')
                         i.search.icon
                         |duck it
                 .six.wide.center.aligned.column
@@ -44,10 +44,10 @@ template(name='question_view')
                         +mc_select n=3
                         +mc_select n=4
                     if kv_is 'question_type' 'boolean'
-                        .ui.big.circular.icon.button.mark_true(title='true')
+                        .ui.big.icon.button.mark_true(title='true')
                             i.checkmark.big.icon
                             // |true
-                        .ui.big.circular.icon.button.mark_false(title='false')
+                        .ui.big.icon.button.mark_false(title='false')
                             i.ban.big.icon
                             // |false/
                     +comments
@@ -59,7 +59,7 @@ template(name='question_view')
                 .five.wide.column
                     .ui.header question type: #{question_type}
                     if can_edit
-                        a.ui.circular.icon.big.button.edit_question(href="/question/#{_id}/edit")
+                        a.ui.icon.big.button.edit_question(href="/question/#{_id}/edit")
                             i.large.pencil.icon
                     +vote
                     div
@@ -77,7 +77,7 @@ template(name='question_view')
                     .ui.grey.inline.header 
                         i.hand.holding.heart.icon
                         |bounties
-                    .ui.circular.icon.button.add_bounty(title='add bounty')
+                    .ui.icon.button.add_bounty(title='add bounty')
                         i.plus.icon
                     each question_bounties
                         +question_bounty
@@ -85,7 +85,7 @@ template(name='question_view')
                     .ui.grey.inline.header 
                         i.fork.icon
                         |dependencies
-                    .ui.circular.icon.button.add_dependency(title='add dependency')
+                    .ui.icon.button.add_dependency(title='add dependency')
                         i.plus.icon
                     .ui.selection.link.large.list
                         each dependencies
@@ -94,7 +94,7 @@ template(name='question_view')
                         i.sitemap.icon
                         |#{dependents.length}
                         |dependents
-                    .ui.icon.circular.button.add_dependent
+                    .ui.icon.button.add_dependent
                         i.plus.icon
                     .ui.selection.link.large.list
                         each dependents
@@ -139,7 +139,7 @@ template(name='answer_segment')
 
                     
 template(name='mc_select')
-    .ui.big.circular.button.select_option(class=mc_select_class) #{choice_text} 
+    .ui.big.button.select_option(class=mc_select_class) #{choice_text} 
     // |{{mc_option_"#{n}"}}
 
                     
