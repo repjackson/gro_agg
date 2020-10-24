@@ -1,0 +1,170 @@
+template(name='requests')
+    .ui.stackable.padded.grid 
+        .row
+            .sixteen.wide.column
+                .ui.header 
+                    +icon name='sell'
+                    |requests
+                .ui.stackable.cards
+                    each requests
+                        +request_card
+
+
+template(name='request_card')
+    .card.pointer.request_card
+        .image
+            img.ui.raw.image(src="{{c.url image_id width=400 height=300 crop='fill'}}")    
+        .content
+            .ui.header
+                |#{title}
+                if complete
+                    i.green.checkmark.icon
+            |#{description}
+        .content
+            |by 
+            if _author.profile_image_id
+                img.ui.avatar.compact.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+            |#{_author.name}
+            .ui.big.basic.circular.label
+                |#{point_bounty}pts
+            .ui.small.inline.header status:#{status}
+            if complete
+                .ui.basic.label 
+                    |completed by #{completer.name}
+                    |{{from_now completed_timestamp}}
+        
+
+
+template(name='request_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .middle.aligned.row 
+                .four.wide.center.aligned.column
+                    a.ui.circular.button(href="/m/request" title='requests')
+                        i.chevron.left.icon
+                        +icolor name='request-service' cl='ui inline image pointer'
+                .eight.wide.center.aligned.column
+                    .ui.center.aligned.header 
+                        +icon name='request-service'
+                        small viewing request: 
+                        |#{title}
+                .four.wide.center.aligned.column
+                    if can_edit
+                        a.edit_request(href="/request/#{_id}/edit")
+                            i.big.blue.pencil.circular.icon
+            .row 
+                .four.wide.column
+                    .ui.header
+                        |#{point_bounty}pts offered
+                    .ui.header
+                        +icon name='warranty'
+                        |required badges
+                    .ui.header 
+                        small posted by
+                    a.ui.header(href="/user/#{_author.username}") 
+                        img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                        |#{_author.username}
+                    .ui.header #{when}
+                    .ui.header
+                        +icon name='audience'
+                        |audience
+                .eight.wide.column
+                    .f13
+                        |#{description}
+                    // a.ui.header(href="/user/#{target.username}")
+                    //     img.ui.avatar.image(src="{{c.url target.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                    //     |#{target.username}
+                            
+                    +image_view key='image_id' label='image' direct=true
+                    .spacer
+                    i.large.red.tags.icon
+                    each tags 
+                        .ui.basic.large.label #{this}
+                    .spacer
+                    .spacer
+                    +comments
+                    // +voting_full
+                    //- +array_view key='location_tags' label='location_tags' direct=true
+                .four.wide.column
+                    .ui.header status: #{status}
+                    if can_claim
+                        .ui.fluid.green.button.claim
+                            +icon name='grab' cl='ui inline image'
+                            |claim
+                    if claimer
+                        .ui.header claimed by
+                        .ui.header #{claimer.name}
+                        unless complete
+                            .ui.button.unclaim
+                                i.undo.icon
+                                |unclaim
+                        if can_edit
+                            div
+                            unless complete
+                                .ui.big.basic.green.button.mark_complete
+                                    i.checkmark.icon
+                                    |mark complete
+                            else 
+                                .ui.big.orange.basic.button.mark_incomplete
+                                    i.undo.icon
+                                    |mark incomplete
+                        if complete
+                            .ui.segment
+                                .ui.header completed by #{completer.name} {{from_now completed_timestamp}}
+                    
+
+template(name='request_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row 
+                .sixteen.wide.column
+                    a.ui.green.circular.icon.button(href="/request/#{_id}/view" title='save')
+                        i.checkmark.big.icon
+                    .ui.inline.header 
+                        +icon name='request-service'
+                        small edit request
+                        |#{title}
+                    i.large.red.remove.circular.link.icon.delete_request(title='cancel')
+            .row 
+                .five.wide.column
+                    .ui.header 
+                        small author
+                        |#{_author.username}
+                    +text_edit key='title' icon='header' direct=true
+                    +date_edit key='date' label='date' icon='calendar' direct=true
+                    .ui.header
+                        +icon name='audience'
+                        |audience
+                    .ui.disabled.button
+                        |everyone
+                    .ui.disabled.button
+                        |groups
+                    .ui.disabled.button
+                        |specific people
+                    .ui.header
+                        +icon name='warranty'
+                        |badges
+                .six.wide.column
+                    +number_edit key='point_bounty' label='point bounty' icon='paper-bag-with-seeds' min='0' direct=true
+                    div
+                    +textarea_edit key='description' label='description' direct=true
+                    +image_edit key='image_id' label='image' direct=true
+                    div 
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                .four.wide.column
+                    .ui.header your points: #{currentUser.points}
+                    .ui.small.header.thin publishing request holds points from your balance and dispenses them when request is marked complete
+                    .ui.inline.header status:
+                    if published
+                        .ui.green.inline.header published
+                    else
+                        .ui.orange.inline.header unpublished
+                    if published
+                        .ui.fluid.orange.basic.large.button.unpublish
+                            i.undo.icon
+                            |unpublish
+                    else
+                        .ui.fluid.teal.big.button.publish
+                            i.checkmark.icon
+                            |publish

@@ -40,9 +40,20 @@ template(name='profile')
                         +user_friend_button 
                 if is_dev
                     +print_this
+                .ui.fluid.dropdown.button
+                    i.users.icon
+                    | friends
+                    .menu 
+                        each friends
+                            a.item(href="/u/#{username}" title=username)
+                                if profile_image_id
+                                    img.ui.avatar.invert.image(src="{{c.url profile_image_id height=500 width=300 gravity='face' crop='fill'}}")
+                                // else
+                                //     .ui.circular.label.image #{initials}
+                                | #{username}
                 .ui.selection.link.list.smallscroll
                     each friends
-                        a.profile_nav_item.item(href="/u/#{username}" title=username)
+                        a.item(href="/u/#{username}" title=username)
                             if profile_image_id
                                 img.ui.avatar.invert.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
                             else

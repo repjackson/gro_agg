@@ -8,7 +8,7 @@ template(name='dao')
                     // i#clear_tags.link.yin.yang.big.icon(class=thinking_class)
                 if selected_tags
                     if many_tags
-                        a#clear_tags.ui.black.invert.icon.small.compact.circular.button.select_term
+                        a#clear_tags.ui.black.invert.icon.compact.button.select_term
                             i.remove.icon
                     each selected_tags
                         +unselect_tag
@@ -23,11 +23,11 @@ template(name='dao')
                 +view_mode k='posts' i='newspaper' c='teal'
                 +view_mode k='wikipedia' i='wikipedia' c='purple'
                 +view_mode k='stackexchange' i='stack exchange disabled'
-                +view_mode k='github' i='github disabled'
-                +view_mode k='alpha' i='disabled brain'
+                // +view_mode k='github' i='github disabled'
+                // +view_mode k='alpha' i='disabled brain'
                 +view_mode k='porn' i='mercury'
-                +view_mode k='bitcoin' i='bitcoin disabled'
-                +view_mode k='covid' i='covid disabled'
+                // +view_mode k='bitcoin' i='bitcoin disabled'
+                // +view_mode k='covid' i='covid disabled'
                 // .ui.header 
                 //     i.smile.large.grey.icon
                 //     |emotion
@@ -69,7 +69,7 @@ template(name='dao')
                 // .five.wide.right.aligned.column
                 // .eleven.wide.column
         .row
-            .five.wide.column
+            div(class="{{#unless viewing_doc}} five wide column {{/unless}}")
                 unless viewing_doc
                     if skv_is 'loading_alpha' true
                         i.big.brain.loading.icon 
@@ -90,7 +90,7 @@ template(name='dao')
                             each ducks
                                 +duck 
                 .ui.large.basic.label(title='results') #{doc_count} results
-            .eleven.wide.column
+            div(class="{{#unless viewing_doc}} eleven wide column {{else}} sixteen wide column {{/unless}}")
                 unless viewing_doc
                     |limit
                     .ui.dropdown
@@ -109,8 +109,8 @@ template(name='dao')
                     +skve k='sort_direction' value=-1 l='up'
                     +skve k='sort_direction' value=1 l='down'
                     |view
-                    +skve k='view_mode' value='cards' l='cards' i='clone'
-                    +skve k='view_mode' value='list' l='list' i='list'
+                    +skve k='view_mode' value='cards' l='cards' i='squared-menu' ionly=true
+                    +skve k='view_mode' value='list' l='list' i='list' ionly=true
                 
                 .ui.cards
                     each docs
@@ -146,7 +146,7 @@ template(name="doc")
                 img.ui.rounded.inline.pointer.zoomer.image.invert.toggle_view(src=watson.metadata.image)    
     
             .content
-                span.ui.pointer.text.f13.zoomer.toggle_view(class=post_header_class) #{title}
+                span.ui.pointer.text.f13.zoomer.toggle_view(class=post_header_class) !{title}
                     // small #{max_emotion_name}
                 // |#{points}
                     // unless one_post
@@ -280,7 +280,7 @@ template(name='unselect_tag')
 
 template(name='tag_selector')
     // a.ui.tertiary.basic.circular.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.large.image.basic.label.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.large.image.basic.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    
@@ -289,7 +289,7 @@ template(name='tag_selector')
         
 template(name='select_subreddit')
     // a.ui.tertiary.basic.circular.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.image.basic.label.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.image.basic.label.pointer.zoomer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    
@@ -297,7 +297,7 @@ template(name='select_subreddit')
         // small #{count}
 
 template(name='doc_tag')
-    a.ui.image.large.circular.label.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.image.large.circular.label.pointer.zoomer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             img.ui.avatar.compact.image(src=term.watson.metadata.image)    
         | #{this}

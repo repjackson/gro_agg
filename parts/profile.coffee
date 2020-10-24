@@ -14,12 +14,14 @@ if Meteor.isClient
         Session.setDefault('profile_section','dashboard')
     
     Template.profile.onRendered ->
+        document.title = "#{Router.current().params.username} profile"
+        
         Meteor.setTimeout ->
             $('.ui.dropdown').dropdown()
         , 2000
         
         Meteor.setTimeout ->
-            $('.profile_nav_item')
+            $('.item')
                 .popup()
         , 2000
         user = Meteor.users.findOne(username:Router.current().params.username)
@@ -33,8 +35,7 @@ if Meteor.isClient
     Template.profile.helpers
         route_slug: -> "user_#{@slug}"
         user: -> Meteor.users.findOne username:Router.current().params.username
-        is_current_user: ->
-            Meteor.user().username is Router.current().params.username
+        is_current_user: -> Meteor.user().username is Router.current().params.username
     Template.user_dashboard.helpers
         posts: ->
             user = Meteor.users.findOne username:Router.current().params.username            

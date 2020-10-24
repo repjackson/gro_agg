@@ -68,7 +68,7 @@ Template.doc.onRendered ->
 Template.dao.onCreated ->
     # window.speechSynthesis.cancel()
     # window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
-
+    document.title = 'the world'
     Session.setDefault('skip',0)
     Session.setDefault('view_section','content')
     @autorun -> Meteor.subscribe('alpha_combo',selected_tags.array())
@@ -543,13 +543,13 @@ Template.dao.events
                     window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
                     $('body').toast(
                         showIcon: 'brain'
-                        message: 'apha start'
+                        message: 'alpha start'
                         displayTime: 'auto',
                     )
                     Session.set('loading_alpha', true)
                     Meteor.call 'call_alpha', selected_tags.array().toString(), ->
                         $('body').toast(
-                            message: 'apha done'
+                            message: 'alpha done'
                             showIcon: 'brain'
                             showProgress: 'bottom'
                             class: 'success'

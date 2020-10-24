@@ -68,13 +68,13 @@ Meteor.methods
         now = Date.now()
         found_last_chat = 
             Docs.findOne { 
-                model:'chat'
+                model:'global_chat'
                 _timestamp: $lt:now
             }, limit:1
         console.log 'last', found_last_chat
         new_id = 
             Docs.insert 
-                model:'chat'
+                model:'global_chat'
                 body:chat
                 bot:false
         # console.log 'creating new chat for ', chat

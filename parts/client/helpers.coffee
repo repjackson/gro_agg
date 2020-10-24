@@ -7,6 +7,10 @@ Template.registerHelper 'youtube_parse', (url) ->
     else
         # console.log 'error, not vid'
         null
+   
+   
+# Deps.autorun ()->
+#     document.title = Session.get('doc_title')
         
         
 Template.registerHelper 'editing_mode', () ->

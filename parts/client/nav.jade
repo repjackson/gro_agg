@@ -8,6 +8,8 @@ template(name='nav')
                 i.large.yin.yang.grey.icon
             a.icon.item.zoomer(href='/web' class="{{isActivePath '/web'}}")
                 i.large.globe.grey.icon
+            a.icon.disabled.item.zoomer(href='/tribes' class="{{isActivePath '/tribes'}}")
+                i.large.fire.grey.icon
             // a.icon.disabled.item.zoomer(href='/reddit' class="{{isActivePath '/reddit'}}")
             //     i.large.reddit.grey.icon
             // a.icon.disabled.item.zoomer(href='/stack' class="{{isActivePath '/stack'}}")
@@ -24,7 +26,6 @@ template(name='nav')
                     i.yin.yang.loading.big.grey.icon
                     +status    
         .right.menu
-        
             if connected
                 a.icon.zoomer.pointer.item.add(title='add')
                     i.large.plus.icon
@@ -48,20 +49,20 @@ template(name='nav')
                     i.large.code.icon
                 
             if currentUser
-                a.large.pointer.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'profile'}}")
+                a.large.pointer.zoomer.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'profile'}}")
                     //- i.large.user.large.icon
                     // |{{money_format currentUser.points}}c
                     |#{currentUser.points}p
                     |&nbsp;
                     if currentUser.profile_image_id
-                        img.ui.avatar.image(src="{{c.url currentUser.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                        img.ui.avatar.zoomer.image(src="{{c.url currentUser.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                     else 
-                        i.large.user.large.icon
+                        i.large.user.zoomer.large.icon
                     strong.mobile.hidden #{currentUser.username}
-                a.icon.large.item.toggle_rightbar
-                    i.bars.large.icon
+                a.icon.large.item.zoomer.toggle_rightbar
+                    i.bars.large.grey.icon
             else
-                a.pointer.item(href="/login" title='login')
+                a.pointer.zoomer.item(href="/login" title='login')
                     i.large.sign.in.icon
                     // |enter
     if skv_is 'viewing_alerts' true
@@ -72,8 +73,8 @@ template(name='nav')
 
 
 template(name='friendbar')
-    .ui.fluid.large.attached.segment(style="background-color:#{currentUser.theme_color};" class=currentUser.invert_class)
-        .ui.middle.aligned.animated.selection.list.smallscroll
+    .ui.fluid.attached.segment(style="background-color:#{currentUser.theme_color};" class=currentUser.invert_class)
+        .ui.middle.aligned.animated.small.selection.list.smallscroll
             each currentUser.friends
                 a.item(href="/u/#{username}")
                     .right.floated

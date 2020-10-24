@@ -94,14 +94,15 @@ template(name='sbt')
                 
 template(name='skve')
     // a.ui.image.big.link.label.set_session_v(class=calculated_class)
-    .ui.circular.zoomer.compact.button.set_session_v(class=calculated_class)
+    .ui.circular.zoomer.compact.button.set_session_v(class=calculated_class title=t)
         if i
             // i.icon(class=icon)
             +i name=i cl='ui mini inline image'
-        if l
-            |#{l}
-        else 
-            |#{v}
+        unless ionly
+            if l
+                |#{l}
+            else 
+                |#{v}
 
                         
 

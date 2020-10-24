@@ -29,7 +29,17 @@ if Meteor.isClient
                     body:body
                 $('.add_post').val('')
                 
-            
+            $(e.currentTarget).closest('.comment').transition({
+                animation : 'jiggle',
+                duration  : 800,
+                interval  : 200
+            })
+            $('.comment').transition({
+                animation : 'jiggle',
+                duration  : 800,
+                interval  : 200
+            })
+
     Template.user_dashboard.helpers
         questions_asked: ->
             user = Meteor.users.findOne(username:Router.current().params.username)
