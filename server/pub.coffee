@@ -12,6 +12,11 @@ Meteor.publish 'user_friends', (username)->
         if user.friend_ids
             Meteor.users.find 
                 _id: $in: user.friend_ids
+Meteor.publish 'my_friends', ()->
+    # console.log 'pulling doc'
+    if Meteor.user().friend_ids
+        Meteor.users.find 
+            _id: $in: Meteor.user().friend_ids
 Meteor.publish 'user_model_docs', (model,username)->
     # console.log 'pulling doc'
     user = Meteor.users.findOne username:username

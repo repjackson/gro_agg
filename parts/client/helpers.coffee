@@ -268,6 +268,7 @@ Template.registerHelper 'medium_date', (input)-> moment(input).format("dddd, MMM
 Template.registerHelper 'today', -> moment(Date.now()).format("dddd, MMMM Do a")
 Template.registerHelper 'int', (input)-> input.toFixed(0)
 Template.registerHelper '_when', ()-> moment(@_timestamp).fromNow()
+Template.registerHelper '_when_long', ()-> moment(@_timestamp).format("dddd, MMMM Do h:mm a")
 Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
 Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
 

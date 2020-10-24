@@ -112,10 +112,10 @@ template(name='user_rentals')
 template(name='user_dashboard')
     .ui.stackable.padded.grid
         .eight.wide.column
-            .ui.icon.fluid.input
-                i.plus.icon
-                input.add_post(type='text')
             .ui.comments.smallscroll
+                .ui.icon.fluid.inverted.input
+                    i.plus.icon
+                    input.add_post(type='text' placeholder='add post...')
                 each latest_posts
                     +post_segment
         .eight.wide.column
@@ -170,7 +170,7 @@ template(name='user_dashboard')
                     .item 
                         .content
                             .header #{body}
-                            .meta #{when}
+                            .meta #{_when}
            
            
            
@@ -183,9 +183,8 @@ template(name='post_segment')
             .text #{body}
             a.author(href="/u/#{_author.username}") #{_author.username}
             .metadata
-                span.date 
-                    i.clock.grey.icon
-                    |#{when}
+                span.date(title=_when_long)
+                    |#{_when}
                 .actions
                     // i.eye.grey.icon
                     +voting_small
@@ -286,7 +285,7 @@ template(name='user_credit_segment')
             if author.profile_image_id
                 img.ui.avatar.image(src="{{c.url author.profile_image_id height=200 width=300 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             |#{_author.username}
-     #{when}
+     #{_when}
         div
         |#{description}
         div
@@ -304,7 +303,7 @@ template(name='user_debit_segment')
             if recipient.profile_image_id
                 img.ui.avatar.image(src="{{c.url recipient.profile_image_id height=200 width=300 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             |#{recipient.username}
-     #{when}
+     #{_when}
         div
         |#{description}
         div
@@ -351,5 +350,5 @@ template(name='edit_privacy')
                 .ui.header sessions
                 .ui.large.list
                     each current_user.services.resume.loginTokens
-                        .item #{when}: #{hashedToken}
+                        .item #{_when}: #{hashedToken}
         

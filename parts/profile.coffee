@@ -460,7 +460,10 @@ if Meteor.isServer
             # flow_volume =+ total_request_amount
             
             doc_count = 
-                Docs.find(_author_id:user_id).count()
+                Docs.find(
+                    _author_id:user_id
+                    model:'post'
+                ).count()
            
             topups =
                 Docs.find(

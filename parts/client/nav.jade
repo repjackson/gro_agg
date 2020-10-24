@@ -24,13 +24,16 @@ template(name='nav')
                     i.yin.yang.loading.big.grey.icon
                     +status    
         .right.menu
+        
             if connected
                 a.icon.zoomer.pointer.item.add(title='add')
                     i.large.plus.icon
             if currentUser
+                a.pointer.zoomer.item.toggle_friends(href="#" class=alert_toggle_class title='friends')
+                    i.large.users.icon
                 if connected
                     if unread_count
-                        a.pointer.zoomer.item.alerts.select_term(href="#" class=alert_toggle_class)
+                        a.pointer.zoomer.item.alerts(href="#" class=alert_toggle_class)
                             i.large.bell.icon
                             if unread_count
                                 |#{unread_count}
@@ -51,11 +54,11 @@ template(name='nav')
                     |#{currentUser.points}p
                     |&nbsp;
                     if currentUser.profile_image_id
-                        img.ui.avatar.compact.image(src="{{c.url currentUser.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                        img.ui.avatar.image(src="{{c.url currentUser.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                     else 
                         i.large.user.large.icon
                     strong.mobile.hidden #{currentUser.username}
-                a.icon.large.item.toggle_rightbar.select_term
+                a.icon.large.item.toggle_rightbar
                     i.bars.large.icon
             else
                 a.pointer.item(href="/login" title='login')
@@ -63,15 +66,32 @@ template(name='nav')
                     // |enter
     if skv_is 'viewing_alerts' true
         +topbar
+    else if skv_is 'viewing_friends' true
+        +friendbar
 
 
+
+template(name='friendbar')
+    .ui.fluid.large.attached.segment(style="background-color:#{currentUser.theme_color};" class=currentUser.invert_class)
+        .ui.middle.aligned.animated.selection.list.smallscroll
+            each currentUser.friends
+                a.item(href="/u/#{username}")
+                    .right.floated
+                        i.gift.circular.link.icon(title="gift #{username} points") 
+                        .ui.circular.icon.button(title="message #{username}") 
+                            i.mail.icon
+                    img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                    |#{username}
+    a.ui.attached.button.close_topbar(href="/inbox")
+        i.users.icon
+        |friends
 
 template(name='topbar')
     .ui.fluid.large.attached.segment(style="background-color:#{currentUser.theme_color};" class=currentUser.invert_class)
         .ui.middle.aligned.divided.list
             each recent_alerts
                 +recent_alert
-    a.ui.icon.attached.basic.button.item.close_topbar(href="/inbox")
+    a.ui.attached.button.close_topbar(href="/inbox")
         i.inbox.large.icon
         |inbox
 template(name='recent_alert')        

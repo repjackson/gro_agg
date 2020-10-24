@@ -174,7 +174,7 @@ html.ios body {
 
 .segment:not(.pushable) {
   transition: height .5s linear;
-  border-radius: 10px !important;
+  /*border-radius: 10px !important;*/
 }
 
 .bottom_rounded {
