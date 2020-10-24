@@ -18,15 +18,6 @@ template(name='nav')
                 i.large.question.grey.icon
             a.icon.item.zoomer(href='/m/model' class="{{isActivePath '/m/model'}}")
                 i.large.database.grey.icon
-            .ui.dropdown.item
-                span.text dropdown
-                i.dropdown.icon
-                .menu 
-                    .item hi
-                    .item hi
-                    .item hi
-                    .item hi
-                    .item hi
         if currentUser
             unless connected
                 .item.pointer
@@ -46,8 +37,7 @@ template(name='nav')
                     else
                         a.icon.pointer.zoomer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
                             i.large.outline.bell.icon
-            a.icon.pointer.zoomer.item.new_message(title='chat') 
-            // a.icon.pointer.zoomer.item(href="/chat" title='chat') 
+            a.icon.pointer.zoomer.item(href="/chat" title='chat') 
                 i.chat.outline.large.icon
             // // a.icon.pointer.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
             if is_dev 
@@ -57,7 +47,8 @@ template(name='nav')
             if currentUser
                 a.large.pointer.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'profile'}}")
                     //- i.large.user.large.icon
-                    |{{money_format currentUser.points}}c
+                    // |{{money_format currentUser.points}}c
+                    |#{currentUser.points}p
                     |&nbsp;
                     if currentUser.profile_image_id
                         img.ui.avatar.compact.image(src="{{c.url currentUser.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)

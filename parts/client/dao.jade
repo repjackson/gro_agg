@@ -97,14 +97,12 @@ template(name='dao')
                         span.text dropdown
                         i.dropdown.icon
                         .menu 
-                            .item hi
-                            .item hi
-                            .item hi
-                            .item hi
-                            .item hi
-
-                    +skve k='limit' value=1 l='1'
-                    +skve k='limit' value=10 l='10'
+                            +skve k='limit' value=1 l='1'
+                            +skve k='limit' value=10 l='10'
+                            .item 1
+                            .item 5
+                            .item 10
+                            .item 20
                     |sort
                     +skve k='sort_key' value='_timestamp' l='when'
                     +skve k='sort_key' value='bounty' l='bounty'

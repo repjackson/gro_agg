@@ -19,9 +19,10 @@ Template.nav.onRendered ->
             $('body').toast(
                 message: "message: #{message.body}"
                 showIcon: 'mail'
+                classImage: 'avatar',
                 showProgress: 'bottom'
                 class: 'success'
-                displayTime: 1000,
+                displayTime: 'auto',
             )
     })
 

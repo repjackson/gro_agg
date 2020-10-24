@@ -529,7 +529,7 @@ Template.dao.events
                     $('body').toast(
                         showIcon: 'search'
                         message: 'duck duck go started'
-                        displayTime: 500,
+                        displayTime: 'auto',
                     )
                     Meteor.call 'search_ddg', search, ->
                         $('body').toast(
@@ -538,13 +538,13 @@ Template.dao.events
                             showIcon: 'brain'
                             showProgress: 'bottom'
                             class: 'success'
-                            displayTime: 500,
+                            displayTime: 'auto',
                         )
                     window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
                     $('body').toast(
                         showIcon: 'brain'
                         message: 'apha start'
-                        displayTime: 500,
+                        displayTime: 'auto',
                     )
                     Session.set('loading_alpha', true)
                     Meteor.call 'call_alpha', selected_tags.array().toString(), ->
@@ -553,13 +553,13 @@ Template.dao.events
                             showIcon: 'brain'
                             showProgress: 'bottom'
                             class: 'success'
-                            displayTime: 500,
+                            displayTime: 'auto',
                         )
                         Session.set('loading_alpha', false)
                     $('body').toast(
                         showIcon: 'wikipedia'
                         message: 'wikipedia started'
-                        displayTime: 500,
+                        displayTime: 'auto',
                     )
                     Meteor.call 'call_wiki', search, ->
                         $('body').toast(
@@ -567,12 +567,12 @@ Template.dao.events
                             showIcon: 'wikipedia'
                             showProgress: 'bottom'
                             class: 'info'
-                            displayTime: 500,
+                            displayTime: 'auto',
                         )
                     $('body').toast(
                         showIcon: 'reddit'
                         message: 'reddit started'
-                        displayTime: 500,
+                        displayTime: 'auto',
                     )
                     Meteor.call 'search_reddit', selected_tags.array(), ->
                         $('body').toast(
@@ -580,7 +580,7 @@ Template.dao.events
                             showIcon: 'reddit'
                             showProgress: 'bottom'
                             class: 'success'
-                            displayTime: 500,
+                            displayTime: 'auto',
                         )
                         Session.set('thinking',false)
                     Session.set('viewing_doc',null)

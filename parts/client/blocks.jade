@@ -94,7 +94,7 @@ template(name='sbt')
                 
 template(name='skve')
     // a.ui.image.big.link.label.set_session_v(class=calculated_class)
-    .ui.circular.zoomer.button.set_session_v(class=calculated_class)
+    .ui.circular.zoomer.compact.button.set_session_v(class=calculated_class)
         if i
             // i.icon(class=icon)
             +i name=i cl='ui mini inline image'
@@ -391,16 +391,16 @@ template(name='voting')
 template(name='voting_small')
     if points
         strong #{points}
-    i.thumbs.up.link.icon.upvote(class=upvote_class)
+    i.thumbs.up.outline.link.icon.upvote(class=upvote_class)
     // |#{upvoter_ids.length}
     each upvoter_ids
         +user_info_tiny
-    i.thumbs.down.link.icon.downvote(class=downvote_class)
+    i.thumbs.down.outline.link.icon.downvote(class=downvote_class)
     each downvoter_ids
         +user_info_tiny
 
 template(name='voting_tiny')
-    i.thumbs.up.icon(class=upvote_class)
+    i.thumbs.up.outline.icon(class=upvote_class)
     // |#{upvoter_ids.length}
     each upvoter_ids
         +user_avatar
@@ -408,8 +408,8 @@ template(name='voting_tiny')
 
 template(name='voting_full')
     unless is_author
-        i.thumbs.up.large.big.circular.link.icon.upvote(class=upvote_class title='upvote')
-        i.thumbs.down.large.big.circular.link.icon.downvote(class=downvote_class title='downvote')
+        i.thumbs.up.outline.large.big.circular.link.icon.upvote(class=upvote_class title='upvote')
+        i.thumbs.down.outline.large.big.circular.link.icon.downvote(class=downvote_class title='downvote')
     if points
         |&nbsp;
         span(title='points') #{points} pts

@@ -50,6 +50,17 @@ template(name='profile')
                             .content
                                 .header #{username}
             .twelve.wide.column 
+                .ui.dropdown
+                    span.text dropdown
+                    i.dropdown.icon
+                    .menu 
+                        +skve k='limit' value=1 l='1'
+                        +skve k='limit' value=10 l='10'
+                        .item 1
+                        .item 5
+                        .item 10
+                        .item 20
+            
                 +skve k='profile_section' v='dashboard' l='dashboard' i='dashboard'
                 +skve k='profile_section' v='friends' l='friends' i='groups'
                 +skve k='profile_section' v='finance' l='finance' i='money'

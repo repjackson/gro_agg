@@ -15,6 +15,10 @@ if Meteor.isClient
     
     Template.profile.onRendered ->
         Meteor.setTimeout ->
+            $('.ui.dropdown').dropdown()
+        , 2000
+        
+        Meteor.setTimeout ->
             $('.profile_nav_item')
                 .popup()
         , 2000

@@ -22,7 +22,7 @@ if Meteor.isClient
         'keyup .add_post': (e,t)->
             if e.which is 13
                 body = $('.add_post').val()
-                console.log body
+                # console.log body
                 
                 Docs.insert 
                     model:'post'
