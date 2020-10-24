@@ -30,19 +30,19 @@ template(name='smart_tagger')
         input.new_tag(type='text' placeholder='+' autocomplete="off")
         //- +clear_v                
     each terms 
-        a.ui.large.circular.basic.button.select_term(href='#')
+        a.ui.large.basic.button.select_term(href='#')
             if image
                 img.ui.mini.rounded.inline.image(src="{{c.url image height=200 width=200 gravity='face' crop='fill'}}" class='invert')
             |#{title}
     each tags
-        .ui.large.basic.circular.label
+        .ui.large.basic.label
             i.delete.icon.remove_element
             |#{this}
     if suggestions.count
         div
         .ui.small.inline.header suggestions
     each suggestions
-        a.ui.large.circular.basic.button.select_term(href='#')
+        a.ui.large.basic.button.select_term(href='#')
             // if image
             //     img.ui.mini.rounded.inline.image(src="{{c.url image height=200 width=200 gravity='face' crop='fill'}}" class='invert')
             |#{title}
@@ -74,16 +74,16 @@ template(name='viewing')
 
 
 template(name='vote')
-    a.ui.circular.icon.button.upvote(title='upvote')
+    a.ui.icon.button.upvote(title='upvote')
         i.thumbs.up.outline.big.icon
     if points
         strong #{points}
-    a.ui.circular.icon.button.downvote(title='downvote')
+    a.ui.icon.button.downvote(title='downvote')
         i.thumbs.down.outline.big.icon
 
 
 template(name='sbt')
-    .ui.compact.large.circular.button.toggle_session_key(class=calculated_class)
+    .ui.compact.large.button.toggle_session_key(class=calculated_class)
         // +icolor name=icon cl='ui avatar image'
         i.icon(class=i)
         |#{l}
@@ -97,7 +97,7 @@ template(name='sbt')
                 
 template(name='skve')
     // a.ui.image.big.link.label.set_session_v(class=calculated_class)
-    .ui.circular.zoomer.compact.button.set_session_v(class=calculated_class title=t)
+    .ui.zoomer.compact.button.set_session_v(class=calculated_class title=t)
         if i
             // i.icon(class=icon)
             +i n=i cl='ui mini inline image'
@@ -255,7 +255,7 @@ template(name='big_user_card')
 
 
 template(name='user_info')
-    a.ui.compact.basic.circular.button(href="/u/#{user.username}/")
+    a.ui.compact.basic.button(href="/u/#{user.username}/")
         if user.profile_image_id
             img.ui.avatar.image(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
         //- .visible.content
@@ -268,21 +268,21 @@ template(name='user_info_small')
         if user.profile_image_id
             img.ui.avatar.image.invert(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}" title=name)
         else
-            i.circular.user.outline.icon(title=user.name)
+            i.user.outline.icon(title=user.name)
 
 template(name='user_info_tiny')
     a(href="/u/#{user.username}/")
         // if user.profile_image_id
         //     img.ui.avatar.image(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}" title=name)
         // else
-        //     i.circular.user.outline.icon(title=user.name)
+        //     i.user.outline.icon(title=user.name)
         .ui.basic.tiny.label #{user.username}
 
 template(name='user_avatar')
     if user.profile_image_id
         img.ui.avatar.image(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}" title=name)
     else
-        i.circular.user.outline.icon(title=user.name)
+        i.user.outline.icon(title=user.name)
 
 
 template(name='username_info')
@@ -312,11 +312,11 @@ template(name='creation_info')
 template(name='user_list_toggle')
     if currentUser
         if in_list
-            .ui.icon.compact.circular.button.toggle(class=user_list_toggle_class title=label)
+            .ui.icon.compact.button.toggle(class=user_list_toggle_class title=label)
                 i.large.icon(class=remove_icon)
                 // |#{label}
         else
-            .ui.icon.compact.circular.button.toggle(class=user_list_toggle_class title=label)
+            .ui.icon.compact.button.toggle(class=user_list_toggle_class title=label)
                 i.large.icon(class=add_icon)
         each list_users
             +user_info
@@ -352,7 +352,7 @@ template(name='bookmark_button')
 
 
 // template(name='vote')
-//     // i.thumbs.up.big.link.circular.icon.upvote(class=upvote_class title='upvote')
+//     // i.thumbs.up.big.link.icon.upvote(class=upvote_class title='upvote')
 //     // +vote_button amount=5
 //     // +vote_button amount=10
 //     // +vote_button amount=25
@@ -364,24 +364,24 @@ template(name='bookmark_button')
 //         // if anon_points
 //         //     strong #{anon_points} anon pts
 //     +vote_button amount=1
-//     // i.thumbs.down.big.link.circular.icon.downvote(class=downvote_class title='downvote')
+//     // i.thumbs.down.big.link.icon.downvote(class=downvote_class title='downvote')
 //     // each upvoter_ids
 //     //     +user_info_small
 //     // each downvoter_ids
 //     //     +user_info_small
 
 template(name='vote_button')
-    i.big.sort.up.link.circular.icon.add_amount.zoom
-    // .ui.circular.large.compact.button.add_amount
+    i.big.sort.up.link.icon.add_amount.zoom
+    // .ui.large.compact.button.add_amount
     //     |+#{amount}
 
 
     
 template(name='voting')
-    i.thumbs.up.big.link.circular.icon.upvote(class=upvote_class title='upvote')
+    i.thumbs.up.big.link.icon.upvote(class=upvote_class title='upvote')
     each upvoter_ids
         +user_info_small
-    i.thumbs.down.big.link.circular.icon.downvote(class=downvote_class title='downvote')
+    i.thumbs.down.big.link.icon.downvote(class=downvote_class title='downvote')
     each downvoter_ids
         +user_info_small
     if is_dev
@@ -412,8 +412,8 @@ template(name='voting_tiny')
 
 template(name='voting_full')
     unless is_author
-        i.thumbs.up.outline.large.big.circular.link.icon.upvote(class=upvote_class title='upvote')
-        i.thumbs.down.outline.large.big.circular.link.icon.downvote(class=downvote_class title='downvote')
+        i.thumbs.up.outline.large.big.link.icon.upvote(class=upvote_class title='upvote')
+        i.thumbs.down.outline.large.big.link.icon.downvote(class=downvote_class title='downvote')
     if points
         |&nbsp;
         span(title='points') #{points} pts
@@ -513,7 +513,7 @@ template(name='author_block')
 
 
 template(name='kve')
-    a.ui.compact.large.circular.button.set_key_v.select_term(class=set_kv_class title=v href='#')
+    a.ui.compact.large.button.set_key_v.select_term(class=set_kv_class title=v href='#')
         if i
             // +icon name=icon cl='ui avatar image'
             i.icon(class=i)

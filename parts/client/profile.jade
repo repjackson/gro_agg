@@ -3,7 +3,6 @@ template(name='profile')
     .ui.bottom.attached.pushable.segment
         +leftbar
         +rightbar
-                
         // #main_area.global_container.pusher.invert
         #main_area.global_container.pusher(class=currentUser.invert_class)
             with user
@@ -28,25 +27,67 @@ template(name='profile')
                                 i.big.cog.pointer.icon
                         if is_dev
                             .ui.small.inline.header #{_id}
-                        if i_have_points
-                            .ui.circular.button.send(title='send points')
-                                i.gift.large.icon
-                                span send pts
-                            // .ui.circular.button.request(title='request points')
-                            //     i.concierge.bell.large.teal.icon
-                            //     span request
-                                
-                        if is_current_user
-                            a.ui.circular.button.logout(href="#" title='log out')
-                                i.sign.out.large.icon
-                                |log out
-                        
                         unless is_current_user
                             if currentUser
                                 // div
                                 +user_friend_button 
                         if is_dev
                             +print_this
+                        .ui.vertical.fluid.menu
+                            a.item(href="/u/#{username}" class="{{isActiveRoute 'user_debits'}}")
+                                i.dashboard.icon
+                                |dashboard
+                            a.item(href="/u/#{username}/events" class="{{isActiveRoute 'user_debits'}}")
+                                i.calendar.icon
+                                |events
+                            a.item(href="/u/#{username}/friends" class="{{isActiveRoute 'user_debits'}}")
+                                i.users.icon
+                                |friends
+                            a.item(href="/u/#{username}/debits" class="{{isActiveRoute 'user_debits'}}")
+                                i.money.icon
+                                |debits
+                            a.item(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}")
+                                i.money.icon
+                                |credits
+                            a.item(href="/u/#{username}/questions" class="{{isActiveRoute 'user_questions'}}")
+                                i.question.icon
+                                |quesions
+                            a.item(href="/u/#{username}/answers" class="{{isActiveRoute 'user_answers'}}")
+                                i.money.icon
+                                |answers
+                            a.item(href="/u/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}")
+                                i.fire.icon
+                                |tribes
+                            a.item(href="/u/#{username}/overlap" class="{{isActiveRoute 'user_overlap'}}")
+                                i.money.icon
+                                |overlap
+                            .divider
+                            if i_have_points
+                                a.item.send(title='send points')
+                                    i.gift.large.icon
+                                    span send pts
+                                // .ui.button.request(title='request points')
+                                //     i.concierge.bell.large.teal.icon
+                                //     span request
+                                    
+                            if is_current_user
+                                a.item.logout(href="#" title='log out')
+                                    i.sign.out.large.icon
+                                    |log out
+                            // if i_have_points
+                            //     .ui.button.send(title='send points')
+                            //         i.gift.large.icon
+                            //         span send pts
+                            //     // .ui.button.request(title='request points')
+                            //     //     i.concierge.bell.large.teal.icon
+                            //     //     span request
+                                    
+                            // if is_current_user
+                            //     a.ui.button.logout(href="#" title='log out')
+                            //         i.sign.out.large.icon
+                            //         |log out
+                            
+            
                         .ui.fluid.dropdown.button
                             i.users.icon
                             | #{friends.count} friends
@@ -68,43 +109,43 @@ template(name='profile')
                                     .content
                                         .header #{username}
                     .twelve.wide.column 
-                        .ui.dropdown
-                            span.text dropdown
-                            i.dropdown.icon
-                            .menu 
-                                +skve k='limit' v=1 l='1'
-                                +skve k='limit' v=10 l='10'
-                                .item 1
-                                .item 5
-                                .item 10
-                                .item 20
-                    
-                        +skve k='profile_section' v='dashboard' l='dashboard' i='dashboard'
-                        +skve k='profile_section' v='friends' l='friends' i='groups'
-                        +skve k='profile_section' v='finance' l='finance' i='money'
-                        +skve k='profile_section' v='posts' l='posts' i='blog'
-                        +skve k='profile_section' v='tribes' l='tribes' i='campfire'
-                        +skve k='profile_section' v='questions' l='questions' i='faq'
-                        +skve k='profile_section' v='answers' l='answers' i='rss'
-                        +skve k='profile_section' v='overlap' l='overlap' i='exchange'
-                        +skve k='profile_section' v='privacy' l='privacy' i='lock'
-                        +skve k='profile_section' v='debits' l='debits' i='initiate-money-transfer'
-                        +skve k='profile_section' v='credits' l='credits' i='deposit'
-                        if skv_is 'profile_section' 'dashboard'
-                            .ui.header #{points_earned}pts earned
-                            +user_dashboard
-                        else if skv_is 'profile_section' 'friends'
-                            .ui.header friends
-                        else if skv_is 'profile_section' 'authored_overlap'
-                            +authored_overlap
-                        else if skv_is 'profile_section' 'debits'
-                            +user_debits
-                        else if skv_is 'profile_section' 'privacy'
-                            +edit_privacy
-                        else if skv_is 'profile_section' 'alerts'
-                            +alerts
-                        else if skv_is 'profile_section' 'finance'
-                            .ui.header finance
+                        // .ui.dropdown
+                        //     span.text dropdown
+                        //     i.dropdown.icon
+                        //     .menu 
+                        //         +skve k='limit' v=1 l='1'
+                        //         +skve k='limit' v=10 l='10'
+                        //         .item 1
+                        //         .item 5
+                        //         .item 10
+                        //         .item 20
+                        
+                        // +skve k='profile_section' v='dashboard' l='dashboard' i='dashboard'
+                        // +skve k='profile_section' v='friends' l='friends' i='groups'
+                        // +skve k='profile_section' v='finance' l='finance' i='money'
+                        // +skve k='profile_section' v='posts' l='posts' i='blog'
+                        // +skve k='profile_section' v='tribes' l='tribes' i='campfire'
+                        // +skve k='profile_section' v='questions' l='questions' i='faq'
+                        // +skve k='profile_section' v='answers' l='answers' i='rss'
+                        // +skve k='profile_section' v='overlap' l='overlap' i='exchange'
+                        // +skve k='profile_section' v='privacy' l='privacy' i='lock'
+                        // +skve k='profile_section' v='debits' l='debits' i='initiate-money-transfer'
+                        // +skve k='profile_section' v='credits' l='credits' i='deposit'
+                        // if skv_is 'profile_section' 'dashboard'
+                        //     .ui.header #{points_earned}pts earned
+                        //     +user_dashboard
+                        // else if skv_is 'profile_section' 'friends'
+                        //     .ui.header friends
+                        // else if skv_is 'profile_section' 'authored_overlap'
+                        //     +authored_overlap
+                        // else if skv_is 'profile_section' 'debits'
+                        //     +user_debits
+                        // else if skv_is 'profile_section' 'privacy'
+                        //     +edit_privacy
+                        // else if skv_is 'profile_section' 'alerts'
+                        //     +alerts
+                        // else if skv_is 'profile_section' 'finance'
+                        //     .ui.header finance
                         +yield
     +chatpop
               
@@ -329,11 +370,11 @@ template(name='emotion_pick')
 
 template(name='user_friend_button')
     if is_friend
-        .ui.blue.circular.button.unfriend(title='unfriend')
+        .ui.blue.button.unfriend(title='unfriend')
             i.checkmark.large.icon
             |friends
     else
-        .ui.circular.button.friend(title='friend')
+        .ui.button.friend(title='friend')
             i.user.plus.large.icon
             |friend
 

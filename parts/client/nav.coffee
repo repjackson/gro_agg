@@ -190,6 +190,9 @@ Template.nav.onRendered ->
 Template.chatpop.events
     'click .open_chat': -> Session.set('viewing_chat',true)
     'click .close_chat': -> Session.set('viewing_chat',false)
+    
+    
+    
 Template.chatpop.helpers
     viewing_chat: -> Session.get('viewing_chat')
     last_messages: ->
@@ -198,6 +201,9 @@ Template.chatpop.helpers
         }, 
             sort:_timestamp:-1
             limit:10
+            
+            
+            
 Template.chatpop.events
     # 'keyup .add_chat': _.throttle((e,t)->
     'keyup .add_chat': (e,t)->
@@ -210,6 +216,9 @@ Template.chatpop.events
             Meteor.call 'add_chat', comment, ->
             t.$('.add_chat').val('')
         # , 2000)
+        
+        
+        
 Template.rightbar.events
     'click .logout': ->
         Session.set 'logging_out', true
