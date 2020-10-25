@@ -164,7 +164,7 @@ Meteor.methods
             parameters.url = "https://www.reddit.com#{doc.permalink}"
             parameters.returnAnalyzedText = false
             parameters.clean = false
-            console.log 'calling image'
+            # console.log 'calling image'
         else 
             switch mode
                 when 'html'
@@ -201,7 +201,7 @@ Meteor.methods
                 unless err.code is 403
                     Docs.update doc_id,
                         $set:skip_watson:false
-                    console.log 'not html, flaggged doc for future skip', parameters.url
+                    # console.log 'not html, flaggged doc for future skip', parameters.url
                 else
                     console.log '403 error api key'
             else

@@ -13,6 +13,15 @@ Template.registerHelper 'youtube_parse', (url) ->
 #     document.title = Session.get('doc_title')
         
         
+Template.registerHelper 'sentence_color', () ->
+    console.log @tones[0].tone_id
+    switch @tones[0].tone_id
+        when 'sadness' then 'blue invert inverted'
+        when 'joy' then 'green invert inverted'
+        when 'confident' then 'teal invert inverted'
+        when 'analytical' then 'orange invert inverted'
+        when 'tentative' then 'yellow invert inverted'
+        
 Template.registerHelper 'editing_mode', () ->
     # Meteor.user().edit_mode and 
     if Meteor.user().edit_mode

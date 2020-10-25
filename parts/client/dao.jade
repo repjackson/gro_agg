@@ -1,7 +1,7 @@
 template(name='dao')
     .ui.stackable.grid
         .row
-            .sixteen.wide.column
+            .sixteen.wide.center.aligned.column
                 if skv_is 'thinking' true
                     i.big.yin.yang.loading.icon
                 // unless viewing_doc
@@ -183,16 +183,16 @@ template(name="doc")
                     // .medscroll
                     // 
                     a.ui.label(href="https://www.reddit.com#{permalink}" target="_window") r/#{subreddit}
-                    .ui.big.label 
-                        i.user.outline.icon
-                        |#{author}
+                    // .ui.big.label 
+                    //     i.user.outline.icon
+                    //     |#{author}
                     .ui.label
                         i.thumbs.up.outline.icon
                         |#{ups}
                     a.ui.inline.header(href=url target='_window')
                         | #{url}
-                    .ui.label
-                        | #{domain}
+                    // .ui.label
+                    //     | #{domain}
                     // .spacer
                     // .nl2br
                     // |!{html}
@@ -234,11 +234,11 @@ template(name="doc")
                         +tone
                     each tags
                         +doc_tag
-                    |#{tags.length}
-                    .ui.input
+                    // |#{tags.length}
+                    .ui.icon.input
                         i.plus.grey.icon
                         input.tag_post(type='text')
-                    i.code.link.icon.print_me
+                    // i.code.link.icon.print_me
                 
             
                 
@@ -277,7 +277,7 @@ template(name='unselect_tag')
 
 template(name='tag_selector')
     // a.ui.tertiary.basic.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.large.image.basic.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.big.image.basic.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    
@@ -294,7 +294,7 @@ template(name='select_subreddit')
         // small #{count}
 
 template(name='doc_tag')
-    a.ui.image.large.label.pointer.zoomer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.image.big.label.pointer.zoomer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             img.ui.avatar.compact.image(src=term.watson.metadata.image)    
         | #{this}

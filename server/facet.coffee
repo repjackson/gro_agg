@@ -138,7 +138,7 @@ Meteor.publish 'docs', (
             match.model = $in:['wikipedia','reddit']
     # console.log 'doc match', match
     Docs.find match,
-        limit:8
+        limit:7
         skip:skip
         sort:
             points: -1
@@ -222,24 +222,24 @@ Meteor.publish 'dtags', (
     #             model:'tag'
     #     # self.ready()
     # else
-    model_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "model": 1 }
-        # { $unwind: "$models" }
-        { $group: _id: "$model", count: $sum: 1 }
-        { $match: _id: $nin: selected_models }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:10 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-        ]
-    # # console.log 'cloud: ', model_cloud
-    # console.log 'model match', match
-    model_cloud.forEach (model, i) ->
-        self.added 'results', Random.id(),
-            name: model.name
-            count: model.count
-            model:'model'
+    # model_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "model": 1 }
+    #     # { $unwind: "$models" }
+    #     { $group: _id: "$model", count: $sum: 1 }
+    #     { $match: _id: $nin: selected_models }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:20 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    #     ]
+    # # # console.log 'cloud: ', model_cloud
+    # # console.log 'model match', match
+    # model_cloud.forEach (model, i) ->
+    #     self.added 'results', Random.id(),
+            # name: model.name
+            # count: model.count
+            # model:'model'
   
   
     # unless selected_subreddits.length > 0
@@ -288,7 +288,7 @@ Meteor.publish 'dtags', (
     if view_mode is 'porn'
         tag_limit = 20
     else
-        tag_limit = 9
+        tag_limit = 20
   
     tag_cloud = Docs.aggregate [
         { $match: match }
