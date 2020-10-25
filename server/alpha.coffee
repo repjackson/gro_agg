@@ -87,3 +87,31 @@ Meteor.methods
                     model:'global_chat'
                     bot:true
                     response:parsed
+    
+    arespond: (post_id)->
+        # @unblock()
+        post = Docs.findOne post_id
+        console.log 'responding alpha for', post.body
+        # now = Date.now()
+        # found_last_chat = 
+        #     Docs.findOne { 
+        #         model:'global_chat'
+        #         _timestamp: $lt:now
+        #     }, limit:1
+        # console.log 'last', found_last_chat
+        # new_id = 
+        #     Docs.insert 
+        #         model:'global_chat'
+        #         body:chat
+        #         bot:false
+        # console.log 'creating new chat for ', chat
+        HTTP.get "http://api.wolframalpha.com/v1/conversation.jsp?appid=UULLYY-QR2ALYJ9JU&i=#{post.body}",(err,response)=>
+            if err then console.log err
+            else
+                console.log response
+                parsed = JSON.parse(response.content)
+                Docs.insert
+                    model:'alpha_response'
+                    bot:true
+                    response:parsed
+                    parent_id:post_id

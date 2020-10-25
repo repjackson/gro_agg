@@ -1,4 +1,6 @@
 if Meteor.isClient
+    Template.post_segment.onCreated ->
+        @autorun -> Meteor.subscribe 'model_docs', 'alpha_response'
     Template.user_dashboard.onCreated ->
         # @autorun -> Meteor.subscribe 'user_credits', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_debits', Router.current().params.username
@@ -24,7 +26,7 @@ if Meteor.isClient
                 body = $('.add_post').val()
                 # console.log body
                 
-                Docs.insert 
+                new_id = Docs.insert 
                     model:'post'
                     body:body
                 $('.add_post').val('')
@@ -33,12 +35,18 @@ if Meteor.isClient
                     animation : 'bounce',
                     duration  : 800,
                 })
-                $('.comment').transition({
-                    animation : 'jiggle',
-                    duration  : 800,
-                    interval  : 200
-                })
+                Meteor.call 'arespond', new_id
+                # $('.comment').transition({
+                #     animation : 'jiggle',
+                #     duration  : 800,
+                #     interval  : 200
+                # })
 
+    Template.post_segment.helpers
+        alpha_response: ->
+            Docs.findOne
+                model:'alpha_response'
+                parent_id: @_id
     Template.user_dashboard.helpers
         questions_asked: ->
             user = Meteor.users.findOne(username:Router.current().params.username)

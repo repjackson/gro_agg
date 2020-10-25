@@ -254,14 +254,14 @@ template(name='user_dashboard')
         //                         |#{description}
         //                         |#{when}
     .ui.stackable.padded.grid
-        .eight.wide.column
+        .sixteen.wide.column
             .ui.comments.medscroll
                 .ui.icon.fluid.inverted.input
                     i.plus.icon
                     input.add_post(type='text' placeholder='add post...')
                 each latest_posts
                     +post_segment
-        .eight.wide.column
+        // .eight.wide.column
             // .ui.segment
             //     .ui.header 
             //         |quick send
@@ -340,6 +340,10 @@ template(name='post_segment')
                     // i.reply.link.grey.icon
                     a.remove_post
                         i.remove.link.grey.icon
+        if alpha_response
+            .ui.small.grey.header
+                i.brain.icon
+                |#{alpha_response.response.result}
                 // i.archive.link.grey.icon
                 // i.share.grey.icon
                 // +emotion_picker
