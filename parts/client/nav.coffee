@@ -1,5 +1,5 @@
 Template.view_chatpop.onCreated ->
-    @autorun => Meteor.subscribe 'model_docs', 'global_chat'
+    @autorun => Meteor.subscribe 'global_chat'
 Template.nav.onCreated ->
     @autorun => Meteor.subscribe 'me'
     # @autorun => Meteor.subscribe 'all_users'

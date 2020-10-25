@@ -178,10 +178,15 @@ template(name='view_chatpop')
         a.ui.invert.pointer.grey.header.close_chat 
             i.chat.icon
             |chat
-        .ui.large.list.smallscroll
+        .ui.large.list.medcroll
             each last_messages
-                .item #{body}
-                    small #{when}
+                .item 
+                    if bot
+                        i.brain.icon
+                        strong #{response}
+                    else
+                        strong #{body} 
+                    small.ui.grey.text #{when}
         .ui.fluid.icon.transparent.input 
             i.plus.icon
             input.add_chat(type='text' placeholder='chat...')

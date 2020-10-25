@@ -20,9 +20,10 @@ Meteor.publish 'my_friends', ()->
 Meteor.publish 'user_model_docs', (model,username)->
     # console.log 'pulling doc'
     user = Meteor.users.findOne username:username
-    Docs.find
-        model:model
-        _author_id:user._id
+    if user
+        Docs.find
+            model:model
+            _author_id:user._id
 
 Meteor.publish 'question_answers', (question_id)->
     Docs.find 
@@ -364,6 +365,13 @@ Meteor.publish 'overlap_tags', (
 
 
             
+Meteor.publish 'global_chat', (username)->
+    Docs.find {
+        model:'global_chat'
+    }, 
+        limit:20
+        sort:_timestamp:-1
+
 Meteor.publish 'expenses_from_username', (username)->
     user = Meteor.users.findOne username:username
     Docs.find({

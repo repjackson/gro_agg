@@ -20,7 +20,7 @@ Meteor.publish 'duck', (selected_tags)->
         
 Meteor.methods
     call_alpha: (query)->
-        @unblock()
+        # @unblock()
         # console.log 'searching alpha for', query
         found_alpha = 
             Docs.findOne 
@@ -63,15 +63,15 @@ Meteor.methods
                                     
                             
     add_chat: (chat)->
-        @unblock()
-        # console.log 'chatting alpha for', chat
-        now = Date.now()
-        found_last_chat = 
-            Docs.findOne { 
-                model:'global_chat'
-                _timestamp: $lt:now
-            }, limit:1
-        console.log 'last', found_last_chat
+        # @unblock()
+        console.log 'chatting alpha for', chat
+        # now = Date.now()
+        # found_last_chat = 
+        #     Docs.findOne { 
+        #         model:'global_chat'
+        #         _timestamp: $lt:now
+        #     }, limit:1
+        # console.log 'last', found_last_chat
         new_id = 
             Docs.insert 
                 model:'global_chat'
@@ -84,6 +84,6 @@ Meteor.methods
                 console.log response
                 parsed = JSON.parse(response.content)
                 Docs.insert
-                    model:'chat'
+                    model:'global_chat'
                     bot:true
                     response:parsed
