@@ -17,12 +17,12 @@ template(name='dao')
                     input.search_title(type='text' autofocus='')
                 each tag_results
                     +tag_selector
-                +view_mode k='twitter' i='twitter' c='blue'
-                +view_mode k='video' i='youtube' c='red'
-                +view_mode k='image' i='picture' c='green'
-                +view_mode k='posts' i='newspaper' c='teal'
-                +view_mode k='wikipedia' i='wikipedia' c='purple'
-                +view_mode k='stackexchange' i='stack exchange disabled'
+                // +view_mode k='twitter' i='twitter' c='blue'
+                // +view_mode k='video' i='youtube' c='red'
+                // +view_mode k='image' i='picture' c='green'
+                // +view_mode k='posts' i='newspaper' c='teal'
+                // +view_mode k='wikipedia' i='wikipedia' c='purple'
+                // +view_mode k='stackexchange' i='stack exchange disabled'
                 // +view_mode k='github' i='github disabled'
                 // +view_mode k='alpha' i='disabled brain'
                 // +view_mode k='porn' i='mercury'
@@ -32,11 +32,11 @@ template(name='dao')
                 //     i.smile.large.grey.icon
                 //     |emotion
                 // .spacer
-                +emotion_mode k='joy' i='happy--v1' i2='smile' c='invert green'
-                +emotion_mode k='sadness' i='sad--v1' i2='sad tear' c='invert blue'
-                +emotion_mode k='anger' i='angry--v1' i2='frown' c='invert red'
-                +emotion_mode k='disgust' i='disgusting' i2='grin tongue squint' c='invert orange'
-                +emotion_mode k='fear' i='scream' i2='tired' c='black'
+                // +emotion_mode k='joy' i='happy--v1' i2='smile' c='invert green'
+                // +emotion_mode k='sadness' i='sad--v1' i2='sad tear' c='invert blue'
+                // +emotion_mode k='anger' i='angry--v1' i2='frown' c='invert red'
+                // +emotion_mode k='disgust' i='disgusting' i2='grin tongue squint' c='invert orange'
+                // +emotion_mode k='fear' i='scream' i2='tired' c='black'
                 each selected_emotions
                     .ui.black.compact.button.unselect_emotion
                         |#{this}
@@ -45,14 +45,14 @@ template(name='dao')
                         .ui.compact.basic.button.select_emotion
                             |#{name}
                 // .spacer
-                .ui.inline.header 
-                    i.users.large.grey.icon
-                    |group
-                each selected_subreddits
-                    .ui.black.compact.button.unselect_subreddit
-                        |#{this}
-                each subreddit_results
-                    +select_subreddit
+                // .ui.inline.header 
+                //     i.users.large.grey.icon
+                //     |group
+                // each selected_subreddits
+                //     .ui.black.compact.button.unselect_subreddit
+                //         |#{this}
+                // each subreddit_results
+                //     +select_subreddit
                 // .spacer
                 // .spacer
                 // .ui.inline.header 
@@ -82,9 +82,9 @@ template(name='dao')
                     //     each alpha_singles
                     //         if response.queryresult
                     //             +alpha 
-                    if skv_is 'loading_alpha' true
-                        i.big.brain.loading.icon 
-                        |alpha...
+                    if skv_is 'loading_duck' true
+                        i.big.globe.loading.icon 
+                        |duck duck go...
                     else
                         unless viewing_doc
                             each ducks
