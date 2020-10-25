@@ -44,6 +44,7 @@ template(name='dao')
                     if name
                         .ui.compact.basic.button.select_emotion
                             |#{name}
+                .ui.large.basic.label(title='results') #{doc_count} results
                 // .spacer
                 // .ui.inline.header 
                 //     i.users.large.grey.icon
@@ -65,7 +66,7 @@ template(name='dao')
                 //     .ui.compact.button.select_model
                 //         |#{name}
                 // i.smile.large.icon
-                div
+                // div
                 // .five.wide.right.aligned.column
                 // .eleven.wide.column
         .row
@@ -89,35 +90,31 @@ template(name='dao')
                         unless viewing_doc
                             each ducks
                                 +duck 
-                .ui.large.basic.label(title='results') #{doc_count} results
             div(class="{{#unless viewing_doc}} eleven wide column {{else}} sixteen wide column {{/unless}}")
                 unless viewing_doc
-                    |limit
-                    .ui.dropdown
-                        span.text dropdown
-                        i.dropdown.icon
-                        .menu 
-                            +skve k='limit' v=1 l='1'
-                            +skve k='limit' v=10 l='10'
-                            .item 1
-                            .item 5
-                            .item 10
-                            .item 20
-                    |sort
-                    +skve k='sort_key' v='_timestamp' l='when'
-                    +skve k='sort_key' v='bounty' l='bounty'
-                    +skve k='sort_direction' v=-1 l='up'
-                    +skve k='sort_direction' v=1 l='down'
-                    |view
-                    +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
-                    +skve k='view_mode' v='list' l='list' i='list' ionly=true
+                    // |limit
+                    // .ui.dropdown
+                    //     span.text dropdown
+                    //     i.dropdown.icon
+                    //     .menu 
+                    //         +skve k='limit' v=1 l='1'
+                    //         +skve k='limit' v=10 l='10'
+                    //         .item 1
+                    //         .item 5
+                    //         .item 10
+                    //         .item 20
+                    // |sort
+                    // +skve k='sort_key' v='_timestamp' l='when'
+                    // +skve k='sort_key' v='bounty' l='bounty'
+                    // +skve k='sort_direction' v=-1 l='up'
+                    // +skve k='sort_direction' v=1 l='down'
+                    // |view
+                    // +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
+                    // +skve k='view_mode' v='list' l='list' i='list' ionly=true
                 
                 .ui.cards
                     each docs
-                        if key_value 'model' 'porn'
-                            +vid_card
-                        else
-                            +doc
+                        +doc
                 
                 //     +session_edit_value_button k='view_section' v='tone' l='tone' i='smile'
                 
