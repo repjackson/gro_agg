@@ -72,11 +72,11 @@ Meteor.methods
         #         _timestamp: $lt:now
         #     }, limit:1
         # console.log 'last', found_last_chat
-        new_id = 
-            Docs.insert 
-                model:'global_chat'
-                body:chat
-                bot:false
+        # new_id = 
+        #     Docs.insert 
+        #         model:'global_chat'
+        #         body:chat
+        #         bot:false
         # console.log 'creating new chat for ', chat
         HTTP.get "http://api.wolframalpha.com/v1/conversation.jsp?appid=UULLYY-QR2ALYJ9JU&i=#{chat}",(err,response)=>
             if err then console.log err

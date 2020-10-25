@@ -208,6 +208,7 @@ Template.chatpop.events
             Docs.insert
                 # parent_id: parent._id
                 model:'global_chat'
+                bot:false
                 body:comment
             Meteor.call 'add_chat', comment, ->
             t.$('.add_chat').val('')

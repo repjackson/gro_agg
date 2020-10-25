@@ -182,8 +182,8 @@ template(name='view_chatpop')
             each last_messages
                 .item 
                     if bot
-                        i.brain.icon
-                        strong #{response}
+                        i.brain.inline.grey.icon
+                        strong #{response.result}
                     else
                         strong #{body} 
                     small.ui.grey.text #{when}
