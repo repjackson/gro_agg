@@ -288,7 +288,7 @@ Meteor.publish 'dtags', (
     if view_mode is 'porn'
         tag_limit = 20
     else
-        tag_limit = 20
+        tag_limit = 11
   
     tag_cloud = Docs.aggregate [
         { $match: match }

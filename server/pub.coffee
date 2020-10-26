@@ -378,6 +378,10 @@ Meteor.publish 'expenses_from_username', (username)->
         model:'vote'
         _author_id:user._id
     },limit:10)
+Meteor.publish 'search_doc', (selected_tags)->
+    Docs.find
+        model:'search'
+        tags:$in:selected_tags
 Meteor.publish 'kin_from_username', (username)->
     user = Meteor.users.findOne username:username
     Docs.find({

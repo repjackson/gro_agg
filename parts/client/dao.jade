@@ -7,9 +7,9 @@ template(name='dao')
                 // unless viewing_doc
                     // i#clear_tags.link.yin.yang.big.icon(class=thinking_class)
                 if selected_tags
-                    if many_tags
-                        a#clear_tags.ui.black.invert.icon.compact.button.select_term
-                            i.remove.icon
+                    // if many_tags
+                    //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                    //         i.remove.icon
                     each selected_tags
                         +unselect_tag
                 .ui.left.icon.input(class=thinking_class)
@@ -17,26 +17,26 @@ template(name='dao')
                     input.search_title(type='text' autofocus='')
                 each tag_results
                     +tag_selector
-                // +view_mode k='twitter' i='twitter' c='blue'
-                // +view_mode k='video' i='youtube' c='red'
-                // +view_mode k='image' i='picture' c='green'
-                // +view_mode k='posts' i='newspaper' c='teal'
-                // +view_mode k='wikipedia' i='wikipedia' c='purple'
-                // +view_mode k='stackexchange' i='stack exchange disabled'
-                // +view_mode k='github' i='github disabled'
-                // +view_mode k='alpha' i='disabled brain'
-                // +view_mode k='porn' i='mercury'
-                // +view_mode k='bitcoin' i='bitcoin disabled'
-                // +view_mode k='covid' i='covid disabled'
+                +view_mode k='twitter' i='twitter' c='blue'
+                +view_mode k='video' i='youtube' c='red'
+                +view_mode k='image' i='picture' c='green'
+                +view_mode k='posts' i='newspaper' c='teal'
+                +view_mode k='wikipedia' i='wikipedia' c='purple'
+                +view_mode k='stackexchange' i='stack exchange disabled'
+                +view_mode k='github' i='github disabled'
+                +view_mode k='alpha' i='disabled brain'
+                +view_mode k='porn' i='mercury'
+                +view_mode k='bitcoin' i='bitcoin disabled'
+                +view_mode k='covid' i='covid disabled'
                 // .ui.header 
                 //     i.smile.large.grey.icon
                 //     |emotion
                 // .spacer
-                // +emotion_mode k='joy' i='happy--v1' i2='smile' c='invert green'
-                // +emotion_mode k='sadness' i='sad--v1' i2='sad tear' c='invert blue'
-                // +emotion_mode k='anger' i='angry--v1' i2='frown' c='invert red'
-                // +emotion_mode k='disgust' i='disgusting' i2='grin tongue squint' c='invert orange'
-                // +emotion_mode k='fear' i='scream' i2='tired' c='black'
+                +emotion_mode k='joy' i='happy--v1' i2='smile' c='invert green'
+                +emotion_mode k='sadness' i='sad--v1' i2='sad tear' c='invert blue'
+                +emotion_mode k='anger' i='angry--v1' i2='frown' c='invert red'
+                +emotion_mode k='disgust' i='disgusting' i2='grin tongue squint' c='invert orange'
+                +emotion_mode k='fear' i='scream' i2='tired' c='black'
                 each selected_emotions
                     .ui.black.compact.button.unselect_emotion
                         |#{this}
@@ -45,40 +45,53 @@ template(name='dao')
                         .ui.compact.basic.button.select_emotion
                             |#{name}
                 .ui.large.basic.label(title='results') #{doc_count} results
-                // .spacer
-                // .ui.inline.header 
-                //     i.users.large.grey.icon
-                //     |group
-                // each selected_subreddits
-                //     .ui.black.compact.button.unselect_subreddit
-                //         |#{this}
-                // each subreddit_results
-                //     +select_subreddit
-                // .spacer
-                // .spacer
-                // .ui.inline.header 
-                //     i.database.large.icon
-                //     |sources
-                // each selected_models
-                //     .ui.black.compact.button.unselect_model
-                //         |#{this}
-                // each model_results
-                //     .ui.compact.button.select_model
-                //         |#{name}
-                // i.smile.large.icon
-                // div
+                .spacer
+                .ui.inline.header 
+                    i.users.large.grey.icon
+                    |group
+                each selected_subreddits
+                    .ui.black.compact.button.unselect_subreddit
+                        |#{this}
+                each subreddit_results
+                    +select_subreddit
+                .spacer
+                .spacer
+                .ui.inline.header 
+                    i.database.large.icon
+                    |sources
+                each selected_models
+                    .ui.black.compact.button.unselect_model
+                        |#{this}
+                each model_results
+                    .ui.compact.button.select_model
+                        |#{name}
+                i.smile.large.icon
+                div
                 // .five.wide.right.aligned.column
                 // .eleven.wide.column
-        .row
-            div(class="{{#unless viewing_doc}} five wide column {{/unless}}")
+            .eight.wide.column
+                with search_doc
+                    .ui.segment
+                        .ui.header search doc
+                        .ui.header searched #{input_count} times
+                        each searchers
+                            .ui.header #{username}
+                
+                .ui.segment
+                    .ui.header
+                        i.large.wikipedia.icon
+                        |wikipedia
+                // div(class="{{#unless viewing_doc}} five wide column {{/unless}}")
                 unless viewing_doc
                     if skv_is 'loading_alpha' true
                         i.big.brain.loading.icon 
                         |alpha...
                     else
                         each alphas
-                            if response.queryresult
-                                +alpha 
+                            .ui.segment
+                                i.large.brain.icon
+                                if response.queryresult
+                                    +alpha 
                     // if many_tags
                     //     each alpha_singles
                     //         if response.queryresult
@@ -89,8 +102,9 @@ template(name='dao')
                     else
                         unless viewing_doc
                             each ducks
-                                +duck 
-            div(class="{{#unless viewing_doc}} eleven wide column {{else}} sixteen wide column {{/unless}}")
+                                .ui.segment
+                                    +duck 
+                // div(class="{{#unless viewing_doc}} eleven wide column {{else}} sixteen wide column {{/unless}}")
                 unless viewing_doc
                     // |limit
                     // .ui.dropdown
@@ -112,9 +126,14 @@ template(name='dao')
                     // +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
                     // +skve k='view_mode' v='list' l='list' i='list' ionly=true
                 
-                .ui.cards
-                    each docs
-                        +doc
+            .eight.wide.column
+                .ui.segment
+                    .ui.header 
+                        i.large.reddit.icon
+                        |reddit
+                    .ui.cards
+                        each docs
+                            +doc
                 
                 //     +session_edit_value_button k='view_section' v='tone' l='tone' i='smile'
                 

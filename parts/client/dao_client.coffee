@@ -74,6 +74,7 @@ Template.dao.onCreated ->
     @autorun -> Meteor.subscribe('alpha_combo',selected_tags.array())
     # @autorun -> Meteor.subscribe('alpha_single',selected_tags.array())
     @autorun -> Meteor.subscribe('duck',selected_tags.array())
+    @autorun -> Meteor.subscribe('search_doc',selected_tags.array())
     @autorun -> Meteor.subscribe('doc_count',
         selected_tags.array()
         Session.get('view_mode')
@@ -328,6 +329,11 @@ Template.doc.helpers
     viewing_doc: -> Session.equals('viewing_doc', @_id)
     card_class: -> if Session.equals('viewing_doc', @_id) then 'fluid'
 Template.dao.helpers
+    search_doc: ->
+        Docs.findOne 
+            model:'search'
+            tags:$in:selected_tags.array()
+
     viewing_doc: -> Session.get('viewing_doc')
     alphas: ->
         Docs.find 
