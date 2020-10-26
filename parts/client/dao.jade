@@ -21,6 +21,7 @@ template(name='dao')
                 //     i.smile.large.grey.icon
                 //     |emotion
                 // .spacer
+            .four.wide.column
                 each selected_emotions
                     .ui.black.compact.button.unselect_emotion
                         |#{this}
@@ -29,15 +30,55 @@ template(name='dao')
                         .ui.compact.basic.button.select_emotion
                             |#{name}
                 .ui.large.basic.label(title='results') #{doc_count} results
-                .spacer
+                // .spacer
                 // .five.wide.right.aligned.column
                 // .eleven.wide.column
-            .four.wide.column
                 +emotion_mode k='joy' i='happy--v1' i2='smile' c='invert green'
                 +emotion_mode k='sadness' i='sad--v1' i2='sad tear' c='invert blue'
                 +emotion_mode k='anger' i='angry--v1' i2='frown' c='invert red'
                 +emotion_mode k='disgust' i='disgusting' i2='grin tongue squint' c='invert orange'
                 +emotion_mode k='fear' i='scream' i2='tired' c='black'
+                .ui.divider
+                +view_mode k='twitter' i='twitter' c='blue'
+                +view_mode k='video' i='youtube' c='red'
+                +view_mode k='image' i='picture' c='green'
+                +view_mode k='posts' i='newspaper' c='teal'
+                +view_mode k='wikipedia' i='wikipedia' c='purple'
+                +view_mode k='stackexchange' i='stack exchange disabled'
+                +view_mode k='github' i='github disabled'
+                +view_mode k='alpha' i='disabled brain'
+                // +view_mode k='porn' i='mercury'
+                +view_mode k='bitcoin' i='bitcoin disabled'
+                +view_mode k='covid' i='covid disabled'
+            .four.wide.column
+                .ui.segment
+                    if skv_is 'loading_alpha' true
+                        .ui.header 
+                            i.big.brain.loading.icon 
+                            |alpha...
+                    else
+                        .ui.grey.header 
+                            i.big.brain.icon 
+                            |wolfram alpha
+                        each alphas
+                            i.large.brain.icon
+                            if response.queryresult
+                                +alpha 
+                        // if many_tags
+                        //     each alpha_singles
+                        //         if response.queryresult
+                        //             +alpha 
+                .ui.segment
+                    if skv_is 'loading_duck' true
+                        i.big.globe.loading.icon 
+                        |duck duck go...
+                    else
+                        unless viewing_doc
+                            each ducks
+                                .ui.segment
+                                    +duck 
+                // div(class="{{#unless viewing_doc}} eleven wide column {{else}} sixteen wide column {{/unless}}")
+                // .four.wide.column 
                 .ui.inline.header 
                     i.users.large.grey.icon
                     |group
@@ -59,19 +100,26 @@ template(name='dao')
                         |#{name}
                 i.smile.large.icon
                 div
-                // .four.wide.center.aligned.column
-                +view_mode k='twitter' i='twitter' c='blue'
-                +view_mode k='video' i='youtube' c='red'
-                +view_mode k='image' i='picture' c='green'
-                +view_mode k='posts' i='newspaper' c='teal'
-                +view_mode k='wikipedia' i='wikipedia' c='purple'
-                +view_mode k='stackexchange' i='stack exchange disabled'
-                +view_mode k='github' i='github disabled'
-                +view_mode k='alpha' i='disabled brain'
-                // +view_mode k='porn' i='mercury'
-                +view_mode k='bitcoin' i='bitcoin disabled'
-                +view_mode k='covid' i='covid disabled'
             .six.wide.column.scrolling
+                |limit
+                .ui.dropdown
+                    span.text dropdown
+                    i.dropdown.icon
+                    .menu 
+                        +skve k='limit' v=1 l='1'
+                        +skve k='limit' v=10 l='10'
+                        .item 1
+                        .item 5
+                        .item 10
+                        .item 20
+                |sort
+                +skve k='sort_key' v='_timestamp' l='when'
+                +skve k='sort_key' v='bounty' l='bounty'
+                +skve k='sort_direction' v=-1 l='up'
+                +skve k='sort_direction' v=1 l='down'
+                |view
+                +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
+                +skve k='view_mode' v='list' l='list' i='list' ionly=true
                 .ui.segment
                     .ui.header 
                         i.large.reddit.icon
@@ -101,51 +149,7 @@ template(name='dao')
                         i.large.wikipedia.icon
                         |wikipedia
                 // div(class="{{#unless viewing_doc}} five wide column {{/unless}}")
-                unless viewing_doc
-                    if skv_is 'loading_alpha' true
-                        i.big.brain.loading.icon 
-                        |alpha...
-                    else
-                        each alphas
-                            .ui.segment
-                                i.large.brain.icon
-                                if response.queryresult
-                                    +alpha 
-                        // if many_tags
-                        //     each alpha_singles
-                        //         if response.queryresult
-                        //             +alpha 
-                    if skv_is 'loading_duck' true
-                        i.big.globe.loading.icon 
-                        |duck duck go...
-                    else
-                        unless viewing_doc
-                            each ducks
-                                .ui.segment
-                                    +duck 
-                    // div(class="{{#unless viewing_doc}} eleven wide column {{else}} sixteen wide column {{/unless}}")
-                    unless viewing_doc
-                        // |limit
-                        // .ui.dropdown
-                        //     span.text dropdown
-                        //     i.dropdown.icon
-                        //     .menu 
-                        //         +skve k='limit' v=1 l='1'
-                        //         +skve k='limit' v=10 l='10'
-                        //         .item 1
-                        //         .item 5
-                        //         .item 10
-                        //         .item 20
-                        // |sort
-                        // +skve k='sort_key' v='_timestamp' l='when'
-                        // +skve k='sort_key' v='bounty' l='bounty'
-                        // +skve k='sort_direction' v=-1 l='up'
-                        // +skve k='sort_direction' v=1 l='down'
-                        // |view
-                        // +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
-                        // +skve k='view_mode' v='list' l='list' i='list' ionly=true
                     
-                //     +session_edit_value_button k='view_section' v='tone' l='tone' i='smile'
                 
                 
 template(name="doc")
@@ -179,9 +183,9 @@ template(name="doc")
                     //     i.chevron.right.big.grey.link.icon.forward
                 if viewing_doc
                     .ui.icon.basic.button.vote_down
-                        i.caret.down.big.grey.icon
+                        i.thumbs.down.big.grey.icon
                     .ui.icon.basic.button.vote_up
-                        i.caret.up.big.grey.icon
+                        i.thumbs.up.big.grey.icon
                     .ui.big.basic.button.read 
                         i.rss.icon
                         |read
@@ -192,23 +196,23 @@ template(name="doc")
                     //     img.ui.centered.image(src=url)
                     span.invert
                         |!{embed}
-                    // else if is_twitter
-                    //     blockquote.twitter-tweet(data-dnt='true' data-theme='dark')
-                    //         p(lang='en' dir='ltr')
-                    //             | Twitter Support you must have the patience of 1000 camels waiting for a drink of water while the baby camels get the first drinks...does that make sense? Thank you for your dedication and time you selfishly give to each of us. You are always appreciated.
-                    //         | — KayeMc76 (@KayeMc76) 
-                    //         a(href=url) October 3, 2020
-                    // else if is_youtube
-                    //     div
-                    //     .ui.fluid.embed
-                    //         iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
-                        // iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                        // else if is_video
-                        //     div
-                        //     // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                        //     iframe(width="100%" height="600" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                    // else
-                    //     iframe(width="100%" height="500" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
+                    if is_twitter
+                        blockquote.twitter-tweet(data-dnt='true' data-theme='dark')
+                            p(lang='en' dir='ltr')
+                                | Twitter Support you must have the patience of 1000 camels waiting for a drink of water while the baby camels get the first drinks...does that make sense? Thank you for your dedication and time you selfishly give to each of us. You are always appreciated.
+                            | — KayeMc76 (@KayeMc76) 
+                            a(href=url) October 3, 2020
+                    else if is_youtube
+                        div
+                        .ui.fluid.embed
+                            iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
+                        iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                    else if is_video
+                        div
+                        // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                        iframe(width="100%" height="600" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                    else
+                        iframe(width="100%" height="500" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
                     // .medscroll
                     // 
                     a.ui.label(href="https://www.reddit.com#{permalink}" target="_window") r/#{subreddit}
@@ -309,12 +313,12 @@ template(name='unselect_tag')
 
 template(name='tag_selector')
     // a.ui.tertiary.basic.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.big.image.basic.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.large.image.basic.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    
         | #{name}
-        // small #{count}
+        small #{count}
         
 template(name='select_subreddit')
     // a.ui.tertiary.basic.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
@@ -323,14 +327,14 @@ template(name='select_subreddit')
             if term.watson.metadata.image
                 img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    
         | #{name}
-        // small #{count}
+        small #{count}
 
 template(name='doc_tag')
     a.ui.image.big.label.pointer.zoomer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             img.ui.avatar.compact.image(src=term.watson.metadata.image)    
         | #{this}
-        // small #{count}
+        small #{count}
 
 
 template(name='duck')
@@ -339,9 +343,9 @@ template(name='duck')
         .ui.inline.header #{Heading}
         // .item abstract #{Abstract}
         .item.abstract !{AbstractText}
-        // a.ui.icon.button(href=AbstractURL)
-        //     // #{AbstractURL}
-        //     i.large.external.icon
+        a.ui.icon.button(href=AbstractURL)
+            // #{AbstractURL}
+            i.large.external.icon
         img(src=Image)
         each RelatedTopics
             if Text
@@ -350,23 +354,23 @@ template(name='duck')
                     img.ui.tiny.inline.rounded.image(src=Icon.URL)
                     |#{Text}
                     // | {{lowered Text}}
-            // .content
-            //     .item #{FirstURL}
-                // .item !{Result}
+            .content
+                .item #{FirstURL}
+                .item !{Result}
 
 
 
 template(name='alpha')
     with response.queryresult
         // .ui.inline.header #{datatypes}
-        // each split_datatypes
-        //     .ui.button.basic.compact.buton.select_datatype
-        //         |#{this}
+        each split_datatypes
+            .ui.button.basic.compact.buton.select_datatype
+                |#{this}
         // .ui.list
-            // .item success: #{success}
-            // .item error: #{error}
-            // .item numpods: #{numpods}
-            // .item datatypes: #{datatypes}
+        //     .item success: #{success}
+        //     .item error: #{error}
+        //     .item numpods: #{numpods}
+        //     .item datatypes: #{datatypes}
                 // each datatypes
                 //     .ui.button
                 //         |#{this}
@@ -394,10 +398,10 @@ template(name='alpha')
             // .item subpods
             // .ui.list
             each subpods
-                // .ui.small.inline.header #{title}
+                .ui.small.inline.header #{title}
                 img.ui.zoomer.pointer.image.invert.alphatemp(src=img.src)
                 // .item.alphatemp
-                // |#{plaintext}
+                |#{plaintext}
                 // .item title: #{title}
                 // .item primary: #{primary}
     // each tags
@@ -428,21 +432,21 @@ template(name='tone')
                 //- span #{sentence_id}
                 span.tone_item.ui.zoomer.pointer.text(title="#{sentence_id}" class="#{tone_size} #{sentence_color}") 
                     |{{lowered text}}
-                    // .content
-                    // .inline.header(title="#{sentence_id}") {{lowered text}}
-                    // |weight:#{weight}
-                    // i.chevron.up.link.grey.large.icon.upvote_sentence
-                    // i.chevron.down.link.grey.large.icon.downvote_sentence
-                    // each tones
-                    //     .ui.inverted.invert.small.compact.label(class="#{tone_label_class}") 
-                        // .ui.small.compact.inverted.label(class="{{calculated_size 'weight'}} #{tone_label_class}") 
+                    .content
+                    .inline.header(title="#{sentence_id}") {{lowered text}}
+                    |weight:#{weight}
+                    i.chevron.up.link.grey.large.icon.upvote_sentence
+                    i.chevron.down.link.grey.large.icon.downvote_sentence
+                    each tones
+                        .ui.inverted.invert.small.compact.label(class="#{tone_label_class}") 
+                        .ui.small.compact.inverted.label(class="{{calculated_size 'weight'}} #{tone_label_class}") 
                             span.ui.text
                                 |#{tone_id} &nbsp;
                             | {{ to_percent score }}% 
-                    // .ui.mini.transparent.icon.input
-                    //     input.tag_sentence(type='text' placeholder='tag')
-                    // each tags 
-                    //     .ui.label #{this}
+                    .ui.mini.transparent.icon.input
+                        input.tag_sentence(type='text' placeholder='tag')
+                    each tags 
+                        .ui.label #{this}
     // unless tone                
     //- #call_tone.ui.icon.button
     //-     i.refresh.icon
@@ -452,7 +456,7 @@ template(name='tone')
 template(name='call_tone')
     button.ui.large.button.call
         i.big.download.icon
-        // |call tone
+        |call tone
         |download
     if page_doc.tone 
         i.checkmark.icon
