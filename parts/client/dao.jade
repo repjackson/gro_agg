@@ -23,50 +23,50 @@ template(name='dao')
                 //     i.smile.large.grey.icon
                 //     |emotion
                 // .spacer
-            .four.wide.column
-                each selected_emotions
-                    .ui.black.compact.button.unselect_emotion
-                        |#{this}
-                each emotion_results
-                    if name
-                        .ui.compact.button.select_emotion
-                            |#{name}
+            .four.wide.right.aligned.column
+                // each selected_emotions
+                //     .ui.black.compact.button.unselect_emotion
+                //         |#{this}
+                // each emotion_results
+                //     if name
+                //         .ui.compact.button.select_emotion
+                //             |#{name}
                 .ui.large.basic.label(title='results') #{doc_count} results
                 // .spacer
                 // .five.wide.right.aligned.column
                 // .eleven.wide.column
-                // +emotion_mode k='joy' i='happy--v1' i2='smile' c='invert green'
-                // +emotion_mode k='sadness' i='sad--v1' i2='sad tear' c='invert blue'
-                // +emotion_mode k='anger' i='angry--v1' i2='frown' c='invert red'
-                // +emotion_mode k='disgust' i='disgusting' i2='grin tongue squint' c='invert orange'
-                // +emotion_mode k='fear' i='scream' i2='tired' c='black'
+                +emotion_mode k='joy' i='happy--v1' i2='smile' c='invert green'
+                +emotion_mode k='sadness' i='sad--v1' i2='sad tear' c='invert blue'
+                +emotion_mode k='anger' i='angry--v1' i2='frown' c='invert red'
+                +emotion_mode k='disgust' i='disgusting' i2='grin tongue squint' c='invert orange'
+                +emotion_mode k='fear' i='scream' i2='tired' c='black'
                 +view_mode k='twitter' i='twitter' c='blue'
                 +view_mode k='video' i='youtube' c='red'
                 +view_mode k='image' i='picture' c='green'
-                +view_mode k='posts' i='newspaper' c='teal'
-                +view_mode k='wikipedia' i='wikipedia' c='purple'
-                // +view_mode k='stackexchange' i='stack exchange disabled'
-                // +view_mode k='github' i='github disabled'
+                +view_mode k='posts' i='blog' c='teal'
+                +view_mode k='wikipedia' i='wikipedia-logo' c='purple'
+                +view_mode k='stackexchange' i='stack-exchange'
+                +view_mode k='github' i='github'
                 // +view_mode k='alpha' i='disabled brain'
                 // +view_mode k='porn' i='mercury'
-                // +view_mode k='bitcoin' i='bitcoin disabled'
-                // +view_mode k='covid' i='covid disabled'
-                .ui.segment
-                    .ui.header 
-                        i.clock.icon
-                        |when
-                .ui.segment
-                    .ui.header 
-                        i.marker.icon
-                        |where
-                .ui.segment
-                    .ui.header 
-                        i.users.icon
-                        |people
-                .ui.segment
-                    .ui.header 
-                        i.building.icon
-                        |organizations
+                +view_mode k='bitcoin' i='bitcoin'
+                +view_mode k='covid' i='biohazard'
+                .ui.large.basic.button(title='when')
+                    // i.clock.icon
+                    +i n='clock'
+                    // |when
+                .ui.large.basic.button(title='where')
+                    // i.marker.icon
+                    +i n='marker'
+                    // |where
+                .ui.large.basic.button(title='groups')
+                    // i.users.icon
+                    +i n='groups'
+                    // |people
+                .ui.large.basic.button
+                    +i n='building'
+                    // i.building.icon
+                    // |organizations
             .twelve.wide.column
                 +skve k='main_section' v='alpha' l='alpha' i='brain'
                 +skve k='main_section' v='duck' l='search' i='duck'
@@ -124,14 +124,14 @@ template(name='dao')
                             i.large.reddit.icon
                             |#{reddit_docs.count} reddit
                         if viewing_reddit
-                            |sort
-                            +skve k='sort_key' v='_timestamp' l='when'
-                            +skve k='sort_key' v='bounty' l='bounty'
-                            +skve k='sort_direction' v=-1 l='up'
-                            +skve k='sort_direction' v=1 l='down'
-                            |view
-                            +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
-                            +skve k='view_mode' v='list' l='list' i='list' ionly=true
+                            // |sort
+                            // +skve k='sort_key' v='_timestamp' l='when'
+                            // +skve k='sort_key' v='bounty' l='bounty'
+                            // +skve k='sort_direction' v=-1 l='up'
+                            // +skve k='sort_direction' v=1 l='down'
+                            // |view
+                            // +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
+                            // +skve k='view_mode' v='list' l='list' i='list' ionly=true
                             .ui.cards
                                 each reddit_docs
                                     +reddit_doc
@@ -189,7 +189,9 @@ template(name='dao')
                 
 template(name='view_mode')
     a.ui.compact.icon.large.button.toggle_view(class=toggle_view_button_class)
-        i.link.zoomer.icon(class="#{toggle_view_class} #{thinking_class}" title=k)
+        // i.link.zoomer.icon(class="#{toggle_view_class} #{thinking_class}" title=k)
+        // +i n=toggle_view_class
+        +i n=i
         // |#{k}
 
 template(name='emotion_mode')
