@@ -198,9 +198,9 @@ Template.unselect_tag.events
                 Meteor.call 'call_wiki', @valueOf(), ->
                 Meteor.call 'search_reddit', selected_tags.array(), ->
                 # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-            Meteor.setTimeout( ->
-                Session.set('toggle',!Session.get('toggle'))
-            , 10000)
+            # Meteor.setTimeout( ->
+            #     Session.set('toggle',!Session.get('toggle'))
+            # , 10000)
 
     
 
@@ -260,9 +260,9 @@ Template.tag_selector.events
         Meteor.call 'search_ddg', @name, ->
         Session.set('viewing_doc',null)
         Meteor.call 'search_reddit', selected_tags.array(), ->
-        Meteor.setTimeout( ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 10000)
+        # Meteor.setTimeout( ->
+        #     Session.set('toggle',!Session.get('toggle'))
+        # , 10000)
        
        
 Template.doc_tag.onCreated ->
@@ -334,8 +334,12 @@ Template.dao.events
     'click .toggle_alpha': -> 
         console.log Session.get 'view_alpha'
         Session.set('view_alpha', !Session.get('view_alpha'))
+    'click .toggle_reddit': -> 
+        console.log Session.get 'view_reddit'
+        Session.set('view_reddit', !Session.get('view_reddit'))
 Template.dao.helpers
     viewing_alpha: -> Session.get('view_alpha')
+    viewing_reddit: -> Session.get('view_reddit')
     search_doc: ->
         Docs.findOne 
             model:'search'
@@ -363,7 +367,7 @@ Template.dao.helpers
         if Session.get('viewing_doc')
             Docs.find Session.get('viewing_doc')
         else
-            match = {model:$in:['post','wikipedia','reddit','porn']}
+            match = {model:$in:['post','wikipedia','reddit']}
             # match = {model:$in:['post','wikipedia','reddit']}
             # match = {model:'wikipedia'}
             if selected_tags.array().length>0
@@ -603,9 +607,9 @@ Template.dao.events
 
                 # Session.set('query','')
                 $('.search_title').val('')
-                Meteor.setTimeout( ->
-                    Session.set('toggle',!Session.get('toggle'))
-                , 10000)
+                # Meteor.setTimeout( ->
+                #     Session.set('toggle',!Session.get('toggle'))
+                # , 10000)
         # if e.which is 8
         #     if search.length is 0
         #         selected_tags.pop()
@@ -613,7 +617,7 @@ Template.dao.events
 
 
 Template.view_mode.helpers
-    toggle_view_class: -> if Session.equals('view_mode',@k) then "#{@i} huge #{@c}" else "#{@i} big grey"
+    toggle_view_class: -> if Session.equals('view_mode',@k) then "#{@i} big #{@c}" else "#{@i} large grey"
 
 Template.view_mode.events
     'click .toggle_view': -> 
@@ -627,7 +631,7 @@ Template.view_mode.events
 
 Template.emotion_mode.helpers
     toggle_emotion_class: -> 
-        if Session.equals('emotion_mode',@k) then "#{@i2} huge #{@c}" else "#{@i2} big grey"
+        if Session.equals('emotion_mode',@k) then "#{@i2} big #{@c}" else "#{@i2} large grey"
     selected_emotion: ->  Session.equals('emotion_mode',@k)
 
 Template.emotion_mode.events
