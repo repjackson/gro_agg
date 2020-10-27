@@ -1,9 +1,9 @@
 template(name='dao')
     .ui.stackable.grid
         .row
-            .sixteen.wide.column
-                a.icon.ui.big.circular.icon.button.zoomer(href='/')
-                    i.large.yin.yang.grey.icon
+            .sixteen.wide.center.aligned.column
+                // a.icon.ui.big.circular.icon.button.zoomer(href='/')
+                //     i.large.yin.yang.grey.icon
                 if skv_is 'thinking' true
                     i.big.yin.yang.loading.icon
                 // unless viewing_doc
@@ -28,7 +28,7 @@ template(name='dao')
                         |#{this}
                 each emotion_results
                     if name
-                        .ui.compact.basic.button.select_emotion
+                        .ui.compact.button.select_emotion
                             |#{name}
                 .ui.large.basic.label(title='results') #{doc_count} results
                 // .spacer
@@ -50,19 +50,19 @@ template(name='dao')
                 // +view_mode k='porn' i='mercury'
                 +view_mode k='bitcoin' i='bitcoin disabled'
                 +view_mode k='covid' i='covid disabled'
-                .ui.compact.button
+                .ui.compact.disabled.button
                     .ui.inline.header 
                         i.large.clock.icon
                         |when
-                .ui.compact.button
+                .ui.compact.disabled.button
                     .ui.inline.header
                         i.large.marker.icon
                         |where
-                .ui.compact.button
+                .ui.compact.disabled.button
                     .ui.inline.header
                         i.large.users.icon
                         |people
-                .ui.compact.button
+                .ui.compact.disabled.button
                     .ui.inline.header
                         i.large.users.icon
                         |organizations
@@ -193,7 +193,7 @@ template(name="doc")
                     .line
         else
             if embed
-                .rounded.full
+                .rounded.full.invert
                     |!{embed}
             // else
             if is_image
@@ -302,12 +302,12 @@ template(name="doc")
             
                 
 template(name='view_mode')
-    a.ui.tertiary.basic.button.toggle_view
+    a.ui.button.toggle_view
         i.link.zoomer.icon(class="#{toggle_view_class} #{thinking_class}" title=k)
         |#{k}
 
 template(name='emotion_mode')
-    .ui.tertiary.button.toggle_emotion
+    .ui.button.toggle_emotion
         i.link.zoomer.icon(class="#{toggle_emotion_class} #{thinking_class}" title=t)
         |#{k}
     // if selected_emotion
@@ -338,7 +338,7 @@ template(name='unselect_tag')
         strong #{this}
 
 template(name='tag_selector')
-    // a.ui.tertiary.basic.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    // a.ui.basic.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
     a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
@@ -347,7 +347,7 @@ template(name='tag_selector')
         // small #{count}
         
 template(name='select_subreddit')
-    // a.ui.tertiary.basic.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    // a.ui.basic.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
     a.ui.image.basic.label.pointer.zoomer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
@@ -376,7 +376,7 @@ template(name='duck')
         each RelatedTopics
             if Text
                 // .ui.compact.button.topic
-                .ui.tertiary.basic.button.topic(class=thinking_class)
+                .ui.basic.button.topic(class=thinking_class)
                     img.ui.tiny.inline.rounded.image(src=Icon.URL)
                     |#{Text}
                     // | {{lowered Text}}

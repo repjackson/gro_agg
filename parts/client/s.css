@@ -276,7 +276,7 @@ input
 }
 
 .ui.button.result {
-  transition: all .1s ease !important;
+  transition: all 1s ease !important;
   display: inline !important;
   /* padding: 5px !important; */
 }
@@ -289,7 +289,7 @@ input
 }
 
 .tone_item {
-    transition: all .1s ease !important;
+    transition: all 1s ease !important;
 }
 
 .ui.button.result:hover{
@@ -326,8 +326,8 @@ a.goto_article {
 }
 .ui.button {
   margin: 2px !important;
-  /*border-radius: 10px !important; */
-  transition: height .1s ease !important; 
+  border-radius: 10px !important; 
+  transition: height 1s ease !important; 
   /* background-color: rgba(200, 200, 200, 0.2) !important; */
   /* padding: 12px !important; */
   font-family: 'Roboto', sans-serif !important; 
@@ -356,7 +356,7 @@ a.goto_article {
     transform: scale(1.1) !important;
 }
 .superzoom:hover {
-    transition: all .1s ease !important; 
+    transition: all 1s ease !important; 
     transform: scale(2) !important;
     z-index:1000 !important;
 }
@@ -606,8 +606,8 @@ input {
 
 .button, .selector, .card, .dark_mode, .ui.header, .ui.label, p, img{
     animation: fadein 1s !important;
-    /*-webkit-transition: opacity .1s ease-in !important;*/
-    /* -webkit-transition: opacity .1s ease-out; */
+    /*-webkit-transition: opacity 1s ease-in !important;*/
+    /* -webkit-transition: opacity 1s ease-out; */
      animation: fadeout .25s; 
 }
 
@@ -615,7 +615,7 @@ input {
 .icon:not(.loading){
     animation: fadein 1s !important;
     transition: all 1s ease !important;
-    /* -webkit-transition: opacity .1s ease-out; */
+    /* -webkit-transition: opacity 1s ease-out; */
     animation: fadeout .25s; 
 }
 
