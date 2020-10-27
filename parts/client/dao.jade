@@ -151,23 +151,23 @@ template(name='dao')
                         .ui.compact.segment
                             +comments
                 else if skv_is 'main_section' 'requests'
-                    .ui.segment
+                    .ui.button
                         .ui.header 
                             i.hand.holding.icon
                             |requests
-                    .ui.segment
+                    .ui.button
                         .ui.header 
                             i.shop.icon
                             |offers
                         .ui.button.add_offer
                             i.plus.icon
-                    .ui.segment
+                    .ui.button
                         .ui.header 
                             i.photo.icon
                             |photos
                         .ui.button.add_photo
                             i.plus.icon
-                    .ui.segment
+                    .ui.button
                         .ui.header 
                             i.photo.icon
                             |videos
@@ -188,14 +188,14 @@ template(name='dao')
             
                 
 template(name='view_mode')
-    a.ui.compact.button.toggle_view(class=toggle_view_button_class)
+    a.ui.compact.icon.large.button.toggle_view(class=toggle_view_button_class)
         i.link.zoomer.icon(class="#{toggle_view_class} #{thinking_class}" title=k)
-        |#{k}
+        // |#{k}
 
 template(name='emotion_mode')
-    .ui.compact.button.toggle_emotion
+    .ui.compact.icon.big.button.toggle_emotion
         i.link.zoomer.icon(class="#{toggle_emotion_class} #{thinking_class}" title=t)
-        |#{k}
+        // |#{k}
     // if selected_emotion
     //     i.huge.pointer.zoomer.icon.toggle_emotion(class="#{i2} #{color}" title=t)
     //     // img.ui.inline.image.toggle_emotion.zoomer.pointer(src="https://img.icons8.com/color/50/000000/#{icon}.png" class=cl title=t)
@@ -218,14 +218,14 @@ template(name='convert')
 
 
 template(name='unselect_tag')
-    a.unselect_tag.ui.black.big.image.label.invert.select_term(href='#')
+    a.unselect_tag.ui.black.large.image.label.invert.select_term(href='#')
         if term
             img.ui.avatar.compact.image(src=term.watson.metadata.image)    
         strong #{this}
 
 template(name='tag_selector')
     // a.ui.basic.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.large.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    

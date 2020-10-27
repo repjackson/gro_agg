@@ -151,17 +151,17 @@ Template.unselect_tag.events
    'click .unselect_tag': -> 
         selected_tags.remove @valueOf()
         Session.set('skip',0)
-        # if selected_tags.array().length > 0
-            # if Session.equals('view_mode','porn')
-            #     Meteor.call 'search_ph', selected_tags.array(), ->
-            # else
-            #     Meteor.call 'call_alpha', selected_tags.array().toString(), ->
-            #     Meteor.call 'call_wiki', @valueOf(), ->
-            #     Meteor.call 'search_reddit', selected_tags.array(), ->
-            #     # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-            # Meteor.setTimeout( ->
-            #     Session.set('toggle',!Session.get('toggle'))
-            # , 12000)
+        if selected_tags.array().length > 0
+            if Session.equals('view_mode','porn')
+                Meteor.call 'search_ph', selected_tags.array(), ->
+            else
+                Meteor.call 'call_alpha', selected_tags.array().toString(), ->
+                Meteor.call 'call_wiki', @valueOf(), ->
+                Meteor.call 'search_reddit', selected_tags.array(), ->
+                # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+            Meteor.setTimeout( ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 12000)
 
     
 
@@ -221,9 +221,9 @@ Template.tag_selector.events
         Meteor.call 'search_ddg', @name, ->
         Session.set('viewing_doc',null)
         Meteor.call 'search_reddit', selected_tags.array(), ->
-        # Meteor.setTimeout( ->
-        #     Session.set('toggle',!Session.get('toggle'))
-        # , 12000)
+        Meteor.setTimeout( ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 12000)
        
        
 Template.doc_tag.onCreated ->
@@ -265,9 +265,9 @@ Template.doc_tag.events
         window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
             
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-        # Meteor.setTimeout( ->
-        #     Session.set('toggle',!Session.get('toggle'))
-        # , 10000)
+        Meteor.setTimeout( ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 10000)
        
        
        
