@@ -67,8 +67,10 @@ Template.doc.onRendered ->
     
 Template.dao.onCreated ->
     # window.speechSynthesis.cancel()
+    
     # window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
     document.title = 'the world'
+    Session.setDefault('view_alpha',false)
     Session.setDefault('skip',0)
     Session.setDefault('view_section','content')
     @autorun -> Meteor.subscribe('alpha_combo',selected_tags.array())
@@ -328,7 +330,12 @@ Template.doc_tag.events
 Template.doc.helpers
     viewing_doc: -> Session.equals('viewing_doc', @_id)
     card_class: -> if Session.equals('viewing_doc', @_id) then 'fluid'
+Template.dao.events
+    'click .toggle_alpha': -> 
+        console.log Session.get 'view_alpha'
+        Session.set('view_alpha', !Session.get('view_alpha'))
 Template.dao.helpers
+    viewing_alpha: -> Session.get('view_alpha')
     search_doc: ->
         Docs.findOne 
             model:'search'

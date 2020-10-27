@@ -66,44 +66,51 @@ template(name='dao')
                     .ui.inline.header
                         i.large.users.icon
                         |organizations
-                .ui.button
-                    if skv_is 'loading_alpha' true
-                        .ui.header 
-                            i.big.brain.loading.icon 
-                            |alpha...
-                    else
-                        .ui.grey.header 
+                .ui.button.toggle_alpha
+                    unless viewing_alpha
+                        .ui.header
                             i.big.brain.icon 
+                            | alpha
+                    if viewing_alpha
+                        .ui.grey.header 
+                            i.big.brain.red.icon 
                             |wolfram alpha
-                        each alphas
-                            i.large.brain.icon
-                            if response.queryresult
-                                +alpha 
-                        // if many_tags
-                        //     each alpha_singles
-                        //         if response.queryresult
-                        //             +alpha 
-                .ui.segment
+                        if skv_is 'loading_alpha' true
+                            .ui.header 
+                                i.big.brain.loading.icon 
+                                |alpha...
+                        else
+                            each alphas
+                                i.large.brain.icon
+                                if response.queryresult
+                                    +alpha 
+                            // if many_tags
+                            //     each alpha_singles
+                            //         if response.queryresult
+                            //             +alpha 
+                .ui.button
+                    .ui.inline.header ddg search
                     if skv_is 'loading_duck' true
                         i.big.globe.loading.icon 
                         |duck duck go...
                     else
-                        unless viewing_doc
-                            each ducks
-                                .ui.segment
-                                    +duck 
+                        // unless viewing_doc
+                        each ducks
+                            .ui.segment
+                                +duck 
                 // div(class="{{#unless viewing_doc}} eleven wide column {{else}} sixteen wide column {{/unless}}")
                 // .four.wide.column 
-                .ui.inline.header 
-                    i.users.large.grey.icon
-                    |group
-                each selected_subreddits
-                    .ui.black.compact.button.unselect_subreddit
-                        |#{this}
-                each subreddit_results
-                    +select_subreddit
-                .spacer
-                .spacer
+                .ui.button
+                    .ui.inline.header 
+                        i.users.large.grey.icon
+                        |group
+                    each selected_subreddits
+                        .ui.black.compact.button.unselect_subreddit
+                            |#{this}
+                    each subreddit_results
+                        +select_subreddit
+                // .spacer
+                // .spacer
                 .ui.inline.header 
                     i.database.large.icon
                     |sources
@@ -115,7 +122,6 @@ template(name='dao')
                         |#{name}
                 i.smile.large.icon
                 div
-            .eight.wide.column.scrolling
                 |limit
                 .ui.dropdown
                     span.text dropdown
@@ -135,32 +141,37 @@ template(name='dao')
                 |view
                 +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
                 +skve k='view_mode' v='list' l='list' i='list' ionly=true
-                .ui.segment
-                    .ui.header 
+                .ui.button
+                    .ui.inline.header 
                         i.large.reddit.icon
                         |reddit
                     .ui.cards
                         each docs
                             +doc
                     
-            .six.wide.column
                 .ui.segment
                     .ui.header search doc
                     .ui.header searched #{input_count} times
                     each searchers
                         .ui.header #{username}
                 // with search_doc
-                .ui.segment
+                .ui.button
                     +comments
-                .ui.segment 
+                .ui.button 
+                    i.hand.holding.large.icon
                     |requests
-                .ui.segment
+                .ui.button
+                    i.shop.large.icon
                     |offers
-                .ui.segment 
+                .ui.button 
+                    i.photo.large.icon
                     |photos
+                .ui.button 
+                    i.photo.large.icon
+                    |videos
             
-                .ui.segment
-                    .ui.header
+                .ui.button
+                    .ui.inline.header
                         i.large.wikipedia.icon
                         |wikipedia
                 // div(class="{{#unless viewing_doc}} five wide column {{/unless}}")
@@ -328,12 +339,12 @@ template(name='unselect_tag')
 
 template(name='tag_selector')
     // a.ui.tertiary.basic.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.large.image.basic.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    
         | #{name}
-        small #{count}
+        // small #{count}
         
 template(name='select_subreddit')
     // a.ui.tertiary.basic.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
