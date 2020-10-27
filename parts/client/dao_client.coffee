@@ -555,7 +555,7 @@ Template.view_mode.events
 
 Template.emotion_mode.helpers
     toggle_emotion_class: -> 
-        if Session.equals('emotion_mode',@k) then "#{@i2} big #{@c}" else "#{@i2} large basic"
+        if Session.equals('emotion_mode',@k) then "#{@i2} big #{@c} basic" else "#{@i2} large basic"
     selected_emotion: ->  Session.equals('emotion_mode',@k)
 
 Template.emotion_mode.events
