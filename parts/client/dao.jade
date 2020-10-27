@@ -1,7 +1,7 @@
 template(name='dao')
     .ui.stackable.grid
         .row
-            .sixteen.wide.center.aligned.column
+            .sixteen.wide.column
                 // a.icon.ui.big.circular.icon.button.zoomer(href='/')
                 //     i.large.yin.yang.grey.icon
                 if skv_is 'thinking' true
@@ -39,6 +39,7 @@ template(name='dao')
                 // +emotion_mode k='anger' i='angry--v1' i2='frown' c='invert red'
                 // +emotion_mode k='disgust' i='disgusting' i2='grin tongue squint' c='invert orange'
                 // +emotion_mode k='fear' i='scream' i2='tired' c='black'
+            .four.wide.column
                 +view_mode k='twitter' i='twitter' c='blue'
                 +view_mode k='video' i='youtube' c='red'
                 +view_mode k='image' i='picture' c='green'
@@ -62,37 +63,38 @@ template(name='dao')
                 .ui.compact.disabled.button
                     i.users.icon
                     |organizations
-                .ui.button.toggle_alpha
-                    unless viewing_alpha
-                        .ui.header
-                            i.large.brain.icon 
-                            | alpha
+            .twelve.wide.column
+                .ui.segment
+                    a.ui.header.toggle_alpha
+                        i.large.brain.icon 
+                        | wolfram alpha
+                    // unless viewing_alpha
                     if viewing_alpha
-                        .ui.grey.header 
-                            i.large.brain.red.icon 
-                            |wolfram alpha
                         if skv_is 'loading_alpha' true
                             .ui.header 
                                 i.large.brain.loading.icon 
                                 |alpha...
                         else
                             each alphas
-                                i.large.brain.icon
+                                // i.large.brain.icon
                                 if response.queryresult
                                     +alpha 
                             // if many_tags
                             //     each alpha_singles
                             //         if response.queryresult
                             //             +alpha 
-                .ui.button
-                    .ui.inline.small.header ddg search
-                    if skv_is 'loading_duck' true
-                        i.big.globe.loading.icon 
-                        |duck duck go...
-                    else
-                        // unless viewing_doc
-                        each ducks
-                            +duck 
+                .ui.label.button
+                    .ui.inline.small.header.toggle_duck
+                        i.search.icon
+                        |search
+                    if viewing_duck
+                        if skv_is 'loading_duck' true
+                            i.big.globe.loading.icon 
+                            |duck duck go...
+                        else
+                            // unless viewing_doc
+                            each ducks
+                                +duck 
                 // div(class="{{#unless viewing_doc}} eleven wide column {{else}} sixteen wide column {{/unless}}")
                 // .four.wide.column 
                 // .ui.button
@@ -128,8 +130,8 @@ template(name='dao')
                 //         .item 5
                 //         .item 10
                 //         .item 20
-                .ui.button.toggle_reddit
-                    .ui.inline.header 
+                .ui.label
+                    a.ui.inline.header.toggle_reddit
                         i.large.reddit.icon
                         |reddit
                     if viewing_reddit
@@ -145,7 +147,7 @@ template(name='dao')
                             each docs
                                 +doc
                     
-                .ui.segment
+                .ui.label
                     .ui.header search doc
                     .ui.header searched #{input_count} times
                     each searchers
@@ -298,7 +300,7 @@ template(name="doc")
             
                 
 template(name='view_mode')
-    a.ui.compact.button.toggle_view
+    a.ui.compact.button.toggle_view(class=toggle_view_button_class)
         i.link.zoomer.icon(class="#{toggle_view_class} #{thinking_class}" title=k)
         |#{k}
 
@@ -352,7 +354,7 @@ template(name='select_subreddit')
         small #{count}
 
 template(name='doc_tag')
-    a.ui.image.big.label.pointer.zoomer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.image.large.label.pointer.zoomer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             img.ui.avatar.compact.image(src=term.watson.metadata.image)    
         | #{this}

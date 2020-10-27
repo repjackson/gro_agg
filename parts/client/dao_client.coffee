@@ -71,6 +71,8 @@ Template.dao.onCreated ->
     # window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
     document.title = 'the world'
     Session.setDefault('view_alpha',false)
+    Session.setDefault('view_reddit',true)
+    Session.setDefault('view_duck',true)
     Session.setDefault('skip',0)
     Session.setDefault('view_section','content')
     @autorun -> Meteor.subscribe('alpha_combo',selected_tags.array())
@@ -220,7 +222,7 @@ Template.tag_selector.helpers
         if term
             if term.max_emotion_name
                 switch term.max_emotion_name
-                    when 'joy' then ' basic pink'
+                    when 'joy' then ' basic green'
                     when 'anger' then ' basic red'
                     when 'sadness' then ' basic blue'
                     when 'disgust' then ' basic orange'
@@ -337,7 +339,11 @@ Template.dao.events
     'click .toggle_reddit': -> 
         console.log Session.get 'view_reddit'
         Session.set('view_reddit', !Session.get('view_reddit'))
+    'click .toggle_duck': -> 
+        console.log Session.get 'view_duck'
+        Session.set('view_duck', !Session.get('view_duck'))
 Template.dao.helpers
+    viewing_duck: -> Session.get('view_duck')
     viewing_alpha: -> Session.get('view_alpha')
     viewing_reddit: -> Session.get('view_reddit')
     search_doc: ->
@@ -617,7 +623,8 @@ Template.dao.events
 
 
 Template.view_mode.helpers
-    toggle_view_class: -> if Session.equals('view_mode',@k) then "#{@i} big #{@c}" else "#{@i} large grey"
+    toggle_view_class: -> if Session.equals('view_mode',@k) then "#{@i} big #{@c}" else "#{@i} large"
+    toggle_view_button_class: -> if Session.equals('view_mode',@k) then "big active" else "basic"
 
 Template.view_mode.events
     'click .toggle_view': -> 
@@ -631,7 +638,7 @@ Template.view_mode.events
 
 Template.emotion_mode.helpers
     toggle_emotion_class: -> 
-        if Session.equals('emotion_mode',@k) then "#{@i2} big #{@c}" else "#{@i2} large grey"
+        if Session.equals('emotion_mode',@k) then "#{@i2} big #{@c}" else "#{@i2} large basic"
     selected_emotion: ->  Session.equals('emotion_mode',@k)
 
 Template.emotion_mode.events
