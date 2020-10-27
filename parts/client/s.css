@@ -31,7 +31,7 @@ p {
 }
 
 .chatpop {
-  border-radius: 10px !important;
+  /*border-radius: 10px !important;*/
   display: block;
   position: fixed;
   min-width:200px;
@@ -313,12 +313,12 @@ input
 
 
 .rounded {
-  border-radius: 10px !important; 
+  /*border-radius: 10px !important; */
 }
 
 .card {
     /* background: black !important; */
-    border-radius: 10px !important; 
+    /*border-radius: 10px !important; */
 }
 
 a.goto_article {
@@ -330,7 +330,7 @@ a.goto_article {
 }
 .ui.button {
   margin: 2px !important;
-  border-radius: 10px !important; 
+  /*border-radius: 10px !important; */
   transition: height .5s ease !important; 
   /* background-color: rgba(200, 200, 200, 0.2) !important; */
   /* padding: 12px !important; */
@@ -379,7 +379,7 @@ a.title, #title {
     color: black !important;
 }
 .ui.popup {
-    border-radius:10px !important;
+    /*border-radius:10px !important;*/
 }
 
 .ui.embed, .ui.text {
@@ -520,7 +520,7 @@ a.title, #title {
 
 input {
     margin: 5px !important;
-    border-radius: 7px !important; 
+    /*border-radius: 7px !important; */
 }
 
 ::-webkit-scrollbar {

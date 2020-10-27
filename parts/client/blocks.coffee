@@ -614,12 +614,14 @@ if Meteor.isClient
                 res += @classes
             if Session.get(@k)
                 if Session.equals(@k,@v)
-                    res += ' active large compact'
+                    res += ' blue large compact circular'
                 else
                     # res += ' compact displaynone'
-                    res += ' compact tertiary basic'
+                    res += ' compact basic circular'
                 # console.log res
                 res
+            else
+                'basic circular'
 
 
 

@@ -56,7 +56,7 @@ Template.dao.onCreated ->
     
     # window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
     document.title = 'the world'
-    Session.setDefault('view_alpha',false)
+    Session.setDefault('view_alpha',true)
     Session.setDefault('view_reddit',true)
     Session.setDefault('view_duck',true)
     Session.setDefault('skip',0)
@@ -151,17 +151,17 @@ Template.unselect_tag.events
    'click .unselect_tag': -> 
         selected_tags.remove @valueOf()
         Session.set('skip',0)
-        if selected_tags.array().length > 0
-            if Session.equals('view_mode','porn')
-                Meteor.call 'search_ph', selected_tags.array(), ->
-            else
-                Meteor.call 'call_alpha', selected_tags.array().toString(), ->
-                Meteor.call 'call_wiki', @valueOf(), ->
-                Meteor.call 'search_reddit', selected_tags.array(), ->
-                # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-            Meteor.setTimeout( ->
-                Session.set('toggle',!Session.get('toggle'))
-            , 12000)
+        # if selected_tags.array().length > 0
+            # if Session.equals('view_mode','porn')
+            #     Meteor.call 'search_ph', selected_tags.array(), ->
+            # else
+            #     Meteor.call 'call_alpha', selected_tags.array().toString(), ->
+            #     Meteor.call 'call_wiki', @valueOf(), ->
+            #     Meteor.call 'search_reddit', selected_tags.array(), ->
+            #     # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+            # Meteor.setTimeout( ->
+            #     Session.set('toggle',!Session.get('toggle'))
+            # , 12000)
 
     
 
@@ -206,13 +206,13 @@ Template.tag_selector.events
     'click .select_tag': -> 
         # results.update
         window.speechSynthesis.cancel()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
         
         selected_tags.push @name
         Session.set('query','')
         Session.set('skip',0)
         $('.search_title').val('')
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
         Meteor.call 'call_alpha', selected_tags.array().toString(), ->
         # Meteor.call 'call_alpha', @name, ->
         Session.set('thinking',true)
@@ -221,9 +221,9 @@ Template.tag_selector.events
         Meteor.call 'search_ddg', @name, ->
         Session.set('viewing_doc',null)
         Meteor.call 'search_reddit', selected_tags.array(), ->
-        Meteor.setTimeout( ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 12000)
+        # Meteor.setTimeout( ->
+        #     Session.set('toggle',!Session.get('toggle'))
+        # , 12000)
        
        
 Template.doc_tag.onCreated ->
@@ -238,7 +238,7 @@ Template.doc_tag.helpers
         if term
             if term.max_emotion_name
                 switch term.max_emotion_name
-                    when 'joy' then 'invert green'
+                    when 'joy' then 'green'
                     when 'anger' then 'red'
                     when 'sadness' then 'blue'
                     when 'disgust' then 'orange'
@@ -265,9 +265,9 @@ Template.doc_tag.events
         window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
             
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-        Meteor.setTimeout( ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 10000)
+        # Meteor.setTimeout( ->
+        #     Session.set('toggle',!Session.get('toggle'))
+        # , 10000)
        
        
        

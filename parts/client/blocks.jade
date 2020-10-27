@@ -1,10 +1,10 @@
 template(name='icon')    
     // i.icon(class=name)
-    // img.ui.image(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl)
+    img.ui.image(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/plasticine/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/ios/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl)
-    img.ui.invert.image(src="https://img.icons8.com/fluent/48/000000/#{name}.png" class=cl)
+    // img.ui.invert.image(src="https://img.icons8.com/fluent/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/cotton/48/000000/#{name}.png" class=cl)
     //- img.ui.image(src="https://img.icons8.com/office/48/000000/#{name}.png" class=cl)
 
@@ -84,8 +84,8 @@ template(name='vote')
 
 template(name='sbt')
     .ui.compact.large.button.toggle_session_key(class=calculated_class)
-        // +icolor name=icon cl='ui avatar image'
-        i.icon(class=i)
+        +icolor name=icon cl='ui avatar image'
+        // i.icon(class=i)
         |#{l}
         //- if icon_view 
         //- else 
@@ -99,8 +99,8 @@ template(name='skve')
     // a.ui.image.big.link.label.set_session_v(class=calculated_class)
     .ui.zoomer.compact.button.set_session_v(class=calculated_class title=t)
         if i
-            i.icon(class=icon)
-            // +i n=i cl='ui mini inline image'
+            // i.icon(class=icon)
+            +i n=i cl='ui mini inline image'
         unless ionly
             if l
                 |#{l}

@@ -68,242 +68,122 @@ template(name='dao')
                         i.building.icon
                         |organizations
             .twelve.wide.column
-                .ui.compact.segment
-                    a.ui.header.toggle_alpha.pointer
-                        i.large.brain.icon 
-                        | wolfram alpha
-                    // unless viewing_alpha
-                    if viewing_alpha
-                        if skv_is 'loading_alpha' true
-                            .ui.header 
-                                i.large.brain.loading.icon 
-                                |alpha...
-                        else
-                            each alphas
-                                // i.large.brain.icon
-                                if response.queryresult
-                                    +alpha 
-                            // if many_tags
-                            //     each alpha_singles
-                            //         if response.queryresult
-                            //             +alpha 
-                .ui.compact.inline.segment
-                    .ui.inline.header.toggle_duck.pointer
-                        i.search.icon
-                        |search
-                    if viewing_duck
-                        if skv_is 'loading_duck' true
-                            i.big.globe.loading.icon 
-                            |duck duck go...
-                        else
-                            // unless viewing_doc
-                            each ducks
-                                +duck 
-                // div(class="{{#unless viewing_doc}} eleven wide column {{else}} sixteen wide column {{/unless}}")
-                // .four.wide.column 
-                // .ui.button
-                //     .ui.inline.header 
-                //         i.users.large.grey.icon
-                //         |group
-                //     each selected_subreddits
-                //         .ui.black.compact.button.unselect_subreddit
-                //             |#{this}
-                //     each subreddit_results
-                //         +select_subreddit
-                // // .spacer
-                // // .spacer
-                // .ui.inline.header 
-                //     i.database.large.icon
-                //     |sources
-                // each selected_models
-                //     .ui.black.compact.button.unselect_model
-                //         |#{this}
-                // each model_results
-                //     .ui.compact.button.select_model
-                //         |#{name}
-                // i.smile.large.icon
-                // div
-                // |limit
-                // .ui.dropdown
-                //     span.text dropdown
-                //     i.dropdown.icon
-                //     .menu 
-                //         +skve k='limit' v=1 l='1'
-                //         +skve k='limit' v=10 l='10'
-                //         .item 1
-                //         .item 5
-                //         .item 10
-                //         .item 20
-                .ui.compact.segment
-                    a.ui.inline.header.toggle_reddit.pointer(href="#")
-                        i.large.reddit.icon
-                        |#{docs.count} reddit
-                    if viewing_reddit
-                        |sort
-                        +skve k='sort_key' v='_timestamp' l='when'
-                        +skve k='sort_key' v='bounty' l='bounty'
-                        +skve k='sort_direction' v=-1 l='up'
-                        +skve k='sort_direction' v=1 l='down'
-                        |view
-                        +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
-                        +skve k='view_mode' v='list' l='list' i='list' ionly=true
-                        .ui.cards
-                            each reddit_docs
-                                +reddit_doc
-                    
-                .ui.label
-                    .ui.header search doc
-                    .ui.header searched #{input_count} times
-                    each searchers
-                        .ui.header #{username}
-                // with search_doc
-                .ui.button
-                    +comments
-                .ui.compact.segment
-                    .ui.header 
-                        i.hand.holding.icon
-                        |requests
-                .ui.compact.segment
-                    .ui.header 
-                        i.shop.icon
-                        |offers
-                .ui.compact.segment
-                    .ui.header 
-                        i.photo.icon
-                        |photos
-                .ui.compact.segment
-                    .ui.header 
-                        i.photo.icon
-                        |videos
+                +skve k='main_section' v='alpha' l='alpha' i='brain'
+                +skve k='main_section' v='duck' l='search' i='duck'
+                +skve k='main_section' v='reddit' l='reddit' i='reddit'
+                +skve k='main_section' v='wikipedia' l='wikipedia' i='wikipedia-logo'
+                if skv_is 'main_section' 'alpha'
+                    +alpha
+                else if skv_is 'main_section' 'duck'
+                    .ui.compact.segment
+                        .ui.inline.header.toggle_duck.pointer
+                            i.search.icon
+                            |search
+                        if viewing_duck
+                            if skv_is 'loading_duck' true
+                                i.big.globe.loading.icon 
+                                |duck duck go...
+                            else
+                                // unless viewing_doc
+                                each ducks
+                                    +duck 
+                else if skv_is 'main_section' 'groups'
+                    .ui.button
+                        .ui.inline.header 
+                            i.users.large.grey.icon
+                            |group
+                        each selected_subreddits
+                            .ui.black.compact.button.unselect_subreddit
+                                |#{this}
+                        each subreddit_results
+                            +select_subreddit
+                else if skv_is 'main_section' 'sources'
+                    .ui.inline.header 
+                        i.database.large.icon
+                        |sources
+                    each selected_models
+                        .ui.black.compact.button.unselect_model
+                            |#{this}
+                    each model_results
+                        .ui.compact.button.select_model
+                            |#{name}
+                else if skv_is 'main_section' 'reddit'
+                    .ui.segment
+                        // |limit
+                        // .ui.dropdown
+                        //     span.text dropdown
+                        //     i.dropdown.icon
+                        //     .menu 
+                        //         +skve k='limit' v=1 l='1'
+                        //         +skve k='limit' v=10 l='10'
+                        //         .item 1
+                        //         .item 5
+                        //         .item 10
+                        //         .item 20
+                        a.ui.inline.header.toggle_reddit.pointer(href="#")
+                            i.large.reddit.icon
+                            |#{reddit_docs.count} reddit
+                        if viewing_reddit
+                            |sort
+                            +skve k='sort_key' v='_timestamp' l='when'
+                            +skve k='sort_key' v='bounty' l='bounty'
+                            +skve k='sort_direction' v=-1 l='up'
+                            +skve k='sort_direction' v=1 l='down'
+                            |view
+                            +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
+                            +skve k='view_mode' v='list' l='list' i='list' ionly=true
+                            .ui.cards
+                                each reddit_docs
+                                    +reddit_doc
+                        
+                else if skv_is 'main_section' 'search_doc'
+                    .ui.segment
+                        if search_doc
+                            .ui.header #{search_doc._when} when
+                        else 
+                            .ui.button.new_search_doc
+                                |add
+                        .ui.header search doc
+                        .ui.header searched #{input_count} times
+                        each searchers
+                            .ui.header #{username}
+                            // with search_doc
+                        .ui.compact.segment
+                            +comments
+                else if skv_is 'main_section' 'requests'
+                    .ui.segment
+                        .ui.header 
+                            i.hand.holding.icon
+                            |requests
+                    .ui.segment
+                        .ui.header 
+                            i.shop.icon
+                            |offers
+                        .ui.button.add_offer
+                            i.plus.icon
+                    .ui.segment
+                        .ui.header 
+                            i.photo.icon
+                            |photos
+                        .ui.button.add_photo
+                            i.plus.icon
+                    .ui.segment
+                        .ui.header 
+                            i.photo.icon
+                            |videos
             
-                .ui.button
-                    .ui.inline.header
-                        i.large.wikipedia.icon
-                        |wikipedia
-                // div(class="{{#unless viewing_doc}} five wide column {{/unless}}")
+                else if skv_is 'main_section' 'requests'
+                    .ui.segment
+                        .ui.inline.header
+                            i.large.wikipedia.icon
+                            |#{wiki_docs.count} wikipedia
+                        .ui.cards
+                            each wiki_docs
+                                +reddit_doc
+            
                     
                 
                 
-template(name="reddit_doc")
-    .ui.card(class=card_class)
-        if skv_is 'thinking' true
-            .ui.placeholder
-                .rectangular.image
-            .content
-                .ui.fluid.placeholder
-                    .header
-                        .line
-                    .line
-                    .line
-                    .line
-                    .line
-        else
-            if embed
-                .rounded.full.invert
-                    |!{embed}
-            // else
-            if is_image
-                img.ui.centered.image.pointer.zoomer.invert.toggle_view(src=url)
-            else if watson.metadata.image
-                img.ui.rounded.inline.pointer.zoomer.image.invert.toggle_view(src=watson.metadata.image)    
-    
-            .content
-                span.ui.pointer.text.f13.zoomer.toggle_view(class=post_header_class) !{title}
-                    // small #{max_emotion_name}
-                // |#{points}
-                    // unless one_post
-                    //     i.chevron.right.big.grey.link.icon.forward
-                if viewing_doc
-                    .ui.icon.basic.button.vote_down
-                        i.thumbs.down.big.grey.icon
-                    .ui.icon.basic.button.vote_up
-                        i.thumbs.up.big.grey.icon
-                    .ui.big.basic.button.read 
-                        i.rss.icon
-                        |read
-                    .ui.icon.button.bookmark
-                        i.bookmark.icon
-                    
-                    // if is_image
-                    //     img.ui.centered.image(src=url)
-                    span.invert
-                        |!{embed}
-                    if is_twitter
-                        blockquote.twitter-tweet(data-dnt='true' data-theme='dark')
-                            p(lang='en' dir='ltr')
-                                | Twitter Support you must have the patience of 1000 camels waiting for a drink of water while the baby camels get the first drinks...does that make sense? Thank you for your dedication and time you selfishly give to each of us. You are always appreciated.
-                            | — KayeMc76 (@KayeMc76) 
-                            a(href=url) October 3, 2020
-                    else if is_youtube
-                        div
-                        .ui.fluid.embed
-                            iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
-                        iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                    else if is_video
-                        div
-                        // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                        iframe(width="100%" height="600" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                    else
-                        iframe(width="100%" height="500" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
-                    // .medscroll
-                    // 
-                    a.ui.label(href="https://www.reddit.com#{permalink}" target="_window") r/#{subreddit}
-                    // .ui.big.label 
-                    //     i.user.outline.icon
-                    //     |#{author}
-                    .ui.label
-                        i.thumbs.up.outline.icon
-                        |#{ups}
-                    a.ui.inline.header(href=url target='_window')
-                        | #{url}
-                    // .ui.label
-                    //     | #{domain}
-                    // .spacer
-                    // .nl2br
-                    // |!{html}
-                    // .spacer
-                    // pre
-                    // .nl2br
-                    // if viewing
-                    
-                    +call_watson
-                    if watson    
-                        unless tone
-                            +call_tone    
-                    if parsed_selftext_html
-                        .ui.segment
-                            |!{parsed_selftext_html}
-                    else if selftext
-                        .ui.segment
-                            |{{nl2br selftext}}
-                    else if body
-                        div
-                        .ui.segment
-                            |{{nl2br body}}
-                    // else if tone
-                    //     .spacer
-                    //     +tone
-                    // div(style='position:relative; padding-bottom:calc(125.00% + 44px)')
-                    //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
-                    // |{{selftext}}
-                    // +convert
-                    a.ui.icon.big.basic.button(href=url target='_window' title=domain)
-                        i.external.icon
-                        |view site 
-                        |#{domain}
-                    // a.ui.center.aligned.header(href=url target='_window' class=post_header_class title=url) #{title}
-    
-                    // .spacer
-                    // div
-                    if tone
-                        +tone
-                    each tags
-                        +doc_tag
-                    // |#{tags.length}
-                    .ui.icon.input
-                        i.plus.grey.icon
-                        input.tag_post(type='text')
-                    i.code.link.icon.print_me
                 
             
                 
@@ -382,75 +262,16 @@ template(name='duck')
         each RelatedTopics
             if Text
                 // .ui.compact.button.topic
-                .ui.basic.small.header.topic(class=thinking_class)
-                    img.ui.tiny.inline.rounded.image(src=Icon.URL)
+                .ui.pointer.small.header.topic(class=thinking_class)
+                    img.ui.mini.inline.rounded.image(src=Icon.URL)
                     |#{Text}
                     // | {{lowered Text}}
-            .content
-                .item #{FirstURL}
-                .item !{Result}
+            // .content
+            //     .item #{FirstURL}
+            //     .item !{Result}
 
 
 
-template(name='alpha')
-    with response.queryresult
-        // .ui.inline.header #{datatypes}
-        each split_datatypes
-            .ui.button.basic.compact.buton.select_datatype
-                |#{this}
-        // .ui.list
-        //     .item success: #{success}
-        //     .item error: #{error}
-        //     .item numpods: #{numpods}
-        //     .item datatypes: #{datatypes}
-                // each datatypes
-                //     .ui.button
-                //         |#{this}
-            // .item timedout: #{timedout}
-            // .item timedoutpods: #{timedoutpods}
-            // .item timing: #{timing}
-            // .item parsetiming: #{parsetiming}
-            // .item parsetimedout: #{parsetimedout}
-            // .item recalculate: #{recalculate}
-            // .item id: #{id}
-            // .item host: #{host}
-            // .item server: #{server}
-            // .item related: #{related}
-            // .item version: #{version}
-        each pods
-            div
-            // .ui.small.inline.middle.aligned.header.middled #{title}
-            .ui.small.inline.header #{title}
-            div
-            // .item #{scanner}
-            // .item id #{id}
-            // .item position #{position}
-            // .item error #{error}
-            // .item numsubpods #{numsubpods}
-            // .item subpods
-            // .ui.list
-            each subpods
-                .ui.small.inline.header #{title}
-                img.ui.zoomer.pointer.image.invert.alphatemp(src=img.src)
-                // .item.alphatemp
-                |#{plaintext}
-                // .item title: #{title}
-                // .item primary: #{primary}
-    // each tags
-    //     .ui.label #{this}
-    // .alphatemp voice: #{voice}
-    //   div assumptions": {
-    //     "type": "Clash",
-    //     "word": "time",
-    //     "template": "Assuming \"${word}\" is ${desc1}. Use as ${desc2} instead",
-    //     "count": 4,
-    //     "values": [
-    //       {
-    //         "name": "CalendarWord",
-    //         "desc": " referring to a calendar computation",
-    //         "input": "*C.time-_*CalendarWord-"
-    
-    
     
     
 template(name='tone')
