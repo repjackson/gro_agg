@@ -298,6 +298,12 @@ Template.dao.events
     'click .toggle_duck': -> 
         console.log Session.get 'view_duck'
         Session.set('view_duck', !Session.get('view_duck'))
+Template.alpha.helpers
+    alphas: ->
+        Docs.find 
+            model:'alpha'
+            # query: $in: selected_tags.array()
+            query: selected_tags.array().toString()
 Template.dao.helpers
     viewing_duck: -> Session.get('view_duck')
     viewing_alpha: -> Session.get('view_alpha')
