@@ -23,6 +23,7 @@ template(name='dao')
                 //     i.smile.large.grey.icon
                 //     |emotion
                 // .spacer
+            .four.wide.column
                 each selected_emotions
                     .ui.black.compact.button.unselect_emotion
                         |#{this}
@@ -39,7 +40,6 @@ template(name='dao')
                 // +emotion_mode k='anger' i='angry--v1' i2='frown' c='invert red'
                 // +emotion_mode k='disgust' i='disgusting' i2='grin tongue squint' c='invert orange'
                 // +emotion_mode k='fear' i='scream' i2='tired' c='black'
-            .four.wide.column
                 +view_mode k='twitter' i='twitter' c='blue'
                 +view_mode k='video' i='youtube' c='red'
                 +view_mode k='image' i='picture' c='green'
@@ -51,21 +51,25 @@ template(name='dao')
                 // +view_mode k='porn' i='mercury'
                 // +view_mode k='bitcoin' i='bitcoin disabled'
                 // +view_mode k='covid' i='covid disabled'
-                .ui.compact.disabled.button
-                    i.clock.icon
-                    |when
-                .ui.compact.disabled.button
-                    i.marker.icon
-                    |where
-                .ui.compact.disabled.button
-                    i.users.icon
-                    |people
-                .ui.compact.disabled.button
-                    i.users.icon
-                    |organizations
-            .twelve.wide.column
                 .ui.segment
-                    a.ui.header.toggle_alpha
+                    .ui.header 
+                        i.clock.icon
+                        |when
+                .ui.segment
+                    .ui.header 
+                        i.marker.icon
+                        |where
+                .ui.segment
+                    .ui.header 
+                        i.users.icon
+                        |people
+                .ui.segment
+                    .ui.header 
+                        i.building.icon
+                        |organizations
+            .twelve.wide.column
+                .ui.compact.segment
+                    a.ui.header.toggle_alpha.pointer
                         i.large.brain.icon 
                         | wolfram alpha
                     // unless viewing_alpha
@@ -83,8 +87,8 @@ template(name='dao')
                             //     each alpha_singles
                             //         if response.queryresult
                             //             +alpha 
-                .ui.label.button
-                    .ui.inline.small.header.toggle_duck
+                .ui.compact.inline.segment
+                    .ui.inline.header.toggle_duck.pointer
                         i.search.icon
                         |search
                     if viewing_duck
@@ -130,10 +134,10 @@ template(name='dao')
                 //         .item 5
                 //         .item 10
                 //         .item 20
-                .ui.label
-                    a.ui.inline.header.toggle_reddit
+                .ui.compact.segment
+                    a.ui.inline.header.toggle_reddit.pointer(href="#")
                         i.large.reddit.icon
-                        |reddit
+                        |#{docs.count} reddit
                     if viewing_reddit
                         |sort
                         +skve k='sort_key' v='_timestamp' l='when'
@@ -144,8 +148,8 @@ template(name='dao')
                         +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
                         +skve k='view_mode' v='list' l='list' i='list' ionly=true
                         .ui.cards
-                            each docs
-                                +doc
+                            each reddit_docs
+                                +reddit_doc
                     
                 .ui.label
                     .ui.header search doc
@@ -155,18 +159,22 @@ template(name='dao')
                 // with search_doc
                 .ui.button
                     +comments
-                .ui.button 
-                    i.hand.holding.icon
-                    |requests
-                .ui.button
-                    i.shop.icon
-                    |offers
-                .ui.button 
-                    i.photo.icon
-                    |photos
-                .ui.button 
-                    i.photo.icon
-                    |videos
+                .ui.compact.segment
+                    .ui.header 
+                        i.hand.holding.icon
+                        |requests
+                .ui.compact.segment
+                    .ui.header 
+                        i.shop.icon
+                        |offers
+                .ui.compact.segment
+                    .ui.header 
+                        i.photo.icon
+                        |photos
+                .ui.compact.segment
+                    .ui.header 
+                        i.photo.icon
+                        |videos
             
                 .ui.button
                     .ui.inline.header
@@ -176,7 +184,7 @@ template(name='dao')
                     
                 
                 
-template(name="doc")
+template(name="reddit_doc")
     .ui.card(class=card_class)
         if skv_is 'thinking' true
             .ui.placeholder
@@ -295,7 +303,7 @@ template(name="doc")
                     .ui.icon.input
                         i.plus.grey.icon
                         input.tag_post(type='text')
-                    // i.code.link.icon.print_me
+                    i.code.link.icon.print_me
                 
             
                 
@@ -450,15 +458,15 @@ template(name='tone')
     .ui.horizontal.list
         each tone.result.document_tone.tones
             .item #{tone_id} {{ to_percent score }}%
-    .ui.list
+    .ui.list.l11
         each tone.result.sentences_tone
             .item(class=sentence_class)
                 //- span #{sentence_id}
                 span.tone_item.ui.zoomer.pointer.text(title="#{sentence_id}" class="#{tone_size} #{sentence_color}") 
                     |{{lowered text}}
-                    .content
-                    .inline.header(title="#{sentence_id}") {{lowered text}}
-                    |weight:#{weight}
+                    // .content
+                    // .inline.header(title="#{sentence_id}") {{lowered text}}
+                    // |weight:#{weight}
                     // i.chevron.up.link.grey.large.icon.upvote_sentence
                     // i.chevron.down.link.grey.large.icon.downvote_sentence
                     // each tones

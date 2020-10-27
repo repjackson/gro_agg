@@ -31,6 +31,10 @@ template(name='profile')
                         //     if currentUser
                         //         // div
                         //         +user_friend_button 
+                        if is_current_user
+                            a.ui.basic.button.logout(href="#" title='log out')
+                                i.sign.out.icon
+                                |log out
                         if is_dev
                             +print_this
                         // .ui.vertical.fluid.menu
@@ -70,10 +74,6 @@ template(name='profile')
                                 //     i.concierge.bell.teal.icon
                                 //     span request
                                     
-                            if is_current_user
-                                a.item.logout(href="#" title='log out')
-                                    i.sign.out.icon
-                                    |log out
                             // if i_have_points
                             //     .ui.button.send(title='send points')
                             //         i.gift.large.icon
@@ -82,12 +82,6 @@ template(name='profile')
                             //     //     i.concierge.bell.large.teal.icon
                             //     //     span request
                                     
-                            // if is_current_user
-                            //     a.ui.button.logout(href="#" title='log out')
-                            //         i.sign.out.large.icon
-                            //         |log out
-                            
-            
                         // .ui.fluid.dropdown.button
                         //     i.users.icon
                         //     | #{friends.count} friends

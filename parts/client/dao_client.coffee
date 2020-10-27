@@ -49,20 +49,6 @@ Template.registerHelper 'is_twitter', ()->
 
 
 
-Template.doc.onRendered ->
-    # console.log @data
-    # unless @data.watson
-    #     # console.log 'call'
-    #     Meteor.call 'call_watson', @data._id, 'url','url',->
-    # if @data.response
-    # window.speechSynthesis.cancel()
-    # Meteor.setTimeout =>
-    #     if @data.title
-    #         window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
-    # , 1000
-
-
-        
 
     
 Template.dao.onCreated ->
@@ -146,33 +132,6 @@ Template.alpha.events
         
 
 
-Template.doc.onRendered ->
-    # console.log @data
-    unless @data.watson
-        # console.log 'call'
-        Meteor.call 'call_watson', @data._id, 'url','url',->
-    if @data.watson
-        unless @data.tone
-            # console.log 'call'
-            Meteor.call 'call_tone', @data._id,->
-    Meteor.call 'uniq', @data._id, ->
-    unless @data.points
-        # console.log 'no points'
-        Docs.update @data._id,
-            $set:points:0
-    if @data.rd and @data.rd.selftext_html
-        dom = document.createElement('textarea')
-        # dom.innerHTML = doc.body
-        dom.innerHTML = @data.rd.selftext_html
-        # console.log 'innner html', dom.value
-        # return dom.value
-        Docs.update @data._id,
-            $set:
-                parsed_selftext_html:dom.value
-            
-    # else 
-    #     console.log 'points'
-    
 
 
 Template.unselect_tag.onCreated ->
@@ -187,7 +146,7 @@ Template.unselect_tag.helpers
                 # model:'wikipedia'
                 title:@valueOf()
         #  console.log found
-         found
+        found
 Template.unselect_tag.events
    'click .unselect_tag': -> 
         selected_tags.remove @valueOf()
@@ -200,9 +159,9 @@ Template.unselect_tag.events
                 Meteor.call 'call_wiki', @valueOf(), ->
                 Meteor.call 'search_reddit', selected_tags.array(), ->
                 # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-            # Meteor.setTimeout( ->
-            #     Session.set('toggle',!Session.get('toggle'))
-            # , 10000)
+            Meteor.setTimeout( ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 12000)
 
     
 
@@ -262,16 +221,16 @@ Template.tag_selector.events
         Meteor.call 'search_ddg', @name, ->
         Session.set('viewing_doc',null)
         Meteor.call 'search_reddit', selected_tags.array(), ->
-        # Meteor.setTimeout( ->
-        #     Session.set('toggle',!Session.get('toggle'))
-        # , 10000)
+        Meteor.setTimeout( ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 12000)
        
        
 Template.doc_tag.onCreated ->
     # console.log @
     @autorun => Meteor.subscribe('doc_by_title', @data)
 Template.doc_tag.helpers
-    selector_class: ()->
+    selector_class: ->
         # console.log @
         term = 
             Docs.findOne 
@@ -329,9 +288,6 @@ Template.doc_tag.events
        
        
 
-Template.doc.helpers
-    viewing_doc: -> Session.equals('viewing_doc', @_id)
-    card_class: -> if Session.equals('viewing_doc', @_id) then 'fluid'
 Template.dao.events
     'click .toggle_alpha': -> 
         console.log Session.get 'view_alpha'
@@ -369,16 +325,29 @@ Template.dao.helpers
             query: selected_tags.array().toString()
     many_tags: -> selected_tags.array().length > 1
     doc_count: -> Counts.get('result_counter')
-    docs: ->
+    wiki_docs: ->
         if Session.get('viewing_doc')
             Docs.find Session.get('viewing_doc')
         else
-            match = {model:$in:['post','wikipedia','reddit']}
-            # match = {model:$in:['post','wikipedia','reddit']}
-            # match = {model:'wikipedia'}
+            match = {model:'wikipedia'}
             if selected_tags.array().length>0
                 match.tags = $all:selected_tags.array()
          
+            Docs.find match,
+                sort:
+                    points:-1
+                    ups:-1
+                    # _timestamp:-1
+                    # "#{Session.get('sort_key')}": Session.get('sort_direction')
+                limit:10
+                # skip:Session.get('skip')
+    reddit_docs: ->
+        if Session.get('viewing_doc')
+            Docs.find Session.get('viewing_doc')
+        else
+            match = {model:'reddit'}
+            if selected_tags.array().length>0
+                match.tags = $all:selected_tags.array()
             Docs.find match,
                 sort:
                     points:-1
@@ -444,64 +413,6 @@ Template.duck.events
     #     Meteor.call 'call_watson', @_id, 'url', 'url', ->
 
 
-Template.doc.events
-    'click .toggle_view': (e,t)-> 
-        if Session.equals('viewing_doc', @_id)
-            Session.set('viewing_doc', null)
-            # window.speechSynthesis.cancel()
-        else
-            window.speechSynthesis.cancel()
-            Session.set('viewing_doc', @_id)
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @title
-            if @tone 
-                for sentence in @tone.result.sentences_tone
-                    # console.log sentence
-                    Session.set('current_reading_sentence',sentence)
-                    window.speechSynthesis.speak new SpeechSynthesisUtterance sentence.text
-    'click .read': (e,t)-> 
-        if @tone 
-            window.speechSynthesis.cancel()
-            for sentence in @tone.result.sentences_tone
-                # console.log sentence
-                Session.set('current_reading_sentence',sentence)
-                window.speechSynthesis.speak new SpeechSynthesisUtterance sentence.text
-    'click .print_me': (e,t)-> console.log @
-    # 'click .tagger': (e,t)->
-    #     Meteor.call 'call_watson', @_id, 'url', 'url', ->
-    'keyup .tag_post': (e,t)->
-        # console.log 
-        if e.which is 13
-            # $(e.currentTarget).closest('.button')
-            tag = $(e.currentTarget).closest('.tag_post').val().toLowerCase().trim()
-            # console.log tag
-            # console.log @
-            Docs.update @_id,
-                $addToSet: tags: tag
-            $(e.currentTarget).closest('.tag_post').val('')
-            # console.log tag
-    'click .add_tag': -> 
-        # console.log @valueOf()
-        selected_tags.push @valueOf()
-        # # if Meteor.user()
-        Session.set('viewing_doc',null)
-
-        Meteor.call 'call_wiki', @valueOf(), ->
-        Meteor.call 'search_reddit', selected_tags.array(), ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-
-    # 'click .delete': -> 
-    #     console.log @
-    #     Docs.remove @_id
-    'click .vote_up': -> 
-        Docs.update @_id,
-            $inc: points: 1
-        # window.speechSynthesis.cancel()# 
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance 'yeah'
-    'click .vote_down': -> 
-        Docs.update @_id,
-            $inc: points: -1
-            # window.speechSynthesis.cancel()# 
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance 'ouch'
             
 
 Template.dao.events
@@ -613,9 +524,9 @@ Template.dao.events
 
                 # Session.set('query','')
                 $('.search_title').val('')
-                # Meteor.setTimeout( ->
-                #     Session.set('toggle',!Session.get('toggle'))
-                # , 10000)
+                Meteor.setTimeout( ->
+                    Session.set('toggle',!Session.get('toggle'))
+                , 12000)
         # if e.which is 8
         #     if search.length is 0
         #         selected_tags.pop()
@@ -662,12 +573,3 @@ Template.call_watson.events
         # Meteor.call 'search_stack', selected_tags.array(), ->
        
 
-Template.doc.onRendered ->
-    # Meteor.setTimeout( =>
-    #     # console.log @
-    #     $('.ui.embed').embed({
-    #         source: 'youtube',
-    #         # url: @data.url
-    #         # placeholder: '/images/bear-waving.jpg'
-    #     });
-    # , 1000)
