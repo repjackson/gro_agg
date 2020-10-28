@@ -4,19 +4,20 @@ template(name='dao')
             .sixteen.wide.column
                 // a.icon.ui.big.circular.icon.button.zoomer(href='/')
                 //     i.large.yin.yang.grey.icon
-                if skv_is 'thinking' true
-                    i.big.yin.yang.loading.icon
-                unless viewing_doc
-                    i#clear_tags.link.yin.yang.big.icon(class=thinking_class)
+                // unless viewing_doc
                 if selected_tags
                     // if many_tags
                     //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                     //         i.remove.icon
                     each selected_tags
                         +unselect_tag
-                .ui.left.icon.transparent.large.input(class=thinking_class)
-                    i.search.grey.icon
-                    input.search_title(type='text' autofocus='')
+                .ui.left.icon.transparent.big.input(class=thinking_class)
+                    if skv_is 'thinking' true
+                        i.big.yin.yang.loading.icon
+                    else 
+                        i#clear_tags.link.yin.yang.big.icon(class=thinking_class)
+                    // i.search.grey.icon
+                    input.search_title(type='text' autofocus='' placeholder=doc_count)
                 each tag_results
                     +tag_selector
                 // .ui.header 
@@ -24,7 +25,7 @@ template(name='dao')
                 //     |emotion
                 // .spacer
             .four.wide.right.aligned.column
-                .ui.large.basic.label(title='results') #{doc_count} results
+                // .ui.large.basic.label(title='results') #{doc_count} results
                 // .ui.basic.circular.button(title='when')
                 // i.clock.icon
                 +i n='clock' cl='ui mini inline image'
@@ -34,17 +35,17 @@ template(name='dao')
                 +i n='marker' cl='ui mini inline image'
                     // |where
                 each location_results
-                    .ui.circular.basic.compact.small.button #{name}
-                // .ui.basic.button(title='groups')
+                    .ui.circular.basic.compact.small.tertiary.button #{name}
+                // .ui.basic.tertiary.button(title='groups')
                 // i.users.icon
                 +i n='groups' cl='ui mini inline image'
                 // |people
                 each person_results
-                    .ui.basic.circular.compact.small.button #{name}
-                // .ui.basic.button
+                    .ui.basic.circular.compact.small.tertiary.button #{name}
+                // .ui.basic.tertiary.button
                 +i n='building' cl='ui mini inline image'
                 each organization_results
-                    .ui.circular.compact.small.button #{name}
+                    .ui.circular.compact.small.tertiary.button #{name}
                 // each selected_emotions
                 //     .ui.black.compact.button.unselect_emotion
                 //         |#{this}
@@ -251,17 +252,17 @@ template(name='convert')
 
 
 template(name='unselect_tag')
-    a.unselect_tag.ui.black.big.image.label.invert.select_term(href='#')
+    a.unselect_tag.ui.black.big.tertiary.button.select_term(href='#')
         if term
             img.ui.avatar.compact.image(src=term.watson.metadata.image)    
         strong #{this}
 
 template(name='tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.basic.tertiary.big.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.large.zoomer.tertiary.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
-                img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    
+                img.ui.mini.rounded.inline.image.zoomer(src=term.watson.metadata.image)    
         | #{name}
         // small #{count}
         

@@ -330,7 +330,7 @@ a.goto_article {
 }
 .ui.button {
   margin: 2px !important;
-  border-radius: 10px !important; 
+  /*border-radius: 10px !important; */
   transition: height .25s ease !important; 
   /* background-color: rgba(200, 200, 200, 0.2) !important; */
   /* padding: 12px !important; */
@@ -355,9 +355,14 @@ a.goto_article {
 }
 
 .zoomer:hover {
-    transition: all .2s ease !important; 
+    transition: all .4s ease !important; 
     z-index: 1000 !important;
     transform: scale(1.1) !important;
+}
+img.zoomer:hover {
+    transition: all .2s ease !important; 
+    z-index: 1000 !important;
+    transform: scale(3) !important;
 }
 .superzoom:hover {
     transition: all .25s ease !important; 
