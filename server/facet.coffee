@@ -286,6 +286,27 @@ Meteor.publish 'dtags', (
             model:'location'
     
     
+    facility_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Facility": 1 }
+        { $unwind: "$Facility" }
+        { $group: _id: "$Facility", count: $sum: 1 }
+        # { $match: _id: $nin: selected_facilitys }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    # console.log 'cloud: ', facility_cloud
+    # console.log 'facility match', match
+    facility_cloud.forEach (facility, i) ->
+        # console.log 'facility',facility
+        self.added 'results', Random.id(),
+            name: facility.name
+            count: facility.count
+            model:'facility'
+    
+    
     
   
     organization_cloud = Docs.aggregate [
@@ -307,6 +328,30 @@ Meteor.publish 'dtags', (
             name: organization.name
             count: organization.count
             model:'organization'
+    
+    
+    
+    
+  
+    movie_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Movie": 1 }
+        { $unwind: "$Movie" }
+        { $group: _id: "$Movie", count: $sum: 1 }
+        # { $match: _id: $nin: selected_movies }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    # console.log 'cloud: ', movie_cloud
+    # console.log 'movie match', match
+    movie_cloud.forEach (movie, i) ->
+        # console.log 'movie',movie
+        self.added 'results', Random.id(),
+            name: movie.name
+            count: movie.count
+            model:'movie'
     
     
     

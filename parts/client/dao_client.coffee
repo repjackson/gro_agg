@@ -185,7 +185,7 @@ Template.tag_selector.helpers
                     else 'basic'
     term: ->
         Docs.findOne 
-            title:@name
+            title:@name.toLowerCase()
             
 Template.dao.events
     'click .select_model': -> selected_models.push @name
@@ -317,15 +317,15 @@ Template.doc_tag.events
        
 
 Template.dao.events
-    'click .toggle_alpha': -> 
-        console.log Session.get 'view_alpha'
-        Session.set('view_alpha', !Session.get('view_alpha'))
-    'click .toggle_reddit': -> 
-        console.log Session.get 'view_reddit'
-        Session.set('view_reddit', !Session.get('view_reddit'))
-    'click .toggle_duck': -> 
-        console.log Session.get 'view_duck'
-        Session.set('view_duck', !Session.get('view_duck'))
+    # 'click .toggle_alpha': -> 
+    #     console.log Session.get 'view_alpha'
+    #     Session.set('view_alpha', !Session.get('view_alpha'))
+    # 'click .toggle_reddit': -> 
+    #     console.log Session.get 'view_reddit'
+    #     Session.set('view_reddit', !Session.get('view_reddit'))
+    # 'click .toggle_duck': -> 
+    #     console.log Session.get 'view_duck'
+    #     Session.set('view_duck', !Session.get('view_duck'))
 Template.alpha.helpers
     alphas: ->
         Docs.find 
@@ -333,9 +333,9 @@ Template.alpha.helpers
             # query: $in: selected_tags.array()
             query: selected_tags.array().toString()
 Template.dao.helpers
-    viewing_duck: -> Session.get('view_duck')
-    viewing_alpha: -> Session.get('view_alpha')
-    viewing_reddit: -> Session.get('view_reddit')
+    # viewing_duck: -> Session.get('view_duck')
+    # viewing_alpha: -> Session.get('view_alpha')
+    # viewing_reddit: -> Session.get('view_reddit')
     search_doc: ->
         Docs.findOne 
             model:'search'
@@ -412,6 +412,7 @@ Template.dao.helpers
     selected_subreddits: -> selected_subreddits.array()
     selected_emotions: -> selected_emotions.array()
    
+    movie_results: -> results.find(model:'movie')
     company_results: -> results.find(model:'company')
     tvshow_results: -> results.find(model:'tvshow')
     tvshow_results: -> results.find(model:'tvshow')

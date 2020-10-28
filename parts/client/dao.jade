@@ -1,7 +1,7 @@
 template(name='dao')
     .ui.stackable.grid
         .row
-            .sixteen.wide.center.aligned.column
+            .sixteen.wide.column
                 // a.icon.ui.big.circular.icon.button.zoomer(href='/')
                 //     i.large.yin.yang.grey.icon
                 // unless viewing_doc
@@ -38,12 +38,15 @@ template(name='dao')
                     .ui.compact.small.tertiary.add_tag.button #{name}
                 // .ui.basic.tertiary.button(title='groups')
                 // i.users.icon
-                +i n='groups' cl='ui mini inline image'
+                +i n='user' cl='ui mini inline image'
                 // |people
                 each person_results
                     .ui.compact.small.tertiary.add_tag.button #{name}
                 // .ui.basic.tertiary.button
-                +i n='building' cl='ui mini inline image' t='company'
+                +i n='home' cl='ui mini inline image' t='facility'
+                each facility_results
+                    .ui.compact.small.tertiary.add_tag.button #{name}
+                +i n='briefcase' cl='ui mini inline image' t='company'
                 each company_results
                     .ui.compact.small.tertiary.add_tag.button #{name}
                 // +i n='television' cl='ui mini inline image' t='tv shows'
@@ -51,6 +54,9 @@ template(name='dao')
                     .ui.compact.small.tertiary.add_tag.button #{name}
                 +i n='nature' cl='ui mini inline image' t='organization'
                 each organization_results
+                    .ui.compact.small.tertiary.add_tag.button #{name}
+                +i n='movie' cl='ui mini inline image' t='movie'
+                each movie_results
                     .ui.compact.small.tertiary.add_tag.button #{name}
                 each selected_emotions
                     .ui.black.compact.button.unselect_emotion
@@ -175,7 +181,13 @@ template(name='dao')
                             .ui.large.list 
                                 each reddit_docs
                                     .item
-                                        .ui.header #{title}
+                                        if is_image
+                                            img.ui.small.image.pointer.zoomer.toggle_view(src=url)
+                                        else if watson.metadata.image
+                                            img.ui.rounded.small.pointer.zoomer.image.toggle_view(src=watson.metadata.image)    
+                                        .content
+                                            .header 
+                                                |#{title}
                         else 
                             .ui.cards
                                 each reddit_docs
