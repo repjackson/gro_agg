@@ -55,6 +55,12 @@ template(name='dao')
                 +i n='nature' cl='ui mini inline image' t='organization'
                 each organization_results
                     .ui.compact.small.tertiary.add_tag.button #{name}
+                +i n='prize' cl='ui mini inline image' t='award'
+                each award_results
+                    .ui.compact.small.tertiary.add_tag.button #{name}
+                +i n='sport' cl='ui mini inline image' t='sport'
+                each sport_results
+                    .ui.compact.small.tertiary.add_tag.button #{name}
                 +i n='movie' cl='ui mini inline image' t='movie'
                 each movie_results
                     .ui.compact.small.tertiary.add_tag.button #{name}
@@ -63,7 +69,7 @@ template(name='dao')
                         |#{this}
                 each emotion_results
                     if name
-                        .ui.compact.button.select_emotion
+                        .ui.compact.basic.circular.button.select_emotion
                             |#{name}
                 // .spacer
                 // .five.wide.right.aligned.column

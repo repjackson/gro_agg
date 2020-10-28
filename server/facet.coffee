@@ -355,6 +355,52 @@ Meteor.publish 'dtags', (
     
     
     
+  
+    sport_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Sport": 1 }
+        { $unwind: "$Sport" }
+        { $group: _id: "$Sport", count: $sum: 1 }
+        # { $match: _id: $nin: selected_sports }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    # console.log 'cloud: ', sport_cloud
+    # console.log 'sport match', match
+    sport_cloud.forEach (sport, i) ->
+        # console.log 'sport',sport
+        self.added 'results', Random.id(),
+            name: sport.name
+            count: sport.count
+            model:'sport'
+    
+    
+    
+  
+    award_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Award": 1 }
+        { $unwind: "$Award" }
+        { $group: _id: "$Award", count: $sum: 1 }
+        # { $match: _id: $nin: selected_awards }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    # console.log 'cloud: ', award_cloud
+    # console.log 'award match', match
+    award_cloud.forEach (award, i) ->
+        # console.log 'award',award
+        self.added 'results', Random.id(),
+            name: award.name
+            count: award.count
+            model:'award'
+    
+    
+    
     person_cloud = Docs.aggregate [
         { $match: match }
         { $project: "Person": 1 }
