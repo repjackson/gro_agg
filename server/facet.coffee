@@ -331,6 +331,27 @@ Meteor.publish 'dtags', (
             model:'person'
     
     
+    company_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Company": 1 }
+        { $unwind: "$Company" }
+        { $group: _id: "$Company", count: $sum: 1 }
+        # { $match: _id: $nin: selected_companys }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    # console.log 'cloud: ', company_cloud
+    # console.log 'company match', match
+    company_cloud.forEach (company, i) ->
+        # console.log 'company',company
+        self.added 'results', Random.id(),
+            name: company.name
+            count: company.count
+            model:'company'
+    
+    
     
     emotion_cloud = Docs.aggregate [
         { $match: match }

@@ -362,7 +362,7 @@ a.goto_article {
 img.zoomer:hover {
     transition: all .2s ease !important; 
     z-index: 1000 !important;
-    transform: scale(3) !important;
+    transform: scale(1.2) !important;
 }
 .superzoom:hover {
     transition: all .25s ease !important; 

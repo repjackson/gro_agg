@@ -273,13 +273,14 @@ Meteor.methods
                     for entity in response.entities
                         # console.log entity.type, entity.text
                         unless entity.type is 'Quantity'
-                            # if Meteor.isDevelopment
-                            #     console.log('quantity', entity.text)
+                            if Meteor.isDevelopment
+                                console.log entity.type, entity.text
                             # else
                             Docs.update { _id: doc_id },
                                 $addToSet:
                                     "#{entity.type}":entity.text
                                     tags:entity.text.toLowerCase()
+                            
                 concept_array = _.pluck(response.concepts, 'text')
                 lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
                 keyword_array = _.pluck(response.keywords, 'text')

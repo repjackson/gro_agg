@@ -385,6 +385,9 @@ Template.dao.helpers
     selected_subreddits: -> selected_subreddits.array()
     selected_emotions: -> selected_emotions.array()
    
+    company_results: -> results.find(model:'company')
+    tvshow_results: -> results.find(model:'tvshow')
+    tvshow_results: -> results.find(model:'tvshow')
     emotion_results: -> results.find(model:'emotion')
     model_results: -> results.find(model:'model')
     location_results: -> results.find(model:'location')
@@ -400,6 +403,17 @@ Template.dao.helpers
         #     })
         # else 
         results.find(model:'tag')
+   
+Template.dao.events   
+    'click .add_tag': -> 
+        console.log @
+        selected_tags.push @name
+        # # if Meteor.user()
+        Session.set('viewing_doc',null)
+
+        Meteor.call 'call_wiki', @name, ->
+        Meteor.call 'search_reddit', selected_tags.array(), ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
 
 
 Template.duck.events
