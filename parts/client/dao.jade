@@ -24,6 +24,26 @@ template(name='dao')
                 //     |emotion
                 // .spacer
             .four.wide.right.aligned.column
+                // .ui.basic.circular.button(title='when')
+                // i.clock.icon
+                +i n='clock' cl='ui mini inline image'
+                // |when
+                // .ui.basic.button(title='where')
+                    // i.marker.icon
+                +i n='marker' cl='ui mini inline image'
+                    // |where
+                each location_results
+                    .ui.circular.basic.button #{name}
+                // .ui.basic.button(title='groups')
+                // i.users.icon
+                +i n='groups' cl='ui mini inline image'
+                // |people
+                each person_results
+                    .ui.basic.circular.button #{name}
+                // .ui.basic.button
+                +i n='building' cl='ui mini inline image'
+                each organization_results
+                    .ui.circular.button #{name}
                 // each selected_emotions
                 //     .ui.black.compact.button.unselect_emotion
                 //         |#{this}
@@ -51,24 +71,6 @@ template(name='dao')
                 // +view_mode k='porn' i='mercury'
                 +view_mode k='bitcoin' i='bitcoin'
                 +view_mode k='covid' i='biohazard'
-                .ui.basic.button(title='when')
-                    // i.clock.icon
-                    +i n='clock'
-                    // |when
-                .ui.basic.button(title='where')
-                    // i.marker.icon
-                    +i n='marker'
-                    // |where
-                each location_results
-                    .ui.button #{name}
-                .ui.basic.button(title='groups')
-                    // i.users.icon
-                    +i n='groups'
-                    // |people
-                each person_results
-                    .ui.button #{name}
-                .ui.basic.button
-                    +i n='building'
                     // i.building.icon
                     // |organizations
             .twelve.wide.column
@@ -118,12 +120,13 @@ template(name='dao')
                             .ui.compact.button.select_model
                                 |#{name}
                     else if skv_is 'main_section' 'reddit'
-                        a.ui.inline.header.toggle_reddit.pointer(href="#")
-                            i.large.reddit.icon
+                        a.ui.header.toggle_reddit.pointer(href="#")
+                            // i.large.reddit.icon
+                            +i n='reddit'
                             |#{reddit_docs.count} reddit
                         // if viewing_reddit
                         .ui.dropdown
-                            span.text limit
+                            // span.text limit
                             i.dropdown.icon
                             .menu 
                                 +skve k='limit' v=1 l='1'
@@ -133,7 +136,7 @@ template(name='dao')
                                 // .item 5
                                 // .item 10
                                 // .item 20
-                        |sort
+                        // |sort
                         +skve k='sort_key' v='_timestamp' l='when' i='clock'
                         +skve k='sort_key' v='points' l='points' i='leaderboard'
                         +skve k='sort_direction' v=-1 l='u' i='up'
@@ -195,14 +198,14 @@ template(name='dao')
             
                 
 template(name='view_mode')
-    a.ui.compact.icon.large.button.toggle_view(class=toggle_view_button_class)
+    a.ui.compact.icon.large.tertiary.button.toggle_view(class=toggle_view_button_class)
         // i.link.zoomer.icon(class="#{toggle_view_class} #{thinking_class}" title=k)
         // +i n=toggle_view_class
         +i n=i cl='ui mini image'
         // |#{k}
 
 template(name='emotion_mode')
-    .ui.compact.icon.big.circular.basic.button.toggle_emotion
+    .ui.compact.icon.big.circular.basic.tertiary.button.toggle_emotion
         +i n=i cl='ui mini image'
         // i.link.zoomer.icon(class="#{toggle_emotion_class} #{thinking_class}" title=t)
         // |#{k}
