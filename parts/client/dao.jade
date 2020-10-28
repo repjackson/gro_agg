@@ -72,6 +72,12 @@ template(name='dao')
                 +skve k='main_section' v='duck' l='search' i='duck'
                 +skve k='main_section' v='reddit' l='reddit' i='reddit'
                 +skve k='main_section' v='wikipedia' l='wikipedia' i='wikipedia-logo'
+                +skve k='main_section' v='shop' l='shop' i='shop'
+                +skve k='main_section' v='chat' l='chat' i='chat'
+                +skve k='main_section' v='groups' l='groups' i='groups'
+                +skve k='main_section' v='events' l='events' i='calendar'
+                +skve k='main_section' v='tasks' l='tasks' i='tasks'
+                +skve k='main_section' v='leaderboard' l='leaderboard' i='leaderboard'
                 if skv_is 'main_section' 'alpha'
                     +alpha
                 else if skv_is 'main_section' 'duck'
@@ -109,32 +115,32 @@ template(name='dao')
                             |#{name}
                 else if skv_is 'main_section' 'reddit'
                     .ui.segment
-                        // |limit
-                        // .ui.dropdown
-                        //     span.text dropdown
-                        //     i.dropdown.icon
-                        //     .menu 
-                        //         +skve k='limit' v=1 l='1'
-                        //         +skve k='limit' v=10 l='10'
-                        //         .item 1
-                        //         .item 5
-                        //         .item 10
-                        //         .item 20
                         a.ui.inline.header.toggle_reddit.pointer(href="#")
                             i.large.reddit.icon
                             |#{reddit_docs.count} reddit
-                        if viewing_reddit
-                            // |sort
-                            // +skve k='sort_key' v='_timestamp' l='when'
-                            // +skve k='sort_key' v='bounty' l='bounty'
-                            // +skve k='sort_direction' v=-1 l='up'
-                            // +skve k='sort_direction' v=1 l='down'
-                            // |view
-                            // +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
-                            // +skve k='view_mode' v='list' l='list' i='list' ionly=true
-                            .ui.cards
-                                each reddit_docs
-                                    +reddit_doc
+                        // if viewing_reddit
+                        .ui.dropdown
+                            span.text limit
+                            i.dropdown.icon
+                            .menu 
+                                +skve k='limit' v=1 l='1'
+                                +skve k='limit' v=10 l='10'
+                                +skve k='limit' v=20 l='20'
+                                // .item 1
+                                // .item 5
+                                // .item 10
+                                // .item 20
+                        |sort
+                        +skve k='sort_key' v='_timestamp' l='when' i='clock'
+                        +skve k='sort_key' v='points' l='points' i='leaderboard'
+                        +skve k='sort_direction' v=-1 l='u' i='up'
+                        +skve k='sort_direction' v=1 l='d' i='down'
+                        // |view
+                        // +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
+                        // +skve k='view_mode' v='list' l='list' i='list' ionly=true
+                        .ui.cards
+                            each reddit_docs
+                                +reddit_doc
                         
                 else if skv_is 'main_section' 'search_doc'
                     .ui.segment
@@ -172,7 +178,7 @@ template(name='dao')
                             i.photo.icon
                             |videos
             
-                else if skv_is 'main_section' 'requests'
+                else if skv_is 'main_section' 'wikipedia'
                     .ui.segment
                         .ui.inline.header
                             i.large.wikipedia.icon
@@ -220,14 +226,14 @@ template(name='convert')
 
 
 template(name='unselect_tag')
-    a.unselect_tag.ui.black.large.image.label.invert.select_term(href='#')
+    a.unselect_tag.ui.black.big.image.label.invert.select_term(href='#')
         if term
             img.ui.avatar.compact.image(src=term.watson.metadata.image)    
         strong #{this}
 
 template(name='tag_selector')
     // a.ui.basic.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.large.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    

@@ -3,48 +3,30 @@ template(name='nav')
     .ui.fluid.attached.borderless.invert.menu.topnav
         // a.icon.header.item.zoomer.pointer.toggle_leftbar
         //     i.bars.large.grey.icon
-        a.icon.item.zoomer(href='/' class="{{isActivePath '/'}}")
-            i.large.yin.yang.grey.icon
         if connected
-            // a.icon.item.zoomer(href='/web' class="{{isActivePath '/web'}}")
-            //     i.large.globe.grey.icon
-            // a.icon.item.zoomer(href='/tribes' class="{{isActivePath '/tribes'}}")
-            //     i.large.fire.grey.icon
-            // .ui.item
-            //     .ui.icon.input
-            //         i.grey.lightning.icon
-            //         input(type='text' placeholder='quick thought')
-            // a.icon.item.zoomer(href='/reddit' class="{{isActivePath '/reddit'}}")
-            //     i.large.reddit.grey.icon
-            // a.icon.item.zoomer(href='/stack' class="{{isActivePath '/stack'}}")
-            //     i.large.stack.exchange.grey.icon
-            // a.icon.item.zoomer(href='/wikipedia' class="{{isActivePath '/wikipedia'}}")
-            //     i.large.wikipedia.grey.icon
-            // a.icon.item.zoomer(href='/questions' class="{{isActivePath '/questions'}}")
-            //     i.large.question.grey.icon
-            // a.icon.item.zoomer(href='/m/model' class="{{isActivePath '/m/model'}}")
-            //     i.large.database.grey.icon
+            a.icon.item.zoomer(href='/' class="{{isActivePath '/'}}")
+                i.big.yin.yang.grey.icon
         unless connected
             .item
-                i.yin.yang.loading.big.grey.icon
+                i.yin.yang.loading.big.icon
                 +status    
         .right.menu
-            if currentUser
-                if connected
-                    a.icon.zoomer.pointer.item.add(title='add')
-                        i.large.plus.icon
-                if currentUser
-                    // a.pointer.zoomer.item.toggle_friends(href="#" class=alert_toggle_class title='friends')
-                    //     i.large.users.icon
-                    if connected
-                        if unread_count
-                            a.pointer.zoomer.item.alerts(href="#" class=alert_toggle_class)
-                                i.large.bell.icon
-                                if unread_count
-                                    |#{unread_count}
-                        else
-                            a.icon.pointer.zoomer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
-                                i.large.outline.bell.icon
+            // if currentUser
+                // if connected
+                //     a.icon.zoomer.pointer.item.add(title='add')
+                //         i.large.plus.icon
+                // if currentUser
+                //     // a.pointer.zoomer.item.toggle_friends(href="#" class=alert_toggle_class title='friends')
+                //     //     i.large.users.icon
+                //     if connected
+                //         if unread_count
+                //             a.pointer.zoomer.item.alerts(href="#" class=alert_toggle_class)
+                //                 i.large.bell.icon
+                //                 if unread_count
+                //                     |#{unread_count}
+                //         else
+                //             a.icon.pointer.zoomer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+                //                 i.large.outline.bell.icon
                 // a.icon.pointer.zoomer.item(href="/chat" title='chat') 
                 //     i.chat.outline.large.icon
                 // // a.icon.pointer.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
@@ -58,10 +40,10 @@ template(name='nav')
                     // |{{money_format currentUser.points}}c
                     |#{currentUser.points}p
                     |&nbsp;
-                    if currentUser.profile_image_id
-                        img.ui.avatar.zoomer.image(src="{{c.url currentUser.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                    else 
-                        i.large.user.zoomer.large.icon
+                    // if currentUser.profile_image_id
+                    //     img.ui.avatar.zoomer.image(src="{{c.url currentUser.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                    // else 
+                    //     i.large.user.zoomer.large.icon
                     strong.mobile.hidden #{currentUser.username}
                 // a.icon.large.item.zoomer.toggle_rightbar
                 //     i.bars.large.grey.icon
