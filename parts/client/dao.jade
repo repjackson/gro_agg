@@ -52,10 +52,10 @@ template(name='dao')
                 // +i n='television' cl='ui mini inline image' t='tv shows'
                 each tvshow_results
                     .ui.compact.small.tertiary.add_tag.button #{name}
-                +i n='nature' cl='ui mini inline image' t='organization'
+                +i n='building' cl='ui mini inline image' t='organization'
                 each organization_results
                     .ui.compact.small.tertiary.add_tag.button #{name}
-                +i n='prize' cl='ui mini inline image' t='award'
+                +i n='trophy' cl='ui mini inline image' t='award'
                 each award_results
                     .ui.compact.small.tertiary.add_tag.button #{name}
                 +i n='sport' cl='ui mini inline image' t='sport'
@@ -109,21 +109,24 @@ template(name='dao')
             .twelve.wide.column
                 +skve k='main_section' v='dashboard' l='dashboard' i='dashboard'
                 +skve k='main_section' v='alpha' l='alpha' i='brain'
-                +skve k='main_section' v='duck' l='search' i='duck'
+                +skve k='main_section' v='duck' l='search' i='search'
                 +skve k='main_section' v='reddit' l='reddit' i='reddit'
                 +skve k='main_section' v='wikipedia' l='wikipedia' i='wikipedia'
                 +skve k='main_section' v='shop' l='shop' i='shop'
-                // +skve k='main_section' v='chat' l='chat' i='chat'
-                // +skve k='main_section' v='groups' l='groups' i='groups'
-                // +skve k='main_section' v='events' l='events' i='calendar'
-                // +skve k='main_section' v='tasks' l='tasks' i='tasks'
-                // +skve k='main_section' v='leaderboard' l='leaderboard' i='leaderboard'
-                // +skve k='main_section' v='university' l='university' i='university'
-                // +skve k='main_section' v='faq' l='faq' i='faq'
-                // +skve k='main_section' v='money' l='money' i='money'
+                +skve k='main_section' v='chat' l='chat' i='chat'
+                +skve k='main_section' v='groups' l='groups' i='groups'
+                +skve k='main_section' v='events' l='events' i='calendar'
+                +skve k='main_section' v='tasks' l='tasks' i='tasks'
+                +skve k='main_section' v='leaderboard' l='leaderboard' i='leaderboard'
+                +skve k='main_section' v='university' l='university' i='university'
+                +skve k='main_section' v='faq' l='faq' i='faq'
+                +skve k='main_section' v='money' l='money' i='money'
                 .scrollin
                     if skv_is 'main_section' 'dashboard'
                         +i n='dashboard'
+                        +comments
+                        .ui.header views 
+                        +voting
                     else if skv_is 'main_section' 'alpha'
                         +alpha
                     else if skv_is 'main_section' 'duck'
@@ -306,7 +309,7 @@ template(name='select_subreddit')
         small #{count}
 
 template(name='doc_tag')
-    a.ui.image.big.basic.label.pointer.zoomer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.image.large.basic.label.pointer.zoomer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             img.ui.avatar.compact.image(src=term.watson.metadata.image)    
         | #{this}

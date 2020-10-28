@@ -400,6 +400,27 @@ Meteor.publish 'dtags', (
             model:'award'
     
     
+    domain_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "domain": 1 }
+        # { $unwind: "$domain" }
+        { $group: _id: "$domain", count: $sum: 1 }
+        # { $match: _id: $nin: selected_domains }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    # console.log 'cloud: ', domain_cloud
+    # console.log 'domain match', match
+    domain_cloud.forEach (domain, i) ->
+        # console.log 'domain',domain
+        self.added 'results', Random.id(),
+            name: domain.name
+            count: domain.count
+            model:'domain'
+    
+    
     
     person_cloud = Docs.aggregate [
         { $match: match }

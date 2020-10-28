@@ -15,7 +15,7 @@ if Meteor.isClient
             console.log @
     Template.smart_tagger.onCreated ->
         # @autorun => @subscribe 'tag_results',
-        #     # Router.current().params.doc_id
+        #     # @_id
         #     selected_tags.array()
         #     Session.get('searching')
         #     Session.get('current_query')
@@ -36,7 +36,7 @@ if Meteor.isClient
             
             if e.which is 13
                 element_val = t.$('.new_tag').val().toLowerCase().trim()
-                Docs.update Router.current().params.doc_id,
+                Docs.update @_id,
                     $addToSet:tags:element_val
                 selected_tags.push element_val
                 # Meteor.call 'log_term', element_val, ->
@@ -52,7 +52,7 @@ if Meteor.isClient
             element = @vOf()
             field = Template.currentData()
             selected_tags.remove element
-            Docs.update Router.current().params.doc_id,
+            Docs.update @_id,
                 $pull:tags:element
             t.$('.new_tag').focus()
             t.$('.new_tag').val(element)
@@ -61,7 +61,7 @@ if Meteor.isClient
     
         'click .select_term': (e,t)->
             # selected_tags.push @title
-            Docs.update Router.current().params.doc_id,
+            Docs.update @_id,
                 $addToSet:tags:@title
             selected_tags.push @title
             $('.new_tag').val('')
@@ -114,16 +114,16 @@ if Meteor.isClient
         #     $('.menu .item').tab()
         # , 2000
     Template.comments.onCreated ->
-        # if Router.current().params.doc_id
-        #     parent = Docs.findOne Router.current().params.doc_id
+        # if @_id
+        #     parent = Docs.findOne @_id
         # else
         #     parent = Docs.findOne Template.parentData()._id
         # if parent
-        @autorun => Meteor.subscribe 'children', 'comment', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'children', 'comment', @_id
     Template.comments.helpers
         doc_comments: ->
-            if Router.current().params.doc_id
-                parent = Docs.findOne Router.current().params.doc_id
+            if @_id
+                parent = Docs.findOne @_id
             else
                 parent = Docs.findOne Template.parentData()._id
             if Meteor.user()
@@ -139,11 +139,11 @@ if Meteor.isClient
     Template.comments.events
         'keyup .add_comment': (e,t)->
             if e.which is 13
-                if Router.current().params.doc_id
-                    parent = Docs.findOne Router.current().params.doc_id
+                if @_id
+                    parent = Docs.findOne @_id
                 else
                     parent = Docs.findOne Template.parentData()._id
-                # parent = Docs.findOne Router.current().params.doc_id
+                # parent = Docs.findOne @_id
                 comment = t.$('.add_comment').val()
                 Docs.insert
                     parent_id: parent._id
@@ -234,7 +234,7 @@ if Meteor.isClient
 #
 #     # Template.call_watson.events
 #     #     'click .autotag': ->
-#     #         doc = Docs.findOne Router.current().params.doc_id
+#     #         doc = Docs.findOne @_id
 #     #         console.log doc
 #     #         console.log @
 #     #
@@ -571,13 +571,13 @@ if Meteor.isClient
         'click .set_key_v': ->
             p = Template.parentData()
             # console.log 'hi'
-            # parent = Docs.findOne Router.current().params.doc_id
+            # parent = Docs.findOne @_id
             Docs.update p._id,
                 $set: "#{@k}": @v
 
     Template.kve.helpers
         set_kv_class: ->
-            # parent = Docs.findOne Router.current().params.doc_id
+            # parent = Docs.findOne @_id
             p = Template.parentData()
             # console.log parent
             if p["#{@k}"] is @v then 'active' else 'basic'
@@ -586,13 +586,13 @@ if Meteor.isClient
         'click .set_key_v': ->
             p = Template.parentData()
             # console.log 'hi'
-            # parent = Docs.findOne Router.current().params.doc_id
+            # parent = Docs.findOne @_id
             Meteor.users.update parent._id,
                 $set: "#{@k}": @value
 
     Template.user_kve.helpers
         set_kv_class: ->
-            # parent = Docs.findOne Router.current().params.doc_id
+            # parent = Docs.findOne @_id
             p = Template.parentData()
             # console.log parent
             if p["#{@k}"] is @value then 'active' else 'basic'
