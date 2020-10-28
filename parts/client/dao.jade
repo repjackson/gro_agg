@@ -32,33 +32,40 @@ template(name='dao')
                 // |when
                 // .ui.basic.button(title='where')
                     // i.marker.icon
-                +i n='reddit' cl='ui mini inline image'
-                    // |where
+                // div
+                // .ui.inline.header 
+                //     +i n='reddit' cl='ui mini inline image'
+                //     |subreddit
                 each subreddit_results
                     +tag_selector
                     // .ui.compact.small.tertiary.add_tag.button #{name}
-                .ui.header 
+                div
+                .ui.inline.grey.header 
                     +i n='globe' cl='ui mini inline image'
                     |domain
                     // |where
                 each domain_results
                     +tag_selector
                     // .ui.compact.small.tertiary.add_tag.button #{name}
-                +i n='marker' cl='ui mini inline image'
-                    // |where
+                div
+                .ui.inline.grey.header 
+                    +i n='marker' cl='ui mini inline image'
+                    |where
                 each location_results
                     +tag_selector
                     // .ui.compact.small.tertiary.add_tag.button #{name}
                 // .ui.basic.tertiary.button(title='groups')
                 // i.users.icon
-                .ui.header 
+                div
+                .ui.inline.grey.header 
                     +i n='user' cl='ui mini inline image'
                     |people
                 each person_results
                     +tag_selector
                     // .ui.compact.small.tertiary.add_tag.button #{name}
                 // .ui.basic.tertiary.button
-                .ui.header 
+                div
+                .ui.inline.grey.header 
                     +i n='home' cl='ui mini inline image' t='facility'
                     |facilities
                 each facility_results
@@ -117,9 +124,9 @@ template(name='dao')
                 +skve k='emotion_mode' v='fear' l='fear' i='scream'
                 +skve k='view_mode' v='posts' l='posts' i='blog'
                 +skve k='view_mode' v='wikipedia' l='wikipedia' i='wikipedia'
-                +skve k='view_mode' v='stackexchange' l='stackexchange' i='stackexchange'
+                // +skve k='view_mode' v='stackexchange' l='stackexchange' i='stackexchange'
                 +skve k='view_mode' v='image' l='image' i='image'
-                +skve k='view_mode' v='github' l='github' i='github'
+                // +skve k='view_mode' v='github' l='github' i='github'
                 +skve k='view_mode' v='video' l='youtube' i='youtube'
                 +skve k='view_mode' v='twitter' l='twitter' i='twitter'
                 // +skve k='view_mode' v='bitcoin' l='bitcoin' i='bitcoin'
@@ -154,7 +161,7 @@ template(name='dao')
                     else if skv_is 'main_section' 'alpha'
                         +alpha
                     else if skv_is 'main_section' 'duck'
-                        .ui.inline.header.toggle_duck.pointer
+                        .ui.inline.grey.header.toggle_duck.pointer
                             i.search.icon
                             |search
                         if viewing_duck
