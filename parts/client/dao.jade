@@ -34,17 +34,17 @@ template(name='dao')
                 +i n='marker' cl='ui mini inline image'
                     // |where
                 each location_results
-                    .ui.circular.basic.compact.small.disabled.button #{name}
+                    .ui.circular.basic.compact.small.button #{name}
                 // .ui.basic.button(title='groups')
                 // i.users.icon
                 +i n='groups' cl='ui mini inline image'
                 // |people
                 each person_results
-                    .ui.basic.circular.compact.small.disabled.button #{name}
+                    .ui.basic.circular.compact.small.button #{name}
                 // .ui.basic.button
                 +i n='building' cl='ui mini inline image'
                 each organization_results
-                    .ui.circular.compact.small.disabled.button #{name}
+                    .ui.circular.compact.small.button #{name}
                 // each selected_emotions
                 //     .ui.black.compact.button.unselect_emotion
                 //         |#{this}
@@ -102,7 +102,7 @@ template(name='dao')
                 +skve k='main_section' v='university' l='university' i='university'
                 +skve k='main_section' v='faq' l='faq' i='faq'
                 +skve k='main_section' v='money' l='money' i='money'
-                .scrolling
+                .scrollin
                     if skv_is 'main_section' 'dashboard'
                         +i n='dashboard'
                     else if skv_is 'main_section' 'alpha'
