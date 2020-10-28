@@ -483,6 +483,7 @@ Template.dao.events
             showIcon: 'search'
             message: "reddit: #{selected_tags.array()} search started"
             displayTime: 'auto',
+            position: 'bottom left'
         )
         Meteor.call 'search_reddit', selected_tags.array(), ->
             $('body').toast(
@@ -492,11 +493,13 @@ Template.dao.events
                 # showProgress: 'bottom'
                 class: 'success'
                 displayTime: 'auto',
+                position: 'bottom left'
             )
         $('body').toast(
             showIcon: 'search'
             message: "wiki: #{@name} search started"
             displayTime: 'auto',
+            position: 'bottom left'
         )
         Meteor.call 'call_wiki', @name, ->
             $('body').toast(
@@ -506,6 +509,7 @@ Template.dao.events
                 # showProgress: 'bottom'
                 class: 'success'
                 displayTime: 'auto',
+                position: 'bottom left'
             )
             Session.set('thinking',false)
         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
@@ -548,7 +552,8 @@ Template.dao.events
 
     # 'keyup .search_title': _.throttle((e,t)->
     'keyup .search_title': (e,t)->
-        search = $('.search_title').val().toLowerCase().trim()
+        # search = $('.search_title').val().toLowerCase().trim()
+        search = $('.search_title').val().trim()
         # _.throttle( =>
 
         # if search.length > 4

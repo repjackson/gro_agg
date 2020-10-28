@@ -32,6 +32,14 @@ template(name='dao')
                 // |when
                 // .ui.basic.button(title='where')
                     // i.marker.icon
+                +i n='reddit' cl='ui mini inline image'
+                    // |where
+                each subreddit_results
+                    .ui.compact.small.tertiary.add_tag.button #{name}
+                +i n='globe' cl='ui mini inline image'
+                    // |where
+                each domain_results
+                    .ui.compact.small.tertiary.add_tag.button #{name}
                 +i n='marker' cl='ui mini inline image'
                     // |where
                 each location_results

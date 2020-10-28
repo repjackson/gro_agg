@@ -138,7 +138,7 @@ Meteor.publish 'docs', (
             match.model = $in:['wikipedia','reddit']
     # console.log 'doc match', match
     Docs.find match,
-        limit:7
+        limit:10
         skip:skip
         sort:
             points: -1
@@ -273,7 +273,7 @@ Meteor.publish 'dtags', (
         # { $match: _id: $nin: selected_locations }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:7 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # console.log 'cloud: ', location_cloud
@@ -285,6 +285,27 @@ Meteor.publish 'dtags', (
             count: location.count
             model:'location'
     
+      
+  
+    subreddit_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "subreddit": 1 }
+        { $group: _id: "$subreddit", count: $sum: 1 }
+        # { $match: _id: $nin: selected_subreddits }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:10 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    # console.log 'cloud: ', subreddit_cloud
+    # console.log 'subreddit match', match
+    subreddit_cloud.forEach (subreddit, i) ->
+        # console.log 'subreddit',subreddit
+        self.added 'results', Random.id(),
+            name: subreddit.name
+            count: subreddit.count
+            model:'subreddit'
+    
     
     facility_cloud = Docs.aggregate [
         { $match: match }
@@ -294,7 +315,7 @@ Meteor.publish 'dtags', (
         # { $match: _id: $nin: selected_facilitys }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:7 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # console.log 'cloud: ', facility_cloud
@@ -317,7 +338,7 @@ Meteor.publish 'dtags', (
         # { $match: _id: $nin: selected_organizations }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:7 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # console.log 'cloud: ', organization_cloud
@@ -341,7 +362,7 @@ Meteor.publish 'dtags', (
         # { $match: _id: $nin: selected_movies }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:7 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # console.log 'cloud: ', movie_cloud
@@ -364,7 +385,7 @@ Meteor.publish 'dtags', (
         # { $match: _id: $nin: selected_sports }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:7 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # console.log 'cloud: ', sport_cloud
@@ -387,7 +408,7 @@ Meteor.publish 'dtags', (
         # { $match: _id: $nin: selected_awards }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:7 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # console.log 'cloud: ', award_cloud
@@ -408,7 +429,7 @@ Meteor.publish 'dtags', (
         # { $match: _id: $nin: selected_domains }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:7 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # console.log 'cloud: ', domain_cloud
@@ -430,7 +451,7 @@ Meteor.publish 'dtags', (
         # { $match: _id: $nin: selected_persons }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:7 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # console.log 'cloud: ', person_cloud
@@ -451,7 +472,7 @@ Meteor.publish 'dtags', (
         # { $match: _id: $nin: selected_companys }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:7 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # console.log 'cloud: ', company_cloud
