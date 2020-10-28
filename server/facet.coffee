@@ -421,25 +421,25 @@ Meteor.publish 'dtags', (
             model:'award'
     
     
-    domain_cloud = Docs.aggregate [
+    PrintMedia_cloud = Docs.aggregate [
         { $match: match }
-        { $project: "domain": 1 }
-        # { $unwind: "$domain" }
-        { $group: _id: "$domain", count: $sum: 1 }
-        # { $match: _id: $nin: selected_domains }
+        { $project: "PrintMedia": 1 }
+        # { $unwind: "$PrintMedia" }
+        { $group: _id: "$PrintMedia", count: $sum: 1 }
+        # { $match: _id: $nin: selected_PrintMedias }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:7 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
-    # console.log 'cloud: ', domain_cloud
-    # console.log 'domain match', match
-    domain_cloud.forEach (domain, i) ->
-        # console.log 'domain',domain
+    # console.log 'cloud: ', PrintMedia_cloud
+    # console.log 'PrintMedia match', match
+    PrintMedia_cloud.forEach (PrintMedia, i) ->
+        # console.log 'PrintMedia',PrintMedia
         self.added 'results', Random.id(),
-            name: domain.name
-            count: domain.count
-            model:'domain'
+            name: PrintMedia.name
+            count: PrintMedia.count
+            model:'print'
     
     
     

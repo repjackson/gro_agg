@@ -28,7 +28,7 @@ template(name='dao')
                 // .ui.large.basic.label(title='results') #{doc_count} results
                 // .ui.basic.circular.button(title='when')
                 // i.clock.icon
-                +i n='clock' cl='ui mini inline image'
+                // +i n='clock' cl='ui mini inline image'
                 // |when
                 // .ui.basic.button(title='where')
                     // i.marker.icon
@@ -36,16 +36,8 @@ template(name='dao')
                 // .ui.inline.header 
                 //     +i n='reddit' cl='ui mini inline image'
                 //     |subreddit
-                each subreddit_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                div
-                .ui.inline.grey.header 
-                    +i n='globe' cl='ui mini inline image'
-                    |domain
-                    // |where
-                each domain_results
-                    +tag_selector
+                // each subreddit_results
+                //     +tag_selector
                     // .ui.compact.small.tertiary.add_tag.button #{name}
                 div
                 .ui.inline.grey.header 
@@ -87,6 +79,14 @@ template(name='dao')
                 each award_results
                     +tag_selector
                     // .ui.compact.small.tertiary.add_tag.button #{name}
+                div
+                .ui.inline.grey.header 
+                    +i n='paper' cl='ui mini inline image'
+                    |print media
+                    // |where
+                each print_results
+                    +tag_selector
+                    // .ui.compact.small.tertiary.add_tag.button #{name}
                 +i n='sport' cl='ui mini inline image' t='sport'
                 each sport_results
                     +tag_selector
@@ -102,21 +102,6 @@ template(name='dao')
                     if name
                         .ui.compact.basic.circular.button.select_emotion
                             |#{name}
-                // .spacer
-                // .five.wide.right.aligned.column
-                // .eleven.wide.column
-                // +emotion_mode k='joy' i='happy--v1' i2='smile' c=' green'
-                // +emotion_mode k='sadness' i='sad--v1' i2='sad tear' c=' blue'
-                // +emotion_mode k='anger' i='angry--v1' i2='frown' c=' red'
-                // +emotion_mode k='disgust' i='disgusting' i2='grin tongue squint' c=' orange'
-                // +emotion_mode k='fear' i='scream' i2='tired' c='black'
-                // +view_mode k='twitter' i='twitter' c='blue'
-                // +view_mode k='video' i='youtube' c='red'
-                // +view_mode k='image' i='picture' c='green'
-                // +view_mode k='posts' i='blog' c='teal'
-                // +view_mode k='wikipedia' i='wikipedia-logo' c='purple'
-                // +view_mode k='stackexchange' i='stack-exchange'
-                // +view_mode k='github' i='github'
                 +skve k='emotion_mode' v='happy' l='happy' i='happy--v1'
                 +skve k='emotion_mode' v='sad' l='sad' i='sad--v1'
                 +skve k='emotion_mode' v='anger' l='anger' i='angry--v1'
@@ -124,7 +109,7 @@ template(name='dao')
                 +skve k='emotion_mode' v='fear' l='fear' i='scream'
                 +skve k='view_mode' v='posts' l='posts' i='blog'
                 +skve k='view_mode' v='wikipedia' l='wikipedia' i='wikipedia'
-                // +skve k='view_mode' v='stackexchange' l='stackexchange' i='stackexchange'
+                +skve k='view_mode' v='stackexchange' l='stackexchange' i='code'
                 +skve k='view_mode' v='image' l='image' i='image'
                 // +skve k='view_mode' v='github' l='github' i='github'
                 +skve k='view_mode' v='video' l='youtube' i='youtube'
@@ -143,15 +128,16 @@ template(name='dao')
                 +skve k='main_section' v='duck' l='search' i='search'
                 +skve k='main_section' v='reddit' l='reddit' i='reddit'
                 +skve k='main_section' v='wikipedia' l='wikipedia' i='wikipedia'
-                +skve k='main_section' v='shop' l='shop' i='shop'
-                +skve k='main_section' v='chat' l='chat' i='chat'
-                +skve k='main_section' v='groups' l='groups' i='groups'
-                +skve k='main_section' v='events' l='events' i='calendar'
-                +skve k='main_section' v='tasks' l='tasks' i='tasks'
-                +skve k='main_section' v='leaderboard' l='leaderboard' i='leaderboard'
-                +skve k='main_section' v='university' l='university' i='university'
-                +skve k='main_section' v='faq' l='faq' i='faq'
-                +skve k='main_section' v='money' l='money' i='money'
+                +skve k='main_section' v='stackexchange' l='stackexchange' i='code'
+                // +skve k='main_section' v='shop' l='shop' i='shop'
+                // +skve k='main_section' v='chat' l='chat' i='chat'
+                // +skve k='main_section' v='groups' l='groups' i='groups'
+                // +skve k='main_section' v='events' l='events' i='calendar'
+                // +skve k='main_section' v='tasks' l='tasks' i='tasks'
+                // +skve k='main_section' v='leaderboard' l='leaderboard' i='leaderboard'
+                // +skve k='main_section' v='university' l='university' i='university'
+                // +skve k='main_section' v='faq' l='faq' i='faq'
+                // +skve k='main_section' v='money' l='money' i='money'
                 .scrollin
                     if skv_is 'main_section' 'dashboard'
                         +i n='dashboard'
@@ -182,6 +168,12 @@ template(name='dao')
                                     |#{this}
                             each subreddit_results
                                 +select_subreddit
+                    else if skv_is 'main_section' 'stack'
+                        .ui.inline.header 
+                            i.stack.large.icon
+                            |stack
+                        each stack_docs
+                            .ui.header #{title}
                     else if skv_is 'main_section' 'sources'
                         .ui.inline.header 
                             i.database.large.icon

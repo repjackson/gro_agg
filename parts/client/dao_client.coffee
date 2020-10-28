@@ -51,7 +51,7 @@ Template.dao.onCreated ->
     
     # window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
     # document.title = 'the world'
-    Session.setDefault('main_section','dashboard')
+    Session.setDefault('main_section','alpha')
     Session.setDefault('view_alpha',true)
     Session.setDefault('view_reddit',true)
     Session.setDefault('view_duck',true)
@@ -454,7 +454,8 @@ Template.dao.helpers
     award_results: -> results.find(model:'award')
     movie_results: -> results.find(model:'movie')
     company_results: -> results.find(model:'company')
-    domain_results: -> results.find(model:'domain')
+    print_results: -> results.find(model:'print')
+    # domain_results: -> results.find(model:'domain')
     tvshow_results: -> results.find(model:'tvshow')
     emotion_results: -> results.find(model:'emotion')
     model_results: -> results.find(model:'model')
@@ -587,13 +588,13 @@ Template.dao.events
                     Session.set('thinking',true)
                     $('body').toast(
                         showIcon: 'search'
-                        message: 'duck duck go started'
+                        message: 'started'
                         displayTime: 'auto',
                     )
                     Meteor.call 'search_ddg', search, ->
                         $('body').toast(
                             showIcon: 'search'
-                            message: 'duck duck go done'
+                            message: ' done'
                             showIcon: 'brain'
                             # showProgress: 'bottom'
                             class: 'success'
@@ -602,13 +603,13 @@ Template.dao.events
                     window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
                     $('body').toast(
                         showIcon: 'brain'
-                        message: 'alpha start'
+                        message: 'start'
                         displayTime: 'auto',
                     )
                     Session.set('loading_alpha', true)
                     Meteor.call 'call_alpha', selected_tags.array().toString(), ->
                         $('body').toast(
-                            message: 'alpha done'
+                            message: 'done'
                             showIcon: 'brain'
                             # showProgress: 'bottom'
                             class: 'success'
@@ -617,12 +618,12 @@ Template.dao.events
                         Session.set('loading_alpha', false)
                     $('body').toast(
                         showIcon: 'wikipedia'
-                        message: 'wikipedia started'
+                        message: 'started'
                         displayTime: 'auto',
                     )
                     Meteor.call 'call_wiki', search, ->
                         $('body').toast(
-                            message: 'wiki done'
+                            message: 'done'
                             showIcon: 'wikipedia'
                             # showProgress: 'bottom'
                             class: 'info'
@@ -630,12 +631,12 @@ Template.dao.events
                         )
                     $('body').toast(
                         showIcon: 'reddit'
-                        message: 'reddit started'
+                        message: ' started'
                         displayTime: 'auto',
                     )
                     Meteor.call 'search_reddit', selected_tags.array(), ->
                         $('body').toast(
-                            message: 'reddit done'
+                            message: ' done'
                             showIcon: 'reddit'
                             # showProgress: 'bottom'
                             class: 'success'
