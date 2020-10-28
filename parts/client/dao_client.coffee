@@ -55,7 +55,8 @@ Template.dao.onCreated ->
     # window.speechSynthesis.cancel()
     
     # window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
-    document.title = 'the world'
+    # document.title = 'the world'
+    Session.setDefault('main_section','dashboard')
     Session.setDefault('view_alpha',true)
     Session.setDefault('view_reddit',true)
     Session.setDefault('view_duck',true)
