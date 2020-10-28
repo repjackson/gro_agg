@@ -1,16 +1,30 @@
 Meteor.methods 
     search_stack: (query) ->
-        console.log('searching stack for', typeof query, query);
+        console.log('searching stack for', typeof(query), query);
         request = require('request')
         # var url = 'https://api.stackexchange.com/2.2/sites';
-        url = 'http://api.stackexchange.com/2.1/questions?pagesize=1&fromdate=1356998400&todate=1359676800&order=desc&min=0&sort=votes&tagged=javascript&site=stackoverflow'
+        # url = 'http://api.stackexchange.com/2.1/questions?pagesize=1&fromdate=1356998400&todate=1359676800&order=desc&min=0&sort=votes&tagged=javascript&site=stackoverflow'
+        url = "http://api.stackexchange.com/2.1/questions?pagesize=1&order=desc&min=0&sort=votes&tagged=javascript&intitle=#{query}&site=stackoverflow"
         request.get {
             url: url
             headers: 'accept-encoding': 'gzip'
             gzip: true
-        }, (error, response, body) ->
-            console.log body
-            # for itemeach body.items
+        }, Meteor.bindEnvironment((error, response, body) ->
+            parsed = JSON.parse(body)
+            # console.log 'body',JSON.parse(body), typeof(body)
+            for item in parsed.items
+                console.log item.title
+                found = 
+                    Docs.findOne
+                        model:'stack'
+                        question_id:item.question_id
+                if found
+                    console.log 'found', found.title
+                else
+                    item.model = 'stack'
+                    new_id = 
+                        Docs.insert item
+            )
             #   tags
             #   owner
             #   is_answered

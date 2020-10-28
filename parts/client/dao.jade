@@ -128,7 +128,7 @@ template(name='dao')
                 +skve k='main_section' v='duck' l='search' i='search'
                 +skve k='main_section' v='reddit' l='reddit' i='reddit'
                 +skve k='main_section' v='wikipedia' l='wikipedia' i='wikipedia'
-                +skve k='main_section' v='stackexchange' l='stackexchange' i='code'
+                +skve k='main_section' v='stack' l='stackexchange' i='code'
                 // +skve k='main_section' v='shop' l='shop' i='shop'
                 // +skve k='main_section' v='chat' l='chat' i='chat'
                 // +skve k='main_section' v='groups' l='groups' i='groups'
@@ -172,6 +172,8 @@ template(name='dao')
                         .ui.inline.header 
                             i.stack.large.icon
                             |stack
+                        .ui.button.call_stack
+                            |call
                         each stack_docs
                             .ui.header #{title}
                     else if skv_is 'main_section' 'sources'

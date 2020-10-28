@@ -47,6 +47,8 @@ Template.registerHelper 'is_twitter', ()->
 
     
 Template.dao.onCreated ->
+    @autorun -> Meteor.subscribe('stacks',selected_tags.array())
+Template.dao.onCreated ->
     # window.speechSynthesis.cancel()
     
     # window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
@@ -202,6 +204,22 @@ Template.tag_selector.helpers
             title:@name.toLowerCase()
             
 Template.dao.events
+    # 'keyup .search_stack': (e,t)->
+    #     # search = $('.search_title').val().toLowerCase().trim()
+    #     search = $('.search_title').val().trim()
+    #     # _.throttle( =>
+
+    #     # if search.length > 4
+    #     #     Session.set('query',search)
+    #     # else if search.length is 0
+    #     #     Session.set('query','')
+    #     if e.which is 13
+    #         window.speechSynthesis.cancel()
+    #         # console.log search
+    #         if search.length > 0
+    #             # Meteor.call 'check_url', search, (err,res)->
+
+    'click .call_stack': -> Meteor.call 'search_stack', selected_tags.array()
     'click .select_model': -> selected_models.push @name
     'click .select_emotion': -> selected_emotions.push @name
     'click .select_location': -> selected_locations.push @name
@@ -462,6 +480,7 @@ Template.dao.helpers
     location_results: -> results.find(model:'location')
     person_results: -> results.find(model:'person')
     subreddit_results: -> results.find(model:'subreddit')
+    stack_docs: -> Docs.find(model:'stack')
     tag_results: ->
         # match = {model:'wikipedia'}
         # doc_count = Docs.find(match).count()
