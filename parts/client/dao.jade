@@ -24,7 +24,7 @@ template(name='dao')
                 //     i.smile.large.grey.icon
                 //     |emotion
                 // .spacer
-            .four.wide.right.aligned.column
+            .four.wide.right.aligned.column.scrolling
                 // .ui.large.basic.label(title='results') #{doc_count} results
                 // .ui.basic.circular.button(title='when')
                 // i.clock.icon
@@ -35,43 +35,59 @@ template(name='dao')
                 +i n='reddit' cl='ui mini inline image'
                     // |where
                 each subreddit_results
-                    .ui.compact.small.tertiary.add_tag.button #{name}
-                +i n='globe' cl='ui mini inline image'
+                    +tag_selector
+                    // .ui.compact.small.tertiary.add_tag.button #{name}
+                .ui.header 
+                    +i n='globe' cl='ui mini inline image'
+                    |domain
                     // |where
                 each domain_results
-                    .ui.compact.small.tertiary.add_tag.button #{name}
+                    +tag_selector
+                    // .ui.compact.small.tertiary.add_tag.button #{name}
                 +i n='marker' cl='ui mini inline image'
                     // |where
                 each location_results
-                    .ui.compact.small.tertiary.add_tag.button #{name}
+                    +tag_selector
+                    // .ui.compact.small.tertiary.add_tag.button #{name}
                 // .ui.basic.tertiary.button(title='groups')
                 // i.users.icon
-                +i n='user' cl='ui mini inline image'
-                // |people
+                .ui.header 
+                    +i n='user' cl='ui mini inline image'
+                    |people
                 each person_results
-                    .ui.compact.small.tertiary.add_tag.button #{name}
+                    +tag_selector
+                    // .ui.compact.small.tertiary.add_tag.button #{name}
                 // .ui.basic.tertiary.button
-                +i n='home' cl='ui mini inline image' t='facility'
+                .ui.header 
+                    +i n='home' cl='ui mini inline image' t='facility'
+                    |facilities
                 each facility_results
-                    .ui.compact.small.tertiary.add_tag.button #{name}
+                    +tag_selector
+                    // .ui.compact.small.tertiary.add_tag.button #{name}
                 +i n='briefcase' cl='ui mini inline image' t='company'
                 each company_results
-                    .ui.compact.small.tertiary.add_tag.button #{name}
+                    +tag_selector
+                    // .ui.compact.small.tertiary.add_tag.button #{name}
                 // +i n='television' cl='ui mini inline image' t='tv shows'
                 each tvshow_results
-                    .ui.compact.small.tertiary.add_tag.button #{name}
+                    +tag_selector
+                    // .ui.compact.small.tertiary.add_tag.button #{name}
                 +i n='building' cl='ui mini inline image' t='organization'
                 each organization_results
-                    .ui.compact.small.tertiary.add_tag.button #{name}
+                    +tag_selector
+                    // .ui.compact.small.tertiary.add_tag.button #{name}
                 +i n='trophy' cl='ui mini inline image' t='award'
                 each award_results
-                    .ui.compact.small.tertiary.add_tag.button #{name}
+                    +tag_selector
+                    // .ui.compact.small.tertiary.add_tag.button #{name}
                 +i n='sport' cl='ui mini inline image' t='sport'
                 each sport_results
-                    .ui.compact.small.tertiary.add_tag.button #{name}
+                    +tag_selector
+                    // .ui.compact.small.tertiary.add_tag.button #{name}
                 +i n='movie' cl='ui mini inline image' t='movie'
                 each movie_results
-                    .ui.compact.small.tertiary.add_tag.button #{name}
+                    +tag_selector
+                    // .ui.compact.small.tertiary.add_tag.button #{name}
                 each selected_emotions
                     .ui.black.compact.button.unselect_emotion
                         |#{this}
@@ -114,7 +130,7 @@ template(name='dao')
                 // +view_mode k='covid' i='biohazard'
                     // i.building.icon
                     // |organizations
-            .twelve.wide.column
+            .twelve.wide.column.scrolling
                 +skve k='main_section' v='dashboard' l='dashboard' i='dashboard'
                 +skve k='main_section' v='alpha' l='alpha' i='brain'
                 +skve k='main_section' v='duck' l='search' i='search'
