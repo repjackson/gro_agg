@@ -13,7 +13,7 @@ Meteor.publish 'doc_count', (
     if selected_tags.length > 0 
         match.tags = $all: selected_tags
     else
-        match.tags = $in:['life']
+        match.tags = $in:['daoism']
     
     if emotion_mode
         match.max_emotion_name = emotion_mode
@@ -194,7 +194,7 @@ Meteor.publish 'dtags', (
     else
         unless selected_subreddits.length>0
             unless view_mode is 'porn'
-                match.tags = $in:['life']
+                match.tags = $in:['daoism']
     # else if view_mode in ['reddit',null]
     doc_count = Docs.find(match).count()
     # console.log 'count',doc_count
@@ -265,6 +265,73 @@ Meteor.publish 'dtags', (
       
   
   
+    location_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Location": 1 }
+        { $unwind: "$Location" }
+        { $group: _id: "$Location", count: $sum: 1 }
+        # { $match: _id: $nin: selected_locations }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    # console.log 'cloud: ', location_cloud
+    # console.log 'location match', match
+    location_cloud.forEach (location, i) ->
+        # console.log 'location',location
+        self.added 'results', Random.id(),
+            name: location.name
+            count: location.count
+            model:'location'
+    
+    
+    
+  
+    organization_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Organization": 1 }
+        { $unwind: "$Organization" }
+        { $group: _id: "$Organization", count: $sum: 1 }
+        # { $match: _id: $nin: selected_organizations }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    # console.log 'cloud: ', organization_cloud
+    # console.log 'organization match', match
+    organization_cloud.forEach (organization, i) ->
+        # console.log 'organization',organization
+        self.added 'results', Random.id(),
+            name: organization.name
+            count: organization.count
+            model:'organization'
+    
+    
+    
+    person_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Person": 1 }
+        { $unwind: "$Person" }
+        { $group: _id: "$Person", count: $sum: 1 }
+        # { $match: _id: $nin: selected_persons }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    # console.log 'cloud: ', person_cloud
+    # console.log 'person match', match
+    person_cloud.forEach (person, i) ->
+        # console.log 'person',person
+        self.added 'results', Random.id(),
+            name: person.name
+            count: person.count
+            model:'person'
+    
+    
+    
     emotion_cloud = Docs.aggregate [
         { $match: match }
         { $project: "max_emotion_name": 1 }

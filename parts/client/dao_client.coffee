@@ -386,6 +386,8 @@ Template.dao.helpers
    
     emotion_results: -> results.find(model:'emotion')
     model_results: -> results.find(model:'model')
+    location_results: -> results.find(model:'location')
+    person_results: -> results.find(model:'person')
     subreddit_results: -> results.find(model:'subreddit')
     tag_results: ->
         # match = {model:'wikipedia'}

@@ -98,9 +98,12 @@ template(name='sbt')
 template(name='skve')
     // a.ui.image.big.link.label.set_session_v(class=calculated_class)
     .ui.zoomer.compact.icon.button.set_session_v(class=calculated_class title=t)
-        if i
+        // if i
+        if selected 
+            +i n=i cl='ui mini image'
+        else
+            +iios n=i cl='ui mini image'
             // i.icon(class=icon)
-            +i n=i cl='ui inline image'
         // unless ionly
         //     if l
         //         |#{l}

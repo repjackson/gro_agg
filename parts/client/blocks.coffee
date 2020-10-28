@@ -622,6 +622,7 @@ if Meteor.isClient
                 res
             else
                 'basic circular'
+        selected: -> Session.equals(@k,@v)
 
 
 

@@ -35,10 +35,10 @@ template(name='dao')
                 // .spacer
                 // .five.wide.right.aligned.column
                 // .eleven.wide.column
-                +emotion_mode k='joy' i='happy--v1' i2='smile' c='invert green'
-                +emotion_mode k='sadness' i='sad--v1' i2='sad tear' c='invert blue'
-                +emotion_mode k='anger' i='angry--v1' i2='frown' c='invert red'
-                +emotion_mode k='disgust' i='disgusting' i2='grin tongue squint' c='invert orange'
+                +emotion_mode k='joy' i='happy--v1' i2='smile' c=' green'
+                +emotion_mode k='sadness' i='sad--v1' i2='sad tear' c=' blue'
+                +emotion_mode k='anger' i='angry--v1' i2='frown' c=' red'
+                +emotion_mode k='disgust' i='disgusting' i2='grin tongue squint' c=' orange'
                 +emotion_mode k='fear' i='scream' i2='tired' c='black'
                 +view_mode k='twitter' i='twitter' c='blue'
                 +view_mode k='video' i='youtube' c='red'
@@ -51,19 +51,23 @@ template(name='dao')
                 // +view_mode k='porn' i='mercury'
                 +view_mode k='bitcoin' i='bitcoin'
                 +view_mode k='covid' i='biohazard'
-                .ui.large.basic.button(title='when')
+                .ui.basic.button(title='when')
                     // i.clock.icon
                     +i n='clock'
                     // |when
-                .ui.large.basic.button(title='where')
+                .ui.basic.button(title='where')
                     // i.marker.icon
                     +i n='marker'
                     // |where
-                .ui.large.basic.button(title='groups')
+                each location_results
+                    .ui.button #{name}
+                .ui.basic.button(title='groups')
                     // i.users.icon
                     +i n='groups'
                     // |people
-                .ui.large.basic.button
+                each person_results
+                    .ui.button #{name}
+                .ui.basic.button
                     +i n='building'
                     // i.building.icon
                     // |organizations
@@ -71,17 +75,17 @@ template(name='dao')
                 +skve k='main_section' v='alpha' l='alpha' i='brain'
                 +skve k='main_section' v='duck' l='search' i='duck'
                 +skve k='main_section' v='reddit' l='reddit' i='reddit'
-                +skve k='main_section' v='wikipedia' l='wikipedia' i='wikipedia-logo'
+                +skve k='main_section' v='wikipedia' l='wikipedia' i='wikipedia'
                 +skve k='main_section' v='shop' l='shop' i='shop'
                 +skve k='main_section' v='chat' l='chat' i='chat'
                 +skve k='main_section' v='groups' l='groups' i='groups'
                 +skve k='main_section' v='events' l='events' i='calendar'
                 +skve k='main_section' v='tasks' l='tasks' i='tasks'
                 +skve k='main_section' v='leaderboard' l='leaderboard' i='leaderboard'
-                if skv_is 'main_section' 'alpha'
-                    +alpha
-                else if skv_is 'main_section' 'duck'
-                    .ui.compact.segment
+                .scrolling
+                    if skv_is 'main_section' 'alpha'
+                        +alpha
+                    else if skv_is 'main_section' 'duck'
                         .ui.inline.header.toggle_duck.pointer
                             i.search.icon
                             |search
@@ -93,28 +97,27 @@ template(name='dao')
                                 // unless viewing_doc
                                 each ducks
                                     +duck 
-                else if skv_is 'main_section' 'groups'
-                    .ui.button
+                    else if skv_is 'main_section' 'groups'
+                        .ui.button
+                            .ui.inline.header 
+                                i.users.large.grey.icon
+                                |group
+                            each selected_subreddits
+                                .ui.black.compact.button.unselect_subreddit
+                                    |#{this}
+                            each subreddit_results
+                                +select_subreddit
+                    else if skv_is 'main_section' 'sources'
                         .ui.inline.header 
-                            i.users.large.grey.icon
-                            |group
-                        each selected_subreddits
-                            .ui.black.compact.button.unselect_subreddit
+                            i.database.large.icon
+                            |sources
+                        each selected_models
+                            .ui.black.compact.button.unselect_model
                                 |#{this}
-                        each subreddit_results
-                            +select_subreddit
-                else if skv_is 'main_section' 'sources'
-                    .ui.inline.header 
-                        i.database.large.icon
-                        |sources
-                    each selected_models
-                        .ui.black.compact.button.unselect_model
-                            |#{this}
-                    each model_results
-                        .ui.compact.button.select_model
-                            |#{name}
-                else if skv_is 'main_section' 'reddit'
-                    .ui.segment
+                        each model_results
+                            .ui.compact.button.select_model
+                                |#{name}
+                    else if skv_is 'main_section' 'reddit'
                         a.ui.inline.header.toggle_reddit.pointer(href="#")
                             i.large.reddit.icon
                             |#{reddit_docs.count} reddit
@@ -142,8 +145,7 @@ template(name='dao')
                             each reddit_docs
                                 +reddit_doc
                         
-                else if skv_is 'main_section' 'search_doc'
-                    .ui.segment
+                    else if skv_is 'main_section' 'search_doc'
                         if search_doc
                             .ui.header #{search_doc._when} when
                         else 
@@ -156,37 +158,36 @@ template(name='dao')
                             // with search_doc
                         .ui.compact.segment
                             +comments
-                else if skv_is 'main_section' 'requests'
-                    .ui.button
-                        .ui.header 
-                            i.hand.holding.icon
-                            |requests
-                    .ui.button
-                        .ui.header 
-                            i.shop.icon
-                            |offers
-                        .ui.button.add_offer
-                            i.plus.icon
-                    .ui.button
-                        .ui.header 
-                            i.photo.icon
-                            |photos
-                        .ui.button.add_photo
-                            i.plus.icon
-                    .ui.button
-                        .ui.header 
-                            i.photo.icon
-                            |videos
-            
-                else if skv_is 'main_section' 'wikipedia'
-                    .ui.segment
+                    else if skv_is 'main_section' 'requests'
+                        .ui.button
+                            .ui.header 
+                                i.hand.holding.icon
+                                |requests
+                        .ui.button
+                            .ui.header 
+                                i.shop.icon
+                                |offers
+                            .ui.button.add_offer
+                                i.plus.icon
+                        .ui.button
+                            .ui.header 
+                                i.photo.icon
+                                |photos
+                            .ui.button.add_photo
+                                i.plus.icon
+                        .ui.button
+                            .ui.header 
+                                i.photo.icon
+                                |videos
+                
+                    else if skv_is 'main_section' 'wikipedia'
                         .ui.inline.header
                             i.large.wikipedia.icon
                             |#{wiki_docs.count} wikipedia
                         .ui.cards
                             each wiki_docs
                                 +reddit_doc
-            
+                
                     
                 
                 
@@ -197,12 +198,13 @@ template(name='view_mode')
     a.ui.compact.icon.large.button.toggle_view(class=toggle_view_button_class)
         // i.link.zoomer.icon(class="#{toggle_view_class} #{thinking_class}" title=k)
         // +i n=toggle_view_class
-        +i n=i
+        +i n=i cl='ui mini image'
         // |#{k}
 
 template(name='emotion_mode')
     .ui.compact.icon.big.circular.basic.button.toggle_emotion
-        i.link.zoomer.icon(class="#{toggle_emotion_class} #{thinking_class}" title=t)
+        +i n=i cl='ui mini image'
+        // i.link.zoomer.icon(class="#{toggle_emotion_class} #{thinking_class}" title=t)
         // |#{k}
     // if selected_emotion
     //     i.huge.pointer.zoomer.icon.toggle_emotion(class="#{i2} #{color}" title=t)
