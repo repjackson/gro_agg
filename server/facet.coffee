@@ -222,46 +222,46 @@ Meteor.publish 'dtags', (
     #             model:'tag'
     #     # self.ready()
     # else
-    # model_cloud = Docs.aggregate [
-    #     { $match: match }
-    #     { $project: "model": 1 }
-    #     # { $unwind: "$models" }
-    #     { $group: _id: "$model", count: $sum: 1 }
-    #     { $match: _id: $nin: selected_models }
-    #     { $sort: count: -1, _id: 1 }
-    #     { $match: count: $lt: doc_count }
-    #     { $limit:20 }
-    #     { $project: _id: 0, name: '$_id', count: 1 }
-    #     ]
-    # # # console.log 'cloud: ', model_cloud
-    # # console.log 'model match', match
-    # model_cloud.forEach (model, i) ->
-    #     self.added 'results', Random.id(),
-            # name: model.name
-            # count: model.count
-            # model:'model'
+    model_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "model": 1 }
+        # { $unwind: "$models" }
+        { $group: _id: "$model", count: $sum: 1 }
+        { $match: _id: $nin: selected_models }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:20 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    # # console.log 'cloud: ', model_cloud
+    # console.log 'model match', match
+    model_cloud.forEach (model, i) ->
+        self.added 'results', Random.id(),
+            name: model.name
+            count: model.count
+            model:'model'
   
   
-    # unless selected_subreddits.length > 0
-    #     subreddit_cloud = Docs.aggregate [
-    #         { $match: match }
-    #         { $project: "subreddit": 1 }
-    #         # { $unwind: "$subreddits" }
-    #         { $group: _id: "$subreddit", count: $sum: 1 }
-    #         # { $match: _id: $nin: selected_subreddits }
-    #         { $sort: count: -1, _id: 1 }
-    #         { $match: count: $lt: doc_count }
-    #         { $limit:10 }
-    #         { $project: _id: 0, name: '$_id', count: 1 }
-    #         ]
-    #     # # console.log 'cloud: ', subreddit_cloud
-    #     # console.log 'subreddit match', match
-    #     subreddit_cloud.forEach (subreddit, i) ->
-    #         # console.log subreddit
-    #         self.added 'results', Random.id(),
-    #             name: subreddit.name
-    #             count: subreddit.count
-    #             model:'subreddit'
+    unless selected_subreddits.length > 0
+        subreddit_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "subreddit": 1 }
+            # { $unwind: "$subreddits" }
+            { $group: _id: "$subreddit", count: $sum: 1 }
+            # { $match: _id: $nin: selected_subreddits }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+        # # console.log 'cloud: ', subreddit_cloud
+        # console.log 'subreddit match', match
+        subreddit_cloud.forEach (subreddit, i) ->
+            # console.log subreddit
+            self.added 'results', Random.id(),
+                name: subreddit.name
+                count: subreddit.count
+                model:'subreddit'
       
   
   
