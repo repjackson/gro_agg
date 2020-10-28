@@ -132,7 +132,7 @@ Template.alpha.events
 
 Template.unselect_tag.onCreated ->
     # console.log @
-    @autorun => Meteor.subscribe('doc_by_title', @data)
+    @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
     
 Template.unselect_tag.helpers
     term: ->
@@ -140,7 +140,7 @@ Template.unselect_tag.helpers
         found = 
             Docs.findOne 
                 # model:'wikipedia'
-                title:@valueOf()
+                title:@valueOf().toLowerCase()
         #  console.log found
         found
 Template.unselect_tag.events
@@ -167,13 +167,13 @@ Template.unselect_tag.events
 
 Template.tag_selector.onCreated ->
     # console.log @
-    @autorun => Meteor.subscribe('doc_by_title', @data.name)
+    @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
 Template.tag_selector.helpers
     selector_class: ()->
         # console.log @
         term = 
             Docs.findOne 
-                title:@name
+                title:@name.toLowerCase()
         if term
             if term.max_emotion_name
                 switch term.max_emotion_name

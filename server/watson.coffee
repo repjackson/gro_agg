@@ -279,7 +279,8 @@ Meteor.methods
                             Docs.update { _id: doc_id },
                                 $addToSet:
                                     "#{entity.type}":entity.text
-                                    tags:entity.text.toLowerCase()
+                                    # tags:entity.text.toLowerCase()
+                                    tags:entity.text
                             
                 concept_array = _.pluck(response.concepts, 'text')
                 lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
