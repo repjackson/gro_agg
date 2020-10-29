@@ -21,8 +21,11 @@ Meteor.methods
                         question_id:item.question_id
                 if found
                     console.log 'found', found.title
+                    Docs.update found._id,
+                        $addToSet:tags:query
                 unless found
                     item.model = 'stack'
+                    item.tags.push query
                     new_id = 
                         Docs.insert item
                     console.log 'new stack doc', Docs.findOne(new_id)

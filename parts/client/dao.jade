@@ -148,9 +148,9 @@ template(name='dao')
                     else if skv_is 'main_section' 'alpha'
                         +alpha
                     else if skv_is 'main_section' 'duck'
-                        .ui.inline.grey.header.toggle_duck.pointer
-                            i.search.icon
-                            |search
+                        // .ui.inline.grey.header.toggle_duck.pointer
+                        //     i.search.icon
+                        //     |search
                         if viewing_duck
                             if skv_is 'loading_duck' true
                                 i.big.globe.loading.icon 
@@ -170,9 +170,9 @@ template(name='dao')
                             each subreddit_results
                                 +select_subreddit
                     else if skv_is 'main_section' 'stack'
-                        .ui.inline.header 
-                            i.code.large.icon
-                            |stack
+                        // .ui.inline.header 
+                        //     i.code.large.icon
+                        //     |stack
                         // .ui.button.call_stack
                         //     |call
                         // .ui.input
