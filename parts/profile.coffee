@@ -4,10 +4,15 @@ if Meteor.isClient
         @render 'user_dashboard'
         ), name:'dashboard'
 
+    Router.route '/u/:username/friends', (->
+        @layout 'profile'
+        @render 'user_friends'
+        ), name:'user_friends'
+
 
     Template.profile.onCreated ->
-        # @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
-        # @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_friends', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_topups', Router.current().params.username
         # @autorun -> Meteor.subscribe 'all_users', Router.current().params.username

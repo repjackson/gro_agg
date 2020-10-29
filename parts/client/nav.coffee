@@ -26,6 +26,12 @@ Template.nav.onRendered ->
     #         )
     # })
 
+Template.friendbar.events
+    'click .close_friendbar': (e,t)->
+        $(e.currentTarget).closest('.segment').transition('slide down',500)
+        Session.set('viewing_friends', false)
+
+
 Template.nav.events
     #     'click .logout': ->
     #         Session.set 'logging_out', true

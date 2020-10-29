@@ -49,10 +49,10 @@ template(name='nav')
                 a.pointer.zoomer.item(href="/login" title='login')
                     i.large.sign.in.icon
                     // |enter
-        if skv_is 'viewing_alerts' true
-            +topbar
-        else if skv_is 'viewing_friends' true
-            +friendbar
+    if skv_is 'viewing_alerts' true
+        +topbar
+    else if skv_is 'viewing_friends' true
+        +friendbar
 
 
 
@@ -60,13 +60,13 @@ template(name='friendbar')
     .ui.fluid.attached.segment(style="background-color:#{currentUser.theme_color};" class=currentUser.invert_class)
         .ui.middle.aligned.selection.list.smallscroll
             each currentUser.friends
-                a.item(href="/u/#{username}")
+                a.item.close_friendbar(href="/u/#{username}")
                     .right.floated
                         i.gift.link.icon(title="gift #{username} points") 
                         .ui.icon.button(title="message #{username}") 
                             i.mail.icon
                     img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                    |#{username}
+                    .ui.small.inline.header #{username}
     a.ui.attached.button.close_topbar(href="/inbox")
         i.users.icon
         |friends
