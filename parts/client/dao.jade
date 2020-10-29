@@ -1,7 +1,7 @@
 template(name='dao')
     .ui.stackable.grid
         .row
-            .sixteen.wide.column
+            .sixteen.wide.column.smallscroll
                 // a.icon.ui.big.circular.icon.button.zoomer(href='/')
                 //     i.large.yin.yang.grey.icon
                 // unless viewing_doc
@@ -46,71 +46,72 @@ template(name='dao')
                 +skve k='view_mode' v='stack' l='stack' i='stackoverflow'
                 +skve k='view_mode' v='image' l='image' i='image'
                 +skve k='view_mode' v='github' l='github' i='github'
-                // +skve k='view_mode' v='porn' l='porn' i='mercury'
+                +skve k='view_mode' v='porn' l='porn' i='mercury'
                 +skve k='view_mode' v='video' l='youtube' i='youtube'
                 // div
-                .ui.inline.grey.header 
-                    +i n='marker' cl='ui mini inline image'
-                    // |where
-                each location_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                // .ui.basic.tertiary.button(title='groups')
-                // i.users.icon
-                // div
-                .ui.inline.grey.header 
-                    +i n='user' cl='ui mini inline image'
-                    // |people
-                each person_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                // .ui.basic.tertiary.button
-                // div
-                .ui.inline.grey.header 
-                    +i n='home' cl='ui mini inline image' t='facility'
-                    // |facilities
-                each facility_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                +i n='briefcase' cl='ui mini inline image' t='company'
-                each company_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                // +i n='television' cl='ui mini inline image' t='tv shows'
-                each tvshow_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                +i n='building' cl='ui mini inline image' t='organization'
-                each organization_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                +i n='trophy' cl='ui mini inline image' t='award'
-                each award_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                div
-                .ui.inline.grey.header 
-                    +i n='paper' cl='ui mini inline image'
-                    // |print media
-                    // |where
-                each print_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                +i n='sport' cl='ui mini inline image' t='sport'
-                each sport_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                +i n='movie' cl='ui mini inline image' t='movie'
-                each movie_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                each selected_emotions
-                    .ui.black.compact.button.unselect_emotion
-                        |#{this}
-                each emotion_results
-                    if name
-                        .ui.compact.basic.circular.button.select_emotion
-                            |#{name}
+                unless skv_is 'view_mode' 'stack'
+                    .ui.inline.grey.header 
+                        +i n='marker' cl='ui mini inline image'
+                        // |where
+                    each location_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    // .ui.basic.tertiary.button(title='groups')
+                    // i.users.icon
+                    // div
+                    .ui.inline.grey.header 
+                        +i n='user' cl='ui mini inline image'
+                        // |people
+                    each person_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    // .ui.basic.tertiary.button
+                    // div
+                    .ui.inline.grey.header 
+                        +i n='home' cl='ui mini inline image' t='facility'
+                        // |facilities
+                    each facility_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    +i n='briefcase' cl='ui mini inline image' t='company'
+                    each company_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    // +i n='television' cl='ui mini inline image' t='tv shows'
+                    each tvshow_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    +i n='building' cl='ui mini inline image' t='organization'
+                    each organization_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    +i n='trophy' cl='ui mini inline image' t='award'
+                    each award_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    div
+                    .ui.inline.grey.header 
+                        +i n='paper' cl='ui mini inline image'
+                        // |print media
+                        // |where
+                    each print_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    +i n='sport' cl='ui mini inline image' t='sport'
+                    each sport_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    +i n='movie' cl='ui mini inline image' t='movie'
+                    each movie_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    each selected_emotions
+                        .ui.black.compact.button.unselect_emotion
+                            |#{this}
+                    each emotion_results
+                        if name
+                            .ui.compact.basic.circular.button.select_emotion
+                                |#{name}
                 // +skve k='emotion_mode' v='happy' l='happy' i='happy--v1'
                 // +skve k='emotion_mode' v='sad' l='sad' i='sad--v1'
                 // +skve k='emotion_mode' v='anger' l='anger' i='angry--v1'

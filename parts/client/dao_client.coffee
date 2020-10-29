@@ -308,6 +308,7 @@ Template.tag_selector.events
                     position: 'bottom left'
                 )
                 Session.set('thinking',false)
+                Meteor.call 'call_wiki', @name, ->
         else
             Session.set('thinking',true)
             $('body').toast(
