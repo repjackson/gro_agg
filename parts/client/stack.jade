@@ -1,0 +1,11 @@
+template(name='stack')
+    .ui.stackable.grid
+        .row
+            .sixteen.wide.column
+                .ui.header stackexchange
+                .ui.input
+                    input(type='text')
+                .ui.header sites
+                each sites
+                    .ui.header #{title}
+                .ui.header questions

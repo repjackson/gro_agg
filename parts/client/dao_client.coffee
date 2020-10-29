@@ -579,6 +579,7 @@ Template.dao.helpers
     selected_subreddits: -> selected_subreddits.array()
     selected_emotions: -> selected_emotions.array()
    
+    site_results: -> results.find(model:'site')
     sport_results: -> results.find(model:'sport')
     award_results: -> results.find(model:'award')
     movie_results: -> results.find(model:'movie')

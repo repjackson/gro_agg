@@ -9,6 +9,11 @@ if Meteor.isClient
         @render 'user_friends'
         ), name:'user_friends'
 
+    Router.route '/u/:username/events', (->
+        @layout 'profile'
+        @render 'user_events'
+        ), name:'user_events'
+
 
     Template.profile.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username

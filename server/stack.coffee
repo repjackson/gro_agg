@@ -6,7 +6,7 @@ Meteor.methods
         # url = 'http://api.stackexchange.com/2.1/questions?pagesize=1&fromdate=1356998400&todate=1359676800&order=desc&min=0&sort=votes&tagged=javascript&site=stackoverflow'
         # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&tagged=#{selected_tags}&intitle=#{query}&site=stackoverflow"
         # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&intitle=#{query}&site=stackoverflow"
-        url = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=#{query}&site=stackoverflow"
+        url = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=#{query}&site=money"
         request.get {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -24,6 +24,7 @@ Meteor.methods
                     Docs.update found._id,
                         $addToSet:tags:query
                 unless found
+                    item.site = 'money'
                     item.model = 'stack'
                     item.tags.push query
                     new_id = 

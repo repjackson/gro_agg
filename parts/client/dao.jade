@@ -46,9 +46,15 @@ template(name='dao')
                 +skve k='view_mode' v='stack' l='stack' i='stackoverflow'
                 +skve k='view_mode' v='image' l='image' i='image'
                 +skve k='view_mode' v='github' l='github' i='github'
-                +skve k='view_mode' v='porn' l='porn' i='mercury'
+                // +skve k='view_mode' v='porn' l='porn' i='mercury'
                 +skve k='view_mode' v='video' l='youtube' i='youtube'
                 // div
+                if skv_is 'view_mode' 'stack'
+                    +i n='globe' cl='ui mini inline image' t='company'
+                    |site
+                    each site_results
+                        +tag_selector
+
                 unless skv_is 'view_mode' 'stack'
                     .ui.inline.grey.header 
                         +i n='marker' cl='ui mini inline image'

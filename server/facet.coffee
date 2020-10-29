@@ -190,8 +190,8 @@ Meteor.publish 'dtags', (
             match.model = 'wikipedia'
         when 'stack'
             match.model = 'stack'
-        when 'porn'
-            match.model = 'porn'
+        # when 'porn'
+        #     match.model = 'porn'
         else
             match.model = $in:['wikipedia','reddit','stack']
             # match.model = $in:['wikipedia']
@@ -290,6 +290,28 @@ Meteor.publish 'dtags', (
             name: location.name
             count: location.count
             model:'location'
+    
+      
+    if view_mode is 'stack'
+        site_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "site": 1 }
+            { $unwind: "$site" }
+            { $group: _id: "$site", count: $sum: 1 }
+            # { $match: _id: $nin: selected_sites }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:7 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+        # console.log 'cloud: ', site_cloud
+        # console.log 'site match', match
+        site_cloud.forEach (site, i) ->
+            # console.log 'site',site
+            self.added 'results', Random.id(),
+                name: site.name
+                count: site.count
+                model:'site'
     
       
   

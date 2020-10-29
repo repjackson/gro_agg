@@ -1,11 +1,17 @@
 template(name='nav')
     // a.icon.ui.big.circular.icon.button.zoomer(href='/')
     .ui.fluid.attached.borderless.inverted.menu
-        // a.icon.header.item.zoomer.pointer.toggle_leftbar
-        //     i.bars.large.grey.icon
+        a.icon.header.item.zoomer.pointer.toggle_leftbar
+            i.bars.large.grey.icon
         if connected
             a.icon.item.zoomer(href='/')
                 i.big.yin.yang.icon
+            a.icon.item.zoomer(href='/stack')
+                i.big.stack.exchange.icon
+            a.icon.item.zoomer(href='/reddit')
+                i.big.reddit.icon
+            a.icon.item.zoomer(href='/wikipedia')
+                i.big.wikipedia.icon
         unless connected
             .item
                 i.yin.yang.loading.big.icon
@@ -43,8 +49,8 @@ template(name='nav')
                     else 
                         i.large.user.zoomer.large.icon
                     strong.mobile.hidden #{currentUser.username}
-                // a.icon.large.item.zoomer.toggle_rightbar
-                //     i.bars.large.grey.icon
+                a.icon.large.item.zoomer.toggle_rightbar
+                    i.bars.large.grey.icon
             else
                 a.pointer.zoomer.item(href="/login" title='login')
                     i.large.sign.in.icon

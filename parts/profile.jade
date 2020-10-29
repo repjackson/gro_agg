@@ -1,8 +1,8 @@
 template(name='profile')
     +nav
     .ui.bottom.attached.pushable.segment
-        // +leftbar
-        // +rightbar
+        +leftbar
+        +rightbar
         // #main_area.global_container.pusher.invert
         #main_area.global_container.pusher(class=currentUser.invert_class)
             with current_user
@@ -37,6 +37,17 @@ template(name='profile')
                                 |log out
                         if is_dev
                             +print_this
+                        .ui.fluid.dropdown.button
+                            i.users.icon
+                            | #{friends.count} friends
+                            .menu 
+                                each friends
+                                    a.item(href="/u/#{username}" title=username)
+                                        if profile_image_id
+                                            img.ui.avatar.invert.image(src="{{c.url profile_image_id height=500 width=300 gravity='face' crop='fill'}}")
+                                        // else
+                                        //     .ui.label.image #{initials}
+                                        | #{username}
                         .ui.vertical.fluid.menu
                             a.zoomer.item(href="/u/#{username}" class="{{isActiveRoute 'user_debits'}}")
                                 i.dashboard.icon
@@ -82,17 +93,6 @@ template(name='profile')
                                 //     i.concierge.bell.large.teal.icon
                                 //     span request
                                     
-                        .ui.fluid.dropdown.button
-                            i.users.icon
-                            | #{friends.count} friends
-                            .menu 
-                                each friends
-                                    a.item(href="/u/#{username}" title=username)
-                                        if profile_image_id
-                                            img.ui.avatar.invert.image(src="{{c.url profile_image_id height=500 width=300 gravity='face' crop='fill'}}")
-                                        // else
-                                        //     .ui.label.image #{initials}
-                                        | #{username}
                         .ui.selection.link.list.smallscroll
                             each friends
                                 a.item(href="/u/#{username}" title=username)
@@ -165,7 +165,8 @@ template(name='authored_overlap')
 
 
 template(name='user_rentals')
-template(name='user_event  s')
+template(name='user_events')
+    .ui.header events
 template(name='user_friends')
     .ui.header user friends
 template(name='user_dashboard')
@@ -337,7 +338,7 @@ template(name='post_segment')
                     // i.reply.link.grey.icon
                     a.remove_post
                         i.remove.link.grey.icon
-                +array_edit k='tags' l='tags' d=true
+                // +array_edit k='tags' l='tags' d=true
         with alpha_response
             .ui.small.grey.inline.header
                 i.brain.icon
