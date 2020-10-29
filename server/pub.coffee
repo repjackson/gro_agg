@@ -377,7 +377,10 @@ Meteor.publish 'stacks', (selected_tags)->
     Docs.find({
         model:'stack'
         # _author_id:user._id
-    },limit:10)
+    },{
+        limit:10
+        sort:_timestamp:-1
+    })
     
     
 Meteor.publish 'search_doc', (selected_tags)->

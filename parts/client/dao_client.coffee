@@ -204,20 +204,20 @@ Template.tag_selector.helpers
             title:@name.toLowerCase()
             
 Template.dao.events
-    # 'keyup .search_stack': (e,t)->
-    #     # search = $('.search_title').val().toLowerCase().trim()
-    #     search = $('.search_title').val().trim()
-    #     # _.throttle( =>
+    'keyup .search_stack': (e,t)->
+        # search = $('.search_title').val().toLowerCase().trim()
+        search = $('.search_stack').val().trim()
+        # _.throttle( =>
 
-    #     # if search.length > 4
-    #     #     Session.set('query',search)
-    #     # else if search.length is 0
-    #     #     Session.set('query','')
-    #     if e.which is 13
-    #         window.speechSynthesis.cancel()
-    #         # console.log search
-    #         if search.length > 0
-    #             # Meteor.call 'check_url', search, (err,res)->
+        # if search.length > 4
+        #     Session.set('query',search)
+        # else if search.length is 0
+        #     Session.set('query','')
+        if e.which is 13
+            window.speechSynthesis.cancel()
+            # console.log search
+            if search.length > 0
+                Meteor.call 'search_stack', search, (err,res)->
 
     'click .call_stack': -> Meteor.call 'search_stack', selected_tags.array()
     'click .select_model': -> selected_models.push @name

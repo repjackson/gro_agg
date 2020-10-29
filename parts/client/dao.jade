@@ -174,8 +174,22 @@ template(name='dao')
                             |stack
                         .ui.button.call_stack
                             |call
+                        .ui.input
+                            input.search_stack(type='text')
                         each stack_docs
                             .ui.header #{title}
+                            each tags 
+                                .ui.basic.label #{this}
+                            .ui.list
+                                .item is_answered #{is_answered}
+                                .item view_count #{view_count}
+                                .item protected_date #{protected_date}
+                                .item accepted_answer_id #{accepted_answer_id}
+                                .item answer_count #{answer_count}
+                                .item score #{score}
+                                .item last_activity_date #{last_activity_date}
+                                .item creation_date #{creation_date}
+
                     else if skv_is 'main_section' 'sources'
                         .ui.inline.header 
                             i.database.large.icon
