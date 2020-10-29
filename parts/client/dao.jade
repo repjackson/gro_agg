@@ -11,11 +11,13 @@ template(name='dao')
                     //         i.remove.icon
                     each selected_tags
                         +unselect_tag
-                .ui.left.icon.transparent.big.input(class=thinking_class)
-                    if skv_is 'thinking' true
-                        i.big.yin.yang.loading.icon
-                    else 
-                        i#clear_tags.link.yin.yang.big.icon(class=thinking_class)
+                i.big.icon(class=search_icon_class)
+                .ui.left.icon.large.input(class=thinking_class)
+                    i.search.icon
+                    // if skv_is 'thinking' true
+                    //     i.big.yin.yang.loading.icon
+                    // else 
+                    //     i#clear_tags.link.yin.yang.big.icon(class=thinking_class)
                     // i.search.grey.icon
                     input.search_title(type='text' autofocus='' placeholder=doc_count)
                 each tag_results
@@ -41,7 +43,7 @@ template(name='dao')
                     // .ui.compact.small.tertiary.add_tag.button #{name}
                 +skve k='view_mode' v='posts' l='posts' i='blog'
                 +skve k='view_mode' v='wikipedia' l='wikipedia' i='wikipedia'
-                +skve k='view_mode' v='stack' l='stack' i='code'
+                +skve k='view_mode' v='stack' l='stack' i='stackoverflow'
                 +skve k='view_mode' v='image' l='image' i='image'
                 +skve k='view_mode' v='github' l='github' i='github'
                 // +skve k='view_mode' v='porn' l='porn' i='mercury'
@@ -123,13 +125,13 @@ template(name='dao')
                 // +view_mode k='covid' i='biohazard'
                     // i.building.icon
                     // |organizations
+            .twelve.wide.column
                 +skve k='main_section' v='dashboard' l='dashboard' i='dashboard'
                 +skve k='main_section' v='alpha' l='alpha' i='brain'
                 +skve k='main_section' v='duck' l='search' i='search'
                 +skve k='main_section' v='reddit' l='reddit' i='reddit'
                 +skve k='main_section' v='wikipedia' l='wikipedia' i='wikipedia'
                 +skve k='main_section' v='stack' l='stack' i='stackoverflow'
-            .twelve.wide.column.scrolling
                 // +skve k='main_section' v='shop' l='shop' i='shop'
                 // +skve k='main_section' v='chat' l='chat' i='chat'
                 // +skve k='main_section' v='groups' l='groups' i='groups'

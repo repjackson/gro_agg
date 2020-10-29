@@ -208,6 +208,8 @@
     'reddit premium reddit gifts'
     'good bot moderator'
     'blog terms'
+    'Reddit'
+    'Reddit Inc'
 ]
 
 

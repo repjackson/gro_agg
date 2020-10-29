@@ -1,8 +1,8 @@
 template(name='nav')
     // a.icon.ui.big.circular.icon.button.zoomer(href='/')
-    .ui.fluid.attached.borderless.menu
-        // a.icon.header.item.zoomer.pointer.toggle_leftbar
-        //     i.bars.large.grey.icon
+    .ui.fluid.attached.borderless.inverted.menu
+        a.icon.header.item.zoomer.pointer.toggle_leftbar
+            i.bars.large.grey.icon
         if connected
             a.icon.item.zoomer(href='/')
                 i.big.yin.yang.icon
@@ -25,7 +25,8 @@ template(name='nav')
                                 if unread_count
                                     |#{unread_count}
                         else
-                            a.icon.pointer.zoomer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+                            // a.icon.pointer.zoomer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+                            a.icon.pointer.zoomer.item(href="/inbox")
                                 i.large.outline.bell.icon
                 a.icon.pointer.zoomer.item(href="/chat" title='chat') 
                     i.chat.outline.large.icon
@@ -48,10 +49,10 @@ template(name='nav')
                 a.pointer.zoomer.item(href="/login" title='login')
                     i.large.sign.in.icon
                     // |enter
-        // if skv_is 'viewing_alerts' true
-        //     +topbar
-        // else if skv_is 'viewing_friends' true
-        //     +friendbar
+        if skv_is 'viewing_alerts' true
+            +topbar
+        else if skv_is 'viewing_friends' true
+            +friendbar
 
 
 

@@ -44,7 +44,7 @@ Meteor.publish 'doc_count', (
         when 'stack'
             match.model = 'stack'
         else 
-            match.model = $in:['wikipedia','reddit','alpha']
+            match.model = $in:['wikipedia','reddit','stack']
 
     Counts.publish this, 'result_counter', Docs.find(match)
     return undefined    # otherwise coffeescript returns a Counts.publish
@@ -139,7 +139,7 @@ Meteor.publish 'docs', (
         when 'porn'
             match.model = 'porn'
         else 
-            match.model = $in:['wikipedia','reddit']
+            match.model = $in:['wikipedia','reddit','stack']
     # console.log 'doc match', match
     Docs.find match,
         limit:7
@@ -193,7 +193,7 @@ Meteor.publish 'dtags', (
         when 'porn'
             match.model = 'porn'
         else
-            match.model = $in:['wikipedia','reddit']
+            match.model = $in:['wikipedia','reddit','stack']
             # match.model = $in:['wikipedia']
     if selected_tags.length > 0 
         match.tags = $all: selected_tags
