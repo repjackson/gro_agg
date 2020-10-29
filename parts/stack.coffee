@@ -6,6 +6,26 @@ if Meteor.isClient
 
 
     Template.stack.onCreated ->
-        # @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
-        # @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username
-        # @autorun -> Meteor.subscribe 'user_friends', Router.current().params.username
+        @autorun -> Meteor.subscribe 'stack_sites'
+        @autorun -> Meteor.subscribe 'stack_docs'
+    Template.stack.helpers
+        sites: ->
+            Docs.find
+                model:'site'
+        stack_docs: ->
+            Docs.find
+                model:'stack'
+
+
+
+if Meteor.isServer
+    Meteor.publish 'stack_sites', ->
+        Docs.find model:'site'
+    
+    Meteor.publish 'stack_docs', ->
+        Docs.find {
+            model:'stack'
+        },
+            limit:20
+            
+            
