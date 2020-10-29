@@ -43,7 +43,8 @@ template(name='dao')
                 +skve k='view_mode' v='wikipedia' l='wikipedia' i='wikipedia'
                 +skve k='view_mode' v='stack' l='stack' i='code'
                 +skve k='view_mode' v='image' l='image' i='image'
-                // +skve k='view_mode' v='github' l='github' i='github'
+                +skve k='view_mode' v='github' l='github' i='github'
+                +skve k='view_mode' v='porn' l='porn' i='mercury'
                 +skve k='view_mode' v='video' l='youtube' i='youtube'
                 // div
                 .ui.inline.grey.header 
@@ -129,15 +130,15 @@ template(name='dao')
                 +skve k='main_section' v='reddit' l='reddit' i='reddit'
                 +skve k='main_section' v='wikipedia' l='wikipedia' i='wikipedia'
                 +skve k='main_section' v='stack' l='stack' i='code'
-                // +skve k='main_section' v='shop' l='shop' i='shop'
-                // +skve k='main_section' v='chat' l='chat' i='chat'
-                // +skve k='main_section' v='groups' l='groups' i='groups'
-                // +skve k='main_section' v='events' l='events' i='calendar'
-                // +skve k='main_section' v='tasks' l='tasks' i='tasks'
-                // +skve k='main_section' v='leaderboard' l='leaderboard' i='leaderboard'
-                // +skve k='main_section' v='university' l='university' i='university'
-                // +skve k='main_section' v='faq' l='faq' i='faq'
-                // +skve k='main_section' v='money' l='money' i='money'
+                +skve k='main_section' v='shop' l='shop' i='shop'
+                +skve k='main_section' v='chat' l='chat' i='chat'
+                +skve k='main_section' v='groups' l='groups' i='groups'
+                +skve k='main_section' v='events' l='events' i='calendar'
+                +skve k='main_section' v='tasks' l='tasks' i='tasks'
+                +skve k='main_section' v='leaderboard' l='leaderboard' i='leaderboard'
+                +skve k='main_section' v='university' l='university' i='university'
+                +skve k='main_section' v='faq' l='faq' i='faq'
+                +skve k='main_section' v='money' l='money' i='money'
                 .scrollin
                     if skv_is 'main_section' 'dashboard'
                         +i n='dashboard'
@@ -170,7 +171,7 @@ template(name='dao')
                                 +select_subreddit
                     else if skv_is 'main_section' 'stack'
                         .ui.inline.header 
-                            i.stack.large.icon
+                            i.stackexchange.large.icon
                             |stack
                         .ui.button.call_stack
                             |call
@@ -181,11 +182,13 @@ template(name='dao')
                             each tags 
                                 .ui.basic.label #{this}
                             .ui.list
-                                .item is_answered #{is_answered}
-                                .item view_count #{view_count}
+                                .item answered #{is_answered}
+                                .item 
+                                    i.eye.icon
+                                    |#{view_count}
                                 .item protected_date #{protected_date}
                                 .item accepted_answer_id #{accepted_answer_id}
-                                .item answer_count #{answer_count}
+                                .item #{answer_count} answers
                                 .item score #{score}
                                 .item last_activity_date #{last_activity_date}
                                 .item creation_date #{creation_date}

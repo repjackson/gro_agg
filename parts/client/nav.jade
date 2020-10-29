@@ -1,10 +1,10 @@
 template(name='nav')
     // a.icon.ui.big.circular.icon.button.zoomer(href='/')
-    .ui.fluid.attached.borderless.invert.menu.topnav
+    .ui.fluid.attached.menu
         // a.icon.header.item.zoomer.pointer.toggle_leftbar
         //     i.bars.large.grey.icon
         if connected
-            a.icon.item.zoomer(href='/' class="{{isActivePath '/'}}")
+            a.icon.item.zoomer(href='/')
                 i.big.yin.yang.icon
         unless connected
             .item
@@ -35,7 +35,7 @@ template(name='nav')
                 //         i.large.code.icon
                     
             if currentUser
-                a.large.pointer.zoomer.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'profile'}}")
+                a.large.pointer.zoomer.item(href="/u/#{currentUser.username}" )
                     //- i.large.user.large.icon
                     // |{{money_format currentUser.points}}c
                     |#{currentUser.points}p
