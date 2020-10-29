@@ -442,7 +442,7 @@ Template.dao.events
                 displayTime: 'auto',
                 position: 'bottom left'
             )
-            Meteor.call 'search_stack', @valueOf(), ->
+            Meteor.call 'search_stack', @valueOf(), =>
                 $('body').toast(
                     showIcon: 'stack exchange'
                     message: ' done'
