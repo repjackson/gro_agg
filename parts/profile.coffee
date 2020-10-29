@@ -8,47 +8,47 @@ if Meteor.isClient
     Template.profile.onCreated ->
         # @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username
-        # @autorun -> Meteor.subscribe 'user_friends', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_friends', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_topups', Router.current().params.username
         # @autorun -> Meteor.subscribe 'all_users', Router.current().params.username
         Session.setDefault('profile_section','dashboard')
     
-    Template.profile.onRendered ->
-        document.title = "#{Router.current().params.username} profile"
+    # Template.profile.onRendered ->
+    #     document.title = "#{Router.current().params.username} profile"
         
-        Meteor.setTimeout ->
-            $('.ui.dropdown').dropdown()
-        , 2000
+    #     Meteor.setTimeout ->
+    #         $('.ui.dropdown').dropdown()
+    #     , 2000
         
-        Meteor.setTimeout ->
-            $('.item')
-                .popup()
-        , 2000
-        user = Meteor.users.findOne(username:Router.current().params.username)
-        # Meteor.call 'calc_user_stats', user._id, ->
-        Meteor.setTimeout ->
-            if user
-                Meteor.call 'calc_user_stats', user._id, ->
-        , 2000
+    #     Meteor.setTimeout ->
+    #         $('.item')
+    #             .popup()
+    #     , 2000
+        # user = Meteor.users.findOne(username:Router.current().params.username)
+        # # Meteor.call 'calc_user_stats', user._id, ->
+        # Meteor.setTimeout ->
+        #     if user
+        #         Meteor.call 'calc_user_stats', user._id, ->
+        # , 2000
 
 
     Template.profile.helpers
         route_slug: -> "user_#{@slug}"
         user: -> Meteor.users.findOne username:Router.current().params.username
         is_current_user: -> Meteor.user().username is Router.current().params.username
-    Template.user_dashboard.helpers
-        posts: ->
-            user = Meteor.users.findOne username:Router.current().params.username            
-            Docs.find 
-                model:'post'
-                _author_id: user._id
+    # Template.user_dashboard.helpers
+    #     latest_posts: ->
+    #         user = Meteor.users.findOne username:Router.current().params.username            
+    #         Docs.find 
+    #             model:'post'
+    #             _author_id: user._id
 
                 
-        topups: ->
-            user = Meteor.users.findOne username:Router.current().params.username            
-            Docs.find 
-                model:'topup'
-                # _author_id: user._id
+    #     topups: ->
+    #         user = Meteor.users.findOne username:Router.current().params.username            
+    #         Docs.find 
+    #             model:'topup'
+    #             # _author_id: user._id
 
                 
     Template.user_dashboard.events
@@ -154,7 +154,7 @@ if Meteor.isServer
         user = Meteor.users.findOne(username:username)
         Docs.find {
             model:'post'
-            _author_id:user._id
+            # _author_id:user._id
         },
             limit:20
             sort:_timestamp:-1
