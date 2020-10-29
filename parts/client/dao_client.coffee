@@ -138,7 +138,7 @@ Template.unselect_tag.onCreated ->
     
 Template.unselect_tag.helpers
     term: ->
-        console.log @valueOf()
+        # console.log @valueOf()
         found = 
             Docs.findOne 
                 # model:'wikipedia'
@@ -278,12 +278,12 @@ Template.tag_selector.events
         Session.set('thinking',true)
         $('body').toast(
             showIcon: 'wikipedia'
-            message: 'wikipedia started'
+            message: 'started'
             displayTime: 'auto',
         )
         Meteor.call 'call_wiki', @name, ->
             $('body').toast(
-                message: 'wiki done'
+                message: 'done'
                 showIcon: 'wikipedia'
                 # showProgress: 'bottom'
                 class: 'info'
@@ -291,12 +291,12 @@ Template.tag_selector.events
             )
         $('body').toast(
             showIcon: 'reddit'
-            message: 'reddit started'
+            message: 'started'
             displayTime: 'auto',
         )
         Meteor.call 'search_reddit', selected_tags.array(), ->
             $('body').toast(
-                message: 'reddit done'
+                message: 'done'
                 showIcon: 'reddit'
                 # showProgress: 'bottom'
                 class: 'success'
@@ -341,11 +341,36 @@ Template.doc_tag.events
         Session.set('query','')
         Session.set('skip',0)
         Session.set('viewing_doc',null)
-
+        Session.set('thinking',true)
+        $('body').toast(
+            showIcon: 'wikipedia'
+            message: 'wikipedia started'
+            displayTime: 'auto',
+        )
         Meteor.call 'call_wiki', @valueOf(), ->
-        # Meteor.call 'call_alpha', @valueOf(), ->
-        Meteor.call 'call_alpha', selected_tags.array().toString(), ->
+            $('body').toast(
+                message: 'done'
+                showIcon: 'wikipedia'
+                # showProgress: 'bottom'
+                class: 'info'
+                displayTime: 'auto',
+            )
+        $('body').toast(
+            showIcon: 'reddit'
+            message: 'started'
+            displayTime: 'auto',
+        )
         Meteor.call 'search_reddit', selected_tags.array(), ->
+            $('body').toast(
+                message: 'done'
+                showIcon: 'reddit'
+                # showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+            )
+            Session.set('thinking',false)
+        Meteor.call 'search_ddg', @name, ->
+        Meteor.call 'call_alpha', selected_tags.array().toString(), ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
             
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
@@ -415,6 +440,21 @@ Template.dao.helpers
             query: selected_tags.array().toString()
     many_tags: -> selected_tags.array().length > 1
     doc_count: -> Counts.get('result_counter')
+    stack_docs: ->
+        if Session.get('viewing_doc')
+            Docs.find Session.get('viewing_doc')
+        else
+            match = {model:'stack'}
+            if selected_tags.array().length>0
+                match.tags = $all:selected_tags.array()
+            Docs.find match,
+                sort:
+                    _timestamp:-1
+                    points:-1
+                    ups:-1
+                    # "#{Session.get('sort_key')}": Session.get('sort_direction')
+                limit:10
+                # skip:Session.get('skip')
     wiki_docs: ->
         if Session.get('viewing_doc')
             Docs.find Session.get('viewing_doc')
@@ -480,7 +520,6 @@ Template.dao.helpers
     location_results: -> results.find(model:'location')
     person_results: -> results.find(model:'person')
     subreddit_results: -> results.find(model:'subreddit')
-    stack_docs: -> Docs.find(model:'stack')
     tag_results: ->
         # match = {model:'wikipedia'}
         # doc_count = Docs.find(match).count()
@@ -602,6 +641,22 @@ Template.dao.events
                 # Meteor.call 'call_alpha', search, ->
                 if Session.equals('view_mode','porn')
                     Meteor.call 'search_ph', search, ->
+                else if Session.equals('view_mode','stack')
+                    Session.set('thinking',true)
+                    $('body').toast(
+                        showIcon: 'stackexchange'
+                        message: 'started'
+                        displayTime: 'auto',
+                    )
+                    Meteor.call 'search_stack', search, ->
+                        $('body').toast(
+                            showIcon: 'stackexchange'
+                            message: ' done'
+                            # showProgress: 'bottom'
+                            class: 'success'
+                            displayTime: 'auto',
+                        )
+                        Session.set('thinking',false)
                 else
                     # window.speechSynthesis.speak new SpeechSynthesisUtterance search
                     Session.set('thinking',true)
@@ -614,7 +669,6 @@ Template.dao.events
                         $('body').toast(
                             showIcon: 'search'
                             message: ' done'
-                            showIcon: 'brain'
                             # showProgress: 'bottom'
                             class: 'success'
                             displayTime: 'auto',

@@ -222,7 +222,7 @@ Meteor.publish 'stacks', (selected_tags)->
         # _author_id:user._id
     },{
         limit:10
-        sort:_timestamp:1
+        sort:_timestamp:-1
     })
     
     

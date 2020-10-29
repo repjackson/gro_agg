@@ -189,12 +189,12 @@ Meteor.publish 'dtags', (
         else
             match.model = $in:['wikipedia','reddit']
             # match.model = $in:['wikipedia']
-    if selected_tags.length > 0 
-        match.tags = $all: selected_tags
-    else
-        unless selected_subreddits.length>0
-            unless view_mode is 'porn'
-                match.tags = $in:['daoism']
+    # if selected_tags.length > 0 
+    match.tags = $all: selected_tags
+    # else
+    #     unless selected_subreddits.length>0
+    #         unless view_mode is 'porn'
+    #             match.tags = $in:['daoism']
     # else if view_mode in ['reddit',null]
     doc_count = Docs.find(match).count()
     # console.log 'count',doc_count
@@ -506,10 +506,10 @@ Meteor.publish 'dtags', (
             count: emotion.count
             model:'emotion'
     
-    if view_mode is 'porn'
-        tag_limit = 20
-    else
-        tag_limit = 11
+    # if view_mode is 'porn'
+    #     tag_limit = 20
+    # else
+    #     tag_limit = 11
   
     tag_cloud = Docs.aggregate [
         { $match: match }
@@ -522,7 +522,7 @@ Meteor.publish 'dtags', (
         { $limit:9 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
-    # # console.log 'cloud: ', tag_cloud
+    # console.log 'cloud: ', tag_cloud
     console.log 'tag match', match
     tag_cloud.forEach (tag, i) ->
         self.added 'results', Random.id(),

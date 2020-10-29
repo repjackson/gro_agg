@@ -177,7 +177,7 @@ template(name='dao')
                         .ui.input
                             input.search_stack(type='text')
                         each stack_docs
-                            .ui.header #{title}
+                            .ui.header !{title}
                             each tags 
                                 .ui.basic.label #{this}
                             .ui.list
@@ -189,6 +189,7 @@ template(name='dao')
                                 .item score #{score}
                                 .item last_activity_date #{last_activity_date}
                                 .item creation_date #{creation_date}
+                                .item #{_when}
 
                     else if skv_is 'main_section' 'sources'
                         .ui.inline.header 
