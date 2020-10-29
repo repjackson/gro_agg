@@ -39,6 +39,8 @@ Meteor.publish 'doc_count', (
         when 'posts'
             match.model = 'reddit'
             match.domain = $nin:['i.imgur.com','i.reddit.com','i.redd.it','imgur.com','youtube.com','youtu.be','m.youtube.com','v.redd.it','vimeo.com']
+        when 'porn'
+            match.model = 'porn'
         when 'stack'
             match.model = 'stack'
         else 
@@ -134,6 +136,8 @@ Meteor.publish 'docs', (
             # match.domain = $nin:['i.imgur.com','i.reddit.com','i.redd.it','imgur.com','youtube.com','youtu.be','m.youtube.com','v.redd.it','vimeo.com']
         when 'stack'
             match.model = 'stack'
+        when 'porn'
+            match.model = 'porn'
         else 
             match.model = $in:['wikipedia','reddit']
     # console.log 'doc match', match

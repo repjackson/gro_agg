@@ -153,23 +153,24 @@ Template.unselect_tag.events
             if Session.equals('view_mode','porn')
                 Meteor.call 'search_ph', selected_tags.array(), ->
             else if Session.equals('view_mode','stack')
-                    Session.set('thinking',true)
+                # selected_tags.push @valueOf()
+                Session.set('thinking',true)
+                $('body').toast(
+                    showIcon: 'stack exchange'
+                    message: 'started'
+                    displayTime: 'auto',
+                    position: 'bottom left'
+                )
+                Meteor.call 'search_stack', @name, ->
                     $('body').toast(
-                        showIcon: 'stackexchange'
-                        message: 'started'
+                        showIcon: 'stack exchange'
+                        message: ' done'
+                        # showProgress: 'bottom'
+                        class: 'success'
                         displayTime: 'auto',
                         position: 'bottom left'
                     )
-                    Meteor.call 'search_stack', @name, ->
-                        $('body').toast(
-                            showIcon: 'stackexchange'
-                            message: ' done'
-                            # showProgress: 'bottom'
-                            class: 'success'
-                            displayTime: 'auto',
-                            position: 'bottom left'
-                        )
-                        Session.set('thinking',false)
+                    Session.set('thinking',false)
             else
                 Session.set('thinking',true)
                 $('body').toast(
@@ -292,14 +293,14 @@ Template.tag_selector.events
         if Session.equals('view_mode','stack')
             Session.set('thinking',true)
             $('body').toast(
-                showIcon: 'stackexchange'
+                showIcon: 'stack exchange'
                 message: 'started'
                 displayTime: 'auto',
                 position: 'bottom left'
             )
-            Meteor.call 'search_stack', @name, ->
+            Meteor.call 'search_stack', @name, =>
                 $('body').toast(
-                    showIcon: 'stackexchange'
+                    showIcon: 'stack exchange'
                     message: ' done'
                     # showProgress: 'bottom'
                     class: 'success'
@@ -431,6 +432,26 @@ Template.doc_tag.events
        
 
 Template.dao.events
+    'click .add_stack_tag': ->
+        selected_tags.push @valueOf()
+        if Session.equals('view_mode','stack')
+            Session.set('thinking',true)
+            $('body').toast(
+                showIcon: 'stack exchange'
+                message: 'started'
+                displayTime: 'auto',
+                position: 'bottom left'
+            )
+            Meteor.call 'search_stack', @valueOf(), ->
+                $('body').toast(
+                    showIcon: 'stack exchange'
+                    message: ' done'
+                    # showProgress: 'bottom'
+                    class: 'success'
+                    displayTime: 'auto',
+                    position: 'bottom left'
+                )
+                Session.set('thinking',false)
     # 'click .toggle_alpha': -> 
     #     console.log Session.get 'view_alpha'
     #     Session.set('view_alpha', !Session.get('view_alpha'))
@@ -677,14 +698,14 @@ Template.dao.events
                 else if Session.equals('view_mode','stack')
                     Session.set('thinking',true)
                     $('body').toast(
-                        showIcon: 'stackexchange'
+                        showIcon: 'stack exchange'
                         message: 'started'
                         displayTime: 'auto',
                         position: 'bottom left'
                     )
                     Meteor.call 'search_stack', search, ->
                         $('body').toast(
-                            showIcon: 'stackexchange'
+                            showIcon: 'stack exchange'
                             message: ' done'
                             # showProgress: 'bottom'
                             class: 'success'

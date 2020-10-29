@@ -129,16 +129,16 @@ template(name='dao')
                 +skve k='main_section' v='duck' l='search' i='search'
                 +skve k='main_section' v='reddit' l='reddit' i='reddit'
                 +skve k='main_section' v='wikipedia' l='wikipedia' i='wikipedia'
-                +skve k='main_section' v='stack' l='stack' i='code'
-                +skve k='main_section' v='shop' l='shop' i='shop'
-                +skve k='main_section' v='chat' l='chat' i='chat'
-                +skve k='main_section' v='groups' l='groups' i='groups'
-                +skve k='main_section' v='events' l='events' i='calendar'
-                +skve k='main_section' v='tasks' l='tasks' i='tasks'
-                +skve k='main_section' v='leaderboard' l='leaderboard' i='leaderboard'
-                +skve k='main_section' v='university' l='university' i='university'
-                +skve k='main_section' v='faq' l='faq' i='faq'
-                +skve k='main_section' v='money' l='money' i='money'
+                +skve k='main_section' v='stack' l='stack' i='stackoverflow'
+                // +skve k='main_section' v='shop' l='shop' i='shop'
+                // +skve k='main_section' v='chat' l='chat' i='chat'
+                // +skve k='main_section' v='groups' l='groups' i='groups'
+                // +skve k='main_section' v='events' l='events' i='calendar'
+                // +skve k='main_section' v='tasks' l='tasks' i='tasks'
+                // +skve k='main_section' v='leaderboard' l='leaderboard' i='leaderboard'
+                // +skve k='main_section' v='university' l='university' i='university'
+                // +skve k='main_section' v='faq' l='faq' i='faq'
+                // +skve k='main_section' v='money' l='money' i='money'
                 .scrollin
                     if skv_is 'main_section' 'dashboard'
                         +i n='dashboard'
@@ -171,29 +171,36 @@ template(name='dao')
                                 +select_subreddit
                     else if skv_is 'main_section' 'stack'
                         .ui.inline.header 
-                            i.stackexchange.large.icon
+                            i.code.large.icon
                             |stack
-                        .ui.button.call_stack
-                            |call
-                        .ui.input
-                            input.search_stack(type='text')
+                        // .ui.button.call_stack
+                        //     |call
+                        // .ui.input
+                        //     input.search_stack(type='text')
                         each stack_docs
                             .ui.header !{title}
                             each tags 
-                                .ui.basic.label #{this}
-                            .ui.list
-                                .item answered #{is_answered}
-                                .item 
-                                    i.eye.icon
-                                    |#{view_count}
-                                .item protected_date #{protected_date}
-                                .item accepted_answer_id #{accepted_answer_id}
-                                .item #{answer_count} answers
-                                .item score #{score}
-                                .item last_activity_date #{last_activity_date}
-                                .item creation_date #{creation_date}
-                                .item #{_when}
-
+                                a.ui.basic.pointer.label.add_stack_tag #{this}
+                            .ui.label answered #{is_answered}
+                            .ui.label 
+                                i.eye.icon
+                                |#{view_count}
+                            .ui.label protected_date #{protected_date}
+                            .ui.label accepted_answer_id #{accepted_answer_id}
+                            .ui.label #{answer_count} answers
+                            .ui.label score #{score}
+                            .ui.label last_activity_date #{last_activity_date}
+                            .ui.label creation_date #{creation_date}
+                            .ui.label #{_when}
+                            a(href=link target='_window')
+                                |#{link}
+                            with owner
+                                .ui.compact.segment
+                                    .ui.header #{display_name}
+                                    img.ui.small.centered.image(src=profile_image)
+                                    .ui.label reputation #{reputation}
+                                    .ui.label user_id #{user_id}
+                                    .ui.label user_type #{user_type}
                     else if skv_is 'main_section' 'sources'
                         .ui.inline.header 
                             i.database.large.icon
@@ -335,7 +342,7 @@ template(name='unselect_tag')
 
 template(name='tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.basic.zoomer.tertiary.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.zoomer.tertiary.large.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.zoomer(src=term.watson.metadata.image)    

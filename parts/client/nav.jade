@@ -1,6 +1,6 @@
 template(name='nav')
     // a.icon.ui.big.circular.icon.button.zoomer(href='/')
-    .ui.fluid.attached.menu
+    .ui.fluid.attached.borderless.menu
         // a.icon.header.item.zoomer.pointer.toggle_leftbar
         //     i.bars.large.grey.icon
         if connected
@@ -11,28 +11,25 @@ template(name='nav')
                 i.yin.yang.loading.big.icon
                 +status    
         .right.menu
-            // if currentUser
-                // if connected
-                //     a.icon.zoomer.pointer.item.add(title='add')
-                //         i.large.plus.icon
-                // if currentUser
-                //     // a.pointer.zoomer.item.toggle_friends(href="#" class=alert_toggle_class title='friends')
-                //     //     i.large.users.icon
-                //     if connected
-                //         if unread_count
-                //             a.pointer.zoomer.item.alerts(href="#" class=alert_toggle_class)
-                //                 i.large.bell.icon
-                //                 if unread_count
-                //                     |#{unread_count}
-                //         else
-                //             a.icon.pointer.zoomer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
-                //                 i.large.outline.bell.icon
-                // a.icon.pointer.zoomer.item(href="/chat" title='chat') 
-                //     i.chat.outline.large.icon
-                // // a.icon.pointer.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
-                // if is_dev 
-                //     .icon.pointer.item
-                //         i.large.code.icon
+            if currentUser
+                if connected
+                    a.icon.zoomer.pointer.item.add(title='add')
+                        i.large.plus.icon
+                if currentUser
+                    // a.pointer.zoomer.item.toggle_friends(href="#" class=alert_toggle_class title='friends')
+                    //     i.large.users.icon
+                    if connected
+                        if unread_count
+                            a.pointer.zoomer.item.alerts(href="#" class=alert_toggle_class)
+                                i.large.bell.icon
+                                if unread_count
+                                    |#{unread_count}
+                        else
+                            a.icon.pointer.zoomer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+                                i.large.outline.bell.icon
+                a.icon.pointer.zoomer.item(href="/chat" title='chat') 
+                    i.chat.outline.large.icon
+                // a.icon.pointer.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
                     
             if currentUser
                 a.large.pointer.zoomer.item(href="/u/#{currentUser.username}" )
