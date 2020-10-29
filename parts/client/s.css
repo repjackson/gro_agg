@@ -232,11 +232,11 @@ html.ios body {
 }
 
 .hscroll::-webkit-scrollbar {
-    height: 2px !important;
+    height: 0px !important;
    /*border-radius: 10px !important; */
 }
 .secnav::-webkit-scrollbar {
-    height: 1px !important;
+    height: 0px !important;
    /*border-radius: 10px !important; */
 }
 .topnav::-webkit-scrollbar {
@@ -529,7 +529,7 @@ input {
 }
 
 ::-webkit-scrollbar {
-  width: 3px !important;
+  width: 0px !important;
   /*border-radius: 10px !important;*/
 }
 .wrap_input {

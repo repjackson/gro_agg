@@ -39,27 +39,33 @@ template(name='dao')
                 // each subreddit_results
                 //     +tag_selector
                     // .ui.compact.small.tertiary.add_tag.button #{name}
-                div
+                +skve k='view_mode' v='posts' l='posts' i='blog'
+                +skve k='view_mode' v='wikipedia' l='wikipedia' i='wikipedia'
+                +skve k='view_mode' v='stack' l='stack' i='code'
+                +skve k='view_mode' v='image' l='image' i='image'
+                // +skve k='view_mode' v='github' l='github' i='github'
+                +skve k='view_mode' v='video' l='youtube' i='youtube'
+                // div
                 .ui.inline.grey.header 
                     +i n='marker' cl='ui mini inline image'
-                    |where
+                    // |where
                 each location_results
                     +tag_selector
                     // .ui.compact.small.tertiary.add_tag.button #{name}
                 // .ui.basic.tertiary.button(title='groups')
                 // i.users.icon
-                div
+                // div
                 .ui.inline.grey.header 
                     +i n='user' cl='ui mini inline image'
-                    |people
+                    // |people
                 each person_results
                     +tag_selector
                     // .ui.compact.small.tertiary.add_tag.button #{name}
                 // .ui.basic.tertiary.button
-                div
+                // div
                 .ui.inline.grey.header 
                     +i n='home' cl='ui mini inline image' t='facility'
-                    |facilities
+                    // |facilities
                 each facility_results
                     +tag_selector
                     // .ui.compact.small.tertiary.add_tag.button #{name}
@@ -82,7 +88,7 @@ template(name='dao')
                 div
                 .ui.inline.grey.header 
                     +i n='paper' cl='ui mini inline image'
-                    |print media
+                    // |print media
                     // |where
                 each print_results
                     +tag_selector
@@ -102,18 +108,12 @@ template(name='dao')
                     if name
                         .ui.compact.basic.circular.button.select_emotion
                             |#{name}
-                +skve k='emotion_mode' v='happy' l='happy' i='happy--v1'
-                +skve k='emotion_mode' v='sad' l='sad' i='sad--v1'
-                +skve k='emotion_mode' v='anger' l='anger' i='angry--v1'
-                +skve k='emotion_mode' v='disgust' l='disgust' i='disgusting'
-                +skve k='emotion_mode' v='fear' l='fear' i='scream'
-                +skve k='view_mode' v='posts' l='posts' i='blog'
-                +skve k='view_mode' v='wikipedia' l='wikipedia' i='wikipedia'
-                +skve k='view_mode' v='stackexchange' l='stackexchange' i='code'
-                +skve k='view_mode' v='image' l='image' i='image'
-                // +skve k='view_mode' v='github' l='github' i='github'
-                +skve k='view_mode' v='video' l='youtube' i='youtube'
-                +skve k='view_mode' v='twitter' l='twitter' i='twitter'
+                // +skve k='emotion_mode' v='happy' l='happy' i='happy--v1'
+                // +skve k='emotion_mode' v='sad' l='sad' i='sad--v1'
+                // +skve k='emotion_mode' v='anger' l='anger' i='angry--v1'
+                // +skve k='emotion_mode' v='disgust' l='disgust' i='disgusting'
+                // +skve k='emotion_mode' v='fear' l='fear' i='scream'
+                // +skve k='view_mode' v='twitter' l='twitter' i='twitter'
                 // +skve k='view_mode' v='bitcoin' l='bitcoin' i='bitcoin'
                 // +skve k='view_mode' v='covid' l='covid' i='biohazard'
                 // +view_mode k='alpha' i='disabled brain'
@@ -128,7 +128,7 @@ template(name='dao')
                 +skve k='main_section' v='duck' l='search' i='search'
                 +skve k='main_section' v='reddit' l='reddit' i='reddit'
                 +skve k='main_section' v='wikipedia' l='wikipedia' i='wikipedia'
-                +skve k='main_section' v='stack' l='stackexchange' i='code'
+                +skve k='main_section' v='stack' l='stack' i='code'
                 // +skve k='main_section' v='shop' l='shop' i='shop'
                 // +skve k='main_section' v='chat' l='chat' i='chat'
                 // +skve k='main_section' v='groups' l='groups' i='groups'

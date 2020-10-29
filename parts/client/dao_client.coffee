@@ -217,9 +217,9 @@ Template.dao.events
             window.speechSynthesis.cancel()
             # console.log search
             if search.length > 0
-                Meteor.call 'search_stack', search, (err,res)->
+                Meteor.call 'search_stack', search, selected_tags.array(), (err,res)->
 
-    'click .call_stack': -> Meteor.call 'search_stack', selected_tags.array()
+    # 'click .call_stack': -> Meteor.call 'search_stack', selected_tags.array()
     'click .select_model': -> selected_models.push @name
     'click .select_emotion': -> selected_emotions.push @name
     'click .select_location': -> selected_locations.push @name

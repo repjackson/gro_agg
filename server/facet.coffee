@@ -39,8 +39,8 @@ Meteor.publish 'doc_count', (
         when 'posts'
             match.model = 'reddit'
             match.domain = $nin:['i.imgur.com','i.reddit.com','i.redd.it','imgur.com','youtube.com','youtu.be','m.youtube.com','v.redd.it','vimeo.com']
-        when 'porn'
-            match.model = 'porn'
+        when 'stack'
+            match.model = 'stack'
         else 
             match.model = $in:['wikipedia','reddit','alpha']
 
@@ -132,8 +132,8 @@ Meteor.publish 'docs', (
         when 'posts'
             match.model = 'reddit'
             # match.domain = $nin:['i.imgur.com','i.reddit.com','i.redd.it','imgur.com','youtube.com','youtu.be','m.youtube.com','v.redd.it','vimeo.com']
-        when 'porn'
-            match.model = 'porn'
+        when 'stack'
+            match.model = 'stack'
         else 
             match.model = $in:['wikipedia','reddit']
     # console.log 'doc match', match
@@ -184,8 +184,8 @@ Meteor.publish 'dtags', (
             match.domain = $in:['youtube.com','youtu.be','m.youtube.com','v.redd.it','vimeo.com']
         when 'wikipedia'
             match.model = 'wikipedia'
-        when 'porn'
-            match.model = 'porn'
+        when 'stack'
+            match.model = 'stack'
         else
             match.model = $in:['wikipedia','reddit']
             # match.model = $in:['wikipedia']
@@ -523,7 +523,7 @@ Meteor.publish 'dtags', (
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # # console.log 'cloud: ', tag_cloud
-    # console.log 'tag match', match
+    console.log 'tag match', match
     tag_cloud.forEach (tag, i) ->
         self.added 'results', Random.id(),
             name: tag.name
