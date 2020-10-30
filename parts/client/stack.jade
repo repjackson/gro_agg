@@ -11,6 +11,12 @@ template(name='stack')
                 each sites
                     .ui.header #{title}
             .twelve.wide.column
+                .ui.header.dl sites
+                .ui.list.smallscroll
+                    each site_docs
+                        .item
+                            a.ui.small.header(href="/site/#{name}")
+                                |#{name}
                 .ui.header questions
                 .ui.dropdown
                     // span.text limit
@@ -35,7 +41,8 @@ template(name='stack')
                     .ui.large.list 
                         each stack_docs
                             .item
-                                a.ui.header(href="/stack/#{_id}") #{title}
+                                a.ui.small.header(href="/stack/#{_id}")
+                                    |#{title}
                 else
                     .ui.cards
                         each stack_docs
@@ -45,7 +52,7 @@ template(name='stack')
 template(name='stack_card')
     .ui.card
         .content
-            .ui.header !{title}
+            a.ui.header(href="/stack/#{_id}") !{title}
             each tags 
                 a.ui.basic.pointer.label.add_stack_tag #{this}
             if is_answered
@@ -80,6 +87,47 @@ template(name='stack_card')
     
     
                         
+template(name='site_page')
+    with current_site
+        .ui.stackable.padded.grid
+            .row
+                .sixteen.wide.column
+                    .ui.header !{name}
+                .six.wide.column
+                    .ui.segment(style="background-color:#{styling.tag_background_color}")
+                    .ui.label #{tag_background_color}: tag_background_color
+                    .ui.label #{tag_foreground_color}: tag_foreground_color
+                    .ui.label #{link_color}: link_color
+                    .ui.header related sites
+                    .ui.segment
+                        each related_sites
+                            .ui.small.header #{name}
+                            .ui.list 
+                                .item relation: #{relation}
+                                .item api_site_parameter: #{api_site_parameter}
+                                .item site_url: #{site_url}
+                    .ui.list 
+                        .item #{launch_date} launch_date
+                        .item #{open_beta_date} open_beta_date
+                        .item #{closed_beta_date} closed_beta_date
+                        .item #{site_state} site_state
+                        .item #{high_resolution_icon_url} high_resolution_icon_url
+                        .item #{twitter_account} twitter_account
+                        .item #{favicon_url} favicon_url
+                        .item #{icon_url} icon_url
+                        .item #{audience} audience
+                        .item #{site_url} site_url
+                        .item #{api_site_parameter} api_site_parameter
+                        .item #{logo_url} logo_url
+                        .item #{name} name
+                        .item #{site_type} site_type
+                        .item #{model} model
+                        .item #{_author_id} _author_id
+                .ten.wide.column
+                    each site_docs
+                        .ui.header #{title}
+
+                    
 template(name='stack_page')
     with current_doc
         .ui.stackable.padded.grid
