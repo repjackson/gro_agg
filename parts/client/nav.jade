@@ -8,10 +8,10 @@ template(name='nav')
                 i.big.yin.yang.icon
             a.icon.item.zoomer(href='/stack')
                 i.big.stack.exchange.icon
-            a.icon.item.zoomer(href='/reddit')
-                i.big.reddit.icon
-            a.icon.item.zoomer(href='/wikipedia')
-                i.big.wikipedia.icon
+            // a.icon.item.zoomer(href='/reddit')
+            //     i.big.reddit.icon
+            // a.icon.item.zoomer(href='/wikipedia')
+            //     i.big.wikipedia.icon
         unless connected
             .item
                 i.yin.yang.loading.big.icon
@@ -22,7 +22,7 @@ template(name='nav')
                     a.icon.zoomer.pointer.item.add(title='add')
                         i.large.plus.icon
                 if currentUser
-                    a.pointer.zoomer.item.toggle_friends(href="#" class=alert_toggle_class title='friends')
+                    a.pointer.zoomer.icon.item.toggle_friends(href="#" class=alert_toggle_class title='friends')
                         i.large.users.icon
                     if connected
                         if unread_count
