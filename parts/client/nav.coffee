@@ -9,6 +9,33 @@ Template.nav.onRendered ->
     Meteor.setTimeout ->
         $('.ui.dropdown').dropdown()
     , 2000
+    Meteor.setTimeout ->
+        $('.ui.search').search
+            type: 'category'
+            minCharacters: 3
+            apiSettings:
+                onResponse: (githubResponse) ->
+                    response = results: {}
+                    # translate GitHub API response to work with search
+                    $.each githubResponse.items, (index, item) ->
+                        language = item.language or 'Unknown'
+                        maxResults = 8
+                        if index >= maxResults
+                            return false
+                    # create new language category
+                    if response.results[language] == undefined
+                        response.results[language] =
+                            name: language
+                            results: []
+                    # add result to category
+                    response.results[language].results.push
+                        title: item.name
+                        description: item.description
+                        url: item.html_url
+                    # return
+                    response
+            url: '//api.github.com/search/repositories?q={query}'
+    , 2000
     # count = 0
     # cursor = Docs.find({ model: 'message', read: false });
     # console.log 'found messages', cursor.count()

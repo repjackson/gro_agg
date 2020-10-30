@@ -1,6 +1,6 @@
 template(name='nav')
     // a.icon.ui.big.circular.icon.button.zoomer(href='/')
-    .ui.fluid.attached.borderless.inverted.menu
+    .ui.fluid.attached.borderless.inverted.menu.topnav
         a.icon.header.item.zoomer.pointer.toggle_leftbar
             i.bars.large.grey.icon
         if connected
@@ -8,6 +8,15 @@ template(name='nav')
                 i.big.yin.yang.icon
             a.icon.item.zoomer(href='/stack')
                 i.big.stack.exchange.icon
+            a.icon.item.zoomer(href='/shop')
+                i.big.shop.icon
+            a.icon.item.zoomer(href='/requests')
+                i.big.hand.holding.icon
+            a.icon.item.zoomer(href='/events')
+                i.big.calendar.icon
+            .ui.search.item.zoomer
+                .ui.input
+                    input(type='text')
             // a.icon.item.zoomer(href='/reddit')
             //     i.big.reddit.icon
             // a.icon.item.zoomer(href='/wikipedia')
@@ -156,7 +165,7 @@ template(name='chatpop')
     if viewing_chat
         +view_chatpop
     else 
-        .ui.large.icon.invert.button.open_chat
+        .ui.large.icon.basic.circular.button.open_chat
             i.chat.outline.large.icon
 
 template(name='view_chatpop')

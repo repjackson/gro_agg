@@ -23,8 +23,9 @@ template(name='profile')
                         a.ui.small.header.refresh_user_stats(href="/u/#{username}") 
                             |@#{username}
                         if is_current_user
-                            a(href="/u/#{username}/edit")
+                            a.ui.basic.circular.button(href="/u/#{username}/edit")
                                 i.big.cog.pointer.icon
+                                |account
                         if is_dev
                             .ui.small.inline.header #{_id}
                         unless is_current_user
@@ -32,7 +33,7 @@ template(name='profile')
                                 // div
                                 +user_friend_button 
                         if is_current_user
-                            a.ui.basic.fluid.button.logout(href="#" title='log out')
+                            a.ui.basic.button.logout(href="#" title='log out')
                                 i.sign.out.icon
                                 |log out
                         if is_dev
@@ -143,7 +144,7 @@ template(name='profile')
                             //     i.concierge.bell.large.teal.icon
                             //     span request
                                 
-                        .ui.selection.link.list.smallscroll
+                        .ui.selection.link.list.smallscroll.mobile.hidden
                             each friends
                                 a.item(href="/u/#{username}" title=username)
                                     if profile_image_id
