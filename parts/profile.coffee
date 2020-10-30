@@ -14,6 +14,11 @@ if Meteor.isClient
         @render 'user_events'
         ), name:'user_events'
 
+    Router.route '/u/:username/bookmarks', (->
+        @layout 'profile'
+        @render 'user_bookmarks'
+        ), name:'user_bookmarks'
+
 
     Template.profile.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username

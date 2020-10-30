@@ -91,55 +91,6 @@ template(name='stack_card')
     
     
                         
-template(name='site_page')
-    with current_site
-        .ui.stackable.padded.grid
-            .row
-                .sixteen.wide.column
-                    // img(src=icon_url)
-                    img(src=logo_url)
-                    .ui.header !{name}
-                .six.wide.column
-                    .ui.segment(style="background-color:#{styling.tag_background_color}")
-                    .ui.label #{tag_background_color}: tag_background_color
-                    .ui.label #{tag_foreground_color}: tag_foreground_color
-                    .ui.label #{link_color}: link_color
-                    .ui.header related sites
-                    .ui.segment
-                        each related_sites
-                            .ui.small.header #{name}
-                            .ui.list 
-                                .item relation: #{relation}
-                                .item api_site_parameter: #{api_site_parameter}
-                                .item site_url: #{site_url}
-                    a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
-                        i.large.link.twitter.icon
-                    a(href=site_url)
-                        |#{site_url}
-                    .ui.list 
-                        .item #{launch_date} launch_date
-                        .item #{open_beta_date} open_beta_date
-                        .item #{closed_beta_date} closed_beta_date
-                        .item #{site_state} site_state
-                        // .item #{high_resolution_icon_url} high_resolution_icon_url
-                        // .item #{favicon_url} favicon_url
-                        .item #{audience} audience
-                        .item #{api_site_parameter} api_site_parameter
-                        .item #{site_type} site_type
-                    +comments
-                    +voting_full
-                .ten.wide.column
-                    .ui.icon.input
-                        i.search.icon
-                        input.search_site(type='text')
-                    .ui.selection.link.list
-                        each site_questions
-                            a.item(href="/site/#{site}/doc/#{_id}")
-                                .content 
-                                    .header #{title}
-                                    each tags
-                                        .ui.label #{this}
-
                     
 template(name='stack_page')
     with current_doc
@@ -177,11 +128,16 @@ template(name='stack_page')
                     if watson 
                         if tone
                             +tone
+                        else
+                            .ui.fluid.button.call_tone 
+                                i.smile.icon
+                                |analyze tone
                         +watson_view
-                        .ui.button.call_tone 
-                            |tone
-                    i.large.brain.icon.call_watson
-                    // iframe(width="100%" height="500" src=link frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
+                    else
+                        .ui.big.fluid.button.call_watson
+                            i.large.brain.icon
+                            |analyze
+                        // iframe(width="100%" height="500" src=link frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
                     +comments
                 .four.wide.column
                     +voting

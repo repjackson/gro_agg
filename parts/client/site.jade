@@ -1,0 +1,64 @@
+template(name='site_page')
+    with current_site
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    // img(src=icon_url)
+                    img(src=logo_url)
+                    .ui.header !{name}
+                    // .ui.segment(style="background-color:#{styling.tag_background_color}")
+                    // .ui.label #{tag_background_color}: tag_background_color
+                    // .ui.label #{tag_foreground_color}: tag_foreground_color
+                    // .ui.label #{link_color}: link_color
+                    // .ui.header related sites
+                    each related_sites
+                        .ui.small.header 
+                            i.fork.icon
+                            |#{name}
+                        // .ui.list 
+                            // .item relation: #{relation}
+                            // .item api_site_parameter: #{api_site_parameter}
+                            // .item site_url: #{site_url}
+                    a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
+                        i.large.link.twitter.icon
+                    a(href=site_url)
+                        |#{site_url}
+                    .ui.list 
+                        .item #{launch_date} launch_date
+                        .item #{open_beta_date} open_beta_date
+                        .item #{closed_beta_date} closed_beta_date
+                        .item #{site_state} site_state
+                        // .item #{high_resolution_icon_url} high_resolution_icon_url
+                        // .item #{favicon_url} favicon_url
+                        .item #{audience} audience
+                        .item #{api_site_parameter} api_site_parameter
+                        .item #{site_type} site_type
+                    +comments
+                    +voting_full
+                .eight.wide.column
+                    .ui.icon.input
+                        i.search.icon
+                        input.search_site(type='text')
+                    if skv_is 'sort_direction' 1
+                        .ui.icon.button.sort_down
+                            i.caret.down.icon
+                    else
+                        .ui.icon.button.sort_down
+                            i.caret.up.icon
+                    .ui.icon.compact.large.button 
+                        i.clock.icon
+                    .ui.icon.compact.large.button 
+                        i.th.icon
+                    .ui.icon.compact.large.button 
+                        i.list.icon
+                    .ui.selection.link.list
+                        each site_questions
+                            a.item(href="/site/#{site}/doc/#{_id}")
+                                .content 
+                                    .header !{title}
+                                    each tags
+                                        .ui.label #{this}
+                .four.wide.column
+                    .ui.header stats
+                    .ui.list 
+                        .item #{site_doc_count}
