@@ -169,6 +169,35 @@ if Meteor.isClient
             
         'click .cancel': ->
             Session.set('replying_id', null)
+    Template.user_dashboard.events
+        'click .save_question': ->
+            Session.set('asking_question_id',null)
+        'click .ask_question': ->
+            user = Meteor.users.findOne(username:Router.current().params.username)
+            new_question_id = 
+                Docs.insert
+                    model:'question'
+                    target_user_id:user._id
+                    target_username:user.username
+            Session.set('asking_question_id',new_question_id)
+        'click .add_topup': ->
+            user = Meteor.users.findOne(username:Router.current().params.username)
+            # new_question_id = 
+            Docs.insert 
+                model:'topup'
+                amount:1
+            Meteor.call 'calc_user_stats', user._id, ->
+        
+        'click .delete_topup': ->
+            user = Meteor.users.findOne(username:Router.current().params.username)
+            # new_question_id =
+            if confirm 'delete topup?'
+                Docs.remove @_id
+                Meteor.call 'calc_user_stats', user._id, ->
+
+            # Session.set('asking_question_id',new_question_id)
+        'click .select_question': ->
+            Session.set('asking_question_id', @_id)
 
 
 if Meteor.isServer

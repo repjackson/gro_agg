@@ -7,7 +7,7 @@ template(name='profile')
         #main_area.global_container.pusher(class=currentUser.invert_class)
             with current_user
                 .ui.stackable.padded.grid
-                    .four.wide.column
+                    .three.wide.column
                         span.mobile.only
                             a(href="/u/#{username}/")
                                 img.ui.centered.tiny.inline.spaced.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
@@ -33,9 +33,9 @@ template(name='profile')
                                 // div
                                 +user_friend_button 
                         if is_current_user
-                            a.ui.basic.button.logout(href="#" title='log out')
+                            a.ui.basic.circular.button.logout(href="#" title='log out')
                                 i.sign.out.icon
-                                .mobile.hidden log out
+                                span.mobile.hidden log out
                         if is_dev
                             +print_this
                         .ui.fluid.dropdown.basic.button
@@ -72,60 +72,60 @@ template(name='profile')
                                     i.users.icon
                                     |friends
                                 a.item(href="/u/#{username}/debits" class="{{isActiveRoute 'user_debits'}}")
-                                    i.money.icon
+                                    i.caret.down.icon
                                     |debits
                                 a.item(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}")
-                                    i.money.icon
+                                    i.caret.up.icon
                                     |credits
                                 a.item(href="/u/#{username}/questions" class="{{isActiveRoute 'user_questions'}}")
                                     i.question.icon
                                     |quesions
                                 a.item(href="/u/#{username}/answers" class="{{isActiveRoute 'user_answers'}}")
-                                    i.money.icon
+                                    i.exclamation.icon
                                     |answers
                                 a.item(href="/u/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}")
                                     i.fire.icon
                                     |tribes
                                 a.item(href="/u/#{username}/overlap" class="{{isActiveRoute 'user_overlap'}}")
-                                    i.money.icon
+                                    i.exchange.icon
                                     |overlap
 
                         .ui.vertical.fluid.menu.mobile.hidden
-                            a.item(href="/u/#{username}" class="{{isActiveRoute 'user_debits'}}")
+                            a.yellow.item(href="/u/#{username}" class="{{isActiveRoute 'user_debits'}}")
                                 i.dashboard.icon
                                 |dashboard
-                            a.item(href="/u/#{username}/events" class="{{isActiveRoute 'user_debits'}}")
+                            a.red.item(href="/u/#{username}/events" class="{{isActiveRoute 'user_debits'}}")
                                 i.calendar.icon
                                 |events
-                            a.item(href="/u/#{username}/bookmarks" class="{{isActiveRoute 'user_debits'}}")
+                            a.yellow.item(href="/u/#{username}/bookmarks" class="{{isActiveRoute 'user_debits'}}")
                                 i.bookmark.icon
                                 |bookmarks
-                            a.item(href="/u/#{username}/upvotes" class="{{isActiveRoute 'user_debits'}}")
+                            a.red.item(href="/u/#{username}/upvotes" class="{{isActiveRoute 'user_debits'}}")
                                 i.thumbs.up.outline.icon
                                 |upvotes
-                            a.item(href="/u/#{username}/downvotes" class="{{isActiveRoute 'user_debits'}}")
+                            a.red.item(href="/u/#{username}/downvotes" class="{{isActiveRoute 'user_debits'}}")
                                 i.thumbs.down.outline.icon
                                 |downvotes
-                            a.item(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}")
+                            a.green.item(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}")
                                 i.users.icon
                                 |friends
-                            a.item(href="/u/#{username}/debits" class="{{isActiveRoute 'user_debits'}}")
-                                i.money.icon
+                            a.red.item(href="/u/#{username}/debits" class="{{isActiveRoute 'user_debits'}}")
+                                i.chevron.up.icon
                                 |debits
                             a.item(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}")
-                                i.money.icon
+                                i.chevron.down.icon
                                 |credits
                             a.item(href="/u/#{username}/questions" class="{{isActiveRoute 'user_questions'}}")
                                 i.question.icon
                                 |quesions
                             a.item(href="/u/#{username}/answers" class="{{isActiveRoute 'user_answers'}}")
-                                i.money.icon
+                                i.exclamation.icon
                                 |answers
                             a.item(href="/u/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}")
                                 i.fire.icon
                                 |tribes
                             a.item(href="/u/#{username}/overlap" class="{{isActiveRoute 'user_overlap'}}")
-                                i.money.icon
+                                i.exchange.icon
                                 |overlap
                         .divider
                         if i_have_points
@@ -149,7 +149,7 @@ template(name='profile')
                                         .ui.label.image #{initials}
                                     .content
                                         .header #{username}
-                    .twelve.wide.column 
+                    .thirteen.wide.column 
                         // .ui.dropdown
                         //     span.text dropdown
                         //     i.dropdown.icon
@@ -212,16 +212,75 @@ template(name='authored_overlap')
 
 
 template(name='user_bookmarks')
-    +i n='bookmark'
-    .ui.inline.header 
+    .ui.header
+        +i n='bookmark'
         |bookmarks
     each bookmarks 
         .ui.header #{title}
+        
+        
+template(name='user_upvotes')
+    .ui.header
+        +i n='voting'
+        |upvotes
+    each voted_up_docs 
+        .ui.header #{title}
+        
+        
+template(name='user_downvotes')
+    .ui.header
+        +i n='voting'
+        |downvotes
+    each voted_down_docs 
+        .ui.header #{title}
+        
+        
+template(name='user_debits')
+    .ui.header
+        +i n='voting'
+        |debits
+    each voted_down_docs 
+        .ui.header #{title}
+        
+        
+template(name='user_credits')
+    .ui.header
+        +i n='voting'
+        |credits
+    each voted_down_docs 
+        .ui.header #{title}
+        
+        
+        
 template(name='user_rentals')
+    .ui.header
+        +i n='rent'
+        |rentals
+    .ui.header rental offers
+    .ui.header reservations offers
+    
+    
 template(name='user_events')
     .ui.header events
+template(name='user_questions')
+    .ui.header questions
+template(name='user_answers')
+    .ui.header answers
 template(name='user_friends')
-    .ui.header user friends
+    .ui.header 
+        +i n='groups'
+        |user friends
+    with current_user
+        .ui.selection.large.link.list.scrolling
+            each friends
+                a.item(href="/u/#{username}" title=username)
+                    if profile_image_id
+                        img.ui.avatar.invert.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
+                    else
+                        .ui.label.image #{initials}
+                    .content
+                        .header #{username}
+        
 template(name='user_dashboard')
     +user_bookmarks_small
     // +user_about
@@ -229,7 +288,7 @@ template(name='user_dashboard')
     .ui.stackable.four.column.grid
         .column
             .ui.inline.header 
-                +icon n='deposit'
+                +i n='inbox'
                 |#{total_credit_amount}p
                 |received
                 .ui.basic.label #{credit_count} credits

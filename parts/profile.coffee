@@ -3,21 +3,46 @@ if Meteor.isClient
         @layout 'profile'
         @render 'user_dashboard'
         ), name:'dashboard'
-
     Router.route '/u/:username/friends', (->
         @layout 'profile'
         @render 'user_friends'
         ), name:'user_friends'
-
     Router.route '/u/:username/events', (->
         @layout 'profile'
         @render 'user_events'
-        ), name:'user_events'
-
+    ), name:'user_events'
+    Router.route '/u/:username/upvotes', (->
+        @layout 'profile'
+        @render 'user_upvotes'
+    ), name:'user_upvotes'
+    Router.route '/u/:username/downvotes', (->
+        @layout 'profile'
+        @render 'user_downvotes'
+    ), name:'user_downvotes'
+    Router.route '/u/:username/questions', (->
+        @layout 'profile'
+        @render 'user_questions'
+    ), name:'user_questions'
+    Router.route '/u/:username/answers', (->
+        @layout 'profile'
+        @render 'user_answers'
+    ), name:'user_answers'
     Router.route '/u/:username/bookmarks', (->
         @layout 'profile'
         @render 'user_bookmarks'
-        ), name:'user_bookmarks'
+    ), name:'user_bookmarks'
+    Router.route '/u/:username/overlap', (->
+        @layout 'profile'
+        @render 'user_overlap'
+    ), name:'user_overlap'
+    Router.route '/u/:username/debits', (->
+        @layout 'profile'
+        @render 'user_debits'
+    ), name:'user_debits'
+    Router.route '/u/:username/credits', (->
+        @layout 'profile'
+        @render 'user_credits'
+    ), name:'user_credits'
 
 
     Template.profile.onCreated ->
@@ -28,13 +53,6 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'all_users', Router.current().params.username
         Session.setDefault('profile_section','dashboard')
     
-    Template.user_bookmarks_small.onRendered ->
-        @autorun => Meteor.subscribe('users_bookmarks',Router.current().params.username)
-    Template.user_bookmarks_small.helpers
-        users_bookmarks: ->
-            user = Meteor.users.findOne username:Router.current().params.username
-            Docs.find 
-                _id:$in:user.bookmarked_ids
         
         
     Template.profile.onRendered ->
@@ -44,10 +62,10 @@ if Meteor.isClient
             $('.ui.dropdown').dropdown()
         , 2000
         
-    #     Meteor.setTimeout ->
-    #         $('.item')
-    #             .popup()
-    #     , 2000
+        #     Meteor.setTimeout ->
+        #         $('.item')
+        #             .popup()
+        #     , 2000
         # user = Meteor.users.findOne(username:Router.current().params.username)
         # # Meteor.call 'calc_user_stats', user._id, ->
         # Meteor.setTimeout ->
@@ -60,50 +78,21 @@ if Meteor.isClient
         route_slug: -> "user_#{@slug}"
         user: -> Meteor.users.findOne username:Router.current().params.username
         is_current_user: -> Meteor.user().username is Router.current().params.username
-    # Template.user_dashboard.helpers
-    #     latest_posts: ->
-    #         user = Meteor.users.findOne username:Router.current().params.username            
-    #         Docs.find 
-    #             model:'post'
-    #             _author_id: user._id
+        # Template.user_dashboard.helpers
+        #     latest_posts: ->
+        #         user = Meteor.users.findOne username:Router.current().params.username            
+        #         Docs.find 
+        #             model:'post'
+        #             _author_id: user._id
+    
+                    
+        #     topups: ->
+        #         user = Meteor.users.findOne username:Router.current().params.username            
+        #         Docs.find 
+        #             model:'topup'
+        #             # _author_id: user._id
 
                 
-    #     topups: ->
-    #         user = Meteor.users.findOne username:Router.current().params.username            
-    #         Docs.find 
-    #             model:'topup'
-    #             # _author_id: user._id
-
-                
-    Template.user_dashboard.events
-        'click .save_question': ->
-            Session.set('asking_question_id',null)
-        'click .ask_question': ->
-            user = Meteor.users.findOne(username:Router.current().params.username)
-            new_question_id = 
-                Docs.insert
-                    model:'question'
-                    target_user_id:user._id
-                    target_username:user.username
-            Session.set('asking_question_id',new_question_id)
-        'click .add_topup': ->
-            user = Meteor.users.findOne(username:Router.current().params.username)
-            # new_question_id = 
-            Docs.insert 
-                model:'topup'
-                amount:1
-            Meteor.call 'calc_user_stats', user._id, ->
-        
-        'click .delete_topup': ->
-            user = Meteor.users.findOne(username:Router.current().params.username)
-            # new_question_id =
-            if confirm 'delete topup?'
-                Docs.remove @_id
-                Meteor.call 'calc_user_stats', user._id, ->
-
-            # Session.set('asking_question_id',new_question_id)
-        'click .select_question': ->
-            Session.set('asking_question_id', @_id)
     
     Template.profile.events
         'click .refresh_user_stats': ->
@@ -160,17 +149,17 @@ if Meteor.isClient
 
             
 
-    Template.edit_privacy.events
-        'click .logout_other_clients': -> 
-            Meteor.logoutOtherClients ->
-                $('body').toast({
-                    class: 'success',
-                    message: "logged out other clients"
-                })
-        'click .force_logout': ->
-            current_user = Meteor.users.findOne username:Router.current().params.username
-            Meteor.users.update current_user._id,
-                $set:'services.resume.loginTokens':[]
+    # Template.edit_privacy.events
+    #     'click .logout_other_clients': -> 
+    #         Meteor.logoutOtherClients ->
+    #             $('body').toast({
+    #                 class: 'success',
+    #                 message: "logged out other clients"
+    #             })
+    #     'click .force_logout': ->
+    #         current_user = Meteor.users.findOne username:Router.current().params.username
+    #         Meteor.users.update current_user._id,
+    #             $set:'services.resume.loginTokens':[]
 
 
 if Meteor.isServer
