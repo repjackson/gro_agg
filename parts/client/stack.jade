@@ -15,7 +15,7 @@ template(name='stack')
                 .ui.list.smallscroll
                     each site_docs
                         .item
-                            a.ui.small.header(href="/site/#{name}")
+                            a.ui.small.header(href="/site/#{api_site_parameter}")
                                 |#{name}
                 .ui.header questions
                 .ui.dropdown
@@ -124,8 +124,16 @@ template(name='site_page')
                         .item #{model} model
                         .item #{_author_id} _author_id
                 .ten.wide.column
-                    each site_docs
-                        .ui.header #{title}
+                    .ui.icon.input
+                        i.search.icon
+                        input.search_site(type='text')
+                    .ui.selection.link.list
+                        each site_questions
+                            .item
+                                .content 
+                                    .header #{title}
+                                    each tags
+                                        .ui.label #{this}
 
                     
 template(name='stack_page')
