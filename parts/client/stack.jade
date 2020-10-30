@@ -1,5 +1,5 @@
 template(name='stack')
-    .ui.stackable.grid
+    .ui.stackable.padded.grid
         .row
             .four.wide.column
                 .ui.header 
@@ -7,33 +7,37 @@ template(name='stack')
                     |stackexchange
                 .ui.input
                     input(type='text')
-                .ui.header sites
                 each sites
                     .ui.header #{title}
-            .twelve.wide.column
-                .ui.header.dl sites
-                .ui.list.smallscroll
+                .ui.header.dl 
+                    i.globe.icon
+                    |sites
+                .ui.list
                     each site_docs
                         .item
                             a.ui.small.header(href="/site/#{api_site_parameter}")
+                                img(src=icon_url)
                                 |#{name}
-                .ui.header questions
-                .ui.dropdown
-                    // span.text limit
-                    i.dropdown.icon
-                    .menu 
-                    +skve k='limit' v=1 l='1'
-                    +skve k='limit' v=10 l='10'
-                    +skve k='limit' v=20 l='20'
+            .twelve.wide.column
+                .ui.header 
+                    i.question.icon
+                    |questions
+                // .ui.dropdown
+                //     // span.text limit
+                //     i.dropdown.icon
+                //     .menu 
+                //     +skve k='limit' v=1 l='1'
+                //     +skve k='limit' v=10 l='10'
+                //     +skve k='limit' v=20 l='20'
                     // .item 1
                     // .item 5
                     // .item 10
                     // .item 20
                         // |sort
-                +skve k='sort_key' v='_timestamp' l='when' i='clock'
-                +skve k='sort_key' v='points' l='points' i='leaderboard'
-                +skve k='sort_direction' v=-1 l='u' i='up'
-                +skve k='sort_direction' v=1 l='d' i='down'
+                // +skve k='sort_key' v='_timestamp' l='when' i='clock'
+                // +skve k='sort_key' v='points' l='points' i='leaderboard'
+                // +skve k='sort_direction' v=-1 l='u' i='up'
+                // +skve k='sort_direction' v=1 l='d' i='down'
                 // |view
                 +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
                 +skve k='view_mode' v='list' l='list' i='list' ionly=true
@@ -41,7 +45,7 @@ template(name='stack')
                     .ui.large.list 
                         each stack_docs
                             .item
-                                a.ui.small.header(href="/stack/#{_id}")
+                                a.ui.small.header(href="/site/#{site}/doc/#{_id}")
                                     |#{title}
                 else
                     .ui.cards
@@ -52,7 +56,7 @@ template(name='stack')
 template(name='stack_card')
     .ui.card
         .content
-            a.ui.header(href="/stack/#{_id}") !{title}
+            a.ui.header(href="/site/#{site}/doc/#{_id}") !{title}
             each tags 
                 a.ui.basic.pointer.label.add_stack_tag #{this}
             if is_answered
@@ -92,6 +96,8 @@ template(name='site_page')
         .ui.stackable.padded.grid
             .row
                 .sixteen.wide.column
+                    // img(src=icon_url)
+                    img(src=logo_url)
                     .ui.header !{name}
                 .six.wide.column
                     .ui.segment(style="background-color:#{styling.tag_background_color}")
@@ -106,30 +112,29 @@ template(name='site_page')
                                 .item relation: #{relation}
                                 .item api_site_parameter: #{api_site_parameter}
                                 .item site_url: #{site_url}
+                    a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
+                        i.large.link.twitter.icon
+                    a(href=site_url)
+                        |#{site_url}
                     .ui.list 
                         .item #{launch_date} launch_date
                         .item #{open_beta_date} open_beta_date
                         .item #{closed_beta_date} closed_beta_date
                         .item #{site_state} site_state
-                        .item #{high_resolution_icon_url} high_resolution_icon_url
-                        .item #{twitter_account} twitter_account
-                        .item #{favicon_url} favicon_url
-                        .item #{icon_url} icon_url
+                        // .item #{high_resolution_icon_url} high_resolution_icon_url
+                        // .item #{favicon_url} favicon_url
                         .item #{audience} audience
-                        .item #{site_url} site_url
                         .item #{api_site_parameter} api_site_parameter
-                        .item #{logo_url} logo_url
-                        .item #{name} name
                         .item #{site_type} site_type
-                        .item #{model} model
-                        .item #{_author_id} _author_id
+                    +comments
+                    +voting_full
                 .ten.wide.column
                     .ui.icon.input
                         i.search.icon
                         input.search_site(type='text')
                     .ui.selection.link.list
                         each site_questions
-                            .item
+                            a.item(href="/site/#{site}/doc/#{_id}")
                                 .content 
                                     .header #{title}
                                     each tags
@@ -153,6 +158,8 @@ template(name='stack_page')
                         .ui.basic.label
                             // i..icon
                             |unanswered
+                    a(href=link target='_window')
+                        |#{link}
                     .ui.label 
                         i.eye.icon
                         |#{view_count}
@@ -166,13 +173,12 @@ template(name='stack_page')
                     .ui.label last_activity_date #{last_activity_date}
                     .ui.label creation #{creation_date}
                     .ui.label #{_when}
-                    a(href=link target='_window')
-                        |#{link}
+                    +comments
                 .twelve.wide.column
                     // iframe(width="100%" height="500" src=link frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
                     with owner
                         .ui.compact.segment
-                            .ui.inline.header #{display_name}
+                            a.ui.inline.header(href="/stackuser/#{user_id}") #{display_name}
                             img.ui.tiny.inline.centered.image(src=profile_image)
                             .ui.label reputation #{reputation}
                             .ui.label user_id #{user_id}

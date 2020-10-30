@@ -1,0 +1,27 @@
+template(name='stackuser_page')
+    with stackuser_doc
+        .ui.stackable.padded.grid
+            .row
+                .sixteen.wide.column
+                    .ui.header !{title}
+                .four.wide.column
+                    each tags 
+                        a.ui.basic.pointer.label.add_stack_tag #{this}
+                    if is_answered
+                        .ui.basic.green.label
+                            i.green.checkmark.icon
+                            |answered
+                    else
+                        .ui.basic.label
+                            // i..icon
+                            |unanswered
+                    .ui.label 
+                        i.eye.icon
+                        |#{view_count}
+                        
+                    .ui.label id #{_id}
+                    .ui.label protected_date #{protected_date}
+                    .ui.label accepted_answer_id #{accepted_answer_id}
+                    .ui.label #{answer_count} answers
+                    .ui.label score #{score}
+                    .ui.label qid #{question_id}

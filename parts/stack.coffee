@@ -7,18 +7,25 @@ if Meteor.isClient
         @render 'stack'
         ), name:'stack'
 
-    Router.route '/stack/:doc_id', (->
-        @layout 'layout'
-        @render 'stack_page'
-        ), name:'stack_page'
-    
     Router.route '/site/:site', (->
         @layout 'layout'
         @render 'site_page'
         ), name:'site_page'
+    
+    Router.route '/site/:site/doc/:doc_id', (->
+        @layout 'layout'
+        @render 'stack_page'
+        ), name:'stack_page'
+    
+    Router.route '/site/:site/user/:user_id', (->
+        @layout 'layout'
+        @render 'stackuser_page'
+        ), name:'stackuser_page'
 
     Template.stack_page.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.stackuser_page.onCreated ->
+        @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.user_id
         
     Template.site_page.onCreated ->
         @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
@@ -80,6 +87,11 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'stack_sites', ->
         Docs.find model:'stack_site'
+    
+    Meteor.publish 'stackuser_doc', (user_id)->
+        Docs.find 
+            model:'stackuser'
+            user_id:user_id
     
     Meteor.publish 'site_by_param', (site)->
         Docs.find 
