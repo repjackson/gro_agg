@@ -24,8 +24,19 @@ if Meteor.isClient
 
     Template.stack_page.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.stack_page.events
+        'click .call_watson': (e,t)->
+            Meteor.call 'call_watson', Router.current().params.doc_id,'link','stack',->
+        'click .call_tone': (e,t)->
+            Meteor.call 'call_tone', Router.current().params.doc_id,->
+  
+  
+  
     Template.stackuser_page.onCreated ->
         @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.user_id
+
+        
+        
         
     Template.site_page.onCreated ->
         @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
@@ -35,11 +46,27 @@ if Meteor.isClient
             Docs.findOne
                 model:'stack_site'
                 api_site_parameter:Router.current().params.site
-        site_docs: ->
+        site_questions: ->
             Docs.find
                 model:'stack'
-                site:Router.current().params.name
-                
+                site:Router.current().params.site
+    Template.site_page.events
+        'keyup .search_site': (e,t)->
+            # search = $('.search_site').val().toLowerCase().trim()
+            search = $('.search_site').val().trim()
+            if e.which is 13
+                # window.speechSynthesis.cancel()
+                # console.log search
+                if search.length > 0
+                    site = 
+                        Docs.findOne
+                            model:'stack_site'
+                            api_site_parameter:Router.current().params.site
+                    if site
+                        Meteor.call 'search_stack', site.api_site_parameter, search, ->
+
+
+            
                 
     Template.stack.onCreated ->
         @autorun => Meteor.subscribe 'stack_docs',
@@ -63,25 +90,6 @@ if Meteor.isClient
    
    
    
-    Template.site_page.helpers
-        site_questions: ->
-            Docs.find
-                model:'stack'
-                site:Router.current().params.site
-    Template.site_page.events
-        'keyup .search_site': (e,t)->
-            # search = $('.search_site').val().toLowerCase().trim()
-            search = $('.search_site').val().trim()
-            if e.which is 13
-                # window.speechSynthesis.cancel()
-                # console.log search
-                if search.length > 0
-                    site = 
-                        Docs.findOne
-                            model:'stack_site'
-                            api_site_parameter:Router.current().params.site
-                    if site
-                        Meteor.call 'search_stack', site.api_site_parameter, search, ->
 
 
 if Meteor.isServer

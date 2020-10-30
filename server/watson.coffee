@@ -178,6 +178,11 @@ Meteor.methods
                     parameters.url = doc.url
                     parameters.returnAnalyzedText = true
                     parameters.clean = true
+                when 'stack'
+                    # parameters.url = doc["#{key}"]
+                    parameters.url = doc.link
+                    parameters.returnAnalyzedText = true
+                    parameters.clean = true
                 when 'video'
                     parameters.url = "https://www.reddit.com#{doc.permalink}"
                     parameters.returnAnalyzedText = true
