@@ -37,7 +37,7 @@ template(name='profile')
                                 |log out
                         if is_dev
                             +print_this
-                        .ui.fluid.dropdown.button
+                        .ui.fluid.dropdown.basic.button
                             i.users.icon
                             | #{friends.count} friends
                             .menu 
@@ -48,7 +48,48 @@ template(name='profile')
                                         // else
                                         //     .ui.label.image #{initials}
                                         | #{username}
-                        .ui.vertical.fluid.menu
+                        .ui.fluid.simple.dropdown.basic.button.mobile.only
+                            i.bars.icon
+                            | menu
+                            .menu 
+                                a.zoomer.item(href="/u/#{username}" class="{{isActiveRoute 'user_debits'}}")
+                                    i.dashboard.icon
+                                    |dashboard
+                                a.zoomer.item(href="/u/#{username}/events" class="{{isActiveRoute 'user_debits'}}")
+                                    i.calendar.icon
+                                    |events
+                                a.zoomer.item(href="/u/#{username}/bookmarks" class="{{isActiveRoute 'user_debits'}}")
+                                    i.bookmark.icon
+                                    |bookmarks
+                                a.zoomer.item(href="/u/#{username}/events" class="{{isActiveRoute 'user_debits'}}")
+                                    i.thumbs.up.outline.icon
+                                    |upvotes
+                                a.zoomer.item(href="/u/#{username}/events" class="{{isActiveRoute 'user_debits'}}")
+                                    i.thumbs.down.outline.icon
+                                    |downvotes
+                                a.zoomer.item(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}")
+                                    i.users.icon
+                                    |friends
+                                a.zoomer.item(href="/u/#{username}/debits" class="{{isActiveRoute 'user_debits'}}")
+                                    i.money.icon
+                                    |debits
+                                a.zoomer.item(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}")
+                                    i.money.icon
+                                    |credits
+                                a.zoomer.item(href="/u/#{username}/questions" class="{{isActiveRoute 'user_questions'}}")
+                                    i.question.icon
+                                    |quesions
+                                a.zoomer.item(href="/u/#{username}/answers" class="{{isActiveRoute 'user_answers'}}")
+                                    i.money.icon
+                                    |answers
+                                a.zoomer.item(href="/u/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}")
+                                    i.fire.icon
+                                    |tribes
+                                a.zoomer.item(href="/u/#{username}/overlap" class="{{isActiveRoute 'user_overlap'}}")
+                                    i.money.icon
+                                    |overlap
+
+                        .ui.vertical.fluid.menu.mobile.hidden
                             a.zoomer.item(href="/u/#{username}" class="{{isActiveRoute 'user_debits'}}")
                                 i.dashboard.icon
                                 |dashboard
@@ -85,23 +126,23 @@ template(name='profile')
                             a.zoomer.item(href="/u/#{username}/overlap" class="{{isActiveRoute 'user_overlap'}}")
                                 i.money.icon
                                 |overlap
-                            .divider
-                            if i_have_points
-                                a.item.send(title='send points')
-                                    i.gift.icon
-                                    span send pts
-                                .ui.button.request(title='request points')
-                                    i.concierge.bell.teal.icon
-                                    span request
-                                    
-                            if i_have_points
-                                .ui.button.send(title='send points')
-                                    i.gift.large.icon
-                                    span send pts
-                                // .ui.button.request(title='request points')
-                                //     i.concierge.bell.large.teal.icon
-                                //     span request
-                                    
+                        .divider
+                        if i_have_points
+                            a.item.send(title='send points')
+                                i.gift.icon
+                                span send pts
+                            .ui.button.request(title='request points')
+                                i.concierge.bell.teal.icon
+                                span request
+                                
+                        if i_have_points
+                            .ui.button.send(title='send points')
+                                i.gift.large.icon
+                                span send pts
+                            // .ui.button.request(title='request points')
+                            //     i.concierge.bell.large.teal.icon
+                            //     span request
+                                
                         .ui.selection.link.list.smallscroll
                             each friends
                                 a.item(href="/u/#{username}" title=username)
