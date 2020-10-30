@@ -183,7 +183,7 @@ template(name='view_chatpop')
             
             
 template(name='rightbar')
-    .ui.right.sidebar.vertical.borderless.invert.menu.scrolling
+    .ui.right.sidebar.vertical.borderless.inverted.menu.scrolling
         // a.item.toggle_rightbar(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_layout'}}")
         //     img.ui.avatar.compact.image(src="{{c.url 'homestar_logo' height=200 width=200 gravity='face' crop='fill'}}")
         //     |#{currentUser.name}
@@ -232,7 +232,7 @@ template(name='rightbar')
 
 
 template(name='leftbar')
-    .ui.left.sidebar.vertical.borderless.invert.menu.scrolling
+    .ui.left.sidebar.vertical.borderless.inverted.menu.scrolling
         a.item.toggle_leftbar(href="/" class="{{isActivePath '/'}}")
             i.yin.yang.icon
             | dao

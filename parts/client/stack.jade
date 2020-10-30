@@ -2,7 +2,9 @@ template(name='stack')
     .ui.stackable.grid
         .row
             .four.wide.column
-                .ui.header stackexchange
+                .ui.header 
+                    i.big.stack.exchange.icon
+                    |stackexchange
                 .ui.input
                     input(type='text')
                 .ui.header sites
@@ -10,9 +12,117 @@ template(name='stack')
                     .ui.header #{title}
             .twelve.wide.column
                 .ui.header questions
-                each stack_docs
-                    .ui.header #{title}
-                    
+                .ui.dropdown
+                    // span.text limit
+                    i.dropdown.icon
+                    .menu 
+                    +skve k='limit' v=1 l='1'
+                    +skve k='limit' v=10 l='10'
+                    +skve k='limit' v=20 l='20'
+                    // .item 1
+                    // .item 5
+                    // .item 10
+                    // .item 20
+                        // |sort
+                +skve k='sort_key' v='_timestamp' l='when' i='clock'
+                +skve k='sort_key' v='points' l='points' i='leaderboard'
+                +skve k='sort_direction' v=-1 l='u' i='up'
+                +skve k='sort_direction' v=1 l='d' i='down'
+                // |view
+                +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
+                +skve k='view_mode' v='list' l='list' i='list' ionly=true
+                if skv_is 'view_mode' 'list'
+                    .ui.large.list 
+                        each stack_docs
+                            .item
+                                a.ui.header(href="/stack/#{_id}") #{title}
+                else
+                    .ui.cards
+                        each stack_docs
+                            +stack_card
+                        
+                        
+template(name='stack_card')
+    .ui.card
+        .content
+            .ui.header !{title}
+            each tags 
+                a.ui.basic.pointer.label.add_stack_tag #{this}
+            if is_answered
+                .ui.basic.green.label
+                    i.green.checkmark.icon
+                    |answered
+            else
+                .ui.basic.label
+                    // i..icon
+                    |unanswered
+            .ui.label 
+                i.eye.icon
+                |#{view_count}
+                
+            .ui.label protected_date #{protected_date}
+            .ui.label accepted_answer_id #{accepted_answer_id}
+            .ui.label #{answer_count} answers
+            .ui.label score #{score}
+            .ui.label qid #{question_id}
+            .ui.label last_activity_date #{last_activity_date}
+            .ui.label creation #{creation_date}
+            .ui.label #{_when}
+            a(href=link target='_window')
+                |#{link}
+            with owner
+                .ui.compact.segment
+                    .ui.inline.header #{display_name}
+                    img.ui.tiny.inline.centered.image(src=profile_image)
+                    .ui.label reputation #{reputation}
+                    .ui.label user_id #{user_id}
+                    .ui.label user_type #{user_type}
+    
+    
+                        
+template(name='stack_page')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .sixteen.wide.column
+                    .ui.header !{title}
+                .four.wide.column
+                    each tags 
+                        a.ui.basic.pointer.label.add_stack_tag #{this}
+                    if is_answered
+                        .ui.basic.green.label
+                            i.green.checkmark.icon
+                            |answered
+                    else
+                        .ui.basic.label
+                            // i..icon
+                            |unanswered
+                    .ui.label 
+                        i.eye.icon
+                        |#{view_count}
+                        
+                    .ui.label id #{_id}
+                    .ui.label protected_date #{protected_date}
+                    .ui.label accepted_answer_id #{accepted_answer_id}
+                    .ui.label #{answer_count} answers
+                    .ui.label score #{score}
+                    .ui.label qid #{question_id}
+                    .ui.label last_activity_date #{last_activity_date}
+                    .ui.label creation #{creation_date}
+                    .ui.label #{_when}
+                    a(href=link target='_window')
+                        |#{link}
+                .twelve.wide.column
+                    // iframe(width="100%" height="500" src=link frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
+                    with owner
+                        .ui.compact.segment
+                            .ui.inline.header #{display_name}
+                            img.ui.tiny.inline.centered.image(src=profile_image)
+                            .ui.label reputation #{reputation}
+                            .ui.label user_id #{user_id}
+                            .ui.label user_type #{user_type}
+        
+            
                     
                     
                     
