@@ -909,7 +909,7 @@ if Meteor.isServer
 
 
 if Meteor.isClient
-    Router.route '/user/:username/edit/alerts', (->
+    Router.route '/u/:username/edit/alerts', (->
         @layout 'user_edit_layout'
         @render 'user_edit_alerts'
         ), name:'user_edit_alerts'

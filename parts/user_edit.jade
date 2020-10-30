@@ -43,7 +43,7 @@ template(name='user_edit_layout')
                                 | privacy
                             a.ui.large.basic.circular.button(href="/u/#{current_user.username}/edit/badges" class="{{isActiveRoute 'user_edit_badges'}}" title='badges') 
                                 i.certificate.large.icon
-                                // |badges
+                                |badges
                             a.ui.large.basic.circular.button(href="/u/#{current_user.username}/edit/membership" class="{{isActiveRoute 'user_edit_membership'}}" title='membership') 
                                 i.shield.large.icon
                                 | membership
@@ -51,6 +51,7 @@ template(name='user_edit_layout')
                                 i.fire.large.icon 
                                 |tribes
                         .twelve.wide.column
+                            .spacer
                             +yield
 
 template(name='user_edit_account')
@@ -114,7 +115,7 @@ template(name='user_edit_style')
 
 template(name='user_edit_privacy')
     .ui.header
-        +icolor name='private' cl='ui image'
+        +icolor n='private' cl='ui image'
         | privacy
     .ui.grid 
         .row 
@@ -163,11 +164,11 @@ template(name='user_edit_membership')
             .sixteen.wide.column
                 .ui.header
                     i.id.badge.outline.icon
-                    | riverside membership
+                    | membership
         .row 
             .sixteen.wide.column
                 .ui.big.green.button.pay_membership
-                    |pay $250 for membership
+                    |pay $10 for membership
                 each transactions
                     .ui.segment
                         a.ui.header(href="/transaction/#{_id}/view") #{when}
@@ -194,7 +195,7 @@ template(name='user_edit_info')
             .ui.segment
                 +text_edit k='spirit_animal' l='spirit animal' direct=true
                 if spirit_animal
-                    +icolor name=spirit_animal
+                    +icolor n=spirit_animal
                 a(href="https://icons8.com/icons/color" target="_window")
                     |color icons lookup
             div
@@ -227,7 +228,7 @@ template(name='user_edit_info')
 
 template(name='user_edit_genekeys')
     .ui.header
-        +icolor name='dna-helix' cl='ui image'
+        +icolor n='dna-helix' cl='ui image'
         | genekeys
     .ui.grid 
         .row 
@@ -307,7 +308,7 @@ template(name='user_edit_finance')
             .column
                 .ui.segment
                     .ui.header
-                        +icolor name='deposit'
+                        +icolor n='deposit'
                         |sent credit
                     .ui.button.send_credit
                         |send credit
@@ -319,7 +320,7 @@ template(name='user_edit_finance')
             .column
                 .ui.segment
                     .ui.header
-                        +icolor name='withdrawal'
+                        +icolor n='withdrawal'
                     .ui.button.request_credit
                         | credit
                     .ui.header
@@ -330,7 +331,7 @@ template(name='user_edit_finance')
             .column
                 .ui.segment
                     .ui.header
-                        +icolor name='change'
+                        +icolor n='change'
                         |your balance
                     .ui.small.inline.header current credit
                     .ui.green.inline.header #{current_user.credit}c

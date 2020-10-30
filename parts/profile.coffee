@@ -28,12 +28,21 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'all_users', Router.current().params.username
         Session.setDefault('profile_section','dashboard')
     
-    # Template.profile.onRendered ->
-    #     document.title = "#{Router.current().params.username} profile"
+    Template.user_bookmarks_small.onRendered ->
+        @autorun => Meteor.subscribe('users_bookmarks',Router.current().params.username)
+    Template.user_bookmarks_small.helpers
+        users_bookmarks: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find 
+                _id:$in:user.bookmarked_ids
         
-    #     Meteor.setTimeout ->
-    #         $('.ui.dropdown').dropdown()
-    #     , 2000
+        
+    Template.profile.onRendered ->
+        # document.title = "#{Router.current().params.username} profile"
+        
+        Meteor.setTimeout ->
+            $('.ui.dropdown').dropdown()
+        , 2000
         
     #     Meteor.setTimeout ->
     #         $('.item')
@@ -72,7 +81,7 @@ if Meteor.isClient
         'click .ask_question': ->
             user = Meteor.users.findOne(username:Router.current().params.username)
             new_question_id = 
-                Docs.insert 
+                Docs.insert
                     model:'question'
                     target_user_id:user._id
                     target_username:user.username

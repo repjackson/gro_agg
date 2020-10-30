@@ -381,10 +381,10 @@ template(name='vote_button')
 
     
 template(name='voting')
-    i.thumbs.up.big.link.icon.upvote(class=upvote_class title='upvote')
+    i.thumbs.up.big.link.circular.icon.upvote(class=upvote_class title='upvote')
     each upvoter_ids
         +user_info_small
-    i.thumbs.down.big.link.icon.downvote(class=downvote_class title='downvote')
+    i.thumbs.down.big.link.circular.icon.downvote(class=downvote_class title='downvote')
     each downvoter_ids
         +user_info_small
     if is_dev
