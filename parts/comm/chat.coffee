@@ -4,7 +4,7 @@ if Meteor.isClient
     @selected_theme_tags = new ReactiveArray []
     @selected_participant_ids = new ReactiveArray []
     Template.view_chats.onCreated ->
-        @autorun => Meteor.subscribe 'all_users'
+        # @autorun => Meteor.subscribe 'all_users'
 
     Template.view_chat.events
         'click .join_chat': (e,t)->
@@ -76,8 +76,8 @@ if Meteor.isClient
 
     Template.chat_messages_pane.onCreated ->
         # @autorun => Meteor.subscribe 'doc', @data._id
-        @autorun => Meteor.subscribe 'classroom_docs', @data._id
-        @autorun => Meteor.subscribe 'people_list', @data._id
+        # @autorun => Meteor.subscribe 'classroom_docs', @data._id
+        # @autorun => Meteor.subscribe 'people_list', @data._id
 
     Template.chat_messages_pane.helpers
         in_chat: ->
@@ -167,10 +167,10 @@ if Meteor.isServer
 if Meteor.isClient
     Template.chat_list.onCreated ->
         # @autorun => Meteor.subscribe 'my_chats'
-        @autorun => Meteor.subscribe 'docs', selected_tags.array(), 'chat'
+        # @autorun => Meteor.subscribe 'docs', selected_tags.array(), 'chat'
     Template.chat_list_item.onCreated ->
-        @autorun => Meteor.subscribe 'classroom_docs', @data._id
-        @autorun => Meteor.subscribe 'people_list', @data._id
+        # @autorun => Meteor.subscribe 'classroom_docs', @data._id
+        # @autorun => Meteor.subscribe 'people_list', @data._id
 
 
     Template.chat_list.helpers
@@ -264,10 +264,10 @@ if Meteor.isServer
 
 
 Meteor.methods
-    create_chat: (tags=[])->
+    create_chat_channel: (tags=[])->
         Docs.insert
             tags: tags
-            model: 'chat'
+            model: 'chat_channel'
             subscribers: [Meteor.userId()]
             participant_ids: [Meteor.userId()]
         # Router.go "/chat/#{id}"
@@ -292,8 +292,8 @@ Meteor.methods
 
 if Meteor.isClient
     Template.view_chats.onCreated ->
-        @autorun -> Meteor.subscribe('model_docs', 'message')
-        @autorun -> Meteor.subscribe('chats', selected_theme_tags.array(), selected_participant_ids.array())
+        # @autorun -> Meteor.subscribe('model_docs', 'message')
+        # @autorun -> Meteor.subscribe('chats', selected_theme_tags.array(), selected_participant_ids.array())
         @view_published = new ReactiveVar(true)
 
     Template.view_chats.helpers

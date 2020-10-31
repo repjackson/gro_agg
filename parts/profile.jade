@@ -234,6 +234,8 @@ template(name='user_rentals')
     .ui.header reservations offers
     
     
+template(name='user_questions_small')
+    .ui.header small questions
 template(name='user_events')
     .ui.header events
 template(name='user_questions')
@@ -341,6 +343,8 @@ template(name='user_dashboard')
     .ui.stackable.padded.grid
         .eight.wide.column
             +user_rentals_small
+            +user_reservations_small
+            +user_questions_small
         .eight.wide.column
             .ui.comments
                 .ui.icon.fluid.inverted.large.input
@@ -348,81 +352,102 @@ template(name='user_dashboard')
                     input.add_post(type='text' placeholder='add post...')
                 each latest_posts
                     +post_segment
-                        // +skve k='profile_section' v='dashboard' l='dashboard' i='dashboard'
-                        // // +skve k='profile_section' v='friends' l='friends' i='groups'
-                        // +skve k='profile_section' v='finance' l='finance' i='money'
-                        // +skve k='profile_section' v='posts' l='posts' i='blog'
-                        // +skve k='profile_section' v='tribes' l='tribes' i='campfire'
-                        // +skve k='profile_section' v='questions' l='questions' i='faq'
-                        // +skve k='profile_section' v='answers' l='answers' i='rss'
-                        // +skve k='profile_section' v='overlap' l='overlap' i='exchange'
-                        // +skve k='profile_section' v='privacy' l='privacy' i='lock'
-                        // +skve k='profile_section' v='debits' l='debits' i='initiate-money-transfer'
-                        // +skve k='profile_section' v='credits' l='credits' i='deposit'
-                        // if skv_is 'profile_section' 'dashboard'
-                        //     .ui.header #{points_earned}pts earned
-                        //     +user_dashboard
-                        // else if skv_is 'profile_section' 'friends'
-                        //     .ui.header friends
-                        // else if skv_is 'profile_section' 'authored_overlap'
-                        //     +authored_overlap
-                        // else if skv_is 'profile_section' 'debits'
-                        //     +user_debits
-                        // else if skv_is 'profile_section' 'privacy'
-                        //     +edit_privacy
-                        // else if skv_is 'profile_section' 'alerts'
-                        //     +alerts
-                        // else if skv_is 'profile_section' 'finance'
-                        //     .ui.header finance
+        .eight.wide.column
+            +skve k='profile_section' v='dashboard' l='dashboard' i='dashboard'
+            // +skve k='profile_section' v='friends' l='friends' i='groups'
+            +skve k='profile_section' v='finance' l='finance' i='money'
+            +skve k='profile_section' v='posts' l='posts' i='blog'
+            +skve k='profile_section' v='tribes' l='tribes' i='campfire'
+            +skve k='profile_section' v='questions' l='questions' i='faq'
+            +skve k='profile_section' v='answers' l='answers' i='rss'
+            +skve k='profile_section' v='overlap' l='overlap' i='exchange'
+            +skve k='profile_section' v='privacy' l='privacy' i='lock'
+            +skve k='profile_section' v='debits' l='debits' i='initiate-money-transfer'
+            +skve k='profile_section' v='credits' l='credits' i='deposit'
+            if skv_is 'profile_section' 'dashboard'
+                .ui.header #{points_earned}pts earned
+                +user_dashboard
+            else if skv_is 'profile_section' 'friends'
+                .ui.header friends
+            else if skv_is 'profile_section' 'authored_overlap'
+                +authored_overlap
+            else if skv_is 'profile_section' 'debits'
+                +user_debits
+            else if skv_is 'profile_section' 'privacy'
+                +edit_privacy
+            else if skv_is 'profile_section' 'alerts'
+                +alerts
+            else if skv_is 'profile_section' 'finance'
+                .ui.header finance
                     
-        // .eight.wide.column
-            // .ui.segment
-            //     .ui.header 
-            //         |quick send
-            //     if is_current_user
-            //         each friends 
-            //             a.profile_nav_item(href="/u/#{username}" title=username)
-            //                 if profile_image_id
-            //                     img.ui.mini.inline.invert.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
-            //                 else
-            //                     .ui.label #{initials}
-            //     else
-            //         .ui.button.tip
-            //             |+1
-            // each income
-            //     .ui.tiny.header #{amount} #{_author.username}
-            // +user_topups
-            // .ui.segment
-            //     .ui.header questions
-            //     .ui.icon.button.ask_question
-            //         i.plus.icon
-            //     if asking_question
-            //         with question_asking
-            //             +text_edit k='title' d=true
-            //             +number_edit k='bounty' d=true 
-            //             .ui.button.save_question
-            //                 i.checkmark.icon
-            //             +remove_button
-            //     each questions_asked
-            //         .ui.segment.select_question
-            //             a.ui.pointer.header q:#{title}
-            //             .ui.label #{bounty}pts
+        .eight.wide.column
+            .ui.segment
+                .ui.header 
+                    |quick send
+                if is_current_user
+                    each friends 
+                        a.profile_nav_item(href="/u/#{username}" title=username)
+                            if profile_image_id
+                                img.ui.mini.inline.invert.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
+                            else
+                                .ui.label #{initials}
+                else
+                    .ui.button.tip
+                        |+1
+            each income
+                .ui.tiny.header #{amount} #{_author.username}
+            +user_topups
+            .ui.segment
+                .ui.header questions
+                .ui.icon.button.ask_question
+                    i.plus.icon
+                if asking_question
+                    with question_asking
+                        +text_edit k='title' d=true
+                        +number_edit k='bounty' d=true 
+                        .ui.button.save_question
+                            i.checkmark.icon
+                        +remove_button
+                each questions_asked
+                    .ui.segment.select_question
+                        a.ui.pointer.header q:#{title}
+                        .ui.label #{bounty}pts
                         
-            // .ui.header 
-            //     i.big.money.icon(title='log events')
-            //     |earnings
-            // .ui.header #{points} points
-            // i.big.rss.icon(title='log events')
-            // .ui.large.list
-            //     each log_events
-            //         .item 
-            //             .content
-            //                 .header #{body}
-            //                 .meta #{_when}
+            .ui.header 
+                i.big.money.icon(title='log events')
+                |earnings
+            .ui.header #{points} points
+            i.big.rss.icon(title='log events')
+            .ui.large.list
+                each log_events
+                    .item 
+                        .content
+                            .header #{body}
+                            .meta #{_when}
            
            
            
 template(name='user_rentals_small')
+    .ui.segment
+        .ui.header 
+            i.clock.icon
+            |rentals
+        i.plus.icon.add_rental
+        each rentals
+            .ui.header #{title}
+           
+           
+template(name='user_reservations_small')
+    .ui.segment
+        .ui.header 
+            i.clock.icon
+            |reservations
+        i.plus.icon.add_rental
+        each reservations
+            .ui.header #{title}
+           
+           
+template(name='user__small')
     .ui.segment
         .ui.header 
             i.clock.icon

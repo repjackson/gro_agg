@@ -68,22 +68,37 @@ template(name='nav')
                     // |enter
     if skv_is 'viewing_alerts' true
         +topbar
+    else if skv_is 'viewing_bookmarks' true
+        +bookmarkbar
     else if skv_is 'viewing_friends' true
         +friendbar
 
 
 
-template(name='friendbar')
+template(name='bookmarkbar')
     .ui.fluid.attached.segment(style="background-color:#{currentUser.theme_color};" class=currentUser.invert_class)
         .ui.middle.aligned.selection.list.smallscroll
-            each currentUser.friends
-                a.item.close_friendbar(href="/u/#{username}")
-                    .right.floated
-                        i.gift.link.icon(title="gift #{username} points") 
-                        .ui.icon.button(title="message #{username}") 
-                            i.mail.icon
+            each currentUser.bookmarks
+                a.item.close_bookmarkbar(href="/#{_id}}")
                     img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                    .ui.small.inline.header #{username}
+                    .ui.small.inline.header #{title}
+    a.ui.attached.button.close_topbar(href="/profile")
+        i.user.icon
+        |profile
+        
+        
+template(name='friendbar')
+    // .ui.fluid.attached.inverted.blue.segment(style="background-color:#{currentUser.theme_color};" class=currentUser.invert_class)
+    .ui.fluid.attached.inverted.segment(class=currentUser.invert_class)
+        // .ui.middle.aligned.selection.list.smallscroll
+        each currentUser.friends
+            a.ui.black.circular.tertiary.button.close_friendbar(href="/u/#{username}")
+                // .right.floated
+                    // i.gift.link.icon(title="gift #{username} points") 
+                    // .ui.icon.button(title="message #{username}") 
+                    //     i.mail.icon
+                img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                .ui.small.inline.inverted.header #{username}
     a.ui.attached.button.close_topbar(href="/inbox")
         i.users.icon
         |friends

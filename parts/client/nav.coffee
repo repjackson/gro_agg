@@ -110,6 +110,8 @@ Template.nav.events
         Session.set('viewing_alerts', !Session.get('viewing_alerts'))
     'click .toggle_friends': ->
         Session.set('viewing_friends', !Session.get('viewing_friends'))
+    'click .toggle_bookmarks': ->
+        Session.set('viewing_bookmarks', !Session.get('viewing_bookmarks'))
         
     'click .toggle_admin': ->
         if 'admin' in Meteor.user().roles
