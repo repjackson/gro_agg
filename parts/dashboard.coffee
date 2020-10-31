@@ -11,7 +11,7 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'model_docs', 'event'
         # @autorun -> Meteor.subscribe 'model_docs', 'reply'
         # @autorun -> Meteor.subscribe 'user_questions', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username
 
     Template.user_dashboard.events
         # 'click .user_credit_segment': ->

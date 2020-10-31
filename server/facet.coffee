@@ -190,8 +190,8 @@ Meteor.publish 'dtags', (
             match.model = 'wikipedia'
         when 'stack'
             match.model = 'stack'
-        # when 'porn'
-        #     match.model = 'porn'
+        when 'porn'
+            match.model = 'porn'
         else
             match.model = $in:['wikipedia','reddit','stack']
             # match.model = $in:['wikipedia']

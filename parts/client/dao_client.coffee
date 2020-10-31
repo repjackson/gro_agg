@@ -260,36 +260,8 @@ Template.tag_selector.events
         $('.search_title').val('')
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-        Meteor.call 'call_alpha', selected_tags.array().toString(), ->
-        # Meteor.call 'call_alpha', @name, ->
-        #       if typeof document.suiToastColorIndex == 'undefined'
-        #   document.suiToastColorIndex = -1
-        # suiColors = [
-        #   'red'
-        #   'orange'
-        #   'yellow'
-        #   'olive'
-        #   'green'
-        #   'teal'
-        #   'blue'
-        #   'violet'
-        #   'purple'
-        #   'pink'
-        #   'brown'
-        #   'grey'
-        #   'black'
-        # ]
-        
-        # suiPlus = ->
-        #   if ++document.suiToastColorIndex == suiColors.length
-        #     document.suiToastColorIndex = 0
-        #   document.suiToastColorIndex
-        
-        # $('body').toast
-        #   message: 'I am a colorful toast'
-        #   class: suiColors[suiPlus()]
-        #   showProgress: 'bottom'
-        
+        unless Session.equals('view_mode','porn')
+            Meteor.call 'call_alpha', selected_tags.array().toString(), ->
         if Session.equals('view_mode','stack')
             Session.set('thinking',true)
             $('body').toast(
@@ -309,6 +281,8 @@ Template.tag_selector.events
                 )
                 Session.set('thinking',false)
                 Meteor.call 'call_wiki', @name, ->
+        else if Session.equals('view_mode', 'porn')
+            Meteor.call 'search_ph', selected_tags.array().toString(), ->
         else
             Session.set('thinking',true)
             $('body').toast(
@@ -559,6 +533,20 @@ Template.dao.helpers
                 # skip:Session.get('skip')
             # if cur.count() is 1
             # Docs.find match
+    ph_docs: ->
+        match = {model:'porn'}
+        if selected_tags.array().length>0
+            match.tags = $all:selected_tags.array()
+        Docs.find match,
+            sort:
+                points:-1
+                views:-1
+                # _timestamp:-1
+                # "#{Session.get('sort_key')}": Session.get('sort_direction')
+            limit:10
+            # skip:Session.get('skip')
+        # if cur.count() is 1
+        # Docs.find match
 
     loading_class: ->
         if Template.instance().subscriptionsReady()
