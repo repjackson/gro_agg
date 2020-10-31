@@ -59,6 +59,22 @@ template(name='site_page')
                                     each tags
                                         .ui.label #{this}
                 .four.wide.column
+                    .ui.circular.icon.button.vote_up
+                        i.thumbs.up.icon
+                    .ui.circular.icon.button.vote_down
+                        i.thumbs.down.icon
+                    each upvoters
+                        .ui.small.header #{username}
+                    each downvoters
+                        .ui.small.header #{username}
                     .ui.header stats
                     .ui.list 
                         .item #{site_doc_count}
+                    .ui.dividing.header 
+                        |members
+                    each members
+                        .ui.header #{username}
+                    .ui.button.join
+                        |join
+                    .ui.button.leave
+                        |leave

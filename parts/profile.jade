@@ -161,32 +161,6 @@ template(name='profile')
                         //         .item 10
                         //         .item 20
                         
-                        // +skve k='profile_section' v='dashboard' l='dashboard' i='dashboard'
-                        // // +skve k='profile_section' v='friends' l='friends' i='groups'
-                        // +skve k='profile_section' v='finance' l='finance' i='money'
-                        // +skve k='profile_section' v='posts' l='posts' i='blog'
-                        // +skve k='profile_section' v='tribes' l='tribes' i='campfire'
-                        // +skve k='profile_section' v='questions' l='questions' i='faq'
-                        // +skve k='profile_section' v='answers' l='answers' i='rss'
-                        // +skve k='profile_section' v='overlap' l='overlap' i='exchange'
-                        // +skve k='profile_section' v='privacy' l='privacy' i='lock'
-                        // +skve k='profile_section' v='debits' l='debits' i='initiate-money-transfer'
-                        // +skve k='profile_section' v='credits' l='credits' i='deposit'
-                        // if skv_is 'profile_section' 'dashboard'
-                        //     .ui.header #{points_earned}pts earned
-                        //     +user_dashboard
-                        // else if skv_is 'profile_section' 'friends'
-                        //     .ui.header friends
-                        // else if skv_is 'profile_section' 'authored_overlap'
-                        //     +authored_overlap
-                        // else if skv_is 'profile_section' 'debits'
-                        //     +user_debits
-                        // else if skv_is 'profile_section' 'privacy'
-                        //     +edit_privacy
-                        // else if skv_is 'profile_section' 'alerts'
-                        //     +alerts
-                        // else if skv_is 'profile_section' 'finance'
-                        //     .ui.header finance
                         +yield
     // +chatpop
               
@@ -365,13 +339,42 @@ template(name='user_dashboard')
                                 |#{description}
                                 |#{when}
     .ui.stackable.padded.grid
-        .sixteen.wide.column
+        .eight.wide.column
+            +user_rentals_small
+        .eight.wide.column
             .ui.comments
                 .ui.icon.fluid.inverted.large.input
                     i.plus.icon
                     input.add_post(type='text' placeholder='add post...')
                 each latest_posts
                     +post_segment
+                        // +skve k='profile_section' v='dashboard' l='dashboard' i='dashboard'
+                        // // +skve k='profile_section' v='friends' l='friends' i='groups'
+                        // +skve k='profile_section' v='finance' l='finance' i='money'
+                        // +skve k='profile_section' v='posts' l='posts' i='blog'
+                        // +skve k='profile_section' v='tribes' l='tribes' i='campfire'
+                        // +skve k='profile_section' v='questions' l='questions' i='faq'
+                        // +skve k='profile_section' v='answers' l='answers' i='rss'
+                        // +skve k='profile_section' v='overlap' l='overlap' i='exchange'
+                        // +skve k='profile_section' v='privacy' l='privacy' i='lock'
+                        // +skve k='profile_section' v='debits' l='debits' i='initiate-money-transfer'
+                        // +skve k='profile_section' v='credits' l='credits' i='deposit'
+                        // if skv_is 'profile_section' 'dashboard'
+                        //     .ui.header #{points_earned}pts earned
+                        //     +user_dashboard
+                        // else if skv_is 'profile_section' 'friends'
+                        //     .ui.header friends
+                        // else if skv_is 'profile_section' 'authored_overlap'
+                        //     +authored_overlap
+                        // else if skv_is 'profile_section' 'debits'
+                        //     +user_debits
+                        // else if skv_is 'profile_section' 'privacy'
+                        //     +edit_privacy
+                        // else if skv_is 'profile_section' 'alerts'
+                        //     +alerts
+                        // else if skv_is 'profile_section' 'finance'
+                        //     .ui.header finance
+                    
         // .eight.wide.column
             // .ui.segment
             //     .ui.header 
@@ -417,6 +420,16 @@ template(name='user_dashboard')
             //                 .header #{body}
             //                 .meta #{_when}
            
+           
+           
+template(name='user_rentals_small')
+    .ui.segment
+        .ui.header 
+            i.clock.icon
+            |rentals
+        i.plus.icon.add_rental
+        each rentals
+            .ui.header #{title}
            
            
 template(name='user_bookmarks_small')

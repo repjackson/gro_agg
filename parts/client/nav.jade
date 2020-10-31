@@ -33,6 +33,8 @@ template(name='nav')
                 if currentUser
                     a.pointer.icon.item.toggle_friends(href="#" class=alert_toggle_class title='friends')
                         i.large.users.icon
+                    a.pointer.icon.item.toggle_bookmarks(href="#" class=alert_toggle_class title='bookmark')
+                        i.large.bookmark.icon
                     if connected
                         if unread_count
                             a.pointer.item.alerts(href="#" class=alert_toggle_class)

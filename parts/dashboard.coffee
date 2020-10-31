@@ -235,4 +235,10 @@ if Meteor.isServer
         
         
         
+
+if Meteor.isClient
+    Template.user_rentals_small.onCreated ->
+        @autorun => Meteor.subscribe 'user_rentals', Router.current().params.doc_id
+if Meteor.isServer
+    Meteor.publish 'user_rentals', (username)->
         
