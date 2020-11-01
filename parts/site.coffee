@@ -31,6 +31,8 @@ if Meteor.isClient
     Template.site_page.events
         'click .sort_timestamp': (e,t)-> Session.set('sort_key','_timestamp')
         'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
+        'click .toggle_detail': (e,t)-> 
+            Session.set('view_detail',!Session.get('view_detail'))
         'click .sort_up': (e,t)-> Session.set('sort_direction',1)
         'click .limit_10': (e,t)-> Session.set('limit',10)
         'click .limit_1': (e,t)-> Session.set('limit',1)

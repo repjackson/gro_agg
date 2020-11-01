@@ -62,8 +62,12 @@ template(name='site_page')
                         i.clock.icon
                     .ui.icon.compact.large.circular.button.set_points
                         i.line.chart.icon
-                    .ui.icon.compact.large.circular.button.toggle_detail
-                        i.list.large.icon
+                    if skv_is 'view_detail' true
+                        .ui.icon.active.large.circular.button.toggle_detail
+                            i.list.large.icon
+                    else
+                        .ui.icon.compact.large.circular.button.toggle_detail
+                            i.list.large.icon
                         // i.line.chart.icon
                     // .ui.icon.compact.large.button 
                     //     i.th.icon
@@ -74,8 +78,9 @@ template(name='site_page')
                             a.item(href="/site/#{site}/doc/#{_id}")
                                 .content 
                                     .header !{title}
-                                    each tags
-                                        .ui.label #{this}
+                                    if skv_is 'view_detail' true
+                                        each tags
+                                            .ui.label #{this}
                 .four.wide.column
                     .ui.circular.icon.button.vote_up
                         i.thumbs.up.icon
