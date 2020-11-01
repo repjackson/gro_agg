@@ -3,6 +3,8 @@ template(name='site_page')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
+                    a.ui.circular.icon.button(href='/')
+                        i.large.home.icon
                     img(src=logo_url)
                     // img(src=icon_url)
                     // .ui.segment(style="background-color:#{styling.tag_background_color}")
@@ -52,19 +54,22 @@ template(name='site_page')
                     else
                         .ui.icon.button.sort_up
                             i.caret.up.icon
-                    .ui.compact.button.limit_1
+                    .ui.compact.circular.button.limit_1
                         |1
-                    .ui.compact.button.limit_10
+                    .ui.compact.circular.button.limit_10
                         |10
-                    .ui.icon.compact.large.button.sort_timestamp
+                    .ui.icon.compact.large.circular.button.sort_timestamp
                         i.clock.icon
-                    .ui.icon.compact.large.button.set_points
+                    .ui.icon.compact.large.circular.button.set_points
                         i.line.chart.icon
+                    .ui.icon.compact.large.circular.button.toggle_detail
+                        i.list.large.icon
+                        // i.line.chart.icon
                     // .ui.icon.compact.large.button 
                     //     i.th.icon
                     // .ui.icon.compact.large.button 
                     //     i.list.icon
-                    .ui.selection.link.list
+                    .ui.selection.link.large.list
                         each site_questions
                             a.item(href="/site/#{site}/doc/#{_id}")
                                 .content 
