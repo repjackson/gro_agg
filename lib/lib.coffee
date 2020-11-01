@@ -2,27 +2,27 @@
 @results = new Meteor.Collection 'results'
 
 @Tags = new Meteor.Collection 'tags'
-@Tag_results = new Meteor.Collection 'tag_results'
-@Terms = new Meteor.Collection 'terms'
-@User_tags = new Meteor.Collection 'user_tags'
+# @Tag_results = new Meteor.Collection 'tag_results'
+# @Terms = new Meteor.Collection 'terms'
+# @User_tags = new Meteor.Collection 'user_tags'
 # @ph_tags = new Meteor.Collection 'ph_tags'
 # @Dtag_results = new Meteor.Collection 'dtag_results'
 # @Category_results = new Meteor.Collection 'category_results'
 # @Pornstar_results = new Meteor.Collection 'pornstar_results'
 
 
-if Meteor.isClient
-    # console.log $
-    $.cloudinary.config
-        cloud_name:"facet"
+# if Meteor.isClient
+#     # console.log $
+#     $.cloudinary.config
+#         cloud_name:"facet"
 
-if Meteor.isServer
-    # console.log Meteor.settings.private.cloudinary_key
-    # console.log Meteor.settings.private.cloudinary_secret
-    Cloudinary.config
-        cloud_name: 'facet'
-        api_key: Meteor.settings.private.cloudinary_key
-        api_secret: Meteor.settings.private.cloudinary_secret
+# if Meteor.isServer
+#     # console.log Meteor.settings.private.cloudinary_key
+#     # console.log Meteor.settings.private.cloudinary_secret
+#     Cloudinary.config
+#         cloud_name: 'facet'
+#         api_key: Meteor.settings.private.cloudinary_key
+#         api_secret: Meteor.settings.private.cloudinary_secret
 
 Docs.helpers
     _author: -> Meteor.users.findOne @_author_id
@@ -120,33 +120,6 @@ Docs.before.insert (userId, doc)->
 
 
 Meteor.methods
-    add_facet_filter: (delta_id, key, filter)->
-        # if key is '_keys'
-        #     new_facet_ob = {
-        #         key:filter
-        #         filters:[]
-        #         res:[]
-        #     }
-        #     Docs.update { _id:delta_id },
-        #         $addToSet: facets: new_facet_ob
-        console.log delta_id
-        console.log key
-        console.log filter
-        Docs.update { _id:delta_id, "facets.key":key},
-            $addToSet: "facets.$.filters": filter
-
-        Meteor.call 'fum', delta_id, (err,res)->
-
-
-    remove_facet_filter: (delta_id, key, filter)->
-        # if key is '_keys'
-        #     Docs.update { _id:delta_id },
-        #         $pull:facets: {key:filter}
-        Docs.update { _id:delta_id, "facets.key":key},
-            $pull: "facets.$.filters": filter
-        Meteor.call 'fum', delta_id, (err,res)->
-
-
     upvote_sentence: (doc_id, sentence)->
         # console.log sentence
         if sentence.weight
