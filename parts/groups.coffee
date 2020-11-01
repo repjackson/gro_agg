@@ -10,7 +10,7 @@ if Meteor.isClient
     ), name:'group_view'
     Template.group_view.onCreated ->
         @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun -> Meteor.subscribe 'subreddit_docs', Router.current().params.doc_id
+        # @autorun -> Meteor.subscribe 'subreddit_docs', Router.current().params.doc_id
     Template.group_view.events
         'click .search_sub': (e,t)->
             val = $('.search_subreddit').val()

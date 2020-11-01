@@ -98,6 +98,16 @@ template(name='stack_page')
             .row
                 .sixteen.wide.column
                     .ui.header !{title}
+                    .ui.compact.segment
+                        a.ui.header(href="/site/#{site}") 
+                            |site: #{site}
+                    with owner
+                        .ui.compact.segment
+                            a.ui.inline.header(href="/stackuser/#{user_id}") #{display_name}
+                            img.ui.tiny.inline.centered.image(src=profile_image)
+                            .ui.label reputation #{reputation}
+                            .ui.label user_id #{user_id}
+                            .ui.label user_type #{user_type}
                 .four.wide.column
                     each tags 
                         a.ui.basic.pointer.label.add_stack_tag #{this}
@@ -142,15 +152,6 @@ template(name='stack_page')
                 .four.wide.column
                     +bookmark_button
                     +voting
-                    a.ui.header(href="/site/#{site}") 
-                        |site: #{site}
-                    with owner
-                        .ui.compact.segment
-                            a.ui.inline.header(href="/stackuser/#{user_id}") #{display_name}
-                            img.ui.tiny.inline.centered.image(src=profile_image)
-                            .ui.label reputation #{reputation}
-                            .ui.label user_id #{user_id}
-                            .ui.label user_type #{user_type}
         
             
                     

@@ -23,7 +23,7 @@ template(name='site_page')
                         i.large.link.twitter.icon
                     a(href=site_url)
                         |#{site_url}
-                    .ui.list 
+                    .ui.list.mobile.hidden
                         .item #{launch_date} launch_date
                         .item #{open_beta_date} open_beta_date
                         .item #{closed_beta_date} closed_beta_date
@@ -43,9 +43,11 @@ template(name='site_page')
                         .ui.icon.button.sort_down
                             i.caret.down.icon
                     else
-                        .ui.icon.button.sort_down
+                        .ui.icon.button.sort_up
                             i.caret.up.icon
-                    .ui.icon.compact.large.button 
+                    .ui.icon.compact.large.button.set_timestamp
+                        i.clock.icon
+                    .ui.icon.compact.large.button.set_timestamp
                         i.clock.icon
                     .ui.icon.compact.large.button 
                         i.th.icon
