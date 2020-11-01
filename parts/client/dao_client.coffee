@@ -11,11 +11,6 @@ Template.registerHelper 'key_value', (key,value)-> @["#{key}"] is value
 
 # @log = (input)-> console.log input
 
-Template.group_view.events
-    'click .search_sub': (e,t)->
-        # console.log 'hi'
-        Meteor.call 'hi', ->
-
 
 Template.registerHelper 'embed', ()->
     if @rd and @rd.media and @rd.media.oembed and @rd.media.oembed.html

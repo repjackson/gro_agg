@@ -7,32 +7,32 @@ Router.configure
 # 	progressDelay: 100
 
 
-force_loggedin =  ()->
-    if !Meteor.userId()
-        @render 'login'
-    else
-        @next()
+# force_loggedin =  ()->
+#     if !Meteor.userId()
+#         @render 'login'
+#     else
+#         @next()
 
-Router.onBeforeAction(force_loggedin, {
-    # only: ['admin']
-    except: [
-        'home'
-        # 'profile'
-        # 'shop'
-        'chat'
-        'web'
-        'dao'
-        'model_doc_view'
-        'reddit_view'
-        'doc_view'
-        'post_view'
-        # 'post_edit'
-        'register'
-        'login'
-        'verify-email'
-        'forgot_password'
-    ]
-    })
+# Router.onBeforeAction(force_loggedin, {
+#     # only: ['admin']
+#     except: [
+#         'home'
+#         # 'profile'
+#         # 'shop'
+#         'chat'
+#         'web'
+#         'dao'
+#         'model_doc_view'
+#         'reddit_view'
+#         'doc_view'
+#         'post_view'
+#         # 'post_edit'
+#         'register'
+#         'login'
+#         'verify-email'
+#         'forgot_password'
+#     ]
+#     })
 
 
 Router.route('enroll', {

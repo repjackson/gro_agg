@@ -140,11 +140,11 @@ template(name='group_view')
                     // +voting_full
                     // |!{description}
                 .six.wide.column
-                    .ui.button.search_sub
-                        i.send.icon
                     .ui.icon.input
                         i.search.icon
                         input.search_subreddit(type='text')
+                        // .ui.icon.button.search_sub
+                        //     i.send.icon
                     if skv_is 'sort_direction' 1
                         .ui.icon.button.sort_down
                             i.caret.down.icon

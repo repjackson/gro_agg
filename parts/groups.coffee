@@ -12,16 +12,18 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun -> Meteor.subscribe 'subreddit_docs', Router.current().params.doc_id
     Template.group_view.events
-        # 'click .search_sub': (e,t)->
-        #     console.log 'hi'
-        #     Meteor.call 'search_reddit', 'biden','politics', ->
+        'click .search_sub': (e,t)->
+            val = $('.search_subreddit').val()
+            sub = Docs.findOne Router.current().params.doc_id
+            Meteor.call 'search_reddit', val, sub.display_name, ->
+                $('.search_subreddit').val('')
         'keyup .search_subreddit': (e,t)->
             val = $('.search_subreddit').val()
             sub = Docs.findOne Router.current().params.doc_id
             if e.which is 13
                 console.log 'searching', val, sub.display_name
-                Meteor.call 'search_reddit', val, ->
-                $('.search_subreddit').val('')
+                Meteor.call 'search_reddit', val, sub.display_name, ->
+                    $('.search_subreddit').val('')
     
     Template.group_view.helpers
         subreddit_docs: ->
@@ -53,9 +55,16 @@ if Meteor.isServer
     Meteor.publish 'subreddit_docs', (subreddit_id)->
         sub = Docs.findOne subreddit_id
         # console.log 'sub',sub
-        Docs.find {
-            model:'reddit'
-            subreddit:sub.display_name
-        }
-        
+        if sub
+            console.log 'sub docs', sub.display_name
+            if sub.display_name
+                # subreddit: sub.display_name
+                Docs.find {
+                    model:'post'
+                    # subreddit: 'funny'
+                    # model: 'reddit'
+                }, 
+                    sort:
+                        _timestamp:-1
+                    limit:2
         

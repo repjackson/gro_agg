@@ -100,7 +100,7 @@ Meteor.methods
 
 
     get_reddit_post: (doc_id, reddit_id, root)->
-        # @unblock()
+        @unblock()
         console.log 'getting reddit post', doc_id, reddit_id
         doc = Docs.findOne doc_id
         if doc.reddit_id
