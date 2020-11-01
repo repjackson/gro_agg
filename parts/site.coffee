@@ -17,10 +17,12 @@ if Meteor.isClient
             
         @autorun => Meteor.subscribe 'stack_docs_by_site', 
             Router.current().params.site
+            selected_tags.array()
             Session.get('sort_key')
             Session.get('sort_direction')
             Session.get('limit')
     Template.site_page.helpers
+        selected_tags: -> selected_tags.array()
         site_tags: -> results.find(model:'site_tag')
         current_site: ->
             Docs.findOne
@@ -58,6 +60,7 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'stack_docs_by_site', (
         site
+        selected_tags
         sort_key
         sort_direction
         limit
@@ -66,14 +69,16 @@ if Meteor.isServer
         console.log 'sort_key', sort_key
         console.log 'sort_direction', sort_direction
         console.log 'limit', limit
-        site = Docs.findOne
-            model:'stack_site'
-            api_site_parameter:site
+        # site = Docs.findOne
+        #     model:'stack_site'
+        #     api_site_parameter:site
+        match = {
+            model:'stack'
+            site:site
+            }
+        if selected_tags.length > 0 then match.tags = $in:selected_tags
         if site
-            Docs.find {
-                model:'stack'
-                site:site.api_site_parameter
-            }, 
+            Docs.find match, 
                 limit:10
                 # sort:
                 #     "#{sort_key}":sort_direction

@@ -26,29 +26,30 @@ template(name='site_page')
                     a(href=site_url)
                         |#{site_url}
                     .ui.list.mobile.hidden
-                        .item #{launch_date} launch_date
-                        .item #{open_beta_date} open_beta_date
-                        .item #{closed_beta_date} closed_beta_date
-                        .item #{site_state} site_state
+                        // .item #{launch_date} launch_date
+                        // .item #{open_beta_date} open_beta_date
+                        // .item #{closed_beta_date} closed_beta_date
+                        // .item #{site_state} site_state
                         // .item #{high_resolution_icon_url} high_resolution_icon_url
                         // .item #{favicon_url} favicon_url
-                        .item #{audience} audience
-                        .item #{api_site_parameter} api_site_parameter
-                        .item #{site_type} site_type
+                        .item #{audience}
+                        // .item #{api_site_parameter} api_site_parameter
+                        // .item #{site_type} site_type
                     +comments
                     +voting_full
-                .eight.wide.column
+                .twelve.wide.column
                     if selected_tags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                         //         i.remove.icon
                         each selected_tags
                             +unselect_tag
-                    each site_tags
-                        .ui.large.label(title=count) #{name}
                     .ui.icon.input
                         i.search.icon
                         input.search_site(type='text')
+                    each site_tags
+                        +tag_selector
+                        // .ui.large.label(title=count) #{name}
                     if skv_is 'sort_direction' 1
                         .ui.icon.button.sort_down
                             i.caret.down.icon
@@ -82,23 +83,23 @@ template(name='site_page')
                                     if skv_is 'view_detail' true
                                         each tags
                                             .ui.label #{this}
-                .four.wide.column
-                    .ui.circular.icon.button.vote_up
-                        i.thumbs.up.icon
-                    .ui.circular.icon.button.vote_down
-                        i.thumbs.down.icon
-                    each upvoters
-                        .ui.small.header #{username}
-                    each downvoters
-                        .ui.small.header #{username}
-                    .ui.header stats
-                    .ui.list 
-                        .item #{site_doc_count}
-                    .ui.dividing.header 
-                        |members
-                    each members
-                        .ui.header #{username}
-                    .ui.button.join
-                        |join
-                    .ui.button.leave
-                        |leave
+                // .four.wide.column
+                //     .ui.circular.icon.button.vote_up
+                //         i.thumbs.up.icon
+                //     .ui.circular.icon.button.vote_down
+                //         i.thumbs.down.icon
+                //     each upvoters
+                //         .ui.small.header #{username}
+                //     each downvoters
+                //         .ui.small.header #{username}
+                //     .ui.header stats
+                //     .ui.list 
+                //         .item #{site_doc_count}
+                //     .ui.dividing.header 
+                //         |members
+                //     each members
+                //         .ui.header #{username}
+                //     .ui.button.join
+                //         |join
+                //     .ui.button.leave
+                //         |leave
