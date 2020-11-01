@@ -14,6 +14,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'site_tags',
             selected_tags.array()
             Router.current().params.site
+            Session.get('toggle')
             
         @autorun => Meteor.subscribe 'stack_docs_by_site', 
             Router.current().params.site
@@ -21,6 +22,7 @@ if Meteor.isClient
             Session.get('sort_key')
             Session.get('sort_direction')
             Session.get('limit')
+            Session.get('toggle')
     Template.site_page.helpers
         selected_tags: -> selected_tags.array()
         site_tags: -> results.find(model:'site_tag')
@@ -59,7 +61,7 @@ if Meteor.isClient
                             model:'stack_site'
                             api_site_parameter:Router.current().params.site
                     if site
-                        Meteor.call 'search_stack', site.api_site_parameter, search, ->
+                        Meteor.call 'search_stack', Router.current().params.site, search, ->
                             Session.set('thinking',false)
 
 if Meteor.isServer

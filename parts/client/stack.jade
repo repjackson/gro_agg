@@ -9,6 +9,7 @@ template(name='stack')
                     input(type='text')
                 each sites
                     .ui.header #{title}
+            .twelve.wide.column.scrolling
                 .ui.header.dl 
                     i.globe.icon
                     |sites
@@ -18,17 +19,16 @@ template(name='stack')
                             a.ui.small.header(href="/site/#{api_site_parameter}")
                                 img(src=icon_url)
                                 |#{name}
-            .twelve.wide.column.scrolling
-                .ui.inline.header 
-                    i.question.icon
-                    |questions
-                .ui.dropdown
-                    span.text {{sv 'limit'}}
-                    i.dropdown.icon
-                    .menu 
-                    +skve k='limit' v=1 l='1'
-                    +skve k='limit' v=10 l='10'
-                    +skve k='limit' v=20 l='20'
+                // .ui.inline.header 
+                //     i.question.icon
+                //     |questions
+                // .ui.dropdown
+                //     span.text {{sv 'limit'}}
+                //     i.dropdown.icon
+                //     .menu 
+                //     +skve k='limit' v=1 l='1'
+                //     +skve k='limit' v=10 l='10'
+                //     +skve k='limit' v=20 l='20'
                     // .item 1
                     // .item 5
                     // .item 10
@@ -39,18 +39,18 @@ template(name='stack')
                 // +skve k='sort_direction' v=-1 l='u' i='up'
                 // +skve k='sort_direction' v=1 l='d' i='down'
                 // |view
-                +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
-                +skve k='view_mode' v='list' l='list' i='list' ionly=true
-                if skv_is 'view_mode' 'list'
-                    .ui.large.list 
-                        each stack_docs
-                            .item
-                                a.ui.small.header(href="/site/#{site}/doc/#{_id}")
-                                    |#{title}
-                else
-                    .ui.cards
-                        each stack_docs
-                            +stack_card
+                // +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
+                // +skve k='view_mode' v='list' l='list' i='list' ionly=true
+                // if skv_is 'view_mode' 'list'
+                //     .ui.large.list 
+                //         each stack_docs
+                //             .item
+                //                 a.ui.small.header(href="/site/#{site}/doc/#{_id}")
+                //                     |#{title}
+                // else
+                //     .ui.cards
+                //         each stack_docs
+                //             +stack_card
                         
                         
 template(name='stack_card')

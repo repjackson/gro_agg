@@ -258,66 +258,69 @@ Template.tag_selector.events
         selected_tags.push @name
         Session.set('query','')
         Session.set('skip',0)
-        $('.search_title').val('')
+        $('.search_site').val('')
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-        unless Session.equals('view_mode','porn')
-            Meteor.call 'call_alpha', selected_tags.array().toString(), ->
-        if Session.equals('view_mode','stack')
-            Session.set('thinking',true)
+        # unless Session.equals('view_mode','porn')
+        #     Meteor.call 'call_alpha', selected_tags.array().toString(), ->
+        # if Session.equals('view_mode','stack')
+        Session.set('thinking',true)
+        $('body').toast(
+            showIcon: 'stack exchange'
+            message: 'started'
+            displayTime: 'auto',
+            position: 'bottom left'
+        )
+        Meteor.call 'search_stack', Router.current().params.site, @name, ->
             $('body').toast(
                 showIcon: 'stack exchange'
-                message: 'started'
+                message: ' done'
+                # showProgress: 'bottom'
+                class: 'success'
                 displayTime: 'auto',
                 position: 'bottom left'
             )
-            Meteor.call 'search_stack', @name, =>
-                $('body').toast(
-                    showIcon: 'stack exchange'
-                    message: ' done'
-                    # showProgress: 'bottom'
-                    class: 'success'
-                    displayTime: 'auto',
-                    position: 'bottom left'
-                )
-                Session.set('thinking',false)
-                Meteor.call 'call_wiki', @name, ->
-        else if Session.equals('view_mode', 'porn')
-            Meteor.call 'search_ph', selected_tags.array().toString(), ->
-        else
-            Session.set('thinking',true)
+            Session.set('thinking',false)
+        # else if Session.equals('view_mode', 'porn')
+        #     Meteor.call 'search_ph', selected_tags.array().toString(), ->
+        # else
+        Session.set('thinking',true)
+        $('body').toast(
+            showIcon: 'wikipedia'
+            message: 'started'
+            displayTime: 'auto',
+            position: 'bottom left'
+        )
+        Meteor.call 'call_wiki', @name, ->
             $('body').toast(
+                message: 'done'
                 showIcon: 'wikipedia'
-                message: 'started'
+                # showProgress: 'bottom'
+                class: 'info'
                 displayTime: 'auto',
+                position: 'bottom left'
             )
-            Meteor.call 'call_wiki', @name, ->
-                $('body').toast(
-                    message: 'done'
-                    showIcon: 'wikipedia'
-                    # showProgress: 'bottom'
-                    class: 'info'
-                    displayTime: 'auto',
-                )
+        $('body').toast(
+            showIcon: 'reddit'
+            message: 'started'
+            displayTime: 'auto',
+            position: 'bottom left'    
+        )
+        Meteor.call 'search_reddit', selected_tags.array(), ->
             $('body').toast(
+                message: 'done'
                 showIcon: 'reddit'
-                message: 'started'
+                # showProgress: 'bottom'
+                class: 'success'
                 displayTime: 'auto',
+                position: 'bottom left'
             )
-            Meteor.call 'search_reddit', selected_tags.array(), ->
-                $('body').toast(
-                    message: 'done'
-                    showIcon: 'reddit'
-                    # showProgress: 'bottom'
-                    class: 'success'
-                    displayTime: 'auto',
-                )
-                Session.set('thinking',false)
-            Meteor.call 'search_ddg', @name, ->
-            Session.set('viewing_doc',null)
+            Session.set('thinking',false)
+        # Meteor.call 'search_ddg', @name, ->
+        # Session.set('viewing_doc',null)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))
-        , 12000)
+        , 5000)
        
        
 Template.doc_tag.onCreated ->
