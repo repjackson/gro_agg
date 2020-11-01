@@ -47,15 +47,20 @@ if Meteor.isClient
             # search = $('.search_site').val().toLowerCase().trim()
             search = $('.search_site').val().trim()
             if e.which is 13
-                # window.speechSynthesis.cancel()
-                # console.log search
                 if search.length > 0
+                    window.speechSynthesis.cancel()
+                    # console.log search
+                    window.speechSynthesis.speak new SpeechSynthesisUtterance search
+                    selected_tags.push search
+                    $('.search_site').val('')
+
                     site = 
                         Docs.findOne
                             model:'stack_site'
                             api_site_parameter:Router.current().params.site
                     if site
                         Meteor.call 'search_stack', site.api_site_parameter, search, ->
+                            Session.set('thinking',false)
 
 if Meteor.isServer
     Meteor.publish 'stack_docs_by_site', (
