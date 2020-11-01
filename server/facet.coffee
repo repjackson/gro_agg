@@ -200,6 +200,9 @@ Meteor.publish 'dtags', (
     else
         unless view_mode in ['stack','porn']
             match.tags = $in:['daoism']
+        if view_mode is 'porn'
+            match.tags = $in:['sex']
+            
         # unless selected_subreddits.length>0
     # else if view_mode in ['reddit',null]
     doc_count = Docs.find(match).count()

@@ -8,8 +8,8 @@ template(name='nav')
                 i.big.yin.yang.icon
             a.icon.item(href='/stack')
                 i.big.stack.exchange.icon
-            a.icon.item(href='/groups')
-                i.big.users.icon
+            // a.icon.item(href='/groups')
+            //     i.big.users.icon
             // a.icon.item(href='/requests')
             //     i.big.hand.holding.icon
             // a.icon.item(href='/events')
@@ -31,20 +31,20 @@ template(name='nav')
                     a.icon.pointer.item.add(title='add')
                         i.large.plus.icon
                 if currentUser
-                    a.pointer.icon.item.toggle_friends(href="#" class=alert_toggle_class title='friends')
-                        i.large.users.icon
-                    a.pointer.icon.item.toggle_bookmarks(href="#" class=alert_toggle_class title='bookmark')
-                        i.large.bookmark.icon
-                    if connected
-                        if unread_count
-                            a.pointer.item.alerts(href="#" class=alert_toggle_class)
-                                i.large.bell.icon
-                                if unread_count
-                                    |#{unread_count}
-                        else
-                            // a.icon.pointer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
-                            a.icon.pointer.item(href="/inbox")
-                                i.large.outline.bell.icon
+                    // a.pointer.icon.item.toggle_friends(href="#" class=alert_toggle_class title='friends')
+                    //     i.large.users.icon
+                    // a.pointer.icon.item.toggle_bookmarks(href="#" class=alert_toggle_class title='bookmark')
+                    //     i.large.bookmark.icon
+                    // if connected
+                    //     if unread_count
+                    //         a.pointer.item.alerts(href="#" class=alert_toggle_class)
+                    //             i.large.bell.icon
+                    //             if unread_count
+                    //                 |#{unread_count}
+                    //     else
+                    //         // a.icon.pointer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+                    //         a.icon.pointer.item(href="/inbox")
+                    //             i.large.outline.bell.icon
                 a.icon.pointer.item(href="/chat" title='chat') 
                     i.chat.outline.large.icon
                 // a.icon.pointer.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")

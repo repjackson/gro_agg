@@ -1,5 +1,6 @@
 Meteor.methods
     search_ph: (query)->
+        @unblock()
         console.log 'searching for', query
         HTTP.get "http://www.pornhub.com/webmasters/search?search=#{query}&thumbsize=large",(err,response)=>
             # console.log response.data
