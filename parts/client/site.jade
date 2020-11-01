@@ -3,9 +3,12 @@ template(name='site_page')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    // img(src=icon_url)
                     img(src=logo_url)
+                .eight.wide.column
                     .ui.header !{name}
+            .row
+                .four.wide.column
+                    // img(src=icon_url)
                     // .ui.segment(style="background-color:#{styling.tag_background_color}")
                     // .ui.label #{tag_background_color}: tag_background_color
                     // .ui.label #{tag_foreground_color}: tag_foreground_color
