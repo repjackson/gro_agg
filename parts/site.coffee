@@ -55,13 +55,19 @@ if Meteor.isServer
         sort_direction
         limit
     )->
+        console.log 'site', site
+        console.log 'sort_key', sort_key
+        console.log 'sort_direction', sort_direction
+        console.log 'limit', limit
         site = Docs.findOne
             model:'stack_site'
             api_site_parameter:site
-        Docs.find {
-            model:'stack'
-            site:site.api_site_parameter
-        }, 
-            sort:
-                "#{sort_key}":sort_direction
-            limit:limit
+        if site
+            Docs.find {
+                model:'stack'
+                site:site.api_site_parameter
+            }, 
+                limit:10
+                # sort:
+                #     "#{sort_key}":sort_direction
+                # limit:limit

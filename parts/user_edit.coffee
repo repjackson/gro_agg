@@ -7,14 +7,6 @@ if Meteor.isClient
         @layout 'user_edit_layout'
         @render 'user_edit_info'
         ), name:'user_edit_info'
-    Router.route '/u/:username/edit/badges', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_badges'
-        ), name:'user_edit_badges'
-    Router.route '/u/:username/edit/payment', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_payment'
-        ), name:'user_edit_payment'
     Router.route '/u/:username/edit/account', (->
         @layout 'user_edit_layout'
         @render 'user_edit_account'
@@ -217,36 +209,6 @@ if Meteor.isClient
             current_user = Meteor.users.findOne username:Router.current().params.username
             Meteor.call 'verify_email', current_user._id, @address, ->
                 alert 'verification email sent'
-                
-                
-if Meteor.isClient
-    Router.route '/u/:username/edit/tribes', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_tribes'
-        ), name:'user_edit_tribes'
-
-    Template.user_edit_tribes.onRendered ->
-
-    Template.user_edit_tribes.events
-        'click .switch': ->
-            Swal.fire({
-                title: "switch to #{@title}?"
-                # text: "this will charge you $5"
-                icon: 'question'
-                showCancelButton: true,
-                confirmButtonText: 'confirm' 
-                cancelButtonText: 'cancel'
-            }).then((result)=>
-                if result.value
-                    Meteor.users.update Meteor.userId(),
-                        $set:
-                            current_tribe:@_id
-                    Swal.fire(
-                        'topup initiated',
-                        ''
-                        'success'
-                    )
-            )
                 
                 
 if Meteor.isClient
