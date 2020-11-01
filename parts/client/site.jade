@@ -44,7 +44,8 @@ template(name='site_page')
                         //         i.remove.icon
                         each selected_tags
                             +unselect_tag
-                
+                    each site_tags
+                        .ui.large.label(title=count) #{name}
                     .ui.icon.input
                         i.search.icon
                         input.search_site(type='text')

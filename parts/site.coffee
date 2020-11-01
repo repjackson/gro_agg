@@ -11,12 +11,17 @@ if Meteor.isClient
     
     Template.site_page.onCreated ->
         @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
+        @autorun => Meteor.subscribe 'site_tags',
+            selected_tags.array()
+            Router.current().params.site
+            
         @autorun => Meteor.subscribe 'stack_docs_by_site', 
             Router.current().params.site
             Session.get('sort_key')
             Session.get('sort_direction')
             Session.get('limit')
     Template.site_page.helpers
+        site_tags: -> results.find(model:'site_tag')
         current_site: ->
             Docs.findOne
                 model:'stack_site'
@@ -73,3 +78,35 @@ if Meteor.isServer
                 # sort:
                 #     "#{sort_key}":sort_direction
                 # limit:limit
+    Meteor.publish 'site_tags', (
+        selected_tags
+        site
+        # query=''
+        )->
+        # @unblock()
+        self = @
+        match = {
+            model:'stack'
+            site:site
+            }
+        # console.log 'tags', selected_tags
+        if selected_tags.length > 0 then match.tags = $in:selected_tags
+        site_tag_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "tags": 1 }
+            { $unwind: "$tags" }
+            { $group: _id: "$tags", count: $sum: 1 }
+            { $match: _id: $nin: selected_tags }
+            { $sort: count: -1, _id: 1 }
+            # { $match: count: $lt: doc_count }
+            { $limit:20 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        # console.log 'cloud: ', tag_cloud
+        console.log 'tag match', match
+        site_tag_cloud.forEach (tag, i) ->
+            self.added 'results', Random.id(),
+                name: tag.name
+                count: tag.count
+                model:'site_tag'
+        self.ready()
