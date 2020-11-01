@@ -4,11 +4,11 @@ body {
     /* font-family: 'Lato', sans-serif !important; */
      /*font-size: 110% !important; */
     /* line-height: 200% !important; */
-     /*background: rgba(0,0,0,.8) !important; */
+     background: rgba(0,0,0,.8) !important; 
     /*scroll-behavior: smooth;*/
     /*margin-top: 5em;*/
     /*background: rgba(200,200,200,1) !important;*/
-    /*filter: invert(1) !important; */
+    filter: invert(1) !important; 
      /*overscroll-behavior: none; */
     /*transition: all .25s ease !important;*/
     /* background: #0e0e44 !important; */
