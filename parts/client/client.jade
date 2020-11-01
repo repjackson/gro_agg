@@ -49,18 +49,18 @@ head
 
 template(name='layout')
     +nav
-    .ui.bottom.attached.pushable.segment
-        +leftbar
-        +rightbar
+    // .ui.bottom.attached.pushable.segment
+    //     +leftbar
+    //     +rightbar
                 
-        // #main_area.global_container.pusher.invert
-        #main_area.global_container.pusher(class=currentUser.invert_class)
-            +yield
+    //     // #main_area.global_container.pusher.invert
+    //     #main_area.global_container.pusher(class=currentUser.invert_class)
+    +yield
         // .scrolling
         // if currentUser
         //     +bottom_nav
-    +chatpop
-    +footer
+    // +chatpop
+    // +footer
 
 
 

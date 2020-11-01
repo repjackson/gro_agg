@@ -1,4 +1,4 @@
-
+request = require('request')
 Meteor.publish 'stack_docs', (
     selected_tags
     view_mode
@@ -377,7 +377,6 @@ Meteor.publish 'stack_tags', (
 
 
 
-request = require('request')
 Meteor.methods 
     search_stack: (site, query, selected_tags) ->
         console.log('searching stack for', typeof(query), query);

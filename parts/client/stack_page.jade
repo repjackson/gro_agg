@@ -44,12 +44,11 @@ template(name='stack_page')
                         if watson 
                             if tone
                                 +tone
-                            else
-                                .ui.fluid.button.call_tone 
-                                    i.smile.icon
-                                    |analyze tone
                     else if skv_is 'stack_section' 'watson'
                         if watson 
+                            .ui.fluid.button.call_tone 
+                                i.smile.icon
+                                |analyze tone
                             +watson_view
                     unless watson
                         .ui.big.fluid.button.call_watson

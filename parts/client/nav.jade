@@ -1,8 +1,8 @@
 template(name='nav')
     // a.icon.ui.big.circular.icon.button(href='/')
     .ui.fluid.attached.borderless.inverted.menu.topnav(style="background-color:#{current_user.theme_color};")
-        a.icon.header.item.pointer.toggle_leftbar
-            i.bars.large.grey.icon
+        // a.icon.header.item.pointer.toggle_leftbar
+        //     i.bars.large.grey.icon
         if connected
             a.icon.item(href='/')
                 i.big.yin.yang.icon
@@ -45,8 +45,8 @@ template(name='nav')
                     //         // a.icon.pointer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
                     //         a.icon.pointer.item(href="/inbox")
                     //             i.large.outline.bell.icon
-                a.icon.pointer.item(href="/chat" title='chat') 
-                    i.chat.outline.large.icon
+                // a.icon.pointer.item(href="/chat" title='chat') 
+                //     i.chat.outline.large.icon
                 // a.icon.pointer.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
                     
             if currentUser
@@ -60,8 +60,8 @@ template(name='nav')
                     else 
                         i.large.user.large.icon
                     strong.mobile.hidden #{currentUser.username}
-                a.icon.large.item.toggle_rightbar
-                    i.bars.large.grey.icon
+                // a.icon.large.item.toggle_rightbar
+                //     i.bars.large.grey.icon
             else
                 a.pointer.item(href="/login" title='login')
                     i.large.sign.in.icon
