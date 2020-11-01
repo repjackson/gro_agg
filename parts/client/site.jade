@@ -48,14 +48,18 @@ template(name='site_page')
                     else
                         .ui.icon.button.sort_up
                             i.caret.up.icon
-                    .ui.icon.compact.large.button.set_timestamp
+                    .ui.compact.button.limit_1
+                        |1
+                    .ui.compact.button.limit_10
+                        |10
+                    .ui.icon.compact.large.button.sort_timestamp
                         i.clock.icon
-                    .ui.icon.compact.large.button.set_timestamp
-                        i.clock.icon
-                    .ui.icon.compact.large.button 
-                        i.th.icon
-                    .ui.icon.compact.large.button 
-                        i.list.icon
+                    .ui.icon.compact.large.button.set_points
+                        i.line.chart.icon
+                    // .ui.icon.compact.large.button 
+                    //     i.th.icon
+                    // .ui.icon.compact.large.button 
+                    //     i.list.icon
                     .ui.selection.link.list
                         each site_questions
                             a.item(href="/site/#{site}/doc/#{_id}")

@@ -18,17 +18,17 @@ template(name='stack')
                             a.ui.small.header(href="/site/#{api_site_parameter}")
                                 img(src=icon_url)
                                 |#{name}
-            .twelve.wide.column
+            .twelve.wide.column.scrolling
                 .ui.inline.header 
                     i.question.icon
                     |questions
-                // .ui.dropdown
-                //     // span.text limit
-                //     i.dropdown.icon
-                //     .menu 
-                //     +skve k='limit' v=1 l='1'
-                //     +skve k='limit' v=10 l='10'
-                //     +skve k='limit' v=20 l='20'
+                .ui.dropdown
+                    span.text #{sv 'limit'}
+                    i.dropdown.icon
+                    .menu 
+                    +skve k='limit' v=1 l='1'
+                    +skve k='limit' v=10 l='10'
+                    +skve k='limit' v=20 l='20'
                     // .item 1
                     // .item 5
                     // .item 10

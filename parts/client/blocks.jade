@@ -88,27 +88,27 @@ template(name='sbt')
         // i.icon(class=i)
         |#{l}
         //- if icon_view 
-        //- else 
-            if label
-                |#{label}
-            else 
-                |#{v}
+        // - else 
+        if l
+            |#{l}
+        else 
+            |#{v}
                 
                 
 template(name='skve')
     // a.ui.image.big.link.label.set_session_v(class=calculated_class)
-    .ui.zoomer.compact.icon.tertiary.button.set_session_v(class=calculated_class title=t)
+    .ui.zoomer.tertiary.button.set_session_v(class=calculated_class title=t)
         // if i
         if selected 
-            +i n=i cl='ui mini image'
+            +i n=i cl='ui mini inline image'
         else
-            +iios n=i cl='ui mini image'
+            +iios n=i cl='ui mini inline image'
             // i.icon(class=icon)
-        // unless ionly
-        //     if l
-        //         |#{l}
-        //     else 
-        //         |#{v}
+        unless ionly
+            if l
+                |#{l}
+            else 
+                |#{v}
 
                         
 

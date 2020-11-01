@@ -11,7 +11,11 @@ if Meteor.isClient
     
     Template.site_page.onCreated ->
         @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
-        @autorun => Meteor.subscribe 'stack_docs_by_site', Router.current().params.site
+        @autorun => Meteor.subscribe 'stack_docs_by_site', 
+            Router.current().params.site
+            Session.get('sort_key')
+            Session.get('sort_direction')
+            Session.get('limit')
     Template.site_page.helpers
         current_site: ->
             Docs.findOne
@@ -44,3 +48,20 @@ if Meteor.isClient
                     if site
                         Meteor.call 'search_stack', site.api_site_parameter, search, ->
 
+if Meteor.isServer
+    Meteor.publish 'stack_docs_by_site', (
+        site
+        sort_key
+        sort_direction
+        limit
+    )->
+        site = Docs.findOne
+            model:'stack_site'
+            api_site_parameter:site
+        Docs.find {
+            model:'stack'
+            site:site.api_site_parameter
+        }, 
+            sort:
+                "#{sort_key}":sort_direction
+            limit:limit

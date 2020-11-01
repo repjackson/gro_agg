@@ -12,7 +12,7 @@ Template.registerHelper 'youtube_parse', (url) ->
 # Deps.autorun ()->
 #     document.title = Session.get('doc_title')
         
-        
+Template.registerHelper 'sv', (key) -> Session.get(key)
 Template.registerHelper 'sentence_color', () ->
     console.log @tones[0].tone_id
     switch @tones[0].tone_id

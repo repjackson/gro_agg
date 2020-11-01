@@ -68,14 +68,6 @@ if Meteor.isServer
             model:'stack_site'
             api_site_parameter:site
     
-    Meteor.publish 'stack_docs_by_site', (site)->
-        site = Docs.findOne
-            model:'stack_site'
-            api_site_parameter:site
-        Docs.find {
-            model:'stack'
-            site:site.api_site_parameter
-        }, limit:10
     # Meteor.publish 'stack_docs', ->
     #     Docs.find {
     #         model:'stack'

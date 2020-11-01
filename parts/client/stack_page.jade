@@ -35,20 +35,28 @@ template(name='stack_page')
                     .ui.label last_activity_date #{last_activity_date}
                     .ui.label creation #{creation_date}
                     .ui.label #{_when}
-                .eight.wide.column
-                    if watson 
-                        if tone
-                            +tone
-                        else
-                            .ui.fluid.button.call_tone 
-                                i.smile.icon
-                                |analyze tone
-                        +watson_view
-                    else
+                .eight.wide.column.scrolling
+                    if tone
+                        +skve k='stack_section' v='tone' l='tone' i='user' 
+                    +skve k='stack_section' v='watson' l='watson' i='brain' 
+                    +skve k='stack_section' v='embed' l='embed' i='layout' 
+                    if skv_is 'stack_section' 'tone'
+                        if watson 
+                            if tone
+                                +tone
+                            else
+                                .ui.fluid.button.call_tone 
+                                    i.smile.icon
+                                    |analyze tone
+                    else if skv_is 'stack_section' 'watson'
+                        if watson 
+                            +watson_view
+                    unless watson
                         .ui.big.fluid.button.call_watson
                             i.large.brain.icon
                             |analyze
-                        // iframe(width="100%" height="500" src=link frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
+                    if skv_is 'stack_section' 'embed'
+                        iframe(width="100%" height="500" src=link frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
                     +comments
                 .four.wide.column
                     with owner
