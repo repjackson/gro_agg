@@ -11,6 +11,11 @@ Template.registerHelper 'key_value', (key,value)-> @["#{key}"] is value
 
 # @log = (input)-> console.log input
 
+Template.group_view.events
+    'click .search_sub': (e,t)->
+        # console.log 'hi'
+        Meteor.call 'hi', ->
+
 
 Template.registerHelper 'embed', ()->
     if @rd and @rd.media and @rd.media.oembed and @rd.media.oembed.html
@@ -103,10 +108,11 @@ Template.alpha.onRendered ->
     # if @data.response
     # window.speechSynthesis.cancel()
     # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[1].plaintext
-    if @data.voice
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @data.voice
-    else if @data.response.queryresult.pods
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[0].plaintext
+    if @data 
+        if @data.voice
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @data.voice
+        else if @data.response.queryresult.pods
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[0].plaintext
     # console.log response.queryresult.pods[1].subpods
     # Meteor.setTimeout( =>
     # , 7000)
@@ -457,7 +463,7 @@ Template.dao.helpers
             res += ' wikipedia'
         else if Session.equals('view_mode','porn')
             res += ' mercury'
-        console.log 'res', res
+        # console.log 'res', res
         res
     # viewing_duck: -> Session.get('view_duck')
     # viewing_alpha: -> Session.get('view_alpha')

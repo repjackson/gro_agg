@@ -1,14 +1,14 @@
 Meteor.methods
-    search_reddit: (query,subreddit)->
-        # @unblock()
+    search_reddit: (query, subreddit)->
+        @unblock()
         console.log 'searching reddit for', query, subreddit
         # console.log 'type of query', typeof(query)
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
-        if subreddit 
-            console.log 'searching', subreddit, 'for', query
-            url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=true"
-        else
-            url = "http://reddit.com/search.json?q=#{query}&nsfw=1&limit=25&include_facets=true"
+        # if subreddit 
+        #     console.log 'searching', subreddit, 'for', query
+        #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
+        # else
+        url = "http://reddit.com/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         HTTP.get url,(err,response)=>
             console.log response.data

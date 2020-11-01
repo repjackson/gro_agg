@@ -12,12 +12,16 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun -> Meteor.subscribe 'subreddit_docs', Router.current().params.doc_id
     Template.group_view.events
+        # 'click .search_sub': (e,t)->
+        #     console.log 'hi'
+        #     Meteor.call 'search_reddit', 'biden','politics', ->
         'keyup .search_subreddit': (e,t)->
+            val = $('.search_subreddit').val()
+            sub = Docs.findOne Router.current().params.doc_id
             if e.which is 13
-                val = $('.search_subreddit').val()
-                sub = Docs.findOne Router.current().params.doc_id
-                console.log val, sub.display_name
-                Meteor.call 'search_reddit', val, sub.display_name, ->
+                console.log 'searching', val, sub.display_name
+                Meteor.call 'search_reddit', val, ->
+                $('.search_subreddit').val('')
     
     Template.group_view.helpers
         subreddit_docs: ->
