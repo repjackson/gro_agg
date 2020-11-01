@@ -254,7 +254,7 @@ template(name='big_user_card')
                 a.header(href="/u/#{username}")
                      |#{username} 
                     //- .meta @#{username}
-                    //- +array_view k='tags' l='Tags' d=true
+                    //- +array_view k='tags' l='Tags' d=1
 
 
 template(name='user_info')
@@ -361,7 +361,7 @@ template(name='bookmark_button')
 //     // +vote_button amount=25
 //     with user_vote
 //         if is_dev
-//             +number_edit k='points' l='edit points' d=true
+//             +number_edit k='points' l='edit points' d=1
 //         if points
 //             strong #{points}
 //         // if anon_points
@@ -388,7 +388,7 @@ template(name='voting')
     each downvoter_ids
         +user_info_small
     if is_dev
-        +number_edit k='points' l='edit points' d=true
+        +number_edit k='points' l='edit points' d=1
     if points
         strong #{points} pts
     if anon_points

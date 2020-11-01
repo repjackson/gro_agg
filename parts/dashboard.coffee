@@ -43,11 +43,31 @@ if Meteor.isClient
                 #     interval  : 200
                 # })
 
+
+if Meteor.isServer  
+    Meteor.publish 'user_groups', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find {
+            model:'group'
+        }, limit:10    
+            
+
+if Meteor.isClient  
+    Template.user_groups_small.onCreated ->
+        @autorun -> Meteor.subscribe 'user_groups', Router.current().params.username
+    Template.user_groups_small.helpers
+        groups: ->
+            Docs.find 
+                model:'group'
+
+
     Template.post_segment.helpers
         alpha_response: ->
             Docs.findOne
                 model:'alpha_response'
                 parent_id: @_id
+
+
     Template.user_dashboard.helpers
         questions_asked: ->
             user = Meteor.users.findOne(username:Router.current().params.username)

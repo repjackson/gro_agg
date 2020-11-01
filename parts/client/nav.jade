@@ -1,6 +1,6 @@
 template(name='nav')
     // a.icon.ui.big.circular.icon.button(href='/')
-    .ui.fluid.attached.borderless.inverted.menu.topnav
+    .ui.fluid.attached.borderless.inverted.menu.topnav(style="background-color:#{current_user.theme_color};")
         a.icon.header.item.pointer.toggle_leftbar
             i.bars.large.grey.icon
         if connected
@@ -8,15 +8,15 @@ template(name='nav')
                 i.big.yin.yang.icon
             a.icon.item(href='/stack')
                 i.big.stack.exchange.icon
-            a.icon.item(href='/shop')
-                i.big.shop.icon
-            a.icon.item(href='/requests')
-                i.big.hand.holding.icon
-            a.icon.item(href='/events')
-                i.big.calendar.icon
-            .ui.search.item
-                .ui.transparent.inverted.input
-                    input(type='text')
+            a.icon.item(href='/groups')
+                i.big.users.icon
+            // a.icon.item(href='/requests')
+            //     i.big.hand.holding.icon
+            // a.icon.item(href='/events')
+            //     i.big.calendar.icon
+            // .ui.search.item
+            //     .ui.transparent.inverted.input
+            //         input(type='text')
             // a.icon.item(href='/reddit')
             //     i.big.reddit.icon
             // a.icon.item(href='/wikipedia')
@@ -131,7 +131,7 @@ template(name='footer')
                 .ui.header #{connect_status.status}
                 with currentUser
                     if is_dev
-                        +textarea_edit k='notes' d=true
+                        +textarea_edit k='notes' d=1
                 if is_dev    
                     //with current_user
                     //    +role_switcher
@@ -165,10 +165,10 @@ template(name='role_switcher')
             |#{username} role switcher
         if is_eric
             //- +user_array_element_toggle k='roles' v='dev' user=currentUser
-            +multi_doc_edit k='roles' l='roles' ref_model='role' d=true
+            +multi_doc_edit k='roles' l='roles' ref_model='role' d=1
         if current_userh
             with current_user
-                +multi_doc_edit k='roles' l='roles' ref_model='role' d=true
+                +multi_doc_edit k='roles' l='roles' ref_model='role' d=1
         //- +user_array_element_toggle k='roles' v='dev' user=currentUser
         //- +user_array_element_toggle k='roles' v='user' user=currentUser
         //- +user_array_element_toggle k='roles' v='staff' user=currentUser
@@ -209,7 +209,7 @@ template(name='view_chatpop')
             
             
 template(name='rightbar')
-    .ui.right.sidebar.vertical.borderless.inverted.menu.scrolling
+    .ui.right.sidebar.vertical.borderless.inverted.menu.scrolling(style="background-color:#{current_user.theme_color};")
         // a.item.toggle_rightbar(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_layout'}}")
         //     img.ui.avatar.compact.image(src="{{c.url 'homestar_logo' height=200 width=200 gravity='face' crop='fill'}}")
         //     |#{currentUser.name}
@@ -258,7 +258,7 @@ template(name='rightbar')
 
 
 template(name='leftbar')
-    .ui.left.sidebar.vertical.borderless.inverted.menu.scrolling
+    .ui.left.sidebar.vertical.borderless.inverted.menu.scrolling(style="background-color:#{current_user.theme_color};")
         a.item.toggle_leftbar(href="/" class="{{isActivePath '/'}}")
             i.yin.yang.icon
             | dao
@@ -296,12 +296,12 @@ template(name='leftbar')
         a.item.toggle_sidebar.zoom(href="/m/meal" class="{{isActivePath '/m/meal'}}")
             i.large.food.icon
             |food
-        a.item.toggle_sidebar.zoom.set_bug(href="/m/bug" class="{{isActivePath '/m/bug'}}")
-            i.large.bug.icon
-            |bugs
-        a.icon.item.toggle_sidebar.zoom.set_photo(href="/m/photo" class="{{isActivePath '/m/photo'}}" title='photos')
-            i.large.large.picture.icon
-            |photos  
+        // a.item.toggle_sidebar.zoom.set_bug(href="/m/bug" class="{{isActivePath '/m/bug'}}")
+        //     i.large.bug.icon
+        //     |bugs
+        // a.icon.item.toggle_sidebar.zoom.set_photo(href="/m/photo" class="{{isActivePath '/m/photo'}}" title='photos')
+        //     i.large.large.picture.icon
+        //     |photos  
         a.zoom.icon.item.toggle_sidebar.zoom.set_expense(href="/m/expense" class="{{isActivePath '/m/expense'}}" title='expenses')
             i.large.dollar.icon
             |expenses            

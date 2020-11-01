@@ -198,7 +198,7 @@ Meteor.publish 'dtags', (
     if selected_tags.length > 0 
         match.tags = $all: selected_tags
     else
-        unless view_mode is 'stack'
+        unless view_mode in ['stack','porn']
             match.tags = $in:['daoism']
         # unless selected_subreddits.length>0
     # else if view_mode in ['reddit',null]

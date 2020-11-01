@@ -86,17 +86,17 @@ template(name='question_card')
                 +skve k='edit_question_id' v=_id l='edit'
             if skv_is 'edit_question_id' _id
                 .ui.inline.header editing
-                +text_edit k='title' d=true
-                +number_edit k='bounty' d=true
+                +text_edit k='title' d=1
+                +number_edit k='bounty' d=1
                 +skve k='edit_question_id' v=null l='save'
-                +number_edit k='bounty_total' l='total bounty' d=true
+                +number_edit k='bounty_total' l='total bounty' d=1
                 // +kve k='question_type' v='true_false' l='true/false'
                 // +kve k='question_type' v='multiple_choice' l='multiple choice'
                 // if kv_is 'question_type' 'multiple_choice'
-                //     // +number_edit k='answer_count' l='number of answers' d=true
+                //     // +number_edit k='answer_count' l='number of answers' d=1
                 //     // each answers
-                //     +text_edit k='answer_choice_one' l='answer choice one' d=true
-                //     +text_edit k='answer_choice_two' l='answer choice two' d=true
+                //     +text_edit k='answer_choice_one' l='answer choice one' d=1
+                //     +text_edit k='answer_choice_two' l='answer choice two' d=1
     
         
         

@@ -13,10 +13,10 @@ template(name='profile')
                                 img.ui.centered.tiny.inline.spaced.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
                         span.mobile.hidden
                             if editing_mode
-                                +image_edit k='profile_image_id' i='picture' title='avatar' d=true
+                                +image_edit k='profile_image_id' i='picture' title='avatar' d=1
                             else 
                                 a(href="/u/#{username}/")
-                                    img.ui.small.inline.invert.rounded.image.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
+                                    img.ui.small.inline.circular.image.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
                         a.ui.header.refresh_user_stats(href="/u/#{username}") 
                             |#{name}
                         // div
@@ -236,6 +236,8 @@ template(name='user_rentals')
     
 template(name='user_questions_small')
     .ui.header small questions
+    each user_questions
+        .ui.header #{title}
 template(name='user_events')
     .ui.header events
 template(name='user_questions')
@@ -259,24 +261,22 @@ template(name='user_friends')
 
            
 template(name='user_rentals_small')
-    .ui.segment
-        .ui.header 
-            i.clock.icon
-            |rentals
-        i.plus.icon.add_rental
-        each rentals
-            .ui.header #{title}
+    .ui.dividing.header 
+        i.clock.icon
+        |rentals
+    i.plus.icon.add_rental
+    each rentals
+        .ui.header #{title}
            
            
 template(name='user_reservations_small')
-    .ui.segment
-        .ui.header 
-            i.clock.icon
-            |reservations
-        i.plus.icon.add_rental
-        each reservations
-            .ui.header #{title}
-           
+    .ui.dividing.header 
+        i.clock.icon
+        |reservations
+    i.plus.icon.add_rental
+    each reservations
+        .ui.header #{title}
+       
            
 template(name='user__small')
     .ui.segment
@@ -329,7 +329,7 @@ template(name='post_segment')
                     // i.reply.link.grey.icon
                     a.remove_post
                         i.remove.link.grey.icon
-                // +array_edit k='tags' l='tags' d=true
+                // +array_edit k='tags' l='tags' d=1
         with alpha_response
             .ui.small.grey.inline.header
                 i.brain.icon
@@ -475,7 +475,7 @@ template(name='edit_privacy')
     .ui.grid 
         .row 
             .four.wide.column
-                +boolean_edit k='publish_profile' l='publish profile' d=true
+                +boolean_edit k='publish_profile' l='publish profile' d=1
             .twelve.wide.column
                 .ui.header 
                     |make profile public 

@@ -1,18 +1,23 @@
 Meteor.methods
-    search_reddit: (query)->
-        @unblock()
-        console.log 'searching reddit for', query
+    search_reddit: (query,subreddit)->
+        # @unblock()
+        console.log 'searching reddit for', query, subreddit
         # console.log 'type of query', typeof(query)
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
+        if subreddit 
+            console.log 'searching', subreddit, 'for', query
+            url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=true"
+        else
+            url = "http://reddit.com/search.json?q=#{query}&nsfw=1&limit=25&include_facets=true"
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false",(err,response)=>
-            # console.log response.data
+        HTTP.get url,(err,response)=>
+            console.log response.data
             if err then console.log err
             else if response.data.data.dist > 1
                 # console.log 'found data'
                 # console.log 'data length', response.data.data.children.length
                 _.each(response.data.data.children, (item)=>
-                    # console.log item.data
+                    console.log item.data
                     unless item.domain is "OneWordBan"
                         data = item.data
                         len = 200
@@ -44,9 +49,12 @@ Meteor.methods
                             model:'reddit'
                             # source:'reddit'
                         # console.log 'reddit post', reddit_post
-                        existing_doc = Docs.findOne url:data.url
+                        existing_doc = Docs.findOne 
+                            model:'reddit'
+                            url:data.url
                         if existing_doc
-                            # if Meteor.isDevelopment
+                            if Meteor.isDevelopment
+                                console.log ' existing url sub', data.subreddit
                                 # console.log 'skipping existing url', data.url
                                 # console.log 'adding', query, 'to tags'
                             # console.log 'type of tags', typeof(existing_doc.tags)
@@ -54,13 +62,13 @@ Meteor.methods
                             #     # console.log 'unsetting tags because string', existing_doc.tags
                             #     Doc.update
                             #         $unset: tags: 1
-                            # console.log 'existing ', reddit_post.title
+                            console.log 'existing ', reddit_post.title
                             Docs.update existing_doc._id,
                                 $addToSet: tags: $each: added_tags
 
                             Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
                         unless existing_doc
-                            # console.log 'importing url', data.url
+                            console.log 'importing url', data.url
                             new_reddit_post_id = Docs.insert reddit_post
                             # Meteor.users.update Meteor.userId(),
                             #     $inc:points:1
@@ -92,8 +100,8 @@ Meteor.methods
 
 
     get_reddit_post: (doc_id, reddit_id, root)->
-        @unblock()
-        # console.log 'getting reddit post', doc_id, reddit_id
+        # @unblock()
+        console.log 'getting reddit post', doc_id, reddit_id
         doc = Docs.findOne doc_id
         if doc.reddit_id
             HTTP.get "http://reddit.com/by_id/t3_#{reddit_id}.json", (err,res)->

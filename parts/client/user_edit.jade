@@ -93,7 +93,7 @@ template(name='account')
         .twelve.wide.column
             .ui.two.column.stackable.grid
                 .column
-                    // +image_edit k='banner_image_id' i='picture' title='banner image' d=true
+                    // +image_edit k='banner_image_id' i='picture' title='banner image' d=1
                     +password_edit
                 .column
                     .ui.header 
@@ -104,15 +104,15 @@ template(name='account')
                         .ui.segment
                             i.code.icon
                             +username_edit
-                            +boolean_edit k='disabled' l='disabled' d=true
-                            +multi_user_edit k='user_representatives' l='user representatives' d=true
+                            +boolean_edit k='disabled' l='disabled' d=1
+                            +multi_user_edit k='user_representatives' l='user representatives' d=1
                             div
                             with current_user
                                 .ui.button.remove_user 
                                     i.remove.icon
                                     |delete user
                     .spacer
-                    +phone_edit k='phone' l='phone' i='phone' d=true
+                    +phone_edit k='phone' l='phone' i='phone' d=1
         
                     //- +phone_editor
         

@@ -19,10 +19,10 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'product_from_debit_id', (debit_id)->
-        debit = Docs.findOne debit_id
-        Docs.find 
-            _id:debit.product_id
+    # Meteor.publish 'product_from_debit_id', (debit_id)->
+    #     debit = Docs.findOne debit_id
+    #     Docs.find 
+    #         _id:debit.product_id
             
     Meteor.methods
         calc_finance_stats: ()->
