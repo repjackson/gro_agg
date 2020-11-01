@@ -75,7 +75,7 @@ Router.route '/forgot_password', -> @render 'forgot_password'
 
 Router.route '/', (->
     @layout 'layout'
-    @render 'dao'
+    @render 'stack'
     ), name:'home'
 
 

@@ -318,7 +318,7 @@ input
 
 .card {
     /* background: black !important; */
-    border-radius: 10px !important; 
+    /*border-radius: 10px !important; */
 }
 
 a.goto_article {
@@ -520,7 +520,7 @@ a.title, #title {
 
 .label {
   margin:3px !important;
-  border-radius: 7px !important; 
+  /*border-radius: 7px !important; */
 }
 
 input {
