@@ -62,7 +62,21 @@ template(name='stack_page')
                         |!{body}
                     each question_answers
                         .ui.segment
+                            if is_accepted 
+                                .ui.invert.inverted.green.label 
+                                    |accepted
                             |!{body}
+                            with owner
+                                .ui.segment
+                                    .ui.inline.header
+                                        img.ui.avatar.invert.image(src=profile_image)
+                                        |!{display_name}
+                                    |rep:#{reputation}
+                                    |#{user_id}
+                                    |#{user_type}
+                                    |#{accept_rate}
+                                    a(href=link) #{link}
+                            |#{content_license}
                     i.big.refresh.circular.link.icon.get_question
                     i.big.exclamation.circular.link.icon.get_answers
                     // +skve k='stack_section' v='main' l='content' i='content' 
