@@ -150,50 +150,50 @@ Template.unselect_tag.events
    'click .unselect_tag': -> 
         selected_tags.remove @valueOf()
         Session.set('skip',0)
-        if selected_tags.array().length > 0
-            if Session.equals('view_mode','porn')
-                Meteor.call 'search_ph', selected_tags.array(), ->
-            else if Session.equals('view_mode','stack')
-                # selected_tags.push @valueOf()
-                Session.set('thinking',true)
-                $('body').toast(
-                    showIcon: 'stack exchange'
-                    message: 'started'
-                    displayTime: 'auto',
-                    position: 'bottom left'
-                )
-                Meteor.call 'search_stack', @name, ->
-                    $('body').toast(
-                        showIcon: 'stack exchange'
-                        message: ' done'
-                        # showProgress: 'bottom'
-                        class: 'success'
-                        displayTime: 'auto',
-                        position: 'bottom left'
-                    )
-                    Session.set('thinking',false)
-            else
-                Session.set('thinking',true)
-                $('body').toast(
-                    showIcon: 'reddit'
-                    message: 'reddit started'
-                    displayTime: 'auto',
-                )
-                Meteor.call 'search_reddit', selected_tags.array(), ->
-                    $('body').toast(
-                        message: 'reddit done'
-                        showIcon: 'reddit'
-                        # showProgress: 'bottom'
-                        class: 'success'
-                        displayTime: 'auto',
-                    )
-                    Session.set('thinking',false)
+        # if selected_tags.array().length > 0
+        #     if Session.equals('view_mode','porn')
+        #         Meteor.call 'search_ph', selected_tags.array(), ->
+        #     else if Session.equals('view_mode','stack')
+        #         # selected_tags.push @valueOf()
+        #         Session.set('thinking',true)
+        #         $('body').toast(
+        #             showIcon: 'stack exchange'
+        #             message: 'started'
+        #             displayTime: 'auto',
+        #             position: 'bottom left'
+        #         )
+        #         Meteor.call 'search_stack', @name, ->
+        #             $('body').toast(
+        #                 showIcon: 'stack exchange'
+        #                 message: ' done'
+        #                 # showProgress: 'bottom'
+        #                 class: 'success'
+        #                 displayTime: 'auto',
+        #                 position: 'bottom left'
+        #             )
+        #             Session.set('thinking',false)
+        #     else
+        #         Session.set('thinking',true)
+        #         $('body').toast(
+        #             showIcon: 'reddit'
+        #             message: 'reddit started'
+        #             displayTime: 'auto',
+        #         )
+        #         Meteor.call 'search_reddit', selected_tags.array(), ->
+        #             $('body').toast(
+        #                 message: 'reddit done'
+        #                 showIcon: 'reddit'
+        #                 # showProgress: 'bottom'
+        #                 class: 'success'
+        #                 displayTime: 'auto',
+        #             )
+        #             Session.set('thinking',false)
                 
-                Meteor.call 'call_alpha', selected_tags.array().toString(), ->
-                # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-            Meteor.setTimeout( ->
-                Session.set('toggle',!Session.get('toggle'))
-            , 12000)
+        #         Meteor.call 'call_alpha', selected_tags.array().toString(), ->
+        #         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+        #     Meteor.setTimeout( ->
+        #         Session.set('toggle',!Session.get('toggle'))
+        #     , 12000)
 
     
 

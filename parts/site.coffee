@@ -38,6 +38,7 @@ if Meteor.isClient
                 sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
                 limit:Session.get('limit')
     Template.site_page.events
+        'click .view_question': (e,t)-> window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         'click .sort_timestamp': (e,t)-> Session.set('sort_key','_timestamp')
         'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
         'click .toggle_detail': (e,t)-> 
@@ -83,10 +84,10 @@ if Meteor.isServer
             model:'stack'
             site:site
             }
-        if selected_tags.length > 0 then match.tags = $in:selected_tags
+        if selected_tags.length > 0 then match.tags = $all:selected_tags
         if site
             Docs.find match, 
-                limit:10
+                limit:20
                 # sort:
                 #     "#{sort_key}":sort_direction
                 # limit:limit

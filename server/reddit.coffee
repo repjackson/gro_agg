@@ -17,7 +17,7 @@ Meteor.methods
                 # console.log 'found data'
                 # console.log 'data length', response.data.data.children.length
                 _.each(response.data.data.children, (item)=>
-                    console.log item.data
+                    # console.log item.data
                     unless item.domain is "OneWordBan"
                         data = item.data
                         len = 200
@@ -53,8 +53,8 @@ Meteor.methods
                             model:'reddit'
                             url:data.url
                         if existing_doc
-                            if Meteor.isDevelopment
-                                console.log ' existing url sub', data.subreddit
+                            # if Meteor.isDevelopment
+                            #     console.log ' existing url sub', data.subreddit
                                 # console.log 'skipping existing url', data.url
                                 # console.log 'adding', query, 'to tags'
                             # console.log 'type of tags', typeof(existing_doc.tags)

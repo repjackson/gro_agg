@@ -447,12 +447,12 @@ Meteor.methods
 
 Meteor.methods 
     sites: () ->
-        console.log 'searching stack for'
+        console.log 'getting sites'
         # var url = 'https://api.stackexchange.com/2.2/sites';
         # url = 'http://api.stackexchange.com/2.1/questions?pagesize=1&fromdate=1356998400&todate=1359676800&order=desc&min=0&sort=votes&tagged=javascript&site=stackoverflow'
         # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&tagged=#{selected_tags}&intitle=#{query}&site=stackoverflow"
         # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&intitle=#{query}&site=stackoverflow"
-        url = "https://api.stackexchange.com/2.2/sites?pagesize=200"
+        url = "https://api.stackexchange.com/2.2/sites?pagesize=100&page=2"
         request.get {
             url: url
             headers: 'accept-encoding': 'gzip'

@@ -75,9 +75,9 @@ template(name='site_page')
                     //     i.th.icon
                     // .ui.icon.compact.large.button 
                     //     i.list.icon
-                    .ui.selection.link.large.list
+                    .ui.selection.link.big.list
                         each site_questions
-                            a.item(href="/site/#{site}/doc/#{_id}")
+                            a.item.view_question(href="/site/#{site}/doc/#{_id}")
                                 if watson.metadata.image
                                     img.ui.avatar.invert.image(src=watson.metadata.image)    
                                 .content 

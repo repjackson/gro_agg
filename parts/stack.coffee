@@ -66,7 +66,7 @@ if Meteor.isServer
         if name_filter.length > 0
             match.name = {$regex:"#{name_filter}", $options:'i'}
         Docs.find match,
-            limit:100
+            limit:300
     
     Meteor.publish 'stackuser_doc', (user_id)->
         Docs.find 

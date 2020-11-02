@@ -70,7 +70,7 @@ template(name='stack_page')
                     with owner
                         .ui.compact.segment
                             a.ui.inline.header(href="/site/#{current_doc.site}/user/#{user_id}") #{display_name}
-                            img.ui.tiny.inline.centered.image(src=profile_image)
+                            img.ui.inline.centered.invert.rounded.image(src=profile_image)
                             .ui.label reputation #{reputation}
                             .ui.label user_id #{user_id}
                             .ui.label user_type #{user_type}
