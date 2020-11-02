@@ -413,13 +413,13 @@ Meteor.methods
 
 
 Meteor.methods 
-    stack_sites: () ->
+    sites: () ->
         console.log 'searching stack for'
         # var url = 'https://api.stackexchange.com/2.2/sites';
         # url = 'http://api.stackexchange.com/2.1/questions?pagesize=1&fromdate=1356998400&todate=1359676800&order=desc&min=0&sort=votes&tagged=javascript&site=stackoverflow'
         # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&tagged=#{selected_tags}&intitle=#{query}&site=stackoverflow"
         # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&intitle=#{query}&site=stackoverflow"
-        url = "https://api.stackexchange.com/2.2/sites"
+        url = "https://api.stackexchange.com/2.2/sites?pagesize=200"
         request.get {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -434,7 +434,7 @@ Meteor.methods
                         name:item.name
                         # question_id:item.question_id
                 if found
-                    console.log 'found', found.title
+                    console.log 'found site', found.name
                     # Docs.update found._id,
                     #     $addToSet:tags:query
                 unless found

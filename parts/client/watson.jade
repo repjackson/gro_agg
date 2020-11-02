@@ -27,29 +27,29 @@ template(name='doc_emotion')
     //- div
     //- if above_50 'joy_percent'
         //- .spacer
-        //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
+    .rounded.invert(class=omega_dark_mode_class style="height:7px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
     span.ui.large.green.text(class="{{calculated_size joy_percent}}") {{ to_percent joy_percent }}% joy 
         |&nbsp;
+    .rounded.invert(class=omega_dark_mode_class style="height:7px;width:{{to_percent sadness_percent}}%;background-color:blue" title="{{to_percent sadness_percent}}% sad")
     //- if above_50 'sadness_percent'
         //- .spacer
-        //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent sadness_percent}}%;background-color:blue" title="{{to_percent sadness_percent}}% sad")
-    span.ui.large.blue.text(class="{{calculated_size sadness_percent}}") {{ to_percent sadness_percent}}% sad 
+    span.ui.large.blue.invert.text(class="{{calculated_size sadness_percent}}") {{ to_percent sadness_percent}}% sad 
         |&nbsp;
     //- if above_50 'fear_percent'
         //- .spacer
-    span.ui.large.grey.text(class="{{calculated_size fear_percent}}") {{ to_percent fear_percent }}% fear 
+    span.ui.large.grey.invert.text(class="{{calculated_size fear_percent}}") {{ to_percent fear_percent }}% fear 
         |&nbsp;
-    //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent fear_percent}}%;background-color:grey" title="{{to_percent fear_percent}}% fear")
+    .rounded.invert(class=omega_dark_mode_class style="height:7px;width:{{to_percent fear_percent}}%;background-color:grey" title="{{to_percent fear_percent}}% fear")
     //- if above_50 'disgust_percent'
         //- .spacer
-    span.ui.large.orange.text(class="{{calculated_size disgust_percent}}") {{ to_percent disgust_percent }}% disgust 
+    span.ui.large.orange.invert.text(class="{{calculated_size disgust_percent}}") {{ to_percent disgust_percent }}% disgust 
         |&nbsp;
-    //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent disgust_percent}}%;background-color:orange" title="{{to_percent disgust_percent}}% disgust")
+    .rounded.invert(class=omega_dark_mode_class style="height:7px;width:{{to_percent disgust_percent}}%;background-color:orange" title="{{to_percent disgust_percent}}% disgust")
     //- if above_50 'anger_percent'
         //- .spacer
-    span.ui.large.red.text(class="{{calculated_size anger_percent}}") {{ to_percent anger_percent }}% anger 
+    span.ui.large.red.invert.text(class="{{calculated_size anger_percent}}") {{ to_percent anger_percent }}% anger 
         |&nbsp;
-    //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
+    .rounded.invert(class=omega_dark_mode_class style="height:7px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
     .spacer
 
 // template(name='call_watson')
@@ -233,7 +233,7 @@ template(name='categories')
 //- 
 template(name='watson_view')
     // +tone
-    +doc_sentiment
+    // +doc_sentiment
     // +doc_emotion
     .ui.stackable.grid 
         .two.column.row 
@@ -260,106 +260,106 @@ template(name='watson_view')
     
     
 template(name='watson_full')
-    if view_detail
-        .ui.tiny.grey.inline.header(title='reddit user') 
-            i.user.outline.icon 
-            |#{author}
-        .ui.mini.inline.header domain: #{domain}
-        .ui.mini.inline.header permalink: #{permalink}
-        div 
-        if categories
-            i.grey.cubes.icon(title='categories')
-            |categories
-            each categories
-                .ui.small.basic.label #{this}    
-        div 
-        if Person 
-            i.grey.users.icon
-            .ui.inline.small.grey.header people
-            each Person 
-                .ui.small.basic.label.pick_person #{this}
-        div 
-        if Company
-            i.grey.briefcase.icon(title='company')
-            .ui.inline.small.grey.header companies
-            each Company 
-                .ui.small.basic.label.pick_company #{this}
-        div 
-        if TelevisionShow
-            i.grey.video.icon(title='television show')
-            .ui.inline.small.grey.header television show
-            each TelevisionShow 
-                .ui.small.basic.label #{this}
-        div 
-        if Broadcaster
-            i.grey.video.icon(title='broadcaster')
-            .ui.inline.small.grey.header broadcaster
-            each Broadcaster 
-                .ui.small.basic.label #{this}
-        div 
-        if Facility
-            i.grey.building.icon(title='facility')
-            .ui.inline.small.grey.header facilities
-            each Facility 
-                .ui.small.basic.label #{this}
-        div 
-        if HealthCondition
-            i.grey.heartbeat.icon(title='health condition')
-            .ui.inline.small.grey.header health condition
-            each HealthCondition 
-                .ui.small.basic.label #{this}
-        div 
-        if Organization
-            i.grey.users.icon
-            .ui.inline.small.grey.header organizations
-            each Organization 
-                .ui.small.basic.label #{this}
-        div 
-        if Award
-            i.grey.trophy.icon
-            each Award 
-                .ui.small.basic.label #{this}
-        div 
-        if Location
-            i.grey.marker.icon
-            .ui.inline.small.grey.header locations
-            each Location 
-                .ui.small.basic.label.pick_location #{this}
-        div 
-        if PrintMedia
-            i.grey.newspaper.icon(title='print media')
-            each PrintMedia 
-                .ui.small.basic.label #{this}
-        div 
-        each tone.result.sentences_tone 
-            |#{sentence_id}:
-            |#{text}
-            each tones 
-                .ui.basic.label #{tone_name}
-            div
-        //- .large-text    
-        //-     |!{body}
-        .ui.inline.small.grey.header concepts
-        each watson_concepts
-            .ui.tiny.basic.label #{this}
-        .ui.inline.small.grey.header keywords
-        each watson_keywords
-            .ui.tiny.basic.label #{this}
-        |#{ups}
-        i.thumbs.up.outline.icon
-        |#{downs}
-        i.thumbs.up.outline.icon
-        .ui.small.inline.header
-            |sentiment
-            |#{doc_sentiment_label}
-            |#{doc_sentiment_score}
-        span(title='comment_count')
-            i.comments.icon
-            |#{comment_count}
-        span(title='subreddit')
-            i.reddit.icon
-            |#{subreddit}
-        a(href=url target='_window') #{url}
+    // if view_detail
+    .ui.tiny.grey.inline.header(title='reddit user') 
+        i.user.outline.icon 
+        |#{author}
+    .ui.mini.inline.header domain: #{domain}
+    .ui.mini.inline.header permalink: #{permalink}
+    div 
+    if categories
+        i.grey.cubes.icon(title='categories')
+        |categories
+        each categories
+            .ui.small.basic.label #{this}    
+    div 
+    if Person 
+        i.grey.users.icon
+        .ui.inline.small.grey.header people
+        each Person 
+            .ui.small.basic.label.pick_person #{this}
+    div 
+    if Company
+        i.grey.briefcase.icon(title='company')
+        .ui.inline.small.grey.header companies
+        each Company 
+            .ui.small.basic.label.pick_company #{this}
+    div 
+    if TelevisionShow
+        i.grey.video.icon(title='television show')
+        .ui.inline.small.grey.header television show
+        each TelevisionShow 
+            .ui.small.basic.label #{this}
+    div 
+    if Broadcaster
+        i.grey.video.icon(title='broadcaster')
+        .ui.inline.small.grey.header broadcaster
+        each Broadcaster 
+            .ui.small.basic.label #{this}
+    div 
+    if Facility
+        i.grey.building.icon(title='facility')
+        .ui.inline.small.grey.header facilities
+        each Facility 
+            .ui.small.basic.label #{this}
+    div 
+    if HealthCondition
+        i.grey.heartbeat.icon(title='health condition')
+        .ui.inline.small.grey.header health condition
+        each HealthCondition 
+            .ui.small.basic.label #{this}
+    div 
+    if Organization
+        i.grey.users.icon
+        .ui.inline.small.grey.header organizations
+        each Organization 
+            .ui.small.basic.label #{this}
+    div 
+    if Award
+        i.grey.trophy.icon
+        each Award 
+            .ui.small.basic.label #{this}
+    div 
+    if Location
+        i.grey.marker.icon
+        .ui.inline.small.grey.header locations
+        each Location 
+            .ui.small.basic.label.pick_location #{this}
+    div 
+    if PrintMedia
+        i.grey.newspaper.icon(title='print media')
+        each PrintMedia 
+            .ui.small.basic.label #{this}
+    div 
+    // each tone.result.sentences_tone 
+    //     |#{sentence_id}:
+    //     |#{text}
+    //     each tones 
+    //         .ui.basic.label #{tone_name}
+    //     div
+    //- .large-text    
+    //-     |!{body}
+    .ui.inline.small.grey.header concepts
+    each watson_concepts
+        .ui.tiny.basic.label #{this}
+    .ui.inline.small.grey.header keywords
+    each watson_keywords
+        .ui.tiny.basic.label #{this}
+    // |#{ups}
+    // i.thumbs.up.outline.icon
+    // |#{downs}
+    // i.thumbs.up.outline.icon
+    .ui.small.inline.header
+        |sentiment
+        |#{doc_sentiment_label}
+        |#{doc_sentiment_score}
+    span(title='comment_count')
+        i.comments.icon
+        |#{comment_count}
+    span(title='subreddit')
+        i.reddit.icon
+        |#{subreddit}
+    a(href=url target='_window') #{url}
     if in_dev
         i.reddit.circular.link.icon.call_reddit_post
         i.code.circular.link.icon.print_this

@@ -40,11 +40,14 @@ template(name='stack_page')
                     if tone
                         +skve k='stack_section' v='tone' l='tone' i='user' 
                     +skve k='stack_section' v='watson' l='watson' i='brain' 
-                    +skve k='stack_section' v='embed' l='embed' i='layout' 
+                    +skve k='stack_section' v='watson_full' l='watson full' i='content' 
+                    // +skve k='stack_section' v='embed' l='embed' i='layout' 
                     if skv_is 'stack_section' 'tone'
                         if watson 
                             if tone
                                 +tone
+                    else if skv_is 'stack_section' 'watson_full'
+                        +watson_full
                     else if skv_is 'stack_section' 'watson'
                         if watson 
                             .ui.fluid.button.call_tone 
@@ -61,13 +64,17 @@ template(name='stack_page')
                 .four.wide.column
                     with owner
                         .ui.compact.segment
-                            a.ui.inline.header(href="/site/#{site}/user/#{user_id}") #{display_name}
+                            a.ui.inline.header(href="/site/#{current_doc.site}/user/#{user_id}") #{display_name}
                             img.ui.tiny.inline.centered.image(src=profile_image)
                             .ui.label reputation #{reputation}
                             .ui.label user_id #{user_id}
                             .ui.label user_type #{user_type}
-                    +bookmark_button
-                    +voting
+                    // +bookmark_button
+                    // +voting
+                    +print_this
+                    +doc_sentiment
+                    +doc_emotion
+
         
             
                     
