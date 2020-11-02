@@ -207,21 +207,6 @@ template(name='user_downvotes')
         .ui.header #{title}
         
         
-template(name='user_debits')
-    .ui.header
-        +i n='voting'
-        |debits
-    each voted_down_docs 
-        .ui.header #{title}
-        
-        
-template(name='user_credits')
-    .ui.header
-        +i n='voting'
-        |credits
-    each voted_down_docs 
-        .ui.header #{title}
-        
         
         
 template(name='user_rentals')
@@ -236,26 +221,10 @@ template(name='user_questions_small')
     .ui.header small questions
     each user_questions
         .ui.header #{title}
-template(name='user_events')
-    .ui.header events
 template(name='user_questions')
     .ui.header questions
 template(name='user_answers')
     .ui.header answers
-template(name='user_friends')
-    .ui.header 
-        +i n='groups'
-        |user friends
-    with current_user
-        .ui.selection.large.link.list.scrolling
-            each friends
-                a.item(href="/u/#{username}" title=username)
-                    if profile_image_id
-                        img.ui.avatar.invert.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
-                    else
-                        .ui.label.image #{initials}
-                    .content
-                        .header #{username}
 
            
 template(name='user_rentals_small')
