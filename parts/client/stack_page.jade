@@ -20,27 +20,19 @@ template(name='stack_page')
                     each tags 
                         a.ui.basic.pointer.label.add_stack_tag #{this}
                     if is_answered
-                        .ui.basic.green.label
+                        .ui.basic.inverted.green.invert.large.label
                             i.green.checkmark.icon
                             |answered
                     else
                         .ui.basic.label
                             // i..icon
                             |unanswered
-                    .ui.label 
+                    .ui.large.basic.label 
                         i.eye.icon
                         |#{view_count}
                         
-                    .ui.label id #{_id}
-                    .ui.label protected_date #{protected_date}
-                    .ui.label accepted_answer_id #{accepted_answer_id}
-                    .ui.label #{answer_count} answers
-                    .ui.label score #{score}
-                    .ui.label qid #{question_id}
-                    .ui.label last_activity_date #{last_activity_date}
-                    .ui.label creation #{creation_date}
-                    .ui.label #{_when}
-                .eight.wide.column.scrolling
+                .eight.wide.column.srolling
+                    i.big.refresh.circular.link.icon.get_question
                     +skve k='stack_section' v='main' l='content' i='content' 
                     +skve k='stack_section' v='watson' l='watson' i='brain' 
                     if tone
@@ -51,7 +43,8 @@ template(name='stack_page')
                             if tone
                                 +tone
                     else if skv_is 'stack_section' 'main'
-                        |!{body}
+                        .invert.ui.teritary.segment
+                            |!{body}
                     else if skv_is 'stack_section' 'watson'
                         if watson 
                             .ui.fluid.button.call_tone 
@@ -67,6 +60,19 @@ template(name='stack_page')
                         iframe(width="100%" height="500" src=link frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
                     +comments
                 .four.wide.column
+                    .ui.list
+                        .item #{view_count} views
+                        .item id #{_id}
+                        .item protected_date #{protected_date}
+                        .item accepted_answer_id #{accepted_answer_id}
+                        .item #{answer_count} answers
+                        .item score #{score}
+                        .item qid #{question_id}
+                        .item last_activity_date #{last_activity_date} {{from_now last_activity_date}}
+                        .item creation #{creation_date} {{from_now creation_date}}
+                        .item #{_when}
+                        .item license #{content_license}
+                        
                     with owner
                         .ui.compact.segment
                             a.ui.inline.header(href="/site/#{current_doc.site}/user/#{user_id}") #{display_name}
@@ -74,12 +80,13 @@ template(name='stack_page')
                             .ui.label reputation #{reputation}
                             .ui.label user_id #{user_id}
                             .ui.label user_type #{user_type}
-                    // +bookmark_button
-                    // +voting
+                            a.ui.circular.icon.button(href=link)
+                                i.large.external.icon
+                    +bookmark_button
+                    +voting
                     +print_this
                     +doc_sentiment
                     +doc_emotion
-                    i.big.refresh.circular.link.icon.get_question
 
         
             

@@ -15,6 +15,7 @@ if Meteor.isClient
 
     Template.stack_page.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        Session.setDefault('stack_section','main')
     Template.stack_page.events
         'click .call_watson': (e,t)->
             Meteor.call 'call_watson', Router.current().params.doc_id,'link','stack',->

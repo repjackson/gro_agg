@@ -75,16 +75,22 @@ template(name='site_page')
                     //     i.th.icon
                     // .ui.icon.compact.large.button 
                     //     i.list.icon
-                    .ui.selection.link.big.list
+                    .ui.selection.link.large.list
                         each site_questions
                             a.item.view_question(href="/site/#{site}/doc/#{_id}")
                                 if watson.metadata.image
                                     img.ui.avatar.invert.image(src=watson.metadata.image)    
                                 .content 
                                     .header !{title}
-                                    if skv_is 'view_detail' true
-                                        each tags
-                                            .ui.label #{this}
+                                    // if skv_is 'view_detail' true
+                                    each tags
+                                        .ui.small.label #{this}
+                                    .ui.horizontal.list
+                                        // |#{_when}
+                                        .item updated {{from_now last_edit_date}}
+                                        .item created {{from_now creation_dat}}
+                                        
+                                    
                 // .four.wide.column
                 //     .ui.circular.icon.button.vote_up
                 //         i.thumbs.up.icon
