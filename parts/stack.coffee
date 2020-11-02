@@ -35,7 +35,7 @@ if Meteor.isClient
             selected_stack_tags.array()
         @autorun -> Meteor.subscribe 'stack_sites',
             selected_site_tags.array()
-
+            Session.get('site_name_filter')
     Template.stack.helpers
         site_docs: ->
             Docs.find
@@ -49,14 +49,21 @@ if Meteor.isClient
             console.log @
         'click .dl': ->
             Meteor.call 'stack_sites'
-   
+        'keyup .search_site_name': ->
+            search = $('.search_site_name').val()
+            Session.set('site_name_filter', search)
+            
    
    
 
 
 if Meteor.isServer
-    Meteor.publish 'stack_sites', ->
-        Docs.find model:'stack_site'
+    Meteor.publish 'stack_sites', (selected_tags, name_filter='')->
+        match = {model:'stack_site'}
+        if name_filter.length > 0
+            match.name = {$regex:"#{name_filter}", $options:'i'}
+        Docs.find match,
+            limit:20
     
     Meteor.publish 'stackuser_doc', (user_id)->
         Docs.find 

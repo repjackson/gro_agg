@@ -1,14 +1,17 @@
 template(name='stack_page')
     with current_doc
         .ui.stackable.padded.grid
-            .row
-                .four.wide.column
+            .middle.aligned.row
+                .four.wide.center.aligned.column
                     a.ui.large.fluid.button(href="/site/#{site}") 
                         i.chevron.left.icon
                         | #{site}
-                .eight.wide.column
+                .eight.wide.center.aligned.column
                     .ui.header !{title}
-                .four.wide.column
+                .four.wide.center.aligned.column
+                    a.ui.circular.icon.button(href=link target='_window' title=link)
+                        // |#{link}
+                        i.external.large.icon
             .row
                 .four.wide.column
                     each tags 
@@ -21,8 +24,6 @@ template(name='stack_page')
                         .ui.basic.label
                             // i..icon
                             |unanswered
-                    a(href=link target='_window')
-                        |#{link}
                     .ui.label 
                         i.eye.icon
                         |#{view_count}

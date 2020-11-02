@@ -5,8 +5,9 @@ template(name='stack')
                 .ui.header 
                     i.big.stack.exchange.icon
                     |stackexchange
-                .ui.input
-                    input(type='text')
+                .ui.icon.input
+                    i.search.icon
+                    input.search_site_name(type='text')
                 each sites
                     .ui.header #{title}
             .twelve.wide.column.scrolling
