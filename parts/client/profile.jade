@@ -1,0 +1,495 @@
+template(name='profile')
+    +nav
+    .ui.bottom.attached.pushable.segment
+        +leftbar
+        +rightbar
+        // #main_area.global_container.pusher.invert
+        #main_area.global_container.pusher(class=currentUser.invert_class)
+            with current_user
+                .ui.stackable.padded.grid
+                    .three.wide.column
+                        span.mobile.only
+                            a(href="/u/#{username}/")
+                                img.ui.centered.tiny.inline.spaced.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
+                        span.mobile.hidden
+                            if editing_mode
+                                +image_edit k='profile_image_id' i='picture' title='avatar' d=1
+                            else 
+                                a(href="/u/#{username}/")
+                                    img.ui.small.inline.circular.image.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
+                        a.ui.header.refresh_user_stats(href="/u/#{username}") 
+                            |#{name}
+                        // div
+                        a.ui.small.header.refresh_user_stats(href="/u/#{username}") 
+                            |@#{username}
+                        if is_current_user
+                            a.ui.basic.circular.button(href="/u/#{username}/edit")
+                                i.big.cog.pointer.icon
+                                |account
+                        if is_dev
+                            .ui.small.inline.header #{_id}
+                        unless is_current_user
+                            if currentUser
+                                // div
+                                +user_friend_button 
+                        if is_current_user
+                            a.ui.basic.circular.button.logout(href="#" title='log out')
+                                i.sign.out.icon
+                                span.mobile.hidden log out
+                        if is_dev
+                            +print_this
+                        .ui.fluid.dropdown.basic.button
+                            i.users.icon
+                            | #{friends.count} friends
+                            .menu 
+                                each friends
+                                    a.item(href="/u/#{username}" title=username)
+                                        if profile_image_id
+                                            img.ui.avatar.invert.image(src="{{c.url profile_image_id height=500 width=300 gravity='face' crop='fill'}}")
+                                        // else
+                                        //     .ui.label.image #{initials}
+                                        | #{username}
+                        .ui.fluid.dropdown.basic.button.mobile.only
+                            i.bars.icon
+                            | menu
+                            .menu 
+                                a.item(href="/u/#{username}" class="{{isActiveRoute 'user_debits'}}")
+                                    i.dashboard.icon
+                                    |dashboard
+                                a.item(href="/u/#{username}/events" class="{{isActiveRoute 'user_debits'}}")
+                                    i.calendar.icon
+                                    |events
+                                a.item(href="/u/#{username}/bookmarks" class="{{isActiveRoute 'user_debits'}}")
+                                    i.bookmark.icon
+                                    |bookmarks
+                                a.item(href="/u/#{username}/events" class="{{isActiveRoute 'user_debits'}}")
+                                    i.thumbs.up.outline.icon
+                                    |upvotes
+                                a.item(href="/u/#{username}/events" class="{{isActiveRoute 'user_debits'}}")
+                                    i.thumbs.down.outline.icon
+                                    |downvotes
+                                a.item(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}")
+                                    i.users.icon
+                                    |friends
+                                a.item(href="/u/#{username}/debits" class="{{isActiveRoute 'user_debits'}}")
+                                    i.caret.down.icon
+                                    |debits
+                                a.item(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}")
+                                    i.caret.up.icon
+                                    |credits
+                                a.item(href="/u/#{username}/questions" class="{{isActiveRoute 'user_questions'}}")
+                                    i.question.icon
+                                    |quesions
+                                a.item(href="/u/#{username}/answers" class="{{isActiveRoute 'user_answers'}}")
+                                    i.exclamation.icon
+                                    |answers
+                                a.item(href="/u/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}")
+                                    i.fire.icon
+                                    |tribes
+                                a.item(href="/u/#{username}/overlap" class="{{isActiveRoute 'user_overlap'}}")
+                                    i.exchange.icon
+                                    |overlap
+
+                        .ui.vertical.fluid.menu.mobile.hidden
+                            a.yellow.item(href="/u/#{username}" class="{{isActiveRoute 'user_debits'}}")
+                                i.dashboard.icon
+                                |dashboard
+                            a.red.item(href="/u/#{username}/events" class="{{isActiveRoute 'user_debits'}}")
+                                i.calendar.icon
+                                |events
+                            a.yellow.item(href="/u/#{username}/bookmarks" class="{{isActiveRoute 'user_debits'}}")
+                                i.bookmark.icon
+                                |bookmarks
+                            a.red.item(href="/u/#{username}/upvotes" class="{{isActiveRoute 'user_debits'}}")
+                                i.thumbs.up.outline.icon
+                                |upvotes
+                            a.red.item(href="/u/#{username}/downvotes" class="{{isActiveRoute 'user_debits'}}")
+                                i.thumbs.down.outline.icon
+                                |downvotes
+                            a.green.item(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}")
+                                i.users.icon
+                                |friends
+                            a.red.item(href="/u/#{username}/debits" class="{{isActiveRoute 'user_debits'}}")
+                                i.chevron.up.icon
+                                |debits
+                            a.item(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}")
+                                i.chevron.down.icon
+                                |credits
+                            a.item(href="/u/#{username}/questions" class="{{isActiveRoute 'user_questions'}}")
+                                i.question.icon
+                                |quesions
+                            a.item(href="/u/#{username}/answers" class="{{isActiveRoute 'user_answers'}}")
+                                i.exclamation.icon
+                                |answers
+                            a.item(href="/u/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}")
+                                i.fire.icon
+                                |tribes
+                            a.item(href="/u/#{username}/overlap" class="{{isActiveRoute 'user_overlap'}}")
+                                i.exchange.icon
+                                |overlap
+                        .divider
+                        if i_have_points
+                            .ui.button.request(title='request points')
+                                i.concierge.bell.teal.icon
+                                span request
+                                
+                            .ui.button.send(title='send points')
+                                i.gift.large.icon
+                                span send pts
+                            // .ui.button.request(title='request points')
+                            //     i.concierge.bell.large.teal.icon
+                            //     span request
+                                
+                        .ui.selection.link.list.smallscroll.mobile.hidden
+                            each friends
+                                a.item(href="/u/#{username}" title=username)
+                                    if profile_image_id
+                                        img.ui.avatar.invert.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
+                                    else
+                                        .ui.label.image #{initials}
+                                    .content
+                                        .header #{username}
+                    .thirteen.wide.column 
+                        // .ui.dropdown
+                        //     span.text dropdown
+                        //     i.dropdown.icon
+                        //     .menu 
+                        //         +skve k='limit' v=1 l='1'
+                        //         +skve k='limit' v=10 l='10'
+                        //         .item 1
+                        //         .item 5
+                        //         .item 10
+                        //         .item 20
+                        
+                        +yield
+    // +chatpop
+              
+template(name='authored_overlap')
+    .ui.inline.header
+        i.edit.icon
+        |authored overlap
+    .ui.three.column.grid
+        .column
+            .ui.header them
+            each current_user.authored_tags
+                .ui.label #{title}:#{count}
+        .column
+            .ui.header union
+            each overlap
+                .ui.label #{name}: #{count}
+        .column
+            .ui.header you #{currentUser.total_authored_points}
+            each currentUser.authored_tags
+                .ui.label #{title}:#{count}
+
+
+template(name='user_bookmarks')
+    .ui.header
+        +i n='bookmark'
+        |bookmarks
+    each bookmarks 
+        .ui.header #{title}
+        
+        
+template(name='user_upvotes')
+    .ui.header
+        +i n='voting'
+        |upvotes
+    each voted_up_docs 
+        .ui.header #{title}
+        
+        
+template(name='user_downvotes')
+    .ui.header
+        +i n='voting'
+        |downvotes
+    each voted_down_docs 
+        .ui.header #{title}
+        
+        
+template(name='user_debits')
+    .ui.header
+        +i n='voting'
+        |debits
+    each voted_down_docs 
+        .ui.header #{title}
+        
+        
+template(name='user_credits')
+    .ui.header
+        +i n='voting'
+        |credits
+    each voted_down_docs 
+        .ui.header #{title}
+        
+        
+        
+template(name='user_rentals')
+    .ui.header
+        +i n='rent'
+        |rentals
+    .ui.header rental offers
+    .ui.header reservations offers
+    
+    
+template(name='user_questions_small')
+    .ui.header small questions
+    each user_questions
+        .ui.header #{title}
+template(name='user_events')
+    .ui.header events
+template(name='user_questions')
+    .ui.header questions
+template(name='user_answers')
+    .ui.header answers
+template(name='user_friends')
+    .ui.header 
+        +i n='groups'
+        |user friends
+    with current_user
+        .ui.selection.large.link.list.scrolling
+            each friends
+                a.item(href="/u/#{username}" title=username)
+                    if profile_image_id
+                        img.ui.avatar.invert.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
+                    else
+                        .ui.label.image #{initials}
+                    .content
+                        .header #{username}
+
+           
+template(name='user_rentals_small')
+    .ui.dividing.header 
+        i.clock.icon
+        |rentals
+    i.plus.icon.add_rental
+    each rentals
+        .ui.header #{title}
+           
+           
+template(name='user_reservations_small')
+    .ui.dividing.header 
+        i.clock.icon
+        |reservations
+    i.plus.icon.add_rental
+    each reservations
+        .ui.header #{title}
+       
+           
+template(name='user__small')
+    .ui.segment
+        .ui.header 
+            i.clock.icon
+            |rentals
+        i.plus.icon.add_rental
+        each rentals
+            .ui.header #{title}
+           
+           
+template(name='user_bookmarks_small')
+    .ui.small.header 
+        i.red.bookmark.icon
+        |bookmarks
+    .ui.selection.link.list
+        each bookmarks
+            a.item(href="#")
+           
+           
+template(name='user_topups')
+    .ui.segment
+        .ui.inline.header 
+            +i n='donation'
+            |topups
+        .ui.icon.button.add_topup
+            i.plus.icon
+        .ui.large.list
+            each topups
+                .item
+                    .content
+                        |#{_when} #{amount}
+                        +remove_icon
+
+           
+template(name='post_segment')           
+    .ui.comment
+        .avatar
+            img.ui.avatar.compact.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+
+        .content
+            .text #{body}
+            a.author(href="/u/#{_author.username}") #{_author.username}
+            .metadata
+                span.date(title=_when_long)
+                    |#{_when}
+                .actions
+                    // i.eye.grey.icon
+                    +voting_small
+                    // i.reply.link.grey.icon
+                    a.remove_post
+                        i.remove.link.grey.icon
+                // +array_edit k='tags' l='tags' d=1
+        with alpha_response
+            .ui.small.grey.inline.header
+                i.brain.icon
+                |#{response.result}
+            +voting_small
+                // i.archive.link.grey.icon
+                // i.share.grey.icon
+                // +emotion_picker
+            // if replying
+            //     .ui.fluid.small.input
+            //         input.reply_body(type='text')
+            // .ui.grid
+            //     .two.wide.column
+            //     .fourteen.wide.column
+            //         each replies
+            //             div
+            //             .ui.tiny.inline.header #{body}
+            //             if is_author
+            //                 +remove_icon
+           
+           
+                
+template(name='emotion_picker')
+    +emotion_pick k='joy' i='smile' color='green' 
+    +emotion_pick k='sadness' i='frown' color='blue'
+    +emotion_pick k='anger' i='anger' color='red'
+    +emotion_pick k='disgust' i='tongue' color='orange'
+    +emotion_pick k='fear' i='exclamation' color='grey' 
+    
+template(name='emotion_pick')
+    i.link.icon.pick(class="#{icon} #{pick_class} invert" title=key)
+
+
+template(name='user_friend_button')
+    if is_friend
+        .ui.blue.button.unfriend(title='unfriend')
+            i.checkmark.large.icon
+            |friends
+    else
+        .ui.button.friend(title='friend')
+            i.user.plus.large.icon
+            |friend
+
+
+
+
+template(name='cloud_comparison')
+    .ui.inline.header
+        // i.brain.icon
+        +i n='brain'
+        |cloud comparison
+    // i.dropdown.icon
+    .ui.two.column.stackable.grid
+        // .column
+        //     .ui.header you #{currentUser.total_upvoted_points}
+        //     each currentUser.upvoted_tags
+        //         a.ui.large.label.select_tag #{title}
+        //             small #{count}
+        // .column
+        //     .ui.header union
+        //     each overlap_results
+        //         a.ui.huge.label.select_tag #{name}
+        //             small #{count}
+        .column
+            .ui.header 
+                +i n='brain'
+                // i.brain.icon
+                |mind
+            // each friended_by
+            //     a.ui.small.compact.button.select_user(class=friend_button_class)
+            //         |#{username}
+            each current_user.upvoted_tags
+                a.ui.large.label.select_tag #{title}
+                    small #{count}
+        .column
+            .ui.header 
+                +i n='autumn'
+                // i.cubes.icon
+                |matter
+            // each friended_by
+            //     a.ui.small.compact.button.select_user(class=friend_button_class)
+            //         |#{username}
+            each current_user.credit_tags
+                a.ui.large.label.select_tag #{title}
+                    small #{count}
+
+         
+         
+                        
+template(name='user_credit_segment')
+    .ui.segment.user_credit_segment.pointer.zoom
+        if image_id
+            img.ui.fluid.image(src="{{c.url image_id height=200 width=300 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        .header
+            strong #{amount}pt 
+            // |from 
+            if author.profile_image_id
+                img.ui.avatar.image(src="{{c.url author.profile_image_id height=200 width=300 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+            |#{_author.username}
+     #{_when}
+        div
+        |#{description}
+        div
+        each tags
+            .ui.mini.label #{this}
+
+
+template(name='user_debit_segment')
+    .ui.segment.user_debit_segment.pointer.zoom
+        if image_id
+            img.ui.fluid.image(src="{{c.url image_id height=200 width=300 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        .header
+            strong #{amount}pt
+            | to 
+            if recipient.profile_image_id
+                img.ui.avatar.image(src="{{c.url recipient.profile_image_id height=200 width=300 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+            |#{recipient.username}
+     #{_when}
+        div
+        |#{description}
+        div
+        each tags
+            .ui.mini.label #{this}
+            
+            
+            
+template(name='alerts')
+    .ui.header
+        i.rss.icon
+        | alerts
+    .ui.header notifiy when 
+    .ui.big.link.list
+        .item receive credit
+        .item invited to event 
+        .item invited to shift 
+        .item personal request received             
+        
+        
+template(name='edit_privacy')
+    .ui.header
+        +icolor n='private' cl='ui image'
+        | privacy
+    .ui.grid 
+        .row 
+            .four.wide.column
+                +boolean_edit k='publish_profile' l='publish profile' d=1
+            .twelve.wide.column
+                .ui.header 
+                    |make profile public 
+                .ui.small.header 
+                    |allow others to find your profile and follow you, allows you to follow others, enrolls you in public leaderboards
+        .row 
+            .sixteen.wide.column
+                a.ui.basic.compact.button.logout_other_clients(href="#")
+                    i.globe.icon
+                    |log out other clients
+                if is_admin
+                    a.ui.basic.compact.button.force_logout(href="#")
+                        i.shield.icon
+                        |force log out
+                
+                .ui.header sessions
+                .ui.large.list
+                    each current_user.services.resume.loginTokens
+                        .item #{_when}: #{hashedToken}
