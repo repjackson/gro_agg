@@ -78,6 +78,8 @@ template(name='site_page')
                     .ui.selection.link.large.list
                         each site_questions
                             a.item(href="/site/#{site}/doc/#{_id}")
+                                if watson.metadata.image
+                                    img.ui.avatar.invert.image(src=watson.metadata.image)    
                                 .content 
                                     .header !{title}
                                     if skv_is 'view_detail' true

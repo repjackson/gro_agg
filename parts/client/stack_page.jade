@@ -14,6 +14,9 @@ template(name='stack_page')
                         i.external.large.icon
             .row
                 .four.wide.column
+                    if watson.metadata.image
+                        img.ui.invert.image(src=watson.metadata.image)    
+
                     each tags 
                         a.ui.basic.pointer.label.add_stack_tag #{this}
                     if is_answered
@@ -38,23 +41,24 @@ template(name='stack_page')
                     .ui.label creation #{creation_date}
                     .ui.label #{_when}
                 .eight.wide.column.scrolling
+                    +skve k='stack_section' v='main' l='content' i='content' 
+                    +skve k='stack_section' v='watson' l='watson' i='brain' 
                     if tone
                         +skve k='stack_section' v='tone' l='tone' i='user' 
-                    +skve k='stack_section' v='watson' l='watson' i='brain' 
-                    +skve k='stack_section' v='watson_full' l='watson full' i='content' 
                     // +skve k='stack_section' v='embed' l='embed' i='layout' 
                     if skv_is 'stack_section' 'tone'
                         if watson 
                             if tone
                                 +tone
-                    else if skv_is 'stack_section' 'watson_full'
-                        +watson_full
+                    else if skv_is 'stack_section' 'main'
+                        |!{body}
                     else if skv_is 'stack_section' 'watson'
                         if watson 
                             .ui.fluid.button.call_tone 
                                 i.smile.icon
                                 |analyze tone
                             +watson_view
+                            +watson_full
                     unless watson
                         .ui.big.fluid.button.call_watson
                             i.large.brain.icon
@@ -75,6 +79,7 @@ template(name='stack_page')
                     +print_this
                     +doc_sentiment
                     +doc_emotion
+                    i.big.refresh.circular.link.icon.get_question
 
         
             

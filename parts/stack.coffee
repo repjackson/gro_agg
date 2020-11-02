@@ -20,6 +20,9 @@ if Meteor.isClient
             Meteor.call 'call_watson', Router.current().params.doc_id,'link','stack',->
         'click .call_tone': (e,t)->
             Meteor.call 'call_tone', Router.current().params.doc_id,->
+        'click .get_question': (e,t)->
+            question = Docs.findOne(Router.current().params.doc_id)
+            Meteor.call 'get_question', Router.current().params.site, question.question_id,->
   
   
   
@@ -63,7 +66,7 @@ if Meteor.isServer
         if name_filter.length > 0
             match.name = {$regex:"#{name_filter}", $options:'i'}
         Docs.find match,
-            limit:20
+            limit:100
     
     Meteor.publish 'stackuser_doc', (user_id)->
         Docs.find 
