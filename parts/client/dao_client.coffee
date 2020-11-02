@@ -160,7 +160,7 @@ Template.unselect_tag.events
         #             showIcon: 'stack exchange'
         #             message: 'started'
         #             displayTime: 'auto',
-        #             position: 'bottom left'
+        #             position: 'bottom right'
         #         )
         #         Meteor.call 'search_stack', @name, ->
         #             $('body').toast(
@@ -169,7 +169,7 @@ Template.unselect_tag.events
         #                 # showProgress: 'bottom'
         #                 class: 'success'
         #                 displayTime: 'auto',
-        #                 position: 'bottom left'
+        #                 position: 'bottom right'
         #             )
         #             Session.set('thinking',false)
         #     else
@@ -269,7 +269,7 @@ Template.tag_selector.events
             showIcon: 'stack exchange'
             message: 'started'
             displayTime: 'auto',
-            position: 'bottom left'
+            position: 'bottom right'
         )
         Meteor.call 'search_stack', Router.current().params.site, @name, ->
             $('body').toast(
@@ -278,7 +278,7 @@ Template.tag_selector.events
                 # showProgress: 'bottom'
                 class: 'success'
                 displayTime: 'auto',
-                position: 'bottom left'
+                position: 'bottom right'
             )
             Session.set('thinking',false)
         # else if Session.equals('view_mode', 'porn')
@@ -289,7 +289,7 @@ Template.tag_selector.events
             showIcon: 'wikipedia'
             message: 'started'
             displayTime: 'auto',
-            position: 'bottom left'
+            position: 'bottom right'
         )
         Meteor.call 'call_wiki', @name, ->
             $('body').toast(
@@ -298,13 +298,13 @@ Template.tag_selector.events
                 # showProgress: 'bottom'
                 class: 'info'
                 displayTime: 'auto',
-                position: 'bottom left'
+                position: 'bottom right'
             )
         $('body').toast(
             showIcon: 'reddit'
             message: 'started'
             displayTime: 'auto',
-            position: 'bottom left'    
+            position: 'bottom right'    
         )
         Meteor.call 'search_reddit', selected_tags.array(), ->
             $('body').toast(
@@ -313,7 +313,7 @@ Template.tag_selector.events
                 # showProgress: 'bottom'
                 class: 'success'
                 displayTime: 'auto',
-                position: 'bottom left'
+                position: 'bottom right'
             )
             Session.set('thinking',false)
         # Meteor.call 'search_ddg', @name, ->
@@ -410,27 +410,28 @@ Template.doc_tag.events
        
        
 
-Template.dao.events
+Template.stack_page.events
     'click .add_stack_tag': ->
         selected_tags.push @valueOf()
-        if Session.equals('view_mode','stack')
-            Session.set('thinking',true)
-            $('body').toast(
-                showIcon: 'stack exchange'
-                message: 'started'
-                displayTime: 'auto',
-                position: 'bottom left'
-            )
-            Meteor.call 'search_stack', @valueOf(), =>
-                $('body').toast(
-                    showIcon: 'stack exchange'
-                    message: ' done'
-                    # showProgress: 'bottom'
-                    class: 'success'
-                    displayTime: 'auto',
-                    position: 'bottom left'
-                )
-                Session.set('thinking',false)
+        # if Session.equals('view_mode','stack')
+        Router.go "/site/#{Router.current().params.site}"
+        # Session.set('thinking',true)
+        # $('body').toast(
+        #     showIcon: 'stack exchange'
+        #     message: 'started'
+        #     displayTime: 'auto',
+        #     position: 'bottom right'
+        # )
+        Meteor.call 'search_stack', Router.current().params.site, @valueOf(), =>
+            # $('body').toast(
+            #     showIcon: 'stack exchange'
+            #     message: ' done'
+            #     # showProgress: 'bottom'
+            #     class: 'success'
+            #     displayTime: 'auto',
+            #     position: 'bottom right'
+            # )
+            # Session.set('thinking',false)
     # 'click .toggle_alpha': -> 
     #     console.log Session.get 'view_alpha'
     #     Session.set('view_alpha', !Session.get('view_alpha'))
@@ -606,7 +607,7 @@ Template.dao.events
             showIcon: 'search'
             message: "reddit: #{selected_tags.array()} search started"
             displayTime: 'auto',
-            position: 'bottom left'
+            position: 'bottom right'
         )
         Meteor.call 'search_reddit', selected_tags.array(), ->
             $('body').toast(
@@ -616,13 +617,13 @@ Template.dao.events
                 # showProgress: 'bottom'
                 class: 'success'
                 displayTime: 'auto',
-                position: 'bottom left'
+                position: 'bottom right'
             )
         $('body').toast(
             showIcon: 'search'
             message: "wiki: #{@name} search started"
             displayTime: 'auto',
-            position: 'bottom left'
+            position: 'bottom right'
         )
         Meteor.call 'call_wiki', @name, ->
             $('body').toast(
@@ -632,7 +633,7 @@ Template.dao.events
                 # showProgress: 'bottom'
                 class: 'success'
                 displayTime: 'auto',
-                position: 'bottom left'
+                position: 'bottom right'
             )
             Session.set('thinking',false)
         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
@@ -711,7 +712,7 @@ Template.dao.events
                         showIcon: 'stack exchange'
                         message: 'started'
                         displayTime: 'auto',
-                        position: 'bottom left'
+                        position: 'bottom right'
                     )
                     Meteor.call 'search_stack', search, ->
                         $('body').toast(
@@ -720,7 +721,7 @@ Template.dao.events
                             # showProgress: 'bottom'
                             class: 'success'
                             displayTime: 'auto',
-                            position: 'bottom left'
+                            position: 'bottom right'
                         )
                         Session.set('thinking',false)
                 else
@@ -730,7 +731,7 @@ Template.dao.events
                         showIcon: 'search'
                         message: 'started'
                         displayTime: 'auto',
-                        position: 'bottom left'
+                        position: 'bottom right'
                     )
                     Meteor.call 'search_ddg', search, ->
                         $('body').toast(
@@ -739,14 +740,14 @@ Template.dao.events
                             # showProgress: 'bottom'
                             class: 'success'
                             displayTime: 'auto',
-                            position: 'bottom left'
+                            position: 'bottom right'
                         )
                     window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
                     $('body').toast(
                         showIcon: 'brain'
                         message: 'start'
                         displayTime: 'auto',
-                        position: 'bottom left'
+                        position: 'bottom right'
                     )
                     Session.set('loading_alpha', true)
                     Meteor.call 'call_alpha', selected_tags.array().toString(), ->
@@ -756,14 +757,14 @@ Template.dao.events
                             # showProgress: 'bottom'
                             class: 'success'
                             displayTime: 'auto',
-                            position: 'bottom left'
+                            position: 'bottom right'
                         )
                         Session.set('loading_alpha', false)
                     $('body').toast(
                         showIcon: 'wikipedia'
                         message: 'started'
                         displayTime: 'auto',
-                        position: 'bottom left'
+                        position: 'bottom right'
                     )
                     Meteor.call 'call_wiki', search, ->
                         $('body').toast(
@@ -772,13 +773,13 @@ Template.dao.events
                             # showProgress: 'bottom'
                             class: 'info'
                             displayTime: 'auto',
-                            position: 'bottom left'
+                            position: 'bottom right'
                         )
                     $('body').toast(
                         showIcon: 'reddit'
                         message: ' started'
                         displayTime: 'auto',
-                        position: 'bottom left'
+                        position: 'bottom right'
                     )
                     Meteor.call 'search_reddit', selected_tags.array(), ->
                         $('body').toast(
@@ -787,7 +788,7 @@ Template.dao.events
                             # showProgress: 'bottom'
                             class: 'success'
                             displayTime: 'auto',
-                            position: 'bottom left'
+                            position: 'bottom right'
                         )
                         Session.set('thinking',false)
                     Session.set('viewing_doc',null)

@@ -410,6 +410,38 @@ Meteor.methods
         )
 
         
+    question_answers: (site, question_id)->
+        # console.log 'searching question', site, question_id
+        url = "https://api.stackexchange.com/2.2/questions/#{question_id}/answers?order=desc&sort=activity&site=#{site}&filter=!9_bDE(fI5&key=lPplyGlNUs)cIMOajW03aw(("
+        console.log url
+        request.get {
+            url: url
+            headers: 'accept-encoding': 'gzip'
+            gzip: true
+        }, Meteor.bindEnvironment((error, response, body) =>
+            parsed = JSON.parse(body)
+            # console.log 'body',JSON.parse(body), typeof(body)
+            for item in parsed.items
+                found = 
+                    Docs.findOne
+                        model:'stack'
+                        question_id:item.question_id
+                        answer_id:item.answer_id
+                if found
+                    console.log 'found', found.body
+                #     Docs.update found._id,
+                #         $set:body:item.body
+                unless found
+                    item.site = site
+                    item.model = 'stack_answer'
+                    # item.tags.push query
+                    new_id = 
+                        Docs.insert item
+                    console.log 'new answer doc', Docs.findOne(new_id).title
+            return
+        )
+
+        
     search_stack: (site, query, selected_tags) ->
         # console.log('searching stack for', typeof(query), query);
         # var url = 'https://api.stackexchange.com/2.2/sites';

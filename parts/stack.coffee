@@ -15,7 +15,12 @@ if Meteor.isClient
 
     Template.stack_page.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'question_answers', Router.current().params.doc_id
         Session.setDefault('stack_section','main')
+    Template.stack_page.helpers
+        question_answers: ->
+            Docs.find 
+                model:'stack_answer'
     Template.stack_page.events
         'click .call_watson': (e,t)->
             Meteor.call 'call_watson', Router.current().params.doc_id,'link','stack',->
@@ -24,6 +29,12 @@ if Meteor.isClient
         'click .get_question': (e,t)->
             question = Docs.findOne(Router.current().params.doc_id)
             Meteor.call 'get_question', Router.current().params.site, question.question_id,->
+                
+        'click .get_answers': (e,t)->
+            question = Docs.findOne(Router.current().params.doc_id)
+            Meteor.call 'question_answers', Router.current().params.site, question.question_id,->
+                
+                
   
   
   
@@ -68,6 +79,13 @@ if Meteor.isServer
             match.name = {$regex:"#{name_filter}", $options:'i'}
         Docs.find match,
             limit:300
+    
+    Meteor.publish 'question_answers', (question_doc_id)->
+        question = Docs.findOne question_doc_id
+        console.log question.question_id
+        Docs.find 
+            model:'stack_answer'
+            question_id:question.question_id
     
     Meteor.publish 'stackuser_doc', (user_id)->
         Docs.find 
