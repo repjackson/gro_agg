@@ -55,6 +55,14 @@ template(name='stack')
                 //             +stack_card
                         
                         
+template(name='stack_site_card')
+    .ui.card
+        .content
+            a.ui.header(href="/site/#{site}") !{name}
+            each tags 
+                a.ui.basic.pointer.label.add_stack_tag #{this}
+            if is_answered
+                .ui.basic.green.label
 template(name='stack_card')
     .ui.card
         .content

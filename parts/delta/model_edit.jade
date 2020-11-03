@@ -37,7 +37,9 @@ template(name='model_edit_layout')
 template(name='model_edit_dashboard')
     .ui.form
         +text_edit k='title' l='title' d=true
+        div
         +text_edit k='slug' l='slug' d=true
+        div
         +icon_edit k='icon' l='icon' d=true
         +textarea_edit k='description' l='description' d=true
         +array_edit k='tags' l='tags' d=true

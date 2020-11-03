@@ -136,13 +136,6 @@ Template.registerHelper 'tag_term', () ->
         title:@valueOf()
 
 
-# Template.registerHelper 'fv', () ->
-#     # console.log @
-#     parent = Template.parentData()
-#     # console.log 'parent', parent
-#     if parent
-#         parent["#{@key}"]
-
 Template.registerHelper 'is_logging_out', () -> Session.get('logging_out')
 
 Template.registerHelper 'session', () -> Session.get(@key)
@@ -187,22 +180,23 @@ Template.registerHelper 'to', () ->
 
 
 Template.registerHelper 'fv', () ->
-    # console.log @
+    console.log @
     parent = Template.parentData()
     parent5 = Template.parentData(5)
     parent6 = Template.parentData(6)
 
     if @d
         parent = Template.parentData()
+        console.log parent
     else if parent5
         if parent5._id
             parent = Template.parentData(5)
     else if parent6
         if parent6._id
             parent = Template.parentData(6)
-    # console.log 'parent', parent
-    if parent
-        parent["#{@k}"]
+    console.log 'parent', @k, parent["#{@k}"]
+    # if parent
+    parent["#{@k}"]
 
 
 
