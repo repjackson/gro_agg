@@ -58,11 +58,16 @@ template(name='stack')
 template(name='stack_site_card')
     .ui.card
         .content
-            a.ui.header(href="/site/#{site}") !{name}
+            a.ui.header(href="/site/#{api_site_parameter}")
+                img(src=icon_url)
+                |!{name}
+            .ui.small.header #{audience}
             each tags 
                 a.ui.basic.pointer.label.add_stack_tag #{this}
             if is_answered
                 .ui.basic.green.label
+                
+                
 template(name='stack_card')
     .ui.card
         .content

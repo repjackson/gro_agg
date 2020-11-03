@@ -78,16 +78,18 @@ Meteor.methods
         #         body:chat
         #         bot:false
         # console.log 'creating new chat for ', chat
-        HTTP.get "http://api.wolframalpha.com/v1/conversation.jsp?appid=UULLYY-QR2ALYJ9JU&i=#{chat}",(err,response)=>
+        HTTP.get "http://api.wolframalpha.com/v1/conversation.jsp?appid=UULLYY-QR2ALYJ9JU&i=#{chat}",(err,res)=>
             if err then console.log err
             else
-                console.log response
-                parsed = JSON.parse(response.content)
+                console.log res
+                parsed = JSON.parse(res.content)
                 Docs.insert
                     model:'global_chat'
                     bot:true
-                    response:parsed
-    
+                    res:parsed
+                return parsed
+                
+                
     arespond: (post_id)->
         # @unblock()
         post = Docs.findOne post_id

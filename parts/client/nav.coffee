@@ -60,10 +60,10 @@ Template.nav.events
     'click .reconnect': -> Meteor.reconnect()
 
     'click .add': ->
-        new_question_id =
+        new_post_id =
             Docs.insert
-                model:'question'
-        Router.go "/question/#{new_question_id}/edit"
+                model:'post'
+        Router.go "/m/post/#{new_post_id}/edit"
 
     'click .post': ->
         new_post_id =
@@ -120,13 +120,13 @@ Template.nav.events
         Session.set 'loading', true
         Meteor.call 'set_facets', 'location', ->
             Session.set 'loading', false
-    'click .set_photo': ->
+    'click .set_wiki': ->
         Session.set 'loading', true
-        Meteor.call 'set_facets', 'photo', ->
+        Meteor.call 'set_facets', 'wikipedia', ->
             Session.set 'loading', false
-    'click .set_project': ->
+    'click .set_reddit': ->
         Session.set 'loading', true
-        Meteor.call 'set_facets', 'project', ->
+        Meteor.call 'set_facets', 'reddit', ->
             Session.set 'loading', false
     'click .set_expense': ->
         Session.set 'loading', true
@@ -210,7 +210,9 @@ Template.chatpop.events
                 model:'global_chat'
                 bot:false
                 body:comment
-            Meteor.call 'add_chat', comment, ->
+            Meteor.call 'add_chat', comment, (err,res)->
+                window.speechSynthesis.speak new SpeechSynthesisUtterance res
+
             t.$('.add_chat').val('')
         # , 2000)
 Template.rightbar.events

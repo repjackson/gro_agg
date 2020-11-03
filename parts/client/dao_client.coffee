@@ -3,45 +3,11 @@
 @selected_subreddits = new ReactiveArray []
 @selected_emotions = new ReactiveArray []
 
-Template.registerHelper 'skip_is_zero', ()-> Session.equals('skip', 0)
-Template.registerHelper 'one_post', ()-> Counts.get('result_counter') is 1
-Template.registerHelper 'two_posts', ()-> Counts.get('result_counter') is 2
-Template.registerHelper 'seven_tags', ()-> @tags[..7]
-Template.registerHelper 'key_value', (key,value)-> @["#{key}"] is value
 
-# @log = (input)-> console.log input
-
-
-Template.registerHelper 'embed', ()->
-    if @rd and @rd.media and @rd.media.oembed and @rd.media.oembed.html
-        dom = document.createElement('textarea')
-        # dom.innerHTML = doc.body
-        dom.innerHTML = @rd.media.oembed.html
-        # console.log 'innner html', dom.value
-        return dom.value
-        # Docs.update @_id,
-        #     $set:
-        #         parsed_selftext_html:dom.value
-
-
-Template.registerHelper 'youtube_parse', ()->
-    # console.log @url
-    regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    match = @url.match(regExp);
-    if match and match[2].length is 11
-        return match[2];
-    else
-        console.log 'no'
-
-
-Template.registerHelper 'is_image', ()->
-    @domain in ['i.imgur.com','i.reddit.com','i.redd.it','imgur.com']
-
-Template.registerHelper 'is_youtube', ()->
-    @domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
-Template.registerHelper 'is_twitter', ()->
-    @domain in ['twitter.com','mobile.twitter.com','vimeo.com']
-
+Router.route '/dao', (->
+    @layout 'layout'
+    @render 'dao'
+    ), name:'dao'
 
 
 
@@ -261,61 +227,61 @@ Template.tag_selector.events
         $('.search_site').val('')
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-        # unless Session.equals('view_mode','porn')
-        #     Meteor.call 'call_alpha', selected_tags.array().toString(), ->
-        # if Session.equals('view_mode','stack')
-        Session.set('thinking',true)
-        $('body').toast(
-            showIcon: 'stack exchange'
-            message: 'started'
-            displayTime: 'auto',
-            position: 'bottom right'
-        )
-        Meteor.call 'search_stack', Router.current().params.site, @name, ->
+        unless Session.equals('view_mode','porn')
+            Meteor.call 'call_alpha', selected_tags.array().toString(), ->
+        if Session.equals('view_mode','stack')
+            Session.set('thinking',true)
             $('body').toast(
                 showIcon: 'stack exchange'
-                message: ' done'
-                # showProgress: 'bottom'
-                class: 'success'
+                message: 'started'
                 displayTime: 'auto',
                 position: 'bottom right'
             )
-            Session.set('thinking',false)
-        # else if Session.equals('view_mode', 'porn')
-        #     Meteor.call 'search_ph', selected_tags.array().toString(), ->
-        # else
-        Session.set('thinking',true)
-        $('body').toast(
-            showIcon: 'wikipedia'
-            message: 'started'
-            displayTime: 'auto',
-            position: 'bottom right'
-        )
-        Meteor.call 'call_wiki', @name, ->
+            Meteor.call 'search_stack', Router.current().params.site, @name, ->
+                $('body').toast(
+                    showIcon: 'stack exchange'
+                    message: ' done'
+                    # showProgress: 'bottom'
+                    class: 'success'
+                    displayTime: 'auto',
+                    position: 'bottom right'
+                )
+                Session.set('thinking',false)
+        else if Session.equals('view_mode', 'porn')
+            Meteor.call 'search_ph', selected_tags.array().toString(), ->
+        else
+            Session.set('thinking',true)
             $('body').toast(
-                message: 'done'
                 showIcon: 'wikipedia'
-                # showProgress: 'bottom'
-                class: 'info'
+                message: 'started'
                 displayTime: 'auto',
                 position: 'bottom right'
             )
-        $('body').toast(
-            showIcon: 'reddit'
-            message: 'started'
-            displayTime: 'auto',
-            position: 'bottom right'    
-        )
-        Meteor.call 'search_reddit', selected_tags.array(), ->
+            Meteor.call 'call_wiki', @name, ->
+                $('body').toast(
+                    message: 'done'
+                    showIcon: 'wikipedia'
+                    # showProgress: 'bottom'
+                    class: 'info'
+                    displayTime: 'auto',
+                    position: 'bottom right'
+                )
             $('body').toast(
-                message: 'done'
                 showIcon: 'reddit'
-                # showProgress: 'bottom'
-                class: 'success'
+                message: 'started'
                 displayTime: 'auto',
-                position: 'bottom right'
+                position: 'bottom right'    
             )
-            Session.set('thinking',false)
+            Meteor.call 'search_reddit', selected_tags.array(), ->
+                $('body').toast(
+                    message: 'done'
+                    showIcon: 'reddit'
+                    # showProgress: 'bottom'
+                    class: 'success'
+                    displayTime: 'auto',
+                    position: 'bottom right'
+                )
+                Session.set('thinking',false)
         # Meteor.call 'search_ddg', @name, ->
         # Session.set('viewing_doc',null)
         Meteor.setTimeout( ->

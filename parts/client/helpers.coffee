@@ -177,24 +177,62 @@ Template.registerHelper 'to', () ->
     Meteor.users.findOne @to_user_id
 
 
+Template.registerHelper 'skip_is_zero', ()-> Session.equals('skip', 0)
+Template.registerHelper 'one_post', ()-> Counts.get('result_counter') is 1
+Template.registerHelper 'two_posts', ()-> Counts.get('result_counter') is 2
+Template.registerHelper 'seven_tags', ()-> @tags[..7]
+Template.registerHelper 'key_value', (key,value)-> @["#{key}"] is value
+
+# @log = (input)-> console.log input
+
+
+Template.registerHelper 'embed', ()->
+    if @rd and @rd.media and @rd.media.oembed and @rd.media.oembed.html
+        dom = document.createElement('textarea')
+        # dom.innerHTML = doc.body
+        dom.innerHTML = @rd.media.oembed.html
+        # console.log 'innner html', dom.value
+        return dom.value
+        # Docs.update @_id,
+        #     $set:
+        #         parsed_selftext_html:dom.value
+
+
+Template.registerHelper 'youtube_parse', ()->
+    # console.log @url
+    regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    match = @url.match(regExp);
+    if match and match[2].length is 11
+        return match[2];
+    else
+        console.log 'no'
+
+
+Template.registerHelper 'is_image', ()->
+    @domain in ['i.imgur.com','i.reddit.com','i.redd.it','imgur.com']
+
+Template.registerHelper 'is_youtube', ()->
+    @domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+Template.registerHelper 'is_twitter', ()->
+    @domain in ['twitter.com','mobile.twitter.com','vimeo.com']
 
 
 Template.registerHelper 'fv', () ->
-    console.log @
+    # console.log @
     parent = Template.parentData()
     parent5 = Template.parentData(5)
     parent6 = Template.parentData(6)
 
     if @d
         parent = Template.parentData()
-        console.log parent
+        # console.log parent
     else if parent5
         if parent5._id
             parent = Template.parentData(5)
     else if parent6
         if parent6._id
             parent = Template.parentData(6)
-    console.log 'parent', @k, parent["#{@k}"]
+    # console.log 'parent', @k, parent["#{@k}"]
     # if parent
     parent["#{@k}"]
 

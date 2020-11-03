@@ -1,6 +1,6 @@
 template(name='nav')
     // a.icon.ui.big.circular.icon.button(href='/')
-    .ui.fluid.attached.borderless.invert.inverted.menu.topnav(style="background-color:#{current_user.theme_color};")
+    .ui.fluid.attached.borderless.inverted.menu.topnav(style="background-color:#{current_user.theme_color};")
         a.icon.header.item.pointer.toggle_leftbar
             i.bars.large.grey.icon
         if connected
@@ -17,9 +17,9 @@ template(name='nav')
             // .ui.search.item
             //     .ui.transparent.inverted.input
             //         input(type='text')
-            a.icon.item(href='/reddit')
+            a.icon.item(href='/m/reddit')
                 i.big.reddit.icon
-            a.icon.item(href='/wikipedia')
+            a.icon.item(href='/m/wikipedia')
                 i.big.wikipedia.icon
         unless connected
             .item
