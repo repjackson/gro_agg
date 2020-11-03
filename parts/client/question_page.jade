@@ -13,7 +13,7 @@ template(name='stack_page')
                         // |#{link}
                         i.external.large.icon
             .row
-                .four.wide.column
+                .six.wide.column
                     if watson.metadata.image
                         img.ui.invert.image(src=watson.metadata.image)    
 
@@ -57,7 +57,7 @@ template(name='stack_page')
                     +print_this
                     +doc_sentiment
                     +doc_emotion
-                .twelve.wide.column
+                .ten.wide.column
                     .invert.ui.teritary.segment.scrolling
                         |!{body}
                     each question_answers

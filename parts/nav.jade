@@ -31,20 +31,20 @@ template(name='nav')
                     a.icon.pointer.item.add(title='add')
                         i.large.plus.icon
                 if currentUser
-                    // a.pointer.icon.item.toggle_friends(href="#" class=alert_toggle_class title='friends')
-                    //     i.large.users.icon
-                    // a.pointer.icon.item.toggle_bookmarks(href="#" class=alert_toggle_class title='bookmark')
-                    //     i.large.bookmark.icon
-                    // if connected
-                    //     if unread_count
-                    //         a.pointer.item.alerts(href="#" class=alert_toggle_class)
-                    //             i.large.bell.icon
-                    //             if unread_count
-                    //                 |#{unread_count}
-                    //     else
-                    //         // a.icon.pointer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
-                    //         a.icon.pointer.item(href="/inbox")
-                    //             i.large.outline.bell.icon
+                    a.pointer.icon.item.toggle_friends(href="#" class=alert_toggle_class title='friends')
+                        i.large.users.icon
+                    a.pointer.icon.item.toggle_bookmarks(href="#" class=alert_toggle_class title='bookmark')
+                        i.large.bookmark.icon
+                    if connected
+                        if unread_count
+                            a.pointer.item.alerts(href="#" class=alert_toggle_class)
+                                i.large.bell.icon
+                                if unread_count
+                                    |#{unread_count}
+                        else
+                            // a.icon.pointer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+                            a.icon.pointer.item(href="/inbox")
+                                i.large.outline.bell.icon
                 a.icon.pointer.item(href="/chat" title='chat') 
                     i.chat.outline.large.icon
                 // a.icon.pointer.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
@@ -89,7 +89,7 @@ template(name='bookmarkbar')
         
 template(name='friendbar')
     // .ui.fluid.attached.inverted.blue.segment(style="background-color:#{currentUser.theme_color};" class=currentUser.invert_class)
-    .ui.fluid.attached.inverted.segment(class=currentUser.invert_class)
+    .ui.fluid.attached.inverted.invert.segment(class=currentUser.invert_class)
         // .ui.middle.aligned.selection.list.smallscroll
         each currentUser.friends
             a.ui.black.circular.tertiary.button.close_friendbar(href="/u/#{username}")
@@ -104,7 +104,7 @@ template(name='friendbar')
         |friends
 
 template(name='topbar')
-    .ui.fluid.large.attached.segment(style="background-color:#{currentUser.theme_color};" class=currentUser.invert_class)
+    .ui.fluid.large.attached.inverted.invert.segment(style="background-color:#{currentUser.theme_color};" class=currentUser.invert_class)
         .ui.middle.aligned.divided.list
             each recent_alerts
                 +recent_alert
@@ -205,7 +205,7 @@ template(name='view_chatpop')
             
             
 template(name='rightbar')
-    .ui.right.sidebar.vertical.borderless.inverted.menu.scrolling(style="background-color:#{current_user.theme_color};")
+    .ui.right.sidebar.vertical.borderless.inverted.invert.menu.scrolling(style="background-color:#{current_user.theme_color};")
         // a.item.toggle_rightbar(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_layout'}}")
         //     img.ui.avatar.compact.image(src="{{c.url 'homestar_logo' height=200 width=200 gravity='face' crop='fill'}}")
         //     |#{currentUser.name}
@@ -254,7 +254,7 @@ template(name='rightbar')
 
 
 template(name='leftbar')
-    .ui.left.sidebar.vertical.borderless.inverted.menu.scrolling(style="background-color:#{current_user.theme_color};")
+    .ui.left.sidebar.vertical.borderless.inverted.invert.menu.scrolling(style="background-color:#{current_user.theme_color};")
         a.item.toggle_leftbar(href="/" class="{{isActivePath '/'}}")
             i.yin.yang.icon
             | dao

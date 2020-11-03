@@ -6,7 +6,7 @@ if Meteor.isClient
 
     Template.product_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'model_docs', 'transaction'
+        # @autorun => Meteor.subscribe 'model_docs', 'transaction'
 
     Template.product_view.events
         'click .delete_product': ->

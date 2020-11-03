@@ -34,8 +34,10 @@ if Meteor.isClient
 
     Template.profile.helpers
         route_slug: -> "user_#{@slug}"
-        user: -> Meteor.users.findOne username:Router.current().params.username
+        current_user: -> Meteor.users.findOne username:Router.current().params.username
         is_current_user: -> Meteor.user().username is Router.current().params.username
+  
+  
     Template.user_dashboard.helpers
         posts: ->
             user = Meteor.users.findOne username:Router.current().params.username            
