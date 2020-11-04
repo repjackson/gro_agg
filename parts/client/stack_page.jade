@@ -15,12 +15,11 @@ template(name='stack_page')
             .row
                 .six.wide.column
                     if watson.metadata.image
-                        img.ui.invert.image(src=watson.metadata.image)    
-
+                        img.ui.invert.small.inline.image(src=watson.metadata.image)    
                     each tags 
                         a.ui.basic.large.pointer.label.add_stack_tag #{this}
                     if is_answered
-                        .ui.basic.inverted.green.invert.large.label
+                        .ui.basic.inverted.green.large.label
                             i.green.checkmark.icon
                             |answered
                     else
@@ -58,7 +57,7 @@ template(name='stack_page')
                     +doc_sentiment
                     +doc_emotion
                 .ten.wide.column
-                    .invert.ui.teritary.segment.scrolling
+                    .ui.secondary.segment
                         |!{body}
                     each question_answers
                         .ui.segment

@@ -46,8 +46,8 @@ if Meteor.isClient
             
                 
     Template.stack.onCreated ->
-        @autorun => Meteor.subscribe 'stack_docs',
-            selected_stack_tags.array()
+        # @autorun => Meteor.subscribe 'stack_docs',
+        #     selected_stack_tags.array()
         @autorun -> Meteor.subscribe 'stack_sites',
             selected_site_tags.array()
             Session.get('site_name_filter')
@@ -75,6 +75,7 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'stack_sites', (selected_tags, name_filter='')->
         match = {model:'stack_site'}
+        match.site_type = 'main_site'
         if name_filter.length > 0
             match.name = {$regex:"#{name_filter}", $options:'i'}
         Docs.find match,

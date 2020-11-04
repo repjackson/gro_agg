@@ -1,26 +1,26 @@
 template(name='stack')
     .ui.stackable.padded.grid
         .row
-            .four.wide.column
-                .ui.header 
+            .sixteen.wide.column
+                .ui.inline.header 
                     i.big.stack.exchange.icon
-                    |stackexchange
+                    |stackexchange sites
                 .ui.icon.input
                     i.search.icon
                     input.search_site_name(type='text')
-                each sites
-                    .ui.header #{title}
-            .twelve.wide.column.scrolling
-                .ui.header.dl 
-                    i.globe.icon
-                    |sites
-                .ui.list
+            .sixteen.wide.center.aligned.column
+                // .ui.header.dl 
+                //     i.globe.icon
+                //     |sites
+                .ui.cards
                     each site_docs
-                        .item
-                            a.ui.small.header(href="/site/#{api_site_parameter}")
-                                img(src=icon_url)
-                                |!{name}
-                            
+                        a.ui.card(href="/site/#{api_site_parameter}")
+                            img.ui.image(src=icon_url)
+                            .content
+                                .header
+                                    |!{name}
+                                .description 
+                                    |#{audience}
                 // .ui.inline.header 
                 //     i.question.icon
                 //     |questions
@@ -104,8 +104,3 @@ template(name='stack_card')
                     .ui.label user_id #{user_id}
                     .ui.label user_type #{user_type}
     
-    
-                        
-                    
-                    
-                    

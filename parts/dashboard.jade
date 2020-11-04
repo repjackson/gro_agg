@@ -41,8 +41,8 @@ template(name='user_dashboard')
         .column
             .ui.comments
                 .ui.icon.fluid.inverted.large.input
-                    i.plus.icon
-                    input.add_post(type='text' placeholder='add post...')
+                    i.plus.icon.submit
+                    textarea.add_post(type='text' placeholder='add post...')
                 each latest_posts
                     +post_segment
         .column
@@ -112,6 +112,48 @@ template(name='user_dashboard')
                         .content
                             .header #{body}
                             .meta #{_when}
+           
+template(name='post_segment')           
+    .ui.comment
+        .avatar
+            img.ui.avatar.compact.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        .content
+            a.text(href="/m/post/#{_id}/view")
+                |!{body}
+            a.author(href="/u/#{_author.username}") #{_author.username}
+            .metadata
+                span.date(title=_when_long)
+                    |#{_when}
+                .actions
+                    // i.eye.grey.icon
+                    +voting_small
+                    // i.reply.link.grey.icon
+                    // a.remove_post
+                    //     i.remove.link.grey.icon
+                // +array_edit k='tags' l='tags' d=1
+        with alpha_response
+            .ui.small.grey.inline.header
+                i.brain.icon
+                |#{response.result}
+            +voting_small
+                // i.archive.link.grey.icon
+                // i.share.grey.icon
+                // +emotion_picker
+            // if replying
+            //     .ui.fluid.small.input
+            //         input.reply_body(type='text')
+            // .ui.grid
+            //     .two.wide.column
+            //     .fourteen.wide.column
+            //         each replies
+            //             div
+            //             .ui.tiny.inline.header #{body}
+            //             if is_author
+            //                 +remove_icon
+           
+           
+           
+           
            
 template(name='user_groups_small')
     a.ui.header(href="/groups")
