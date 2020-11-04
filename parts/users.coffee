@@ -16,11 +16,11 @@ if Meteor.isClient
 
     Template.users.helpers
         users: ->
-            match = {}
-            unless 'admin' in Meteor.user().roles
-                match.levels = $in:['member']
+            match = {model:'stackuser'}
+            # unless 'admin' in Meteor.user().roles
+            #     match.levels = $in:['member']
             if selected_user_tags.array().length > 0 then match.tags = $all: selected_user_tags.array()
-            Meteor.users.find match,
+            Docs.find match,
                 sort:points:-1
             # if Meteor.user()
             #     if 'admin' in Meteor.user().roles
@@ -132,10 +132,10 @@ if Meteor.isServer
         selected_user_tags
         selected_user_levels
         )->
-        match = {}
-        if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
-        if selected_user_levels.length > 0 then match.levels = $all: selected_user_levels
-        Meteor.users.find match
+        match = {model:'stackuser'}
+        # if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
+        # if selected_user_levels.length > 0 then match.levels = $all: selected_user_levels
+        Docs.find match
         # if Meteor.user()
         #     if 'admin' in Meteor.user().roles
         #         Meteor.users.find()

@@ -43,10 +43,10 @@ template(name='dao')
                     // .ui.compact.small.tertiary.add_tag.button #{name}
                 +skve k='view_mode' v='posts' l='posts' i='blog'
                 +skve k='view_mode' v='wikipedia' l='wikipedia' i='wikipedia'
-                +skve k='view_mode' v='stack' l='stack' i='stackoverflow'
+                // +skve k='view_mode' v='stack' l='stack' i='stackoverflow'
                 +skve k='view_mode' v='image' l='image' i='image'
-                +skve k='view_mode' v='github' l='github' i='github'
-                +skve k='view_mode' v='porn' l='porn' i='mercury'
+                // +skve k='view_mode' v='github' l='github' i='github'
+                // +skve k='view_mode' v='porn' l='porn' i='mercury'
                 +skve k='view_mode' v='video' l='youtube' i='youtube'
                 // div
                 if skv_is 'view_mode' 'stack'
@@ -138,8 +138,8 @@ template(name='dao')
                 +skve k='main_section' v='duck' l='search' i='search'
                 +skve k='main_section' v='reddit' l='reddit' i='reddit'
                 +skve k='main_section' v='wikipedia' l='wikipedia' i='wikipedia'
-                +skve k='main_section' v='stack' l='stack' i='stackoverflow'
-                +skve k='main_section' v='porn' l='porn' i='mercury'
+                // +skve k='main_section' v='stack' l='stack' i='stackoverflow'
+                // +skve k='main_section' v='porn' l='porn' i='mercury'
                 // +skve k='main_section' v='shop' l='shop' i='shop'
                 // +skve k='main_section' v='chat' l='chat' i='chat'
                 // +skve k='main_section' v='groups' l='groups' i='groups'
@@ -179,42 +179,42 @@ template(name='dao')
                                     |#{this}
                             each subreddit_results
                                 +select_subreddit
-                    else if skv_is 'main_section' 'stack'
-                        +skve k='stack_view' v='cards' l='cards' i='squared-menu' ionly=true
-                        +skve k='stack_view' v='list' l='list' i='list' ionly=true
-                        if skv_is 'stack_view' 'list'
-                            .ui.large.list 
-                                each stack_docs
-                                    .ui.small.header !{title}
-                        else
-                            .ui.stackable.cards
-                                each stack_docs
-                                    .ui.card 
-                                        .content
-                                            .ui.header !{title}
-                                            each tags 
-                                                a.ui.basic.pointer.label.add_stack_tag #{this}
-                                            .ui.label answered #{is_answered}
-                                            .ui.label 
-                                                i.eye.icon
-                                                |#{view_count}
-                                            .ui.label protected_date #{protected_date}
-                                            .ui.label accepted_answer_id #{accepted_answer_id}
-                                            .ui.label #{answer_count} answers
-                                            .ui.label score #{score}
-                                            .ui.label qid #{question_id}
-                                            .ui.label last_activity_date #{last_activity_date}
-                                            .ui.label creation #{creation_date}
-                                            .ui.label #{_when}
-                                            a(href=link target='_window')
-                                                |#{link}
-                                            with owner
-                                                .ui.compact.segment
-                                                    .ui.inline.header #{display_name}
-                                                    img.ui.tiny.inline.centered.image(src=profile_image)
-                                                    .ui.label reputation #{reputation}
-                                                    .ui.label user_id #{user_id}
-                                                    .ui.label user_type #{user_type}
+                        // else if skv_is 'main_section' 'stack'
+                        //     +skve k='stack_view' v='cards' l='cards' i='squared-menu' ionly=true
+                        //     +skve k='stack_view' v='list' l='list' i='list' ionly=true
+                        //     if skv_is 'stack_view' 'list'
+                        //         .ui.large.list 
+                        //             each stack_docs
+                        //                 .ui.small.header !{title}
+                        //     else
+                        //         .ui.stackable.cards
+                        //             each stack_docs
+                        //                 .ui.card 
+                        //                     .content
+                        //                         .ui.header !{title}
+                        //                         each tags 
+                        //                             a.ui.basic.pointer.label.add_stack_tag #{this}
+                        //                         .ui.label answered #{is_answered}
+                        //                         .ui.label 
+                        //                             i.eye.icon
+                        //                             |#{view_count}
+                        //                         .ui.label protected_date #{protected_date}
+                        //                         .ui.label accepted_answer_id #{accepted_answer_id}
+                        //                         .ui.label #{answer_count} answers
+                        //                         .ui.label score #{score}
+                        //                         .ui.label qid #{question_id}
+                        //                         .ui.label last_activity_date #{last_activity_date}
+                        //                         .ui.label creation #{creation_date}
+                        //                         .ui.label #{_when}
+                        //                         a(href=link target='_window')
+                        //                             |#{link}
+                        //                         with owner
+                        //                             .ui.compact.segment
+                        //                                 .ui.inline.header #{display_name}
+                        //                                 img.ui.tiny.inline.centered.image(src=profile_image)
+                        //                                 .ui.label reputation #{reputation}
+                        //                                 .ui.label user_id #{user_id}
+                        //                                 .ui.label user_type #{user_type}
                     else if skv_is 'main_section' 'sources'
                         .ui.inline.header 
                             i.database.large.icon
