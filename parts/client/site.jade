@@ -5,7 +5,7 @@ template(name='site_page')
                 .four.wide.column
                     // a.ui.circular.icon.button(href='/')
                     //     i.large.home.icon
-                    img(src=logo_url)
+                    img(src=logo_url class=currentUser.invert_class)
                     // img(src=icon_url)
                     // .ui.segment(style="background-color:#{styling.tag_background_color}")
                     // .ui.label #{tag_background_color}: tag_background_color
@@ -35,6 +35,7 @@ template(name='site_page')
                         .item #{audience}
                         // .item #{api_site_parameter} api_site_parameter
                         // .item #{site_type} site_type
+                    +array_edit k='tags' d=true
                     +comments
                     +voting_full
                 .twelve.wide.column
@@ -48,7 +49,7 @@ template(name='site_page')
                         i.search.icon
                         input.search_site(type='text')
                     each site_tags
-                        +tag_selector
+                        +stack_tag_selector
                         // .ui.large.label(title=count) #{name}
                     if skv_is 'sort_direction' 1
                         .ui.icon.compact.circular.button.sort_down
@@ -78,8 +79,8 @@ template(name='site_page')
                     .ui.selection.link.large.list
                         each site_questions
                             a.item.view_question(href="/site/#{site}/doc/#{_id}")
-                                if watson.metadata.image
-                                    img.ui.avatar.invert.image(src=watson.metadata.image)    
+                                // if watson.metadata.image
+                                //     img.ui.avatar.invert.image(src=watson.metadata.image)    
                                 .content 
                                     .header !{title}
                                     // if skv_is 'view_detail' true
@@ -111,3 +112,13 @@ template(name='site_page')
                 //         |join
                 //     .ui.button.leave
                 //         |leave
+
+
+template(name='stack_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.zoomer.tertiary.large.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.invert.image.zoomer(src=term.watson.metadata.image class=currentUser.invert_class)    
+        | #{name}
+        // small #{count}

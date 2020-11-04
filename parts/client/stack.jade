@@ -12,10 +12,11 @@ template(name='stack')
                 // .ui.header.dl 
                 //     i.globe.icon
                 //     |sites
-                .ui.cards
+                +cloud filter='stack_site'
+                .ui.center.five.stackable.cards
                     each site_docs
                         a.ui.card(href="/site/#{api_site_parameter}")
-                            img.ui.image(src=icon_url)
+                            img.ui.image(src=icon_url class=currentUser.invert_class)
                             .content
                                 .header
                                     |!{name}

@@ -18,6 +18,13 @@ body {
   width: inherit !important;
 }
 
+.invert > p {
+  color:white !important;
+  /*filter: invert(1) !important; */
+  
+} 
+
+
 .tone_item {
     transition: all .25s ease !important;
 }

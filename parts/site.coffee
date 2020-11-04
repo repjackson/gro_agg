@@ -65,6 +65,31 @@ if Meteor.isClient
                         Meteor.call 'search_stack', Router.current().params.site, search, ->
                             Session.set('thinking',false)
 
+
+    Template.stack_tag_selector.onCreated ->
+        # console.log @
+        @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+    Template.stack_tag_selector.helpers
+        selector_class: ()->
+            # console.log @
+            term = 
+                Docs.findOne 
+                    title:@name.toLowerCase()
+            if term
+                if term.max_emotion_name
+                    switch term.max_emotion_name
+                        when 'joy' then ' basic green'
+                        when 'anger' then ' basic red'
+                        when 'sadness' then ' basic blue'
+                        when 'disgust' then ' basic orange'
+                        when 'fear' then ' basic grey'
+                        else 'basic'
+        term: ->
+            Docs.findOne 
+                title:@name.toLowerCase()
+
+
+
 if Meteor.isServer
     Meteor.publish 'stack_docs_by_site', (
         site

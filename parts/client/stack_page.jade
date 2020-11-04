@@ -56,14 +56,16 @@ template(name='stack_page')
                     +print_this
                     +doc_sentiment
                     +doc_emotion
-                .ten.wide.column
+                .ten.wide.column.scrolling
                     .ui.secondary.segment
+                        // div(class=currentUser.invert_class)
                         |!{body}
                     each question_answers
                         .ui.segment
                             if is_accepted 
                                 .ui.invert.inverted.green.label 
                                     |accepted
+                            // div(class=currentUser.invert_class)
                             |!{body}
                             with owner
                                 .ui.segment
