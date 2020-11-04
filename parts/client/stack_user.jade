@@ -50,12 +50,30 @@ template(name='stackuser_page')
                         .item disgust avg
                         .item anger avg
                         .item fear avg
-                    .ui.header badges
-                    .ui.header tags
-                    .ui.header answers
-                    .ui.header questions
-                    .ui.header comments
-                    each tags 
+                    .ui.header.get_badges
+                        i.certificate.icon
+                        |badges
+                    .ui.header.get_tags
+                        i.tag.icon
+                        |tags
+                    each user_tags
+                        .ui.header #{title}
+                    .ui.header.get_answers
+                        i.exclamation.icon
+                        |answers
+                    each user_answers
+                        .ui.header #{title}
+                    .ui.header.get_questions
+                        i.question.icon
+                        |questions
+                    each user_questions
+                        .ui.header #{title}
+                    .ui.header.get_comments
+                        i.chat.outline.icon
+                        |comments
+                    each user_comments
+                        .ui.header #{title}
+                    each comments 
                         a.ui.basic.pointer.label.add_stack_tag #{this}
                     if is_answered
                         .ui.basic.green.label

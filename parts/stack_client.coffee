@@ -37,23 +37,6 @@ if Meteor.isClient
                 
   
   
-    Router.route '/site/:site/user/:user_id', (->
-        @layout 'layout'
-        @render 'stackuser_page'
-        ), name:'stackuser_page'
-
-    Template.stackuser_page.onCreated ->
-        @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
-    Template.stackuser_page.helpers
-        stackuser_doc: ->
-            Docs.findOne 
-                model:'stackuser'
-
-    Template.stackuser_page.events
-        'click .search': ->
-            Meteor.call 'search_stack_user', Router.current().params.site, Router.current().params.user_id, ->
-                
-        
 
             
                 

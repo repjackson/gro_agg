@@ -445,11 +445,6 @@ Meteor.methods
         
     search_stack: (site, query, selected_tags) ->
         console.log('searching stack for', typeof(query), query);
-        # var url = 'https://api.stackexchange.com/2.2/sites';
-        # url = 'http://api.stackexchange.com/2.1/questions?pagesize=1&fromdate=1356998400&todate=1359676800&order=desc&min=0&sort=votes&tagged=javascript&site=stackoverflow'
-        # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&tagged=#{selected_tags}&intitle=#{query}&site=stackoverflow"
-        # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&intitle=#{query}&site=stackoverflow"
-        # url = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=#{query}&site=#{site}&key=lPplyGlNUs)cIMOajW03aw((&filter=!b6Aub*F.YBcq0h"
         url = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=#{query}&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         request.get {
             url: url
@@ -502,6 +497,141 @@ Meteor.methods
                     new_id = 
                         Docs.insert item
                     console.log 'new stack user', Docs.findOne(new_id).display_name
+            return
+        )
+
+    stack_user_questions: (site, user_id) ->
+        console.log('searching stack user questions for', site, user_id);
+        url = "https://api.stackexchange.com/2.2/users/#{user_id}/questions?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+        request.get {
+            url: url
+            headers: 'accept-encoding': 'gzip'
+            gzip: true
+        }, Meteor.bindEnvironment((error, response, body) =>
+            parsed = JSON.parse(body)
+            # console.log 'body',JSON.parse(body), typeof(body)
+            for item in parsed.items
+                found = 
+                    Docs.findOne
+                        model:'stack_question'
+                        site:site
+                        user_id:parseInt(user_id)
+                if found
+                    console.log 'found', found.title
+                unless found
+                    item.site = site
+                    item.model = 'stack_question'
+                    new_id = 
+                        Docs.insert item
+                    console.log 'new stack question', Docs.findOne(new_id).title
+            return
+        )
+   
+    stack_user_answers: (site, user_id) ->
+        console.log('searching stack user answers for', site, user_id);
+        url = "https://api.stackexchange.com/2.2/users/#{user_id}/answers?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+        request.get {
+            url: url
+            headers: 'accept-encoding': 'gzip'
+            gzip: true
+        }, Meteor.bindEnvironment((error, response, body) =>
+            parsed = JSON.parse(body)
+            # console.log 'body',JSON.parse(body), typeof(body)
+            for item in parsed.items
+                found = 
+                    Docs.findOne
+                        model:'stack_answer'
+                        site:site
+                        user_id:parseInt(user_id)
+                if found
+                    console.log 'found', found.title
+                unless found
+                    item.site = site
+                    item.model = 'stack_answer'
+                    new_id = 
+                        Docs.insert item
+                    console.log 'new stack answer', Docs.findOne(new_id).title
+            return
+        )
+        
+    stack_user_comments: (site, user_id) ->
+        console.log('searching stack user comments for', site, user_id);
+        url = "https://api.stackexchange.com/2.2/users/#{user_id}/comments?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+        request.get {
+            url: url
+            headers: 'accept-encoding': 'gzip'
+            gzip: true
+        }, Meteor.bindEnvironment((error, response, body) =>
+            parsed = JSON.parse(body)
+            # console.log 'body',JSON.parse(body), typeof(body)
+            for item in parsed.items
+                found = 
+                    Docs.findOne
+                        model:'stack_comment'
+                        site:site
+                        user_id:parseInt(user_id)
+                if found
+                    console.log 'found', found.title
+                unless found
+                    item.site = site
+                    item.model = 'stack_comment'
+                    new_id = 
+                        Docs.insert item
+                    console.log 'new stack comment', Docs.findOne(new_id).title
+            return
+        )
+        
+    stack_user_badges: (site, user_id) ->
+        console.log('searching stack user badges for', site, user_id);
+        url = "https://api.stackexchange.com/2.2/users/#{user_id}/badges?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+        request.get {
+            url: url
+            headers: 'accept-encoding': 'gzip'
+            gzip: true
+        }, Meteor.bindEnvironment((error, response, body) =>
+            parsed = JSON.parse(body)
+            # console.log 'body',JSON.parse(body), typeof(body)
+            for item in parsed.items
+                found = 
+                    Docs.findOne
+                        model:'stack_badge'
+                        site:site
+                        user_id:parseInt(user_id)
+                if found
+                    console.log 'found', found.title
+                unless found
+                    item.site = site
+                    item.model = 'stack_badge'
+                    new_id = 
+                        Docs.insert item
+                    console.log 'new stack badge', Docs.findOne(new_id).title
+            return
+        )
+        
+    stack_user_tags: (site, user_id) ->
+        console.log('searching stack user tags for', site, user_id);
+        url = "https://api.stackexchange.com/2.2/users/#{user_id}/tags?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+        request.get {
+            url: url
+            headers: 'accept-encoding': 'gzip'
+            gzip: true
+        }, Meteor.bindEnvironment((error, response, body) =>
+            parsed = JSON.parse(body)
+            # console.log 'body',JSON.parse(body), typeof(body)
+            for item in parsed.items
+                found = 
+                    Docs.findOne
+                        model:'stack_tag'
+                        site:site
+                        user_id:parseInt(user_id)
+                if found
+                    console.log 'found', found.title
+                unless found
+                    item.site = site
+                    item.model = 'stack_tag'
+                    new_id = 
+                        Docs.insert item
+                    console.log 'new stack tag', Docs.findOne(new_id).title
             return
         )
 

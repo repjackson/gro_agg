@@ -37,6 +37,7 @@ if Meteor.isClient
             },
                 sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
                 limit:Session.get('limit')
+    
     Template.site_page.events
         'click .view_question': (e,t)-> window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         'click .sort_timestamp': (e,t)-> Session.set('sort_key','_timestamp')
@@ -82,6 +83,8 @@ if Meteor.isClient
         term: ->
             Docs.findOne 
                 title:@name.toLowerCase()
+   
+   
     Template.stack_tag_selector.events
         'click .select_tag': -> 
             # results.update

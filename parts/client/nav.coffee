@@ -3,28 +3,28 @@ Template.view_chatpop.onCreated ->
 Template.nav.onCreated ->
     @autorun => Meteor.subscribe 'me'
     # @autorun => Meteor.subscribe 'all_users'
-    @autorun => Meteor.subscribe 'my_unread_messages'
+    # @autorun => Meteor.subscribe 'my_unread_messages'
 
 Template.nav.onRendered ->
-    Meteor.setTimeout ->
-        $('.ui.dropdown').dropdown()
-    , 2000
-    count = 0
-    cursor = Docs.find({ model: 'message', read: false });
-    console.log 'found messages', cursor.count()
-    handle = cursor.observeChanges({
-        added: (id, message)->
-            count += 1
-            # console.log("#{message.body} brings the total to #{count} admins.")
-            $('body').toast(
-                message: "message: #{message.body}"
-                showIcon: 'mail'
-                classImage: 'avatar',
-                showProgress: 'bottom'
-                class: 'success'
-                displayTime: 'auto',
-            )
-    })
+    # Meteor.setTimeout ->
+    #     $('.ui.dropdown').dropdown()
+    # , 2000
+    # count = 0
+    # cursor = Docs.find({ model: 'message', read: false });
+    # console.log 'found messages', cursor.count()
+    # handle = cursor.observeChanges({
+    #     added: (id, message)->
+    #         count += 1
+    #         # console.log("#{message.body} brings the total to #{count} admins.")
+    #         $('body').toast(
+    #             message: "message: #{message.body}"
+    #             showIcon: 'mail'
+    #             classImage: 'avatar',
+    #             showProgress: 'bottom'
+    #             class: 'success'
+    #             displayTime: 'auto',
+    #         )
+    # })
 
 Template.nav.events
     #     'click .logout': ->
