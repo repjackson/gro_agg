@@ -57,13 +57,8 @@ if Meteor.isClient
                     selected_tags.push search
                     $('.search_site').val('')
 
-                    site = 
-                        Docs.findOne
-                            model:'stack_site'
-                            api_site_parameter:Router.current().params.site
-                    if site
-                        Meteor.call 'search_stack', Router.current().params.site, search, ->
-                            Session.set('thinking',false)
+                    Meteor.call 'search_stack', Router.current().params.site, search, ->
+                        Session.set('thinking',false)
 
 
     Template.stack_tag_selector.onCreated ->
@@ -78,15 +73,46 @@ if Meteor.isClient
             if term
                 if term.max_emotion_name
                     switch term.max_emotion_name
-                        when 'joy' then ' basic green'
-                        when 'anger' then ' basic red'
-                        when 'sadness' then ' basic blue'
-                        when 'disgust' then ' basic orange'
-                        when 'fear' then ' basic grey'
-                        else 'basic'
+                        when 'joy' then " basic green #{Meteor.user().invert_class}"
+                        when "anger" then " basic red #{Meteor.user().invert_class}"
+                        when "sadness" then " basic blue #{Meteor.user().invert_class}"
+                        when "disgust" then " basic orange #{Meteor.user().invert_class}"
+                        when "fear" then " basic grey #{Meteor.user().invert_class}"
+                        else "basic grey #{Meteor.user().invert_class}"
         term: ->
             Docs.findOne 
                 title:@name.toLowerCase()
+    Template.stack_tag_selector.events
+        'click .select_tag': -> 
+            # results.update
+            window.speechSynthesis.cancel()
+            
+            selected_tags.push @name
+            $('.search_site').val('')
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+            # Session.set('thinking',true)
+            $('body').toast(
+                showIcon: 'stack exchange'
+                message: 'started'
+                displayTime: 'auto',
+                position: 'bottom right'
+            )
+            Meteor.call 'search_stack', Router.current().params.site, @name, ->
+                $('body').toast(
+                    showIcon: 'stack exchange'
+                    message: ' done'
+                    # showProgress: 'bottom'
+                    class: 'success'
+                    displayTime: 'auto',
+                    position: 'bottom right'
+                )
+                # Session.set('thinking',false)
+        # Session.set('viewing_doc',null)
+            # Meteor.setTimeout( ->
+            #     Session.set('toggle',!Session.get('toggle'))
+            # , 5000)
+       
 
 
 

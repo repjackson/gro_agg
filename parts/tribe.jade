@@ -1,136 +1,136 @@
-template(name='tribe_item')
-    a.card(href="/tribe/#{_id}/view")
-        if image
-            a(href="/tribe/#{_id}/view")
-                img.ui.image(src="{{c.url image height=500 width=500 gravity='face' crop='fill'}}")
-        .content
-            a.ui.header(href="/tribe/#{_id}/view") #{title}
+// template(name='tribe_item')
+//     a.card(href="/tribe/#{_id}/view")
+//         if image
+//             a(href="/tribe/#{_id}/view")
+//                 img.ui.image(src="{{c.url image height=500 width=500 gravity='face' crop='fill'}}")
+//         .content
+//             a.ui.header(href="/tribe/#{_id}/view") #{title}
         
-template(name='tribe_card')
-    .ui.card
-        if image_id
-            a.image(href="/m/tribe/#{_id}/view")
-                img.ui.image.zoom(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        .content
-            a.ui.header(href="/m/tribe/#{_id}/view") #{title}
-            if private
-                i.large.lock.icon(title='private')
-            each tags
-                .ui.basic.label #{this}
-            i.chess.king.icon
-            |#{tribe_leader_ids.length} leaders
-            i.chess.queen.icon
-            |#{tribe_member_ids.length} members
+// template(name='tribe_card')
+//     .ui.card
+//         if image_id
+//             a.image(href="/m/tribe/#{_id}/view")
+//                 img.ui.image.zoom(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+//         .content
+//             a.ui.header(href="/m/tribe/#{_id}/view") #{title}
+//             if private
+//                 i.large.lock.icon(title='private')
+//             each tags
+//                 .ui.basic.label #{this}
+//             i.chess.king.icon
+//             |#{tribe_leader_ids.length} leaders
+//             i.chess.queen.icon
+//             |#{tribe_member_ids.length} members
         
-template(name='tribe_view')
-    with current_doc
-        .ui.stackable.padded.grid
-            .centered.middle.aligned.row 
-                .four.wide.center.aligned.column
-                    a.ui.button(href="/m/tribe")
-                        i.chevron.left.icon
-                        i.big.fire.icon
-                .eight.wide.center.aligned.column
-                    .ui.header 
-                        small view tribe 
-                        |#{title}
-                .four.wide.center.aligned.column
-                    if can_edit 
-                        a.ui.icon.button(href="/m/tribe/#{_id}/edit" title='edit tribe instance')
-                            i.pencil.large.icon
-            .row 
-                .four.wide.column
-                    .ui.header
-                        +icon n='calendar'
-                        |#{title} events
-                    +image_view k='image_id' l='image' d=true
-                .eight.wide.column
-                    +multi_user_view k='tribe_leader_ids' l='tribe leaders' d=true
-                    +multi_user_view k='tribe_member_ids' l='tribe members' d=true
-                    each members
-                        a.ui.header(href="/u/#{username}")
-                            img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
-                            |#{username}
-                    +html_view k='description' l='description' d=true
-                    div 
-                    +array_view k='tags' l='tags' d=true
-                    .spacer
-                    .spacer
-                    +comments
-                    //- +array_view k='tribe_tags' l='tribe_tags' d=true
-                .four.wide.column
-                    .ui.header  
-                        +icolor n='prize'
-                        |badges
-                    each tribe_badges
-                        .ui.header #{title}
-                    +tribe_membership
-                    a.ui.header(href="/m/tribe/#{_id}/view")
-                        |#{title}
-                    .ui.list
-                        each members
-                            .item #{username} contributer
+// template(name='tribe_view')
+//     with current_doc
+//         .ui.stackable.padded.grid
+//             .centered.middle.aligned.row 
+//                 .four.wide.center.aligned.column
+//                     a.ui.button(href="/m/tribe")
+//                         i.chevron.left.icon
+//                         i.big.fire.icon
+//                 .eight.wide.center.aligned.column
+//                     .ui.header 
+//                         small view tribe 
+//                         |#{title}
+//                 .four.wide.center.aligned.column
+//                     if can_edit 
+//                         a.ui.icon.button(href="/m/tribe/#{_id}/edit" title='edit tribe instance')
+//                             i.pencil.large.icon
+//             .row 
+//                 .four.wide.column
+//                     .ui.header
+//                         +icon n='calendar'
+//                         |#{title} events
+//                     +image_view k='image_id' l='image' d=true
+//                 .eight.wide.column
+//                     +multi_user_view k='tribe_leader_ids' l='tribe leaders' d=true
+//                     +multi_user_view k='tribe_member_ids' l='tribe members' d=true
+//                     each members
+//                         a.ui.header(href="/u/#{username}")
+//                             img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+//                             |#{username}
+//                     +html_view k='description' l='description' d=true
+//                     div 
+//                     +array_view k='tags' l='tags' d=true
+//                     .spacer
+//                     .spacer
+//                     +comments
+//                     //- +array_view k='tribe_tags' l='tribe_tags' d=true
+//                 .four.wide.column
+//                     .ui.header  
+//                         +icolor n='prize'
+//                         |badges
+//                     each tribe_badges
+//                         .ui.header #{title}
+//                     +tribe_membership
+//                     a.ui.header(href="/m/tribe/#{_id}/view")
+//                         |#{title}
+//                     .ui.list
+//                         each members
+//                             .item #{username} contributer
                             
-                    //- .ui.fluid.green.button.submit
-                    //-     i.checkmark.icon
-                    //-     |submit
+//                     //- .ui.fluid.green.button.submit
+//                     //-     i.checkmark.icon
+//                     //-     |submit
                     
                     
                     
-template(name='tribe_membership')
-    if current_doc.private
-        unless is_member
-            .ui.big.button.request
-                |request membership
-        else
-            .ui.large.button.switch
-                |switch to
-    else
-        if is_member
-            .ui.large.button.switch
-                |switch to
-            .ui.divider
-            .ui.large.button.leave
-                |- leave
-        else
-            .ui.big.button.join 
-                |+ join
+// template(name='tribe_membership')
+//     if current_doc.private
+//         unless is_member
+//             .ui.big.button.request
+//                 |request membership
+//         else
+//             .ui.large.button.switch
+//                 |switch to
+//     else
+//         if is_member
+//             .ui.large.button.switch
+//                 |switch to
+//             .ui.divider
+//             .ui.large.button.leave
+//                 |- leave
+//         else
+//             .ui.big.button.join 
+//                 |+ join
                     
                     
-template(name='tribe_edit')
-    with current_doc
-        .ui.stackable.padded.grid
-            .middle.aligned.row 
-                .four.wide.center.aligned.column
-                    a.ui.green.icon.button(href="/m/tribe/#{_id}/view" title='save')
-                        i.checkmark.big.icon
-                        // |save
-                .eight.wide.center.aligned.column
-                    .ui.small.inline.header 
-                        +icon n='clock'
-                        |edit tribe
-                    .ui.inline.header #{title}
-                .four.wide.center.aligned.column
-                    .ui.icon.button.delete_item(title='delete tribe')
-                        i.large.remove.icon
-            .row 
-                .four.wide.column
-                    +multi_user_edit k='tribe_leader_ids' l='tribe leaders' d=true
-                    +multi_user_edit k='tribe_member_ids' l='tribe members' d=true
-                .eight.wide.column
-                    +text_edit k='title' l='title' d=true
-                    +icon_edit k='icon' l='icon' d=true
-                    +image_edit k='image_id' l='image' d=true
-                    +html_edit k='description' l='description' d=true
-                    div 
-                    +array_edit k='tags' l='tags' i='tags' d=true
-                .four.wide.column
-                    +boolean_edit k='private' l='private' d=true
-                    .ui.header enabled features
-                    each enabled_features
-                        .ui.active.button.disable_feature
-                            |#{title}
-                    .ui.header disabled features
-                    each disabled_features
-                        .ui.basic.button.enable_feature
-                            |#{title}
+// template(name='tribe_edit')
+//     with current_doc
+//         .ui.stackable.padded.grid
+//             .middle.aligned.row 
+//                 .four.wide.center.aligned.column
+//                     a.ui.green.icon.button(href="/m/tribe/#{_id}/view" title='save')
+//                         i.checkmark.big.icon
+//                         // |save
+//                 .eight.wide.center.aligned.column
+//                     .ui.small.inline.header 
+//                         +icon n='clock'
+//                         |edit tribe
+//                     .ui.inline.header #{title}
+//                 .four.wide.center.aligned.column
+//                     .ui.icon.button.delete_item(title='delete tribe')
+//                         i.large.remove.icon
+//             .row 
+//                 .four.wide.column
+//                     +multi_user_edit k='tribe_leader_ids' l='tribe leaders' d=true
+//                     +multi_user_edit k='tribe_member_ids' l='tribe members' d=true
+//                 .eight.wide.column
+//                     +text_edit k='title' l='title' d=true
+//                     +icon_edit k='icon' l='icon' d=true
+//                     +image_edit k='image_id' l='image' d=true
+//                     +html_edit k='description' l='description' d=true
+//                     div 
+//                     +array_edit k='tags' l='tags' i='tags' d=true
+//                 .four.wide.column
+//                     +boolean_edit k='private' l='private' d=true
+//                     .ui.header enabled features
+//                     each enabled_features
+//                         .ui.active.button.disable_feature
+//                             |#{title}
+//                     .ui.header disabled features
+//                     each disabled_features
+//                         .ui.basic.button.enable_feature
+//                             |#{title}

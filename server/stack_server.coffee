@@ -378,10 +378,10 @@ Meteor.publish 'stack_docs', (
 
 
 Meteor.methods 
-    get_question: (site, question_id)->
+    get_question: (site, question_doc_id)->
+        question = Docs.findOne question_doc_id
         # console.log 'searching question', site, question_id
-       
-        url = "https://api.stackexchange.com/2.2/questions/#{question_id}?order=desc&sort=activity&site=#{site}&filter=!9_bDDxJY5&key=lPplyGlNUs)cIMOajW03aw(("
+        url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}?order=desc&sort=activity&site=#{site}&filter=!9_bDDxJY5&key=lPplyGlNUs)cIMOajW03aw(("
         console.log url
         request.get {
             url: url
@@ -410,9 +410,10 @@ Meteor.methods
         )
 
         
-    question_answers: (site, question_id)->
+    question_answers: (site, question_doc_id)->
+        question = Docs.findOne question_doc_id
         # console.log 'searching question', site, question_id
-        url = "https://api.stackexchange.com/2.2/questions/#{question_id}/answers?order=desc&sort=activity&site=#{site}&filter=!9_bDE(fI5&key=lPplyGlNUs)cIMOajW03aw(("
+        url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/answers?order=desc&sort=activity&site=#{site}&filter=!9_bDE(fI5&key=lPplyGlNUs)cIMOajW03aw(("
         console.log url
         request.get {
             url: url
@@ -443,7 +444,7 @@ Meteor.methods
 
         
     search_stack: (site, query, selected_tags) ->
-        # console.log('searching stack for', typeof(query), query);
+        console.log('searching stack for', typeof(query), query);
         # var url = 'https://api.stackexchange.com/2.2/sites';
         # url = 'http://api.stackexchange.com/2.1/questions?pagesize=1&fromdate=1356998400&todate=1359676800&order=desc&min=0&sort=votes&tagged=javascript&site=stackoverflow'
         # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&tagged=#{selected_tags}&intitle=#{query}&site=stackoverflow"
@@ -475,9 +476,35 @@ Meteor.methods
                     console.log 'new stack doc', Docs.findOne(new_id).title
             return
         )
+   
+   
+    search_stack_user: (site, user_id) ->
+        console.log('searching stack user for', site, user_id);
+        url = "https://api.stackexchange.com/2.2/users/#{user_id}?order=desc&sort=reputation&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+        request.get {
+            url: url
+            headers: 'accept-encoding': 'gzip'
+            gzip: true
+        }, Meteor.bindEnvironment((error, response, body) =>
+            parsed = JSON.parse(body)
+            # console.log 'body',JSON.parse(body), typeof(body)
+            for item in parsed.items
+                found = 
+                    Docs.findOne
+                        model:'stackuser'
+                        site:site
+                        user_id:parseInt(user_id)
+                if found
+                    console.log 'found', found.display_name
+                unless found
+                    item.site = site
+                    item.model = 'stackuser'
+                    new_id = 
+                        Docs.insert item
+                    console.log 'new stack user', Docs.findOne(new_id).display_name
+            return
+        )
 
-
-Meteor.methods 
     sites: () ->
         console.log 'getting sites'
         # var url = 'https://api.stackexchange.com/2.2/sites';

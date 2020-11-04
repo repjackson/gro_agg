@@ -8,15 +8,15 @@ if Meteor.isClient
         ), name:'stack'
 
     
-    Router.route '/site/:site/user/:user_id', (->
-        @layout 'layout'
-        @render 'stackuser_page'
-        ), name:'stackuser_page'
+
 
     Template.stack_page.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'question_answers', Router.current().params.doc_id
         Session.setDefault('stack_section','main')
+    Template.stack_page.onRendered ->
+        Meteor.call 'get_question', Router.current().params.site, Router.current().params.doc_id,->
+        Meteor.call 'question_answers', Router.current().params.site, Router.current().params.doc_id,->
     Template.stack_page.helpers
         question_answers: ->
             Docs.find 
@@ -37,10 +37,22 @@ if Meteor.isClient
                 
   
   
-  
-    Template.stackuser_page.onCreated ->
-        @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.user_id
+    Router.route '/site/:site/user/:user_id', (->
+        @layout 'layout'
+        @render 'stackuser_page'
+        ), name:'stackuser_page'
 
+    Template.stackuser_page.onCreated ->
+        @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
+    Template.stackuser_page.helpers
+        stackuser_doc: ->
+            Docs.findOne 
+                model:'stackuser'
+
+    Template.stackuser_page.events
+        'click .search': ->
+            Meteor.call 'search_stack_user', Router.current().params.site, Router.current().params.user_id, ->
+                
         
 
             
@@ -88,10 +100,12 @@ if Meteor.isServer
             model:'stack_answer'
             question_id:question.question_id
     
-    Meteor.publish 'stackuser_doc', (user_id)->
+    Meteor.publish 'stackuser_doc', (site,user_id)->
+        console.log 'looking for', site, user_id
         Docs.find 
             model:'stackuser'
-            user_id:user_id
+            user_id:parseInt(user_id)
+            site:site
     
     Meteor.publish 'site_by_param', (site)->
         Docs.find 

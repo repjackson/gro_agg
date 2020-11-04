@@ -1,4 +1,8 @@
 template(name='stackuser_page')
+    unless stackuser_doc
+        .ui.header no user found
+        .ui.button.search 
+            |search
     with stackuser_doc
         .ui.stackable.padded.grid
             .row

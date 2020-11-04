@@ -1,0 +1,53 @@
+// template(name='user_credits')  
+//     .ui.header 
+//         i.minus.icon
+//         |earned
+//     .ui.link.list.smallscroll
+//         each user_credits
+//             .item
+//                 if _author.profile_image_id
+//                     img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+//                 strong #{amount}pt 
+//                 .content
+//                     a(href="/gift/#{_id}/view")
+//                         |#{when} from 
+//                     a(href="/u/#{_author.username}")
+//                         |#{_author.username}
+//                 .content
+//                     .description
+//                         |#{description}
+//                         each tags
+//                             .ui.mini.basic.label #{this}
+//                     if is_admin
+//                         +remove_button
+
+// template(name='user_credits_small')
+//     .ui.inline.header 
+//         i.minus.icon
+//         |#{total_credit_amount}p
+//         |received
+//         .ui.basic.label #{credit_count} credits
+//             | ##{global_credit_count_rank}
+//     div
+//     .ui.link.list.scrolling
+//         each user_credits
+//             .item
+//                 if _author.profile_image_id
+//                     img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+//                 .content
+//                     .header
+//                         strong #{amount}pt 
+//                         |from 
+//                         a(href="/u/#{_author.username}")
+//                             |#{_author.username}
+//                     .description
+//                         a(href="/gift/#{_id}/view")
+//                             |#{when}
+//                 .content
+//                     .description
+//                         |#{description}
+//                         each tags
+//                             .ui.mini.basic.label #{this}
+//                 if is_admin 
+//                     +remove_button
+//                 .spacer

@@ -8,18 +8,20 @@ template(name='nav')
                 i.big.yin.yang.icon
             a.icon.item(href='/stack')
                 i.big.stack.exchange.icon
-            a.icon.item(href='/youtube')
+            a.icon.disabled.item(href='/users')
+                i.big.users.icon
+            a.icon.disabled.item(href='/youtube')
                 i.big.youtube.icon
-            a.icon.item(href='/images')
+            a.icon.disabled.item(href='/images')
                 i.big.image.icon
             // a.icon.item(href='/events')
             //     i.big.calendar.icon
             // .ui.search.item
             //     .ui.transparent.inverted.input
             //         input(type='text')
-            a.icon.item(href='/reddit')
+            a.icon.disabled.item(href='/reddit')
                 i.big.reddit.icon
-            a.icon.item(href='/wikipedia')
+            a.icon.disabled.item(href='/wikipedia')
                 i.big.wikipedia.icon
         unless connected
             .item
