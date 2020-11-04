@@ -9,32 +9,52 @@ template(name='stackuser_page')
                 .four.wide.column
                     img.ui.rounded.image(src=profile_image class=currentUser.invert_class)
                     .ui.header !{display_name}
-                .ui.large.list
-                    .item badge_counts
-                    .item bronze #{badge_counts.bronze}
-                    .item silver #{badge_counts.silver}
-                    .item gold #{badge_counts.gold}
-                    .item account_id #{account_id}
-                    .item is_employee #{is_employee}
-                    .item last_modified_date #{last_modified_date}
-                    .item last_access_date #{last_access_date}
-                    .item reputation_change_year #{reputation_change_year}
-                    .item reputation_change_quarter #{reputation_change_quarter}
-                    .item reputation_change_month #{reputation_change_month}
-                    .item reputation_change_week #{reputation_change_week}
-                    .item reputation_change_day #{reputation_change_day}
-                    .item reputation #{reputation}
-                    .item creation_date #{creation_date}
-                    .item user_type #{user_type}
-                    .item user_id #{user_id}
-                    .item accept_rate #{accept_rate}
-                    .item location #{location}
-                    .item website_url #{website_url}
-                    a.item(href=link target='_window') 
-                        i.linkify.icon
-                        |#{link}
+                    .ui.large.list
+                        .item badge_counts
+                        .item
+                            +i n='medal2-third-place--v1' cl=currentUser.invert_class
+                            |bronze #{badge_counts.bronze}
+                        .item 
+                            +i n='medal-second-place--v1' cl=currentUser.invert_class
+                            |silver #{badge_counts.silver}
+                        .item 
+                            +i n='medal2--v1' cl=currentUser.invert_class
+                            |gold #{badge_counts.gold}
+                        .item account_id #{account_id}
+                        .item is_employee #{is_employee}
+                        .item last_modified_date #{last_modified_date} {{from_now last_modified_date}}
+                        .item last_access_date #{last_access_date}  {{from_now last_access_date}}
+                        .item reputation_change_year #{reputation_change_year}
+                        .item reputation_change_quarter #{reputation_change_quarter}
+                        .item reputation_change_month #{reputation_change_month}
+                        .item reputation_change_week #{reputation_change_week}
+                        .item reputation_change_day #{reputation_change_day}
+                        .item reputation #{reputation}
+                        .item created #{creation_date}
+                        .item type #{user_type}
+                        .item user_id #{user_id}
+                        .item accept_rate #{accept_rate}
+                        .item 
+                            i.marker.icon
+                            |location #{location}
+                        .item website_url #{website_url}
+                        a.item(href=link target='_window') 
+                            i.linkify.icon
+                            |#{link}
 
                 .twelve.wide.column
+                    .ui.header emotion
+                    .ui.large.list 
+                        .item joy avg
+                        .item sad avg
+                        .item disgust avg
+                        .item anger avg
+                        .item fear avg
+                    .ui.header badges
+                    .ui.header tags
+                    .ui.header answers
+                    .ui.header questions
+                    .ui.header comments
                     each tags 
                         a.ui.basic.pointer.label.add_stack_tag #{this}
                     if is_answered
@@ -48,10 +68,3 @@ template(name='stackuser_page')
                     .ui.label 
                         i.eye.icon
                         |#{view_count}
-                        
-                    .ui.label id #{_id}
-                    .ui.label protected_date #{protected_date}
-                    .ui.label accepted_answer_id #{accepted_answer_id}
-                    .ui.label #{answer_count} answers
-                    .ui.label score #{score}
-                    .ui.label qid #{question_id}

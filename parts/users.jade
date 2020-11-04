@@ -1,4 +1,8 @@
 template(name='users')
-    .ui.header users
-    each users
-        .ui.header #{display_name}
+    .ui.stackable.padded.grid
+        .four.wide.column
+            .ui.header users
+        .twelve.wide.column
+            each users
+                a.ui.header(href="/site/#{site}/user/#{user_id}") #{display_name}
+                |#{site}
