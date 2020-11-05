@@ -7,6 +7,7 @@ if Meteor.isClient
     Template.stackuser_page.onCreated ->
         @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
         @autorun => Meteor.subscribe 'stackuser_badges', Router.current().params.site, Router.current().params.user_id
+        @autorun => Meteor.subscribe 'stackuser_tags', Router.current().params.site, Router.current().params.user_id
         @autorun => Meteor.subscribe 'stackuser_comments', Router.current().params.site, Router.current().params.user_id
         @autorun => Meteor.subscribe 'stackuser_questions', Router.current().params.site, Router.current().params.user_id
         @autorun => Meteor.subscribe 'stackuser_answers', Router.current().params.site, Router.current().params.user_id
