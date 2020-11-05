@@ -55,32 +55,27 @@ if Meteor.isServer
     Meteor.publish 'stackuser_badges', (site,user_id)->
         Docs.find { 
             model:'stack_badge'
-            user:
-                user_id:user_id
+            "user.user_id":parseInt(user_id)
         }, limit:10
     Meteor.publish 'stackuser_comments', (site,user_id)->
         Docs.find { 
             model:'stack_comment'
-            owner:
-                user_id:user_id
+            "owner.user_id":parseInt(user_id)
         }, limit:10
     Meteor.publish 'stackuser_questions', (site,user_id)->
         Docs.find { 
             model:'stack_question'
-            owner:
-                user_id:user_id
+            "owner.user_id":parseInt(user_id)
         }, limit:10
     Meteor.publish 'stackuser_answers', (site,user_id)->
         Docs.find { 
             model:'stack_answer'
-            owner:
-                user_id:user_id
+            "owner.user_id":parseInt(user_id)
         }, limit:10
     Meteor.publish 'stackuser_tags', (site,user_id)->
         Docs.find { 
             model:'stack_tag'
-            # owner:
-            #     user_id:user_id
+            user_id:parseInt(user_id)
         }, limit:10
             
             

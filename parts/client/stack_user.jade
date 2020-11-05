@@ -57,6 +57,16 @@ template(name='stackuser_page')
                     .ui.header.get_badges
                         i.certificate.icon
                         |badges
+                    .ui.list
+                        each user_badges
+                            .item 
+                                .content 
+                                    .header #{name}
+                                    .description
+                                        |#{rank}
+                                        .ui.label #{badge_id}
+                                        a.ui.circular.icon.button(href=link target="_window")
+                                            i.external.icon
                 .four.wide.column
                     .ui.header.get_tags
                         i.tag.icon

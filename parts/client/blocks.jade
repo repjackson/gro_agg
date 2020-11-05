@@ -125,16 +125,16 @@ template(name='comments')
     // .ui.top.attached.tabular.menu.top_rounded.comments_menu
     //     a.item.active(data-tab='first')
     // .ui.grey.header(data-tooltip='comments cost 1p each which goes to post op')
-    .ui.grey.header
-        i.chat.outline.icon
-        | #{doc_comments.count} comments
-        // a.item(data-tab='second') second
-        // a.icon.item(data-tab='info') 
-        //     i.large.info.icon
+    // .ui.grey.header
+    //     i.chat.outline.icon
+    //     | #{doc_comments.count} comments
+    // a.item(data-tab='second') second
+    // a.icon.item(data-tab='info') 
+    //     i.large.info.icon
     // .ui.bottom.attached.tab.segment.bottom_rounded.active(data-tab='first')
     .ui.fluid.icon.large.input
-        i.plus.icon
-        input.add_comment(model='text' )
+        i.chat.icon
+        input.add_comment(type='text' placeholder='comment')
     if currentUser
         .ui.comments
             each doc_comments

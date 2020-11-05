@@ -23,6 +23,8 @@ if Meteor.isClient
             Session.get('sort_direction')
             Session.get('limit')
             Session.get('toggle')
+            
+            
     Template.site_page.helpers
         selected_tags: -> selected_tags.array()
         site_tags: -> results.find(model:'site_tag')
