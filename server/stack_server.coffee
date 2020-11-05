@@ -386,122 +386,141 @@ Meteor.methods
         # console.log 'searching question', site, question_id
         url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}?order=desc&sort=activity&site=#{site}&filter=!9_bDDxJY5&key=lPplyGlNUs)cIMOajW03aw(("
         console.log url
-        request.get {
+        options = {
             url: url
             headers: 'accept-encoding': 'gzip'
             gzip: true
-        }, Meteor.bindEnvironment((error, response, body) =>
-            parsed = JSON.parse(body)
-            # console.log 'body',JSON.parse(body), typeof(body)
-            for item in parsed.items
-                found = 
-                    Docs.findOne
-                        model:'stack'
-                        question_id:item.question_id
-                if found
-                    # console.log 'found', found.title, 'adding body'
-                    Docs.update found._id,
-                        $set:body:item.body
-                unless found
-                    item.site = site
-                    item.model = 'stack'
-                    # item.tags.push query
-                    new_id = 
-                        Docs.insert item
-                    console.log 'new stack doc', Docs.findOne(new_id).title
-            return
-        )
+        }
+        rp(options)
+            .then(Meteor.bindEnvironment((data)->
+                parsed = JSON.parse(data)
+                # console.log 'body',JSON.parse(body), typeof(body)
+                for item in parsed.items
+                    found = 
+                        Docs.findOne
+                            model:'stack'
+                            question_id:item.question_id
+                    if found
+                        # console.log 'found', found.title, 'adding body'
+                        Docs.update found._id,
+                            $set:body:item.body
+                    unless found
+                        item.site = site
+                        item.model = 'stack'
+                        # item.tags.push query
+                        new_id = 
+                            Docs.insert item
+                        console.log 'new stack doc', Docs.findOne(new_id).title
+                return
+            )).catch((err)->
+                console.log 'fail', err
+            )
+
 
         
     question_answers: (site, question_doc_id)->
         question = Docs.findOne question_doc_id
         # console.log 'searching question', site, question_id
         url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/answers?order=desc&sort=activity&site=#{site}&filter=!9_bDE(fI5&key=lPplyGlNUs)cIMOajW03aw(("
-        console.log url
-        request.get {
+        # console.log url
+        options = {
             url: url
             headers: 'accept-encoding': 'gzip'
             gzip: true
-        }, Meteor.bindEnvironment((error, response, body) =>
-            parsed = JSON.parse(body)
-            # console.log 'body',JSON.parse(body), typeof(body)
-            for item in parsed.items
-                found = 
-                    Docs.findOne
-                        model:'stack'
-                        question_id:item.question_id
-                        answer_id:item.answer_id
-                if found
-                    console.log 'found', found.body
-                #     Docs.update found._id,
-                #         $set:body:item.body
-                unless found
-                    item.site = site
-                    item.model = 'stack_answer'
-                    # item.tags.push query
-                    new_id = 
-                        Docs.insert item
-                    console.log 'new answer doc', Docs.findOne(new_id).title
-            return
-        )
+        }
+        rp(options)
+            .then(Meteor.bindEnvironment((data)->
+                parsed = JSON.parse(data)
+                # console.log 'body',JSON.parse(body), typeof(body)
+                for item in parsed.items
+                    found = 
+                        Docs.findOne
+                            model:'stack'
+                            question_id:item.question_id
+                            answer_id:item.answer_id
+                    if found
+                        console.log 'found', found.body
+                    #     Docs.update found._id,
+                    #         $set:body:item.body
+                    unless found
+                        item.site = site
+                        item.model = 'stack_answer'
+                        # item.tags.push query
+                        new_id = 
+                            Docs.insert item
+                        console.log 'new answer doc', Docs.findOne(new_id).title
+                return
+            )).catch((err)->
+                console.log 'fail', err
+            )
+
 
         
     search_stack: (site, query, selected_tags) ->
         console.log('searching stack for', typeof(query), query);
         url = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=#{query}&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
-        request.get {
+        options = {
             url: url
             headers: 'accept-encoding': 'gzip'
             gzip: true
-        }, Meteor.bindEnvironment((error, response, body) =>
-            parsed = JSON.parse(body)
-            # console.log 'body',JSON.parse(body), typeof(body)
-            for item in parsed.items
-                found = 
-                    Docs.findOne
-                        model:'stack'
-                        question_id:item.question_id
-                if found
-                    # console.log 'found', found.title
-                    Docs.update found._id,
-                        $addToSet:tags:query
-                unless found
-                    item.site = site
-                    item.model = 'stack'
-                    item.tags.push query
-                    new_id = 
-                        Docs.insert item
-                    console.log 'new stack doc', Docs.findOne(new_id).title
-            return
-        )
+        }
+        rp(options)
+            .then(Meteor.bindEnvironment((data)->
+                parsed = JSON.parse(data)
+                # console.log 'body',JSON.parse(body), typeof(body)
+                for item in parsed.items
+                    found = 
+                        Docs.findOne
+                            model:'stack'
+                            question_id:item.question_id
+                    if found
+                        # console.log 'found', found.title
+                        Docs.update found._id,
+                            $addToSet:tags:query
+                    unless found
+                        item.site = site
+                        item.model = 'stack'
+                        item.tags.push query
+                        new_id = 
+                            Docs.insert item
+                        console.log 'new stack doc', Docs.findOne(new_id).title
+                return
+            )).catch((err)->
+                console.log 'fail', err
+            )
+
    
    
     search_stack_user: (site, user_id) ->
         console.log('searching stack user for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}?order=desc&sort=reputation&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
-        request.get {
+        options = {
             url: url
             headers: 'accept-encoding': 'gzip'
             gzip: true
-        }, Meteor.bindEnvironment((error, response, body) =>
-            parsed = JSON.parse(body)
-            # console.log 'body',JSON.parse(body), typeof(body)
-            for item in parsed.items
-                found = 
-                    Docs.findOne
-                        model:'stackuser'
-                        site:site
-                        user_id:parseInt(user_id)
-                if found
-                    console.log 'found', found.display_name
-                unless found
-                    item.site = site
-                    item.model = 'stackuser'
-                    new_id = 
-                        Docs.insert item
-                    console.log 'new stack user', Docs.findOne(new_id).display_name
-            return
-        )
+        }
+        rp(options)
+            .then(Meteor.bindEnvironment((data)->
+                parsed = JSON.parse(data)
+                # console.log 'body',JSON.parse(body), typeof(body)
+                for item in parsed.items
+                    found = 
+                        Docs.findOne
+                            model:'stackuser'
+                            site:site
+                            user_id:parseInt(user_id)
+                    if found
+                        console.log 'found', found.display_name
+                    unless found
+                        item.site = site
+                        item.model = 'stackuser'
+                        new_id = 
+                            Docs.insert item
+                        console.log 'new stack user', Docs.findOne(new_id).display_name
+                return
+            )).catch((err)->
+                console.log 'fail', err
+            )
 
     stack_user_questions: (site, user_id) ->
         console.log('searching stack user questions for', site, user_id);
@@ -674,7 +693,7 @@ Meteor.methods
             headers: 'accept-encoding': 'gzip'
             gzip: true
         }, Meteor.bindEnvironment((error, response, body) =>
-            parsed = JSON.parse(body)
+            parsed = JSON.parse(data)
             # console.log 'body',JSON.parse(body), typeof(body)
             for item in parsed.items
                 found = 

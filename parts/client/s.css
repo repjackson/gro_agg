@@ -577,10 +577,10 @@ input {
     border-style: solid !important; */
     max-height: 500px !important;
     overflow-y:scroll;
-	overflow-x:hidden;
-	/* padding-top: .2em; */
-	padding: .2em;
-	/*padding-left: 1em;*/
+    overflow-x:hidden;
+    /* padding-top: .2em; */
+    padding: .2em;
+    /*padding-left: 1em;*/
 }
 .scrolling{
     max-height: 90vh !important;

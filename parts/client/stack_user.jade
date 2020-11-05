@@ -10,37 +10,51 @@ template(name='stackuser_page')
                     img.ui.rounded.image(src=profile_image class=currentUser.invert_class)
                     .ui.header !{display_name}
                 .four.wide.column
-                    .ui.large.list
-                        .item badge_counts
-                        .item
-                            +i n='medal2-third-place--v1' cl=currentUser.invert_class
-                            |bronze #{badge_counts.bronze}
+                    .ui.grey.header.get_badges
+                        i.certificate.icon
+                        |badges
+                    .ui.list
                         .item 
-                            +i n='medal-second-place--v1' cl=currentUser.invert_class
-                            |silver #{badge_counts.silver}
-                        .item 
-                            +i n='medal2--v1' cl=currentUser.invert_class
+                            +i n='medal2--v1' cl="#{currentUser.invert_class} ui avatar image"
                             |gold #{badge_counts.gold}
+                        .item 
+                            +i n='medal-second-place--v1' cl="#{currentUser.invert_class} ui avatar image"
+                            |silver #{badge_counts.silver}
+                        .item
+                            +i n='medal2-third-place--v1' cl="#{currentUser.invert_class} ui avatar image"
+                            |bronze #{badge_counts.bronze}
+                    .ui.list
+                        each user_badges
+                            .item 
+                                .content 
+                                    .header #{name}
+                                    .description
+                                        |#{rank}
+                                        .ui.label #{badge_id}
+                                        a.ui.circular.icon.compact.button(href=link target="_window")
+                                            i.external.icon
                 .four.wide.column
-                    .ui.large.list
-                        .item account_id #{account_id}
-                        .item is_employee #{is_employee}
-                        .item last_modified_date #{last_modified_date} {{from_now last_modified_date}}
-                        .item last_access_date #{last_access_date}  {{from_now last_access_date}}
+                    .ui.list
+                        .item account id #{account_id}
+                        .item employee #{is_employee}
+                        .item last modified #{last_modified_date} {{ufrom last_modified_date}}
+                        .item last accessed #{last_access_date}  {{ufrom last_access_date}}
                         .item reputation_change_year #{reputation_change_year}
-                        .item reputation_change_quarter #{reputation_change_quarter}
-                        .item reputation_change_month #{reputation_change_month}
-                        .item reputation_change_week #{reputation_change_week}
-                        .item reputation_change_day #{reputation_change_day}
+                        .item quarterly #{reputation_change_quarter}
+                        .item monthly  #{reputation_change_month}
+                        .item weekly rep change #{reputation_change_week}
+                        .item daily #{reputation_change_day}
                         .item reputation #{reputation}
                         .item created #{creation_date}
                         .item type #{user_type}
-                        .item user_id #{user_id}
-                        .item accept_rate #{accept_rate}
+                        .item user id #{user_id}
+                        .item accept rate #{accept_rate}
                         .item 
                             i.marker.icon
                             |location #{location}
-                        .item website_url #{website_url}
+                        a.item(href="website_url")
+                            i.globe.icon
+                            |#{website_url}
                         a.item(href=link target='_window') 
                             i.linkify.icon
                             |#{link}
@@ -54,19 +68,6 @@ template(name='stackuser_page')
                         .item anger avg
                         .item fear avg
                 .four.wide.column
-                    .ui.header.get_badges
-                        i.certificate.icon
-                        |badges
-                    .ui.list
-                        each user_badges
-                            .item 
-                                .content 
-                                    .header #{name}
-                                    .description
-                                        |#{rank}
-                                        .ui.label #{badge_id}
-                                        a.ui.circular.icon.button(href=link target="_window")
-                                            i.external.icon
                 .four.wide.column
                     .ui.header.get_tags
                         i.tag.icon

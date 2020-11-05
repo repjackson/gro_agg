@@ -3,6 +3,11 @@ template(name='users')
         .four.wide.column
             .ui.header users
         .twelve.wide.column
-            each users
-                a.ui.header(href="/site/#{site}/user/#{user_id}") #{display_name}
-                |#{site}
+            .ui.five.stackable.centered.cards
+                each users
+                    a.ui.card(href="/site/#{site}/user/#{user_id}")
+                        img.ui.image(src=profile_image class=currentUser.invert_class)
+                        .content
+                            a.ui.header #{display_name}
+                            .description
+                                |#{site}

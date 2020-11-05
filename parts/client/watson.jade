@@ -52,6 +52,39 @@ template(name='doc_emotion')
     .rounded.invert(class=omega_dark_mode_class style="height:7px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
     .spacer
 
+template(name='doc_emotion_small') 
+    // .spacer
+    // .ui.dividing.header 
+    //     | emotion
+    //- with watson.emotion
+    //- div
+    //- if above_50 'joy_percent'
+        //- .spacer
+    span.ui.green.invert.text(class="{{calculated_size joy_percent}}") {{ to_percent joy_percent }}% joy 
+        |&nbsp;
+    span.rounded(class=currentUser.invert_class style="height:7px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
+    //- if above_50 'sadness_percent'
+        //- .spacer
+    span.ui.blue.invert.text(class="{{calculated_size sadness_percent}}") {{ to_percent sadness_percent}}% sad 
+        |&nbsp;
+    span.rounded(class=currentUser.invert_class style="height:7px;width:{{to_percent sadness_percent}}%;background-color:blue" title="{{to_percent sadness_percent}}% sad")
+    //- if above_50 'fear_percent'
+        //- .spacer
+    span.ui.grey.invert.text(class="{{calculated_size fear_percent}}") {{ to_percent fear_percent }}% fear 
+        |&nbsp;
+    span.rounded(class=currentUser.invert_class style="height:7px;width:{{to_percent fear_percent}}%;background-color:grey" title="{{to_percent fear_percent}}% fear")
+    //- if above_50 'disgust_percent'
+        //- .spacer
+    span.ui.orange.invert.text(class="{{calculated_size disgust_percent}}") {{ to_percent disgust_percent }}% disgust 
+        |&nbsp;
+    span.rounded(class=currentUser.invert_class style="height:7px;width:{{to_percent disgust_percent}}%;background-color:orange" title="{{to_percent disgust_percent}}% disgust")
+    //- if above_50 'anger_percent'
+        //- .spacer
+    span.ui.red.invert.text(class="{{calculated_size anger_percent}}") {{ to_percent anger_percent }}% anger 
+        |&nbsp;
+    span.rounded(class=currentUser.invert_class style="height:7px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
+    // .spacer
+
 // template(name='call_watson')
 //     button.ui.large.icon.circular.button.autotag
 //         i.dna.icon

@@ -5,11 +5,11 @@ template(name='stack_page')
                 .four.wide.center.aligned.column
                     a.ui.large.fluid.button(href="/site/#{site}") 
                         i.chevron.left.icon
+                        if watson.metadata.image
+                            img.ui.invert.tiny.inline.image(src=watson.metadata.image)    
                         | #{site}
                 .eight.wide.center.aligned.column
                     .ui.header 
-                        if watson.metadata.image
-                            img.ui.invert.small.inline.image(src=watson.metadata.image)    
                         |!{title}
                 .four.wide.center.aligned.column
                     a.ui.circular.icon.button(href=link target='_window' title=link)
@@ -38,8 +38,8 @@ template(name='stack_page')
                         .item #{answer_count} answers
                         .item score #{score}
                         .item qid #{question_id}
-                        .item last_activity_date #{last_activity_date} {{from_now last_activity_date}}
-                        .item creation #{creation_date} {{from_now creation_date}}
+                        .item last_activity_date #{last_activity_date} {{ufrom last_activity_date}}
+                        .item creation #{creation_date} {{ufrom creation_date}}
                         .item #{_when}
                         .item license #{content_license}
                         
@@ -66,9 +66,8 @@ template(name='stack_page')
                             |analyze
                     
                 .twelve.wide.column
-                    .ui.secondary.segment
-                        // div(class=currentUser.invert_class)
-                        .f12 !{body}
+                    // div(class=currentUser.invert_class)
+                    .f12 !{body}
                     each question_answers
                         .ui.segment
                             if is_accepted 
