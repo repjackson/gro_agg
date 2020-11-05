@@ -1,4 +1,7 @@
 request = require('request')
+rp = require('request-promise');
+
+
 Meteor.publish 'stack_docs', (
     selected_tags
     view_mode
@@ -557,11 +560,11 @@ Meteor.methods
     stack_user_comments: (site, user_id) ->
         console.log('searching stack user comments for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/comments?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
-        request.get {
+        request.get({
             url: url
             headers: 'accept-encoding': 'gzip'
             gzip: true
-        }, Meteor.bindEnvironment((error, response, body) =>
+        }, Meteor.bindEnvironment (error, response, body) =>
             parsed = JSON.parse(body)
             # console.log 'body',JSON.parse(body), typeof(body)
             for item in parsed.items
@@ -580,6 +583,10 @@ Meteor.methods
                     console.log 'new stack comment', Docs.findOne(new_id).title
             return
         )
+        # }).then(Meteor.bindEnvironment((error, response, body) =>
+        # )).catch(() => {
+        #     console.log('error')
+        # })
         
     stack_user_badges: (site, user_id) ->
         console.log('searching stack user badges for', site, user_id);
@@ -608,32 +615,32 @@ Meteor.methods
             return
         )
         
-    stack_user_tags: (site, user_id) ->
-        console.log('searching stack user tags for', site, user_id);
-        url = "https://api.stackexchange.com/2.2/users/#{user_id}/tags?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
-        request.get {
-            url: url
-            headers: 'accept-encoding': 'gzip'
-            gzip: true
-        }, Meteor.bindEnvironment((error, response, body) =>
-            parsed = JSON.parse(body)
-            # console.log 'body',JSON.parse(body), typeof(body)
-            for item in parsed.items
-                found = 
-                    Docs.findOne
-                        model:'stack_tag'
-                        site:site
-                        user_id:parseInt(user_id)
-                if found
-                    console.log 'found', found.title
-                unless found
-                    item.site = site
-                    item.model = 'stack_tag'
-                    new_id = 
-                        Docs.insert item
-                    console.log 'new stack tag', Docs.findOne(new_id).title
-            return
-        )
+    # stack_user_tags: (site, user_id) ->
+    #     console.log('searching stack user tags for', site, user_id);
+    #     url = "https://api.stackexchange.com/2.2/users/#{user_id}/tags?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+    #     request.get {
+    #         url: url
+    #         headers: 'accept-encoding': 'gzip'
+    #         gzip: true
+    #     }, Meteor.bindEnvironment((error, response, body) =>
+    #         parsed = JSON.parse(body)
+    #         # console.log 'body',JSON.parse(body), typeof(body)
+    #         for item in parsed.items
+    #             found = 
+    #                 Docs.findOne
+    #                     model:'stack_tag'
+    #                     site:site
+    #                     user_id:parseInt(user_id)
+    #             if found
+    #                 console.log 'found', found
+    #             unless found
+    #                 item.site = site
+    #                 item.model = 'stack_tag'
+    #                 new_id = 
+    #                     Docs.insert item
+    #                 console.log 'new stack tag', Docs.findOne(new_id).title
+    #         return
+    #     )
 
     sites: () ->
         console.log 'getting sites'
@@ -669,3 +676,29 @@ Meteor.methods
             return
         )
         return
+        
+        
+    test: ->
+        options = {
+            url: "https://api.stackexchange.com/2.2/users/237231/tags?order=desc&site=stats",
+            headers: 'accept-encoding': 'gzip'
+            gzip: true
+            # json: true
+        };
+        
+        rp(options)
+            .then(Meteor.bindEnvironment((data)->
+                console.log('User has repos', data)
+                parsed = JSON.parse(data)
+                for item in parsed.items
+                    console.log item
+                    found = Docs.findOne
+                        model:'stack_tag'
+                    if found
+                        console.log found
+                    else
+                        console.log 'not found'
+            )).catch((err)->
+                console.log 'fail', err
+            )
+        

@@ -9,6 +9,7 @@ template(name='stackuser_page')
                 .four.wide.column
                     img.ui.rounded.image(src=profile_image class=currentUser.invert_class)
                     .ui.header !{display_name}
+                .four.wide.column
                     .ui.large.list
                         .item badge_counts
                         .item
@@ -20,6 +21,8 @@ template(name='stackuser_page')
                         .item 
                             +i n='medal2--v1' cl=currentUser.invert_class
                             |gold #{badge_counts.gold}
+                .four.wide.column
+                    .ui.large.list
                         .item account_id #{account_id}
                         .item is_employee #{is_employee}
                         .item last_modified_date #{last_modified_date} {{from_now last_modified_date}}
@@ -42,7 +45,7 @@ template(name='stackuser_page')
                             i.linkify.icon
                             |#{link}
 
-                .twelve.wide.column
+                .four.wide.column
                     .ui.header emotion
                     .ui.large.list 
                         .item joy avg
@@ -50,39 +53,36 @@ template(name='stackuser_page')
                         .item disgust avg
                         .item anger avg
                         .item fear avg
+                .four.wide.column
                     .ui.header.get_badges
                         i.certificate.icon
                         |badges
+                .four.wide.column
                     .ui.header.get_tags
                         i.tag.icon
                         |tags
-                    each user_tags
-                        .ui.header #{title}
+                    .ui.list
+                        each user_tags
+                            .item #{title}
+                .four.wide.column
                     .ui.header.get_answers
                         i.exclamation.icon
                         |answers
-                    each user_answers
-                        .ui.header #{title}
+                    .ui.list
+                        each user_answers
+                            .item #{question_id}
+                            // .item hi !{body}
+                .four.wide.column
                     .ui.header.get_questions
                         i.question.icon
                         |questions
-                    each user_questions
-                        .ui.header #{title}
+                    .ui.list
+                        each user_questions
+                            .item #{title}
+                .four.wide.column
                     .ui.header.get_comments
                         i.chat.outline.icon
                         |comments
-                    each user_comments
-                        .ui.header #{title}
-                    each comments 
-                        a.ui.basic.pointer.label.add_stack_tag #{this}
-                    if is_answered
-                        .ui.basic.green.label
-                            i.green.checkmark.icon
-                            |answered
-                    else
-                        .ui.basic.label
-                            // i..icon
-                            |unanswered
-                    .ui.label 
-                        i.eye.icon
-                        |#{view_count}
+                    .ui.list
+                        each user_comments
+                            .item #{title}
