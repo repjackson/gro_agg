@@ -19,7 +19,7 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'stack_docs',
         #     selected_stack_tags.array()
         @autorun -> Meteor.subscribe 'stack_sites',
-            selected_site_tags.array()
+            selected_tags.array()
             Session.get('site_name_filter')
     Template.stack.helpers
         site_docs: ->

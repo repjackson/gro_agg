@@ -6,7 +6,7 @@ template(name='stack_page')
                     a.ui.large.fluid.button(href="/site/#{site}") 
                         i.chevron.left.icon
                         if watson.metadata.image
-                            img.ui.invert.tiny.inline.image(src=watson.metadata.image)    
+                            img.ui.invert.mini.inline.image(src=watson.metadata.image)    
                         | #{site}
                 .eight.wide.center.aligned.column
                     .ui.header 
@@ -68,10 +68,35 @@ template(name='stack_page')
                 .twelve.wide.column
                     // div(class=currentUser.invert_class)
                     .f12 !{body}
-                    each question_answers
+                    .ui.dividing.header.get_question_comments
+                        |comments
+                    each question_comments
                         .ui.segment
                             if is_accepted 
                                 .ui.invert.inverted.green.label 
+                                    |accepted
+                            // div(class=currentUser.invert_class)
+                            .f11 !{body}
+                            with owner
+                                .ui.segment
+                                    i.chat.icon
+                                    a.ui.inline.header(href="/site/#{current_doc.site}/user/#{user_id}")
+                                        img.ui.avatar.invert.image(src=profile_image)
+                                        |!{display_name}
+                                    |rep:#{reputation}
+                                    |#{user_id}
+                                    |#{user_type}
+                                    |#{accept_rate}
+                                    a(href=link) #{link}
+                            |#{content_license}
+                            +voting
+                            +comments
+                    
+                    
+                    each question_answers
+                        .ui.segment(class=answer_class)
+                            if is_accepted 
+                                .ui.invert.inverted.green.corner.attached.label 
                                     |accepted
                             // div(class=currentUser.invert_class)
                             .f11 !{body}
@@ -86,6 +111,8 @@ template(name='stack_page')
                                     |#{accept_rate}
                                     a(href=link) #{link}
                             |#{content_license}
+                            +voting
+                            +comments
                     +skve k='stack_section' v='watson' l='watson' i='brain' 
                     if tone
                         +skve k='stack_section' v='tone' l='tone' i='user' 
@@ -102,8 +129,6 @@ template(name='stack_page')
                                 |analyze tone
                             +watson_view
                             +watson_full
-                    // if skv_is 'stack_section' 'embed'
-                    //     iframe(width="100%" height="500" src=link frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
                     +comments
 
         

@@ -89,7 +89,7 @@ template(name='stackuser_page')
                         |questions
                     .ui.list
                         each user_questions
-                            .item #{title}
+                            a.item(href="/site/#{site}/doc/#{_id}") #{title}
                 .four.wide.column
                     .ui.header.get_comments
                         i.chat.outline.icon

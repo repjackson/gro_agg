@@ -2,17 +2,17 @@ template(name='stack')
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
-                .ui.inline.header 
-                    i.big.stack.exchange.icon
-                    |stackexchange sites
+                // .ui.inline.header 
+                //     i.big.stack.exchange.icon
+                //     |stackexchange sites
                 .ui.icon.input
                     i.search.icon
                     input.search_site_name(type='text')
+                +cloud filter='stack_site'
             .sixteen.wide.center.aligned.column
                 // .ui.header.dl 
                 //     i.globe.icon
                 //     |sites
-                +cloud filter='stack_site'
                 .ui.center.five.stackable.cards
                     each site_docs
                         a.ui.card(href="/site/#{api_site_parameter}")

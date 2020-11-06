@@ -6,23 +6,23 @@ template(name='nav')
         if connected
             a.icon.item(href='/')
                 i.big.yin.yang.icon
-            a.icon.item(href='/stack' data-tab='groups')
-                i.large.stack.fire.icon
+            // a.icon.item(href='/stack' data-tab='groups')
+            //     i.large.stack.fire.icon
             a.icon.item(href='/users')
                 i.large.users.icon
-            a.icon.disabled.item(href='/youtube')
-                i.large.youtube.icon
-            a.icon.disabled.item(href='/images')
-                i.large.image.icon
+            // a.icon.disabled.item(href='/youtube')
+            //     i.large.youtube.icon
+            // a.icon.disabled.item(href='/images')
+            //     i.large.image.icon
             // a.icon.item(href='/events')
             //     i.big.calendar.icon
             // .ui.search.item
             //     .ui.transparent.inverted.input
             //         input(type='text')
-            a.icon.disabled.item(href='/reddit')
-                i.big.reddit.icon
-            a.icon.disabled.item(href='/wikipedia')
-                i.big.wikipedia.icon
+            // a.icon.disabled.item(href='/reddit')
+            //     i.big.reddit.icon
+            // a.icon.disabled.item(href='/wikipedia')
+            //     i.big.wikipedia.icon
         unless connected
             .item
                 i.yin.yang.loading.big.icon

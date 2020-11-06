@@ -456,6 +456,43 @@ Meteor.methods
 
 
         
+    get_question_comments: (site, question_doc_id)->
+        question = Docs.findOne question_doc_id
+        # console.log 'searching question', site, question_id
+        url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/comments?order=desc&sort=creation&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+        # console.log url
+        options = {
+            url: url
+            headers: 'accept-encoding': 'gzip'
+            gzip: true
+        }
+        rp(options)
+            .then(Meteor.bindEnvironment((data)->
+                parsed = JSON.parse(data)
+                # console.log 'body',JSON.parse(body), typeof(body)
+                for item in parsed.items
+                    found = 
+                        Docs.findOne
+                            model:'stack_comment'
+                            post_id:item.post_id
+                    if found
+                        console.log 'found', found.body
+                    #     Docs.update found._id,
+                    #         $set:body:item.body
+                    unless found
+                        item.site = site
+                        item.model = 'stack_comment'
+                        # item.tags.push query
+                        new_id = 
+                            Docs.insert item
+                        console.log 'new comment doc', Docs.findOne(new_id).title
+                return
+            )).catch((err)->
+                console.log 'fail', err
+            )
+
+
+        
     search_stack: (site, query, selected_tags) ->
         console.log('searching stack for', typeof(query), query);
         url = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=#{query}&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
