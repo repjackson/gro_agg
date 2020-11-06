@@ -256,10 +256,10 @@ template(name='nav')
 
 
 template(name='leftbar')
-    .ui.left.sidebar.vertical.borderless.inverted.menu(class=currentUser.invert_class)
-        a.item.toggle_leftbar(href="/" class="{{isActivePath '/'}}")
-            i.yin.yang.icon
-            | dao
+    .ui.left.sidebar.vertical.menu(class=currentUser.invert_class)
+        // a.item.toggle_leftbar(href="/" class="{{isActivePath '/'}}")
+        //     i.yin.yang.icon
+        //     | dao
         each stack_sites
             a.item.toggle_leftbar(href="/site/#{api_site_parameter}" class="{{isActiveRoute 'user_dashboard'}}")
                 img(src=logo_url class=currentUser.invert_class)

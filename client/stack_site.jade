@@ -85,8 +85,10 @@ template(name='site_page')
                                     .header !{title} 
                                         .ui.label #{score}
                                     // if skv_is 'view_detail' true
-                                    each tags
-                                        .ui.small.label #{this}
+                                    i.tag.grey.icon
+                                    |#{tags.length}
+                                    // each tags
+                                    //     .ui.small.label #{this}
                                     .ui.horizontal.list
                                         // |#{_when}
                                         if last_edit_date

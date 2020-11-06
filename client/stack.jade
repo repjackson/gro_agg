@@ -10,18 +10,14 @@ template(name='stack')
                     input.search_site_name(type='text')
                 +cloud filter='stack_site'
             .sixteen.wide.center.aligned.column
-                // .ui.header.dl 
-                //     i.globe.icon
-                //     |sites
-                .ui.center.six.stackable.cards
+                .ui.six.column.stackable.grid
                     each site_docs
-                        a.ui.card(href="/site/#{api_site_parameter}")
-                            img.ui.image(src=icon_url class=currentUser.invert_class)
-                            .content
-                                .header
-                                    |!{name}
-                                .description 
-                                    |#{audience}
+                        a.column(href="/site/#{api_site_parameter}")
+                            img.ui.fluid.pointer.zoomer.image(src=logo_url class=currentUser.invert_class)
+                            // .header
+                            //     |!{name}
+                            // .description 
+                            //     |#{audience}
                 // .ui.inline.header 
                 //     i.question.icon
                 //     |questions
