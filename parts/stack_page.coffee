@@ -7,6 +7,7 @@ if Meteor.isClient
     Template.stack_page.onRendered ->
         Meteor.call 'get_question', Router.current().params.site, Router.current().params.doc_id,->
         Meteor.call 'question_answers', Router.current().params.site, Router.current().params.doc_id,->
+        Meteor.call 'call_watson', Router.current().params.doc_id,'link','stack',->
         # Meteor.call 'get_question_comments', Router.current().params.site, Router.current().params.doc_id,->
     Template.stack_page.helpers
         question_answers: ->

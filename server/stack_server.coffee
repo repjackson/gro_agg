@@ -411,6 +411,8 @@ Meteor.methods
                         new_id = 
                             Docs.insert item
                         console.log 'new stack doc', Docs.findOne(new_id).title
+                        Meteor.call 'call_watson', new_id,'link','stack',->
+
                 return
             )).catch((err)->
                 console.log 'fail', err
@@ -724,34 +726,37 @@ Meteor.methods
         # url = 'http://api.stackexchange.com/2.1/questions?pagesize=1&fromdate=1356998400&todate=1359676800&order=desc&min=0&sort=votes&tagged=javascript&site=stackoverflow'
         # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&tagged=#{selected_tags}&intitle=#{query}&site=stackoverflow"
         # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&intitle=#{query}&site=stackoverflow"
-        url = "https://api.stackexchange.com/2.2/sites?pagesize=100&page=2"
-        request.get {
+        url = "https://api.stackexchange.com/2.2/sites?pagesize=100&page=5"
+        options = {
             url: url
             headers: 'accept-encoding': 'gzip'
             gzip: true
-        }, Meteor.bindEnvironment((error, response, body) =>
-            parsed = JSON.parse(data)
-            # console.log 'body',JSON.parse(body), typeof(body)
-            for item in parsed.items
-                found = 
-                    Docs.findOne
-                        model:'stack_site'
-                        name:item.name
-                        # question_id:item.question_id
-                if found
-                    console.log 'found site', found.name
-                    # Docs.update found._id,
-                    #     $addToSet:tags:query
-                unless found
-                    # item.site = 'money'
-                    item.model = 'stack_site'
-                    # item.tags.push query
-                    new_id = 
-                        Docs.insert item
-                    console.log 'new stack doc', Docs.findOne(new_id)
-            return
-        )
-        return
+        }
+        rp(options)
+            .then(Meteor.bindEnvironment((data)->
+                parsed = JSON.parse(data)
+                # console.log 'body',JSON.parse(body), typeof(body)
+                for item in parsed.items
+                    found = 
+                        Docs.findOne
+                            model:'stack_site'
+                            name:item.name
+                            # question_id:item.question_id
+                    if found
+                        console.log 'found site', found.name
+                        # Docs.update found._id,
+                        #     $addToSet:tags:query
+                    unless found
+                        # item.site = 'money'
+                        item.model = 'stack_site'
+                        # item.tags.push query
+                        new_id = 
+                            Docs.insert item
+                        console.log 'new stack doc', Docs.findOne(new_id)
+                return
+            )).catch((err)->
+                console.log 'fail', err
+            )
         
     test: ->
         options = {

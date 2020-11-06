@@ -60,8 +60,8 @@ template(name='stack_page')
                             .ui.label user_type #{user_type}
                             a.ui.circular.icon.button(href=link)
                                 i.large.external.icon
-                    +bookmark_button
-                    +voting
+                    // +bookmark_button
+                    // +voting
                     +print_this
                     +doc_sentiment
                     
@@ -88,8 +88,8 @@ template(name='stack_page')
                                     |#{user_type}
                                     |#{accept_rate}
                                     a(href=link) #{link}
-                            |#{content_license}
-                            +voting
+                            // |#{content_license}
+                            // +voting
                             // +comments
                     
                     
@@ -110,25 +110,25 @@ template(name='stack_page')
                                     |#{user_type}
                                     |#{accept_rate}
                                     a(href=link) #{link}
-                            |#{content_license}
+                            // |#{content_license}
                             // +voting
                             // +comments
-                    +skve k='stack_section' v='watson' l='watson' i='brain' 
-                    if tone
-                        +skve k='stack_section' v='tone' l='tone' i='user' 
-                    // +skve k='stack_section' v='embed' l='embed' i='layout' 
-                    if skv_is 'stack_section' 'tone'
-                        if watson 
-                            if tone
-                                +tone
-                        // else if skv_is 'stack_section' 'main'
-                    else if skv_is 'stack_section' 'watson'
-                        if watson 
-                            .ui.fluid.button.call_tone 
-                                i.smile.icon
-                                |analyze tone
-                            +watson_view
-                            +watson_full
+                    // +skve k='stack_section' v='watson' l='watson' i='brain' 
+                    // if tone
+                    //     +skve k='stack_section' v='tone' l='tone' i='user' 
+                    // // +skve k='stack_section' v='embed' l='embed' i='layout' 
+                    // if skv_is 'stack_section' 'tone'
+                    //     if watson 
+                    //         if tone
+                    //             +tone
+                    //     // else if skv_is 'stack_section' 'main'
+                    // else if skv_is 'stack_section' 'watson'
+                    //     if watson 
+                    //         .ui.fluid.button.call_tone 
+                    //             i.smile.icon
+                    //             |analyze tone
+                    //         +watson_view
+                    //         +watson_full
                     // +comments
 
         
