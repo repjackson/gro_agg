@@ -97,21 +97,21 @@ if Meteor.isClient
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
             # Session.set('thinking',true)
-            $('body').toast(
-                showIcon: 'stack exchange'
-                message: 'started'
-                displayTime: 'auto',
-                position: 'bottom right'
-            )
+            # $('body').toast(
+            #     showIcon: 'stack exchange'
+            #     message: 'started'
+            #     displayTime: 'auto',
+            #     position: 'bottom right'
+            # )
             Meteor.call 'search_stack', Router.current().params.site, @name, ->
-                $('body').toast(
-                    showIcon: 'stack exchange'
-                    message: ' done'
-                    # showProgress: 'bottom'
-                    class: 'success'
-                    displayTime: 'auto',
-                    position: 'bottom right'
-                )
+                # $('body').toast(
+                #     showIcon: 'stack exchange'
+                #     message: ' done'
+                #     # showProgress: 'bottom'
+                #     class: 'success'
+                #     displayTime: 'auto',
+                #     position: 'bottom right'
+                # )
                 # Session.set('thinking',false)
         # Session.set('viewing_doc',null)
             # Meteor.setTimeout( ->

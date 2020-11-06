@@ -9,7 +9,7 @@ Template.nav.onCreated ->
     # @autorun => Meteor.subscribe 'all_users'
     # @autorun => Meteor.subscribe 'my_unread_messages'
 
-Template.nav.onRendered ->
+# Template.nav.onRendered ->
     # Meteor.setTimeout ->
     #     $('.ui.dropdown').dropdown()
     # , 2000
@@ -30,7 +30,7 @@ Template.nav.onRendered ->
     #         )
     # })
 
-Template.nav.events
+# Template.nav.events
     #     'click .logout': ->
     #         Session.set 'logging_out', true
     #         Meteor.logout ->
@@ -165,8 +165,8 @@ Template.nav.events
 
 Template.nav.onRendered ->
     Meteor.setTimeout ->
-        $('.menu .item')
-            .popup()
+        # $('.menu .item')
+        #     .popup()
         $('.ui.left.sidebar')
             .sidebar({
                 context: $('.bottom.segment')
@@ -178,61 +178,61 @@ Template.nav.onRendered ->
             })
             .sidebar('attach events', '.toggle_leftbar')
     , 1000
-    Meteor.setTimeout ->
-        $('.ui.right.sidebar')
-            .sidebar({
-                context: $('.bottom.segment')
-                transition:'overlay'
-                exclusive:true
-                dimmer:false
-                duration:200
-                scrollLock:true
-            })
-            .sidebar('attach events', '.toggle_rightbar')
-    , 1000
+    # Meteor.setTimeout ->
+    #     $('.ui.right.sidebar')
+    #         .sidebar({
+    #             context: $('.bottom.segment')
+    #             transition:'overlay'
+    #             exclusive:true
+    #             dimmer:false
+    #             duration:200
+    #             scrollLock:true
+    #         })
+    #         .sidebar('attach events', '.toggle_rightbar')
+    # , 1000
 
-Template.chatpop.events
-    'click .open_chat': -> Session.set('viewing_chat',true)
-    'click .close_chat': -> Session.set('viewing_chat',false)
-Template.chatpop.helpers
-    viewing_chat: -> Session.get('viewing_chat')
-Template.view_chatpop.helpers
-    last_messages: ->
-        Docs.find {
-            model:'global_chat'
-        }, 
-            sort:_timestamp:-1
-            limit:10
-Template.chatpop.events
-    # 'keyup .add_chat': _.throttle((e,t)->
-    'keyup .add_chat': (e,t)->
-        if e.which is 13
-            console.log 'hi'
-            comment = t.$('.add_chat').val()
-            Docs.insert
-                # parent_id: parent._id
-                model:'global_chat'
-                bot:false
-                body:comment
-            Meteor.call 'add_chat', comment, (err,res)->
-                window.speechSynthesis.speak new SpeechSynthesisUtterance res
+# Template.chatpop.events
+#     'click .open_chat': -> Session.set('viewing_chat',true)
+#     'click .close_chat': -> Session.set('viewing_chat',false)
+# Template.chatpop.helpers
+#     viewing_chat: -> Session.get('viewing_chat')
+# Template.view_chatpop.helpers
+#     last_messages: ->
+#         Docs.find {
+#             model:'global_chat'
+#         }, 
+#             sort:_timestamp:-1
+#             limit:10
+# Template.chatpop.events
+#     # 'keyup .add_chat': _.throttle((e,t)->
+#     'keyup .add_chat': (e,t)->
+#         if e.which is 13
+#             console.log 'hi'
+#             comment = t.$('.add_chat').val()
+#             Docs.insert
+#                 # parent_id: parent._id
+#                 model:'global_chat'
+#                 bot:false
+#                 body:comment
+#             Meteor.call 'add_chat', comment, (err,res)->
+#                 window.speechSynthesis.speak new SpeechSynthesisUtterance res
 
-            t.$('.add_chat').val('')
-        # , 2000)
-Template.rightbar.events
-    'click .logout': ->
-        Session.set 'logging_out', true
-        Meteor.logout ->
-            Session.set 'logging_out', false
-            Router.go '/login'
+#             t.$('.add_chat').val('')
+#         # , 2000)
+# Template.rightbar.events
+#     'click .logout': ->
+#         Session.set 'logging_out', true
+#         Meteor.logout ->
+#             Session.set 'logging_out', false
+#             Router.go '/login'
             
-    'click .toggle_nightmode': ->
-        if Meteor.user().invert_class is 'invert'
-            Meteor.users.update Meteor.userId(),
-                $set:invert_class:''
-        else
-            Meteor.users.update Meteor.userId(),
-                $set:invert_class:'invert'
+#     'click .toggle_nightmode': ->
+#         if Meteor.user().invert_class is 'invert'
+#             Meteor.users.update Meteor.userId(),
+#                 $set:invert_class:''
+#         else
+#             Meteor.users.update Meteor.userId(),
+#                 $set:invert_class:'invert'
             
 
 # Template.footer.helpers
