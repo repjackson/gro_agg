@@ -1,8 +1,8 @@
 template(name='nav')
     // a.icon.ui.big.circular.icon.button(href='/')
     .ui.fluid.attached.borderless.inverted.menu.topnav(style="background-color:#{current_user.theme_color};")
-        // a.icon.header.item.pointer.toggle_leftbar
-        //     i.bars.large.grey.icon
+        a.icon.header.item.pointer.toggle_leftbar
+            i.bars.large.grey.icon
         if connected
             a.icon.item(href='/')
                 i.big.yin.yang.icon
@@ -256,98 +256,99 @@ template(name='rightbar')
 
 
 template(name='leftbar')
-    .ui.left.sidebar.vertical.borderless.inverted.invert.menu.scrolling(style="background-color:#{current_user.theme_color};" class=currentUser.invert_class)
+    .ui.left.sidebar.vertical.borderless.inverted.menu(class=currentUser.invert_class)
         a.item.toggle_leftbar(href="/" class="{{isActivePath '/'}}")
             i.yin.yang.icon
             | dao
-        a.item.toggle_leftbar(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_dashboard'}}")
-            i.user.icon
-            | profile
-        a.item.toggle_leftbar(href="/finance" class="{{isActivePath '/finance'}}")
-            i.money.icon
-            | finance
-        a.item.toggle_leftbar(href="/settings" class="{{isActivePath '/settings'}}")
-            i.cog.icon
-            | settings
-        .divider
-        a.item.toggle_leftbar(href='/web' class="{{isActivePath '/web'}}")
-            i.large.globe.grey.icon
-            |web
-        a.item.toggle_leftbar(href='/events' class="{{isActivePath '/events'}}")
-            i.large.calendar.grey.icon
-            |events
-        a.item.toggle_leftbar(href='/reddit' class="{{isActivePath '/reddit'}}")
-            i.large.reddit.grey.icon
-            |reddit
-        a.item.toggle_leftbar(href='/stack' class="{{isActivePath '/stack'}}")
-            i.large.stack.exchange.grey.icon
-            |stackexchange
-        a.item.toggle_leftbar(href='/wikipedia' class="{{isActivePath '/wikipedia'}}")
-            i.large.wikipedia.grey.icon
-            |wikipedia
-        a.item.toggle_leftbar(href='/questions' class="{{isActivePath '/questions'}}")
-            i.large.question.grey.icon
-            |questions
-        a.item.toggle_leftbar(href='/m/model' class="{{isActivePath '/m/model'}}")
-            i.large.database.grey.icon
-            |database
-        a.item.toggle_sidebar.zoom(href="/m/meal" class="{{isActivePath '/m/meal'}}")
-            i.large.food.icon
-            |food
-        // a.item.toggle_sidebar.zoom.set_bug(href="/m/bug" class="{{isActivePath '/m/bug'}}")
-        //     i.large.bug.icon
-        //     |bugs
-        // a.icon.item.toggle_sidebar.zoom.set_photo(href="/m/photo" class="{{isActivePath '/m/photo'}}" title='photos')
-        //     i.large.large.picture.icon
-        //     |photos  
-        a.zoom.icon.item.toggle_sidebar.zoom.set_expense(href="/m/expense" class="{{isActivePath '/m/expense'}}" title='expenses')
-            i.large.dollar.icon
-            |expenses            
-        .divider
-        a.item.toggle_leftbar(href="/chat" class="{{isActivePath '/chat'}}" title='chat') 
-            | chat
-            i.chat.icon
-        a.item.toggle_leftbar(href="/chat" class="{{isActivePath '/chat'}}" title='chat') 
-            |leads
-            i.telephone.icon
-        a.item.toggle_leftbar(href="/projects" class="{{isActivePath '/projects'}}" title='chat') 
-            |projects
-            i.tasks.icon
-        a.item.toggle_leftbar(href="/chat" class="{{isActivePath '/chat'}}" title='chat') 
-            |invoices
-            i.invoice.icon
-        if is_eric
-            a.icon.item.toggle_dev.toggle_leftbar
-                |toggle dev
-                if is_dev
-                    i.code.blue.large.icon
-                else
-                    i.code.large.icon
-        if is_in_admin
-            a.icon.item.toggle_admin.toggle_leftbar
-                |toggle admin
-                if is_admin
-                    i.shield.blue.large.icon
-                else
-                    i.shield.large.icon
+        each stack_sites
+            a.item.toggle_leftbar(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_dashboard'}}")
+                img(src=logo_url class=currentUser.invert_class)
+                // | #{name}
+        // a.item.toggle_leftbar(href="/finance" class="{{isActivePath '/finance'}}")
+        //     i.money.icon
+        //     | finance
+        // a.item.toggle_leftbar(href="/settings" class="{{isActivePath '/settings'}}")
+        //     i.cog.icon
+        //     | settings
+        // .divider
+        // a.item.toggle_leftbar(href='/web' class="{{isActivePath '/web'}}")
+        //     i.large.globe.grey.icon
+        //     |web
+        // a.item.toggle_leftbar(href='/events' class="{{isActivePath '/events'}}")
+        //     i.large.calendar.grey.icon
+        //     |events
+        // a.item.toggle_leftbar(href='/reddit' class="{{isActivePath '/reddit'}}")
+        //     i.large.reddit.grey.icon
+        //     |reddit
+        // a.item.toggle_leftbar(href='/stack' class="{{isActivePath '/stack'}}")
+        //     i.large.stack.exchange.grey.icon
+        //     |stackexchange
+        // a.item.toggle_leftbar(href='/wikipedia' class="{{isActivePath '/wikipedia'}}")
+        //     i.large.wikipedia.grey.icon
+        //     |wikipedia
+        // a.item.toggle_leftbar(href='/questions' class="{{isActivePath '/questions'}}")
+        //     i.large.question.grey.icon
+        //     |questions
+        // a.item.toggle_leftbar(href='/m/model' class="{{isActivePath '/m/model'}}")
+        //     i.large.database.grey.icon
+        //     |database
+        // a.item.toggle_sidebar.zoom(href="/m/meal" class="{{isActivePath '/m/meal'}}")
+        //     i.large.food.icon
+        //     |food
+        // // a.item.toggle_sidebar.zoom.set_bug(href="/m/bug" class="{{isActivePath '/m/bug'}}")
+        // //     i.large.bug.icon
+        // //     |bugs
+        // // a.icon.item.toggle_sidebar.zoom.set_photo(href="/m/photo" class="{{isActivePath '/m/photo'}}" title='photos')
+        // //     i.large.large.picture.icon
+        // //     |photos  
+        // a.zoom.icon.item.toggle_sidebar.zoom.set_expense(href="/m/expense" class="{{isActivePath '/m/expense'}}" title='expenses')
+        //     i.large.dollar.icon
+        //     |expenses            
+        // .divider
+        // a.item.toggle_leftbar(href="/chat" class="{{isActivePath '/chat'}}" title='chat') 
+        //     | chat
+        //     i.chat.icon
+        // a.item.toggle_leftbar(href="/chat" class="{{isActivePath '/chat'}}" title='chat') 
+        //     |leads
+        //     i.telephone.icon
+        // a.item.toggle_leftbar(href="/projects" class="{{isActivePath '/projects'}}" title='chat') 
+        //     |projects
+        //     i.tasks.icon
+        // a.item.toggle_leftbar(href="/chat" class="{{isActivePath '/chat'}}" title='chat') 
+        //     |invoices
+        //     i.invoice.icon
+        // if is_eric
+        //     a.icon.item.toggle_dev.toggle_leftbar
+        //         |toggle dev
+        //         if is_dev
+        //             i.code.blue.large.icon
+        //         else
+        //             i.code.large.icon
+        // if is_in_admin
+        //     a.icon.item.toggle_admin.toggle_leftbar
+        //         |toggle admin
+        //         if is_admin
+        //             i.shield.blue.large.icon
+        //         else
+        //             i.shield.large.icon
             
-        if is_admin
-            a.item.toggle_leftbar.set_badge(href="/m/badge" class="{{isActivePath 'badges'}}")
-                i.certificate.blue.icon
-                | badges
-            a.item.toggle_leftbar.set_debit(href="/m/debit" class="{{isActivePath regex='rentals'}}")
-                i.gift.blue.icon
-                |gifts
-            .divider
-            a.item.toggle_leftbar.set_project(href="/m/project" class="{{isActivePath regex='projects'}}")
-                i.tasks.blue.icon
-                | projects
-            a.item.toggle_leftbar(href="/m/room" class="{{isActiveRoute 'requests'}}")
-                i.building.blue.icon
-                |rooms
-            a.blue.item.set_model.toggle_leftbar(href="/m/model" class="{{isActivePath '/m/model'}}")
-                |admin
-                i.database.blue.icon
-            a.item.set_user.toggle_leftbar(href="/m/user" class="{{isActiveRoute '/m/user'}}")
-                i.blue.users.icon
-                | all users
+        // if is_admin
+        //     a.item.toggle_leftbar.set_badge(href="/m/badge" class="{{isActivePath 'badges'}}")
+        //         i.certificate.blue.icon
+        //         | badges
+        //     a.item.toggle_leftbar.set_debit(href="/m/debit" class="{{isActivePath regex='rentals'}}")
+        //         i.gift.blue.icon
+        //         |gifts
+        //     .divider
+        //     a.item.toggle_leftbar.set_project(href="/m/project" class="{{isActivePath regex='projects'}}")
+        //         i.tasks.blue.icon
+        //         | projects
+        //     a.item.toggle_leftbar(href="/m/room" class="{{isActiveRoute 'requests'}}")
+        //         i.building.blue.icon
+        //         |rooms
+        //     a.blue.item.set_model.toggle_leftbar(href="/m/model" class="{{isActivePath '/m/model'}}")
+        //         |admin
+        //         i.database.blue.icon
+        //     a.item.set_user.toggle_leftbar(href="/m/user" class="{{isActiveRoute '/m/user'}}")
+        //         i.blue.users.icon
+        //         | all users
