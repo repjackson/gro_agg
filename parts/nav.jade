@@ -1,8 +1,8 @@
 template(name='nav')
     // a.icon.ui.big.circular.icon.button(href='/')
     .ui.fluid.attached.borderless.inverted.menu.topnav(style="background-color:#{current_user.theme_color};")
-        a.icon.header.item.pointer.toggle_leftbar
-            i.bars.large.grey.icon
+        // a.icon.header.item.pointer.toggle_leftbar
+        //     i.bars.large.grey.icon
         if connected
             a.icon.item(href='/')
                 i.big.yin.yang.icon
@@ -32,23 +32,23 @@ template(name='nav')
                 if connected
                     a.icon.pointer.item.add(title='add')
                         i.large.plus.icon
-                if currentUser
-                    a.pointer.icon.disabled.item.toggle_friends(href="#" class=alert_toggle_class title='friends')
-                        i.large.users.icon
-                    a.pointer.icon.disabled.item.toggle_bookmarks(href="#" class=alert_toggle_class title='bookmark')
-                        i.large.bookmark.icon
-                    if connected
-                        if unread_count
-                            a.pointer.disabled.item.alerts(href="#" class=alert_toggle_class)
-                                i.large.bell.icon
-                                if unread_count
-                                    |#{unread_count}
-                        else
-                            // a.icon.pointer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
-                            a.icon.pointer.disabled.item(href="/inbox")
-                                i.large.outline.bell.icon
-                a.icon.pointer.disabled.item(href="/chat" title='chat') 
-                    i.chat.outline.large.icon
+                // if currentUser
+                //     a.pointer.icon.disabled.item.toggle_friends(href="#" class=alert_toggle_class title='friends')
+                //         i.large.users.icon
+                //     a.pointer.icon.disabled.item.toggle_bookmarks(href="#" class=alert_toggle_class title='bookmark')
+                //         i.large.bookmark.icon
+                //     if connected
+                //         if unread_count
+                //             a.pointer.disabled.item.alerts(href="#" class=alert_toggle_class)
+                //                 i.large.bell.icon
+                //                 if unread_count
+                //                     |#{unread_count}
+                //         else
+                //             // a.icon.pointer.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+                //             a.icon.pointer.disabled.item(href="/inbox")
+                //                 i.large.outline.bell.icon
+                // a.icon.pointer.disabled.item(href="/chat" title='chat') 
+                //     i.chat.outline.large.icon
                 // a.icon.pointer.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
                     
             if currentUser
@@ -62,18 +62,18 @@ template(name='nav')
                     else 
                         i.large.user.large.icon
                     strong.mobile.hidden #{currentUser.username}
-                a.icon.large.item.toggle_rightbar
-                    i.bars.large.grey.icon
+                // a.icon.large.item.toggle_rightbar
+                //     i.bars.large.grey.icon
             else
                 a.pointer.item(href="/login" title='login')
                     i.large.sign.in.icon
                     // |enter
-    if skv_is 'viewing_alerts' true
-        +topbar
-    else if skv_is 'viewing_bookmarks' true
-        +bookmarkbar
-    else if skv_is 'viewing_friends' true
-        +friendbar
+    // if skv_is 'viewing_alerts' true
+    //     +topbar
+    // else if skv_is 'viewing_bookmarks' true
+    //     +bookmarkbar
+    // else if skv_is 'viewing_friends' true
+    //     +friendbar
 
 
 
