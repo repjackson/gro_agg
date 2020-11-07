@@ -125,9 +125,9 @@ if Meteor.isClient
         'click .unselect_tag': -> selected_user_tags.remove @valueOf()
         'click #clear_tags': -> selected_user_tags.clear()
 
-        'click .select_site': -> selected_user_sites.push @name
-        'click .unselect_site': -> selected_user_sites.remove @valueOf()
-        'click #clear_sites': -> selected_user_sites.clear()
+        'click .select_site': -> Session.set('selected_user_site',@name)
+        'click .unselect_site': -> Session.set('selected_user_site',null)
+        # 'click #clear_sites': -> Session.set('selected_user_site',null)
 
 
 

@@ -67,13 +67,13 @@ template(name='site_page')
                     else
                         .ui.icon.compact.circular.button.sort_up
                             i.caret.up.icon
-                    .ui.compact.circular.button.limit_1
+                    .ui.compact.circular.basic.small.button.limit_1
                         |1
-                    .ui.compact.circular.button.limit_10
+                    .ui.compact.circular.basic.small.button.limit_10
                         |10
-                    .ui.icon.compact.large.circular.button.sort_timestamp
+                    .ui.icon.compact.large.circular.basic.small.button.sort_timestamp
                         i.clock.icon
-                    .ui.icon.compact.large.circular.button.set_points
+                    .ui.icon.compact.large.circular.basic.small.button.set_points
                         i.line.chart.icon
                     if skv_is 'view_detail' true
                         .ui.icon.active.large.circular.button.toggle_detail
@@ -100,12 +100,19 @@ template(name='site_page')
                                     // each tags
                                     //     .ui.small.label #{this}
                                     .ui.horizontal.list
+                                        with owner
+                                            a.ui.small.header.item(href="/site/#{current_doc.site}/user/#{user_id}")
+                                                img.ui.avatar.image(src=profile_image)
+                                                |#{display_name}
+                                                small #{reputation}
                                         // |#{_when}
                                         if last_edit_date
                                             .item updated {{ufrom last_edit_date}}
                                         if creation_dat
                                             .item created {{ufrom creation_dat}}
                                     +doc_emotion_small
+                                        // .ui.label user_id #{user_id}
+    
                                     
                 // .four.wide.column
                 //     .ui.circular.icon.button.vote_up
