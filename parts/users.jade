@@ -17,34 +17,31 @@ template(name='users')
                                 
 template(name='user_cloud')
     #cloud.ui.center.aligned.fluid.segment
-        if currentUser
-            .ui.icon.input
-                i.plus.icon
-                input#quick_add(type='text')
-            // #add.ui.button
-            //     i.plus.icon
-            //     | Full Add
-        .ui.hidden.divider
-        .ui.left.icon.input
-            i.search.icon
-            input(type='text')
-        if selected_tags
-            #clear_tags.ui.primary.icon.compact.button
-                i.remove.icon
-            each selected_tags
-                .unselect_tag.ui.primary.compact.button
-                    strong #{this}
-        each all_tags
-            .ui.compact.button.select_tag(class=cloud_tag_class) #{this.name}
-                small #{this.count}
-        .ui.header site
-        if selected_sites
-            #clear_tags.ui.primary.icon.compact.button
-                i.remove.icon
-            each selected_sites
-                .unselect_site.ui.primary.compact.button
-                    strong #{this}
-        each all_sites
-            .ui.compact.button.select_site(class=cloud_site_class) #{this.name}
-                small #{this.count}
+        // if currentUser
+        //     .ui.icon.input
+        //         i.plus.icon
+        //         input#quick_add(type='text')
+        //     // #add.ui.button
+        //     //     i.plus.icon
+        //     //     | Full Add
+        // .ui.hidden.divider
+        // .ui.left.icon.input
+        //     i.search.icon
+        //     input(type='text')
+    if selected_tags
+        #clear_tags.ui.primary.icon.compact.button
+            i.remove.icon
+        each selected_tags
+            .unselect_tag.ui.primary.compact.button
+                strong #{this}
+    each all_tags
+        .ui.compact.button.select_tag(class=cloud_tag_class) #{this.name}
+            small #{this.count}
+    .ui.header site
+    if selected_user_site
+        .unselect_site.ui.primary.compact.button
+            strong #{selected_user_site}
+    each all_sites
+        .ui.compact.button.select_site(class=cloud_site_class) #{this.name}
+            small #{this.count}
                                 

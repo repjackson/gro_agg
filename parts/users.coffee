@@ -9,10 +9,10 @@ if Meteor.isClient
 
 
     Template.users.onCreated ->
-        Session.setDefault('selected_site',null)
+        Session.setDefault('selected_user_site',null)
         @autorun -> Meteor.subscribe 'selected_users', 
             selected_user_tags.array() 
-            Session.get('selected_site')
+            Session.get('selected_user_site')
 
     Template.users.helpers
         users: ->
@@ -126,7 +126,9 @@ if Meteor.isClient
         'click #clear_tags': -> selected_user_tags.clear()
 
         'click .select_site': -> Session.set('selected_user_site',@name)
-        'click .unselect_site': -> Session.set('selected_user_site',null)
+        'click .unselect_site': -> 
+            console.log 'hi'
+            Session.set('selected_user_site',null)
         # 'click #clear_sites': -> Session.set('selected_user_site',null)
 
 
@@ -137,21 +139,10 @@ if Meteor.isServer
         selected_user_site
         )->
         match = {model:'stackuser'}
+        console.log selected_user_site
         if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
         if selected_user_site then match.site = selected_user_site
         Docs.find match
-        # if Meteor.user()
-        #     if 'admin' in Meteor.user().roles
-        #         Meteor.users.find()
-        #     else
-        #         Meteor.users.find(
-        #             # sites:$in:['l1']
-        #             roles:$in:['member']
-        #         )
-        # else
-        #     Meteor.users.find(
-        #         sites:$in:['member']
-        #     )
 
 
 
