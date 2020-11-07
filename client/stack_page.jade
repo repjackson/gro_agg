@@ -3,20 +3,16 @@ template(name='stack_page')
         .ui.stackable.padded.grid
             .middle.aligned.row
                 .four.wide.center.aligned.column
-                    a.ui.large.fluid.button(href="/site/#{site}") 
+                    a.ui.large.fluid.basic.button(href="/site/#{site}") 
                         i.chevron.left.icon
                         if watson.metadata.image
                             img.ui.invert.mini.inline.image(src=watson.metadata.image)    
                         | #{site}
-                .eight.wide.center.aligned.column
+                .twelve.wide.center.aligned.column
                     .ui.header 
                         |!{title}
-                .four.wide.center.aligned.column
-                    a.ui.circular.icon.button(href=link target='_window' title=link)
-                        // |#{link}
-                        i.external.large.icon
             .row
-                .four.wide.column
+                .four.wide.column.scrolling
                     +doc_emotion
                     // i.big.refresh.circular.link.icon.get_question
                     // i.big.exclamation.circular.link.icon.get_answers
@@ -26,7 +22,10 @@ template(name='stack_page')
                             i.large.brain.icon
                             |analyze
                     each tags 
-                        a.ui.basic.large.pointer.label.add_stack_tag #{this}
+                        a.ui.basic.pointer.label.add_stack_tag #{this}
+                    a.ui.circular.icon.button(href=link target='_window' title=link)
+                        // |#{link}
+                        i.external.large.icon
                     if is_answered
                         .ui.basic.inverted.green.large.label
                             i.green.checkmark.icon
@@ -46,20 +45,20 @@ template(name='stack_page')
                         .item #{answer_count} answers
                         .item score #{score}
                         .item qid #{question_id}
-                        .item last_activity_date #{last_activity_date} {{ufrom last_activity_date}}
-                        .item creation #{creation_date} {{ufrom creation_date}}
-                        .item #{_when}
+                        .item last active {{ufrom last_activity_date}}
+                        .item created {{ufrom creation_date}}
+                        .item imported #{_when}
                         .item license #{content_license}
                         
                     with owner
-                        .ui.compact.segment
-                            a.ui.inline.header(href="/site/#{current_doc.site}/user/#{user_id}") #{display_name}
-                            img.ui.inline.centered.invert.rounded.image(src=profile_image)
-                            .ui.label reputation #{reputation}
-                            .ui.label user_id #{user_id}
-                            .ui.label user_type #{user_type}
-                            a.ui.circular.icon.button(href=link)
-                                i.large.external.icon
+                        .ui.divider
+                        a.ui.inline.header(href="/site/#{current_doc.site}/user/#{user_id}") #{display_name}
+                        img.ui.inline.centered.invert.rounded.image(src=profile_image)
+                        .ui.label reputation #{reputation}
+                        .ui.label user_id #{user_id}
+                        .ui.label user_type #{user_type}
+                        a.ui.circular.icon.button(href=link)
+                            i.large.external.icon
                     // +bookmark_button
                     // +voting
                     +print_this
@@ -67,7 +66,7 @@ template(name='stack_page')
                     
                 .twelve.wide.column.scrolling
                     // div(class=currentUser.invert_class)
-                    .f12 !{body}
+                    .f11 !{body}
                     .ui.dividing.header.get_question_comments
                         |comments
                     each question_comments
@@ -78,16 +77,16 @@ template(name='stack_page')
                             // div(class=currentUser.invert_class)
                             .f11 !{body}
                             with owner
-                                .ui.segment
-                                    i.chat.icon
-                                    a.ui.inline.header(href="/site/#{current_doc.site}/user/#{user_id}")
-                                        img.ui.avatar.invert.image(src=profile_image)
-                                        |!{display_name}
-                                    |rep:#{reputation}
-                                    |#{user_id}
-                                    |#{user_type}
-                                    |#{accept_rate}
-                                    a(href=link) #{link}
+                                .ui.divider
+                                i.chat.icon
+                                a.ui.inline.header(href="/site/#{current_doc.site}/user/#{user_id}")
+                                    img.ui.avatar.invert.image(src=profile_image)
+                                    |!{display_name}
+                                |rep:#{reputation}
+                                |#{user_id}
+                                |#{user_type}
+                                |#{accept_rate}
+                                a(href=link) #{link}
                             // |#{content_license}
                             // +voting
                             // +comments
@@ -96,20 +95,21 @@ template(name='stack_page')
                     each question_answers
                         .ui.segment(class=answer_class)
                             if is_accepted 
-                                .ui.invert.inverted.green.corner.attached.label 
-                                    |accepted
+                                .ui.inverted.green.corner.attached.label 
+                                    i.checkmark.icon
                             // div(class=currentUser.invert_class)
-                            .f11 !{body}
+                            .f10 !{body}
                             with owner
-                                .ui.segment
-                                    a.ui.inline.header(href="/site/#{current_doc.site}/user/#{user_id}")
-                                        img.ui.avatar.invert.image(src=profile_image)
-                                        |!{display_name}
-                                    |rep:#{reputation}
-                                    |#{user_id}
-                                    |#{user_type}
-                                    |#{accept_rate}
-                                    a(href=link) #{link}
+                                .ui.divider
+                                a.ui.inline.header(href="/site/#{current_doc.site}/user/#{user_id}")
+                                    img.ui.avatar.invert.image(src=profile_image)
+                                    |!{display_name}
+                                |#{reputation}
+                                // |#{user_id}
+                                // |#{user_type}
+                                // |#{accept_rate}
+                                // a.ui.icon.button(href=link)
+                                //     i.external.icon
                             // |#{content_license}
                             // +voting
                             // +comments

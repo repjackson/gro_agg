@@ -13,18 +13,19 @@ template(name='site_page')
                     // .ui.label #{link_color}: link_color
                     // .ui.header related sites
                     .ui.header !{name}
-                    each related_sites
-                        .ui.small.header 
-                            i.fork.icon
-                            |#{name}
+                    // each related_sites
+                        // .ui.small.header 
+                        //     i.fork.icon
+                        //     |#{name}
                         // .ui.list 
                             // .item relation: #{relation}
                             // .item api_site_parameter: #{api_site_parameter}
                             // .item site_url: #{site_url}
                     a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
                         i.large.link.twitter.icon
-                    a(href=site_url)
-                        |#{site_url}
+                    a.ui.large.basic.icon.button(href=site_url)
+                        // |#{site_url}
+                        i.external.icon
                     .ui.list.mobile.hidden
                         // .item #{launch_date} launch_date
                         // .item #{open_beta_date} open_beta_date

@@ -37,27 +37,28 @@ template(name='stackuser_page')
                     .ui.list
                         .item account id #{account_id}
                         .item employee #{is_employee}
-                        .item last modified #{last_modified_date} {{ufrom last_modified_date}}
-                        .item last accessed #{last_access_date}  {{ufrom last_access_date}}
-                        .item reputation_change_year #{reputation_change_year}
-                        .item quarterly #{reputation_change_quarter}
-                        .item monthly  #{reputation_change_month}
-                        .item weekly rep change #{reputation_change_week}
-                        .item daily #{reputation_change_day}
+                        .item last modified {{ufrom last_modified_date}}
+                        .item last accessed  {{ufrom last_access_date}}
+                        // .item reputation_change_year #{reputation_change_year}
+                        // .item quarterly #{reputation_change_quarter}
+                        // .item monthly  #{reputation_change_month}
+                        // .item weekly rep change #{reputation_change_week}
+                        // .item daily #{reputation_change_day}
                         .item reputation #{reputation}
-                        .item created #{creation_date}
+                        .item created  {{ufrom creation_date}}
                         .item type #{user_type}
                         .item user id #{user_id}
                         .item accept rate #{accept_rate}
                         .item 
                             i.marker.icon
                             |location #{location}
-                        a.item(href="website_url")
-                            i.globe.icon
-                            |#{website_url}
-                        a.item(href=link target='_window') 
-                            i.linkify.icon
-                            |#{link}
+                        if website_url
+                            a.item(href="website_url")
+                                i.globe.icon
+                                |#{website_url}
+                    a.ui.external.icon.button(href=link target='_window') 
+                        i.linkify.icon
+                        // |#{link}
 
                 .four.wide.column
                     .ui.header emotion
