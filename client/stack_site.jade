@@ -26,6 +26,15 @@ template(name='site_page')
                     a.ui.large.basic.icon.button(href=site_url)
                         // |#{site_url}
                         i.external.icon
+                    a.ui.large.button(href="/site/#{site}/questions")
+                        i.question.icon
+                        |questions
+                    a.ui.large.button(href="/site/#{site}/users")
+                        i.user.icon
+                        |users
+                    a.ui.large.button(href="/site/#{site}/tags")
+                        i.tags.icon
+                        |tags
                     .ui.list.mobile.hidden
                         // .item #{launch_date} launch_date
                         // .item #{open_beta_date} open_beta_date
@@ -128,3 +137,74 @@ template(name='stack_tag_selector')
                 img.ui.mini.rounded.inline.image.zoomer(src=term.watson.metadata.image class=currentUser.invert_class)    
         | #{name}
         // small #{count}
+
+
+template(name='site_users')
+    with current_site
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    // a.ui.circular.icon.button(href='/')
+                    //     i.large.home.icon
+                    img(src=logo_url class=currentUser.invert_class)
+                    // img(src=icon_url)
+                    // .ui.segment(style="background-color:#{styling.tag_background_color}")
+                    // .ui.label #{tag_background_color}: tag_background_color
+                    // .ui.label #{tag_foreground_color}: tag_foreground_color
+                    // .ui.label #{link_color}: link_color
+                    // .ui.header related sites
+                    .ui.header !{name}
+                    // each related_sites
+                        // .ui.small.header 
+                        //     i.fork.icon
+                        //     |#{name}
+                        // .ui.list 
+                            // .item relation: #{relation}
+                            // .item api_site_parameter: #{api_site_parameter}
+                            // .item site_url: #{site_url}
+                    a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
+                        i.large.link.twitter.icon
+                    a.ui.large.basic.icon.button(href=site_url)
+                        // |#{site_url}
+                        i.external.icon
+                    .ui.large.button(href="/site/#{site}/questions")
+                        |questions
+                    .ui.large.button(href="/site/#{site}/users")
+                        |users
+                    .ui.large.button(href="/site/#{site}/tags")
+                        |tags
+                    .ui.list.mobile.hidden
+                        // .item #{launch_date} launch_date
+                        // .item #{open_beta_date} open_beta_date
+                        // .item #{closed_beta_date} closed_beta_date
+                        // .item #{site_state} site_state
+                        // .item #{high_resolution_icon_url} high_resolution_icon_url
+                        // .item #{favicon_url} favicon_url
+                        .item #{audience}
+                        // .item #{api_site_parameter} api_site_parameter
+                        // .item #{site_type} site_type
+                    +array_edit k='tags' d=true
+                    // +comments
+                    // +voting_full
+                .twelve.wide.column
+                    if selected_tags
+                        // if many_tags
+                        //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                        //         i.remove.icon
+                        each selected_tags
+                            +unselect_tag
+                    .ui.icon.input
+                        i.search.icon
+                        input.search_site(type='text')
+                    each site_tags
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    if skv_is 'sort_direction' 1
+                        .ui.icon.compact.circular.button.sort_down
+                            i.caret.down.icon
+                    else
+                        .ui.icon.compact.circular.button.sort_up
+                            i.caret.up.icon
+                    each stackusers
+                        .ui.header #{name}
+        

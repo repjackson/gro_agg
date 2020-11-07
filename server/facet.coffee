@@ -539,9 +539,9 @@ Meteor.publish 'dtags', (
     
     switch view_mode
         when 'porn'
-            tag_limit = 20
+            tag_limit = 42
         when 'stack'
-            tag_limit = 20
+            tag_limit = 42
         else
             tag_limit = 11
   

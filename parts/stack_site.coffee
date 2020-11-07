@@ -9,6 +9,11 @@ if Meteor.isClient
         @render 'stack_page'
         ), name:'stack_page'
     
+    Router.route '/site/:site/users', (->
+        @layout 'layout'
+        @render 'stackusers'
+        ), name:'stackusers'
+    
     Template.site_page.onCreated ->
         @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
         @autorun => Meteor.subscribe 'site_tags',
@@ -23,6 +28,25 @@ if Meteor.isClient
             Session.get('sort_direction')
             Session.get('limit')
             Session.get('toggle')
+            
+            
+            
+    Template.site_users.onCreated ->
+        @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
+        @autorun => Meteor.subscribe 'site_user_tags',
+            selected_tags.array()
+            Router.current().params.site
+            Session.get('toggle')
+            
+        @autorun => Meteor.subscribe 'stackusers_by_site', 
+            Router.current().params.site
+            selected_tags.array()
+            Session.get('sort_key')
+            Session.get('sort_direction')
+            Session.get('limit')
+            Session.get('toggle')
+            
+            
             
             
     Template.site_page.helpers
@@ -41,6 +65,44 @@ if Meteor.isClient
                 limit:Session.get('limit')
     
     Template.site_page.events
+        'click .view_question': (e,t)-> window.speechSynthesis.speak new SpeechSynthesisUtterance @title
+        'click .sort_timestamp': (e,t)-> Session.set('sort_key','_timestamp')
+        'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
+        'click .toggle_detail': (e,t)-> 
+            Session.set('view_detail',!Session.get('view_detail'))
+        'click .sort_up': (e,t)-> Session.set('sort_direction',1)
+        'click .limit_10': (e,t)-> Session.set('limit',10)
+        'click .limit_1': (e,t)-> Session.set('limit',1)
+        'keyup .search_site': (e,t)->
+            # search = $('.search_site').val().toLowerCase().trim()
+            search = $('.search_site').val().trim()
+            if e.which is 13
+                if search.length > 0
+                    window.speechSynthesis.cancel()
+                    # console.log search
+                    window.speechSynthesis.speak new SpeechSynthesisUtterance search
+                    selected_tags.push search
+                    $('.search_site').val('')
+
+                    Meteor.call 'search_stack', Router.current().params.site, search, ->
+                        Session.set('thinking',false)
+
+    Template.site_users.helpers
+        selected_tags: -> selected_tags.array()
+        site_tags: -> results.find(model:'site_tag')
+        current_site: ->
+            Docs.findOne
+                model:'stack_site'
+                api_site_parameter:Router.current().params.site
+        site_users: ->
+            Docs.find {
+                model:'stackuser'
+                site:Router.current().params.site
+            },
+                sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+                limit:Session.get('limit')
+    
+    Template.site_users.events
         'click .view_question': (e,t)-> window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         'click .sort_timestamp': (e,t)-> Session.set('sort_key','_timestamp')
         'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
@@ -156,6 +218,65 @@ if Meteor.isServer
         self = @
         match = {
             model:'stack'
+            site:site
+            }
+        # console.log 'tags', selected_tags
+        if selected_tags.length > 0 then match.tags = $in:selected_tags
+        site_tag_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "tags": 1 }
+            { $unwind: "$tags" }
+            { $group: _id: "$tags", count: $sum: 1 }
+            { $match: _id: $nin: selected_tags }
+            { $sort: count: -1, _id: 1 }
+            # { $match: count: $lt: doc_count }
+            { $limit:20 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        # console.log 'cloud: ', tag_cloud
+        console.log 'tag match', match
+        site_tag_cloud.forEach (tag, i) ->
+            self.added 'results', Random.id(),
+                name: tag.name
+                count: tag.count
+                model:'site_tag'
+        self.ready()
+    
+    
+    Meteor.publish 'stackusers_by_site', (
+        site
+        selected_tags
+        sort_key
+        sort_direction
+        limit
+    )->
+        console.log 'site', site
+        console.log 'sort_key', sort_key
+        console.log 'sort_direction', sort_direction
+        console.log 'limit', limit
+        # site = Docs.findOne
+        #     model:'stack_site'
+        #     api_site_parameter:site
+        match = {
+            model:'stackuser'
+            site:site
+            }
+        if selected_tags.length > 0 then match.tags = $all:selected_tags
+        if site
+            Docs.find match, 
+                limit:20
+                # sort:
+                #     "#{sort_key}":sort_direction
+                # limit:limit
+    Meteor.publish 'site_user_tags', (
+        selected_tags
+        site
+        # query=''
+        )->
+        # @unblock()
+        self = @
+        match = {
+            model:'stackuser'
             site:site
             }
         # console.log 'tags', selected_tags

@@ -99,6 +99,11 @@ template(name='stack_page')
                                     i.checkmark.icon
                             // div(class=currentUser.invert_class)
                             .f10 !{body}
+                            .ui.horizontal.list
+                                .item last active {{ufrom last_activity_date}}
+                                .item last edited {{ufrom last_edit_date}}
+                                .item created {{ufrom creation_date}}
+
                             with owner
                                 .ui.divider
                                 a.ui.inline.header(href="/site/#{current_doc.site}/user/#{user_id}")

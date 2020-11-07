@@ -530,7 +530,7 @@ Meteor.methods
 
    
    
-    search_stack_user: (site, user_id) ->
+    search_stackuser: (site, user_id) ->
         console.log('searching stack user for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}?order=desc&sort=reputation&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
@@ -561,7 +561,7 @@ Meteor.methods
                 console.log 'fail', err
             )
 
-    stack_user_questions: (site, user_id) ->
+    stackuser_questions: (site, user_id) ->
         console.log('searching stack user questions for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/questions?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
@@ -592,7 +592,7 @@ Meteor.methods
                 console.log 'fail', err
             )
    
-    stack_user_answers: (site, user_id) ->
+    stackuser_answers: (site, user_id) ->
         console.log('searching stack user answers for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/answers?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
@@ -623,7 +623,7 @@ Meteor.methods
                 console.log 'fail', err
             )
 
-    stack_user_comments: (site, user_id) ->
+    stackuser_comments: (site, user_id) ->
         console.log('searching stack user comments for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/comments?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
@@ -658,7 +658,7 @@ Meteor.methods
         #     console.log('error')
         # })
         
-    stack_user_badges: (site, user_id) ->
+    stackuser_badges: (site, user_id) ->
         console.log('searching stack user badges for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/badges?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
@@ -689,7 +689,7 @@ Meteor.methods
                 console.log 'fail', err
             )
         
-    stack_user_tags: (site, user_id) ->
+    stackuser_tags: (site, user_id) ->
         console.log('searching stack user tags for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/tags?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {

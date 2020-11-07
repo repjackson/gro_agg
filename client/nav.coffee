@@ -1,9 +1,9 @@
 # Template.view_chatpop.onCreated ->
 #     @autorun => Meteor.subscribe 'global_chat'
-Template.nav.onCreated ->
-    @autorun -> Meteor.subscribe 'stack_sites',
-        selected_tags.array()
-        Session.get('site_name_filter')
+# Template.nav.onCreated ->
+#     @autorun -> Meteor.subscribe 'stack_sites',
+#         []
+#         ''
     
     # @autorun => Meteor.subscribe 'me'
     # @autorun => Meteor.subscribe 'all_users'
@@ -163,21 +163,21 @@ Template.nav.onCreated ->
 
 
 
-Template.nav.onRendered ->
-    Meteor.setTimeout ->
-        # $('.menu .item')
-        #     .popup()
-        $('.ui.left.sidebar')
-            .sidebar({
-                context: $('.bottom.segment')
-                transition:'overlay'
-                dimmer:false
-                exclusive:true
-                duration:200
-                scrollLock:true
-            })
-            .sidebar('attach events', '.toggle_leftbar')
-    , 1000
+# Template.nav.onRendered ->
+#     Meteor.setTimeout ->
+#         # $('.menu .item')
+#         #     .popup()
+#         $('.ui.left.sidebar')
+#             .sidebar({
+#                 context: $('.bottom.segment')
+#                 transition:'overlay'
+#                 dimmer:false
+#                 exclusive:true
+#                 duration:200
+#                 scrollLock:true
+#             })
+#             .sidebar('attach events', '.toggle_leftbar')
+#     , 1000
     # Meteor.setTimeout ->
     #     $('.ui.right.sidebar')
     #         .sidebar({

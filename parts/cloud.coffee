@@ -18,24 +18,16 @@ if Meteor.isClient
                 when @index <= 50 then 'tiny'
             return button_class
 
-        settings: -> {
-            position: 'bottom'
-            limit: 10
-            rules: [
-                {
-                    collection: Tags
-                    field: 'name'
-                    matchAll: true
-                    template: Template.tag_result
-                }
-                ]
-        }
-
 
         selected_tags: ->
             # model = 'event'
             # console.log "selected_#{model}_tags"
             selected_tags.array()
+
+        selected_tags: ->
+            # model = 'event'
+            # console.log "selected_#{model}_tags"
+            selected_user_tags.array()
 
 
     Template.cloud.events
@@ -60,14 +52,7 @@ if Meteor.isClient
                     if val.length is 0
                         selected_tags.pop()
 
-        'autocompleteselect #search': (event, template, doc) ->
-            # console.log 'selected ', doc
-            selected_tags.push doc.name
-            $('#search').val ''
 
-        'click #add': ->
-            Meteor.call 'add', (err,id)->
-                FlowRouter.go "/edit/#{id}"
 
 
 if Meteor.isServer

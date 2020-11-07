@@ -37,17 +37,17 @@ if Meteor.isClient
 
     Template.stackuser_page.events
         'click .search': ->
-            Meteor.call 'search_stack_user', Router.current().params.site, Router.current().params.user_id, ->
+            Meteor.call 'search_stackuser', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_answers': ->
-            Meteor.call 'stack_user_answers', Router.current().params.site, Router.current().params.user_id, ->
+            Meteor.call 'stackuser_answers', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_questions': ->
-            Meteor.call 'stack_user_questions', Router.current().params.site, Router.current().params.user_id, ->
+            Meteor.call 'stackuser_questions', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_comments': ->
-            Meteor.call 'stack_user_comments', Router.current().params.site, Router.current().params.user_id, ->
+            Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_badges': ->
-            Meteor.call 'stack_user_badges', Router.current().params.site, Router.current().params.user_id, ->
+            Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_tags': ->
-            Meteor.call 'stack_user_tags', Router.current().params.site, Router.current().params.user_id, ->
+            Meteor.call 'stackuser_tags', Router.current().params.site, Router.current().params.user_id, ->
                 
         
 

@@ -1,6 +1,5 @@
 if Meteor.isClient
     @selected_user_tags = new ReactiveArray []
-    @selected_user_levels = new ReactiveArray []
     @selected_user_roles = new ReactiveArray []
 
 
@@ -10,15 +9,16 @@ if Meteor.isClient
 
 
     Template.users.onCreated ->
+        Session.setDefault('selected_site',null)
         @autorun -> Meteor.subscribe 'selected_users', 
             selected_user_tags.array() 
-            selected_user_levels.array()
+            Session.get('selected_site')
 
     Template.users.helpers
         users: ->
             match = {model:'stackuser'}
             # unless 'admin' in Meteor.user().roles
-            #     match.levels = $in:['member']
+            #     match.site = $in:['member']
             if selected_user_tags.array().length > 0 then match.tags = $all: selected_user_tags.array()
             Docs.find match,
                 sort:points:-1
@@ -27,12 +27,12 @@ if Meteor.isClient
             #         Meteor.users.find()
             #     else
             #         Meteor.users.find(
-            #             # levels:$in:['l1']
-            #             levels:$in:['member']
+            #             # site:$in:['l1']
+            #             site:$in:['member']
             #         )
             # else
             #     Meteor.users.find(
-            #         levels:$in:['member']
+            #         site:$in:['member']
             #     )
 
     # Template.member_card.helpers
@@ -80,87 +80,91 @@ if Meteor.isClient
 
 
 
-    # Template.user_cloud.onCreated ->
-    #     @autorun -> Meteor.subscribe('user_tags',
-    #         selected_user_tags.array()
-    #         selected_user_levels.array()
-    #         selected_user_roles.array()
-    #         Session.get('view_mode')
-    #     )
+    Template.user_cloud.onCreated ->
+        @autorun -> Meteor.subscribe('user_tags',
+            selected_user_tags.array()
+            Session.get('selected_user_site')
+            # selected_user_roles.array()
+            # Session.get('view_mode')
+        )
 
-    # Template.user_cloud.helpers
-    #     all_tags: ->
-    #         user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
-    #         if 0 < user_count < 3 then User_tags.find { count: $lt: user_count } else User_tags.find()
-    #     selected_user_tags: ->
-    #         # model = 'event'
-    #         # console.log "selected_#{model}_tags"
-    #         selected_user_tags.array()
-    #     # all_levels: ->
-    #     #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
-    #     #     if 0 < user_count < 3 then Levels.find { count: $lt: user_count } else Levels.find()
+    Template.user_cloud.helpers
+        all_tags: ->
+            # user_count = Docs.find(_id:$ne:Meteor.userId()).count()
+            # if 0 < user_count < 3 then User_tags.find { count: $lt: user_count } else User_tags.find()
+            results.find(model:'user_tag')
+        all_sites: ->
+            # user_count = Docs.find(_id:$ne:Meteor.userId()).count()
+            # if 0 < user_count < 3 then User_tags.find { count: $lt: user_count } else User_tags.find()
+            results.find(model:'user_site')
+        
+        selected_user_site: -> Session.get('selected_user_site')
+        selected_user_tags: -> selected_user_tags.array()
+        # all_site: ->
+        #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
+        #     if 0 < user_count < 3 then site.find { count: $lt: user_count } else sites.find()
 
-    #     # all_levels: ->
-    #     #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
-    #     #     if 0 < user_count < 3 then User_levels.find { count: $lt: user_count } else User_levels.find()
-    #     # selected_user_levels: ->
-    #     #     # model = 'event'
-    #     #     # console.log "selected_#{model}_levels"
-    #     #     selected_user_levels.array()
-    #     # all_levels: ->
-    #     #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
-    #     #     if 0 < user_count < 3 then Level_results.find { count: $lt: user_count } else Level_results.find()
-    #     # selected_user_levels: ->
-    #     #     # model = 'event'
-    #     #     # console.log "selected_#{model}_levels"
-    #     #     selected_user_levels.array()
+        # all_sites: ->
+        #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
+        #     if 0 < user_count < 3 then User_sites.find { count: $lt: user_count } else User_sites.find()
+        # selected_user_sites: ->
+        #     # model = 'event'
+        #     # console.log "selected_#{model}_sites"
+        #     selected_user_sites.array()
+        # all_sites: ->
+        #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
+        #     if 0 < user_count < 3 then site_results.find { count: $lt: user_count } else site_results.find()
+        # selected_user_sites: ->
+        #     # model = 'event'
+        #     # console.log "selected_#{model}_sites"
+        #     selected_user_sites.array()
 
 
-    # Template.user_cloud.events
-    #     'click .select_tag': -> selected_user_tags.push @name
-    #     'click .unselect_tag': -> selected_user_tags.remove @valueOf()
-    #     'click #clear_tags': -> selected_user_tags.clear()
+    Template.user_cloud.events
+        'click .select_tag': -> selected_user_tags.push @name
+        'click .unselect_tag': -> selected_user_tags.remove @valueOf()
+        'click #clear_tags': -> selected_user_tags.clear()
 
-    #     'click .select_level': -> selected_user_levels.push @name
-    #     'click .unselect_level': -> selected_user_levels.remove @valueOf()
-    #     'click #clear_levels': -> selected_user_levels.clear()
+        'click .select_site': -> selected_user_sites.push @name
+        'click .unselect_site': -> selected_user_sites.remove @valueOf()
+        'click #clear_sites': -> selected_user_sites.clear()
 
 
 
 if Meteor.isServer
     Meteor.publish 'selected_users', (
         selected_user_tags
-        selected_user_levels
+        selected_user_site
         )->
         match = {model:'stackuser'}
-        # if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
-        # if selected_user_levels.length > 0 then match.levels = $all: selected_user_levels
+        if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
+        if selected_user_site then match.site = selected_user_site
         Docs.find match
         # if Meteor.user()
         #     if 'admin' in Meteor.user().roles
         #         Meteor.users.find()
         #     else
         #         Meteor.users.find(
-        #             # levels:$in:['l1']
+        #             # sites:$in:['l1']
         #             roles:$in:['member']
         #         )
         # else
         #     Meteor.users.find(
-        #         levels:$in:['member']
+        #         sites:$in:['member']
         #     )
 
 
 
     Meteor.publish 'user_tags', (
-        selected_user_tags,
-        selected_user_levels,
-        view_mode
-        limit
+        selected_user_tags
+        selected_user_site
+        # view_mode
+        # limit
     )->
         self = @
-        match = {}
+        match = {model:'stackuser'}
         if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
-        if selected_user_levels.length > 0 then match.levels = $all: selected_user_levels
+        if selected_user_site then match.site = selected_user_site
         # match.model = 'item'
         # if view_mode is 'users'
         #     match.bought = $ne:true
@@ -175,7 +179,7 @@ if Meteor.isServer
         #     match.bought = true
         #     match._author_id = Meteor.userId()
 
-        cloud = Meteor.users.aggregate [
+        cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
             { $unwind: "$tags" }
@@ -196,24 +200,23 @@ if Meteor.isServer
                 index: i
     
     
-        level_cloud = Meteor.users.aggregate [
+        site_cloud = Docs.aggregate [
             { $match: match }
-            { $project: "levels": 1 }
-            { $unwind: "$levels" }
-            { $group: _id: "$levels", count: $sum: 1 }
-            { $match: _id: $nin: selected_user_levels }
+            { $project: "site": 1 }
+            { $group: _id: "$site", count: $sum: 1 }
             { $sort: count: -1, _id: 1 }
             { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
 
         # console.log 'filter: ', filter
-        # console.log 'level_cloud: ', level_cloud
+        # console.log 'site_cloud: ', site_cloud
 
-        level_cloud.forEach (level_result, i) ->
-            self.added 'level_results', Random.id(),
-                name: level_result.name
-                count: level_result.count
+        site_cloud.forEach (site_result, i) ->
+            self.added 'results', Random.id(),
+                name: site_result.name
+                model:'user_site'
+                count: site_result.count
                 index: i
 
         self.ready()
