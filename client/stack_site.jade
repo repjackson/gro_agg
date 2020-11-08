@@ -21,20 +21,20 @@ template(name='site_page')
                             // .item relation: #{relation}
                             // .item api_site_parameter: #{api_site_parameter}
                             // .item site_url: #{site_url}
-                    a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
-                        i.large.link.twitter.icon
-                    a.ui.large.basic.icon.button(href=site_url)
+                    // a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
+                    //     i.large.link.twitter.icon
+                    a.ui.basic.icon.button(href=site_url target="_window")
                         // |#{site_url}
                         i.external.icon
-                    a.ui.large.button(href="/site/#{site}/questions")
-                        i.question.icon
-                        |questions
-                    a.ui.large.button(href="/site/#{site}/users")
-                        i.user.icon
-                        |users
-                    a.ui.large.button(href="/site/#{site}/tags")
-                        i.tags.icon
-                        |tags
+                    // a.ui.large.button(href="/site/#{site}/questions")
+                    //     i.question.icon
+                    //     |questions
+                    // a.ui.large.button(href="/site/#{site}/users")
+                    //     i.user.icon
+                    //     |users
+                    // a.ui.large.button(href="/site/#{site}/tags")
+                    //     i.tags.icon
+                    //     |tags
                     .ui.list.mobile.hidden
                         // .item #{launch_date} launch_date
                         // .item #{open_beta_date} open_beta_date
@@ -45,7 +45,8 @@ template(name='site_page')
                         .item #{audience}
                         // .item #{api_site_parameter} api_site_parameter
                         // .item #{site_type} site_type
-                    +array_edit k='tags' d=true
+                    if in_dev
+                        +array_edit k='tags' d=true
                     // +comments
                     // +voting_full
                 .twelve.wide.column

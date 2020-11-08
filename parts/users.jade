@@ -1,7 +1,9 @@
 template(name='users')
     .ui.stackable.padded.grid
         .four.wide.column
-            .ui.header users
+            .ui.header
+                i.users.icon
+                |users
             +user_cloud
         .twelve.wide.column
             .ui.five.stackable.centered.cards.scrolling
@@ -10,13 +12,16 @@ template(name='users')
                         img.ui.image(src=profile_image class=currentUser.invert_class)
                         .content
                             a.ui.header #{display_name}
+                                .ui.basic.circular.label #{reputation}
                             .description
                                 |#{site}
+                                i.grey.marker.icon
+                                |#{location}
                                 
                                 
                                 
 template(name='user_cloud')
-    #cloud.ui.center.aligned.fluid.segment
+    // #cloud.ui.center.aligned.fluid.segment
         // if currentUser
         //     .ui.icon.input
         //         i.plus.icon
@@ -42,6 +47,12 @@ template(name='user_cloud')
         .unselect_site.ui.primary.compact.button
             strong #{selected_user_site}
     each all_sites
-        .ui.compact.button.select_site(class=cloud_site_class) #{this.name}
-            small #{this.count}
+        .ui.compact.basic.button.select_site(class=cloud_site_class) #{this.name}
+    .ui.header location
+    if selected_user_location
+        .unselect_location.ui.primary.compact.button
+            strong #{selected_user_location}
+    each all_locations
+        .ui.compact.basic.button.select_location(class=cloud_location_class) #{this.name}
+            // small #{this.count}
                                 

@@ -1,6 +1,6 @@
 if Meteor.isClient
     @selected_user_tags = new ReactiveArray []
-    @selected_user_roles = new ReactiveArray []
+    # @selected_user_roles = new ReactiveArray []
 
 
     Router.route '/users', (->
@@ -10,9 +10,11 @@ if Meteor.isClient
 
     Template.users.onCreated ->
         Session.setDefault('selected_user_site',null)
+        Session.setDefault('selected_user_location',null)
         @autorun -> Meteor.subscribe 'selected_users', 
             selected_user_tags.array() 
             Session.get('selected_user_site')
+            Session.get('selected_user_location')
 
     Template.users.helpers
         users: ->
@@ -84,22 +86,19 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe('user_tags',
             selected_user_tags.array()
             Session.get('selected_user_site')
+            Session.get('selected_user_location')
             # selected_user_roles.array()
             # Session.get('view_mode')
         )
 
     Template.user_cloud.helpers
-        all_tags: ->
-            # user_count = Docs.find(_id:$ne:Meteor.userId()).count()
-            # if 0 < user_count < 3 then User_tags.find { count: $lt: user_count } else User_tags.find()
-            results.find(model:'user_tag')
-        all_sites: ->
-            # user_count = Docs.find(_id:$ne:Meteor.userId()).count()
-            # if 0 < user_count < 3 then User_tags.find { count: $lt: user_count } else User_tags.find()
-            results.find(model:'user_site')
+        all_tags: -> results.find(model:'user_tag')
+        all_sites: -> results.find(model:'user_site')
+        all_locations: -> results.find(model:'user_location')
         
         selected_user_site: -> Session.get('selected_user_site')
         selected_user_tags: -> selected_user_tags.array()
+        selected_user_location: -> Session.get('selected_user_location')
         # all_site: ->
         #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
         #     if 0 < user_count < 3 then site.find { count: $lt: user_count } else sites.find()
@@ -126,9 +125,10 @@ if Meteor.isClient
         'click #clear_tags': -> selected_user_tags.clear()
 
         'click .select_site': -> Session.set('selected_user_site',@name)
-        'click .unselect_site': -> 
-            console.log 'hi'
-            Session.set('selected_user_site',null)
+        'click .unselect_site': -> Session.set('selected_user_site',null)
+        
+        'click .select_location': -> Session.set('selected_user_location',@name)
+        'click .unselect_location': -> Session.set('selected_user_location',null)
         # 'click #clear_sites': -> Session.set('selected_user_site',null)
 
 
@@ -137,11 +137,13 @@ if Meteor.isServer
     Meteor.publish 'selected_users', (
         selected_user_tags
         selected_user_site
+        selected_user_location
         )->
         match = {model:'stackuser'}
         console.log selected_user_site
         if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
         if selected_user_site then match.site = selected_user_site
+        if selected_user_location then match.location = selected_user_location
         Docs.find match
 
 
@@ -149,6 +151,7 @@ if Meteor.isServer
     Meteor.publish 'user_tags', (
         selected_user_tags
         selected_user_site
+        selected_user_location
         # view_mode
         # limit
     )->
@@ -156,6 +159,7 @@ if Meteor.isServer
         match = {model:'stackuser'}
         if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
         if selected_user_site then match.site = selected_user_site
+        if selected_user_location then match.location = selected_user_location
         # match.model = 'item'
         # if view_mode is 'users'
         #     match.bought = $ne:true
@@ -180,10 +184,6 @@ if Meteor.isServer
             { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
-
-        # console.log 'filter: ', filter
-        # console.log 'cloud: ', cloud
-
         cloud.forEach (user_tag, i) ->
             self.added 'user_tags', Random.id(),
                 name: user_tag.name
@@ -195,19 +195,33 @@ if Meteor.isServer
             { $match: match }
             { $project: "site": 1 }
             { $group: _id: "$site", count: $sum: 1 }
+            # { $match: site: $ne: selected_user_site }
             { $sort: count: -1, _id: 1 }
             { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
-
-        # console.log 'filter: ', filter
-        # console.log 'site_cloud: ', site_cloud
-
         site_cloud.forEach (site_result, i) ->
             self.added 'results', Random.id(),
                 name: site_result.name
                 model:'user_site'
                 count: site_result.count
+                index: i
+        
+        location_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "location": 1 }
+            { $group: _id: "$location", count: $sum: 1 }
+            # { $match: location: $ne: selected_user_location }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+        location_cloud.forEach (location_result, i) ->
+            # console.log location_result
+            self.added 'results', Random.id(),
+                name: location_result.name
+                model:'user_location'
+                count: location_result.count
                 index: i
 
         self.ready()
