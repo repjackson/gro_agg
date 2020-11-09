@@ -89,7 +89,7 @@ template(name='site_page')
                     //     i.list.icon
                     .ui.selection.link.large.list.medscroll
                         each site_questions
-                            a.item.view_question(href="/site/#{site}/doc/#{_id}")
+                            a.item.view_question.zoomer(href="/site/#{site}/doc/#{_id}")
                                 // if watson.metadata.image
                                 //     img.ui.avatar.invert.image(src=watson.metadata.image)    
                                 .content

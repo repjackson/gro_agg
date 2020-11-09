@@ -1,7 +1,8 @@
 template(name='stackuser_page')
     unless stackuser_doc
         // .ui.header no user found
-        .ui.massive.button.search 
+        .ui.massive.fluid.button.search 
+            i.download.icon
             |download user info
     with stackuser_doc
         .ui.stackable.padded.grid
@@ -39,15 +40,26 @@ template(name='stackuser_page')
                     .ui.grey.header.get_questions
                         i.question.icon
                         |questions
-                    .ui.large.list
+                    .ui.large.selection.list
                         each user_questions
-                            a.item(href="/site/#{site}/doc/#{_id}") #{title}
+                            a.zoomer.item(href="/site/#{site}/doc/#{_id}") 
+                                .header
+                                    |!{title}
+                                .description
+                                    each tags 
+                                        .ui.tiny.basic.circular.label #{this}
+                    .ui.header.get_answers
+                        i.exclamation.icon
+                        |answers
+                    .ui.list
+                        each user_answers
+                            +answer_item
                 .four.wide.column
                     .ui.dividing.header 
                         i.clone.icon
                         |related accounts
                     each related_accounts
-                        .ui.small.header hi #{title}
+                        .ui.small.header !{title}
                     .ui.dividing.header
                         i.tags.icon
                         |tags
@@ -74,21 +86,14 @@ template(name='stackuser_page')
                         each user_badges
                             .item 
                                 .content 
-                                    .header #{name}
-                                    .description
+                                    span.header #{name}
+                                    span.description
                                         |#{rank}
                                         .ui.label #{badge_id}
                                         a(href=link target="_window")
                                             i.external.grey.icon
 
                 .four.wide.column
-                    .ui.header.get_answers
-                        i.exclamation.icon
-                        |answers
-                    .ui.list
-                        each user_answers
-                            .item #{question_id}
-                            // .item hi !{body}
                 .four.wide.column
                     .ui.header emotion
                     .ui.large.list 
@@ -111,3 +116,9 @@ template(name='stackuser_page')
                     .ui.list
                         each user_comments
                             .item #{title}
+                            
+                            
+                            
+template(name='answer_item')
+    |!{body}
+    // hi#{answer_question.title}

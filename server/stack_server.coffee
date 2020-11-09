@@ -671,7 +671,6 @@ Meteor.methods
                         new_id = 
                             Docs.insert item
                         console.log 'new stack question', Docs.findOne(new_id).title
-                return
             )).catch((err)->
                 console.log 'fail', err
             )

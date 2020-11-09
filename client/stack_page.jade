@@ -22,7 +22,7 @@ template(name='stack_page')
                             i.large.brain.icon
                             |analyze
                     each tags 
-                        a.ui.basic.pointer.label.add_stack_tag.speak_this #{this}
+                        .ui.basic.pointer.circular.label.add_stack_tag.speak_this.zoomer #{this}
                     a.ui.circular.icon.button(href=link target='_window' title=link)
                         // |#{link}
                         i.external.large.icon
@@ -50,15 +50,6 @@ template(name='stack_page')
                         .item imported #{_when}
                         .item license #{content_license}
                         
-                    with owner
-                        .ui.divider
-                        a.ui.inline.header(href="/site/#{current_doc.site}/user/#{user_id}") #{display_name}
-                        img.ui.inline.centered.invert.rounded.image(src=profile_image)
-                        .ui.label reputation #{reputation}
-                        .ui.label user_id #{user_id}
-                        .ui.label user_type #{user_type}
-                        a.ui.circular.icon.button(href=link)
-                            i.large.external.icon
                     // +bookmark_button
                     // +voting
                     +print_this
@@ -136,6 +127,15 @@ template(name='stack_page')
                             +watson_full
                     +comments
                 .four.wide.column
+                    with owner
+                        .ui.divider
+                        a.ui.inline.header(href="/site/#{current_doc.site}/user/#{user_id}") #{display_name}
+                        img.ui.inline.centered.invert.rounded.image(src=profile_image)
+                        .ui.label reputation #{reputation}
+                        .ui.label user_id #{user_id}
+                        .ui.label user_type #{user_type}
+                        a.ui.circular.icon.button(href=link)
+                            i.large.external.icon
                     .ui.header.get_linked linked
                     each linked_question_ids
                         .ui.header #{this}

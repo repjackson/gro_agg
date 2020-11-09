@@ -44,7 +44,18 @@ if Meteor.isClient
             Docs.find
                 model:'stack_comment'
 
-
+    Template.answer_item.onCreated ->
+        # console.log @
+        @autorun => Meteor.subscribe 'question_from_id', @data.question_id
+        
+    Template.answer_item.helpers
+        answer_question: ->
+            console.log @
+            Docs.findOne
+                model:'stack_question'
+                question_id:@question_id
+    
+        
     Template.stackuser_page.events
         'click .search': ->
             Meteor.call 'search_stackuser', Router.current().params.site, Router.current().params.user_id, ->
@@ -63,6 +74,11 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.publish 'question_from_id', (qid)->
+        Docs.find 
+            # model:'stack_question'
+            question_id:qid
+    
     Meteor.publish 'stackuser_badges', (site,user_id)->
         Docs.find { 
             model:'stack_badge'

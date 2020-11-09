@@ -388,7 +388,7 @@ Template.stack_page.events
         #     displayTime: 'auto',
         #     position: 'bottom right'
         # )
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @text()
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
 
         Meteor.call 'search_stack', Router.current().params.site, @valueOf(), =>
             # $('body').toast(
