@@ -519,6 +519,51 @@ Meteor.methods
                         Docs.update found._id,
                             $addToSet: linked_to_ids: question_doc_id
                             # $set:body:item.body
+                        Docs.update question_doc_id,
+                            $addToSet:linked_question_ids:found._id
+                    unless found
+                        item.site = site
+                        item.model = 'stack_question'
+                        # item.tags.push query
+                        item.linked_to_ids = [question_doc_id]
+                        new_id = 
+                            Docs.insert item
+                        Docs.update question_doc_id,
+                            $addToSet:linked_question_ids:new_id
+                        console.log 'new question doc', Docs.findOne(new_id).title
+                return
+            )).catch((err)->
+                console.log 'fail', err
+            )
+
+
+        
+    get_related_questions: (site, question_doc_id)->
+        question = Docs.findOne question_doc_id
+        console.log 'searching related questions', site, question._id
+        url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/related?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+        # console.log url
+        options = {
+            url: url
+            headers: 'accept-encoding': 'gzip'
+            gzip: true
+        }
+        rp(options)
+            .then(Meteor.bindEnvironment((data)->
+                parsed = JSON.parse(data)
+                console.log 'body',JSON.parse(data), typeof(data)
+                for item in parsed.items
+                    Docs.update question_doc_id,
+                        $addToSet:related_question_ids:item._id
+                    found = 
+                        Docs.findOne
+                            model:'stack_question'
+                            post_id:item.post_id
+                    if found
+                        console.log 'found related', found.title
+                        Docs.update found._id,
+                            $addToSet: linked_to_ids: question_doc_id
+                            # $set:body:item.body
                     unless found
                         item.site = site
                         item.model = 'stack_question'

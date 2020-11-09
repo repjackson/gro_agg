@@ -4,6 +4,8 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'question_answers', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'question_comments', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'question_doc_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'related_questions', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'linked_questions', Router.current().params.doc_id
         Session.setDefault('stack_section','main')
     Template.stack_page.onRendered ->
         Meteor.call 'get_question', Router.current().params.site, Router.current().params.doc_id,->
@@ -12,8 +14,15 @@ if Meteor.isClient
         # Meteor.call 'get_question_comments', Router.current().params.site, Router.current().params.doc_id,->
     Template.stack_page.helpers
         linked_questions: ->
+            question = Docs.findOne Router.current().params.doc_id
             Docs.find 
                 model:'stack_question'
+                _id:question.linked_question_ids
+        related_questions: ->
+            question = Docs.findOne Router.current().params.doc_id
+            Docs.find 
+                model:'stack_question'
+                _id:question.related_question_ids
         question_answers: ->
             Docs.find 
                 model:'stack_answer'
@@ -27,6 +36,8 @@ if Meteor.isClient
     Template.stack_page.events
         'click .get_linked': (e,t)->
             Meteor.call 'get_linked_questions', Router.current().params.site, Router.current().params.doc_id,->
+        'click .get_related': (e,t)->
+            Meteor.call 'get_related_questions', Router.current().params.site, Router.current().params.doc_id,->
         'click .call_watson': (e,t)->
             Meteor.call 'call_watson', Router.current().params.doc_id,'link','stack',->
         'click .call_tone': (e,t)->
@@ -46,7 +57,7 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'question_comments', (question_doc_id)->
-        console.log question.question_id
+        console.log question_doc_id
         Docs.find 
             model:'stack_comment'
             post_id:question_doc_id
@@ -55,4 +66,18 @@ if Meteor.isServer
         Docs.find 
             model:'stack_question'
             linked_to_ids:$in:[question_doc_id]
+    
+    Meteor.publish 'related_questions', (question_doc_id)->
+        console.log question.question_id
+        question = Docs.findOne question_doc_id
+        Docs.find 
+            model:'stack_question'
+            _id:$in:question.related_question_ids
+    
+    Meteor.publish 'linked_questions', (question_doc_id)->
+        console.log question.question_id
+        question = Docs.findOne question_doc_id
+        Docs.find 
+            model:'stack_question'
+            _id:$in:question.linked_question_ids
     

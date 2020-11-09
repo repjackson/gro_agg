@@ -137,7 +137,14 @@ template(name='stack_page')
                     +comments
                 .four.wide.column
                     .ui.header.get_linked linked
+                    each linked_question_ids
+                        .ui.header #{this}
                     each linked_questions
+                        .ui.header hi #{title}
+                    .ui.header.get_related related
+                    each related_question_ids
+                        .ui.header #{this}
+                    each related_questions
                         .ui.header hi #{title}
         
             
