@@ -497,7 +497,7 @@ Meteor.methods
         
     get_linked_questions: (site, question_doc_id)->
         question = Docs.findOne question_doc_id
-        console.log 'searching linked questions', site, question_id
+        console.log 'searching linked questions', site, question._id
         url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/linked?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         # console.log url
         options = {
@@ -508,23 +508,25 @@ Meteor.methods
         rp(options)
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
-                console.log 'body',JSON.parse(body), typeof(body)
+                console.log 'body',JSON.parse(data), typeof(data)
                 for item in parsed.items
                     found = 
                         Docs.findOne
-                            model:'stack_comment'
+                            model:'stack_question'
                             post_id:item.post_id
                     if found
                         console.log 'found', found.body
-                    #     Docs.update found._id,
-                    #         $set:body:item.body
+                        Docs.update found._id,
+                            $addToSet: linked_to_ids: question_doc_id
+                            # $set:body:item.body
                     unless found
                         item.site = site
-                        item.model = 'stack_comment'
+                        item.model = 'stack_question'
                         # item.tags.push query
+                        item.linked_to_ids = [question_doc_id]
                         new_id = 
                             Docs.insert item
-                        console.log 'new comment doc', Docs.findOne(new_id).title
+                        console.log 'new question doc', Docs.findOne(new_id).title
                 return
             )).catch((err)->
                 console.log 'fail', err
