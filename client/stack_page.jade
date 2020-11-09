@@ -9,7 +9,7 @@ template(name='stack_page')
                             img.ui.invert.mini.inline.image(src=watson.metadata.image)    
                         | #{site}
                 .twelve.wide.center.aligned.column
-                    .ui.header 
+                    .ui.header.speak_this
                         |!{title}
             .row
                 .four.wide.column.scrolling
@@ -22,7 +22,7 @@ template(name='stack_page')
                             i.large.brain.icon
                             |analyze
                     each tags 
-                        a.ui.basic.pointer.label.add_stack_tag #{this}
+                        a.ui.basic.pointer.label.add_stack_tag.speak_this #{this}
                     a.ui.circular.icon.button(href=link target='_window' title=link)
                         // |#{link}
                         i.external.large.icon
@@ -64,9 +64,9 @@ template(name='stack_page')
                     +print_this
                     +doc_sentiment
                     
-                .twelve.wide.column.scrolling
+                .eight.wide.column.scrolling
                     // div(class=currentUser.invert_class)
-                    .f11 !{body}
+                    .f11.speak_this !{body}
                     .ui.dividing.header.get_question_comments
                         |comments
                     each question_comments
@@ -98,7 +98,7 @@ template(name='stack_page')
                                 .ui.inverted.green.corner.attached.label 
                                     i.checkmark.icon
                             // div(class=currentUser.invert_class)
-                            .f10 !{body}
+                            .f10.speak_this !{body}
                             .ui.horizontal.list
                                 .item last active {{ufrom last_activity_date}}
                                 .item last edited {{ufrom last_edit_date}}
@@ -118,24 +118,27 @@ template(name='stack_page')
                             // |#{content_license}
                             // +voting
                             // +comments
-                    // +skve k='stack_section' v='watson' l='watson' i='brain' 
-                    // if tone
-                    //     +skve k='stack_section' v='tone' l='tone' i='user' 
-                    // // +skve k='stack_section' v='embed' l='embed' i='layout' 
-                    // if skv_is 'stack_section' 'tone'
-                    //     if watson 
-                    //         if tone
-                    //             +tone
-                    //     // else if skv_is 'stack_section' 'main'
-                    // else if skv_is 'stack_section' 'watson'
-                    //     if watson 
-                    //         .ui.fluid.button.call_tone 
-                    //             i.smile.icon
-                    //             |analyze tone
-                    //         +watson_view
-                    //         +watson_full
-                    // +comments
-
+                    +skve k='stack_section' v='watson' l='watson' i='brain' 
+                    if tone
+                        +skve k='stack_section' v='tone' l='tone' i='user' 
+                    +skve k='stack_section' v='embed' l='embed' i='layout' 
+                    if skv_is 'stack_section' 'tone'
+                        if watson 
+                            if tone
+                                +tone
+                        // else if skv_is 'stack_section' 'main'
+                    else if skv_is 'stack_section' 'watson'
+                        if watson 
+                            .ui.fluid.button.call_tone 
+                                i.smile.icon
+                                |analyze tone
+                            +watson_view
+                            +watson_full
+                    +comments
+                .four.wide.column
+                    .ui.header.get_linked linked
+                    each linked_questions
+                        .ui.header hi #{title}
         
             
                     

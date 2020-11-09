@@ -10,6 +10,9 @@ if Meteor.isClient
         Meteor.call 'call_watson', Router.current().params.doc_id,'link','stack',->
         # Meteor.call 'get_question_comments', Router.current().params.site, Router.current().params.doc_id,->
     Template.stack_page.helpers
+        linked_questions: ->
+            Docs.find 
+                model:'stack_linked'
         question_answers: ->
             Docs.find 
                 model:'stack_answer'
@@ -21,6 +24,8 @@ if Meteor.isClient
         answer_class: -> if @accepted then 'accepted'
 
     Template.stack_page.events
+        'click .get_linked': (e,t)->
+            Meteor.call 'get_linked', Router.current().params.doc_id,'link','stack',->
         'click .call_watson': (e,t)->
             Meteor.call 'call_watson', Router.current().params.doc_id,'link','stack',->
         'click .call_tone': (e,t)->

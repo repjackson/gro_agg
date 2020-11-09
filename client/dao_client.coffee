@@ -388,6 +388,8 @@ Template.stack_page.events
         #     displayTime: 'auto',
         #     position: 'bottom right'
         # )
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @text()
+
         Meteor.call 'search_stack', Router.current().params.site, @valueOf(), =>
             # $('body').toast(
             #     showIcon: 'stack exchange'

@@ -181,7 +181,7 @@ if Meteor.isServer
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: selected_user_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         cloud.forEach (user_tag, i) ->
@@ -197,7 +197,7 @@ if Meteor.isServer
             { $group: _id: "$site", count: $sum: 1 }
             # { $match: site: $ne: selected_user_site }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         site_cloud.forEach (site_result, i) ->

@@ -1,7 +1,7 @@
 template(name='stackuser_page')
     unless stackuser_doc
         // .ui.header no user found
-        .ui.button.search 
+        .ui.massive.button.search 
             |download user info
     with stackuser_doc
         .ui.stackable.padded.grid
@@ -9,6 +9,7 @@ template(name='stackuser_page')
                 .four.wide.column
                     img.ui.rounded.image(src=profile_image class=currentUser.invert_class)
                     .ui.header !{display_name}
+                    +print_this
                     .ui.list
                         .item account id #{account_id}
                         .item employee #{is_employee}
@@ -24,17 +25,31 @@ template(name='stackuser_page')
                         .item type #{user_type}
                         .item user id #{user_id}
                         .item accept rate #{accept_rate}
-                        .item 
+                        a.item.select_location
                             i.marker.icon
-                            |location #{location}
+                            | #{location}
                         if website_url
-                            a.item(href="website_url")
+                            a.item(href=website_url target="_window")
                                 i.globe.icon
                                 |#{website_url}
                     a.ui.external.icon.button(href=link target='_window') 
                         i.linkify.icon
                         // |#{link}
                 .four.wide.column
+                    .ui.dividing.header 
+                        i.clone.icon
+                        |related accounts
+                    each related_accounts
+                        .ui.small.header hi #{title}
+                    .ui.dividing.header
+                        i.tags.icon
+                        |tags
+                    a.ui.header(href="/site/#{site}")
+                        |site #{site}
+                    with site_doc
+                        .ui.segment
+                            a.ui.header(href="/site/#{name}") #{name}
+                                
                     .ui.grey.header.get_badges
                         i.certificate.icon
                         |badges
@@ -58,7 +73,6 @@ template(name='stackuser_page')
                                         .ui.label #{badge_id}
                                         a.ui.circular.icon.compact.button(href=link target="_window")
                                             i.external.icon
-                .four.wide.column
 
                 .four.wide.column
                     .ui.header emotion
@@ -68,7 +82,6 @@ template(name='stackuser_page')
                         .item disgust avg
                         .item anger avg
                         .item fear avg
-                .four.wide.column
                 .four.wide.column
                     .ui.header.get_tags
                         i.tag.icon

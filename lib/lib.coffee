@@ -34,6 +34,10 @@ Docs.helpers
     is_published: -> @published is 1
     is_anonymous: -> @published is 0
     is_private: -> @published is -1
+    site_doc: ->
+        Docs.findOne 
+            model:'stack_site'
+            name:@site
     is_read: -> @read_ids and Meteor.userId() in @read_ids
     seven_tags: ->
         if @tags

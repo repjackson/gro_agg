@@ -9,7 +9,17 @@ if Meteor.isClient
 
     
 
-                
+    Template.body.events
+        'click .speak_this': -> 
+            console.log @valueOf()
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @innerHTML()
+
+  
+    Template.stack.events
+        'click .site': -> 
+            console.log @valueOf()
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+
   
   
 

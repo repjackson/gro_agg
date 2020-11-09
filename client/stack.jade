@@ -9,11 +9,12 @@ template(name='stack')
                     i.search.icon
                     input.search_site_name(type='text')
                 +cloud filter='stack_site'
+                .spacer
             .sixteen.wide.center.aligned.column
-                .ui.six.column.stackable.grid
+                .ui.five.column.stackable.grid
                     each site_docs
                         a.column(href="/site/#{api_site_parameter}")
-                            img.ui.fluid.pointer.zoomer.image(src=logo_url class=currentUser.invert_class)
+                            img.ui.fluid.pointer.zoomer.image.site(src=logo_url class=currentUser.invert_class)
                             // .header
                             //     |!{name}
                             // .description 
