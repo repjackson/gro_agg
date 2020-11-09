@@ -11,6 +11,16 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'stackuser_comments', Router.current().params.site, Router.current().params.user_id
         @autorun => Meteor.subscribe 'stackuser_questions', Router.current().params.site, Router.current().params.user_id
         @autorun => Meteor.subscribe 'stackuser_answers', Router.current().params.site, Router.current().params.user_id
+    Template.stackuser_page.onRendered ->
+        Meteor.call 'stackuser_answers', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'stackuser_questions', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'stackuser_tags', Router.current().params.site, Router.current().params.user_id, ->
+
+
+
+        
     Template.stackuser_page.helpers
         stackuser_doc: ->
             Docs.findOne 

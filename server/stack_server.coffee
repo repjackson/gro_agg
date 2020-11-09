@@ -662,7 +662,7 @@ Meteor.methods
                         Docs.findOne
                             model:'stack_question'
                             site:site
-                            user_id:parseInt(user_id)
+                            "owner.user_id":parseInt(user_id)
                     if found
                         console.log 'found', found.title
                     unless found

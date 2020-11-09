@@ -35,6 +35,13 @@ template(name='stackuser_page')
                     a.ui.external.icon.button(href=link target='_window') 
                         i.linkify.icon
                         // |#{link}
+                .eight.wide.column
+                    .ui.grey.header.get_questions
+                        i.question.icon
+                        |questions
+                    .ui.large.list
+                        each user_questions
+                            a.item(href="/site/#{site}/doc/#{_id}") #{title}
                 .four.wide.column
                     .ui.dividing.header 
                         i.clone.icon
@@ -71,9 +78,17 @@ template(name='stackuser_page')
                                     .description
                                         |#{rank}
                                         .ui.label #{badge_id}
-                                        a.ui.circular.icon.compact.button(href=link target="_window")
-                                            i.external.icon
+                                        a(href=link target="_window")
+                                            i.external.grey.icon
 
+                .four.wide.column
+                    .ui.header.get_answers
+                        i.exclamation.icon
+                        |answers
+                    .ui.list
+                        each user_answers
+                            .item #{question_id}
+                            // .item hi !{body}
                 .four.wide.column
                     .ui.header emotion
                     .ui.large.list 
@@ -89,21 +104,6 @@ template(name='stackuser_page')
                     .ui.list
                         each user_tags
                             .item #{name}: #{count}
-                .four.wide.column
-                    .ui.header.get_answers
-                        i.exclamation.icon
-                        |answers
-                    .ui.list
-                        each user_answers
-                            .item #{question_id}
-                            // .item hi !{body}
-                .four.wide.column
-                    .ui.header.get_questions
-                        i.question.icon
-                        |questions
-                    .ui.list
-                        each user_questions
-                            a.item(href="/site/#{site}/doc/#{_id}") #{title}
                 .four.wide.column
                     .ui.header.get_comments
                         i.chat.outline.icon
