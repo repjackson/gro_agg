@@ -13,7 +13,8 @@ template(name='stack')
             .sixteen.wide.center.aligned.column
                 .ui.five.column.stackable.grid
                     each site_docs
-                        a.column(href="/site/#{api_site_parameter}")
+                        a.column.goto_site(href="/site/#{api_site_parameter}")
+                            img.ui.fluid.pointer.zoomer.image.site(src=high_resolution_icon_url class=currentUser.invert_class)
                             img.ui.fluid.pointer.zoomer.image.site(src=logo_url class=currentUser.invert_class)
                             // .header
                             //     |!{name}

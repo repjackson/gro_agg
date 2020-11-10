@@ -5,79 +5,51 @@ template(name='site_page')
                 .four.wide.column
                     // a.ui.circular.icon.button(href='/')
                     //     i.large.home.icon
+                    img.get_info(src=high_resolution_icon_url class=currentUser.invert_class)
                     img.get_info(src=logo_url class=currentUser.invert_class)
                     // img(src=icon_url)
                     // .ui.segment(style="background-color:#{styling.tag_background_color}")
                     // .ui.label #{tag_background_color}: tag_background_color
                     // .ui.label #{tag_foreground_color}: tag_foreground_color
                     // .ui.label #{link_color}: link_color
-                    // .ui.header related sites
+                    .ui.grey.small.header 
+                        |related sites
                     // .ui.inline.header !{name}
-                    // each related_sites
-                        // .ui.small.header 
-                        //     i.fork.icon
-                        //     |#{name}
+                    each related_sites
+                        .ui.tiny.header 
+                            i.fork.icon
+                            |!{name}
                         // .ui.list 
-                            // .item relation: #{relation}
-                            // .item api_site_parameter: #{api_site_parameter}
-                            // .item site_url: #{site_url}
-                    // a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
-                    //     i.large.link.twitter.icon
-                    // a.ui.large.button(href="/site/#{site}/questions")
-                    //     i.question.icon
-                    //     |questions
-                    // a.ui.large.button(href="/site/#{site}/users")
-                    //     i.user.icon
-                    //     |users
-                    // a.ui.large.button(href="/site/#{site}/tags")
-                    //     i.tags.icon
-                    //     |tags
-                    .ui.list.mobile.hidden
-                        a.item(href=site_url target="_window")
-                            |#{site_url}
-                            i.external.icon
-                        .item open beta {{ufrom open_beta_date}}
-                        .item closed beta {{ufrom closed_beta_date}}
-                        .item launched {{ufrom launch_date}}
-                        .item state: #{site_state}
-                        // .item #{high_resolution_icon_url} high_resolution_icon_url
-                        // .item #{favicon_url} favicon_url
-                        .item 
-                            strong #{audience}
-                        // .item #{api_site_parameter} api
-                        // .item #{site_type} site_type
-                        .item main emotion: #{main_emotion}
-                        .item new_active_users: #{new_active_users}
-                        .item total_users: #{total_users}
-                        .item badges_per_minute: #{badges_per_minute}
-                        .item total_badges: #{total_badges}
-                        .item total_votes: #{total_votes}
-                        .item total_comments: #{total_comments}
-                        .item answers_per_minute: #{answers_per_minute}
-                        .item questions_per_minute: #{questions_per_minute}
-                        .item total_answers: #{total_answers}
-                        .item total_accepted: #{total_accepted}
-                        .item total_unanswered: #{total_unanswered}
-                        .item total_questions: #{total_questions}
-                        .item api_revision: #{api_revision}
+                        //     .item relation: #{relation}
+                        //     .item api_site_parameter: #{api_site_parameter}
+                        //     .item site_url: #{site_url}
+                    a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
+                        i.large.link.twitter.icon
+                    a.ui.circular.basic.disabled.button(href="/site/#{site}/questions")
+                        i.question.icon
+                        |questions
+                    a.ui.circular.basic.disabled.button(href="/site/#{site}/users")
+                        i.user.icon
+                        |users
+                    a.ui.circular.basic.disabled.button(href="/site/#{site}/tags")
+                        i.tags.icon
+                        |tags
                         
-                    if in_dev
-                        +array_edit k='tags' d=true
                     .ui.small.dividing.grey.header 
                         i.users.icon
                         |#{site_users.count} users
-                    .ui.list
+                    .ui.selection.list
                         each site_users
                             a.item(href="/site/#{site}/user/#{user_id}") 
                                 img.ui.avatar.image(src=profile_image)
                                 .content
                                     .header
-                                        |#{display_name}
+                                        |#{display_name}: #{reputation}
                                     .description
-                                        |#{location}
+                                        |!{location}
                     // +comments
                     // +voting_full
-                .twelve.wide.column
+                .eight.wide.column
                     if selected_tags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
@@ -90,11 +62,12 @@ template(name='site_page')
                     each site_tags
                         +stack_tag_selector
                         // .ui.large.label(title=count) #{name}
+                    div
                     if skv_is 'sort_direction' 1
-                        .ui.icon.compact.circular.button.sort_down
+                        .ui.icon.compact.circular.basic.button.sort_down
                             i.caret.down.icon
                     else
-                        .ui.icon.compact.circular.button.sort_up
+                        .ui.icon.compact.circular.basic.button.sort_up
                             i.caret.up.icon
                     .ui.compact.circular.basic.small.button.limit_1
                         |1
@@ -108,7 +81,7 @@ template(name='site_page')
                         .ui.icon.active.large.circular.button.toggle_detail
                             i.list.large.icon
                     else
-                        .ui.icon.compact.large.circular.button.toggle_detail
+                        .ui.icon.compact.large.circular.basic.button.toggle_detail
                             i.list.large.icon
                         // i.line.chart.icon
                     // .ui.icon.compact.large.button 
@@ -141,28 +114,38 @@ template(name='site_page')
                                             .item created {{ufrom creation_dat}}
                                     +doc_emotion_small
                                         // .ui.label user_id #{user_id}
-    
-                                    
-                // .four.wide.column
-                //     .ui.circular.icon.button.vote_up
-                //         i.thumbs.up.icon
-                //     .ui.circular.icon.button.vote_down
-                //         i.thumbs.down.icon
-                //     each upvoters
-                //         .ui.small.header #{username}
-                //     each downvoters
-                //         .ui.small.header #{username}
-                //     .ui.header stats
-                //     .ui.list 
-                //         .item #{site_doc_count}
-                //     .ui.dividing.header 
-                //         |members
-                //     each members
-                //         .ui.header #{username}
-                //     .ui.button.join
-                //         |join
-                //     .ui.button.leave
-                //         |leave
+                .four.wide.column
+                    .ui.small.list.mobile.hidden
+                        a.item(href=site_url target="_window")
+                            |#{site_url}
+                            i.external.icon
+                        .item open beta {{ufrom open_beta_date}}
+                        .item closed beta {{ufrom closed_beta_date}}
+                        .item launched {{ufrom launch_date}}
+                        .item state: #{site_state}
+                        // .item #{high_resolution_icon_url} high_resolution_icon_url
+                        // .item #{favicon_url} favicon_url
+                        .item 
+                            strong #{audience}
+                        // .item #{api_site_parameter} api
+                        // .item #{site_type} site_type
+                        .item main emotion: #{main_emotion}
+                        .item new_active_users: #{new_active_users}
+                        .item total_users: #{total_users}
+                        .item badges_per_minute: #{badges_per_minute}
+                        .item total_badges: #{total_badges}
+                        .item total_votes: #{total_votes}
+                        .item total_comments: #{total_comments}
+                        .item answers_per_minute: #{answers_per_minute}
+                        .item questions_per_minute: #{questions_per_minute}
+                        .item total_answers: #{total_answers}
+                        .item total_accepted: #{total_accepted}
+                        .item total_unanswered: #{total_unanswered}
+                        .item total_questions: #{total_questions}
+                        .item api_revision: #{api_revision}
+                    if in_dev
+                        +array_edit k='tags' d=true
+
 
 
 template(name='stack_tag_selector')

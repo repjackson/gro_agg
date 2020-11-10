@@ -847,7 +847,7 @@ Meteor.methods
         # url = 'http://api.stackexchange.com/2.1/questions?pagesize=1&fromdate=1356998400&todate=1359676800&order=desc&min=0&sort=votes&tagged=javascript&site=stackoverflow'
         # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&tagged=#{selected_tags}&intitle=#{query}&site=stackoverflow"
         # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&intitle=#{query}&site=stackoverflow"
-        url = "https://api.stackexchange.com/2.2/info?site=#{site}"
+        url = "https://api.stackexchange.com/2.2/info?site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -861,25 +861,25 @@ Meteor.methods
                     found = 
                         Docs.findOne
                             model:'stack_site'
-                            name:item.name
+                            api_site_parameter:site
                             # question_id:item.question_id
                     if found
                         console.log 'found site', found.name
                         Docs.update found._id,
                             $set:
-                                new_active_users: new_active_users
-                                total_users: total_users
-                                badges_per_minute: badges_per_minute
-                                total_badges: total_badges
-                                total_votes: total_votes
-                                total_comments: total_comments
-                                answers_per_minute: answers_per_minute
-                                questions_per_minute: questions_per_minute
-                                total_answers: total_answers
-                                total_accepted: total_accepted
-                                total_unanswered: total_unanswered
-                                total_questions: total_questions
-                                api_revision: api_revision
+                                new_active_users: item.new_active_users
+                                total_users: item.total_users
+                                badges_per_minute: item.badges_per_minute
+                                total_badges: item.total_badges
+                                total_votes: item.total_votes
+                                total_comments: item.total_comments
+                                answers_per_minute: item.answers_per_minute
+                                questions_per_minute: item.questions_per_minute
+                                total_answers: item.total_answers
+                                total_accepted: item.total_accepted
+                                total_unanswered: item.total_unanswered
+                                total_questions: item.total_questions
+                                api_revision: item.api_revision
 
                 return
             )).catch((err)->

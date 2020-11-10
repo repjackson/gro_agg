@@ -99,7 +99,8 @@ if Meteor.isClient
                 model:'stackuser'
                 site:Router.current().params.site
             },
-                sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+                sort:
+                    reputation: -1
                 limit:Session.get('limit')
     
     # Template.site_users.events

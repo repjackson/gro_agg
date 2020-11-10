@@ -13,10 +13,13 @@ if Meteor.isClient
         'click .home2': -> 
             # console.log @valueOf()
             Session.set('site_name_filter',null)
+            selected_tags.clear()
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @innerHTML()
 
   
     Template.stack.events
+        'click .goto_site': -> 
+            selected_tags.clear()
         # 'click .site': -> 
         #     console.log @valueOf()
         #     window.speechSynthesis.speak new SpeechSynthesisUtterance @name

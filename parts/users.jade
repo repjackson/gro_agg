@@ -26,7 +26,7 @@ template(name='user_cloud')
         //     .ui.icon.input
         //         i.plus.icon
         //         input#quick_add(type='text')
-        //     // #add.ui.button
+        //     // #add.ui.circular.button
         //     //     i.plus.icon
         //     //     | Full Add
         // .ui.hidden.divider
@@ -34,25 +34,30 @@ template(name='user_cloud')
         //     i.search.icon
         //     input(type='text')
     if selected_tags
-        #clear_tags.ui.primary.icon.compact.button
+        #clear_tags.ui.primary.icon.compact.circular.button
             i.remove.icon
         each selected_tags
-            .unselect_tag.ui.primary.compact.button
+            .unselect_tag.ui.primary.compact.circular.button
                 strong #{this}
     each all_tags
-        .ui.compact.button.select_tag(class=cloud_tag_class) #{this.name}
+        .ui.compact.circular.button.select_tag(class=cloud_tag_class) #{this.name}
             small #{this.count}
-    .ui.header site
+    .ui.grey.inline.header
+        i.globe.icon
+        |site
     if selected_user_site
-        .unselect_site.ui.primary.compact.button
+        .unselect_site.ui.primary.compact.circular.button
             strong #{selected_user_site}
     each all_sites
-        .ui.compact.basic.button.select_site(class=cloud_site_class) #{this.name}
-    .ui.header location
+        .ui.compact.basic.circular.button.select_site(class=cloud_site_class) #{this.name}
+    .spacer
+    .ui.grey.inline.header 
+        i.marker.icon
+        |location
     if selected_user_location
-        .unselect_location.ui.primary.compact.button
+        .unselect_location.ui.primary.compact.circular.button
             strong #{selected_user_location}
     each all_locations
-        .ui.compact.basic.button.select_location(class=cloud_location_class) #{this.name}
+        .ui.compact.basic.circular.button.select_location(class=cloud_location_class) #{this.name}
             // small #{this.count}
                                 
