@@ -58,7 +58,7 @@ if Meteor.isClient
                 api_site_parameter:Router.current().params.site
         site_questions: ->
             Docs.find {
-                model:'stack'
+                model:'stack_question'
                 site:Router.current().params.site
             },
                 sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
@@ -198,7 +198,7 @@ if Meteor.isServer
         #     model:'stack_site'
         #     api_site_parameter:site
         match = {
-            model:'stack'
+            model:'stack_question'
             site:site
             }
         if selected_tags.length > 0 then match.tags = $all:selected_tags
@@ -216,7 +216,7 @@ if Meteor.isServer
         # @unblock()
         self = @
         match = {
-            model:'stack'
+            model:'stack_question'
             site:site
             }
         # console.log 'tags', selected_tags

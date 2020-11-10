@@ -15,6 +15,7 @@ if Meteor.isClient
             selected_user_tags.array() 
             Session.get('selected_user_site')
             Session.get('selected_user_location')
+            Session.get('limit')
 
     Template.users.helpers
         users: ->
@@ -144,7 +145,8 @@ if Meteor.isServer
         if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
         if selected_user_site then match.site = selected_user_site
         if selected_user_location then match.location = selected_user_location
-        Docs.find match
+        Docs.find match,
+            limit:20
 
 
 

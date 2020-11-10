@@ -55,7 +55,7 @@ template(name='stack_page')
                     +print_this
                     +doc_sentiment
                     
-                .eight.wide.column.scrolling
+                .nine.wide.column.scrolling
                     // div(class=currentUser.invert_class)
                     .f11.speak_this !{body}
                     .ui.dividing.header.get_question_comments
@@ -126,16 +126,17 @@ template(name='stack_page')
                             +watson_view
                             +watson_full
                     +comments
-                .four.wide.column
+                .three.wide.column
                     with owner
-                        .ui.divider
-                        a.ui.inline.header(href="/site/#{current_doc.site}/user/#{user_id}") #{display_name}
-                        img.ui.inline.centered.invert.rounded.image(src=profile_image)
-                        .ui.label reputation #{reputation}
-                        .ui.label user_id #{user_id}
-                        .ui.label user_type #{user_type}
-                        a.ui.circular.icon.button(href=link)
-                            i.large.external.icon
+                        a.ui.fluid.card(href="/site/#{current_doc.site}/user/#{user_id}")
+                            img.ui.rounded.image(src=profile_image)
+                            .content
+                                .ui.header #{display_name}
+                                .ui.label reputation #{reputation}
+                                .ui.label user_id #{user_id}
+                                .ui.label user_type #{user_type}
+                                // a.ui.circular.icon.button(href=link)
+                                //     i.large.external.icon
                     .ui.header.get_linked linked
                     each linked_question_ids
                         .ui.header #{this}
