@@ -12,7 +12,7 @@ template(name='site_page')
                     // .ui.label #{tag_foreground_color}: tag_foreground_color
                     // .ui.label #{link_color}: link_color
                     // .ui.header related sites
-                    .ui.header !{name}
+                    // .ui.inline.header !{name}
                     // each related_sites
                         // .ui.small.header 
                         //     i.fork.icon
@@ -111,7 +111,7 @@ template(name='site_page')
                                     i.tag.grey.icon
                                     |#{tags.length}
                                     each tags
-                                        .ui.small.label #{this}
+                                        .ui.small.basic.circular.label #{this}
                                     .ui.horizontal.list
                                         with owner
                                             a.ui.small.header.item(href="/site/#{../site}/user/#{user_id}")

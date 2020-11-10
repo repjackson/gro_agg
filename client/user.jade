@@ -7,9 +7,9 @@ template(name='stackuser_page')
     with stackuser_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.column
-                    img.ui.rounded.image(src=profile_image class=currentUser.invert_class)
-                    .ui.header !{display_name}
+                .three.wide.column
+                    img.ui.rounded.fluid.image(src=profile_image class=currentUser.invert_class)
+                    .ui.center.aligned.header !{display_name}
                     +print_this
                     .ui.list
                         .item account id #{account_id}
@@ -36,11 +36,11 @@ template(name='stackuser_page')
                     a.ui.external.icon.button(href=link target='_window') 
                         i.linkify.icon
                         // |#{link}
-                .eight.wide.column
+                .nine.wide.column
                     .ui.grey.header.get_questions
                         i.question.icon
-                        |questions
-                    .ui.large.selection.list
+                        |#{user_questions.count} questions
+                    .ui.large.selection.list.scrolling
                         each user_questions
                             a.zoomer.item(href="/site/#{site}/doc/#{_id}") 
                                 .header
@@ -51,30 +51,30 @@ template(name='stackuser_page')
                                     +doc_emotion_small    
                     .ui.header.get_answers
                         i.exclamation.icon
-                        |answers
-                    .ui.list
+                        |#{user_answers.count} answers
+                    .ui.list.scrolling
                         each user_answers
                             +answer_item
                 .four.wide.column
                     .ui.segment
                         a.ui.header(href="/site/#{site}")
                             |#{site}
-                    .ui.dividing.header 
-                        i.clone.icon
+                    .ui.grey.small.header 
+                        i.fork.icon
                         |related accounts
                     each related_accounts
                         .ui.small.header !{title}
-                    .ui.dividing.header
+                    .ui.grey.small.header
                         i.tags.icon
                         |tags
                     with site_doc
                         .ui.segment
-                            a.ui.header(href="/site/#{name}") #{name}
+                            a.ui.grey.header(href="/site/#{name}") #{name}
                                 
                     .ui.grey.header.get_badges
                         i.certificate.icon
-                        |badges
-                    .ui.list
+                        |#{user_badges.count} badges
+                    .ui.horizontal.list
                         .item 
                             +i n='medal2--v1' cl="#{currentUser.invert_class} ui avatar image"
                             |gold #{badge_counts.gold}
@@ -84,7 +84,7 @@ template(name='stackuser_page')
                         .item
                             +i n='medal2-third-place--v1' cl="#{currentUser.invert_class} ui avatar image"
                             |bronze #{badge_counts.bronze}
-                    .ui.list
+                    .ui.list.smallscroll
                         each user_badges
                             .item 
                                 .content 

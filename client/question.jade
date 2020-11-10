@@ -3,7 +3,7 @@ template(name='stack_page')
         .ui.stackable.padded.grid
             .middle.aligned.row
                 .four.wide.center.aligned.column
-                    a.ui.large.fluid.basic.button(href="/site/#{site}") 
+                    a.ui.large.fluid.basic.circular.button(href="/site/#{site}") 
                         i.chevron.left.icon
                         if watson.metadata.image
                             img.ui.invert.mini.inline.image(src=watson.metadata.image)    
@@ -135,9 +135,9 @@ template(name='stack_page')
                             img.ui.rounded.image(src=profile_image)
                             .content
                                 .ui.header #{display_name}
-                                .ui.label reputation #{reputation}
-                                .ui.label user_id #{user_id}
-                                .ui.label user_type #{user_type}
+                                .ui.basic.label #{reputation}p
+                                .ui.basic.label id #{user_id}
+                                .ui.basic.label type #{user_type}
                                 // a.ui.circular.icon.button(href=link)
                                 //     i.large.external.icon
                     .ui.header.get_linked linked

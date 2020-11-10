@@ -246,15 +246,15 @@ html.ios body {
 }
 
 .hscroll::-webkit-scrollbar {
-    height: 0px !important;
+    height: 1px !important;
    /*border-radius: 10px !important; */
 }
 .secnav::-webkit-scrollbar {
-    height: 0px !important;
+    height: 1px !important;
    /*border-radius: 10px !important; */
 }
 .topnav::-webkit-scrollbar {
-    height: 0px !important;
+    height: 1px !important;
    /*border-radius: 10px !important; */
 }
 
@@ -543,7 +543,7 @@ input {
 }
 
 ::-webkit-scrollbar {
-  width: 0px !important;
+  width: 1px !important;
   /*border-radius: 10px !important;*/
 }
 .wrap_input {
