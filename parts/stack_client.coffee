@@ -66,9 +66,10 @@ if Meteor.isServer
     Meteor.publish 'question_answers', (question_doc_id)->
         question = Docs.findOne question_doc_id
         console.log question.question_id
-        # Docs.find 
-        #     model:'stack_answer'
-        #     question_id:question.question_id
+        Docs.find 
+            model:'stack_answer'
+            site:question.site
+            question_id:question.question_id
     
     Meteor.publish 'stackuser_doc', (site,user_id)->
         console.log 'looking for', site, user_id

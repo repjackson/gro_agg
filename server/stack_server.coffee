@@ -420,7 +420,7 @@ Meteor.methods
 
 
         
-    question_answers: (site, question_doc_id)->
+    get_question_answers: (site, question_doc_id)->
         question = Docs.findOne question_doc_id
         # console.log 'searching question', site, question_id
         url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/answers?order=desc&sort=activity&site=#{site}&filter=!9_bDE(fI5&key=lPplyGlNUs)cIMOajW03aw(("
@@ -437,7 +437,7 @@ Meteor.methods
                 for item in parsed.items
                     found = 
                         Docs.findOne
-                            model:'stack'
+                            model:'stack_answer'
                             question_id:item.question_id
                             answer_id:item.answer_id
                     if found
@@ -594,7 +594,7 @@ Meteor.methods
                 for item in parsed.items
                     found = 
                         Docs.findOne
-                            model:'stack'
+                            model:'stack_question'
                             question_id:item.question_id
                     if found
                         # console.log 'found', found.title
@@ -602,7 +602,7 @@ Meteor.methods
                             $addToSet:tags:query
                     unless found
                         item.site = site
-                        item.model = 'stack'
+                        item.model = 'stack_question'
                         item.tags.push query
                         new_id = 
                             Docs.insert item

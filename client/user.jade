@@ -48,6 +48,7 @@ template(name='stackuser_page')
                                 .description
                                     each tags 
                                         .ui.tiny.basic.circular.label #{this}
+                                    +doc_emotion_small    
                     .ui.header.get_answers
                         i.exclamation.icon
                         |answers
@@ -55,6 +56,9 @@ template(name='stackuser_page')
                         each user_answers
                             +answer_item
                 .four.wide.column
+                    .ui.segment
+                        a.ui.header(href="/site/#{site}")
+                            |#{site}
                     .ui.dividing.header 
                         i.clone.icon
                         |related accounts
@@ -63,8 +67,6 @@ template(name='stackuser_page')
                     .ui.dividing.header
                         i.tags.icon
                         |tags
-                    a.ui.header(href="/site/#{site}")
-                        |site #{site}
                     with site_doc
                         .ui.segment
                             a.ui.header(href="/site/#{name}") #{name}
@@ -93,7 +95,6 @@ template(name='stackuser_page')
                                         a(href=link target="_window")
                                             i.external.grey.icon
 
-                .four.wide.column
                 .four.wide.column
                     .ui.header emotion
                     .ui.large.list 

@@ -78,6 +78,7 @@ template(name='stack_page')
                                 |#{user_type}
                                 |#{accept_rate}
                                 a(href=link) #{link}
+                            
                             // |#{content_license}
                             // +voting
                             // +comments
@@ -89,15 +90,15 @@ template(name='stack_page')
                                 .ui.inverted.green.corner.attached.label 
                                     i.checkmark.icon
                             // div(class=currentUser.invert_class)
-                            .f10.speak_this !{body}
+                            .f11.speak_this !{body}
+                            .ui.divider
                             .ui.horizontal.list
                                 .item last active {{ufrom last_activity_date}}
                                 .item last edited {{ufrom last_edit_date}}
                                 .item created {{ufrom creation_date}}
 
                             with owner
-                                .ui.divider
-                                a.ui.inline.header(href="/site/#{current_doc.site}/user/#{user_id}")
+                                a.ui.header(href="/site/#{current_doc.site}/user/#{user_id}")
                                     img.ui.avatar.invert.image(src=profile_image)
                                     |!{display_name}
                                 |#{reputation}
@@ -109,6 +110,8 @@ template(name='stack_page')
                             // |#{content_license}
                             // +voting
                             // +comments
+                            if in_dev 
+                                +remove_button
                     +skve k='stack_section' v='watson' l='watson' i='brain' 
                     if tone
                         +skve k='stack_section' v='tone' l='tone' i='user' 

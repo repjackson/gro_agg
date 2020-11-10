@@ -47,6 +47,18 @@ template(name='site_page')
                         // .item #{site_type} site_type
                     if in_dev
                         +array_edit k='tags' d=true
+                    .ui.small.dividing.grey.header 
+                        i.users.icon
+                        |#{site_users.count} users
+                    .ui.list
+                        each site_users
+                            a.item(href="/site/#{site}/user/#{user_id}") 
+                                img.ui.avatar.image(src=profile_image)
+                                .content
+                                    .header
+                                        |#{display_name}
+                                    .description
+                                        |#{location}
                     // +comments
                     // +voting_full
                 .twelve.wide.column
