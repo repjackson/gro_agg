@@ -117,14 +117,17 @@ Meteor.methods
             console.log res
 
     # agg_omega: (query, key, collection)->
-    omega: (term)->
+    omega: (site,user_id)->
         # agg_res = Meteor.call 'agg_omega2', (err, res)->
         #     console.log res
         #     console.log 'res from async agg'
-        term_doc =
-            Terms.findOne(title:term)
-        if term_doc
-            agg_res = Meteor.call 'omega2', term
+        site_doc =
+            Docs.findOne(
+                model:'stack_site'
+                api_site_parameter:site
+            )
+        if site_doc
+            agg_res = Meteor.call 'omega2', site, user_id
             # console.log 'hi'
             # console.log 'agg res', agg_res
             # omega = Docs.findOne model:'omega_session'
@@ -146,7 +149,7 @@ Meteor.methods
             # console.log 'max term emotion', _.max(filtered_agg_res, (tag)->tag.count)
             term_emotion = _.max(filtered_agg_res, (tag)->tag.count).title
             if term_emotion
-                Terms.update term_doc._id,
+                Docs.update stackuser_doc._id,
                     $set:
                         max_emotion_name:term_emotion
             # console.log 'term final emotion', term_emotion
@@ -170,7 +173,7 @@ Meteor.methods
         #         $all: ['dao']
 
         # console.log 'running agg omega', omega
-        match.model = $in:['reddit','wikipedia','post']
+        match.model = 'stack_question'
         # console.log 'doc_count', Docs.find(match).count()
         total_doc_result_count =
             Docs.find( match,

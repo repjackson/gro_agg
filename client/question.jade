@@ -79,7 +79,7 @@ template(name='stack_page')
                                 |#{accept_rate}
                                 a(href=link) #{link}
                             
-                            // |#{content_license}
+                            |#{content_license}
                             // +voting
                             // +comments
                     
@@ -102,12 +102,12 @@ template(name='stack_page')
                                     img.ui.avatar.invert.image(src=profile_image)
                                     |!{display_name}
                                 |#{reputation}
-                                // |#{user_id}
-                                // |#{user_type}
-                                // |#{accept_rate}
-                                // a.ui.icon.button(href=link)
-                                //     i.external.icon
-                            // |#{content_license}
+                                |#{user_id}
+                                |#{user_type}
+                                |#{accept_rate}
+                                a.ui.icon.button(href=link)
+                                    i.external.icon
+                            |#{content_license}
                             // +voting
                             // +comments
                             if in_dev 

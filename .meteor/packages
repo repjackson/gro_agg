@@ -36,6 +36,5 @@ ecmascript@0.14.3
 http@1.4.2
 tmeasday:publish-counts
 multiply:iron-router-progress
-accounts-password@1.6.2
 zimme:active-route
 flowkey:hotkeys
