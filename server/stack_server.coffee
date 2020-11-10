@@ -841,6 +841,51 @@ Meteor.methods
                 console.log 'fail', err
             )
         
+    get_site_info: (site) ->
+        console.log 'getting sites'
+        # var url = 'https://api.stackexchange.com/2.2/sites';
+        # url = 'http://api.stackexchange.com/2.1/questions?pagesize=1&fromdate=1356998400&todate=1359676800&order=desc&min=0&sort=votes&tagged=javascript&site=stackoverflow'
+        # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&tagged=#{selected_tags}&intitle=#{query}&site=stackoverflow"
+        # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&intitle=#{query}&site=stackoverflow"
+        url = "https://api.stackexchange.com/2.2/info?site=#{site}"
+        options = {
+            url: url
+            headers: 'accept-encoding': 'gzip'
+            gzip: true
+        }
+        rp(options)
+            .then(Meteor.bindEnvironment((data)->
+                parsed = JSON.parse(data)
+                # console.log 'body',JSON.parse(body), typeof(body)
+                for item in parsed.items
+                    found = 
+                        Docs.findOne
+                            model:'stack_site'
+                            name:item.name
+                            # question_id:item.question_id
+                    if found
+                        console.log 'found site', found.name
+                        Docs.update found._id,
+                            $set:
+                                new_active_users: new_active_users
+                                total_users: total_users
+                                badges_per_minute: badges_per_minute
+                                total_badges: total_badges
+                                total_votes: total_votes
+                                total_comments: total_comments
+                                answers_per_minute: answers_per_minute
+                                questions_per_minute: questions_per_minute
+                                total_answers: total_answers
+                                total_accepted: total_accepted
+                                total_unanswered: total_unanswered
+                                total_questions: total_questions
+                                api_revision: api_revision
+
+                return
+            )).catch((err)->
+                console.log 'fail', err
+            )
+        
     test: ->
         options = {
             url: "https://api.stackexchange.com/2.2/users/237231/tags?order=desc&site=stats",

@@ -62,6 +62,9 @@ if Meteor.isClient
                 limit:Session.get('limit')
     
     Template.site_page.events
+        'click .get_info': (e,t)-> 
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            Meteor.call 'get_site_info', Router.current().params.site, ->
         'click .view_question': (e,t)-> window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         'click .sort_timestamp': (e,t)-> Session.set('sort_key','_timestamp')
         'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
