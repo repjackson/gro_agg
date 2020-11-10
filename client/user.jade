@@ -37,9 +37,11 @@ template(name='stackuser_page')
                         i.linkify.icon
                         // |#{link}
                 .nine.wide.column
-                    .ui.grey.header.get_questions
+                    .ui.grey.header.get_question.agg
                         i.question.icon
                         |#{user_questions.count} questions
+                    .ui.small.header 
+                        |max emotion: #{max_emotion_name}
                     .ui.large.selection.list.scrolling
                         each user_questions
                             a.zoomer.item(href="/site/#{site}/doc/#{_id}") 

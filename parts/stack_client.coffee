@@ -9,9 +9,10 @@ if Meteor.isClient
 
     
 
-    Template.body.events
-        # 'click .speak_this': -> 
-        #     console.log @valueOf()
+    Template.nav.events
+        'click .home2': -> 
+            # console.log @valueOf()
+            Session.set('site_name_filter',null)
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @innerHTML()
 
   

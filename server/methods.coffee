@@ -126,10 +126,19 @@ Meteor.methods
                 model:'stack_site'
                 api_site_parameter:site
             )
-        if site_doc
+        user_doc =
+            Docs.findOne(
+                model:'stackuser'
+                user_id:parseInt(user_id)
+                site:site
+            )
+        unless user_doc
+            console.log 'no user doc found', site, user_id
+        
+        if user_doc
             agg_res = Meteor.call 'omega2', site, user_id
             # console.log 'hi'
-            # console.log 'agg res', agg_res
+            console.log 'agg res', agg_res
             # omega = Docs.findOne model:'omega_session'
             # doc_count = omega.total_doc_result_count
             # doc_count = omega.doc_result_ids.length
@@ -149,7 +158,7 @@ Meteor.methods
             # console.log 'max term emotion', _.max(filtered_agg_res, (tag)->tag.count)
             term_emotion = _.max(filtered_agg_res, (tag)->tag.count).title
             if term_emotion
-                Docs.update stackuser_doc._id,
+                Docs.update user_doc._id,
                     $set:
                         max_emotion_name:term_emotion
             # console.log 'term final emotion', term_emotion
@@ -158,13 +167,26 @@ Meteor.methods
             #     $set:
             #         # agg:agg_res
             #         filtered_agg_res:filtered_agg_res
-    omega2: (term)->
+    omega2: (site,user_id)->
+        site_doc =
+            Docs.findOne(
+                model:'stack_site'
+                api_site_parameter:site
+            )
+        user_doc =
+            Docs.findOne(
+                model:'stackuser'
+                site:site
+                user_id:user_id
+            )
+        
         # omega =
         #     Docs.findOne
         #         model:'omega_session'
 
         # console.log 'running agg omega', omega
-        match = {tags:$in:[term]}
+        # match = {tags:$in:[term]}
+        match = {}
         # if omega.selected_tags.length > 0
         #     match.tags =
         #         $all: omega.selected_tags
@@ -174,6 +196,8 @@ Meteor.methods
 
         # console.log 'running agg omega', omega
         match.model = 'stack_question'
+        # match.site = site
+        match.site = site
         # console.log 'doc_count', Docs.find(match).count()
         total_doc_result_count =
             Docs.find( match,

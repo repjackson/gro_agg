@@ -57,6 +57,10 @@ if Meteor.isClient
     
         
     Template.stackuser_page.events
+        'click .agg': ->
+            Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
+        
+        
         'click .search': ->
             Meteor.call 'search_stackuser', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_answers': ->
