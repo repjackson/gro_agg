@@ -1,18 +1,19 @@
 template(name='stackuser_page')
     unless stackuser_doc
         // .ui.header no user found
-        .ui.massive.fluid.segment.zoomer.pointer.search 
+        .ui.massive.fluid.circular.button.f15.zoomer.pointer.search 
             i.download.icon
             |download user info
     with stackuser_doc
         .ui.stackable.padded.grid
             .row
                 .three.wide.column
-                    img.ui.rounded.fluid.image(src=profile_image)
+                    img.ui.rounded.fluid.image.pointer.boop(src=profile_image)
                     .ui.center.aligned.header !{display_name} 
                         small #{reputation}
                     +print_this
                     .ui.list
+                        .item #{boops} boops
                         .item account id #{account_id}
                         .item employee #{is_employee}
                         .item last modified {{ufrom last_modified_date}}

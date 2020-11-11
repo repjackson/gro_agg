@@ -379,9 +379,15 @@ a.goto_article {
 /*    transform: scale(1.2) !important;*/
 /*}*/
 .superzoom:hover {
-    transition: all .1s ease !important; 
-    transform: scale(2) !important;
+    transition: all .3s ease !important; 
+    transform: scale(3) !important;
     z-index:1000 !important;
+    border-radius: 10px !important;
+    animation: fadein .5s !important;
+    /*-webkit-transition: opacity .25s ease-in !important;*/
+    /* -webkit-transition: opacity .25s ease-out; */
+    animation: fadeout .5s; 
+    
 }
 .inset {
   box-shadow: inset 3px 3px 5px 0px rgba(0,0,0,0.75);

@@ -57,6 +57,8 @@ if Meteor.isClient
     
         
     Template.stackuser_page.events
+        'click .boop': ->
+            Meteor.call 'boop', Router.current().params.site, Router.current().params.user_id, ->
         'click .agg': ->
             Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
         
@@ -81,6 +83,23 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.methods
+        boop: (site,user_id)->
+            # console.log 'booping'
+            user = 
+                Docs.findOne
+                    model:'stackuser'
+                    user_id:parseInt(user_id)
+                    site:site
+            if user
+                # console.log 'user', user
+                Docs.update user._id,
+                    $inc:boops:1
+            # else
+            #     console.log 'no user'
+            
+            
+        
     Meteor.publish 'question_from_id', (qid)->
         Docs.find 
             # model:'stack_question'

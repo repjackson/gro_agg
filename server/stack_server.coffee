@@ -497,7 +497,7 @@ Meteor.methods
         
     get_linked_questions: (site, question_doc_id)->
         question = Docs.findOne question_doc_id
-        console.log 'searching linked questions', site, question._id
+        # console.log 'searching linked questions', site, question._id
         url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/linked?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         # console.log url
         options = {
@@ -540,7 +540,7 @@ Meteor.methods
         
     get_related_questions: (site, question_doc_id)->
         question = Docs.findOne question_doc_id
-        console.log 'searching related questions', site, question._id
+        # console.log 'searching related questions', site, question._id
         url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/related?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         # console.log url
         options = {
@@ -580,7 +580,7 @@ Meteor.methods
 
         
     search_stack: (site, query, selected_tags) ->
-        console.log('searching stack for', typeof(query), query);
+        # console.log('searching stack for', typeof(query), query);
         url = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=#{query}&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -615,7 +615,7 @@ Meteor.methods
    
    
     search_stackuser: (site, user_id) ->
-        console.log('searching stack user for', site, user_id);
+        # console.log('searching stack user for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}?order=desc&sort=reputation&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -646,7 +646,7 @@ Meteor.methods
             )
 
     stackuser_questions: (site, user_id) ->
-        console.log('searching stack user questions for', site, user_id);
+        # console.log('searching stack user questions for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/questions?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -676,7 +676,7 @@ Meteor.methods
             )
    
     stackuser_answers: (site, user_id) ->
-        console.log('searching stack user answers for', site, user_id);
+        # console.log('searching stack user answers for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/answers?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -707,7 +707,7 @@ Meteor.methods
             )
 
     stackuser_comments: (site, user_id) ->
-        console.log('searching stack user comments for', site, user_id);
+        # console.log('searching stack user comments for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/comments?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -742,7 +742,7 @@ Meteor.methods
         # })
         
     stackuser_badges: (site, user_id) ->
-        console.log('searching stack user badges for', site, user_id);
+        # console.log('searching stack user badges for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/badges?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -773,7 +773,7 @@ Meteor.methods
             )
         
     stackuser_tags: (site, user_id) ->
-        console.log('searching stack user tags for', site, user_id);
+        # console.log('searching stack user tags for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/tags?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -804,7 +804,7 @@ Meteor.methods
             )
 
     sites: () ->
-        console.log 'getting sites'
+        # console.log 'getting sites'
         # var url = 'https://api.stackexchange.com/2.2/sites';
         # url = 'http://api.stackexchange.com/2.1/questions?pagesize=1&fromdate=1356998400&todate=1359676800&order=desc&min=0&sort=votes&tagged=javascript&site=stackoverflow'
         # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&tagged=#{selected_tags}&intitle=#{query}&site=stackoverflow"
@@ -842,7 +842,7 @@ Meteor.methods
             )
         
     get_site_info: (site) ->
-        console.log 'getting sites'
+        # console.log 'getting sites'
         # var url = 'https://api.stackexchange.com/2.2/sites';
         # url = 'http://api.stackexchange.com/2.1/questions?pagesize=1&fromdate=1356998400&todate=1359676800&order=desc&min=0&sort=votes&tagged=javascript&site=stackoverflow'
         # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&tagged=#{selected_tags}&intitle=#{query}&site=stackoverflow"
@@ -864,7 +864,7 @@ Meteor.methods
                             api_site_parameter:site
                             # question_id:item.question_id
                     if found
-                        console.log 'found site', found.name
+                        # console.log 'found site', found.name
                         Docs.update found._id,
                             $set:
                                 new_active_users: item.new_active_users
@@ -895,7 +895,7 @@ Meteor.methods
         };
         rp(options)
             .then(Meteor.bindEnvironment((data)->
-                console.log('User has repos', data)
+                # console.log('User has repos', data)
                 parsed = JSON.parse(data)
                 for item in parsed.items
                     console.log item
