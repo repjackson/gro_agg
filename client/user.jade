@@ -48,11 +48,25 @@ template(name='stackuser_page')
                         each user_questions
                             a.zoomer.item.say_title(href="/site/#{site}/doc/#{_id}") 
                                 .header
+                                    strong #{score}:
                                     |!{title}
                                 .description
                                     each tags 
                                         .ui.tiny.basic.circular.label #{this}
                                     +doc_emotion_small    
+                                    span(title="#{view_count} views")
+                                        i.grey.eye.icon
+                                        |#{view_count}
+                                    span(title="#{answer_count} answers")
+                                        i.grey.exclamation.icon
+                                        |#{answer_count}
+                                    if creation_date
+                                        span(title="created {{ufrom creation_date}}")
+                                            i.grey.clock.icon
+                                            |{{ufrom creation_date}}
+                                    if last_modified_date
+                                        i.pencil.icon
+                                        |{{ufrom last_modified_date}}
                     .ui.header.get_answers
                         i.exclamation.icon
                         |#{user_answers.count} answers

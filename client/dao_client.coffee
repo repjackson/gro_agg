@@ -373,12 +373,28 @@ Template.doc_tag.events
             
        
        
-       
+Template.watson_full.events
+    'click .add_stack_tag': ->
+        selected_tags.clear()
+        selected_tags.push @valueOf()
+        # if Session.equals('view_mode','stack')
+        Router.go "/site/#{Router.current().params.site}"
+        # Session.set('thinking',true)
+        # $('body').toast(
+        #     showIcon: 'stack exchange'
+        #     message: 'started'
+        #     displayTime: 'auto',
+        #     position: 'bottom right'
+        # )
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+
+        Meteor.call 'search_stack', Router.current().params.site, @valueOf(), =>
+
 
 Template.stack_page.events
     'click .add_stack_tag': ->
-        selected_tags.push @valueOf()
         selected_tags.clear()
+        selected_tags.push @valueOf()
         # if Session.equals('view_mode','stack')
         Router.go "/site/#{Router.current().params.site}"
         # Session.set('thinking',true)

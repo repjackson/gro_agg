@@ -2,15 +2,27 @@ template(name='stack_page')
     with current_doc
         .ui.stackable.padded.grid
             .middle.aligned.row
-                .four.wide.center.aligned.column
+                .three.wide.center.aligned.column
                     a.ui.large.fluid.basic.circular.button(href="/site/#{site}") 
                         i.chevron.left.icon
                         if watson.metadata.image
                             img.ui.invert.mini.inline.image(src=watson.metadata.image)    
                         | #{site}
-                .twelve.wide.center.aligned.column
+                .ten.wide.center.aligned.column
                     .ui.header.say_title.get_question
                         |!{title}
+                .three.wide.column
+                    with owner
+                        a.ui.fluid.card.say_name(href="/site/#{current_doc.site}/user/#{user_id}")
+                            img.ui.tiny.image(src=profile_image)
+                            .content
+                                .ui.header #{display_name}
+                                    small #{reputation}
+                                // .ui.basic.label id #{user_id}
+                                // .ui.basic.label type #{user_type}
+                                // a.ui.circular.icon.button(href=link)
+                                //     i.large.external.icon
+                        
             .row
                 .four.wide.column.scrolling
                     +doc_emotion
@@ -56,10 +68,10 @@ template(name='stack_page')
                     +print_this
                     +doc_sentiment
                     
-                .nine.wide.column.scrolling
+                .twelve.wide.column.scrolling
                     // div(class=currentUser.invert_class)
                     .ui.green.segment.speak_this
-                        .f11.speak_this !{body}
+                        .f11.speak_body !{body}
                     .ui.small.grey.header.get_question_comments
                         i.chat.outline.icon
                         // |comments
@@ -69,7 +81,7 @@ template(name='stack_page')
                                 .ui.invert.inverted.green.label 
                                     |accepted
                             // div(class=currentUser.invert_class)
-                            .f11 !{body}
+                            .f11.speak_body !{body}
                             with owner
                                 .ui.divider
                                 i.chat.icon
@@ -93,7 +105,7 @@ template(name='stack_page')
                                 .ui.inverted.green.corner.attached.label 
                                     i.checkmark.icon
                             // div(class=currentUser.invert_class)
-                            .f11.speak_this !{body}
+                            .f11.speak_body !{body}
                             .ui.divider
                             .ui.horizontal.list
                                 .item 
@@ -139,31 +151,21 @@ template(name='stack_page')
                             +watson_view
                             +watson_full
                     +comments
-                .three.wide.column
-                    with owner
-                        a.ui.fluid.card.say_name(href="/site/#{current_doc.site}/user/#{user_id}")
-                            img.ui.rounded.image(src=profile_image)
-                            .content
-                                .ui.header #{display_name}
-                                .ui.basic.label #{reputation}p
-                                .ui.basic.label id #{user_id}
-                                .ui.basic.label type #{user_type}
-                                // a.ui.circular.icon.button(href=link)
-                                //     i.large.external.icon
-                    .ui.grey.small.header.get_linked 
-                        i.linkify.icon
-                        |linked
-                    each linked_question_ids
-                        .ui.header #{this}
-                    each linked_questions
-                        .ui.header hi #{title}
-                    .ui.grey.small.header.get_related
-                        i.fork.icon
-                        |related
-                    each related_question_ids
-                        .ui.header #{this}
-                    each related_questions
-                        .ui.header hi #{title}
+                    // .three.wide.column
+                    // .ui.grey.small.header.get_linked 
+                    //     i.linkify.icon
+                    //     |linked
+                    // each linked_question_ids
+                    //     .ui.header #{this}
+                    // each linked_questions
+                    //     .ui.header hi #{title}
+                    // .ui.grey.small.header.get_related
+                    //     i.fork.icon
+                    //     |related
+                    // each related_question_ids
+                    //     .ui.header #{this}
+                    // each related_questions
+                    //     .ui.header hi #{title}
         
             
                     

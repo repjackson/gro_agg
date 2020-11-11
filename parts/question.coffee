@@ -46,6 +46,15 @@ if Meteor.isClient
                 window.speechSynthesis.speak new SpeechSynthesisUtterance @analyzed_text
                 Session.set('speaking',true)
     
+        'click .speak_body': ->
+            console.log @
+            if Session.get('speaking')
+                window.speechSynthesis.cancel()
+                Session.set('speaking',false)
+            else
+                window.speechSynthesis.speak new SpeechSynthesisUtterance @body
+                Session.set('speaking',true)
+    
         'click .say_title': (e,t)->
             console.log 'title', @
             window.speechSynthesis.speak new SpeechSynthesisUtterance @title
