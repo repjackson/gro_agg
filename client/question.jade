@@ -2,16 +2,12 @@ template(name='stack_page')
     with current_doc
         .ui.stackable.padded.grid
             .middle.aligned.row
-                .three.wide.center.aligned.column
-                    a.ui.large.fluid.basic.circular.button(href="/site/#{site}") 
+                .four.wide.column.scrolling
+                    a.ui.large.fluid.basic.circular.button.say_site(href="/site/#{site}") 
                         i.chevron.left.icon
                         if watson.metadata.image
                             img.ui.invert.mini.inline.image(src=watson.metadata.image)    
                         | #{site}
-                .ten.wide.center.aligned.column
-                    .ui.header.say_title.get_question
-                        |!{title}
-                .three.wide.column
                     with owner
                         a.ui.fluid.card.say_name(href="/site/#{current_doc.site}/user/#{user_id}")
                             img.ui.tiny.image(src=profile_image)
@@ -23,8 +19,6 @@ template(name='stack_page')
                                 // a.ui.circular.icon.button(href=link)
                                 //     i.large.external.icon
                         
-            .row
-                .four.wide.column.scrolling
                     +doc_emotion
                     +watson_full
                     // i.big.refresh.circular.link.icon.get_question
@@ -69,6 +63,8 @@ template(name='stack_page')
                     +doc_sentiment
                     
                 .twelve.wide.column.scrolling
+                    .ui.header.say_title.get_question
+                        |!{title}
                     // div(class=currentUser.invert_class)
                     .ui.green.segment.speak_this
                         .f11.speak_body.zoomer !{body}
@@ -76,7 +72,7 @@ template(name='stack_page')
                         i.chat.outline.icon
                         // |comments
                     each question_comments
-                        .ui.segment
+                        .ui.basic.segment
                             if is_accepted 
                                 .ui.green.label.zoomer
                                     |accepted
@@ -100,7 +96,7 @@ template(name='stack_page')
                     
                     
                     each question_answers
-                        .ui.segment(class=answer_class)
+                        .ui.basic.segment(class=answer_class)
                             if is_accepted 
                                 .ui.green.corner.attached.label.zoomer
                                     i.checkmark.icon
