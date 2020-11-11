@@ -58,10 +58,11 @@ template(name='stack_page')
                     
                 .nine.wide.column.scrolling
                     // div(class=currentUser.invert_class)
-                    .f11.speak_this !{body}
+                    .ui.green.segment.speak_this
+                        .f11.speak_this !{body}
                     .ui.small.grey.header.get_question_comments
                         i.chat.outline.icon
-                        |comments
+                        // |comments
                     each question_comments
                         .ui.segment
                             if is_accepted 
@@ -95,11 +96,18 @@ template(name='stack_page')
                             .f11.speak_this !{body}
                             .ui.divider
                             .ui.horizontal.list
-                                .item last active {{ufrom last_activity_date}}
-                                .item last edited {{ufrom last_edit_date}}
-                                .item created {{ufrom creation_date}}
+                                .item 
+                                    small active
+                                    |{{ufrom last_activity_date}}
+                                .item
+                                    small edited
+                                    |{{ufrom last_edit_date}}
+                                .item
+                                    small created
+                                    |{{ufrom creation_date}}
 
                             with owner
+                                div
                                 a.ui.header(href="/site/#{current_doc.site}/user/#{user_id}")
                                     img.ui.avatar.invert.image(src=profile_image)
                                     |!{display_name}
