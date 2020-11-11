@@ -9,7 +9,7 @@ Meteor.publish 'stack_docs', (
     # query=''
     skip
     )->
-    match = {model:'stack'}
+    match = {model:'stack_question'}
     # if emotion_mode
     #     match.max_emotion_name = emotion_mode
 
@@ -398,7 +398,7 @@ Meteor.methods
                 for item in parsed.items
                     found = 
                         Docs.findOne
-                            model:'stack'
+                            model:'stack_question'
                             question_id:item.question_id
                     if found
                         # console.log 'found', found.title, 'adding body'
@@ -406,7 +406,7 @@ Meteor.methods
                             $set:body:item.body
                     unless found
                         item.site = site
-                        item.model = 'stack'
+                        item.model = 'stack_question'
                         # item.tags.push query
                         new_id = 
                             Docs.insert item

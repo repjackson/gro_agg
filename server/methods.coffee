@@ -284,6 +284,84 @@ Meteor.methods
         else
             return null
 
+    user_emotions: (site,user_id)->
+        site_doc =
+            Docs.findOne(
+                model:'stack_site'
+                api_site_parameter:site
+            )
+        user_doc =
+            Docs.findOne(
+                model:'stackuser'
+                site:site
+                user_id:user_id
+            )
+        
+        # omega =
+        #     Docs.findOne
+        #         model:'omega_session'
+
+        # console.log 'running agg omega', omega
+        # match = {tags:$in:[term]}
+        match = {}
+        # if omega.selected_tags.length > 0
+        #     match.tags =
+        #         $all: omega.selected_tags
+        # else
+        #     match.tags =
+        #         $all: ['dao']
+
+        # console.log 'running agg omega', omega
+        match.model = 'stack_question'
+        # match.site = site
+        match.site = site
+        # console.log 'doc_count', Docs.find(match).count()
+        total_doc_result_count =
+            Docs.find( match,
+                {
+                    fields:
+                        _id:1
+                }
+            ).count()
+        
+        options = {
+            explain:false
+            allowDiskUse:true
+        }
+
+        # if omega.selected_tags.length > 0
+        #     limit = 42
+        # else
+        limit = 33
+        # console.log 'omega_match', match
+        # { $match: tags:$all: omega.selected_tags }
+        pipe =  [
+            { $match: match }
+            { $project: max_emotion_name: 1 }
+            # { $unwind: "$max_emotion_name" }
+            { $group: _id: "$max_emotion_name", count: $sum: 1 }
+            # { $group: _id: "$max_emotion_name", count: $sum: 1 }
+            # { $match: _id: $nin: omega.selected_tags }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 5 }
+            { $project: _id: 0, title: '$_id', count: 1 }
+        ]
+
+        if pipe
+            agg = global['Docs'].rawCollection().aggregate(pipe,options)
+            # else
+            res = {}
+            if agg
+                agg.toArray()
+                # printed = console.log(agg.toArray())
+                # # console.log(agg.toArray())
+                # omega = Docs.findOne model:'omega_session'
+                # Docs.update omega._id,
+                #     $set:
+                #         agg:agg.toArray()
+        else
+            return null
+
 
 
 

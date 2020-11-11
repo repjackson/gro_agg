@@ -9,7 +9,8 @@ template(name='stackuser_page')
             .row
                 .three.wide.column
                     img.ui.rounded.fluid.image(src=profile_image class=currentUser.invert_class)
-                    .ui.center.aligned.header !{display_name}
+                    .ui.center.aligned.header !{display_name} 
+                        small #{reputation}
                     +print_this
                     .ui.list
                         .item account id #{account_id}
@@ -37,11 +38,12 @@ template(name='stackuser_page')
                         i.linkify.icon
                         // |#{link}
                 .nine.wide.column
-                    .ui.grey.header.get_question.agg
+                    .ui.grey.inline.header.get_question.agg
                         i.question.icon
                         |#{user_questions.count} questions
-                    .ui.small.header 
-                        |max emotion: #{max_emotion_name}
+                    .ui.inline.header 
+                        |#{max_emotion_name} #{max_emotion_name}
+                    div
                     .ui.large.selection.list.scrolling
                         each user_questions
                             a.zoomer.item(href="/site/#{site}/doc/#{_id}") 

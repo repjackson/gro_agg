@@ -46,7 +46,7 @@ if Meteor.isClient
             Meteor.call 'call_tone', Router.current().params.doc_id,->
         'click .get_question': (e,t)->
             question = Docs.findOne(Router.current().params.doc_id)
-            Meteor.call 'get_question', Router.current().params.site, question.question_id,->
+            Meteor.call 'get_question', Router.current().params.site, Router.current().params.doc_id,->
                 
         'click .get_question_comments': (e,t)->
             # question = Docs.findOne(Router.current().params.doc_id)

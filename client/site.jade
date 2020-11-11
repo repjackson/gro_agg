@@ -2,7 +2,7 @@ template(name='site_page')
     with current_site
         .ui.stackable.padded.grid
             .row
-                .four.wide.column
+                .three.wide.column
                     // a.ui.circular.icon.button(href='/')
                     //     i.large.home.icon
                     img.get_info(src=high_resolution_icon_url class=currentUser.invert_class)
@@ -38,7 +38,7 @@ template(name='site_page')
                     .ui.small.dividing.grey.header 
                         i.users.icon
                         |#{site_users.count} users
-                    .ui.selection.list
+                    .ui.selection.list.smallscroll
                         each site_users
                             a.item(href="/site/#{site}/user/#{user_id}") 
                                 img.ui.avatar.image(src=profile_image)
@@ -49,7 +49,7 @@ template(name='site_page')
                                         |!{location}
                     // +comments
                     // +voting_full
-                .eight.wide.column
+                .ten.wide.column
                     if selected_tags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
@@ -114,7 +114,7 @@ template(name='site_page')
                                             .item created {{ufrom creation_dat}}
                                     +doc_emotion_small
                                         // .ui.label user_id #{user_id}
-                .four.wide.column
+                .three.wide.column
                     .ui.small.list.mobile.hidden
                         a.item(href=site_url target="_window")
                             |#{site_url}

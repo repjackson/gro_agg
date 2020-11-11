@@ -379,6 +379,7 @@ Template.doc_tag.events
 Template.stack_page.events
     'click .add_stack_tag': ->
         selected_tags.push @valueOf()
+        selected_tags.clear()
         # if Session.equals('view_mode','stack')
         Router.go "/site/#{Router.current().params.site}"
         # Session.set('thinking',true)
@@ -506,20 +507,6 @@ Template.dao.helpers
                 # skip:Session.get('skip')
             # if cur.count() is 1
             # Docs.find match
-    ph_docs: ->
-        match = {model:'porn'}
-        if selected_tags.array().length>0
-            match.tags = $all:selected_tags.array()
-        Docs.find match,
-            sort:
-                points:-1
-                views:-1
-                # _timestamp:-1
-                # "#{Session.get('sort_key')}": Session.get('sort_direction')
-            limit:10
-            # skip:Session.get('skip')
-        # if cur.count() is 1
-        # Docs.find match
 
     loading_class: ->
         if Template.instance().subscriptionsReady()
@@ -672,9 +659,7 @@ Template.dao.events
                 selected_tags.push search
                 # console.log 'selected tags', selected_tags.array()
                 # Meteor.call 'call_alpha', search, ->
-                if Session.equals('view_mode','porn')
-                    Meteor.call 'search_ph', search, ->
-                else if Session.equals('view_mode','stack')
+                if Session.equals('view_mode','stack')
                     Session.set('thinking',true)
                     $('body').toast(
                         showIcon: 'stack exchange'
