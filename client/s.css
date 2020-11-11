@@ -369,9 +369,9 @@ a.goto_article {
 }
 
 .zoomer:hover {
-    transition: all .1s ease !important; 
+    transition: all .25s ease !important; 
     z-index: -1000 !important;
-    transform: scale(1.1) !important;
+    transform: scale(.95) !important;
 }
 /*img.zoomer:hover {*/
 /*    transition: all .2s ease !important; */

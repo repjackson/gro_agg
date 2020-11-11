@@ -14,8 +14,8 @@ template(name='stack')
                 .ui.five.column.stackable.grid
                     each site_docs
                         a.column.goto_site(href="/site/#{api_site_parameter}")
-                            img.ui.fluid.pointer.zoomer.image.site(src=high_resolution_icon_url class=currentUser.invert_class)
-                            img.ui.fluid.pointer.zoomer.image.site(src=logo_url class=currentUser.invert_class)
+                            img.ui.fluid.image.site.zoomer.pointer(src=high_resolution_icon_url)
+                            img.ui.image.site.zoomer.pointer(src=logo_url)
                             // .header
                             //     |!{name}
                             // .description 

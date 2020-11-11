@@ -220,6 +220,8 @@ if Meteor.isServer
             model:'stack_question'
             site:site
             }
+            
+        doc_count = Docs.find(match).count()
         # console.log 'tags', selected_tags
         if selected_tags.length > 0 then match.tags = $in:selected_tags
         site_tag_cloud = Docs.aggregate [
@@ -229,7 +231,7 @@ if Meteor.isServer
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: selected_tags }
             { $sort: count: -1, _id: 1 }
-            # { $match: count: $lt: doc_count }
+            { $match: count: $lt: doc_count }
             { $limit:20 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
