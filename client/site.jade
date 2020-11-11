@@ -39,7 +39,7 @@ template(name='site_page')
                     .ui.small.dividing.grey.header 
                         i.users.icon
                         |#{site_users.count} users
-                    .ui.selection.list.smallscroll
+                    .ui.selection.animated.list.smallscroll
                         each site_users
                             a.item(href="/site/#{site}/user/#{user_id}") 
                                 img.ui.avatar.image(src=profile_image)
@@ -113,6 +113,8 @@ template(name='site_page')
                                             .item updated {{ufrom last_edit_date}}
                                         if creation_dat
                                             .item created {{ufrom creation_dat}}
+                                    // +comments
+                                    // +voting_full
                                     +doc_emotion_small
                                         // .ui.label user_id #{user_id}
                 .three.wide.column
