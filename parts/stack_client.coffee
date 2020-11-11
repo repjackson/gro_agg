@@ -41,7 +41,7 @@ if Meteor.isClient
                 model:'stack_site'
         stack_docs: ->
             Docs.find
-                model:'stack'
+                model:'stack_question'
 
     Template.stack.events
         'click .doc': ->

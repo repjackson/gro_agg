@@ -1,14 +1,14 @@
 template(name='stackuser_page')
     unless stackuser_doc
         // .ui.header no user found
-        .ui.massive.fluid.button.search 
+        .ui.massive.fluid.segment.search 
             i.download.icon
             |download user info
     with stackuser_doc
         .ui.stackable.padded.grid
             .row
                 .three.wide.column
-                    img.ui.rounded.fluid.image(src=profile_image class=currentUser.invert_class)
+                    img.ui.rounded.fluid.image(src=profile_image)
                     .ui.center.aligned.header !{display_name} 
                         small #{reputation}
                     +print_this
@@ -44,7 +44,7 @@ template(name='stackuser_page')
                     .ui.inline.header 
                         |#{max_emotion_name} #{max_emotion_name}
                     div
-                    .ui.large.selection.list.scrolling
+                    .ui.large.selection.animated.list.scrolling
                         each user_questions
                             a.zoomer.item(href="/site/#{site}/doc/#{_id}") 
                                 .header

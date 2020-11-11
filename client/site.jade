@@ -5,8 +5,8 @@ template(name='site_page')
                 .three.wide.column
                     // a.ui.circular.icon.button(href='/')
                     //     i.large.home.icon
-                    img.get_info(src=high_resolution_icon_url class=currentUser.invert_class)
-                    img.get_info(src=logo_url class=currentUser.invert_class)
+                    img.get_info(src=high_resolution_icon_url )
+                    img.get_info(src=logo_url )
                     // img(src=icon_url)
                     // .ui.segment(style="background-color:#{styling.tag_background_color}")
                     // .ui.label #{tag_background_color}: tag_background_color
@@ -15,10 +15,11 @@ template(name='site_page')
                     .ui.grey.small.header 
                         |related sites
                     // .ui.inline.header !{name}
-                    each related_sites
-                        .ui.tiny.header 
-                            i.fork.icon
-                            |!{name}
+                    .ui.animated.large.list
+                        each related_sites
+                            a.item(href="/site/#{api_site_parameter}") 
+                                i.fork.icon
+                                |!{name}
                         // .ui.list 
                         //     .item relation: #{relation}
                         //     .item api_site_parameter: #{api_site_parameter}
@@ -150,10 +151,10 @@ template(name='site_page')
 
 template(name='stack_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.zoomer.tertiary.large.button.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.zoomer.tertiary.large.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
-                img.ui.mini.rounded.inline.image.zoomer(src=term.watson.metadata.image class=currentUser.invert_class)    
+                img.ui.mini.rounded.inline.image.zoomer(src=term.watson.metadata.image )    
         | #{name}
         // small #{count}
 
@@ -165,7 +166,7 @@ template(name='site_users')
                 .four.wide.column
                     // a.ui.circular.icon.button(href='/')
                     //     i.large.home.icon
-                    img(src=logo_url class=currentUser.invert_class)
+                    img(src=logo_url )
                     // img(src=icon_url)
                     // .ui.segment(style="background-color:#{styling.tag_background_color}")
                     // .ui.label #{tag_background_color}: tag_background_color

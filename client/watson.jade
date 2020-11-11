@@ -383,22 +383,22 @@ template(name='watson_full')
     // |#{downs}
     // i.thumbs.up.outline.icon
     .ui.small.inline.header
-        |sentiment
+        // |sentiment
         |#{doc_sentiment_label}
         |#{doc_sentiment_score}
-    span(title='comment_count')
-        i.comments.icon
-        |#{comment_count}
-    span(title='subreddit')
-        i.reddit.icon
-        |#{subreddit}
+    // span(title='comment_count')
+    //     i.comments.icon
+    //     |#{comment_count}
+    // span(title='subreddit')
+    //     i.reddit.icon
+    //     |#{subreddit}
     a(href=url target='_window') #{url}
-    if in_dev
-        i.reddit.circular.link.icon.call_reddit_post
-        i.code.circular.link.icon.print_this
-        i.brain.circular.link.icon.calc_tone
-        +call_watson mode='url' key='url'
-        i.remove.link.icon
+    // if in_dev
+    //     i.reddit.circular.link.icon.call_reddit_post
+    //     i.code.circular.link.icon.print_this
+    //     i.brain.circular.link.icon.calc_tone
+    //     +call_watson mode='url' key='url'
+    //     i.remove.link.icon
     //-     +call_watson mode='html'
     //- if in_dev 
     //-     if watson 
