@@ -8,7 +8,7 @@ template(name='users')
         .twelve.wide.column
             .ui.five.stackable.centered.cards.scrolling
                 each users
-                    a.ui.card(href="/site/#{site}/user/#{user_id}")
+                    a.ui.card.select_user(href="/site/#{site}/user/#{user_id}")
                         img.ui.image(src=profile_image class=currentUser.invert_class)
                         .content
                             a.ui.header #{display_name}

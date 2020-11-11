@@ -10,7 +10,7 @@ Router.route '/dao', (->
     ), name:'dao'
 
 Meteor.startup ->
-    window.speechSynthesis.speak new SpeechSynthesisUtterance 'hail satan'
+    window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
 
 
 Template.dao.onCreated ->

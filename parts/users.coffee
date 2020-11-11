@@ -17,6 +17,11 @@ if Meteor.isClient
             Session.get('selected_user_location')
             Session.get('limit')
 
+    Template.users.events
+        'click .select_user': ->
+            window.speechSynthesis.cancel()
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
+
     Template.users.helpers
         users: ->
             match = {model:'stackuser'}
@@ -121,14 +126,20 @@ if Meteor.isClient
 
 
     Template.user_cloud.events
-        'click .select_tag': -> selected_user_tags.push @name
+        'click .select_tag': -> 
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            selected_user_tags.push @name
         'click .unselect_tag': -> selected_user_tags.remove @valueOf()
         'click #clear_tags': -> selected_user_tags.clear()
 
-        'click .select_site': -> Session.set('selected_user_site',@name)
+        'click .select_site': -> 
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            Session.set('selected_user_site',@name)
         'click .unselect_site': -> Session.set('selected_user_site',null)
         
-        'click .select_location': -> Session.set('selected_user_location',@name)
+        'click .select_location': -> 
+            Session.set('selected_user_location',@name)
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         'click .unselect_location': -> Session.set('selected_user_location',null)
         # 'click #clear_sites': -> Session.set('selected_user_site',null)
 
