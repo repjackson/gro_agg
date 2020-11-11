@@ -9,11 +9,10 @@ template(name='stack_page')
                             img.ui.invert.mini.inline.image(src=watson.metadata.image)    
                         | #{site}
                     with owner
-                        a.ui.fluid.card.say_name(href="/site/#{current_doc.site}/user/#{user_id}")
+                        a.ui.fluid.segment.say_name(href="/site/#{current_doc.site}/user/#{user_id}")
                             img.ui.tiny.image(src=profile_image)
-                            .content
-                                .ui.header #{display_name}
-                                    small #{reputation}
+                            .ui.header #{display_name}
+                                small #{reputation}
                                 // .ui.basic.label id #{user_id}
                                 // .ui.basic.label type #{user_type}
                                 // a.ui.circular.icon.button(href=link)
@@ -29,19 +28,19 @@ template(name='stack_page')
                             i.large.brain.icon
                             |analyze
                     each tags 
-                        .ui.basic.pointer.circular.label.add_stack_tag.speak_this.zoomer #{this}
+                        .ui.basic.pointer.circular.tertiary.button.add_stack_tag.speak_this.zoomer #{this}
                     a.ui.circular.icon.button(href=link target='_window' title=link)
                         // |#{link}
                         i.external.large.icon
                     if is_answered
-                        .ui.basic.inverted.green.large.label
+                        .ui.basic.inverted.green.large.tertiary.button
                             i.green.checkmark.icon
                             |answered
                     else
-                        .ui.basic.label
+                        .ui.basic.tertiary.button
                             // i..icon
                             |unanswered
-                    .ui.large.basic.label 
+                    .ui.large.basic.tertiary.button 
                         i.eye.icon
                         |#{view_count}
                     .ui.list
@@ -66,7 +65,7 @@ template(name='stack_page')
                     .ui.header.say_title.get_question
                         |!{title}
                     // div(class=currentUser.invert_class)
-                    .ui.green.segment.speak_this
+                    .ui.basic.segment.speak_this
                         .f11.speak_body.zoomer !{body}
                     .ui.small.grey.header.get_question_comments
                         i.chat.outline.icon

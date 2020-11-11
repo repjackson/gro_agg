@@ -304,80 +304,80 @@ template(name='watson_full')
         i.grey.cubes.icon(title='categories')
         |categories
         each categories
-            .ui.small.basic.pointer.add_stack_tag.label #{this}    
+            .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}    
     div 
     if Person 
         i.grey.users.icon
         .ui.inline.small.grey.header people
         each Person 
-            .ui.small.basic.pointer.add_stack_tag.label.pick_person #{this}
+            .ui.small.basic.pointer.add_stack_tag.tertiary.button.pick_person #{this}
     div 
     if Company
         i.grey.briefcase.icon(title='company')
         .ui.inline.small.grey.header companies
         each Company 
-            .ui.small.basic.pointer.add_stack_tag.label.pick_company #{this}
+            .ui.small.basic.pointer.add_stack_tag.tertiary.button.pick_company #{this}
     div 
     if TelevisionShow
         i.grey.video.icon(title='television show')
         .ui.inline.small.grey.header television show
         each TelevisionShow 
-            .ui.small.basic.pointer.add_stack_tag.label #{this}
+            .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}
     div 
     if Broadcaster
         i.grey.video.icon(title='broadcaster')
         .ui.inline.small.grey.header broadcaster
         each Broadcaster 
-            .ui.small.basic.pointer.add_stack_tag.label #{this}
+            .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}
     div 
     if Facility
         i.grey.building.icon(title='facility')
         .ui.inline.small.grey.header facilities
         each Facility 
-            .ui.small.basic.pointer.add_stack_tag.label #{this}
+            .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}
     div 
     if HealthCondition
         i.grey.heartbeat.icon(title='health condition')
         .ui.inline.small.grey.header health condition
         each HealthCondition 
-            .ui.small.basic.pointer.add_stack_tag.label #{this}
+            .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}
     div 
     if Organization
         i.grey.users.icon
         .ui.inline.small.grey.header organizations
         each Organization 
-            .ui.small.basic.pointer.add_stack_tag.label #{this}
+            .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}
     div 
     if Award
         i.grey.trophy.icon
         each Award 
-            .ui.small.basic.pointer.add_stack_tag.label #{this}
+            .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}
     div 
     if Location
         i.grey.marker.icon
         .ui.inline.small.grey.header locations
         each Location 
-            .ui.small.basic.pointer.add_stack_tag.label.pick_location #{this}
+            .ui.small.basic.pointer.add_stack_tag.tertiary.button.pick_location #{this}
     div 
     if PrintMedia
         i.grey.newspaper.icon(title='print media')
         each PrintMedia 
-            .ui.small.basic.pointer.add_stack_tag.label #{this}
+            .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}
     div 
     // each tone.result.sentences_tone 
     //     |#{sentence_id}:
     //     |#{text}
     //     each tones 
-    //         .ui.basic.pointer.add_stack_tag.label #{tone_name}
+    //         .ui.basic.pointer.add_stack_tag.tertiary.button #{tone_name}
     //     div
     //- .large-text    
     //-     |!{body}
     .ui.inline.small.grey.header concepts
     each watson_concepts
-        .ui.tiny.basic.pointer.add_stack_tag.label #{this}
+        .ui.tiny.basic.pointer.add_stack_tag.tertiary.button #{this}
     .ui.inline.small.grey.header keywords
     each watson_keywords
-        .ui.tiny.basic.pointer.add_stack_tag.label #{this}
+        .ui.tiny.basic.pointer.add_stack_tag.tertiary.button #{this}
     // |#{ups}
     // i.thumbs.up.outline.icon
     // |#{downs}

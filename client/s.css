@@ -192,7 +192,7 @@ html.ios body {
 
 .segment:not(.pushable) {
   transition: height .25s linear;
-  /*border-radius: 10px !important;*/
+  border-radius: 10px !important;
 }
 
 .bottom_rounded {
@@ -549,7 +549,7 @@ input {
 }
 
 ::-webkit-scrollbar {
-  width: 1px !important;
+  width: 0px !important;
   /*border-radius: 10px !important;*/
 }
 .wrap_input {

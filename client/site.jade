@@ -2,7 +2,7 @@ template(name='site_page')
     with current_site
         .ui.stackable.padded.grid
             .row
-                .three.wide.column
+                .three.wide.center.aligned.column
                     // a.ui.circular.icon.button(href='/')
                     //     i.large.home.icon
                     img.get_info(src=high_resolution_icon_url )
@@ -12,10 +12,10 @@ template(name='site_page')
                     // .ui.label #{tag_background_color}: tag_background_color
                     // .ui.label #{tag_foreground_color}: tag_foreground_color
                     // .ui.label #{link_color}: link_color
-                    .ui.grey.small.header 
-                        |related sites
+                    // .ui.grey.small.header 
+                    //     |related sites
                     // .ui.inline.header !{name}
-                    .ui.animated.large.list
+                    .ui.animated.selection.list
                         each related_sites
                             a.item(href="/site/#{api_site_parameter}") 
                                 i.fork.icon
@@ -36,16 +36,17 @@ template(name='site_page')
                         i.tags.icon
                         |tags
                         
-                    .ui.small.dividing.grey.header 
+                    .ui.grey.center.aligned.header 
+                        |#{site_users.count}
                         i.users.icon
-                        |#{site_users.count} users
                     .ui.selection.animated.list.smallscroll
                         each site_users
                             a.item(href="/site/#{site}/user/#{user_id}") 
                                 img.ui.avatar.image(src=profile_image)
                                 .content
                                     .header
-                                        |#{display_name}: #{reputation}
+                                        |#{display_name}
+                                        small #{reputation}
                                     .description
                                         |!{location}
                     // +comments
@@ -57,7 +58,7 @@ template(name='site_page')
                         //         i.remove.icon
                         each selected_tags
                             +unselect_tag
-                    .ui.icon.input
+                    .ui.icon.large.transparent.input
                         i.search.icon
                         input.search_site(type='text')
                     each site_tags
@@ -89,7 +90,7 @@ template(name='site_page')
                     //     i.th.icon
                     // .ui.icon.compact.large.button 
                     //     i.list.icon
-                    .ui.selection.link.large.list.medscroll
+                    .ui.selection.link.big.list.medscroll
                         each site_questions
                             a.item.view_question.zoomer(href="/site/#{site}/doc/#{_id}")
                                 // if watson.metadata.image
@@ -98,10 +99,11 @@ template(name='site_page')
                                     .header !{title} 
                                         .ui.label #{score}
                                     // if skv_is 'view_detail' true
-                                    i.tag.grey.icon
+                                    // i.tag.grey.icon
                                     |#{tags.length}
-                                    each tags
-                                        .ui.small.basic.circular.label #{this}
+                                    .ui.horizontal.list
+                                        each tags
+                                            .item #{this}
                                     .ui.horizontal.list
                                         with owner
                                             a.ui.small.header.item(href="/site/#{../site}/user/#{user_id}")

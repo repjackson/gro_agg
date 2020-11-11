@@ -43,7 +43,7 @@ template(name='stackuser_page')
                         i.question.icon
                         |#{user_questions.count} questions
                     .ui.inline.header 
-                        |#{max_emotion_name} #{max_emotion_name}
+                        |#{max_emotion_name} #{max_emotion_percent}
                     div
                     .ui.large.selection.animated.list.scrolling
                         each user_questions
