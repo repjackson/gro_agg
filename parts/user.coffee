@@ -60,7 +60,10 @@ if Meteor.isClient
         'click .agg': ->
             Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
         
-        
+        'click .say_title': (e,t)->
+            console.log 'title', @
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @title
+
         'click .search': ->
             Meteor.call 'search_stackuser', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_answers': ->

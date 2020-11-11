@@ -11,16 +11,6 @@ Router.route '/dao', (->
 
 
 
-Template.stack_page.events
-    'click .speak_this': ->
-        console.log @
-        if Session.get('speaking')
-            window.speechSynthesis.cancel()
-            Session.set('speaking',false)
-        else
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @body
-            Session.set('speaking',true)
-    
 Template.dao.onCreated ->
     @autorun -> Meteor.subscribe('stacks',selected_tags.array())
 Template.dao.onCreated ->

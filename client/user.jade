@@ -46,7 +46,7 @@ template(name='stackuser_page')
                     div
                     .ui.large.selection.animated.list.scrolling
                         each user_questions
-                            a.zoomer.item(href="/site/#{site}/doc/#{_id}") 
+                            a.zoomer.item.say_title(href="/site/#{site}/doc/#{_id}") 
                                 .header
                                     |!{title}
                                 .description

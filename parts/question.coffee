@@ -35,7 +35,24 @@ if Meteor.isClient
                 post_id:question.question_id
         answer_class: -> if @accepted then 'accepted'
 
+
     Template.stack_page.events
+        'click .speak_this': ->
+            console.log @
+            if Session.get('speaking')
+                window.speechSynthesis.cancel()
+                Session.set('speaking',false)
+            else
+                window.speechSynthesis.speak new SpeechSynthesisUtterance @analyzed_text
+                Session.set('speaking',true)
+    
+        'click .say_title': (e,t)->
+            console.log 'title', @
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @title
+        'click .say_name': (e,t)->
+            console.log 'title', @
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
+
         'click .get_linked': (e,t)->
             Meteor.call 'get_linked_questions', Router.current().params.site, Router.current().params.doc_id,->
         'click .get_related': (e,t)->
