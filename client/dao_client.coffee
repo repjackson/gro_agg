@@ -9,6 +9,8 @@ Router.route '/dao', (->
     @render 'dao'
     ), name:'dao'
 
+Meteor.startup ->
+    window.speechSynthesis.speak new SpeechSynthesisUtterance 'hail satan'
 
 
 Template.dao.onCreated ->

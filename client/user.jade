@@ -8,7 +8,7 @@ template(name='stackuser_page')
         .ui.stackable.padded.grid
             .row
                 .three.wide.column
-                    img.ui.rounded.fluid.image.pointer.boop(src=profile_image)
+                    img.ui.rounded.fluid.image.pointer.boop.zoomer(src=profile_image)
                     .ui.center.aligned.header !{display_name} 
                         small #{reputation}
                     +print_this
@@ -28,9 +28,9 @@ template(name='stackuser_page')
                         .item type #{user_type}
                         .item user id #{user_id}
                         .item accept rate #{accept_rate}
-                        a.item.select_location
+                        a.item.select_location(href="/users")
                             i.marker.icon
-                            | #{location}
+                            | !{location}
                         if website_url
                             a.item(href=website_url target="_window")
                                 i.globe.icon
@@ -105,7 +105,7 @@ template(name='stackuser_page')
                             |bronze #{badge_counts.bronze}
                     .ui.list.smallscroll
                         each user_badges
-                            .item 
+                            .item.zoomer
                                 .content 
                                     span.header #{name}
                                     span.description

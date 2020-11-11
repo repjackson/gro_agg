@@ -58,6 +58,7 @@ if Meteor.isClient
         
     Template.stackuser_page.events
         'click .boop': ->
+            window.speechSynthesis.speak new SpeechSynthesisUtterance 'boop'
             Meteor.call 'boop', Router.current().params.site, Router.current().params.user_id, ->
         'click .agg': ->
             Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
@@ -67,6 +68,7 @@ if Meteor.isClient
             window.speechSynthesis.speak new SpeechSynthesisUtterance @title
 
         'click .search': ->
+            window.speechSynthesis.speak new SpeechSynthesisUtterance "searching #{Router.current().params.site} user.  beep boop beep boop."
             Meteor.call 'search_stackuser', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_answers': ->
             Meteor.call 'stackuser_answers', Router.current().params.site, Router.current().params.user_id, ->

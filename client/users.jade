@@ -38,26 +38,26 @@ template(name='user_cloud')
             i.remove.icon
         each selected_tags
             .unselect_tag.ui.primary.compact.circular.button
-                strong #{this}
+                strong !{this}
     each all_tags
-        .ui.compact.circular.button.select_tag(class=cloud_tag_class) #{this.name}
+        .ui.compact.circular.button.select_tag(class=cloud_tag_class) !{this.name}
             small #{this.count}
     .ui.grey.inline.header
         i.globe.icon
         |site
     if selected_user_site
         .unselect_site.ui.primary.compact.circular.button
-            strong #{selected_user_site}
+            strong !{selected_user_site}
     each all_sites
-        .ui.compact.basic.circular.button.select_site(class=cloud_site_class) #{this.name}
+        .ui.compact.basic.circular.button.select_site(class=cloud_site_class) !{this.name}
     .spacer
     .ui.grey.inline.header 
         i.marker.icon
         |location
     if selected_user_location
         .unselect_location.ui.primary.compact.circular.button
-            strong #{selected_user_location}
+            strong !{selected_user_location}
     each all_locations
-        .ui.compact.basic.circular.button.select_location(class=cloud_location_class) #{this.name}
+        .ui.compact.basic.circular.button.select_location(class=cloud_location_class) !{this.name}
             // small #{this.count}
                                 
