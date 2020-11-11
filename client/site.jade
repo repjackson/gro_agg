@@ -65,6 +65,12 @@ template(name='site_page')
                         +stack_tag_selector
                         // .ui.large.label(title=count) #{name}
                     div
+                    i.big.marker.icon
+                    each site_locations
+                        // .ui.label hi #{name}
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    div
                     if skv_is 'sort_direction' 1
                         .ui.icon.compact.circular.basic.button.sort_down
                             i.caret.down.icon

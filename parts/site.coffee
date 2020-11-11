@@ -89,11 +89,14 @@ if Meteor.isClient
     Template.site_users.helpers
         selected_tags: -> selected_tags.array()
         site_tags: -> results.find(model:'site_tag')
+        site_locations: -> results.find(model:'site_Location')
         current_site: ->
             Docs.findOne
                 model:'stack_site'
                 api_site_parameter:Router.current().params.site
     Template.site_page.helpers
+        site_locations: -> results.find(model:'site_Location')
+
         site_users: ->
             Docs.find {
                 model:'stackuser'
@@ -242,6 +245,28 @@ if Meteor.isServer
                 name: tag.name
                 count: tag.count
                 model:'site_tag'
+        
+        
+        site_Location_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "Location": 1 }
+            { $unwind: "$Location" }
+            { $group: _id: "$Location", count: $sum: 1 }
+            # { $match: _id: $nin: selected_Locations }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:20 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        # console.log 'cloud: ', Location_cloud
+        console.log 'Location match', match
+        site_Location_cloud.forEach (Location, i) ->
+            self.added 'results', Random.id(),
+                name: Location.name
+                count: Location.count
+                model:'site_Location'
+      
+      
         self.ready()
     
     

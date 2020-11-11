@@ -9,8 +9,8 @@ template(name='stack_page')
                             img.ui.invert.mini.inline.image(src=watson.metadata.image)    
                         | #{site}
                     with owner
-                        a.ui.fluid.segment.say_name(href="/site/#{current_doc.site}/user/#{user_id}")
-                            img.ui.tiny.image(src=profile_image)
+                        a.ui.basic.segment.zoomer.pointer.say_name(href="/site/#{current_doc.site}/user/#{user_id}")
+                            img.ui.rounded.image(src=profile_image)
                             .ui.header #{display_name}
                                 small #{reputation}
                                 // .ui.basic.label id #{user_id}
