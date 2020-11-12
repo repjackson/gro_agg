@@ -137,8 +137,14 @@ Meteor.methods
         
         if user_doc
             agg_res = Meteor.call 'omega2', site, user_id
+            user_tag_res = Meteor.call 'user_question_tags', site, user_id
             # console.log 'hi'
             console.log 'agg res', agg_res
+            console.log 'user_tag_res', user_tag_res
+            if user_tag_res
+                Docs.update user_doc._id,
+                    $set:
+                        user_tag_agg: user_tag_res
             # omega = Docs.findOne model:'omega_session'
             # doc_count = omega.total_doc_result_count
             # doc_count = omega.doc_result_ids.length
@@ -344,6 +350,69 @@ Meteor.methods
             # { $match: _id: $nin: omega.selected_tags }
             { $sort: count: -1, _id: 1 }
             { $limit: 5 }
+            { $project: _id: 0, title: '$_id', count: 1 }
+        ]
+
+        if pipe
+            agg = global['Docs'].rawCollection().aggregate(pipe,options)
+            # else
+            res = {}
+            if agg
+                agg.toArray()
+                # printed = console.log(agg.toArray())
+                # # console.log(agg.toArray())
+                # omega = Docs.findOne model:'omega_session'
+                # Docs.update omega._id,
+                #     $set:
+                #         agg:agg.toArray()
+        else
+            return null
+
+
+    user_question_tags: (site,user_id)->
+        site_doc =
+            Docs.findOne(
+                model:'stack_site'
+                api_site_parameter:site
+            )
+        user_doc =
+            Docs.findOne(
+                model:'stackuser'
+                site:site
+                user_id:user_id
+            )
+        
+        match = {model:'stack_question'}
+        match.site = site
+        # console.log 'doc_count', Docs.find(match).count()
+        total_doc_result_count =
+            Docs.find( match,
+                {
+                    fields:
+                        _id:1
+                }
+            ).count()
+        # match.owner.user_id = parseInt(user_id)
+        options = {
+            explain:false
+            allowDiskUse:true
+        }
+
+        # if omega.selected_tags.length > 0
+        #     limit = 42
+        # else
+        limit = 33
+        # console.log 'omega_match', match
+        # { $match: tags:$all: omega.selected_tags }
+        pipe =  [
+            { $match: match }
+            { $project: tags: 1 }
+            { $unwind: "$tags" }
+            { $group: _id: "$tags", count: $sum: 1 }
+            # { $group: _id: "$max_emotion_name", count: $sum: 1 }
+            # { $match: _id: $nin: omega.selected_tags }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 10 }
             { $project: _id: 0, title: '$_id', count: 1 }
         ]
 

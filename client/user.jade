@@ -44,6 +44,9 @@ template(name='stackuser_page')
                         |#{user_questions.count} questions
                     .ui.inline.header 
                         |#{max_emotion_name} #{max_emotion_percent}
+                    each user_tag_agg
+                        .ui.label #{title}
+                            small #{count}
                     div
                     .ui.large.selection.animated.list.scrolling
                         each user_questions
