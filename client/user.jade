@@ -18,11 +18,11 @@ template(name='stackuser_page')
                         .item employee #{is_employee}
                         .item last modified {{ufrom last_modified_date}}
                         .item last accessed  {{ufrom last_access_date}}
-                        // .item reputation_change_year #{reputation_change_year}
-                        // .item quarterly #{reputation_change_quarter}
-                        // .item monthly  #{reputation_change_month}
-                        // .item weekly rep change #{reputation_change_week}
-                        // .item daily #{reputation_change_day}
+                        .item reputation_change_year #{reputation_change_year}
+                        .item quarterly #{reputation_change_quarter}
+                        .item monthly  #{reputation_change_month}
+                        .item weekly rep change #{reputation_change_week}
+                        .item daily #{reputation_change_day}
                         .item reputation #{reputation}
                         .item created  {{ufrom creation_date}}
                         .item type #{user_type}
@@ -78,8 +78,8 @@ template(name='stackuser_page')
                         each user_answers
                             +answer_item
                 .four.wide.column
-                    .ui.segment
-                        a.ui.header(href="/site/#{site}")
+                    a.ui.link.fluid.card(href="/site/#{site}")
+                        .content
                             |#{site}
                     .ui.grey.small.header 
                         i.fork.icon

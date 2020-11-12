@@ -1,23 +1,25 @@
-template(name='stack_tags')
+template(name='videos')
     .ui.stackable.padded.grid
         .four.wide.column.scrolling
             .ui.header
-                i.tags.icon
-                |tags
-            +stack_tag_cloud
+                i.video.icon
+                |videos
+            +video_cloud
         .twelve.wide.column
             .ui.centered.cards.scrolling
-                each tags
-                    a.ui.card.select_user(href="/site/#{site}/user/#{user_id}")
-                        img.ui.image(src=profile_image class=currentUser.invert_class)
+                each videos
+                    a.ui.card.select_user(href="#{url}")
+                        img.ui.image(src=profile_image target="_window")
                         .content
-                            a.ui.header #{name}
+                            a.ui.header #{title}
+                            |!{embed}
+        
                             .description
                                 |#{site}
                                 i.grey.marker.icon
                                 |#{location}
 
-template(name='stack_tag_cloud')
+template(name='video_cloud')
     // #cloud.ui.center.aligned.fluid.segment
         // if currentUser
         //     .ui.icon.input
@@ -58,19 +60,19 @@ template(name='stack_tag_cloud')
         .ui.compact.basic.circular.button.select_location(class=cloud_location_class) !{this.name}
             // small #{this.count}
                                 
-template(name='stack_tag')
+template(name='video')
     with current_doc
         .ui.stackable.padded.grid
             .middle.aligned.row
                 .four.wide.column.scrolling
                     a.ui.large.fluid.basic.circular.button.say_site(href="/site/#{site}") 
                         i.chevron.left.icon
-                        if watson.metadata.image
-                            img.ui.invert.mini.inline.image(src=watson.metadata.image)    
+                        if watson.metadata.video
+                            img.ui.invert.mini.inline.video(src=watson.metadata.video)    
                         | #{site}
                     with owner
                         a.ui.basic.segment.zoomer.pointer.say_name(href="/site/#{current_doc.site}/user/#{user_id}")
-                            img.ui.rounded.image(src=profile_image)
+                            img.ui.rounded.video(src=profile_video)
                             .ui.header #{display_name}
                                 small #{reputation}
                                 // .ui.basic.label id #{user_id}
@@ -88,7 +90,7 @@ template(name='stack_tag')
                             i.large.brain.icon
                             |analyze
                     each tags 
-                        .ui.basic.pointer.circular.tertiary.button.add_stack_tag.speak_this.zoomer #{this}
+                        .ui.basic.pointer.circular.tertiary.button.add_video.speak_this.zoomer #{this}
                     a.ui.circular.icon.button(href=link target='_window' title=link)
                         // |#{link}
                         i.external.large.icon
@@ -144,7 +146,7 @@ template(name='stack_tag')
                                     .ui.divider
                                     i.chat.icon
                                     a.ui.inline.header.say_name.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
-                                        img.ui.avatar.invert.image(src=profile_image)
+                                        img.ui.avatar.invert.video(src=profile_video)
                                         |!{display_name}
                                         |#{reputation}
                                     .ui.basic.small.label #{user_id}
@@ -179,7 +181,7 @@ template(name='stack_tag')
                                 with owner
                                     div
                                     a.ui.header.say_name.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
-                                        img.ui.avatar.invert.image(src=profile_image)
+                                        img.ui.avatar.invert.video(src=profile_video)
                                         |!{display_name}
                                     |#{reputation}
                                     |#{user_id}

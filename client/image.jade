@@ -1,10 +1,10 @@
-template(name='stack_tags')
+template(name='images')
     .ui.stackable.padded.grid
         .four.wide.column.scrolling
             .ui.header
                 i.tags.icon
                 |tags
-            +stack_tag_cloud
+            +image_cloud
         .twelve.wide.column
             .ui.centered.cards.scrolling
                 each tags
@@ -17,7 +17,7 @@ template(name='stack_tags')
                                 i.grey.marker.icon
                                 |#{location}
 
-template(name='stack_tag_cloud')
+template(name='image_cloud')
     // #cloud.ui.center.aligned.fluid.segment
         // if currentUser
         //     .ui.icon.input
@@ -58,7 +58,7 @@ template(name='stack_tag_cloud')
         .ui.compact.basic.circular.button.select_location(class=cloud_location_class) !{this.name}
             // small #{this.count}
                                 
-template(name='stack_tag')
+template(name='image')
     with current_doc
         .ui.stackable.padded.grid
             .middle.aligned.row
@@ -88,7 +88,7 @@ template(name='stack_tag')
                             i.large.brain.icon
                             |analyze
                     each tags 
-                        .ui.basic.pointer.circular.tertiary.button.add_stack_tag.speak_this.zoomer #{this}
+                        .ui.basic.pointer.circular.tertiary.button.add_image.speak_this.zoomer #{this}
                     a.ui.circular.icon.button(href=link target='_window' title=link)
                         // |#{link}
                         i.external.large.icon

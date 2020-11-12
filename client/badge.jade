@@ -1,23 +1,24 @@
-template(name='stack_tags')
+template(name='stack_badges')
     .ui.stackable.padded.grid
         .four.wide.column.scrolling
             .ui.header
-                i.tags.icon
-                |tags
-            +stack_tag_cloud
+                i.certificate.icon
+                |badges
+            +stack_badge_cloud
         .twelve.wide.column
             .ui.centered.cards.scrolling
-                each tags
-                    a.ui.card.select_user(href="/site/#{site}/user/#{user_id}")
-                        img.ui.image(src=profile_image class=currentUser.invert_class)
+                each badges
+                    a.ui.card.select_user(href="/site/#{site}/user/#{user.user_id}")
                         .content
                             a.ui.header #{name}
                             .description
                                 |#{site}
-                                i.grey.marker.icon
-                                |#{location}
+                                with user
+                                    img.ui.avatar.image(src=profile_image class=currentUser.invert_class)
+                                    |#{display_name}
+                                    small #{reputation}
 
-template(name='stack_tag_cloud')
+template(name='stack_badge_cloud')
     // #cloud.ui.center.aligned.fluid.segment
         // if currentUser
         //     .ui.icon.input
@@ -30,14 +31,14 @@ template(name='stack_tag_cloud')
         // .ui.left.icon.input
         //     i.search.icon
         //     input(type='text')
-    if selected_tags
-        #clear_tags.ui.primary.icon.compact.circular.button
+    if selected_badges
+        #clear_badges.ui.primary.icon.compact.circular.button
             i.remove.icon
-        each selected_tags
-            .unselect_tag.ui.primary.compact.circular.button
+        each selected_badges
+            .unselect_badge.ui.primary.compact.circular.button
                 strong !{this}
-    each all_tags
-        .ui.compact.circular.button.select_tag(class=cloud_tag_class) !{this.name}
+    each all_badges
+        .ui.compact.circular.button.select_badge(class=cloud_badge_class) !{this.name}
             small #{this.count}
     .ui.grey.inline.header
         i.globe.icon
@@ -58,7 +59,7 @@ template(name='stack_tag_cloud')
         .ui.compact.basic.circular.button.select_location(class=cloud_location_class) !{this.name}
             // small #{this.count}
                                 
-template(name='stack_tag')
+template(name='stack_badge')
     with current_doc
         .ui.stackable.padded.grid
             .middle.aligned.row
@@ -87,8 +88,8 @@ template(name='stack_tag')
                         .ui.big.fluid.button.call_watson
                             i.large.brain.icon
                             |analyze
-                    each tags 
-                        .ui.basic.pointer.circular.tertiary.button.add_stack_tag.speak_this.zoomer #{this}
+                    each badges 
+                        .ui.basic.pointer.circular.tertiary.button.add_stack_badge.speak_this.zoomer #{this}
                     a.ui.circular.icon.button(href=link target='_window' title=link)
                         // |#{link}
                         i.external.large.icon
