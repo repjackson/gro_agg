@@ -370,7 +370,7 @@ a.goto_article {
 
 .zoomer:hover {
     transition: all .25s ease !important; 
-    z-index: -1000 !important;
+    z-index: 1000 !important;
     transform: scale(.95) !important;
 }
 /*img.zoomer:hover {*/

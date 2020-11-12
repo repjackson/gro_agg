@@ -8,8 +8,8 @@ template(name='stackuser_page')
         .ui.stackable.padded.grid
             .row
                 .three.wide.column
-                    img.ui.rounded.fluid.image.pointer.boop.zoomer(src=profile_image)
-                    .ui.center.aligned.header !{display_name} 
+                    img.ui.rounded.image.pointer.boop.zoomer(src=profile_image)
+                    .ui.center.aligned.inline.header !{display_name} 
                         small #{reputation}
                     +print_this
                     .ui.list

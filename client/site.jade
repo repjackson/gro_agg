@@ -39,7 +39,7 @@ template(name='site_page')
                     .ui.grey.center.aligned.header 
                         |#{site_users.count}
                         i.users.icon
-                    .ui.selection.animated.list.smallscroll
+                    .ui.selection.animated.horizontal.list.smallscroll
                         each site_users
                             a.item(href="/site/#{site}/user/#{user_id}") 
                                 img.ui.avatar.image(src=profile_image)
