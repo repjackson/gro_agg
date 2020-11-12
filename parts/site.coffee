@@ -96,6 +96,9 @@ if Meteor.isClient
                 api_site_parameter:Router.current().params.site
     Template.site_page.helpers
         site_locations: -> results.find(model:'site_Location')
+        site_organizations: -> results.find(model:'site_Organization')
+        site_persons: -> results.find(model:'site_Person')
+        site_companys: -> results.find(model:'site_Company')
 
         site_users: ->
             Docs.find {
@@ -157,10 +160,11 @@ if Meteor.isClient
             # results.update
             window.speechSynthesis.cancel()
             
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             selected_tags.push @name
             $('.search_site').val('')
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-            window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
             # Session.set('thinking',true)
             # $('body').toast(
             #     showIcon: 'stack exchange'
@@ -255,7 +259,7 @@ if Meteor.isServer
             # { $match: _id: $nin: selected_Locations }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:20 }
+            { $limit:10 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         # console.log 'cloud: ', Location_cloud
@@ -265,6 +269,66 @@ if Meteor.isServer
                 name: Location.name
                 count: Location.count
                 model:'site_Location'
+      
+      
+        site_Organization_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "Organization": 1 }
+            { $unwind: "$Organization" }
+            { $group: _id: "$Organization", count: $sum: 1 }
+            # { $match: _id: $nin: selected_Organizations }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        # console.log 'cloud: ', Organization_cloud
+        console.log 'Organization match', match
+        site_Organization_cloud.forEach (Organization, i) ->
+            self.added 'results', Random.id(),
+                name: Organization.name
+                count: Organization.count
+                model:'site_Organization'
+      
+      
+        site_Person_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "Person": 1 }
+            { $unwind: "$Person" }
+            { $group: _id: "$Person", count: $sum: 1 }
+            # { $match: _id: $nin: selected_Persons }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        # console.log 'cloud: ', Person_cloud
+        console.log 'Person match', match
+        site_Person_cloud.forEach (Person, i) ->
+            self.added 'results', Random.id(),
+                name: Person.name
+                count: Person.count
+                model:'site_Person'
+      
+      
+        site_Company_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "Company": 1 }
+            { $unwind: "$Company" }
+            { $group: _id: "$Company", count: $sum: 1 }
+            # { $match: _id: $nin: selected_Companys }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        # console.log 'cloud: ', Company_cloud
+        console.log 'Company match', match
+        site_Company_cloud.forEach (Company, i) ->
+            self.added 'results', Random.id(),
+                name: Company.name
+                count: Company.count
+                model:'site_Company'
       
       
         self.ready()

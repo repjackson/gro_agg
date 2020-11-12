@@ -14,9 +14,10 @@ template(name='nav')
                 i.large.tags.icon
             a.icon.disabled.item.badges(href='/badges')
                 i.large.certificate.icon
-            // a.icon.disabled.item(href='/')
-            // a.icon.disabled.item(href='/images')
-            //     i.large.image.icon
+            a.icon.disabled.item(href='/images')
+                i.large.image.icon
+            a.icon.disabled.item(href='/videos')
+                i.large.youtube.icon
             // a.icon.item(href='/events')
             //     i.big.calendar.icon
             // .ui.search.item
@@ -24,8 +25,8 @@ template(name='nav')
             //         input(type='text')
             // a.icon.disabled.item(href='/reddit')
             //     i.big.reddit.icon
-            // a.icon.disabled.item(href='/wikipedia')
-            //     i.big.wikipedia.icon
+            a.icon.disabled.item(href='/wikipedia')
+                i.big.wikipedia.icon
         unless connected
             .item
                 i.yin.yang.loading.big.icon

@@ -65,70 +65,73 @@ template(name='stack_page')
                     .ui.header.say_title.get_question
                         |!{title}
                     // div(class=currentUser.invert_class)
-                    .ui.basic.segment.speak_this
-                        .f11.speak_body.zoomer !{body}
-                    .ui.small.grey.header.get_question_comments
-                        i.chat.outline.icon
-                        // |comments
-                    each question_comments
-                        .ui.basic.segment
-                            if is_accepted 
-                                .ui.green.label.zoomer
-                                    |accepted
-                            // div(class=currentUser.invert_class)
+                    +skve k='stack_section' v='main' l='main' i='content' 
+                    
+                    if skv_is 'stack_section' 'main'
+                        .ui.basic.segment.speak_this
                             .f11.speak_body.zoomer !{body}
-                            with owner
+                        .ui.small.grey.header.get_question_comments
+                            i.chat.outline.icon
+                            // |comments
+                        each question_comments
+                            .ui.basic.segment
+                                if is_accepted 
+                                    .ui.green.label.zoomer
+                                        |accepted
+                                // div(class=currentUser.invert_class)
+                                .f11.speak_body.zoomer !{body}
+                                with owner
+                                    .ui.divider
+                                    i.chat.icon
+                                    a.ui.inline.header.say_name.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
+                                        img.ui.avatar.invert.image(src=profile_image)
+                                        |!{display_name}
+                                        |#{reputation}
+                                    .ui.basic.small.label #{user_id}
+                                    .ui.basic.small.label #{user_type}
+                                    .ui.basic.small.label #{accept_rate}
+                                    a(href=link) #{link}
+                                
+                                small #{content_license}
+                                // +voting
+                                // +comments
+                        
+                        
+                        each question_answers
+                            .ui.basic.segment(class=answer_class)
+                                if is_accepted 
+                                    .ui.green.corner.attached.label.zoomer
+                                        i.checkmark.icon
+                                // div(class=currentUser.invert_class)
+                                .f11.speak_body.zoomer !{body}
                                 .ui.divider
-                                i.chat.icon
-                                a.ui.inline.header.say_name.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
-                                    img.ui.avatar.invert.image(src=profile_image)
-                                    |!{display_name}
+                                .ui.horizontal.list
+                                    .item 
+                                        small active
+                                        |{{ufrom last_activity_date}}
+                                    .item
+                                        small edited
+                                        |{{ufrom last_edit_date}}
+                                    .item
+                                        small created
+                                        |{{ufrom creation_date}}
+    
+                                with owner
+                                    div
+                                    a.ui.header.say_name.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
+                                        img.ui.avatar.invert.image(src=profile_image)
+                                        |!{display_name}
                                     |#{reputation}
-                                .ui.basic.small.label #{user_id}
-                                .ui.basic.small.label #{user_type}
-                                .ui.basic.small.label #{accept_rate}
-                                a(href=link) #{link}
-                            
-                            small #{content_license}
-                            // +voting
-                            // +comments
-                    
-                    
-                    each question_answers
-                        .ui.basic.segment(class=answer_class)
-                            if is_accepted 
-                                .ui.green.corner.attached.label.zoomer
-                                    i.checkmark.icon
-                            // div(class=currentUser.invert_class)
-                            .f11.speak_body.zoomer !{body}
-                            .ui.divider
-                            .ui.horizontal.list
-                                .item 
-                                    small active
-                                    |{{ufrom last_activity_date}}
-                                .item
-                                    small edited
-                                    |{{ufrom last_edit_date}}
-                                .item
-                                    small created
-                                    |{{ufrom creation_date}}
-
-                            with owner
-                                div
-                                a.ui.header.say_name.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
-                                    img.ui.avatar.invert.image(src=profile_image)
-                                    |!{display_name}
-                                |#{reputation}
-                                |#{user_id}
-                                |#{user_type}
-                                |#{accept_rate}
-                                a.ui.icon.button(href=link)
-                                    i.external.icon
-                            |#{content_license}
-                            // +voting
-                            // +comments
-                            if in_dev 
-                                +remove_button
+                                    |#{user_id}
+                                    |#{user_type}
+                                    |#{accept_rate}
+                                    a.ui.icon.button(href=link)
+                                        i.external.icon
+                                |#{content_license}
+                                // +voting
+                                // +comments
+                                if in_dev 
+                                    +remove_button
                     +skve k='stack_section' v='watson' l='watson' i='brain' 
                     if tone
                         +skve k='stack_section' v='tone' l='tone' i='user' 

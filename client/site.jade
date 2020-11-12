@@ -2,7 +2,7 @@ template(name='site_page')
     with current_site
         .ui.stackable.padded.grid
             .row
-                .three.wide.center.aligned.column
+                .three.wide.right.aligned.column
                     // a.ui.circular.icon.button(href='/')
                     //     i.large.home.icon
                     img.get_info(src=high_resolution_icon_url )
@@ -51,7 +51,7 @@ template(name='site_page')
                                         |!{location}
                     // +comments
                     // +voting_full
-                .ten.wide.column
+                .nine.wide.column
                     if selected_tags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
@@ -90,7 +90,7 @@ template(name='site_page')
                     //     i.th.icon
                     // .ui.icon.compact.large.button 
                     //     i.list.icon
-                    .ui.selection.link.big.list.medscroll
+                    .ui.selection.link.large.list.medscroll
                         each site_questions
                             a.item.view_question.zoomer(href="/site/#{site}/doc/#{_id}")
                                 // if watson.metadata.image
@@ -119,9 +119,27 @@ template(name='site_page')
                                     // +voting_full
                                     +doc_emotion_small
                                         // .ui.label user_id #{user_id}
-                .three.wide.column
+                .four.wide.column
+                    i.big.users.icon
+                    each site_organizations
+                        // .ui.label hi #{name}
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    div
                     i.big.marker.icon
                     each site_locations
+                        // .ui.label hi #{name}
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    div
+                    i.big.business.icon
+                    each site_companys
+                        // .ui.label hi #{name}
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    div
+                    i.big.user.icon
+                    each site_persons
                         // .ui.label hi #{name}
                         +stack_tag_selector
                         // .ui.large.label(title=count) #{name}
@@ -163,7 +181,7 @@ template(name='site_page')
 
 template(name='stack_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.zoomer.tertiary.large.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.zoomer.tertiary.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
