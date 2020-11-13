@@ -38,7 +38,7 @@ if Meteor.isClient
 
     Template.stack_page.events
         'click .speak_this': ->
-            console.log @
+            # console.log @
             if Session.get('speaking')
                 window.speechSynthesis.cancel()
                 Session.set('speaking',false)
@@ -47,7 +47,7 @@ if Meteor.isClient
                 Session.set('speaking',true)
     
         'click .speak_body': ->
-            console.log @
+            # console.log @
             if Session.get('speaking')
                 window.speechSynthesis.cancel()
                 Session.set('speaking',false)
@@ -56,11 +56,14 @@ if Meteor.isClient
                 Session.set('speaking',true)
     
         'click .say_title': (e,t)->
-            console.log 'title', @
+            # console.log 'title', @
             window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         'click .say_name': (e,t)->
-            console.log 'title', @
+            # console.log 'title', @
             window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
+        'click .say_site': (e,t)->
+            # console.log 'title', @
+            window.speechSynthesis.speak new SpeechSynthesisUtterance Router.current().params.site
 
         'click .get_linked': (e,t)->
             Meteor.call 'get_linked_questions', Router.current().params.site, Router.current().params.doc_id,->

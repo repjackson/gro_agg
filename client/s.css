@@ -191,7 +191,7 @@ html.ios body {
 
 
 .segment:not(.pushable) {
-  transition: height .25s linear;
+  /*transition: height .25s linear;*/
   border-radius: 10px !important;
 }
 
@@ -294,7 +294,7 @@ input
 }
 
 .ui.button.result {
-  transition: all .25s ease !important;
+  /*transition: all .25s ease !important;*/
   display: inline !important;
    /*padding: 5px !important; */
 }
@@ -345,7 +345,7 @@ a.goto_article {
 .ui.button {
   margin: 1px !important;
   /*border-radius: 10px !important; */
-  transition: height .25s ease !important; 
+  /*transition: height .25s ease !important; */
   /* background-color: rgba(200, 200, 200, 0.2) !important; */
   /* padding: 12px !important; */
   /*font-family: 'Roboto', sans-serif !important; */

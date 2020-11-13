@@ -11,6 +11,9 @@ template(name='stackuser_page')
                     img.ui.rounded.image.pointer.boop.zoomer(src=profile_image)
                     .ui.center.aligned.inline.header !{display_name} 
                         small #{reputation}
+                    a.ui.fluid.circular.basic.big.button.say_site(href="/site/#{site}")
+                        .ui.header #{site}
+        
                     +print_this
                     .ui.list
                         .item #{boops} boops
@@ -45,7 +48,7 @@ template(name='stackuser_page')
                     .ui.inline.header 
                         |#{max_emotion_name} #{max_emotion_percent}
                     each user_tag_agg
-                        .ui.label #{title}
+                        .ui.basic.label #{title}
                             small #{count}
                     div
                     .ui.large.selection.animated.list.scrolling
@@ -78,9 +81,6 @@ template(name='stackuser_page')
                         each user_answers
                             +answer_item
                 .four.wide.column
-                    a.ui.link.fluid.card(href="/site/#{site}")
-                        .content
-                            |#{site}
                     .ui.grey.small.header 
                         i.fork.icon
                         |related accounts

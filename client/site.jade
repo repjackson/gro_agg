@@ -1,6 +1,6 @@
 template(name='site_page')
     with current_site
-        .ui.stackable.padded.grid
+        .ui.stackable.grid
             .row
                 .three.wide.right.aligned.column
                     // a.ui.circular.icon.button(href='/')
@@ -58,7 +58,7 @@ template(name='site_page')
                         //         i.remove.icon
                         each selected_tags
                             +unselect_tag
-                    .ui.icon.large.transparent.input
+                    .ui.icon.input
                         i.search.icon
                         input.search_site(type='text')
                     each site_tags
