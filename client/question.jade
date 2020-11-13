@@ -127,10 +127,10 @@ template(name='stack_page')
                                         a.ui.header.say_name.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
                                             img.ui.avatar.invert.image(src=profile_image)
                                             |!{display_name}
-                                        |#{reputation}
-                                        |#{user_id}
-                                        |#{user_type}
-                                        |#{accept_rate}
+                                            small #{reputation}
+                                        // |#{user_id}
+                                        // |#{user_type}
+                                        // |#{accept_rate}
                                         a.ui.icon.button(href=link)
                                             i.external.icon
                                     |#{content_license}

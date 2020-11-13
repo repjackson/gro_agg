@@ -438,7 +438,7 @@ Meteor.methods
                     found = 
                         Docs.findOne
                             model:'stack_answer'
-                            question_id:item.question_id
+                            # question_id:item.question_id
                             answer_id:item.answer_id
                     if found
                         console.log 'found', found.body
@@ -447,6 +447,7 @@ Meteor.methods
                     unless found
                         item.site = site
                         item.model = 'stack_answer'
+                        # item.answer_id = item.answer_id
                         # item.tags.push query
                         new_id = 
                             Docs.insert item

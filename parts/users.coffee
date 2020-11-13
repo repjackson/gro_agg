@@ -15,12 +15,17 @@ if Meteor.isClient
             selected_user_tags.array() 
             Session.get('selected_user_site')
             Session.get('selected_user_location')
+            Session.get('searching_username')
             Session.get('limit')
 
     Template.users.events
         'click .select_user': ->
             window.speechSynthesis.cancel()
             window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
+        'keyup .search_username': (e,t)->
+            val = $('.search_username').val()
+            Session.set('searching_username',val)
+
 
     Template.users.helpers
         users: ->
@@ -150,9 +155,13 @@ if Meteor.isServer
         selected_user_tags
         selected_user_site
         selected_user_location
+        username_query
         )->
         match = {model:'stackuser'}
-        console.log selected_user_site
+        if username_query
+            match.display_name = {$regex:"#{username_query}", $options: 'i'}
+
+        # console.log selected_user_site
         if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
         if selected_user_site then match.site = selected_user_site
         if selected_user_location then match.location = selected_user_location
