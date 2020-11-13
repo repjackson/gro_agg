@@ -648,7 +648,7 @@ Meteor.methods
    
     get_site_users: (site) ->
         # console.log('searching stack user for', site, user_id);
-        url = "https://api.stackexchange.com/2.2/users?order=desc&sort=modified&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+        url = "https://api.stackexchange.com/2.2/users?order=desc&sort=reputation&page=1&pagesize=100&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
             headers: 'accept-encoding': 'gzip'

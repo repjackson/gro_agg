@@ -8,10 +8,12 @@ template(name='stackuser_page')
         .ui.stackable.padded.grid
             .row
                 .three.wide.column
-                    img.ui.rounded.fluid.image.pointer.boop.zoomer(src=profile_image)
+                    a.ui.fluid.circular.basic.big.button.say_site(href="/site/#{site}/users")
+                        .ui.header
+                            i.users.icon
+                            |#{site}
                     .spacer
-                    a.ui.fluid.circular.basic.big.button.say_site(href="/site/#{site}")
-                        .ui.header #{site}
+                    img.ui.rounded.fluid.image.pointer.boop.zoomer(src=profile_image)
         
                     +print_this
                     .ui.list

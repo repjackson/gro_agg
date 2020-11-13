@@ -287,13 +287,18 @@ template(name='site_users')
                     else
                         .ui.icon.compact.circular.button.sort_up
                             i.caret.up.icon
-                    each stackusers
-                        .ui.item
-                            img.ui.avatar.image(src=profile_image)
-                            span.content
-                                a.ui.inline.header(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
-                                    |#{display_name}
-                                    small #{reputation}
-                                span.description
-                                    |!{location}
+                    .ui.header 
+                        |#{stackusers.count} users
+                    .scrolling
+                        each stackusers
+                            .ui.item
+                                img.ui.avatar.image(src=profile_image)
+                                span.content
+                                    a.ui.inline.header(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
+                                        |!{display_name}
+                                        small #{reputation}
+                                    span.description
+                                        |!{location}
+                                    each user_tag_agg
+                                        .ui.basic.small.circular.label #{title}
         

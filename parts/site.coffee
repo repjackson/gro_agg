@@ -410,7 +410,7 @@ if Meteor.isServer
         # if selected_tags.length > 0 then match.tags = $all:selected_tags
         if site
             Docs.find match, 
-                limit:20
+                limit:200
                 # sort:
                 #     "#{sort_key}":sort_direction
                 # limit:limit
