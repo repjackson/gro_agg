@@ -67,6 +67,7 @@ if Meteor.isClient
                 limit:Session.get('limit')
     
     Template.site_page.events
+        'click .goto_q': -> Router.go "/site/#{@site}/doc/#{@_id}"
         'click .get_info': (e,t)-> 
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             Meteor.call 'get_site_info', Router.current().params.site, ->

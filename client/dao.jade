@@ -419,9 +419,9 @@ template(name='tone')
                 //- span #{sentence_id}
                 span.tone_item.ui.zoomer.pointer.text(title="#{sentence_id}" class="#{tone_size} #{sentence_color}") 
                     |{{lowered text}}
-                    .content
-                        .inline.header(title="#{sentence_id}") {{lowered text}}
-                        |weight:#{weight}
+                    span.content
+                        // .inline.header(title="#{sentence_id}") {{lowered text}}
+                        |#{weight}
                         i.chevron.up.link.grey.large.icon.upvote_sentence
                         i.chevron.down.link.grey.large.icon.downvote_sentence
                         each tones

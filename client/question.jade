@@ -28,15 +28,6 @@ template(name='stack_page')
                                 // a.ui.circular.icon.button(href=link)
                                 //     i.large.external.icon
                         
-                    +doc_emotion
-                    +watson_full
-                    // i.big.refresh.circular.link.icon.get_question
-                    // i.big.exclamation.circular.link.icon.get_answers
-                    // +skve k='stack_section' v='main' l='content' i='content' 
-                    unless watson
-                        .ui.big.fluid.button.call_watson
-                            i.large.brain.icon
-                            |analyze
                     each tags 
                         .ui.basic.pointer.circular.tertiary.button.add_stack_tag.speak_this.zoomer #{this}
                     a.ui.circular.icon.button(href=link target='_window' title=link)
@@ -53,9 +44,9 @@ template(name='stack_page')
                         if accepted_answer_id
                             .item.zoomer accepted answer id #{accepted_answer_id}
                         .item.zoomer #{answer_count} answers
-                        .item.zoomer 
-                            i.hashtag.icon
-                            |score #{score}
+                        // .item.zoomer 
+                        //     i.hashtag.icon
+                        //     |score #{score}
                         .item.zoomer qid #{question_id}
                         .item.zoomer imported #{_when}
                         .item.zoomer license #{content_license}
@@ -64,10 +55,9 @@ template(name='stack_page')
                     // +voting
                     +print_this
                     +doc_sentiment
-                    
-                .twelve.wide.column
+                .eight.wide.column
                     .ui.header.say_title.get_question(class=post_header_class)
-                        .ui.basic.circular.label #{score}
+                        .ui.basic.circular.big.label #{score}
                         |!{title}
                     .ui.horizontal.list
                         .item.zoomer 
@@ -76,18 +66,18 @@ template(name='stack_page')
                         .item.zoomer
                             // i.clock.icon
                             |created {{ufrom creation_date}}
-
-                    .scrolling
                         // div(class=currentUser.invert_class)
                         +skve k='stack_section' v='main' l='main' i='content' 
                         +skve k='stack_section' v='watson' l='watson' i='brain' 
                         if tone
                             +skve k='stack_section' v='tone' l='tone' i='user' 
-                        +skve k='stack_section' v='embed' l='embed' i='layout' 
+                        // +skve k='stack_section' v='embed' l='embed' i='layout' 
+
+                    .scrolling
     
                         if skv_is 'stack_section' 'main'
                             .ui.basic.segment.speak_this
-                                .f11.speak_body.zoomer !{body}
+                                .f11.speak_body.pointer !{body}
                             .ui.small.grey.header.get_question_comments
                                 i.chat.outline.icon
                                 // |comments
@@ -97,7 +87,7 @@ template(name='stack_page')
                                         .ui.green.label.zoomer
                                             |accepted
                                     // div(class=currentUser.invert_class)
-                                    .f11.speak_body.zoomer !{body}
+                                    .f11.speak_body.pointer !{body}
                                     with owner
                                         .ui.divider
                                         i.chat.icon
@@ -121,7 +111,7 @@ template(name='stack_page')
                                         .ui.green.corner.attached.label.zoomer
                                             i.checkmark.icon
                                     // div(class=currentUser.invert_class)
-                                    .f11.speak_body.zoomer !{body}
+                                    .f11.speak_body.pointer !{body}
                                     .ui.divider
                                     .ui.horizontal.list
                                         .item 
@@ -178,6 +168,16 @@ template(name='stack_page')
                         //     .ui.header #{this}
                         // each related_questions
                         //     .ui.header hi #{title}
-            
+                .four.wide.column
+                    +doc_emotion
+                    +watson_full
+                    // i.big.refresh.circular.link.icon.get_question
+                    // i.big.exclamation.circular.link.icon.get_answers
+                    // +skve k='stack_section' v='main' l='content' i='content' 
+                    unless watson
+                        .ui.big.fluid.button.call_watson
+                            i.large.brain.icon
+                            |analyze
+
             
                     

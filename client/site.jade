@@ -26,6 +26,23 @@ template(name='site_page')
                         //     .item site_url: #{site_url}
                     a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
                         i.large.link.twitter.icon
+                        
+                    .ui.grey.center.aligned.header 
+                        |#{site_users.count}
+                        i.users.icon
+                    .ui.selection.horizontal.list.smallscroll
+                        each site_users
+                            a.item(href="/site/#{site}/user/#{user_id}") 
+                                img.ui.avatar.image(src=profile_image)
+                                .content
+                                    .ui.small.header(class=post_header_class)
+                                        |#{display_name}
+                                        small #{reputation}
+                                    .description
+                                        |!{location}
+                    // +comments
+                    // +voting_full
+                .nine.wide.column
                     a.ui.circular.basic.disabled.button(href="/site/#{site}/questions")
                         i.question.icon
                         |questions
@@ -35,23 +52,7 @@ template(name='site_page')
                     a.ui.circular.basic.disabled.button(href="/site/#{site}/tags")
                         i.tags.icon
                         |tags
-                        
-                    .ui.grey.center.aligned.header 
-                        |#{site_users.count}
-                        i.users.icon
-                    .ui.selection.animated.horizontal.list.smallscroll
-                        each site_users
-                            a.item(href="/site/#{site}/user/#{user_id}") 
-                                img.ui.avatar.image(src=profile_image)
-                                .content
-                                    .header
-                                        |#{display_name}
-                                        small #{reputation}
-                                    .description
-                                        |!{location}
-                    // +comments
-                    // +voting_full
-                .nine.wide.column
+                    div
                     if selected_tags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
@@ -96,35 +97,37 @@ template(name='site_page')
                     .ui.icon.compact.large.circular.basic.small.button.set_points
                         i.line.chart.icon
                     if skv_is 'view_detail' true
-                        .ui.active.circular.basic.compact.button.toggle_detail
+                        .ui.black.circular.icon.compact.button.toggle_detail
                             i.list.large.icon
-                            |detail
+                            // |detail
                     else
-                        .ui.compact.circular.basic.button.toggle_detail
+                        .ui.compact.circular.icon.basic.button.toggle_detail
                             i.list.large.icon
-                            |simple
+                            // |simple
                         // i.line.chart.icon
                     // .ui.icon.compact.large.button 
                     //     i.th.icon
                     // .ui.icon.compact.large.button 
                     //     i.list.icon
-                    .ui.selection.link.large.list.medscroll
+                    .medscroll
                         each site_questions
-                            a.item.view_question.zoomer(href="/site/#{site}/doc/#{_id}")
+                            .ui.item
                                 // if watson.metadata.image
                                 //     img.ui.avatar.invert.image(src=watson.metadata.image)    
                                 .content
-                                    .ui.inline.header(class=post_header_class)
-                                        if is_answered
-                                            i.green.checkmark.large.icon
+                                    a.ui.small.inline.header.view_question.zoomer(href="/site/#{site}/doc/#{_id}" class=post_header_class)
+                                        .ui.basic.circular.label #{score}
                                         |!{title} 
-                                        .ui.label #{score}
+                                        if is_answered
+                                            i.green.checkmark.icon
                                         .ui.small.basic.label 
                                             i.tag.grey.icon
                                             |#{tags.length}
                                     // if skv_is 'view_detail' true
                                     // i.tag.grey.icon
                                     if skv_is 'view_detail' true
+                                        .f9.speak_body.pointer.goto_q !{body}
+
                                         .ui.horizontal.list
                                             each tags
                                                 .item #{this}
@@ -143,6 +146,7 @@ template(name='site_page')
                                         // +voting_full
                                         +doc_emotion_small
                                             // .ui.label user_id #{user_id}
+                                        .ui.divider
                 .four.wide.column.scrolling
                     i.big.users.icon
                     each site_organizations
@@ -206,11 +210,11 @@ template(name='site_page')
 
 template(name='stack_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.zoomer.tertiary.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.circular.compact.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
-        | #{name}
+        strong #{name}
         // small #{count}
 
 
