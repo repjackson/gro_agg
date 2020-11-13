@@ -98,6 +98,7 @@ if Meteor.isClient
             selected_user_tags.array()
             Session.get('selected_user_site')
             Session.get('selected_user_location')
+            Session.get('username_query')
             # selected_user_roles.array()
             # Session.get('view_mode')
         )
@@ -174,6 +175,7 @@ if Meteor.isServer
         selected_user_tags
         selected_user_site
         selected_user_location
+        username_query
         # view_mode
         # limit
     )->
@@ -181,6 +183,8 @@ if Meteor.isServer
         match = {model:'stackuser'}
         if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
         if selected_user_site then match.site = selected_user_site
+        if username_query    
+            match.display_name = {$regex:"#{username_query}", $options: 'i'}
         if selected_user_location then match.location = selected_user_location
         # match.model = 'item'
         # if view_mode is 'users'

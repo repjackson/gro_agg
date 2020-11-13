@@ -20,6 +20,9 @@ if Meteor.isClient
             selected_tags.array()
             Router.current().params.site
             Session.get('toggle')
+            Session.get('view_bounties')
+            Session.get('view_unanswered')
+            
             
         @autorun => Meteor.subscribe 'stack_docs_by_site', 
             Router.current().params.site
@@ -28,6 +31,8 @@ if Meteor.isClient
             Session.get('sort_direction')
             Session.get('limit')
             Session.get('toggle')
+            Session.get('view_bounties')
+            Session.get('view_unanswered')
             
         @autorun => Meteor.subscribe 'stackusers_by_site', 
             Router.current().params.site
@@ -67,6 +72,10 @@ if Meteor.isClient
             Meteor.call 'get_site_info', Router.current().params.site, ->
         'click .view_question': (e,t)-> window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         'click .sort_timestamp': (e,t)-> Session.set('sort_key','_timestamp')
+        'click .unview_bounties': (e,t)-> Session.set('view_bounties',0)
+        'click .view_bounties': (e,t)-> Session.set('view_bounties',1)
+        'click .unview_unanswered': (e,t)-> Session.set('view_unanswered',0)
+        'click .view_unanswered': (e,t)-> Session.set('view_unanswered',1)
         'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
         'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
         'click .sort_up': (e,t)-> Session.set('sort_direction',1)
@@ -197,6 +206,9 @@ if Meteor.isServer
         sort_key
         sort_direction
         limit
+        toggle
+        view_bounties
+        view_unanswered
     )->
         console.log 'site', site
         console.log 'sort_key', sort_key
@@ -209,6 +221,11 @@ if Meteor.isServer
             model:'stack_question'
             site:site
             }
+            
+        if view_unanswered
+            match.is_answered = false
+        if view_bounties 
+            match.bounty = true
         if selected_tags.length > 0 then match.tags = $all:selected_tags
         if site
             Docs.find match, 
@@ -219,6 +236,9 @@ if Meteor.isServer
     Meteor.publish 'site_tags', (
         selected_tags
         site
+        toggle
+        view_bounties
+        view_unanswered
         # query=''
         )->
         # @unblock()
@@ -227,7 +247,10 @@ if Meteor.isServer
             model:'stack_question'
             site:site
             }
-            
+        if view_bounties
+            match.bounty = true
+        if view_unanswered
+            match.is_answered = false
         doc_count = Docs.find(match).count()
         # console.log 'tags', selected_tags
         if selected_tags.length > 0 then match.tags = $in:selected_tags

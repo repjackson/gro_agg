@@ -11,7 +11,17 @@ template(name='stack_page')
                     with owner
                         a.ui.basic.segment.zoomer.pointer.say_name(href="/site/#{current_doc.site}/user/#{user_id}")
                             img.ui.rounded.image(src=profile_image)
-                            .ui.header #{display_name}
+                            .ui.header 
+                                if is_answered
+                                    i.green.checkmark.large.icon
+                                    // .ui.basic.inverted.green.large.tertiary.button
+                                    // |answered
+                                    // else
+                                    // .ui.basic.tertiary.button
+                                    // i..icon
+                                    // |unanswered
+
+                                |#{display_name}
                                 small #{reputation}
                                 // .ui.basic.label id #{user_id}
                                 // .ui.basic.label type #{user_type}
@@ -32,27 +42,27 @@ template(name='stack_page')
                     a.ui.circular.icon.button(href=link target='_window' title=link)
                         // |#{link}
                         i.external.large.icon
-                    if is_answered
-                        .ui.basic.inverted.green.large.tertiary.button
-                            i.green.checkmark.icon
-                            |answered
-                    else
-                        .ui.basic.tertiary.button
-                            // i..icon
-                            |unanswered
-                    .ui.large.basic.tertiary.button 
-                        i.eye.icon
-                        |#{view_count}
                     .ui.list
-                        .item.zoomer #{view_count} views
-                        .item.zoomer id #{_id}
-                        .item.zoomer date protected {{ufrom protected_date}}
-                        .item.zoomer accepted answer id #{accepted_answer_id}
+                        .item.zoomer 
+                            i.eye.icon
+                            |#{view_count} views
+                        if in_dev
+                            .item.zoomer id #{_id}
+                        if protected_date
+                            .item.zoomer date protected {{ufrom protected_date}}
+                        if accepted_answer_id
+                            .item.zoomer accepted answer id #{accepted_answer_id}
                         .item.zoomer #{answer_count} answers
-                        .item.zoomer score #{score}
+                        .item.zoomer 
+                            i.hashtag.icon
+                            |score #{score}
                         .item.zoomer qid #{question_id}
-                        .item.zoomer active {{ufrom last_activity_date}}
-                        .item.zoomer created {{ufrom creation_date}}
+                        .item.zoomer 
+                            i.clock.icon
+                            |active {{ufrom last_activity_date}}
+                        .item.zoomer
+                            i.clock.icon
+                            |created {{ufrom creation_date}}
                         .item.zoomer imported #{_when}
                         .item.zoomer license #{content_license}
                         
@@ -150,7 +160,7 @@ template(name='stack_page')
                                     |analyze tone
                                 +watson_view
                                 +watson_full
-                        +comments
+                        // +comments
                         // .three.wide.column
                         // .ui.grey.small.header.get_linked 
                         //     i.linkify.icon

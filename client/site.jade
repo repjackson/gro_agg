@@ -71,6 +71,22 @@ template(name='site_page')
                     else
                         .ui.icon.compact.circular.basic.button.sort_up
                             i.caret.up.icon
+                    if skv_is 'view_bounties' 1
+                        .ui.compact.circular.basic.button.unview_bounties
+                            i.check.icon
+                            |viewing bounties
+                    else
+                        .ui.compact.circular.basic.button.view_bounties
+                            i.money.icon
+                            |view bounties
+                    if skv_is 'view_unanswered' 1
+                        .ui.compact.circular.basic.button.unview_unanswered
+                            i.question.icon
+                            |viewing unanswered
+                    else
+                        .ui.compact.circular.basic.button.view_unanswered
+                            i.question.icon
+                            |view unanswered
                     .ui.compact.circular.basic.small.button.limit_1
                         |1
                     .ui.compact.circular.basic.small.button.limit_10
@@ -96,29 +112,35 @@ template(name='site_page')
                                 // if watson.metadata.image
                                 //     img.ui.avatar.invert.image(src=watson.metadata.image)    
                                 .content
-                                    .header !{title} 
+                                    .header 
+                                        if is_answered
+                                            i.green.checkmark.large.icon
+                                        |!{title} 
                                         .ui.label #{score}
+                                        .ui.small.basic.label 
+                                            i.tag.grey.icon
+                                            |#{tags.length}
                                     // if skv_is 'view_detail' true
                                     // i.tag.grey.icon
-                                    |#{tags.length}
-                                    .ui.horizontal.list
-                                        each tags
-                                            .item #{this}
-                                    .ui.horizontal.list
-                                        with owner
-                                            a.ui.small.header.item(href="/site/#{../site}/user/#{user_id}")
-                                                img.ui.avatar.image(src=profile_image)
-                                                |#{display_name}
-                                                small #{reputation}
-                                        // |#{_when}
-                                        if last_edit_date
-                                            .item updated {{ufrom last_edit_date}}
-                                        if creation_dat
-                                            .item created {{ufrom creation_dat}}
-                                    // +comments
-                                    // +voting_full
-                                    +doc_emotion_small
-                                        // .ui.label user_id #{user_id}
+                                    if skv_is 'view_detail' true
+                                        .ui.horizontal.list
+                                            each tags
+                                                .item #{this}
+                                        .ui.horizontal.list
+                                            with owner
+                                                a.ui.small.header.item(href="/site/#{../site}/user/#{user_id}")
+                                                    img.ui.avatar.image(src=profile_image)
+                                                    |#{display_name}
+                                                    small #{reputation}
+                                            // |#{_when}
+                                            if last_edit_date
+                                                .item updated {{ufrom last_edit_date}}
+                                            if creation_dat
+                                                .item created {{ufrom creation_dat}}
+                                        // +comments
+                                        // +voting_full
+                                        +doc_emotion_small
+                                            // .ui.label user_id #{user_id}
                 .four.wide.column
                     i.big.users.icon
                     each site_organizations
