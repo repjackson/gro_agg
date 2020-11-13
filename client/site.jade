@@ -73,20 +73,20 @@ template(name='site_page')
                             i.caret.up.icon
                     if skv_is 'view_bounties' 1
                         .ui.compact.circular.basic.button.unview_bounties
-                            i.check.icon
-                            |viewing bounties
+                            i.checkmark.icon
+                            | bounties
                     else
                         .ui.compact.circular.basic.button.view_bounties
                             i.money.icon
-                            |view bounties
+                            | bounties
                     if skv_is 'view_unanswered' 1
                         .ui.compact.circular.basic.button.unview_unanswered
-                            i.question.icon
-                            |viewing unanswered
+                            i.checkmark.icon
+                            | unanswered
                     else
                         .ui.compact.circular.basic.button.view_unanswered
                             i.question.icon
-                            |view unanswered
+                            | unanswered
                     .ui.compact.circular.basic.small.button.limit_1
                         |1
                     .ui.compact.circular.basic.small.button.limit_10
@@ -96,11 +96,13 @@ template(name='site_page')
                     .ui.icon.compact.large.circular.basic.small.button.set_points
                         i.line.chart.icon
                     if skv_is 'view_detail' true
-                        .ui.icon.active.large.circular.button.toggle_detail
+                        .ui.active.circular.basic.compact.button.toggle_detail
                             i.list.large.icon
+                            |detail
                     else
-                        .ui.icon.compact.large.circular.basic.button.toggle_detail
+                        .ui.compact.circular.basic.button.toggle_detail
                             i.list.large.icon
+                            |simple
                         // i.line.chart.icon
                     // .ui.icon.compact.large.button 
                     //     i.th.icon
@@ -141,7 +143,7 @@ template(name='site_page')
                                         // +voting_full
                                         +doc_emotion_small
                                             // .ui.label user_id #{user_id}
-                .four.wide.column
+                .four.wide.column.scrolling
                     i.big.users.icon
                     each site_organizations
                         // .ui.label hi #{name}
@@ -167,7 +169,7 @@ template(name='site_page')
                         // .ui.large.label(title=count) #{name}
                     div
                 
-                    +comments
+                    // +comments
                     .ui.small.list.mobile.hidden
                         .item 
                             strong #{audience}

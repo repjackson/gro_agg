@@ -392,12 +392,13 @@ Meteor.methods
                         _id:1
                 }
             ).count()
-        # match.owner.user_id = parseInt(user_id)
+        match["owner.user_id"] = parseInt(user_id)
         options = {
             explain:false
             allowDiskUse:true
         }
 
+        console.log "MATCH", match
         # if omega.selected_tags.length > 0
         #     limit = 42
         # else
