@@ -1,3 +1,14 @@
+Meteor.publish 'site_user_count', (
+    site
+    )->
+        
+    match = {model:'stackuser'}
+    match.site = site
+    console.log 'finding pub count', Docs.find(match).count()
+    Counts.publish this, 'user_counter', Docs.find(match)
+    return undefined    # otherwise coffeescript returns a Counts.publish
+                      # handle when Meteor expects a Mongo.Cursor object.
+
 Meteor.publish 'doc_count', (
     selected_tags
     view_mode

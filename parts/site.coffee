@@ -20,6 +20,7 @@ if Meteor.isClient
     
 
     Template.site_users.onCreated ->
+        @autorun => Meteor.subscribe 'site_user_count', Router.current().params.site
         @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
         @autorun => Meteor.subscribe 'stackusers_by_site', 
             Router.current().params.site
@@ -122,6 +123,7 @@ if Meteor.isClient
         site_organizations: -> results.find(model:'site_Organization')
         site_persons: -> results.find(model:'site_Person')
         site_companys: -> results.find(model:'site_Company')
+        user_count: -> Counts.get('user_counter')
 
         stackusers: ->
             Docs.find {
@@ -148,7 +150,7 @@ if Meteor.isClient
             },
                 sort:
                     reputation: -1
-                limit:Session.get('limit')
+                limit:10
     
     # Template.site_users.events
     #     'click .view_question': (e,t)-> window.speechSynthesis.speak new SpeechSynthesisUtterance @title
@@ -410,7 +412,7 @@ if Meteor.isServer
         # if selected_tags.length > 0 then match.tags = $all:selected_tags
         if site
             Docs.find match, 
-                limit:200
+                limit:100
                 # sort:
                 #     "#{sort_key}":sort_direction
                 # limit:limit

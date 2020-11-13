@@ -27,8 +27,8 @@ template(name='site_page')
                     a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
                         i.large.link.twitter.icon
                         
-                    .ui.grey.center.aligned.header 
-                        |#{site_users.count}
+                    a.ui.grey.center.aligned.header(href="/site/#{api_site_parameter}/users")
+                        |#{site_users.count} (#{user_count} total)
                         i.users.icon
                     .ui.selection.horizontal.list.smallscroll
                         each site_users
@@ -287,7 +287,9 @@ template(name='site_users')
                     else
                         .ui.icon.compact.circular.button.sort_up
                             i.caret.up.icon
-                    .ui.header 
+                    .ui.inline.header 
+                        |#{user_count} total
+                    .ui.inline.header 
                         |#{stackusers.count} users
                     .scrolling
                         each stackusers
