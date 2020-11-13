@@ -57,6 +57,8 @@ if Meteor.isClient
     
         
     Template.stackuser_page.events
+        'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
+
         'click .boop': ->
             window.speechSynthesis.speak new SpeechSynthesisUtterance 'boop'
             Meteor.call 'boop', Router.current().params.site, Router.current().params.user_id, ->

@@ -450,7 +450,7 @@ if Meteor.isClient
                   text: 'yes'
                   icon: 'remove'
                   class: 'red'
-                  click: ->
+                  click: =>
                     Docs.remove @_id
                     $('body').toast message: 'deleted'
                 }

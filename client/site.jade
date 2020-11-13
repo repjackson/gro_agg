@@ -72,7 +72,7 @@ template(name='site_page')
                         .ui.icon.compact.circular.basic.button.sort_up
                             i.caret.up.icon
                     if skv_is 'view_bounties' 1
-                        .ui.compact.circular.basic.button.unview_bounties
+                        .ui.compact.circular.black.button.unview_bounties
                             i.checkmark.icon
                             | bounties
                     else
@@ -80,7 +80,7 @@ template(name='site_page')
                             i.money.icon
                             | bounties
                     if skv_is 'view_unanswered' 1
-                        .ui.compact.circular.basic.button.unview_unanswered
+                        .ui.compact.circular.black.button.unview_unanswered
                             i.checkmark.icon
                             | unanswered
                     else
@@ -114,7 +114,7 @@ template(name='site_page')
                                 // if watson.metadata.image
                                 //     img.ui.avatar.invert.image(src=watson.metadata.image)    
                                 .content
-                                    .header 
+                                    .ui.inline.header(class=post_header_class)
                                         if is_answered
                                             i.green.checkmark.large.icon
                                         |!{title} 

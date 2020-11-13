@@ -371,7 +371,7 @@ a.goto_article {
 .zoomer:hover {
     transition: all .25s ease !important; 
     z-index: 1000 !important;
-    transform: scale(.98) !important;
+    transform: scale(.95) !important;
 }
 /*img.zoomer:hover {*/
 /*    transition: all .2s ease !important; */
@@ -670,11 +670,11 @@ input {
 .ui.header{
     transition: all .25s ease !important;
     /* text-transform: capitalize !important; */
-    /* font-family: 'Raleway', sans-serif !important; */
-    /* font-family: 'Montserrat', sans-serif !important; */
+     /*font-family: 'Raleway', sans-serif !important; */
+     font-family: 'Montserrat', sans-serif !important; 
     /*font-family: 'Roboto', sans-serif !important; */
-    /* font-family: 'Lato+Mono', sans-serif !important; */
-    font-family: 'Ubuntu', sans-serif !important;
+     /*font-family: 'Lato+Mono', sans-serif !important; */
+    /*font-family: 'Ubuntu', sans-serif !important;*/
 }
 
 @keyframes fadein {

@@ -8,9 +8,8 @@ template(name='stackuser_page')
         .ui.stackable.padded.grid
             .row
                 .three.wide.column
-                    img.ui.rounded.image.pointer.boop.zoomer(src=profile_image)
-                    .ui.center.aligned.inline.header !{display_name} 
-                        small #{reputation}
+                    img.ui.rounded.fluid.image.pointer.boop.zoomer(src=profile_image)
+                    .spacer
                     a.ui.fluid.circular.basic.big.button.say_site(href="/site/#{site}")
                         .ui.header #{site}
         
@@ -42,6 +41,10 @@ template(name='stackuser_page')
                         i.linkify.icon
                         // |#{link}
                 .nine.wide.column
+                    .ui.big.header(class=post_header_class)
+                        |!{display_name} 
+                        small #{reputation}
+
                     .ui.grey.inline.header.get_question.agg
                         i.question.icon
                         |#{user_questions.count} questions
@@ -50,16 +53,26 @@ template(name='stackuser_page')
                     each user_tag_agg
                         .ui.basic.label #{title}
                             small #{count}
+                    if skv_is 'view_detail' true
+                        .ui.black.circular.compact.icon.button.toggle_detail
+                            i.list.large.icon
+                            // |detail
+                    else
+                        .ui.compact.circular.basic.icon.button.toggle_detail
+                            i.list.large.icon
+                            // |simple
+        
                     div
-                    .ui.large.selection.animated.list.scrolling
+                    .scrolling
                         each user_questions
-                            a.zoomer.item.say_title(href="/site/#{site}/doc/#{_id}") 
-                                .header
-                                    strong #{score}:
+                            .ui.item
+                                a.ui.header.zoomer.say_title(href="/site/#{site}/doc/#{_id}" class=post_header_class)
+                                    .ui.basic.circular.label #{score}:
                                     |!{title}
                                 .description
-                                    each tags 
-                                        .ui.tiny.basic.circular.label #{this}
+                                    if skv_is 'view_detail' true
+                                        each tags 
+                                            .ui.tiny.basic.circular.label #{this}
                                     +doc_emotion_small    
                                     span(title="#{view_count} views")
                                         i.grey.eye.icon
@@ -74,6 +87,7 @@ template(name='stackuser_page')
                                     if last_modified_date
                                         i.pencil.icon
                                         |{{ufrom last_modified_date}}
+                            .spacer
                     .ui.header.get_answers
                         i.exclamation.icon
                         |#{user_answers.count} answers

@@ -11,7 +11,7 @@ template(name='stack_page')
                     with owner
                         a.ui.basic.segment.zoomer.pointer.say_name(href="/site/#{current_doc.site}/user/#{user_id}")
                             img.ui.rounded.image(src=profile_image)
-                            .ui.header 
+                            .ui.header(class=post_header_class)
                                 if is_answered
                                     i.green.checkmark.large.icon
                                     // .ui.basic.inverted.green.large.tertiary.button
@@ -57,12 +57,6 @@ template(name='stack_page')
                             i.hashtag.icon
                             |score #{score}
                         .item.zoomer qid #{question_id}
-                        .item.zoomer 
-                            i.clock.icon
-                            |active {{ufrom last_activity_date}}
-                        .item.zoomer
-                            i.clock.icon
-                            |created {{ufrom creation_date}}
                         .item.zoomer imported #{_when}
                         .item.zoomer license #{content_license}
                         
@@ -72,9 +66,17 @@ template(name='stack_page')
                     +doc_sentiment
                     
                 .twelve.wide.column
-                    .ui.header.say_title.get_question
+                    .ui.header.say_title.get_question(class=post_header_class)
                         .ui.basic.circular.label #{score}
                         |!{title}
+                    .ui.horizontal.list
+                        .item.zoomer 
+                            // i.clock.icon
+                            |active {{ufrom last_activity_date}}
+                        .item.zoomer
+                            // i.clock.icon
+                            |created {{ufrom creation_date}}
+
                     .scrolling
                         // div(class=currentUser.invert_class)
                         +skve k='stack_section' v='main' l='main' i='content' 
@@ -99,7 +101,7 @@ template(name='stack_page')
                                     with owner
                                         .ui.divider
                                         i.chat.icon
-                                        a.ui.inline.header.say_name.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
+                                        a.ui.inline.header.say_name.zoomer(href="/site/#{current_doc.site}/user/#{user_id}" class=post_header_class)
                                             img.ui.avatar.invert.image(src=profile_image)
                                             |!{display_name}
                                             |#{reputation}
@@ -141,7 +143,7 @@ template(name='stack_page')
                                         // |#{user_id}
                                         // |#{user_type}
                                         // |#{accept_rate}
-                                        a.ui.icon.button(href=link)
+                                        a.ui.icon.small.basic.circular.button(href=link)
                                             i.external.icon
                                     |#{content_license}
                                     // +voting
