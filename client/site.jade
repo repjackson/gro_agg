@@ -43,13 +43,13 @@ template(name='site_page')
                     // +comments
                     // +voting_full
                 .nine.wide.column
-                    a.ui.circular.basic.disabled.button(href="/site/#{site}/questions")
+                    a.ui.circular.basic.disabled.button(href="/site/#{api_site_parameter}/questions")
                         i.question.icon
                         |questions
-                    a.ui.circular.basic.disabled.button(href="/site/#{site}/users")
+                    a.ui.circular.basic.button(href="/site/#{api_site_parameter}/users")
                         i.user.icon
                         |users
-                    a.ui.circular.basic.disabled.button(href="/site/#{site}/tags")
+                    a.ui.circular.basic.disabled.button(href="/site/#{api_site_parameter}/tags")
                         i.tags.icon
                         |tags
                     div
@@ -247,11 +247,11 @@ template(name='site_users')
                         // |#{site_url}
                         i.external.icon
                     +print_this
-                    .ui.large.button(href="/site/#{site}/questions")
+                    a.ui.large.button(href="/site/#{api_site_parameter}")
                         |questions
-                    .ui.large.button(href="/site/#{site}/users")
+                    a.ui.large.disabled.button(href="/site/#{api_site_parameter}/users")
                         |users
-                    .ui.large.button(href="/site/#{site}/tags")
+                    a.ui.large.disabled.button(href="/site/#{api_site_parameter}/tags")
                         |tags
                     .ui.list.mobile.hidden
                         // .item #{launch_date} launch_date
@@ -266,6 +266,8 @@ template(name='site_users')
                     +array_edit k='tags' d=true
                     // +comments
                     // +voting_full
+                    .ui.icon.button.get_site_users
+                        i.refresh.icon
                 .twelve.wide.column
                     if selected_tags
                         // if many_tags
@@ -286,5 +288,12 @@ template(name='site_users')
                         .ui.icon.compact.circular.button.sort_up
                             i.caret.up.icon
                     each stackusers
-                        .ui.header #{name}
+                        .ui.item
+                            img.ui.avatar.image(src=profile_image)
+                            span.content
+                                a.ui.inline.header(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
+                                    |#{display_name}
+                                    small #{reputation}
+                                span.description
+                                    |!{location}
         

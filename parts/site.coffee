@@ -3,7 +3,7 @@ if Meteor.isClient
         @layout 'layout'
         @render 'site_page'
         ), name:'site_page'
-    
+        
     Router.route '/site/:site/doc/:doc_id', (->
         @layout 'layout'
         @render 'stack_page'
@@ -11,9 +11,19 @@ if Meteor.isClient
     
     Router.route '/site/:site/users', (->
         @layout 'layout'
-        @render 'stackusers'
-        ), name:'stackusers'
+        @render 'site_users'
+        ), name:'site_users'
+    Router.route '/site/:site/questions', (->
+        @layout 'layout'
+        @render 'site_questions'
+        ), name:'site_questions'
     
+
+    Template.site_users.onCreated ->
+        @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
+        @autorun => Meteor.subscribe 'stackusers_by_site', 
+            Router.current().params.site
+
     Template.site_page.onCreated ->
         @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
         @autorun => Meteor.subscribe 'site_tags',
@@ -96,6 +106,10 @@ if Meteor.isClient
                     Meteor.call 'search_stack', Router.current().params.site, search, ->
                         Session.set('thinking',false)
 
+    Template.site_users.events
+        'click .get_site_users': ->
+            Meteor.call 'get_site_users', Router.current().params.site, ->
+
     Template.site_users.helpers
         selected_tags: -> selected_tags.array()
         site_tags: -> results.find(model:'site_tag')
@@ -104,6 +118,23 @@ if Meteor.isClient
             Docs.findOne
                 model:'stack_site'
                 api_site_parameter:Router.current().params.site
+        site_locations: -> results.find(model:'site_Location')
+        site_organizations: -> results.find(model:'site_Organization')
+        site_persons: -> results.find(model:'site_Person')
+        site_companys: -> results.find(model:'site_Company')
+
+        stackusers: ->
+            Docs.find {
+                model:'stackuser'
+                site:Router.current().params.site
+            },
+                sort:
+                    reputation: -1
+                limit:Session.get('limit')
+ 
+ 
+ 
+ 
     Template.site_page.helpers
         site_locations: -> results.find(model:'site_Location')
         site_organizations: -> results.find(model:'site_Organization')

@@ -645,6 +645,37 @@ Meteor.methods
             )).catch((err)->
                 console.log 'fail', err
             )
+   
+    get_site_users: (site) ->
+        # console.log('searching stack user for', site, user_id);
+        url = "https://api.stackexchange.com/2.2/users?order=desc&sort=modified&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+        options = {
+            url: url
+            headers: 'accept-encoding': 'gzip'
+            gzip: true
+        }
+        rp(options)
+            .then(Meteor.bindEnvironment((data)->
+                parsed = JSON.parse(data)
+                # console.log 'body',JSON.parse(body), typeof(body)
+                for item in parsed.items
+                    found = 
+                        Docs.findOne
+                            model:'stackuser'
+                            site:site
+                            user_id:item.user_id
+                    if found
+                        console.log 'found', found.display_name
+                    unless found
+                        item.site = site
+                        item.model = 'stackuser'
+                        new_id = 
+                            Docs.insert item
+                        console.log 'new stack user', Docs.findOne(new_id).display_name
+                return
+            )).catch((err)->
+                console.log 'fail', err
+            )
 
     stackuser_questions: (site, user_id) ->
         # console.log('searching stack user questions for', site, user_id);
