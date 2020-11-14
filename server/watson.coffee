@@ -144,17 +144,17 @@ Meteor.methods
                 limit:10
             features:
                 entities:
-                    emotion: true
-                    sentiment: true
-                    mentions: true
+                    emotion: false
+                    sentiment: false
+                    mentions: false
                     limit: 10
                 keywords:
-                    emotion: true
-                    sentiment: true
+                    emotion: false
+                    sentiment: false
                     limit: 10
                 concepts: {}
                 categories:
-                    explanation:true
+                    explanation:false
                 emotion: {}
                 metadata: {}
                 # relations: {}
@@ -305,7 +305,7 @@ Meteor.methods
                 # if mode is 'url'
                 #     # if doc.model is 'wikipedia'
                 #     Meteor.call 'call_tone', doc_id, 'body', 'text', ->
-                Meteor.call 'clear_blocklist_doc', doc_id, ->
+                # Meteor.call 'clear_blocklist_doc', doc_id, ->
                 
                 # Meteor.call 'log_doc_terms', doc_id, ->
                 # if Meteor.isDevelopment

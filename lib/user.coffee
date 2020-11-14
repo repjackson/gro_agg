@@ -31,9 +31,11 @@ if Meteor.isClient
         user_questions: ->
             Docs.find
                 model:'stack_question'
+                "owner.user_id":parseInt(Router.current().params.user_id)
         user_answers: ->
             Docs.find
                 model:'stack_answer'
+                "owner.user_id":parseInt(Router.current().params.user_id)
         user_badges: ->
             Docs.find
                 model:'stack_badge'

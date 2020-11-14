@@ -36,7 +36,7 @@ if Meteor.isClient
 
 
     Template.stack_page.events
-        'click .goto_q': -> Router.go "/site/#{Router.current().params.site}/doc/#{Router.current().params.doc_id}"
+        'click .goto_q': -> Router.go "/site/#{Router.current().params.site}/doc/#{@_id}"
 
         'click .speak_this': ->
             # console.log @
@@ -89,25 +89,25 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'question_comments', (question_doc_id)->
-        console.log question_doc_id
+        # console.log question_doc_id
         Docs.find 
             model:'stack_comment'
             post_id:question_doc_id
     Meteor.publish 'question_linked_to', (question_doc_id)->
-        console.log question.question_id
+        # console.log question.question_id
         Docs.find 
             model:'stack_question'
             linked_to_ids:$in:[question_doc_id]
     
     Meteor.publish 'related_questions', (question_doc_id)->
-        console.log question.question_id
+        # console.log question.question_id
         question = Docs.findOne question_doc_id
         Docs.find 
             model:'stack_question'
             _id:$in:question.related_question_ids
     
     Meteor.publish 'linked_questions', (question_doc_id)->
-        console.log question.question_id
+        # console.log question.question_id
         question = Docs.findOne question_doc_id
         Docs.find 
             model:'stack_question'

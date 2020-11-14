@@ -36,7 +36,7 @@ template(name='site_page')
                                 img.ui.avatar.image(src=profile_image)
                                 .content
                                     .ui.small.header(class=post_header_class)
-                                        |#{display_name}
+                                        |!{display_name}
                                         small #{reputation}
                                     .description
                                         |!{location}
@@ -160,7 +160,7 @@ template(name='site_page')
                         +stack_tag_selector
                         // .ui.large.label(title=count) #{name}
                     div
-                    i.big.business.icon
+                    i.big.building.grey.icon
                     each site_companys
                         // .ui.label hi #{name}
                         +stack_tag_selector
@@ -277,7 +277,7 @@ template(name='site_users')
                             +unselect_tag
                     .ui.icon.input
                         i.search.icon
-                        input.search_site(type='text')
+                        input.search_users(type='text')
                     each site_tags
                         +stack_tag_selector
                         // .ui.large.label(title=count) #{name}
@@ -288,15 +288,15 @@ template(name='site_users')
                         .ui.icon.compact.circular.button.sort_up
                             i.caret.up.icon
                     .ui.inline.header 
-                        |#{user_count} total
-                    .ui.inline.header 
-                        |#{stackusers.count} users
-                    .scrolling
+                        small viewing
+                        |#{stackusers.count} / #{user_count}
+                    .scrolling.ui.items
                         each stackusers
-                            .ui.item
-                                img.ui.tiny.inline.image.superzoom(src=profile_image)
-                                span.content
-                                    a.ui.inline.header(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
+                            a.item(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
+                                .ui.tiny.rounded.image
+                                    img(src=profile_image)
+                                .content
+                                    a.ui.inline.header.say_name(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
                                         |!{display_name}
                                         small #{reputation}
                                     span.description

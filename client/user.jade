@@ -1,14 +1,17 @@
 template(name='stackuser_page')
     unless stackuser_doc
         // .ui.header no user found
+        .ui.hidden.divider
+        .ui.hidden.divider
+        .ui.hidden.divider
         .ui.massive.fluid.circular.button.f15.zoomer.pointer.search 
             i.download.icon
             |download user info
     with stackuser_doc
         .ui.stackable.padded.grid
             .row
-                .three.wide.column
-                    a.ui.fluid.circular.basic.big.button.say_site(href="/site/#{site}/users")
+                .three.wide.right.aligned.column
+                    a.ui.fluid.basic.button.say_site(href="/site/#{site}/users")
                         .ui.header
                             i.users.icon
                             |#{site}
@@ -89,6 +92,8 @@ template(name='stackuser_page')
                                     if last_modified_date
                                         i.pencil.icon
                                         |{{ufrom last_modified_date}}
+                                    // .ui.large.label #{site}
+                                    // .ui.large.label #{owner.display_name}
                             .spacer
                     .ui.header.get_answers
                         i.exclamation.icon
@@ -159,4 +164,7 @@ template(name='stackuser_page')
                             
 template(name='answer_item')
     |!{body}
+    +print_this
     // hi#{answer_question.title}
+    +remove_button
+    .ui.divider

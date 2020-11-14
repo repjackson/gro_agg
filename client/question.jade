@@ -2,15 +2,15 @@ template(name='stack_page')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.right.aligned.column.scrolling
-                    a.ui.large.fluid.basic.circular.button.say_site(href="/site/#{site}") 
+                .three.wide.right.aligned.column.scrolling
+                    a.ui.fluid.basic.circular.button.say_site(href="/site/#{site}") 
                         i.chevron.left.icon
                         if watson.metadata.image
                             img.ui.invert.mini.inline.image(src=watson.metadata.image)    
                         | #{site}
                     with owner
                         a.ui.basic.segment.zoomer.pointer.say_name(href="/site/#{current_doc.site}/user/#{user_id}")
-                            img.ui.rounded.image(src=profile_image)
+                            img.ui.rounded.fluid.image(src=profile_image)
                             .ui.header(class=post_header_class)
                                 if is_answered
                                     i.green.checkmark.large.icon
@@ -55,7 +55,7 @@ template(name='stack_page')
                     // +voting
                     +print_this
                     +doc_sentiment
-                .eight.wide.column
+                .nine.wide.column
                     .ui.header.say_title.get_question(class=post_header_class)
                         .ui.basic.circular.big.label #{score}
                         |!{title}

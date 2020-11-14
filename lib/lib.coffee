@@ -3,37 +3,42 @@
 
 @Tags = new Meteor.Collection 'tags'
 # @Tag_results = new Meteor.Collection 'tag_results'
-# @Terms = new Meteor.Collection 'terms'
-# @User_tags = new Meteor.Collection 'user_tags'
-# @ph_tags = new Meteor.Collection 'ph_tags'
-# @Dtag_results = new Meteor.Collection 'dtag_results'
-# @Category_results = new Meteor.Collection 'category_results'
-# @Pornstar_results = new Meteor.Collection 'pornstar_results'
 
 
-# if Meteor.isClient
-#     # console.log $
-#     $.cloudinary.config
-#         cloud_name:"facet"
+Router.configure
+    layoutTemplate: 'layout'
+    notFoundTemplate: 'stack'
+    loadingTemplate: 'splash'
+    trackPageView: false
+# 	progressTick: false
+# 	progressDelay: 100
+# Router.route '*', -> @render 'not_found'
 
-# if Meteor.isServer
-#     # console.log Meteor.settings.private.cloudinary_key
-#     # console.log Meteor.settings.private.cloudinary_secret
-#     Cloudinary.config
-#         cloud_name: 'facet'
-#         api_key: Meteor.settings.private.cloudinary_key
-#         api_secret: Meteor.settings.private.cloudinary_secret
+# # Router.route '/u/:username/m/:type', -> @render 'profile', 'user_section'
+
+# Router.route '/forgot_password', -> @render 'forgot_password'
+
+
+Router.route '/', (->
+    @layout 'layout'
+    @render 'dao'
+    ), name:'home'
+
+# Router.route '/question/:doc_id/view', (->
+#     @render 'question_view'
+#     ), name:'question_view'
+# Router.route '/question/:doc_id/edit', (->
+#     @render 'question_edit'
+#     ), name:'question_edit'
+
 
 Docs.helpers
     _author: -> Meteor.users.findOne @_author_id
-    recipient: -> Meteor.users.findOne @recipient_id
-    seller: -> Meteor.users.findOne @seller_id
-    buyer: -> Meteor.users.findOne @buyer_id
     when: -> moment(@_timestamp).fromNow()
-    is_visible: -> @published in [0,1]
-    is_published: -> @published is 1
-    is_anonymous: -> @published is 0
-    is_private: -> @published is -1
+    # is_visible: -> @published in [0,1]
+    # is_published: -> @published is 1
+    # is_anonymous: -> @published is 0
+    # is_private: -> @published is -1
     site_doc: ->
         Docs.findOne 
             model:'stack_site'
@@ -46,20 +51,20 @@ Docs.helpers
         Docs.find 
             model:'bounty'
             question_id:@_id
-    upvoters: ->
-        if @upvoter_ids
-            upvoters = []
-            for upvoter_id in @upvoter_ids
-                upvoter = Meteor.users.findOne upvoter_id
-                upvoters.push upvoter
-            upvoters
-    downvoters: ->
-        if @downvoter_ids
-            downvoters = []
-            for downvoter_id in @downvoter_ids
-                downvoter = Meteor.users.findOne downvoter_id
-                downvoters.push downvoter
-            downvoters
+    # upvoters: ->
+    #     if @upvoter_ids
+    #         upvoters = []
+    #         for upvoter_id in @upvoter_ids
+    #             upvoter = Meteor.users.findOne upvoter_id
+    #             upvoters.push upvoter
+    #         upvoters
+    # downvoters: ->
+    #     if @downvoter_ids
+    #         downvoters = []
+    #         for downvoter_id in @downvoter_ids
+    #             downvoter = Meteor.users.findOne downvoter_id
+    #             downvoters.push downvoter
+    #         downvoters
 
 Meteor.users.helpers
     email_address: -> if @emails and @emails[0] then @emails[0].address

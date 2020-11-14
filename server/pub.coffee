@@ -92,12 +92,6 @@ Meteor.publish 'doc_comments', (doc_id)->
         parent_id:doc_id
 
 
-Meteor.publish 'children', (model, parent_id)->
-    match = {}
-    Docs.find
-        model:model
-        parent_id:parent_id
-
 Meteor.publish 'current_doc', (doc_id)->
     console.log 'pulling doc'
     Docs.find doc_id

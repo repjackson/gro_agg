@@ -440,8 +440,8 @@ Meteor.methods
                             model:'stack_answer'
                             # question_id:item.question_id
                             answer_id:item.answer_id
-                    if found
-                        console.log 'found', found.body
+                    # if found
+                    #     console.log 'found', found.body
                     #     Docs.update found._id,
                     #         $set:body:item.body
                     unless found
@@ -478,8 +478,8 @@ Meteor.methods
                         Docs.findOne
                             model:'stack_comment'
                             post_id:item.post_id
-                    if found
-                        console.log 'found', found.body
+                    # if found
+                    #     console.log 'found', found.body
                     #     Docs.update found._id,
                     #         $set:body:item.body
                     unless found
@@ -648,7 +648,7 @@ Meteor.methods
    
     get_site_users: (site) ->
         # console.log('searching stack user for', site, user_id);
-        for num in [1..20]
+        for num in [1..50]
             console.log 'searching ', site, 'round ', num
             url = "https://api.stackexchange.com/2.2/users?order=desc&sort=reputation&page=#{num}&pagesize=100&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
             options = {
@@ -666,8 +666,8 @@ Meteor.methods
                                 model:'stackuser'
                                 site:site
                                 user_id:item.user_id
-                        if found
-                            console.log 'found', found.display_name
+                        # if found
+                        #     console.log 'found', found.display_name
                         unless found
                             item.site = site
                             item.model = 'stackuser'
@@ -697,8 +697,8 @@ Meteor.methods
                             model:'stack_question'
                             site:site
                             "owner.user_id":parseInt(user_id)
-                    if found
-                        console.log 'found', found.title
+                    # if found
+                    #     console.log 'found', found.title
                     unless found
                         item.site = site
                         item.model = 'stack_question'
@@ -727,8 +727,8 @@ Meteor.methods
                             model:'stack_answer'
                             site:site
                             user_id:parseInt(user_id)
-                    if found
-                        console.log 'found', found.title
+                    # if found
+                    #     console.log 'found', found.title
                     unless found
                         item.site = site
                         item.model = 'stack_answer'
@@ -758,8 +758,8 @@ Meteor.methods
                             model:'stack_comment'
                             site:site
                             user_id:parseInt(user_id)
-                    if found
-                        console.log 'found', found.title
+                    # if found
+                    #     console.log 'found', found.title
                     unless found
                         item.site = site
                         item.model = 'stack_comment'
@@ -793,8 +793,8 @@ Meteor.methods
                             model:'stack_badge'
                             site:site
                             user_id:parseInt(user_id)
-                    if found
-                        console.log 'found', found.title
+                    # if found
+                    #     console.log 'found', found.title
                     unless found
                         item.site = site
                         item.model = 'stack_badge'
@@ -824,8 +824,8 @@ Meteor.methods
                             model:'stack_tag'
                             site:site
                             user_id:parseInt(user_id)
-                    if found
-                        console.log 'found', found
+                    # if found
+                    #     console.log 'found', found
                     unless found
                         item.site = site
                         item.model = 'stack_tag'
@@ -838,7 +838,7 @@ Meteor.methods
             )
 
     sites: () ->
-        for num in [1..20]
+        for num in [1..40]
             url = "https://api.stackexchange.com/2.2/sites?pagesize=100&page=#{num}&key=lPplyGlNUs)cIMOajW03aw(("
             options = {
                 url: url
@@ -855,8 +855,8 @@ Meteor.methods
                                 model:'stack_site'
                                 name:item.name
                                 # question_id:item.question_id
-                        if found
-                            console.log 'found site', found.name
+                        # if found
+                        #     console.log 'found site', found.name
                             # Docs.update found._id,
                             #     $addToSet:tags:query
                         unless found

@@ -24,6 +24,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
         @autorun => Meteor.subscribe 'stackusers_by_site', 
             Router.current().params.site
+            Session.get('user_query')
 
     Template.site_page.onCreated ->
         @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
@@ -108,8 +109,25 @@ if Meteor.isClient
                         Session.set('thinking',false)
 
     Template.site_users.events
+        'keyup .search_users': (e,t)->
+            # search = $('.search_site').val().toLowerCase().trim()
+            user_search = $('.search_users').val().trim()
+            Session.set('user_query',user_search)
+            if e.which is 13
+                if search.length > 0
+                    window.speechSynthesis.cancel()
+                    # console.log search
+                    window.speechSynthesis.speak new SpeechSynthesisUtterance search
+                    selected_tags.push user_search
+                    $('.search_site').val('')
+
+                    # Meteor.call 'search_stack', Router.current().params.site, search, ->
+                        # Session.set('thinking',false)
         'click .get_site_users': ->
             Meteor.call 'get_site_users', Router.current().params.site, ->
+        'click .say_name': (e,t)->
+            # console.log 'title', @
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
 
     Template.site_users.helpers
         selected_tags: -> selected_tags.array()
@@ -300,7 +318,7 @@ if Meteor.isServer
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         # console.log 'cloud: ', tag_cloud
-        console.log 'tag match', match
+        # console.log 'tag match', match
         site_tag_cloud.forEach (tag, i) ->
             self.added 'results', Random.id(),
                 name: tag.name
@@ -320,7 +338,7 @@ if Meteor.isServer
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         # console.log 'cloud: ', Location_cloud
-        console.log 'Location match', match
+        # console.log 'Location match', match
         site_Location_cloud.forEach (Location, i) ->
             self.added 'results', Random.id(),
                 name: Location.name
@@ -340,7 +358,7 @@ if Meteor.isServer
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         # console.log 'cloud: ', Organization_cloud
-        console.log 'Organization match', match
+        # console.log 'Organization match', match
         site_Organization_cloud.forEach (Organization, i) ->
             self.added 'results', Random.id(),
                 name: Organization.name
@@ -360,7 +378,7 @@ if Meteor.isServer
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         # console.log 'cloud: ', Person_cloud
-        console.log 'Person match', match
+        # console.log 'Person match', match
         site_Person_cloud.forEach (Person, i) ->
             self.added 'results', Random.id(),
                 name: Person.name
@@ -380,7 +398,7 @@ if Meteor.isServer
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         # console.log 'cloud: ', Company_cloud
-        console.log 'Company match', match
+        # console.log 'Company match', match
         site_Company_cloud.forEach (Company, i) ->
             self.added 'results', Random.id(),
                 name: Company.name
@@ -393,6 +411,7 @@ if Meteor.isServer
     
     Meteor.publish 'stackusers_by_site', (
         site
+        user_query
         selected_tags
         sort_key
         sort_direction
@@ -409,6 +428,8 @@ if Meteor.isServer
             model:'stackuser'
             site:site
             }
+        if user_query
+            match.display_name = {$regex:"#{user_query}", $options:'i'}
         # if selected_tags.length > 0 then match.tags = $all:selected_tags
         if site
             Docs.find match, 
@@ -417,6 +438,8 @@ if Meteor.isServer
                     reputation:-1
                 #     "#{sort_key}":sort_direction
                 # limit:limit
+                
+                
     Meteor.publish 'site_user_tags', (
         selected_tags
         site

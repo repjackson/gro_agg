@@ -291,10 +291,10 @@
 
         
         
-Template.leftbar.helpers
-    stack_sites: ->
-        Docs.find 
-            model:'stack_site'
+# Template.leftbar.helpers
+#     stack_sites: ->
+#         Docs.find 
+#             model:'stack_site'
 # Template.leftbar.events
 #     # 'click .toggle_leftbar': ->
 #     #     $('.ui.sidebar')

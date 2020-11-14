@@ -14,6 +14,8 @@ if Meteor.isClient
             # console.log @valueOf()
             Session.set('site_name_filter',null)
             selected_tags.clear()
+            window.speechSynthesis.cancel()
+
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @innerHTML()
 
     Template.body.events
