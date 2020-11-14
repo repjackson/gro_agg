@@ -4,21 +4,21 @@
 @selected_emotions = new ReactiveArray []
 
 
-Router.route '/dao', (->
+Router.route '/reddit', (->
     @layout 'layout'
-    @render 'dao'
-    ), name:'dao'
+    @render 'reddit'
+    ), name:'reddit'
 
 Meteor.startup ->
-    window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
+    # window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
 
 
-Template.dao.onCreated ->
+Template.reddit.onCreated ->
     @autorun -> Meteor.subscribe('stacks',selected_tags.array())
-Template.dao.onCreated ->
+Template.reddit.onCreated ->
     # window.speechSynthesis.cancel()
     
-    # window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
+    # window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
     # document.title = 'the world'
     Session.setDefault('main_section','alpha')
     Session.setDefault('view_alpha',true)
@@ -190,7 +190,7 @@ Template.tag_selector.helpers
         Docs.findOne 
             title:@name.toLowerCase()
             
-Template.dao.events
+Template.reddit.events
     'keyup .search_stack': (e,t)->
         # search = $('.search_title').val().toLowerCase().trim()
         search = $('.search_stack').val().trim()
@@ -433,7 +433,7 @@ Template.alpha.helpers
             model:'alpha'
             # query: $in: selected_tags.array()
             query: selected_tags.array().toString()
-Template.dao.helpers
+Template.reddit.helpers
     search_icon_class: ->
         res = ''
         # 'brown poop loading'
@@ -568,7 +568,7 @@ Template.dao.helpers
         # else 
         results.find(model:'tag')
    
-Template.dao.events   
+Template.reddit.events   
     'click .add_tag': -> 
         console.log @
         selected_tags.push @name
@@ -635,7 +635,7 @@ Template.duck.events
 
             
 
-Template.dao.events
+Template.reddit.events
     'click #clear_tags': -> 
         selected_tags.clear()
         window.speechSynthesis.cancel()

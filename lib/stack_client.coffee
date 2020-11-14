@@ -63,7 +63,7 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'stack_sites', (selected_tags=[], name_filter='')->
-        match = {model:'stack_site'}
+        match = {model:$in:['stack_site','tribe']}
         match.site_type = 'main_site'
         if selected_tags.length > 0
             match.tags = $all: selected_tags
