@@ -21,7 +21,7 @@ template(name='stack_page')
                                     // i..icon
                                     // |unanswered
 
-                                |#{display_name}
+                                |!{display_name}
                                 small #{reputation}
                                 // .ui.basic.label id #{user_id}
                                 // .ui.basic.label type #{user_type}
@@ -111,7 +111,7 @@ template(name='stack_page')
                                         .ui.green.corner.attached.label.zoomer
                                             i.checkmark.icon
                                     // div(class=currentUser.invert_class)
-                                    .f11.speak_body.pointer !{body}
+                                    .f11.speak_body.pointer.goto_q !{body}
                                     .ui.divider
                                     .ui.horizontal.list
                                         .item 
@@ -140,6 +140,7 @@ template(name='stack_page')
                                     // +comments
                                     if in_dev 
                                         +remove_button
+                                .ui.divider
                         if skv_is 'stack_section' 'tone'
                             if watson 
                                 if tone

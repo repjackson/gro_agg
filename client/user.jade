@@ -122,16 +122,15 @@ template(name='stackuser_page')
                         .item
                             +i n='medal2-third-place--v1' cl="#{currentUser.invert_class} ui avatar image"
                             |bronze #{badge_counts.bronze}
-                    .ui.list.smallscroll
-                        each user_badges
-                            .item.zoomer
-                                .content 
-                                    span.header #{name}
-                                    span.description
-                                        |#{rank}
-                                        .ui.label #{badge_id}
-                                        a(href=link target="_window")
-                                            i.external.grey.icon
+                    // .ui.list.smallscroll
+                    each user_badges
+                        .ui.basic.label 
+                            span.header #{name}
+                            // span.description
+                            //     |#{rank}
+                            //     .ui.label #{badge_id}
+                            //     a(href=link target="_window")
+                            //         i.external.grey.icon
 
                 .four.wide.column
                     .ui.header emotion

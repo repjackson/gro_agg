@@ -36,6 +36,8 @@ if Meteor.isClient
 
 
     Template.stack_page.events
+        'click .goto_q': -> Router.go "/site/#{Router.current().params.site}/doc/#{Router.current().params.doc_id}"
+
         'click .speak_this': ->
             # console.log @
             if Session.get('speaking')

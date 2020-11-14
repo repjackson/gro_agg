@@ -413,7 +413,8 @@ if Meteor.isServer
         if site
             Docs.find match, 
                 limit:100
-                # sort:
+                sort:
+                    reputation:-1
                 #     "#{sort_key}":sort_direction
                 # limit:limit
     Meteor.publish 'site_user_tags', (

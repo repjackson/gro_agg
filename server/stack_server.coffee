@@ -838,42 +838,38 @@ Meteor.methods
             )
 
     sites: () ->
-        # console.log 'getting sites'
-        # var url = 'https://api.stackexchange.com/2.2/sites';
-        # url = 'http://api.stackexchange.com/2.1/questions?pagesize=1&fromdate=1356998400&todate=1359676800&order=desc&min=0&sort=votes&tagged=javascript&site=stackoverflow'
-        # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&tagged=#{selected_tags}&intitle=#{query}&site=stackoverflow"
-        # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&intitle=#{query}&site=stackoverflow"
-        url = "https://api.stackexchange.com/2.2/sites?pagesize=100&page=5"
-        options = {
-            url: url
-            headers: 'accept-encoding': 'gzip'
-            gzip: true
-        }
-        rp(options)
-            .then(Meteor.bindEnvironment((data)->
-                parsed = JSON.parse(data)
-                # console.log 'body',JSON.parse(body), typeof(body)
-                for item in parsed.items
-                    found = 
-                        Docs.findOne
-                            model:'stack_site'
-                            name:item.name
-                            # question_id:item.question_id
-                    if found
-                        console.log 'found site', found.name
-                        # Docs.update found._id,
-                        #     $addToSet:tags:query
-                    unless found
-                        # item.site = 'money'
-                        item.model = 'stack_site'
-                        # item.tags.push query
-                        new_id = 
-                            Docs.insert item
-                        console.log 'new stack doc', Docs.findOne(new_id)
-                return
-            )).catch((err)->
-                console.log 'fail', err
-            )
+        for num in [1..20]
+            url = "https://api.stackexchange.com/2.2/sites?pagesize=100&page=#{num}&key=lPplyGlNUs)cIMOajW03aw(("
+            options = {
+                url: url
+                headers: 'accept-encoding': 'gzip'
+                gzip: true
+            }
+            rp(options)
+                .then(Meteor.bindEnvironment((data)->
+                    parsed = JSON.parse(data)
+                    # console.log 'body',JSON.parse(body), typeof(body)
+                    for item in parsed.items
+                        found = 
+                            Docs.findOne
+                                model:'stack_site'
+                                name:item.name
+                                # question_id:item.question_id
+                        if found
+                            console.log 'found site', found.name
+                            # Docs.update found._id,
+                            #     $addToSet:tags:query
+                        unless found
+                            # item.site = 'money'
+                            item.model = 'stack_site'
+                            # item.tags.push query
+                            new_id = 
+                                Docs.insert item
+                            console.log 'new stack site', Docs.findOne(new_id).name
+                    return
+                )).catch((err)->
+                    console.log 'fail', err
+                )
         
     get_site_info: (site) ->
         # console.log 'getting sites'

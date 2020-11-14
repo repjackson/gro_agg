@@ -294,7 +294,7 @@ template(name='site_users')
                     .scrolling
                         each stackusers
                             .ui.item
-                                img.ui.avatar.image(src=profile_image)
+                                img.ui.tiny.inline.image.superzoom(src=profile_image)
                                 span.content
                                     a.ui.inline.header(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
                                         |!{display_name}
