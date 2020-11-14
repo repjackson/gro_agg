@@ -93,7 +93,7 @@ if Meteor.isClient
 
 
 
-    Template.user_cloud.onCreated ->
+    Template.users.onCreated ->
         @autorun -> Meteor.subscribe('user_tags',
             selected_user_tags.array()
             Session.get('selected_user_site')
@@ -103,7 +103,7 @@ if Meteor.isClient
             # Session.get('view_mode')
         )
 
-    Template.user_cloud.helpers
+    Template.users.helpers
         all_tags: -> results.find(model:'user_tag')
         all_sites: -> results.find(model:'user_site')
         all_locations: -> results.find(model:'user_location')
@@ -131,7 +131,7 @@ if Meteor.isClient
         #     selected_user_sites.array()
 
 
-    Template.user_cloud.events
+    Template.users.events
         'click .select_tag': -> 
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             selected_user_tags.push @name

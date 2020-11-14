@@ -17,7 +17,7 @@ if Meteor.isClient
         Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'stackuser_tags', Router.current().params.site, Router.current().params.user_id, ->
-
+        Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
 
 
         
