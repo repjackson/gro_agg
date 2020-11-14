@@ -20,11 +20,14 @@ if Meteor.isClient
     
 
     Template.site_users.onCreated ->
+        Session.setDefault('user_query', null)
+        Session.setDefault('location_query', null)
         @autorun => Meteor.subscribe 'site_user_count', Router.current().params.site
         @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
         @autorun => Meteor.subscribe 'stackusers_by_site', 
             Router.current().params.site
             Session.get('user_query')
+            Session.get('location_query')
 
     Template.site_page.onCreated ->
         @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
@@ -107,8 +110,23 @@ if Meteor.isClient
 
                     Meteor.call 'search_stack', Router.current().params.site, search, ->
                         Session.set('thinking',false)
-
     Template.site_users.events
+        'keyup .search_location': (e,t)->
+            # search = $('.search_site').val().toLowerCase().trim()
+            search = $('.search_location').val().trim()
+            console.log 'searc', search
+            Session.set('location_query',search)
+            if e.which is 13
+                if search.length > 0
+                    window.speechSynthesis.cancel()
+                    # console.log search
+                    window.speechSynthesis.speak new SpeechSynthesisUtterance search
+                    selected_tags.push search
+                    $('.search_site').val('')
+
+                    Meteor.call 'search_stack', Router.current().params.site, search, ->
+                        Session.set('thinking',false)
+
         'keyup .search_users': (e,t)->
             # search = $('.search_site').val().toLowerCase().trim()
             user_search = $('.search_users').val().trim()
@@ -412,6 +430,7 @@ if Meteor.isServer
     Meteor.publish 'stackusers_by_site', (
         site
         user_query
+        location_query
         selected_tags
         sort_key
         sort_direction
@@ -421,6 +440,7 @@ if Meteor.isServer
         console.log 'sort_key', sort_key
         console.log 'sort_direction', sort_direction
         console.log 'limit', limit
+        console.log 'location', location_query
         # site = Docs.findOne
         #     model:'stack_site'
         #     api_site_parameter:site
@@ -430,6 +450,8 @@ if Meteor.isServer
             }
         if user_query
             match.display_name = {$regex:"#{user_query}", $options:'i'}
+        if location_query
+            match.location = {$regex:"#{location_query}", $options:'i'}
         # if selected_tags.length > 0 then match.tags = $all:selected_tags
         if site
             Docs.find match, 

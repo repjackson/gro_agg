@@ -276,8 +276,11 @@ template(name='site_users')
                         each selected_tags
                             +unselect_tag
                     .ui.icon.input
-                        i.search.icon
-                        input.search_users(type='text')
+                        i.user.icon
+                        input.search_users(type='text' placeholder='username')
+                    .ui.icon.input
+                        i.marker.icon
+                        input.search_location(type='text' placeholder='location')
                     each site_tags
                         +stack_tag_selector
                         // .ui.large.label(title=count) #{name}
