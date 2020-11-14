@@ -268,7 +268,7 @@ template(name='site_users')
                     // +voting_full
                     .ui.icon.button.get_site_users
                         i.refresh.icon
-                .twelve.wide.column
+                .eight.wide.center.aligned.column
                     if selected_tags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
@@ -276,11 +276,14 @@ template(name='site_users')
                         each selected_tags
                             +unselect_tag
                     .ui.icon.input
-                        i.user.icon
-                        input.search_users(type='text' placeholder='username')
+                        i.user.link.icon
+                        input.search_users(type='text' placeholder='username' val="{{session 'user_query'}}")
                     .ui.icon.input
-                        i.marker.icon
-                        input.search_location(type='text' placeholder='location')
+                        if current_location_query
+                            i.remove.link.icon.clear_location
+                        else
+                            i.marker.link.icon.clear_location
+                        input.search_location(type='text' placeholder='location' value=current_location_query)
                     each site_tags
                         +stack_tag_selector
                         // .ui.large.label(title=count) #{name}
@@ -306,4 +309,6 @@ template(name='site_users')
                                         |!{location}
                                     each user_tag_agg
                                         .ui.basic.small.circular.label #{title}
+                .four.wide.center.aligned.column
+                    .ui.header filter
         

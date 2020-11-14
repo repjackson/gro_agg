@@ -143,6 +143,8 @@ if Meteor.isClient
                         # Session.set('thinking',false)
         'click .get_site_users': ->
             Meteor.call 'get_site_users', Router.current().params.site, ->
+        'click .clear_location': (e,t)-> Session.set('location_query',null)
+        'click .clear_query': (e,t)-> Session.set('user_query',null)
         'click .say_name': (e,t)->
             # console.log 'title', @
             window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
@@ -151,6 +153,7 @@ if Meteor.isClient
         selected_tags: -> selected_tags.array()
         site_tags: -> results.find(model:'site_tag')
         site_locations: -> results.find(model:'site_Location')
+        current_location_query: -> Session.get('location_query')
         current_site: ->
             Docs.findOne
                 model:'stack_site'
