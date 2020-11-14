@@ -549,10 +549,8 @@ Meteor.publish 'dtags', (
             model:'emotion'
     
     switch view_mode
-        when 'porn'
-            tag_limit = 42
         when 'stack'
-            tag_limit = 42
+            tag_limit = 20
         else
             tag_limit = 11
   

@@ -111,6 +111,8 @@ if Meteor.isClient
                     Meteor.call 'search_stack', Router.current().params.site, search, ->
                         Session.set('thinking',false)
     Template.site_users.events
+        'click .set_location': (e,t)->
+            Session.set('location_query',@location)
         'keyup .search_location': (e,t)->
             # search = $('.search_site').val().toLowerCase().trim()
             search = $('.search_location').val().trim()
@@ -360,7 +362,7 @@ if Meteor.isServer
             # { $match: _id: $nin: selected_Locations }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:10 }
+            { $limit:7 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         # console.log 'cloud: ', Location_cloud
@@ -380,7 +382,7 @@ if Meteor.isServer
             # { $match: _id: $nin: selected_Organizations }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:10 }
+            { $limit:7 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         # console.log 'cloud: ', Organization_cloud
@@ -400,7 +402,7 @@ if Meteor.isServer
             # { $match: _id: $nin: selected_Persons }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:10 }
+            { $limit:7 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         # console.log 'cloud: ', Person_cloud
@@ -420,7 +422,7 @@ if Meteor.isServer
             # { $match: _id: $nin: selected_Companys }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:10 }
+            { $limit:7 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         # console.log 'cloud: ', Company_cloud
@@ -463,7 +465,7 @@ if Meteor.isServer
         # if selected_tags.length > 0 then match.tags = $all:selected_tags
         if site
             Docs.find match, 
-                limit:100
+                limit:20
                 sort:
                     reputation:-1
                 #     "#{sort_key}":sort_direction

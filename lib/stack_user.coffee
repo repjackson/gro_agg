@@ -63,7 +63,7 @@ if Meteor.isClient
     Template.stackuser_page.events
         'click .set_location': ->
             Session.set('location_query',@location)
-            window.speechSynthesis.speak new SpeechSynthesisUtterance "users in #{@location}"
+            window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.site} users in #{@location}"
             Router.go "/site/#{Router.current().params.site}/users"
 
         'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
