@@ -276,7 +276,10 @@ template(name='site_users')
                         each selected_tags
                             +unselect_tag
                     .ui.icon.input
-                        i.user.link.icon
+                        if current_user_query
+                            i.remove.link.icon.clear_user
+                        else
+                            i.user.link.icon
                         input.search_users(type='text' placeholder='username' val="{{session 'user_query'}}")
                     .ui.icon.input
                         if current_location_query

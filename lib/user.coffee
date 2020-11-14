@@ -25,12 +25,15 @@ if Meteor.isClient
         stackuser_doc: ->
             Docs.findOne 
                 model:'stackuser'
+                site:Router.current().params.site
+                user_id:parseInt(Router.current().params.user_id)
         user_comments: ->
             Docs.find
                 model:'stack_comment'
         user_questions: ->
             Docs.find
                 model:'stack_question'
+                site:Router.current().params.site
                 "owner.user_id":parseInt(Router.current().params.user_id)
         user_answers: ->
             Docs.find
@@ -57,8 +60,12 @@ if Meteor.isClient
                 model:'stack_question'
                 question_id:@question_id
     
-        
     Template.stackuser_page.events
+        'click .set_location': ->
+            Session.set('location_query',@location)
+            window.speechSynthesis.speak new SpeechSynthesisUtterance "users in #{@location}"
+            Router.go "/site/#{Router.current().params.site}/users"
+
         'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
 
         'click .boop': ->

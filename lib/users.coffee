@@ -11,11 +11,13 @@ if Meteor.isClient
     Template.users.onCreated ->
         Session.setDefault('selected_user_site',null)
         Session.setDefault('selected_user_location',null)
+        Session.setDefault('searching_location',null)
         @autorun -> Meteor.subscribe 'selected_users', 
             selected_user_tags.array() 
             Session.get('selected_user_site')
             Session.get('selected_user_location')
             Session.get('searching_username')
+            Session.get('location_query')
             Session.get('limit')
 
     Template.users.events
@@ -99,6 +101,7 @@ if Meteor.isClient
             Session.get('selected_user_site')
             Session.get('selected_user_location')
             Session.get('username_query')
+            Session.get('location_query')
             # selected_user_roles.array()
             # Session.get('view_mode')
         )
@@ -107,6 +110,9 @@ if Meteor.isClient
         all_tags: -> results.find(model:'user_tag')
         all_sites: -> results.find(model:'user_site')
         all_locations: -> results.find(model:'user_location')
+        
+        current_location_query: -> Session.get('location_query')
+
         
         selected_user_site: -> Session.get('selected_user_site')
         selected_user_tags: -> selected_user_tags.array()
@@ -131,6 +137,7 @@ if Meteor.isClient
         #     selected_user_sites.array()
 
 
+            
     Template.users.events
         'click .select_tag': -> 
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
@@ -149,7 +156,25 @@ if Meteor.isClient
         'click .unselect_location': -> Session.set('selected_user_location',null)
         # 'click #clear_sites': -> Session.set('selected_user_site',null)
 
+        'click .clear_location': (e,t)-> 
+            window.speechSynthesis.speak new SpeechSynthesisUtterance "location cleared"
+            Session.set('location_query',null)
 
+        'keyup .search_location': (e,t)->
+            # search = $('.search_site').val().toLowerCase().trim()
+            search = $('.search_location').val().trim()
+            console.log 'searc', search
+            Session.set('location_query',search)
+            if e.which is 13
+                if search.length > 0
+                    window.speechSynthesis.cancel()
+                    # console.log search
+                    window.speechSynthesis.speak new SpeechSynthesisUtterance search
+                    selected_tags.push search
+                    $('.search_site').val('')
+
+                    # Meteor.call 'search_stack', Router.current().params.site, search, ->
+                    #     Session.set('thinking',false)
 
 if Meteor.isServer
     Meteor.publish 'selected_users', (
@@ -157,10 +182,13 @@ if Meteor.isServer
         selected_user_site
         selected_user_location
         username_query
+        location_query
         )->
         match = {model:'stackuser'}
         if username_query
             match.display_name = {$regex:"#{username_query}", $options: 'i'}
+        if location_query
+            match.location = {$regex:"#{location_query}", $options: 'i'}
 
         # console.log selected_user_site
         if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
@@ -176,6 +204,7 @@ if Meteor.isServer
         selected_user_site
         selected_user_location
         username_query
+        location_query
         # view_mode
         # limit
     )->
@@ -185,6 +214,8 @@ if Meteor.isServer
         if selected_user_site then match.site = selected_user_site
         if username_query    
             match.display_name = {$regex:"#{username_query}", $options: 'i'}
+        if location_query    
+            match.location = {$regex:"#{location_query}", $options: 'i'}
         if selected_user_location then match.location = selected_user_location
         # match.model = 'item'
         # if view_mode is 'users'

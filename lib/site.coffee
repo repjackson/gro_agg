@@ -143,8 +143,13 @@ if Meteor.isClient
                         # Session.set('thinking',false)
         'click .get_site_users': ->
             Meteor.call 'get_site_users', Router.current().params.site, ->
-        'click .clear_location': (e,t)-> Session.set('location_query',null)
-        'click .clear_query': (e,t)-> Session.set('user_query',null)
+        'click .clear_location': (e,t)-> 
+            window.speechSynthesis.speak new SpeechSynthesisUtterance "location cleared"
+            Session.set('location_query',null)
+    
+        'click .clear_query': (e,t)-> 
+            window.speechSynthesis.speak new SpeechSynthesisUtterance "name cleared"
+            Session.set('user_query',null)
         'click .say_name': (e,t)->
             # console.log 'title', @
             window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name

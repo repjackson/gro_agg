@@ -29,7 +29,9 @@ template(name='users')
                 .unselect_site.ui.primary.compact.circular.button
                     strong !{selected_user_site}
             each all_sites
-                .ui.compact.basic.circular.button.select_site(class=cloud_site_class) !{this.name}
+                .ui.compact.basic.circular.button.select_site(class=cloud_site_class) 
+                    |!{this.name}
+                    small #{count}
             .spacer
             .ui.grey.inline.header 
                 i.marker.icon
@@ -39,14 +41,17 @@ template(name='users')
                     strong !{selected_user_location}
             each all_locations
                 .ui.compact.basic.circular.button.select_location(class=cloud_location_class) !{this.name}
-                    // small #{this.count}
+                    small #{this.count}
         .twelve.wide.column
             .ui.left.icon.input
                 i.user.icon
                 input.search_username(type='text' placeholder='username')
-            .ui.left.icon.input
-                i.marker.icon
-                input.search_username(type='text' placeholder='location')
+            .ui.icon.input
+                if current_location_query
+                    i.remove.link.icon.clear_location
+                else
+                    i.marker.link.icon.clear_location
+                input.search_location(type='text' placeholder='location' value=current_location_query)
             .ui.five.stackable.centered.cards.scrolling
                 each users
                     a.ui.card.select_user(href="/site/#{site}/user/#{user_id}")
