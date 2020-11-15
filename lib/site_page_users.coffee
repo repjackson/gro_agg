@@ -28,6 +28,7 @@ if Meteor.isClient
             Router.current().params.site
             Session.get('user_query')
             Session.get('location_query')
+            selected_tags.array()
         @autorun => Meteor.subscribe 'site_user_tags',
             selected_tags.array()
             Router.current().params.site
@@ -593,7 +594,7 @@ if Meteor.isServer
             match.display_name = {$regex:"#{user_query}", $options:'i'}
         if location_query
             match.location = {$regex:"#{location_query}", $options:'i'}
-        # if selected_tags.length > 0 then match.tags = $all:selected_tags
+        if selected_tags.length > 0 then match.tags = $all:selected_tags
         if site
             Docs.find match, 
                 limit:20

@@ -54,7 +54,7 @@ template(name='site_users')
                     // +voting_full
                     .ui.icon.button.get_site_users
                         i.refresh.icon
-                .eight.wide.column
+                .twelve.wide.column
                     if selected_tags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
@@ -74,9 +74,9 @@ template(name='site_users')
                             i.marker.link.icon.clear_location
                         input.search_location(type='text' placeholder='location' value=current_location_query)
                     each user_tags
-                        // +stack_tag_selector
-                        .ui.large.label(title=count) #{name} 
-                            small #{count}
+                        +stack_tag_selector
+                        small #{count}
+                        // .ui.large.label(title=count) #{name} 
                     if skv_is 'sort_direction' 1
                         .ui.icon.compact.circular.button.sort_down
                             i.caret.down.icon
@@ -100,8 +100,8 @@ template(name='site_users')
                                         |!{location}
                                     each tags
                                         .ui.basic.small.circular.label #{this}
-                .four.wide.center.aligned.column
-                    .ui.header filter
+                // .four.wide.center.aligned.column
+                //     .ui.header filter
         
         
         
