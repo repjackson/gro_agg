@@ -28,6 +28,12 @@ if Meteor.isClient
             Router.current().params.site
             Session.get('user_query')
             Session.get('location_query')
+        @autorun => Meteor.subscribe 'site_user_tags',
+            selected_tags.array()
+            Router.current().params.site
+            Session.get('toggle')
+            Session.get('view_bounties')
+            Session.get('view_unanswered')
 
     Template.site_page.onCreated ->
         @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
@@ -158,7 +164,7 @@ if Meteor.isClient
 
     Template.site_users.helpers
         selected_tags: -> selected_tags.array()
-        site_tags: -> results.find(model:'site_tag')
+        user_tags: -> results.find(model:'site_user_tag')
         site_locations: -> results.find(model:'site_Location')
         current_location_query: -> Session.get('location_query')
         current_site: ->
@@ -352,6 +358,131 @@ if Meteor.isServer
                 name: tag.name
                 count: tag.count
                 model:'site_tag'
+        
+        
+        site_Location_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "Location": 1 }
+            { $unwind: "$Location" }
+            { $group: _id: "$Location", count: $sum: 1 }
+            # { $match: _id: $nin: selected_Locations }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:7 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        # console.log 'cloud: ', Location_cloud
+        # console.log 'Location match', match
+        site_Location_cloud.forEach (Location, i) ->
+            self.added 'results', Random.id(),
+                name: Location.name
+                count: Location.count
+                model:'site_Location'
+      
+      
+        site_Organization_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "Organization": 1 }
+            { $unwind: "$Organization" }
+            { $group: _id: "$Organization", count: $sum: 1 }
+            # { $match: _id: $nin: selected_Organizations }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:7 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        # console.log 'cloud: ', Organization_cloud
+        # console.log 'Organization match', match
+        site_Organization_cloud.forEach (Organization, i) ->
+            self.added 'results', Random.id(),
+                name: Organization.name
+                count: Organization.count
+                model:'site_Organization'
+      
+      
+        site_Person_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "Person": 1 }
+            { $unwind: "$Person" }
+            { $group: _id: "$Person", count: $sum: 1 }
+            # { $match: _id: $nin: selected_Persons }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:7 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        # console.log 'cloud: ', Person_cloud
+        # console.log 'Person match', match
+        site_Person_cloud.forEach (Person, i) ->
+            self.added 'results', Random.id(),
+                name: Person.name
+                count: Person.count
+                model:'site_Person'
+      
+      
+        site_Company_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "Company": 1 }
+            { $unwind: "$Company" }
+            { $group: _id: "$Company", count: $sum: 1 }
+            # { $match: _id: $nin: selected_Companys }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:7 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        # console.log 'cloud: ', Company_cloud
+        # console.log 'Company match', match
+        site_Company_cloud.forEach (Company, i) ->
+            self.added 'results', Random.id(),
+                name: Company.name
+                count: Company.count
+                model:'site_Company'
+      
+      
+        self.ready()
+    
+    
+    
+    Meteor.publish 'site_user_tags', (
+        selected_tags
+        site
+        toggle
+        view_bounties
+        view_unanswered
+        # query=''
+        )->
+        # @unblock()
+        self = @
+        match = {
+            model:'stackuser'
+            site:site
+            }
+        if view_bounties
+            match.bounty = true
+        if view_unanswered
+            match.is_answered = false
+        doc_count = Docs.find(match).count()
+        # console.log 'tags', selected_tags
+        if selected_tags.length > 0 then match.tags = $in:selected_tags
+        site_tag_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "user_tag_agg": 1 }
+            { $unwind: "$user_tag_agg" }
+            { $group: _id: "$user_tag_agg", count: $sum: 1 }
+            { $match: _id: $nin: selected_tags }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:20 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        # console.log 'cloud: ', tag_cloud
+        # console.log 'tag match', match
+        site_tag_cloud.forEach (tag, i) ->
+            self.added 'results', Random.id(),
+                name: tag.name
+                count: tag.count
+                model:'site_user_tag'
         
         
         site_Location_cloud = Docs.aggregate [

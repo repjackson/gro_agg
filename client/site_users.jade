@@ -73,9 +73,10 @@ template(name='site_users')
                         else
                             i.marker.link.icon.clear_location
                         input.search_location(type='text' placeholder='location' value=current_location_query)
-                    each site_tags
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
+                    each user_tags
+                        // +stack_tag_selector
+                        .ui.large.label(title=count) #{name.title} 
+                            small #{name.count}
                     if skv_is 'sort_direction' 1
                         .ui.icon.compact.circular.button.sort_down
                             i.caret.down.icon
