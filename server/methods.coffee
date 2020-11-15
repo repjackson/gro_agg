@@ -142,9 +142,14 @@ Meteor.methods
             console.log 'agg res', agg_res
             console.log 'user_tag_res', user_tag_res
             if user_tag_res
+                added_tags = []
+                for tag in user_tag_res
+                    added_tags.push tag.title
                 Docs.update user_doc._id,
                     $set:
                         user_tag_agg: user_tag_res
+                    $addToSet:
+                        tags:$each:added_tags
             # omega = Docs.findOne model:'omega_session'
             # doc_count = omega.total_doc_result_count
             # doc_count = omega.doc_result_ids.length

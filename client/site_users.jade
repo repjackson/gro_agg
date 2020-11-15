@@ -75,8 +75,8 @@ template(name='site_users')
                         input.search_location(type='text' placeholder='location' value=current_location_query)
                     each user_tags
                         // +stack_tag_selector
-                        .ui.large.label(title=count) #{name.title} 
-                            small #{name.count}
+                        .ui.large.label(title=count) #{name} 
+                            small #{count}
                     if skv_is 'sort_direction' 1
                         .ui.icon.compact.circular.button.sort_down
                             i.caret.down.icon
@@ -98,8 +98,8 @@ template(name='site_users')
                                     .ui.compact.circular.basic.button.description.set_location.pointer
                                         +term_image                                            
                                         |!{location}
-                                    each user_tag_agg
-                                        .ui.basic.small.circular.label #{title}
+                                    each tags
+                                        .ui.basic.small.circular.label #{this}
                 .four.wide.center.aligned.column
                     .ui.header filter
         

@@ -17,7 +17,8 @@ template(name='stackuser_page')
                             |#{site}
                     .spacer
                     img.ui.rounded.fluid.image.pointer.boop.zoomer(src=profile_image)
-        
+                    each tags
+                        .ui.basic.label #{this}
                     +print_this
                     .ui.list
                         // .item #{boops} boops

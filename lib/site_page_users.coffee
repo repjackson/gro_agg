@@ -31,6 +31,8 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'site_user_tags',
             selected_tags.array()
             Router.current().params.site
+            Session.get('user_query')
+            Session.get('location_query')
             Session.get('toggle')
             Session.get('view_bounties')
             Session.get('view_unanswered')
@@ -447,6 +449,8 @@ if Meteor.isServer
     Meteor.publish 'site_user_tags', (
         selected_tags
         site
+        user_query
+        location_query
         toggle
         view_bounties
         view_unanswered
@@ -458,18 +462,14 @@ if Meteor.isServer
             model:'stackuser'
             site:site
             }
-        if view_bounties
-            match.bounty = true
-        if view_unanswered
-            match.is_answered = false
         doc_count = Docs.find(match).count()
         # console.log 'tags', selected_tags
         if selected_tags.length > 0 then match.tags = $in:selected_tags
         site_tag_cloud = Docs.aggregate [
             { $match: match }
-            { $project: "user_tag_agg": 1 }
-            { $unwind: "$user_tag_agg" }
-            { $group: _id: "$user_tag_agg", count: $sum: 1 }
+            { $project: "tags": 1 }
+            { $unwind: "$tags" }
+            { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: selected_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
@@ -602,36 +602,3 @@ if Meteor.isServer
                 #     "#{sort_key}":sort_direction
                 # limit:limit
                 
-                
-    Meteor.publish 'site_user_tags', (
-        selected_tags
-        site
-        # query=''
-        )->
-        # @unblock()
-        self = @
-        match = {
-            model:'stackuser'
-            site:site
-            }
-        # console.log 'tags', selected_tags
-        if selected_tags.length > 0 then match.tags = $in:selected_tags
-        site_tag_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "tags": 1 }
-            { $unwind: "$tags" }
-            { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_tags }
-            { $sort: count: -1, _id: 1 }
-            # { $match: count: $lt: doc_count }
-            { $limit:20 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ]
-        # console.log 'cloud: ', tag_cloud
-        console.log 'tag match', match
-        site_tag_cloud.forEach (tag, i) ->
-            self.added 'results', Random.id(),
-                name: tag.name
-                count: tag.count
-                model:'site_tag'
-        self.ready()
