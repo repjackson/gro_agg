@@ -2,7 +2,7 @@ template(name='stack_page')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .three.wide.right.aligned.column.scrolling
+                .four.wide.right.aligned.column.scrolling
                     a.ui.fluid.basic.circular.button.say_site(href="/site/#{site}") 
                         i.chevron.left.icon
                         if watson.metadata.image
@@ -55,7 +55,17 @@ template(name='stack_page')
                     // +voting
                     +print_this
                     +doc_sentiment
-                .nine.wide.column
+                    +doc_emotion
+                    +watson_full
+                    // i.big.refresh.circular.link.icon.get_question
+                    // i.big.exclamation.circular.link.icon.get_answers
+                    // +skve k='stack_section' v='main' l='content' i='content' 
+                    unless watson
+                        .ui.big.fluid.button.call_watson
+                            i.large.brain.icon
+                            |analyze
+                    
+                .twelve.wide.column
                     .ui.header.say_title.get_question(class=post_header_class)
                         .ui.basic.circular.big.label #{score}
                         |!{title}
@@ -169,16 +179,3 @@ template(name='stack_page')
                         //     .ui.header #{this}
                         // each related_questions
                         //     .ui.header hi #{title}
-                .four.wide.column
-                    +doc_emotion
-                    +watson_full
-                    // i.big.refresh.circular.link.icon.get_question
-                    // i.big.exclamation.circular.link.icon.get_answers
-                    // +skve k='stack_section' v='main' l='content' i='content' 
-                    unless watson
-                        .ui.big.fluid.button.call_watson
-                            i.large.brain.icon
-                            |analyze
-
-            
-                    

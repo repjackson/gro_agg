@@ -2,7 +2,7 @@ template(name='site_page')
     with current_site
         .ui.stackable.grid
             .row
-                .three.wide.right.aligned.column
+                .four.wide.right.aligned.column.scrolling
                     // a.ui.circular.icon.button(href='/')
                     //     i.large.home.icon
                     // img.get_info.mobile.hidden.shadowed(src=high_resolution_icon_url )
@@ -23,39 +23,65 @@ template(name='site_page')
                     a.ui.circular.basic.large.button(href="/site/#{api_site_parameter}/users")
                         i.user.icon
                         |users
-                    // a.ui.circular.basic.disabled.large.button(href="/site/#{api_site_parameter}/tags")
-                    //     i.tags.icon
-                    //     |tags
-                    // a.ui.circular.basic.disabled.large.button(href="/site/#{api_site_parameter}/badges")
-                    //     i.certificate.icon
-                    //     |badges
-                    // div
-                    // .ui.animated.selection.list
-                    //     each related_sites
-                    //         a.item(href="/site/#{api_site_parameter}") 
-                    //             i.fork.icon
-                    //             |!{name}
-                    //     // .ui.list 
-                    //     //     .item relation: #{relation}
-                    //     //     .item api_site_parameter: #{api_site_parameter}
-                    //     //     .item site_url: #{site_url}
-                    // a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
-                    //     i.large.link.twitter.icon
-                        
-                    // a.ui.grey.center.aligned.header(href="/site/#{api_site_parameter}/users")
-                    //     |#{site_users.count} (#{user_count} total)
-                    //     i.users.icon
-                    // .ui.selection.horizontal.list.smallscroll
-                    //     each site_users
-                    //         a.item(href="/site/#{site}/user/#{user_id}") 
-                    //             img.ui.avatar.image(src=profile_image)
-                    //             .content
-                    //                 .ui.small.header(class=post_header_class)
-                    //                     |!{display_name}
-                    //                     small #{reputation}
-                    //                 .description
-                    //                     |!{location}
-                .ui.nine.wide.center.aligned.column
+                    div
+                    i.large.grey.users.icon
+                    each site_organizations
+                        // .ui.label hi #{name}
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    i.large.grey.marker.icon
+                    each site_locations
+                        // .ui.label hi #{name}
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    div
+                    i.large.grey.building.grey.icon
+                    each site_companys
+                        // .ui.label hi #{name}
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    div
+                    i.large.grey.user.icon
+                    each site_persons
+                        // .ui.label hi #{name}
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    div
+                
+                    // +comments
+                    .ui.small.list.mobile.hidden
+                        .item 
+                            strong #{audience}
+                        a.item(href=site_url target="_window")
+                            |#{site_url}
+                            i.external.icon
+                        .item open beta {{ufrom open_beta_date}}
+                        .item closed beta {{ufrom closed_beta_date}}
+                        if launch_date
+                            .item launched {{ufrom launch_date}}
+                        .item state: #{site_state}
+                        // .item #{high_resolution_icon_url} high_resolution_icon_url
+                        // .item #{favicon_url} favicon_url
+                        // .item #{api_site_parameter} api
+                        // .item #{site_type} site_type
+                        .item main emotion: #{main_emotion}
+                        .item new_active_users: #{new_active_users}
+                        .item total_users: #{total_users}
+                        .item badges_per_minute: #{badges_per_minute}
+                        .item #{total_badges} badges
+                        .item #{total_votes} votes
+                        .item #{total_comments} comments
+                        .item #{answers_per_minute} answers/min
+                        .item #{questions_per_minute} questions/min
+                        .item #{total_questions} questions
+                        .item #{total_answers} answers
+                        .item #{total_accepted} accepted
+                        .item #{total_unanswered} unanswered
+                        // .item api_revision: #{api_revision}
+                    if in_dev
+                        +array_edit k='tags' d=true
+                    
+                .ui.twelve.wide.column
                     if selected_tags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
@@ -150,64 +176,6 @@ template(name='site_page')
                                         +doc_emotion_small
                                             // .ui.label user_id #{user_id}
                                         .ui.divider
-                .four.wide.column.scrolling
-                    i.big.users.icon
-                    each site_organizations
-                        // .ui.label hi #{name}
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    div
-                    i.big.marker.icon
-                    each site_locations
-                        // .ui.label hi #{name}
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    div
-                    i.big.building.grey.icon
-                    each site_companys
-                        // .ui.label hi #{name}
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    div
-                    i.big.user.icon
-                    each site_persons
-                        // .ui.label hi #{name}
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    div
-                
-                    // +comments
-                    .ui.small.list.mobile.hidden
-                        .item 
-                            strong #{audience}
-                        a.item(href=site_url target="_window")
-                            |#{site_url}
-                            i.external.icon
-                        .item open beta {{ufrom open_beta_date}}
-                        .item closed beta {{ufrom closed_beta_date}}
-                        if launch_date
-                            .item launched {{ufrom launch_date}}
-                        .item state: #{site_state}
-                        // .item #{high_resolution_icon_url} high_resolution_icon_url
-                        // .item #{favicon_url} favicon_url
-                        // .item #{api_site_parameter} api
-                        // .item #{site_type} site_type
-                        .item main emotion: #{main_emotion}
-                        .item new_active_users: #{new_active_users}
-                        .item total_users: #{total_users}
-                        .item badges_per_minute: #{badges_per_minute}
-                        .item #{total_badges} badges
-                        .item #{total_votes} votes
-                        .item #{total_comments} comments
-                        .item #{answers_per_minute} answers/min
-                        .item #{questions_per_minute} questions/min
-                        .item #{total_questions} questions
-                        .item #{total_answers} answers
-                        .item #{total_accepted} accepted
-                        .item #{total_unanswered} unanswered
-                        // .item api_revision: #{api_revision}
-                    if in_dev
-                        +array_edit k='tags' d=true
 
 
 
@@ -218,6 +186,6 @@ template(name='stack_tag_selector')
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
         strong #{name}
-        // small #{count}
+        small #{count}
 
 

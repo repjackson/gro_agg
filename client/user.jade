@@ -10,17 +10,18 @@ template(name='stackuser_page')
     with stackuser_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.right.aligned.column
+                .six.wide.right.aligned.column
                     a.ui.fluid.basic.button.say_site(href="/site/#{site}/users")
                         .ui.header
                             i.users.icon
                             |#{site}
                     .spacer
-                    img.ui.rounded.fluid.image.pointer.boop.zoomer(src=profile_image)
+                    img.ui.rounded.centered.image.pointer.boop.zoomer(src=profile_image)
                     each tags
+                        // +stack_tag_selector
                         .ui.basic.label #{this}
                     +print_this
-                    .ui.list
+                    .ui.horizontal.list
                         // .item #{boops} boops
                         .item account id #{account_id}
                         .item employee #{is_employee}
@@ -46,7 +47,7 @@ template(name='stackuser_page')
                     a.ui.external.icon.button(href=link target='_window') 
                         i.linkify.icon
                         // |#{link}
-                .nine.wide.column
+                .ten.wide.column
                     .ui.big.inline.header(class=post_header_class)
                         |!{display_name} 
                         small #{reputation}
@@ -104,65 +105,65 @@ template(name='stackuser_page')
                     .ui.list.scrolling
                         each user_answers
                             +answer_item
-                .three.wide.column
-                    .ui.grey.small.header 
-                        i.fork.icon
-                        |related accounts
-                    each related_accounts
-                        .ui.small.header !{title}
-                    .ui.grey.small.header
-                        i.tags.icon
-                        |tags
-                    with site_doc
-                        .ui.segment
-                            a.ui.grey.header(href="/site/#{name}") #{name}
+                // .three.wide.column
+                //     .ui.grey.small.header 
+                //         i.fork.icon
+                //         |related accounts
+                //     each related_accounts
+                //         .ui.small.header !{title}
+                //     .ui.grey.small.header
+                //         i.tags.icon
+                //         |tags
+                //     with site_doc
+                //         .ui.segment
+                //             a.ui.grey.header(href="/site/#{name}") #{name}
                                 
-                    .ui.grey.header.get_badges
-                        i.certificate.icon
-                        |#{user_badges.count} badges
-                    .ui.horizontal.list
-                        .item 
-                            +i n='medal2--v1' cl="#{currentUser.invert_class} ui avatar image"
-                            |gold #{badge_counts.gold}
-                        .item 
-                            +i n='medal-second-place--v1' cl="#{currentUser.invert_class} ui avatar image"
-                            |silver #{badge_counts.silver}
-                        .item
-                            +i n='medal2-third-place--v1' cl="#{currentUser.invert_class} ui avatar image"
-                            |bronze #{badge_counts.bronze}
-                    // .ui.list.smallscroll
-                    each user_badges
-                        .ui.basic.label 
-                            span.header #{name}
-                            // span.description
-                            //     |#{rank}
-                            //     .ui.label #{badge_id}
-                            //     a(href=link target="_window")
-                            //         i.external.grey.icon
+                //     .ui.grey.header.get_badges
+                //         i.certificate.icon
+                //         |#{user_badges.count} badges
+                //     .ui.horizontal.list
+                //         .item 
+                //             +i n='medal2--v1' cl="#{currentUser.invert_class} ui avatar image"
+                //             |gold #{badge_counts.gold}
+                //         .item 
+                //             +i n='medal-second-place--v1' cl="#{currentUser.invert_class} ui avatar image"
+                //             |silver #{badge_counts.silver}
+                //         .item
+                //             +i n='medal2-third-place--v1' cl="#{currentUser.invert_class} ui avatar image"
+                //             |bronze #{badge_counts.bronze}
+                //     // .ui.list.smallscroll
+                //     each user_badges
+                //         .ui.basic.label 
+                //             span.header #{name}
+                //             // span.description
+                //             //     |#{rank}
+                //             //     .ui.label #{badge_id}
+                //             //     a(href=link target="_window")
+                //             //         i.external.grey.icon
 
-                .four.wide.column
-                    .ui.header emotion
-                    .ui.large.list 
-                        .item joy avg
-                        .item sad avg
-                        .item disgust avg
-                        .item anger avg
-                        .item fear avg
-                .four.wide.column
-                    .ui.header.get_tags
-                        i.tag.icon
-                        |tags
-                    .ui.list
-                        each user_tags
-                            .item #{name}: #{count}
-                .four.wide.column
-                    .ui.header.get_comments
-                        i.chat.outline.icon
-                        |comments
-                    .ui.list
-                        each user_comments
-                            .item #{title}
-                    +comments        
+                // .four.wide.column
+                //     .ui.header emotion
+                //     .ui.large.list 
+                //         .item joy avg
+                //         .item sad avg
+                //         .item disgust avg
+                //         .item anger avg
+                //         .item fear avg
+                // .four.wide.column
+                //     .ui.header.get_tags
+                //         i.tag.icon
+                //         |tags
+                //     .ui.list
+                //         each user_tags
+                //             .item #{name}: #{count}
+                // .four.wide.column
+                //     .ui.header.get_comments
+                //         i.chat.outline.icon
+                //         |comments
+                //     .ui.list
+                //         each user_comments
+                //             .item #{title}
+                //     +comments        
                             
                             
 template(name='answer_item')
