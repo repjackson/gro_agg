@@ -53,7 +53,8 @@ template(name='stack_page')
                         
                     // +bookmark_button
                     // +voting
-                    +print_this
+                    if in_dev
+                        +print_this
                     +doc_sentiment
                     +doc_emotion
                     +watson_full

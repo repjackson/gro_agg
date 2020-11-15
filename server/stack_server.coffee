@@ -792,12 +792,13 @@ Meteor.methods
             .then(Meteor.bindEnvironment((data)=>
                 parsed = JSON.parse(data)
                 # console.log 'body',JSON.parse(body), typeof(body)
-                adding_tags = []
+                # adding_tags = []
                 for item in parsed.items
-                    adding_tags.push item.name
-                Docs.update user._id,
-                    $addToSet:
-                        tags:$each:adding_tags
+                    # adding_tags.push item.name
+                    console.log item.name
+                # Docs.update user._id,
+                #     $addToSet:
+                #         tags:$each:adding_tags
                 #     found = 
                 #         Docs.findOne
                 #             model:'stack_badge'
@@ -828,20 +829,25 @@ Meteor.methods
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
                 # console.log 'body',JSON.parse(body), typeof(body)
+                adding_tags = []
                 for item in parsed.items
-                    found = 
-                        Docs.findOne
-                            model:'stack_tag'
-                            site:site
-                            user_id:parseInt(user_id)
+                    adding_tags.push item.name
+                Docs.update user._id,
+                    $addToSet:
+                        tags:$each:adding_tags
+                    # found = 
+                    #     Docs.findOne
+                    #         model:'stack_tag'
+                    #         site:site
+                    #         user_id:parseInt(user_id)
                     # if found
                     #     console.log 'found', found
-                    unless found
-                        item.site = site
-                        item.model = 'stack_tag'
-                        new_id = 
-                            Docs.insert item
-                        console.log 'new stack tag', Docs.findOne(new_id)
+                    # unless found
+                    #     item.site = site
+                    #     item.model = 'stack_tag'
+                    #     new_id = 
+                    #         Docs.insert item
+                    #     console.log 'new stack tag', Docs.findOne(new_id)
                 return
             )).catch((err)->
                 console.log 'fail', err

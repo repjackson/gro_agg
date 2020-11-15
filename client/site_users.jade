@@ -26,13 +26,14 @@ template(name='site_users')
                     a.ui.large.basic.icon.button(href=site_url)
                         // |#{site_url}
                         i.external.icon
-                    +print_this
+                    if in_dev
+                        +print_this
                     a.ui.large.circular.basic.button(href="/site/#{api_site_parameter}")
                         i.question.icon
                         |questions
-                    a.ui.large.disabled.black.button(href="/site/#{api_site_parameter}/users")
-                        i.users.icon
-                        |users
+                    // a.ui.large.disabled.black.circular.button(href="/site/#{api_site_parameter}/users")
+                    //     i.users.icon
+                    //     |users
                     // a.ui.large.disabled.circular.basic.button(href="/site/#{api_site_parameter}/tags")
                     //     i.tag.icon
                     //     |tags

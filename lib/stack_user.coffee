@@ -6,16 +6,16 @@ if Meteor.isClient
 
     Template.stackuser_page.onCreated ->
         @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
-        @autorun => Meteor.subscribe 'stackuser_badges', Router.current().params.site, Router.current().params.user_id
-        @autorun => Meteor.subscribe 'stackuser_tags', Router.current().params.site, Router.current().params.user_id
+        # @autorun => Meteor.subscribe 'stackuser_badges', Router.current().params.site, Router.current().params.user_id
+        # @autorun => Meteor.subscribe 'stackuser_tags', Router.current().params.site, Router.current().params.user_id
         @autorun => Meteor.subscribe 'stackuser_comments', Router.current().params.site, Router.current().params.user_id
         @autorun => Meteor.subscribe 'stackuser_questions', Router.current().params.site, Router.current().params.user_id
         @autorun => Meteor.subscribe 'stackuser_answers', Router.current().params.site, Router.current().params.user_id
     Template.stackuser_page.onRendered ->
         # Meteor.call 'stackuser_answers', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'stackuser_questions', Router.current().params.site, Router.current().params.user_id, ->
-        Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
-        Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
+        # Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
+        # Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'stackuser_tags', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
 
@@ -39,12 +39,12 @@ if Meteor.isClient
             Docs.find
                 model:'stack_answer'
                 "owner.user_id":parseInt(Router.current().params.user_id)
-        user_badges: ->
-            Docs.find
-                model:'stack_badge'
-        user_tags: ->
-            Docs.find
-                model:'stack_tag'
+        # user_badges: ->
+        #     Docs.find
+        #         model:'stack_badge'
+        # user_tags: ->
+        #     Docs.find
+        #         model:'stack_tag'
         user_comments: ->
             Docs.find
                 model:'stack_comment'

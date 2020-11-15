@@ -139,8 +139,8 @@ Meteor.methods
             agg_res = Meteor.call 'omega2', site, user_id
             user_tag_res = Meteor.call 'user_question_tags', site, user_id
             # console.log 'hi'
-            console.log 'agg res', agg_res
-            console.log 'user_tag_res', user_tag_res
+            # console.log 'agg res', agg_res
+            # console.log 'user_tag_res', user_tag_res
             if user_tag_res
                 added_tags = []
                 for tag in user_tag_res
