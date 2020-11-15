@@ -5,7 +5,7 @@ template(name='site_page')
                 .three.wide.right.aligned.column
                     // a.ui.circular.icon.button(href='/')
                     //     i.large.home.icon
-                    img.get_info.mobile.hidden.shadowed(src=high_resolution_icon_url )
+                    // img.get_info.mobile.hidden.shadowed(src=high_resolution_icon_url )
                     img.get_info.shadowed(src=logo_url )
                     // img(src=icon_url)
                     // .ui.segment(style="background-color:#{styling.tag_background_color}")
@@ -23,38 +23,38 @@ template(name='site_page')
                     a.ui.circular.basic.large.button(href="/site/#{api_site_parameter}/users")
                         i.user.icon
                         |users
-                    a.ui.circular.basic.disabled.large.button(href="/site/#{api_site_parameter}/tags")
-                        i.tags.icon
-                        |tags
-                    a.ui.circular.basic.disabled.large.button(href="/site/#{api_site_parameter}/badges")
-                        i.certificate.icon
-                        |badges
-                    div
-                    .ui.animated.selection.list
-                        each related_sites
-                            a.item(href="/site/#{api_site_parameter}") 
-                                i.fork.icon
-                                |!{name}
-                        // .ui.list 
-                        //     .item relation: #{relation}
-                        //     .item api_site_parameter: #{api_site_parameter}
-                        //     .item site_url: #{site_url}
-                    a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
-                        i.large.link.twitter.icon
+                    // a.ui.circular.basic.disabled.large.button(href="/site/#{api_site_parameter}/tags")
+                    //     i.tags.icon
+                    //     |tags
+                    // a.ui.circular.basic.disabled.large.button(href="/site/#{api_site_parameter}/badges")
+                    //     i.certificate.icon
+                    //     |badges
+                    // div
+                    // .ui.animated.selection.list
+                    //     each related_sites
+                    //         a.item(href="/site/#{api_site_parameter}") 
+                    //             i.fork.icon
+                    //             |!{name}
+                    //     // .ui.list 
+                    //     //     .item relation: #{relation}
+                    //     //     .item api_site_parameter: #{api_site_parameter}
+                    //     //     .item site_url: #{site_url}
+                    // a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
+                    //     i.large.link.twitter.icon
                         
-                    a.ui.grey.center.aligned.header(href="/site/#{api_site_parameter}/users")
-                        |#{site_users.count} (#{user_count} total)
-                        i.users.icon
-                    .ui.selection.horizontal.list.smallscroll
-                        each site_users
-                            a.item(href="/site/#{site}/user/#{user_id}") 
-                                img.ui.avatar.image(src=profile_image)
-                                .content
-                                    .ui.small.header(class=post_header_class)
-                                        |!{display_name}
-                                        small #{reputation}
-                                    .description
-                                        |!{location}
+                    // a.ui.grey.center.aligned.header(href="/site/#{api_site_parameter}/users")
+                    //     |#{site_users.count} (#{user_count} total)
+                    //     i.users.icon
+                    // .ui.selection.horizontal.list.smallscroll
+                    //     each site_users
+                    //         a.item(href="/site/#{site}/user/#{user_id}") 
+                    //             img.ui.avatar.image(src=profile_image)
+                    //             .content
+                    //                 .ui.small.header(class=post_header_class)
+                    //                     |!{display_name}
+                    //                     small #{reputation}
+                    //                 .description
+                    //                     |!{location}
                 .ui.nine.wide.center.aligned.column
                     if selected_tags
                         // if many_tags

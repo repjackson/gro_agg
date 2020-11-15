@@ -5,7 +5,7 @@ template(name='site_users')
                 .four.wide.column
                     // a.ui.circular.icon.button(href='/')
                     //     i.large.home.icon
-                    img.ui.inline.image.shadowed(src=high_resolution_icon_url)
+                    // img.ui.inline.image.shadowed(src=high_resolution_icon_url)
                     img.shadowed(src=logo_url )
                     // .ui.segment(style="background-color:#{styling.tag_background_color}")
                     // .ui.label #{tag_background_color}: tag_background_color
@@ -21,8 +21,8 @@ template(name='site_users')
                             // .item relation: #{relation}
                             // .item api_site_parameter: #{api_site_parameter}
                             // .item site_url: #{site_url}
-                    a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
-                        i.large.link.twitter.icon
+                    // a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
+                    //     i.large.link.twitter.icon
                     a.ui.large.basic.icon.button(href=site_url)
                         // |#{site_url}
                         i.external.icon
@@ -33,12 +33,12 @@ template(name='site_users')
                     a.ui.large.disabled.black.button(href="/site/#{api_site_parameter}/users")
                         i.users.icon
                         |users
-                    a.ui.large.disabled.circular.basic.button(href="/site/#{api_site_parameter}/tags")
-                        i.tag.icon
-                        |tags
-                    a.ui.large.disabled.circular.basic.button(href="/site/#{api_site_parameter}/badges")
-                        i.certificate.icon
-                        |badges
+                    // a.ui.large.disabled.circular.basic.button(href="/site/#{api_site_parameter}/tags")
+                    //     i.tag.icon
+                    //     |tags
+                    // a.ui.large.disabled.circular.basic.button(href="/site/#{api_site_parameter}/badges")
+                    //     i.certificate.icon
+                    //     |badges
                     .ui.list.mobile.hidden
                         // .item #{launch_date} launch_date
                         // .item #{open_beta_date} open_beta_date
@@ -49,7 +49,7 @@ template(name='site_users')
                         .item #{audience}
                         // .item #{api_site_parameter} api_site_parameter
                         // .item #{site_type} site_type
-                    +array_edit k='tags' d=true
+                    // +array_edit k='tags' d=true
                     // +comments
                     // +voting_full
                     .ui.icon.button.get_site_users

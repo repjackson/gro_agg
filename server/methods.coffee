@@ -418,7 +418,7 @@ Meteor.methods
             # { $group: _id: "$max_emotion_name", count: $sum: 1 }
             # { $match: _id: $nin: omega.selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
+            { $limit: 42 }
             { $project: _id: 0, title: '$_id', count: 1 }
         ]
 

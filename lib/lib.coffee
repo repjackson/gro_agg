@@ -21,7 +21,7 @@ Router.configure
 
 Router.route '/', (->
     @layout 'layout'
-    @render 'dao'
+    @render 'stack'
     ), name:'home'
 
 # Router.route '/question/:doc_id/view', (->

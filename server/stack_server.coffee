@@ -648,7 +648,7 @@ Meteor.methods
    
     get_site_users: (site) ->
         # console.log('searching stack user for', site, user_id);
-        for num in [1..50]
+        for num in [1..100]
             console.log 'searching ', site, 'round ', num
             url = "https://api.stackexchange.com/2.2/users?order=desc&sort=reputation&page=#{num}&pagesize=100&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
             options = {
@@ -776,6 +776,11 @@ Meteor.methods
         # })
         
     stackuser_badges: (site, user_id) ->
+        user = Docs.findOne
+            model:'stackuser'
+            user_id:parseInt(user_id)
+            site:site
+        console.log 'found user updating badges', user
         # console.log('searching stack user badges for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/badges?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
@@ -784,23 +789,28 @@ Meteor.methods
             gzip: true
         }
         rp(options)
-            .then(Meteor.bindEnvironment((data)->
+            .then(Meteor.bindEnvironment((data)=>
                 parsed = JSON.parse(data)
                 # console.log 'body',JSON.parse(body), typeof(body)
+                adding_tags = []
                 for item in parsed.items
-                    found = 
-                        Docs.findOne
-                            model:'stack_badge'
-                            site:site
-                            user_id:parseInt(user_id)
-                    # if found
-                    #     console.log 'found', found.title
-                    unless found
-                        item.site = site
-                        item.model = 'stack_badge'
-                        new_id = 
-                            Docs.insert item
-                        console.log 'new stack badge', Docs.findOne(new_id).title
+                    adding_tags.push item.name
+                Docs.update user._id,
+                    $addToSet:
+                        tags:$each:adding_tags
+                #     found = 
+                #         Docs.findOne
+                #             model:'stack_badge'
+                #             site:site
+                #             user_id:parseInt(user_id)
+                #     # if found
+                #     #     console.log 'found', found.title
+                #     unless found
+                #         item.site = site
+                #         item.model = 'stack_badge'
+                #         new_id = 
+                #             Docs.insert item
+                #         console.log 'new stack badge', Docs.findOne(new_id).title
                 return
             )).catch((err)->
                 console.log 'fail', err

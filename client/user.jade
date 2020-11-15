@@ -10,7 +10,7 @@ template(name='stackuser_page')
     with stackuser_doc
         .ui.stackable.padded.grid
             .row
-                .three.wide.right.aligned.column
+                .four.wide.right.aligned.column
                     a.ui.fluid.basic.button.say_site(href="/site/#{site}/users")
                         .ui.header
                             i.users.icon
@@ -26,7 +26,7 @@ template(name='stackuser_page')
                         .item employee #{is_employee}
                         .item last modified {{ufrom last_modified_date}}
                         .item last accessed  {{ufrom last_access_date}}
-                        .item reputation_change_year #{reputation_change_year}
+                        .item rep change year #{reputation_change_year}
                         .item quarterly #{reputation_change_quarter}
                         .item monthly  #{reputation_change_month}
                         .item weekly rep change #{reputation_change_week}
@@ -35,7 +35,7 @@ template(name='stackuser_page')
                         .item created  {{ufrom creation_date}}
                         .item type #{user_type}
                         .item user id #{user_id}
-                        .item accept rate #{accept_rate}
+                        .item accept rate #{accept_rate}%
                         a.item.select_location(href="/users")
                             i.marker.icon
                             | !{location}
@@ -104,7 +104,7 @@ template(name='stackuser_page')
                     .ui.list.scrolling
                         each user_answers
                             +answer_item
-                .four.wide.column
+                .three.wide.column
                     .ui.grey.small.header 
                         i.fork.icon
                         |related accounts

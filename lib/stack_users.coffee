@@ -7,8 +7,8 @@ if Meteor.isClient
         @render 'users'
         ), name:'users'
 
-    Template.term_image.onCreated ->
-        console.log @
+    # Template.term_image.onCreated ->
+    #     console.log @
     Template.users.onCreated ->
         Session.setDefault('selected_user_site',null)
         Session.setDefault('selected_user_location',null)

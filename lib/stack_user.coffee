@@ -69,8 +69,9 @@ if Meteor.isClient
         'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
 
         'click .boop': ->
-            window.speechSynthesis.speak new SpeechSynthesisUtterance 'boop'
-            Meteor.call 'boop', Router.current().params.site, Router.current().params.user_id, ->
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
+            Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
+            # Meteor.call 'boop', Router.current().params.site, Router.current().params.user_id, ->
         'click .agg': ->
             Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
         
