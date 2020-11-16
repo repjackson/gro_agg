@@ -25,7 +25,7 @@ if Meteor.isClient
     Template.stack.events
         'click .goto_site': -> 
             selected_tags.clear()
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name @audience
         # 'click .site': -> 
         #     console.log @valueOf()
         #     window.speechSynthesis.speak new SpeechSynthesisUtterance @name

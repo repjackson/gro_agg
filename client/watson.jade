@@ -302,21 +302,21 @@ template(name='watson_full')
     div 
     if categories
         i.grey.cubes.icon(title='categories')
-        // |categories
+        |categories
         each categories
             // +tag_selector
             .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}    
     div 
     if Person 
         i.grey.users.icon
-        // .ui.inline.small.grey.header people
+        .ui.inline.small.grey.header people
         each Person 
             // +tag_selector
             .ui.small.basic.pointer.add_stack_tag.tertiary.button.pick_person #{this}
     div 
     if Company
         i.grey.briefcase.icon(title='company')
-        // .ui.inline.small.grey.header companies
+        .ui.inline.small.grey.header companies
         each Company 
             // +tag_selector
             .ui.small.basic.pointer.add_stack_tag.tertiary.button.pick_company #{this}

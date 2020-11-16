@@ -89,7 +89,7 @@ template(name='site_users')
                     .scrolling.ui.items
                         each stackusers
                             .item
-                                a.ui.tiny.rounded.image(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
+                                a.ui.tiny.rounded.image.say_name(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
                                     img(src=profile_image)
                                 .content
                                     a.ui.inline.header.say_name(href="/site/#{site}/user/#{user_id}" class=post_header_class) 

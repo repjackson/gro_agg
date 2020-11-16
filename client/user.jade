@@ -36,20 +36,20 @@ template(name='stackuser_page')
                     +print_this
                     .ui.horizontal.list
                         // .item #{boops} boops
-                        .item account id #{account_id}
-                        .item employee #{is_employee}
-                        .item last modified {{ufrom last_modified_date}}
-                        .item last accessed  {{ufrom last_access_date}}
-                        .item rep change year #{reputation_change_year}
-                        .item quarterly #{reputation_change_quarter}
-                        .item monthly  #{reputation_change_month}
-                        .item weekly rep change #{reputation_change_week}
-                        .item daily #{reputation_change_day}
-                        .item reputation #{reputation}
+                        // .item account id #{account_id}
+                        // .item employee #{is_employee}
+                        .item modified {{ufrom last_modified_date}}
+                        .item accessed  {{ufrom last_access_date}}
+                        // .item rep change year #{reputation_change_year}
+                        // .item quarterly #{reputation_change_quarter}
+                        // .item monthly  #{reputation_change_month}
+                        // .item weekly rep change #{reputation_change_week}
+                        // .item daily #{reputation_change_day}
+                        // .item reputation #{reputation}
                         .item created  {{ufrom creation_date}}
                         .item type #{user_type}
-                        .item user id #{user_id}
-                        .item accept rate #{accept_rate}%
+                        .item id #{user_id}
+                        .item accepts #{accept_rate}%
                         a.item.select_location(href="/users")
                             i.marker.icon
                             | !{location}
