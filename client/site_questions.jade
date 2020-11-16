@@ -3,11 +3,11 @@ template(name='site_page')
         .ui.stackable.grid
             .row
                 .ui.twelve.wide.column
-                    img.get_info.shadowed(src=logo_url )
+                    img.get_info.shadowed.ui.inline.image(src=logo_url )
                     a.ui.circular.basic.large.button(href="/site/#{api_site_parameter}/users")
                         i.large.user.outline.icon
                         |users
-
+                    div
                     if selected_tags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term

@@ -403,7 +403,7 @@ Meteor.methods
             allowDiskUse:true
         }
 
-        console.log "MATCH", match
+        # console.log "MATCH", match
         # if omega.selected_tags.length > 0
         #     limit = 42
         # else

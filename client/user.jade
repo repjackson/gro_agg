@@ -13,15 +13,22 @@ template(name='stackuser_page')
                 .six.wide.column
                     .ui.header      
                         |#{site}
-                    a.ui.fluid.basic.button.say_site(href="/site/#{site}/users")
-                        .ui.header
-                            i.users.icon
-                            |users
-                    a.ui.fluid.basic.button.say_site(href="/site/#{site}")
-                        .ui.header
-                            i.question.icon
-                            |questions
+                    .ui.two.item.fluid.menu
+                        a.ui.fluid.basic.item.say_users(href="/site/#{site}/users")
+                            .ui.header
+                                i.users.icon
+                                |users
+                        a.ui.fluid.basic.item.say_questions(href="/site/#{site}")
+                            .ui.header
+                                i.question.icon
+                                |questions
                     .spacer
+                    .ui.big.inline.header(class=post_header_class)
+                        |!{display_name} 
+                        small #{reputation}
+                    .ui.inline.header.set_location.pointer.zoomer
+                        i.marker.icon 
+                        |#{location}
                     img.ui.rounded.centered.image.pointer.boop.zoomer(src=profile_image)
                     each tags
                         // +stack_tag_selector
@@ -54,12 +61,6 @@ template(name='stackuser_page')
                         i.linkify.icon
                         // |#{link}
                 .ten.wide.column
-                    .ui.big.inline.header(class=post_header_class)
-                        |!{display_name} 
-                        small #{reputation}
-                    .ui.inline.header.set_location.pointer.zoomer
-                        i.marker.icon 
-                        |#{location}
                     .ui.grey.inline.header.get_question.agg
                         i.question.icon
                         |#{user_questions.count} questions

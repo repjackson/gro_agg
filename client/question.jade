@@ -6,12 +6,12 @@ template(name='stack_page')
                     a.ui.fluid.basic.circular.button.say_site(href="/site/#{site}") 
                         i.chevron.left.icon
                         if watson.metadata.image
-                            img.ui.invert.mini.inline.image(src=watson.metadata.image)    
+                            img.ui.invert.tiny.inline.image(src=watson.metadata.image)    
                         | #{site}
                     with owner
                         a.ui.basic.segment.zoomer.pointer.say_name(href="/site/#{current_doc.site}/user/#{user_id}")
-                            img.ui.rounded.fluid.image(src=profile_image)
-                            .ui.header(class=post_header_class)
+                            img.ui.rounded.inline.image(src=profile_image)
+                            .ui.header.inline(class=post_header_class)
                                 if is_answered
                                     i.green.checkmark.large.icon
                                     // .ui.basic.inverted.green.large.tertiary.button
