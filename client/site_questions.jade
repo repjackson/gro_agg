@@ -2,86 +2,12 @@ template(name='site_page')
     with current_site
         .ui.stackable.grid
             .row
-                .four.wide.right.aligned.column.scrolling
-                    // a.ui.circular.icon.button(href='/')
-                    //     i.large.home.icon
-                    // img.get_info.mobile.hidden.shadowed(src=high_resolution_icon_url )
-                    img.get_info.shadowed(src=logo_url )
-                    // img(src=icon_url)
-                    // .ui.segment(style="background-color:#{styling.tag_background_color}")
-                    // .ui.label #{tag_background_color}: tag_background_color
-                    // .ui.label #{tag_foreground_color}: tag_foreground_color
-                    // .ui.label #{link_color}: link_color
-                    // .ui.grey.small.header 
-                    //     |related sites
-                    // .ui.inline.header !{name}
-                    // +comments
-                    // +voting_full
-                    a.ui.circular.basic.disabled.large.button(href="/site/#{api_site_parameter}/questions")
-                        i.question.icon
-                        |questions
-                    a.ui.circular.basic.large.button(href="/site/#{api_site_parameter}/users")
-                        i.user.icon
-                        |users
-                    div
-                    i.large.grey.users.icon
-                    each site_organizations
-                        // .ui.label hi #{name}
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    i.large.grey.marker.icon
-                    each site_locations
-                        // .ui.label hi #{name}
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    div
-                    i.large.grey.building.grey.icon
-                    each site_companys
-                        // .ui.label hi #{name}
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    div
-                    i.large.grey.user.icon
-                    each site_persons
-                        // .ui.label hi #{name}
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    div
-                
-                    // +comments
-                    .ui.small.list.mobile.hidden
-                        .item 
-                            strong #{audience}
-                        a.item(href=site_url target="_window")
-                            |#{site_url}
-                            i.external.icon
-                        .item open beta {{ufrom open_beta_date}}
-                        .item closed beta {{ufrom closed_beta_date}}
-                        if launch_date
-                            .item launched {{ufrom launch_date}}
-                        .item state: #{site_state}
-                        // .item #{high_resolution_icon_url} high_resolution_icon_url
-                        // .item #{favicon_url} favicon_url
-                        // .item #{api_site_parameter} api
-                        // .item #{site_type} site_type
-                        .item main emotion: #{main_emotion}
-                        .item new_active_users: #{new_active_users}
-                        .item total_users: #{total_users}
-                        .item badges_per_minute: #{badges_per_minute}
-                        .item #{total_badges} badges
-                        .item #{total_votes} votes
-                        .item #{total_comments} comments
-                        .item #{answers_per_minute} answers/min
-                        .item #{questions_per_minute} questions/min
-                        .item #{total_questions} questions
-                        .item #{total_answers} answers
-                        .item #{total_accepted} accepted
-                        .item #{total_unanswered} unanswered
-                        // .item api_revision: #{api_revision}
-                    // if in_dev
-                    //     +array_edit k='tags' d=true
-                    
                 .ui.twelve.wide.column
+                    img.get_info.shadowed(src=logo_url )
+                    a.ui.circular.basic.large.button(href="/site/#{api_site_parameter}/users")
+                        i.large.user.outline.icon
+                        |users
+
                     if selected_tags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
@@ -176,6 +102,77 @@ template(name='site_page')
                                         +doc_emotion_small
                                             // .ui.label user_id #{user_id}
                                         .ui.divider
+                .four.wide.column.scrolling
+                    // a.ui.circular.icon.button(href='/')
+                    //     i.large.home.icon
+                    // img.get_info.mobile.hidden.shadowed(src=high_resolution_icon_url )
+                    // img(src=icon_url)
+                    // .ui.segment(style="background-color:#{styling.tag_background_color}")
+                    // .ui.label #{tag_background_color}: tag_background_color
+                    // .ui.label #{tag_foreground_color}: tag_foreground_color
+                    // .ui.label #{link_color}: link_color
+                    // .ui.grey.small.header 
+                    //     |related sites
+                    // .ui.inline.header !{name}
+                    // +comments
+                    // +voting_full
+                    i.large.grey.users.icon
+                    each site_organizations
+                        // .ui.label hi #{name}
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    i.large.grey.marker.icon
+                    each site_locations
+                        // .ui.label hi #{name}
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    div
+                    i.large.grey.building.grey.icon
+                    each site_companys
+                        // .ui.label hi #{name}
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    div
+                    i.large.grey.user.icon
+                    each site_persons
+                        // .ui.label hi #{name}
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    div
+                
+                    // +comments
+                    .ui.small.list.mobile.hidden
+                        .item 
+                            strong #{audience}
+                        a.item(href=site_url target="_window")
+                            |#{site_url}
+                            i.external.icon
+                        // .item open beta {{ufrom open_beta_date}}
+                        // .item closed beta {{ufrom closed_beta_date}}
+                        // if launch_date
+                        //     .item launched {{ufrom launch_date}}
+                        // .item state: #{site_state}
+                        // // .item #{high_resolution_icon_url} high_resolution_icon_url
+                        // // .item #{favicon_url} favicon_url
+                        // // .item #{api_site_parameter} api
+                        // // .item #{site_type} site_type
+                        // .item main emotion: #{main_emotion}
+                        // .item new_active_users: #{new_active_users}
+                        // .item total_users: #{total_users}
+                        // .item badges_per_minute: #{badges_per_minute}
+                        // .item #{total_badges} badges
+                        // .item #{total_votes} votes
+                        // .item #{total_comments} comments
+                        // .item #{answers_per_minute} answers/min
+                        // .item #{questions_per_minute} questions/min
+                        // .item #{total_questions} questions
+                        // .item #{total_answers} answers
+                        // .item #{total_accepted} accepted
+                        // .item #{total_unanswered} unanswered
+                        // .item api_revision: #{api_revision}
+                    // if in_dev
+                    //     +array_edit k='tags' d=true
+                    
 
 
 

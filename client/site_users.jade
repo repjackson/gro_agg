@@ -78,14 +78,13 @@ template(name='site_users')
                         +stack_tag_selector
                         // small #{count}
                         // .ui.large.label(title=count) #{name} 
-                    if skv_is 'sort_direction' 1
-                        .ui.icon.compact.circular.button.sort_down
-                            i.caret.down.icon
-                    else
-                        .ui.icon.compact.circular.button.sort_up
-                            i.caret.up.icon
+                    // if skv_is 'sort_direction' 1
+                    //     .ui.icon.compact.circular.button.sort_down
+                    //         i.caret.down.icon
+                    // else
+                    //     .ui.icon.compact.circular.button.sort_up
+                    //         i.caret.up.icon
                     .ui.inline.header 
-                        small viewing
                         |#{stackusers.count} / #{user_count}
                     .scrolling.ui.items
                         each stackusers

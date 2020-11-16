@@ -10,11 +10,17 @@ template(name='stackuser_page')
     with stackuser_doc
         .ui.stackable.padded.grid
             .row
-                .six.wide.right.aligned.column
+                .six.wide.column
+                    .ui.header      
+                        |#{site}
                     a.ui.fluid.basic.button.say_site(href="/site/#{site}/users")
                         .ui.header
                             i.users.icon
-                            |#{site}
+                            |users
+                    a.ui.fluid.basic.button.say_site(href="/site/#{site}")
+                        .ui.header
+                            i.question.icon
+                            |questions
                     .spacer
                     img.ui.rounded.centered.image.pointer.boop.zoomer(src=profile_image)
                     each tags

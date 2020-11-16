@@ -10,11 +10,11 @@ template(name='stack')
                     input.search_site_name(type='text')
                 +cloud filter='stack_site'
                 .spacer
-            .sixteen.wide.center.aligned.column
+            .sixteen.wide.center.aligned.column.scrolling
                 .ui.five.column.stackable.grid
                     each site_docs
                         a.center.aligned.column.goto_site(href="/site/#{api_site_parameter}")
-                            // img.ui.fluid.image.mobile.hiden.site.shadowed.zoomer(src=high_resolution_icon_url)
+                            img.ui.inline.image.mobile.hiden.site.shadowed.zoomer(src=high_resolution_icon_url)
                             img.ui.image.site.shadowed.zoomer(src=logo_url)
                             // .header
                             //     |!{name}
