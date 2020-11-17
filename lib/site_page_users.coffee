@@ -226,7 +226,7 @@ if Meteor.isClient
     #                     Session.set('thinking',false)
 
     Template.site_question_item.onCreated ->
-        console.log @data.watson
+        # console.log @data.watson
         unless @data.watson
             Meteor.call 'call_watson', @data._id, 'link', 'stack', ->
             

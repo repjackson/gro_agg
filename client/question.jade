@@ -3,7 +3,7 @@ template(name='stack_page')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column.scrolling
-                    a.ui.fluid.basic.circular.button.say_site(href="/site/#{site}") 
+                    a.ui.fluid.basic.circular.compact.tertiary.button.say_site(href="/site/#{site}") 
                         i.chevron.left.icon
                         if watson.metadata.image
                             img.ui.invert.tiny.inline.image(src=watson.metadata.image)    
@@ -33,24 +33,24 @@ template(name='stack_page')
                     a.ui.circular.icon.button(href=link target='_window' title=link)
                         // |#{link}
                         i.external.large.icon
-                    // .ui.list
-                    //     .item
-                    //         // i.eye.icon
-                    //         |#{view_count} views
-                    //     if in_dev
-                    //         .item.zoomer id #{_id}
-                    //     if protected_date
-                    //         .item.zoomer date protected {{ufrom protected_date}}
-                    //     if accepted_answer_id
-                    //         .item.zoomer accepted answer id #{accepted_answer_id}
-                    //     .item.zoomer #{answer_count} answers
-                    //     // .item.zoomer 
-                    //     //     i.hashtag.icon
-                    //     //     |score #{score}
-                    //     if in_dev
-                    //         .item.zoomer qid #{question_id}
-                    //         .item.zoomer imported #{_when}
-                    //     // .item.zoomer license #{content_license}
+                    .ui.list
+                        .item
+                            // i.eye.icon
+                            |#{view_count} views
+                        if in_dev
+                            .item.zoomer id #{_id}
+                        if protected_date
+                            .item.zoomer date protected {{ufrom protected_date}}
+                        if accepted_answer_id
+                            .item.zoomer accepted answer id #{accepted_answer_id}
+                        .item.zoomer #{answer_count} answers
+                        // .item.zoomer 
+                        //     i.hashtag.icon
+                        //     |score #{score}
+                        if in_dev
+                            .item.zoomer qid #{question_id}
+                            .item.zoomer imported #{_when}
+                        // .item.zoomer license #{content_license}
                         
                     // +bookmark_button
                     // +voting
@@ -113,8 +113,8 @@ template(name='stack_page')
                                         a(href=link) #{link}
                                     
                                     small #{content_license}
-                                    // +voting
-                                    // +comments
+                                    +voting
+                                    +comments
                             
                             
                             each question_answers
@@ -148,8 +148,8 @@ template(name='stack_page')
                                         a.ui.icon.small.basic.circular.button(href=link)
                                             i.external.icon
                                     |#{content_license}
-                                    // +voting
-                                    // +comments
+                                    +voting
+                                    +comments
                                     if in_dev 
                                         +remove_button
                                 .ui.divider

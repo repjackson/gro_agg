@@ -152,7 +152,7 @@ template(name='site_question_item')
                 |!{title} 
                 if is_answered
                     i.green.checkmark.icon
-                .ui.small.basic.label 
+                span
                     i.tag.grey.icon
                     |#{tags.length}
             // if skv_is 'view_detail' true
@@ -178,7 +178,7 @@ template(name='site_question_item')
             // +voting_full
             +doc_emotion_small
                 // .ui.label user_id #{user_id}
-            .ui.divider
+            // .ui.divider
 
 
 

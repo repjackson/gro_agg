@@ -29,7 +29,7 @@ template(name='stackuser_page')
                     img.ui.rounded.centered.image.pointer.zoomer(src=profile_image)
                     each tags
                         // +stack_tag_selector
-                        .ui.basic.label #{this}
+                        .ui.tertiary.button #{this}
                     +print_this
                     .ui.horizontal.list
                         // .item #{boops} boops
@@ -60,7 +60,7 @@ template(name='stackuser_page')
                     .ui.inline.header 
                         |#{max_emotion_name} #{max_emotion_percent}
                     each user_tag_agg
-                        .ui.basic.label #{title}
+                        .ui.tertiary.button #{title}
                             small #{count}
                     if skv_is 'view_detail' true
                         .ui.black.circular.compact.icon.button.toggle_detail
