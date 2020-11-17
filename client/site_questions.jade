@@ -82,8 +82,6 @@ template(name='site_questions')
                     // .ui.grey.small.header 
                     //     |related sites
                     // .ui.inline.header !{name}
-                    // +comments
-                    // +voting_full
                     i.large.grey.users.icon
                     each site_organizations
                         // .ui.label hi #{name}
@@ -115,31 +113,35 @@ template(name='site_questions')
                         a.item(href=site_url target="_window")
                             |#{site_url}
                             i.external.icon
-                        // .item open beta {{ufrom open_beta_date}}
-                        // .item closed beta {{ufrom closed_beta_date}}
-                        // if launch_date
-                        //     .item launched {{ufrom launch_date}}
-                        // .item state: #{site_state}
-                        // // .item #{high_resolution_icon_url} high_resolution_icon_url
-                        // // .item #{favicon_url} favicon_url
-                        // // .item #{api_site_parameter} api
-                        // // .item #{site_type} site_type
-                        // .item main emotion: #{main_emotion}
-                        // .item new_active_users: #{new_active_users}
-                        // .item total_users: #{total_users}
-                        // .item badges_per_minute: #{badges_per_minute}
-                        // .item #{total_badges} badges
-                        // .item #{total_votes} votes
-                        // .item #{total_comments} comments
-                        // .item #{answers_per_minute} answers/min
-                        // .item #{questions_per_minute} questions/min
-                        // .item #{total_questions} questions
-                        // .item #{total_answers} answers
-                        // .item #{total_accepted} accepted
-                        // .item #{total_unanswered} unanswered
+                        .item open beta {{ufrom open_beta_date}}
+                        .item closed beta {{ufrom closed_beta_date}}
+                        if launch_date
+                            .item launched {{ufrom launch_date}}
+                        .item state: #{site_state}
+                        // .item #{high_resolution_icon_url} high_resolution_icon_url
+                        // .item #{favicon_url} favicon_url
+                        // .item #{api_site_parameter} api
+                        .item #{site_type} site_type
+                        .item main emotion: #{main_emotion}
+                        .item new_active_users: #{new_active_users}
+                        .item total_users: #{total_users}
+                        .item badges_per_minute: #{badges_per_minute}
+                        .item #{total_badges} badges
+                        .item 
+                            i.grey.thumbs.up.outline.icon
+                            |#{total_votes} votes
+                        .item #{total_comments} comments
+                        .item #{answers_per_minute} answers/min
+                        .item #{questions_per_minute} questions/min
+                        .item #{total_questions} questions
+                        .item #{total_answers} answers
+                        .item #{total_accepted} accepted
+                        .item #{total_unanswered} unanswered
                         // .item api_revision: #{api_revision}
                     // if in_dev
                     //     +array_edit k='tags' d=true
+                    +comments
+                    +voting_full
    
    
    

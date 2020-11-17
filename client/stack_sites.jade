@@ -1,7 +1,7 @@
 template(name='stack')
     .ui.stackable.padded.grid
         .row
-            .sixteen.wide.column
+            .sixteen.wide.center.aligned.column
                 // .ui.inline.header 
                 //     i.big.stack.exchange.icon
                 //     |stackexchange sites
@@ -10,8 +10,8 @@ template(name='stack')
                     input.search_site_name(type='text')
                 +cloud filter='stack_site'
                 .spacer
-            .sixteen.wide.center.aligned.column.scrolling
-                .ui.five.column.stackable.grid
+            .sixteen.wide.center.aligned.column
+                .ui.four.column.stackable.center.aligned.grid
                     each site_docs
                         a.center.aligned.column.goto_site.zoomer(href="/site/#{api_site_parameter}")
                             // img.ui.inline.tiny.image.mobile.hiden.site.shadowed.zoomer(src=high_resolution_icon_url)

@@ -334,32 +334,32 @@ Template.doc_tag.events
         Session.set('skip',0)
         Session.set('viewing_doc',null)
         Session.set('thinking',true)
-        $('body').toast(
-            showIcon: 'wikipedia'
-            message: 'wikipedia started'
-            displayTime: 'auto',
-        )
+        # $('body').toast(
+        #     showIcon: 'wikipedia'
+        #     message: 'wikipedia started'
+        #     displayTime: 'auto',
+        # )
         Meteor.call 'call_wiki', @valueOf(), ->
-            $('body').toast(
-                message: 'done'
-                showIcon: 'wikipedia'
-                # showProgress: 'bottom'
-                class: 'info'
-                displayTime: 'auto',
-            )
-        $('body').toast(
-            showIcon: 'reddit'
-            message: 'started'
-            displayTime: 'auto',
-        )
+            # $('body').toast(
+            #     message: 'done'
+            #     showIcon: 'wikipedia'
+            #     # showProgress: 'bottom'
+            #     class: 'info'
+            #     displayTime: 'auto',
+            # )
+        # $('body').toast(
+        #     showIcon: 'reddit'
+        #     message: 'started'
+        #     displayTime: 'auto',
+        # )
         Meteor.call 'search_reddit', selected_tags.array(), ->
-            $('body').toast(
-                message: 'done'
-                showIcon: 'reddit'
-                # showProgress: 'bottom'
-                class: 'success'
-                displayTime: 'auto',
-            )
+            # $('body').toast(
+            #     message: 'done'
+            #     showIcon: 'reddit'
+            #     # showProgress: 'bottom'
+            #     class: 'success'
+            #     displayTime: 'auto',
+            # )
             Session.set('thinking',false)
         Meteor.call 'search_ddg', @name, ->
         Meteor.call 'call_alpha', selected_tags.array().toString(), ->
@@ -584,38 +584,38 @@ Template.reddit.events
         # # if Meteor.user()
         Session.set('thinking',true)
         Session.set('viewing_doc',null)
-        $('body').toast(
-            showIcon: 'search'
-            message: "reddit: #{selected_tags.array()} search started"
-            displayTime: 'auto',
-            position: 'bottom right'
-        )
+        # $('body').toast(
+        #     showIcon: 'search'
+        #     message: "reddit: #{selected_tags.array()} search started"
+        #     displayTime: 'auto',
+        #     position: 'bottom right'
+        # )
         Meteor.call 'search_reddit', selected_tags.array(), ->
-            $('body').toast(
-                showIcon: 'search'
-                message: 'reddit done'
-                showIcon: 'brain'
-                # showProgress: 'bottom'
-                class: 'success'
-                displayTime: 'auto',
-                position: 'bottom right'
-            )
-        $('body').toast(
-            showIcon: 'search'
-            message: "wiki: #{@name} search started"
-            displayTime: 'auto',
-            position: 'bottom right'
-        )
+            # $('body').toast(
+            #     showIcon: 'search'
+            #     message: 'reddit done'
+            #     showIcon: 'brain'
+            #     # showProgress: 'bottom'
+            #     class: 'success'
+            #     displayTime: 'auto',
+            #     position: 'bottom right'
+            # )
+        # $('body').toast(
+        #     showIcon: 'search'
+        #     message: "wiki: #{@name} search started"
+        #     displayTime: 'auto',
+        #     position: 'bottom right'
+        # )
         Meteor.call 'call_wiki', @name, ->
-            $('body').toast(
-                showIcon: 'search'
-                message: 'wikipedia search done'
-                showIcon: 'brain'
-                # showProgress: 'bottom'
-                class: 'success'
-                displayTime: 'auto',
-                position: 'bottom right'
-            )
+            # $('body').toast(
+            #     showIcon: 'search'
+            #     message: 'wikipedia search done'
+            #     showIcon: 'brain'
+            #     # showProgress: 'bottom'
+            #     class: 'success'
+            #     displayTime: 'auto',
+            #     position: 'bottom right'
+            # )
             Session.set('thinking',false)
         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
 
@@ -687,40 +687,40 @@ Template.reddit.events
                 # Meteor.call 'call_alpha', search, ->
                 if Session.equals('view_mode','stack')
                     Session.set('thinking',true)
-                    $('body').toast(
-                        showIcon: 'stack exchange'
-                        message: 'started'
-                        displayTime: 'auto',
-                        position: 'bottom right'
-                    )
+                    # $('body').toast(
+                    #     showIcon: 'stack exchange'
+                    #     message: 'started'
+                    #     displayTime: 'auto',
+                    #     position: 'bottom right'
+                    # )
                     Meteor.call 'search_stack', search, ->
-                        $('body').toast(
-                            showIcon: 'stack exchange'
-                            message: ' done'
-                            # showProgress: 'bottom'
-                            class: 'success'
-                            displayTime: 'auto',
-                            position: 'bottom right'
-                        )
+                        # $('body').toast(
+                        #     showIcon: 'stack exchange'
+                        #     message: ' done'
+                        #     # showProgress: 'bottom'
+                        #     class: 'success'
+                        #     displayTime: 'auto',
+                        #     position: 'bottom right'
+                        # )
                         Session.set('thinking',false)
                 else
                     # window.speechSynthesis.speak new SpeechSynthesisUtterance search
                     Session.set('thinking',true)
-                    $('body').toast(
-                        showIcon: 'search'
-                        message: 'started'
-                        displayTime: 'auto',
-                        position: 'bottom right'
-                    )
+                    # $('body').toast(
+                    #     showIcon: 'search'
+                    #     message: 'started'
+                    #     displayTime: 'auto',
+                    #     position: 'bottom right'
+                    # )
                     Meteor.call 'search_ddg', search, ->
-                        $('body').toast(
-                            showIcon: 'search'
-                            message: ' done'
-                            # showProgress: 'bottom'
-                            class: 'success'
-                            displayTime: 'auto',
-                            position: 'bottom right'
-                        )
+                        # $('body').toast(
+                        #     showIcon: 'search'
+                        #     message: ' done'
+                        #     # showProgress: 'bottom'
+                        #     class: 'success'
+                        #     displayTime: 'auto',
+                        #     position: 'bottom right'
+                        # )
                     window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
                     $('body').toast(
                         showIcon: 'brain'
@@ -730,21 +730,21 @@ Template.reddit.events
                     )
                     Session.set('loading_alpha', true)
                     Meteor.call 'call_alpha', selected_tags.array().toString(), ->
-                        $('body').toast(
-                            message: 'done'
-                            showIcon: 'brain'
-                            # showProgress: 'bottom'
-                            class: 'success'
-                            displayTime: 'auto',
-                            position: 'bottom right'
-                        )
+                        # $('body').toast(
+                        #     message: 'done'
+                        #     showIcon: 'brain'
+                        #     # showProgress: 'bottom'
+                        #     class: 'success'
+                        #     displayTime: 'auto',
+                        #     position: 'bottom right'
+                        # )
                         Session.set('loading_alpha', false)
-                    $('body').toast(
-                        showIcon: 'wikipedia'
-                        message: 'started'
-                        displayTime: 'auto',
-                        position: 'bottom right'
-                    )
+                    # $('body').toast(
+                    #     showIcon: 'wikipedia'
+                    #     message: 'started'
+                    #     displayTime: 'auto',
+                    #     position: 'bottom right'
+                    # )
                     Meteor.call 'call_wiki', search, ->
                         $('body').toast(
                             message: 'done'
@@ -754,32 +754,32 @@ Template.reddit.events
                             displayTime: 'auto',
                             position: 'bottom right'
                         )
-                    $('body').toast(
-                        showIcon: 'reddit'
-                        message: ' started'
-                        displayTime: 'auto',
-                        position: 'bottom right'
-                    )
+                    # $('body').toast(
+                    #     showIcon: 'reddit'
+                    #     message: ' started'
+                    #     displayTime: 'auto',
+                    #     position: 'bottom right'
+                    # )
                     Meteor.call 'search_reddit', selected_tags.array(), ->
-                        $('body').toast(
-                            message: ' done'
-                            showIcon: 'reddit'
-                            # showProgress: 'bottom'
-                            class: 'success'
-                            displayTime: 'auto',
-                            position: 'bottom right'
-                        )
+                        # $('body').toast(
+                        #     message: ' done'
+                        #     showIcon: 'reddit'
+                        #     # showProgress: 'bottom'
+                        #     class: 'success'
+                        #     displayTime: 'auto',
+                        #     position: 'bottom right'
+                        # )
                         Session.set('thinking',false)
                     Session.set('viewing_doc',null)
 
                 Session.set('skip',0)
-                # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+                window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
 
                 # Session.set('query','')
                 $('.search_title').val('')
                 Meteor.setTimeout( ->
                     Session.set('toggle',!Session.get('toggle'))
-                , 12000)
+                , 10000)
         # if e.which is 8
         #     if search.length is 0
         #         selected_tags.pop()

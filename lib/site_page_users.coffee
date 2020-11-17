@@ -117,6 +117,8 @@ if Meteor.isClient
                         Session.set('thinking',false)
     Template.site_users.events
         'click .set_location': (e,t)->
+            window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.site} users in #{@location}"
+
             Session.set('location_query',@location)
         'keyup .search_location': (e,t)->
             # search = $('.search_site').val().toLowerCase().trim()
