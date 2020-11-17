@@ -11,6 +11,18 @@ Router.route '/reddit', (->
 
 Meteor.startup ->
     # window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
+Template.nav.events
+    'click .stackexchange': ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'stackexchange'
+    'click .goto_reddit': ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
+    'click .users': ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'users'
+    'click .silence': ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'silence'
+    # 'click .reddit': ->
+    #     window.speechSynthesis.speak new SpeechSynthesisUtterance 'silence'
+
 
 
 Template.reddit.onCreated ->

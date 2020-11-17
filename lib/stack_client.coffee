@@ -38,7 +38,7 @@ if Meteor.isClient
     Template.stack.onCreated ->
         # @autorun => Meteor.subscribe 'stack_docs',
         #     selected_stack_tags.array()
-        @autorun -> Meteor.subscribe 'stack_sites',
+        @autorun -> Meteor.subscribe 'stack_sites_small',
             selected_tags.array()
             Session.get('site_name_filter')
     Template.stack.helpers
@@ -72,6 +72,22 @@ if Meteor.isServer
             match.name = {$regex:"#{name_filter}", $options:'i'}
         Docs.find match,
             limit:300
+    Meteor.publish 'stack_sites_small', (selected_tags=[], name_filter='')->
+        match = {model:$in:['stack_site','tribe']}
+        match.site_type = 'main_site'
+        if selected_tags.length > 0
+            match.tags = $all: selected_tags
+        if name_filter.length > 0
+            match.name = {$regex:"#{name_filter}", $options:'i'}
+        Docs.find match,
+            {
+                limit:300
+                fields:
+                    audience:1
+                    logo_url:1
+                    model:1
+                    api_site_parameter:1
+            }
     
     Meteor.publish 'question_answers', (question_doc_id)->
         question = Docs.findOne question_doc_id
