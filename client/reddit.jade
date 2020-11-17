@@ -50,14 +50,14 @@ template(name='reddit')
                 +skve k='view_mode' v='video' l='youtube' i='youtube'
                 // div
                 if skv_is 'view_mode' 'stack'
-                    +i n='globe' cl='ui mini inline image' t='company'
+                    +icon n='globe' cl='ui mini inline image' t='company'
                     |site
                     each site_results
                         +tag_selector
 
                 unless skv_is 'view_mode' 'stack'
                     .ui.inline.grey.header 
-                        +i n='marker' cl='ui mini inline image'
+                        +icon n='marker' cl='ui mini inline image'
                         // |where
                     each location_results
                         +tag_selector
@@ -66,7 +66,7 @@ template(name='reddit')
                     // i.users.icon
                     // div
                     .ui.inline.grey.header 
-                        +i n='user' cl='ui mini inline image'
+                        +icon n='user' cl='ui mini inline image'
                         // |people
                     each person_results
                         +tag_selector
@@ -74,12 +74,12 @@ template(name='reddit')
                     // .ui.basic.tertiary.button
                     // div
                     .ui.inline.grey.header 
-                        +i n='home' cl='ui mini inline image' t='facility'
+                        +icon n='home' cl='ui mini inline image' t='facility'
                         // |facilities
                     each facility_results
                         +tag_selector
                         // .ui.compact.small.tertiary.add_tag.button #{name}
-                    +i n='briefcase' cl='ui mini inline image' t='company'
+                    +icon n='briefcase' cl='ui mini inline image' t='company'
                     each company_results
                         +tag_selector
                         // .ui.compact.small.tertiary.add_tag.button #{name}
@@ -87,27 +87,27 @@ template(name='reddit')
                     each tvshow_results
                         +tag_selector
                         // .ui.compact.small.tertiary.add_tag.button #{name}
-                    +i n='building' cl='ui mini inline image' t='organization'
+                    +icon n='building' cl='ui mini inline image' t='organization'
                     each organization_results
                         +tag_selector
                         // .ui.compact.small.tertiary.add_tag.button #{name}
-                    +i n='trophy' cl='ui mini inline image' t='award'
+                    +icon n='trophy' cl='ui mini inline image' t='award'
                     each award_results
                         +tag_selector
                         // .ui.compact.small.tertiary.add_tag.button #{name}
                     div
                     .ui.inline.grey.header 
-                        +i n='paper' cl='ui mini inline image'
+                        +icon n='paper' cl='ui mini inline image'
                         // |print media
                         // |where
                     each print_results
                         +tag_selector
                         // .ui.compact.small.tertiary.add_tag.button #{name}
-                    +i n='sport' cl='ui mini inline image' t='sport'
+                    +icon n='sport' cl='ui mini inline image' t='sport'
                     each sport_results
                         +tag_selector
                         // .ui.compact.small.tertiary.add_tag.button #{name}
-                    +i n='movie' cl='ui mini inline image' t='movie'
+                    +icon n='movie' cl='ui mini inline image' t='movie'
                     each movie_results
                         +tag_selector
                         // .ui.compact.small.tertiary.add_tag.button #{name}
@@ -151,7 +151,7 @@ template(name='reddit')
                 // +skve k='main_section' v='money' l='money' i='money'
                 .scrollin
                     if skv_is 'main_section' 'dashboard'
-                        +i n='dashboard'
+                        +icon n='dashboard'
                         +comments
                         .ui.header views 
                         +voting
@@ -228,7 +228,7 @@ template(name='reddit')
                     else if skv_is 'main_section' 'reddit'
                         a.ui.header.toggle_reddit.pointer(href="#")
                             // i.large.reddit.icon
-                            +i n='reddit'
+                            +icon n='reddit'
                             |#{reddit_docs.count} reddit
                         // if viewing_reddit
                         .ui.dropdown
@@ -313,3 +313,5 @@ template(name='reddit')
                                 +reddit_doc
                 
                     
+template(name='i')
+    i.icon(name=i)
