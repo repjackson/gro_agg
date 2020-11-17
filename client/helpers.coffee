@@ -71,6 +71,11 @@ Template.registerHelper 'i_have_points', () ->
         true
     else
         Meteor.user().points > 0
+    
+Template.nav.events
+    'click .silence': ->
+        window.speechSynthesis.cancel()
+    
         
         
 Template.registerHelper 'post_header_class', (metric) ->

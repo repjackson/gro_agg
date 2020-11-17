@@ -1,17 +1,19 @@
 template(name='nav')
     // a.icon.ui.big.circular.icon.button(href='/')
-    .ui.fluid.attached.three.item.large.menu.topnav(style="background-color:#{current_user.theme_color};")
+    .ui.fluid.attached.four.item.large.menu.topnav(style="background-color:#{current_user.theme_color};")
         // a.icon.header.item.pointer.toggle_leftbar
         //     i.bars.large.grey.icon
         if connected
             // a.icon.item.home2(href='/')
             //     i.big.yin.yang.icon
             a.icon.item.home2(href='/reddit')
-                i.big.reddit.icon
+                i.large.reddit.grey.icon
             a.icon.item.home2(href='/stack' data-tab='groups')
-                i.large.stack.exchange.icon
+                i.large.stack.exchange.grey.icon
             a.icon.item.users(href='/users')
-                i.large.users.icon
+                i.large.users.grey.icon
+            a.icon.item.silence(href='#')
+                i.large.volume.mute.grey.icon
             // a.icon.item.tags(href='/tags')
             //     i.large.tags.icon
             // a.icon.item.badges(href='/badges')
