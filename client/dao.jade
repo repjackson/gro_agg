@@ -35,12 +35,12 @@ template(name='dao')
                 // .ui.basic.button(title='where')
                     // i.marker.icon
                 // div
-                // .ui.inline.header 
-                //     +i n='reddit' cl='ui mini inline image'
-                //     |subreddit
-                // each subreddit_results
-                //     +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
+                .ui.header 
+                    +i n='reddit' cl='ui mini inline image'
+                    |subreddit
+                each subreddit_results
+                    +tag_selector
+                    .ui.compact.small.tertiary.add_tag.button #{name}
                 +skve k='view_mode' v='posts' l='posts' i='blog'
                 +skve k='view_mode' v='wikipedia' l='wikipedia' i='wikipedia'
                 // +skve k='view_mode' v='stack' l='stack' i='stackoverflow'

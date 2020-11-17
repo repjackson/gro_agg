@@ -61,6 +61,8 @@ if Meteor.isClient
             window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         'click .say_name': (e,t)->
             # console.log 'title', @
+            Meteor.call 'search_stackuser', Router.current().params.site, @user_id, ->
+
             window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
         'click .say_site': (e,t)->
             # console.log 'title', @

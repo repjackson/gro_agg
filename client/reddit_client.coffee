@@ -451,15 +451,12 @@ Template.reddit.helpers
         # 'brown poop loading'
         if Session.get('thinking')
             res += ' loading'
-            
         if Session.equals('view_mode','reddit')
             res += ' reddit'
         else if Session.equals('view_mode','stack')
             res += ' stack exchange'
         else if Session.equals('view_mode','wikipedia')
             res += ' wikipedia'
-        else if Session.equals('view_mode','porn')
-            res += ' mercury'
         # console.log 'res', res
         res
     # viewing_duck: -> Session.get('view_duck')

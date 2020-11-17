@@ -46,7 +46,7 @@ p {
   display: block;
   position: fixed;
   min-width:200px;
-  background: lightgrey !important;
+  /*background: lightgrey !important;*/
   bottom: 0;
   padding:5px;
   right: 15px;
@@ -94,7 +94,7 @@ p {
 }
 
 .pushable.segment {
-    background: rgba(248,248,248,.8) !important;
+    /*background: rgba(248,248,248,.8) !important;*/
   
 }
 

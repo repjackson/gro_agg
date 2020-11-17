@@ -201,18 +201,14 @@ Meteor.publish 'dtags', (
             match.model = 'wikipedia'
         when 'stack'
             match.model = 'stack'
-        when 'porn'
-            match.model = 'porn'
         else
             match.model = $in:['wikipedia','reddit','stack']
             # match.model = $in:['wikipedia']
     if selected_tags.length > 0 
         match.tags = $all: selected_tags
     else
-        unless view_mode in ['stack','porn']
+        unless view_mode in ['stack']
             match.tags = $in:['daoism']
-        if view_mode is 'porn'
-            match.tags = $in:['sex']
             
         # unless selected_subreddits.length>0
     # else if view_mode in ['reddit',null]
@@ -329,24 +325,24 @@ Meteor.publish 'dtags', (
     
       
   
-    # subreddit_cloud = Docs.aggregate [
-    #     { $match: match }
-    #     { $project: "subreddit": 1 }
-    #     { $group: _id: "$subreddit", count: $sum: 1 }
-    #     # { $match: _id: $nin: selected_subreddits }
-    #     { $sort: count: -1, _id: 1 }
-    #     { $match: count: $lt: doc_count }
-    #     { $limit:7 }
-    #     { $project: _id: 0, name: '$_id', count: 1 }
-    #     ]
-    # # console.log 'cloud: ', subreddit_cloud
-    # # console.log 'subreddit match', match
-    # subreddit_cloud.forEach (subreddit, i) ->
-    #     # console.log 'subreddit',subreddit
-    #     self.added 'results', Random.id(),
-    #         name: subreddit.name
-    #         count: subreddit.count
-    #         model:'subreddit'
+    subreddit_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "subreddit": 1 }
+        { $group: _id: "$subreddit", count: $sum: 1 }
+        # { $match: _id: $nin: selected_subreddits }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    # console.log 'cloud: ', subreddit_cloud
+    # console.log 'subreddit match', match
+    subreddit_cloud.forEach (subreddit, i) ->
+        # console.log 'subreddit',subreddit
+        self.added 'results', Random.id(),
+            name: subreddit.name
+            count: subreddit.count
+            model:'subreddit'
     
     
     facility_cloud = Docs.aggregate [

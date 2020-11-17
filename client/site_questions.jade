@@ -8,7 +8,7 @@ template(name='site_questions')
                     a.ui.circular.basic.large.button(href="/site/#{api_site_parameter}/users")
                         i.large.user.outline.icon
                         |users
-                    div
+                    // div
                     if selected_tags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
@@ -69,6 +69,8 @@ template(name='site_questions')
                         each site_questions
                             +site_question_item
                 .four.wide.column.scrolling
+                    +alpha
+                    +duck
                     // a.ui.circular.icon.button(href='/')
                     //     i.large.home.icon
                     // img.get_info.mobile.hidden.shadowed(src=high_resolution_icon_url )
@@ -167,8 +169,9 @@ template(name='site_question_item')
                 with owner
                     a.ui.small.header.item(href="/site/#{../site}/user/#{user_id}")
                         img.ui.avatar.image(src=profile_image)
-                        |#{display_name}
+                        |!{display_name}
                         small #{reputation}
+                        small !{location}
                 // |#{_when}
                 if last_edit_date
                     .item updated {{ufrom last_edit_date}}

@@ -35,11 +35,11 @@ template(name='reddit')
                 // .ui.basic.button(title='where')
                     // i.marker.icon
                 // div
-                // .ui.inline.header 
-                //     +i n='reddit' cl='ui mini inline image'
-                //     |subreddit
-                // each subreddit_results
-                //     +tag_selector
+                .ui.inline.header 
+                    +i n='reddit' cl='ui mini inline image'
+                    |subreddit
+                each subreddit_results
+                    +tag_selector
                     // .ui.compact.small.tertiary.add_tag.button #{name}
                 +skve k='view_mode' v='posts' l='posts' i='blog'
                 +skve k='view_mode' v='wikipedia' l='wikipedia' i='wikipedia'
@@ -133,8 +133,8 @@ template(name='reddit')
                     // i.building.icon
                     // |organizations
             .twelve.wide.column
-                +skve k='main_section' v='dashboard' l='dashboard' i='dashboard'
-                +skve k='main_section' v='alpha' l='alpha' i='brain'
+                // +skve k='main_section' v='dashboard' l='dashboard' i='dashboard'
+                // +skve k='main_section' v='alpha' l='alpha' i='brain'
                 +skve k='main_section' v='duck' l='search' i='search'
                 +skve k='main_section' v='reddit' l='reddit' i='reddit'
                 +skve k='main_section' v='wikipedia' l='wikipedia' i='wikipedia'
@@ -150,14 +150,14 @@ template(name='reddit')
                 // +skve k='main_section' v='faq' l='faq' i='faq'
                 // +skve k='main_section' v='money' l='money' i='money'
                 .scrollin
-                    if skv_is 'main_section' 'dashboard'
-                        +icon n='dashboard'
-                        +comments
-                        .ui.header views 
-                        +voting
-                    else if skv_is 'main_section' 'alpha'
-                        +alpha
-                    else if skv_is 'main_section' 'duck'
+                    +alpha
+                    // if skv_is 'main_section' 'dashboard'
+                    //     +icon n='dashboard'
+                    //     +comments
+                    //     .ui.header views 
+                    //     +voting
+                    // if skv_is 'main_section' 'alpha'
+                    if skv_is 'main_section' 'duck'
                         // .ui.inline.grey.header.toggle_duck.pointer
                         //     i.search.icon
                         //     |search
@@ -245,10 +245,10 @@ template(name='reddit')
                         // |sort
                         +skve k='sort_key' v='_timestamp' l='when' i='clock'
                         +skve k='sort_key' v='points' l='points' i='leaderboard'
-                        +skve k='sort_direction' v=-1 l='u' i='up'
-                        +skve k='sort_direction' v=1 l='d' i='down'
+                        +skve k='sort_direction' v=-1 l='u' i='caret-up'
+                        +skve k='sort_direction' v=1 l='d' i='caret-down'
                         // |view
-                        +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
+                        +skve k='view_mode' v='cards' l='cards' i='clone' ionly=true
                         +skve k='view_mode' v='list' l='list' i='list' ionly=true
                         if skv_is 'view_mode' 'list'
                             .ui.large.list 
