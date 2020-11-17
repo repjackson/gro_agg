@@ -53,8 +53,9 @@ template(name='site_users')
                     // +array_edit k='tags' d=true
                     // +comments
                     // +voting_full
-                    .ui.icon.button.get_site_users
-                        i.refresh.icon
+                    if in_dev
+                        .ui.icon.button.get_site_users
+                            i.refresh.icon
                 .twelve.wide.column
                     if selected_tags
                         // if many_tags

@@ -1,8 +1,8 @@
 if Meteor.isClient
     Router.route '/site/:site', (->
         @layout 'layout'
-        @render 'site_page'
-        ), name:'site_page'
+        @render 'site_questions'
+        ), name:'site_questions'
         
     Router.route '/site/:site/doc/:doc_id', (->
         @layout 'layout'
@@ -13,10 +13,6 @@ if Meteor.isClient
         @layout 'layout'
         @render 'site_users'
         ), name:'site_users'
-    Router.route '/site/:site/questions', (->
-        @layout 'layout'
-        @render 'site_questions'
-        ), name:'site_questions'
     
 
     Template.site_users.onCreated ->
@@ -38,7 +34,7 @@ if Meteor.isClient
             Session.get('view_bounties')
             Session.get('view_unanswered')
 
-    Template.site_page.onCreated ->
+    Template.site_questions.onCreated ->
         @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
         @autorun => Meteor.subscribe 'site_tags',
             selected_tags.array()
@@ -75,7 +71,7 @@ if Meteor.isClient
     #         Session.get('toggle')
             
             
-    Template.site_page.helpers
+    Template.site_questions.helpers
         selected_tags: -> selected_tags.array()
         site_tags: -> results.find(model:'site_tag')
         current_site: ->
@@ -90,7 +86,7 @@ if Meteor.isClient
                 sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
                 limit:Session.get('limit')
     
-    Template.site_page.events
+    Template.site_questions.events
         'click .goto_q': -> Router.go "/site/#{@site}/doc/#{@_id}"
         'click .get_info': (e,t)-> 
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
@@ -192,7 +188,7 @@ if Meteor.isClient
  
  
  
-    Template.site_page.helpers
+    Template.site_questions.helpers
         site_locations: -> results.find(model:'site_Location')
         site_organizations: -> results.find(model:'site_Organization')
         site_persons: -> results.find(model:'site_Person')
@@ -229,7 +225,13 @@ if Meteor.isClient
     #                 Meteor.call 'search_stack', Router.current().params.site, search, ->
     #                     Session.set('thinking',false)
 
-
+    Template.site_question_item.onCreated ->
+        console.log @data.watson
+        unless @data.watson
+            Meteor.call 'call_watson', @data._id, 'link', 'stack', ->
+            
+    Template.site_question_item.onRendered ->
+        # console.log @
     Template.stack_tag_selector.onCreated ->
         # console.log @
         @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())

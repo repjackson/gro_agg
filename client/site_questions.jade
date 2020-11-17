@@ -1,4 +1,4 @@
-template(name='site_page')
+template(name='site_questions')
     with current_site
         .ui.stackable.grid
             .row
@@ -67,42 +67,7 @@ template(name='site_page')
                     //     i.list.icon
                     .medscroll
                         each site_questions
-                            .ui.item
-                                // if watson.metadata.image
-                                //     img.ui.avatar.invert.image(src=watson.metadata.image)    
-                                .content
-                                    a.ui.small.inline.header.view_question.zoomer(href="/site/#{site}/doc/#{_id}" class=post_header_class)
-                                        .ui.basic.circular.label #{score}
-                                        |!{title} 
-                                        if is_answered
-                                            i.green.checkmark.icon
-                                        .ui.small.basic.label 
-                                            i.tag.grey.icon
-                                            |#{tags.length}
-                                    // if skv_is 'view_detail' true
-                                    // i.tag.grey.icon
-                                    if skv_is 'view_detail' true
-                                        .f9.speak_body.pointer.goto_q !{body}
-
-                                        .ui.horizontal.list
-                                            each tags
-                                                .item #{this}
-                                        .ui.horizontal.list
-                                            with owner
-                                                a.ui.small.header.item(href="/site/#{../site}/user/#{user_id}")
-                                                    img.ui.avatar.image(src=profile_image)
-                                                    |#{display_name}
-                                                    small #{reputation}
-                                            // |#{_when}
-                                            if last_edit_date
-                                                .item updated {{ufrom last_edit_date}}
-                                            if creation_dat
-                                                .item created {{ufrom creation_dat}}
-                                        // +comments
-                                        // +voting_full
-                                        +doc_emotion_small
-                                            // .ui.label user_id #{user_id}
-                                        .ui.divider
+                            +site_question_item
                 .four.wide.column.scrolling
                     // a.ui.circular.icon.button(href='/')
                     //     i.large.home.icon
@@ -173,7 +138,47 @@ template(name='site_page')
                         // .item api_revision: #{api_revision}
                     // if in_dev
                     //     +array_edit k='tags' d=true
-                    
+   
+   
+   
+   
+template(name='site_question_item')                  
+    .ui.item
+        // if watson.metadata.image
+        //     img.ui.avatar.invert.image(src=watson.metadata.image)    
+        .content
+            a.ui.small.inline.header.view_question.zoomer(href="/site/#{site}/doc/#{_id}" class=post_header_class)
+                .ui.basic.circular.label #{score}
+                |!{title} 
+                if is_answered
+                    i.green.checkmark.icon
+                .ui.small.basic.label 
+                    i.tag.grey.icon
+                    |#{tags.length}
+            // if skv_is 'view_detail' true
+            // i.tag.grey.icon
+            if skv_is 'view_detail' true
+                .f9.speak_body.pointer.goto_q !{body}
+    
+                .ui.horizontal.list
+                    each tags
+                        .item #{this}
+            .ui.horizontal.list
+                with owner
+                    a.ui.small.header.item(href="/site/#{../site}/user/#{user_id}")
+                        img.ui.avatar.image(src=profile_image)
+                        |#{display_name}
+                        small #{reputation}
+                // |#{_when}
+                if last_edit_date
+                    .item updated {{ufrom last_edit_date}}
+                if creation_dat
+                    .item created {{ufrom creation_dat}}
+            // +comments
+            // +voting_full
+            +doc_emotion_small
+                // .ui.label user_id #{user_id}
+            .ui.divider
 
 
 

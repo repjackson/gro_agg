@@ -4,7 +4,7 @@ template(name='stackuser_page')
         .ui.hidden.divider
         .ui.hidden.divider
         .ui.hidden.divider
-        .ui.massive.fluid.circular.button.f15.zoomer.pointer.search 
+        .ui.massive.fluid.circular.button.f17.zoomer.pointer.search 
             i.download.icon
             |download user info
     with stackuser_doc
@@ -14,22 +14,19 @@ template(name='stackuser_page')
                     .ui.header      
                         |#{site}
                     .ui.two.item.fluid.menu
-                        a.ui.fluid.basic.item.say_users(href="/site/#{site}/users")
-                            .ui.header
-                                i.users.icon
-                                |users
-                        a.ui.fluid.basic.item.say_questions(href="/site/#{site}")
-                            .ui.header
-                                i.question.icon
-                                |questions
+                        a.ui.basic.item.say_users(href="/site/#{site}/users")
+                            i.users.icon
+                            |users
+                        a.ui.basic.item.say_questions(href="/site/#{site}")
+                            i.question.icon
+                            |questions
                     .spacer
                     .ui.big.inline.header(class=post_header_class)
                         |!{display_name} 
                         small #{reputation}
                     .ui.inline.header.set_location.pointer.zoomer
-                        i.marker.icon 
-                        |#{location}
-                    img.ui.rounded.centered.image.pointer.boop.zoomer(src=profile_image)
+                        |!{location}
+                    img.ui.rounded.centered.image.pointer.zoomer(src=profile_image)
                     each tags
                         // +stack_tag_selector
                         .ui.basic.label #{this}
@@ -46,14 +43,10 @@ template(name='stackuser_page')
                         // .item weekly rep change #{reputation_change_week}
                         // .item daily #{reputation_change_day}
                         // .item reputation #{reputation}
-                        .item created  {{ufrom creation_date}}
-                        .item type #{user_type}
+                        .item created {{ufrom creation_date}}
+                        .item #{user_type}
                         .item id #{user_id}
-                        .item accepts #{accept_rate}%
-                        a.item.select_location(href="/users")
-                            i.marker.icon
-                            | !{location}
-                        if website_url
+                        .item accepts #{accept_rate}%                        if website_url
                             a.item(href=website_url target="_window")
                                 i.globe.icon
                                 |#{website_url}
