@@ -89,27 +89,29 @@ template(name='site_users')
                         |#{stackusers.count} / #{user_count}
                     .scrolling.ui.items
                         each stackusers
-                            .item
-                                a.ui.tiny.rounded.image.say_name(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
-                                    img(src=profile_image)
-                                .content
-                                    a.ui.inline.header.say_name(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
-                                        |!{display_name}
-                                        small #{reputation}
-                                    strong(title="#{site} rank") ##{site_rank} 
-                                    strong(title='global rank') ##{global_rank}
-    
-                                    .ui.compact.circular.basic.button.description.set_location.pointer.say_location
-                                        +term_image                                            
-                                        |!{location}
-                                    .ui.basic.label
-                                        small accessed
-                                        |{{ufrom last_access_date}}
-                                    each seven_tags
-                                        .ui.small.tertiary.button #{this}
-                                    if website_url
-                                        a.ui.compact.small.basic.button(href=website_url target='_window')
-                                            |#{website_url}
+                            +stackuser_item
+template(name='stackuser_item')
+    .item
+        a.ui.tiny.rounded.image.say_name(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
+            img(src=profile_image)
+        .content
+            a.ui.inline.header.say_name(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
+                |!{display_name}
+                small #{reputation}
+            strong(title="#{site} rank") ##{site_rank} 
+            strong(title='global rank') ##{global_rank}
+
+            .ui.compact.circular.basic.button.description.set_location.pointer.say_location
+                +term_image                                            
+                |!{location}
+            .ui.basic.label
+                small accessed
+                |{{ufrom last_access_date}}
+            each seven_tags
+                .ui.small.tertiary.button #{this}
+            if website_url
+                a.ui.compact.small.basic.button(href=website_url target='_window')
+                    |#{website_url}
                 // .four.wide.center.aligned.column
                 //     .ui.header filter
         

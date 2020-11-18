@@ -190,6 +190,9 @@ if Meteor.isClient
                 limit:Session.get('limit')
  
  
+    Template.stackuser_item.onRendered ->
+        console.log @
+        Meteor.call 'omega', Router.current().params.site, @data.user_id, ->
  
  
     Template.site_questions.helpers
