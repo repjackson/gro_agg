@@ -77,6 +77,7 @@ if Meteor.isClient
         'click .boop': ->
             window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
             Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
+            Meteor.call 'rank_user', Router.current().params.site, Router.current().params.user_id, ->
             # Meteor.call 'boop', Router.current().params.site, Router.current().params.user_id, ->
         'click .agg': ->
             Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->

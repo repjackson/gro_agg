@@ -191,8 +191,9 @@ if Meteor.isClient
  
  
     Template.stackuser_item.onRendered ->
-        console.log @
-        Meteor.call 'omega', Router.current().params.site, @data.user_id, ->
+        # console.log @
+        unless @data.site_rank
+            Meteor.call 'rank_user', Router.current().params.site, @data.user_id, ->
  
  
     Template.site_questions.helpers

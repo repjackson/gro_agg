@@ -610,6 +610,7 @@ Meteor.methods
                         new_id = 
                             Docs.insert item
                         console.log 'new stack doc', Docs.findOne(new_id).title
+                        # unless found.watson
                         Meteor.call 'call_watson', new_id,'link','stack',->
                     Meteor.call 'stackuser_questions', site, item.owner.user_id, ->
                     Meteor.call 'stackuser_tags', site, item.owner.user_id, ->

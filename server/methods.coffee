@@ -117,7 +117,8 @@ Meteor.methods
             console.log res
 
     # agg_omega: (query, key, collection)->
-    omega: (site,user_id)->
+    rank_user: (site,user_id)->
+        @unblock()
         # agg_res = Meteor.call 'agg_omega2', (err, res)->
         #     console.log res
         #     console.log 'res from async agg'
@@ -154,6 +155,25 @@ Meteor.methods
                 $set:
                     site_rank:site_rank+1
                     global_rank:global_rank+1
+    omega: (site,user_id)->
+        # agg_res = Meteor.call 'agg_omega2', (err, res)->
+        #     console.log res
+        #     console.log 'res from async agg'
+        site_doc =
+            Docs.findOne(
+                model:'stack_site'
+                api_site_parameter:site
+            )
+        user_doc =
+            Docs.findOne(
+                model:'stackuser'
+                user_id:parseInt(user_id)
+                site:site
+            )
+        unless user_doc
+            console.log 'no user doc found', site, user_id
+        
+        if user_doc
             agg_res = Meteor.call 'omega2', site, user_id
             user_tag_res = Meteor.call 'user_question_tags', site, user_id
             # console.log 'hi'

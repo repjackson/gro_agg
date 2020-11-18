@@ -339,14 +339,14 @@ a.goto_article {
 /*    transform: scale(1.2) !important;*/
 /*}*/
 .superzoom:hover {
-    transition: all .25s ease !important; 
-    transform: scale(5) !important;
+    transition: all .2s ease !important; 
+    transform: scale(3) !important;
     z-index:1000 !important;
     border-radius: 7px !important;
-    animation: fadein .5s !important;
+    /*animation: fadein .5s !important;*/
     /*-webkit-transition: opacity .25s ease-in !important;*/
     /* -webkit-transition: opacity .25s ease-out; */
-    animation: fadeout .5s; 
+    /*animation: fadeout .5s; */
     
 }
 .inset {
