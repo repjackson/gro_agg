@@ -1,0 +1,217 @@
+template(name='subreddit_docs')
+    with subreddit_doc
+        .ui.stackable.grid
+            .row
+                .ui.twelve.wide.column
+                    a.ui.circular.basic.button(href="/reddit")
+                        i.reddit.icon
+                        |subs
+                    img.get_info.shadowed.ui.inline.image(src=logo_url )
+                    |#{data.display_name}
+                    a.ui.circular.basic.large.button(href="/subreddit/#{data.display_name}/users")
+                        i.large.user.outline.icon
+                        |users
+                    // div
+                    if selected_tags
+                        // if many_tags
+                        //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                        //         i.remove.icon
+                        each selected_tags
+                            +unselect_tag
+                    .ui.icon.input
+                        i.search.icon
+                        input.search_subreddit(type='text')
+                    each subreddit_tags
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    div
+                    if skv_is 'sort_direction' 1
+                        .ui.icon.compact.circular.basic.tertiary.button.sort_down
+                            i.caret.down.icon
+                    else
+                        .ui.icon.compact.circular.basic.tertiary.button.sort_up
+                            i.caret.up.icon
+                    if skv_is 'view_bounties' 1
+                        .ui.compact.circular.black.button.unview_bounties
+                            i.hand.holding.heart.icon
+                            | bounties
+                    else
+                        .ui.compact.circular.basic.tertiary.button.view_bounties
+                            i.hand.holding.heart.icon
+                            | bounties
+                    if skv_is 'view_unanswered' 1
+                        .ui.compact.circular.black.button.unview_unanswered
+                            i.checkmark.icon
+                            | unanswered
+                    else
+                        .ui.compact.circular.basic.tertiary.button.view_unanswered
+                            i.question.icon
+                            | unanswered
+                    i.big.fire.link.icon
+                    .ui.compact.circular.basic.small.tertiary.button.limit_1
+                        |1
+                    .ui.compact.circular.basic.small.tertiary.button.limit_10
+                        |10
+                    .ui.icon.compact.large.circular.basic.small.tertiary.button.sort_timestamp
+                        i.clock.icon
+                    .ui.icon.compact.large.circular.basic.small.tertiary.button.set_points
+                        i.line.chart.icon
+                    if skv_is 'view_detail' true
+                        .ui.black.circular.compact.button.toggle_detail
+                            i.list.large.icon
+                            |detail
+                    else
+                        .ui.compact.circular.basic.tertiary.button.toggle_detail
+                            i.minus.large.icon
+                            |simple
+                        // i.line.chart.icon
+                    // .ui.icon.compact.large.button 
+                    //     i.th.icon
+                    // .ui.icon.compact.large.button 
+                    //     i.list.icon
+                    .medscroll
+                        each subreddit_questions
+                            +subreddit_question_item
+                .four.wide.column.scrolling
+                    +alpha
+                    +duck
+                    // a.ui.circular.icon.button(href='/')
+                    //     i.large.home.icon
+                    // img.get_info.mobile.hidden.shadowed(src=high_resolution_icon_url )
+                    // img(src=icon_url)
+                    // .ui.segment(style="background-color:#{styling.tag_background_color}")
+                    // .ui.label #{tag_background_color}: tag_background_color
+                    // .ui.label #{tag_foreground_color}: tag_foreground_color
+                    // .ui.label #{link_color}: link_color
+                    // .ui.grey.small.header 
+                    //     |related subreddits
+                    // .ui.inline.header !{name}
+                    i.large.grey.users.icon
+                    each subreddit_organizations
+                        // .ui.label hi #{name}
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    i.large.grey.marker.icon
+                    each subreddit_locations
+                        // .ui.label hi #{name}
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    div
+                    i.large.grey.building.grey.icon
+                    each subreddit_companys
+                        // .ui.label hi #{name}
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    div
+                    i.large.grey.user.icon
+                    each subreddit_persons
+                        // .ui.label hi #{name}
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+                    div
+                
+                    // +comments
+                    .ui.small.list.mobile.hidden
+                        .item 
+                            strong #{audience}
+                        a.item(href=subreddit_url target="_window")
+                            |#{subreddit_url}
+                            i.external.icon
+                        .item open beta {{ufrom open_beta_date}}
+                        .item closed beta {{ufrom closed_beta_date}}
+                        if launch_date
+                            .item launched {{ufrom launch_date}}
+                        .item state: #{subreddit_state}
+                        // .item #{high_resolution_icon_url} high_resolution_icon_url
+                        // .item #{favicon_url} favicon_url
+                        // .item #{api_subreddit_parameter} api
+                        .item #{subreddit_type} subreddit_type
+                        .item main emotion: #{main_emotion}
+                        .item new_active_users: #{new_active_users}
+                        .item total_users: #{total_users}
+                        .item badges_per_minute: #{badges_per_minute}
+                        .item #{total_badges} badges
+                        .item 
+                            i.grey.thumbs.up.outline.icon
+                            |#{total_votes} votes
+                        .item #{total_comments} comments
+                        .item #{answers_per_minute} answers/min
+                        .item #{questions_per_minute} questions/min
+                        .item #{total_questions} questions
+                        .item #{total_answers} answers
+                        .item #{total_accepted} accepted
+                        .item #{total_unanswered} unanswered
+                        // .item api_revision: #{api_revision}
+                    // if in_dev
+                    //     +array_edit k='tags' d=true
+                    +comments
+                    +voting_full
+   
+   
+   
+   
+template(name='subreddit_question_item')                  
+    .ui.item
+        // if watson.metadata.image
+        //     img.ui.avatar.invert.image(src=watson.metadata.image)    
+        .content
+            a.ui.inline.header.view_question.zoomer(href="/subreddit/#{subreddit}/doc/#{_id}" class=post_header_class)
+                strong #{score}
+                if is_answered
+                    i.green.checkmark.icon
+                // span
+                //     i.tag.grey.icon
+                //     |#{tags.length}
+                |!{title} 
+            .spacer
+            // if skv_is 'view_detail' true
+            // i.tag.grey.icon
+            unless skv_is 'view_detail' true
+                if watson.analyzed_text
+                    span.pointer.view_question{{trunc watson.analyzed_text}}...
+            if skv_is 'view_detail' true
+                .speak_body.pointer.goto_q !{body}
+    
+                .ui.horizontal.list
+                    each tags
+                        .item #{this}
+            .ui.horizontal.list
+                with owner
+                    a.ui.small.header.item(href="/subreddit/#{../subreddit}/user/#{user_id}")
+                        img.ui.avatar.image(src=profile_image)
+                        |!{display_name}
+                        small #{reputation}
+                        small !{location}
+                // |#{_when}
+                if last_edit_date
+                    .item updated {{ufrom last_edit_date}}
+                if creation_dat
+                    .item created {{ufrom creation_dat}}
+            // +comments
+            // +voting_full
+            +doc_emotion_small
+                // .ui.label user_id #{user_id}
+            // .ui.divider
+
+
+
+// template(name='stack_tag_selector')
+//     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+//     a.ui.basic.tertiary.circular.compact.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+//         if term
+//             if term.watson.metadata.image
+//                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+//         strong #{name}
+//         // if in_dev
+//         //     small #{count}
+// template(name='flat_tag_selector')
+//     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+//     .ui.basic.tertiary.circular.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+//         if term
+//             if term.watson.metadata.image
+//                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+//         strong #{this}
+//         // if in_dev
+//         //     small #{count}
+
+

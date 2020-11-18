@@ -95,12 +95,12 @@ Template.alpha.helpers
     split_datatypes: ->
         # console.log 'data', @
         split = @datatypes.split ','
-        console.log split
+        # console.log split
         split
 
 Template.alpha.events
     'click .select_datatype': ->
-        console.log @
+        # console.log @
         selected_tags.push @valueOf().toLowerCase()
     'click .alphatemp': ->
         console.log @plaintext

@@ -3,8 +3,15 @@ template(name='reddit')
         .row
             .sixteen.wide.column
                 a.ui.header.search_subs subreddits
-                each subreddit_docs
-                    .ui.header #{data.display_name}
+                .ui.cards
+                    each subreddit_docs
+                        .ui.card    
+                            // img(src=data.community_icon)
+                            img(src=data.header_img)
+                            .content
+                                a.header(href="/subreddit/#{data.display_name}")
+                                    | #{data.display_name}
+                                +print_this
             .sixteen.wide.column.smallscroll
                 // a.icon.ui.big.circular.icon.button.zoomer(href='/')
                 //     i.large.yin.yang.grey.icon
