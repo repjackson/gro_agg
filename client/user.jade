@@ -5,7 +5,7 @@ template(name='stackuser_page')
         .ui.hidden.divider
         .ui.hidden.divider
         .ui.center.aligned.basic.segment.search
-            i.massive.grey.loading.yin.yang.icon
+            i.massive.grey.loading.yin.yang.link.icon
         // .ui.massive.fluid.circular.button.f17.zoomer.pointer.search 
         //     i.download.icon
             // |download user info
@@ -31,8 +31,8 @@ template(name='stackuser_page')
                         |!{location}
                     img.ui.rounded.centered.image.pointer.zoomer.boop(src=profile_image)
                     each tags
-                        // +stack_tag_selector
-                        .ui.tertiary.button #{this}
+                        +flat_tag_selector
+                        // .ui.tertiary.button #{this}
                     +print_this
                     .ui.horizontal.list
                         // .item #{boops} boops

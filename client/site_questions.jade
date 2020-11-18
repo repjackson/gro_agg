@@ -23,41 +23,41 @@ template(name='site_questions')
                         // .ui.large.label(title=count) #{name}
                     div
                     if skv_is 'sort_direction' 1
-                        .ui.icon.compact.circular.basic.button.sort_down
+                        .ui.icon.compact.circular.basic.tertiary.button.sort_down
                             i.caret.down.icon
                     else
-                        .ui.icon.compact.circular.basic.button.sort_up
+                        .ui.icon.compact.circular.basic.tertiary.button.sort_up
                             i.caret.up.icon
                     if skv_is 'view_bounties' 1
-                        .ui.compact.circular.black.button.unview_bounties
+                        .ui.compact.circular.black.tertiary.button.unview_bounties
                             i.checkmark.icon
                             | bounties
                     else
-                        .ui.compact.circular.basic.button.view_bounties
+                        .ui.compact.circular.basic.tertiary.button.view_bounties
                             i.money.icon
                             | bounties
                     if skv_is 'view_unanswered' 1
-                        .ui.compact.circular.black.button.unview_unanswered
+                        .ui.compact.circular.black.tertiary.button.unview_unanswered
                             i.checkmark.icon
                             | unanswered
                     else
-                        .ui.compact.circular.basic.button.view_unanswered
+                        .ui.compact.circular.basic.tertiary.button.view_unanswered
                             i.question.icon
                             | unanswered
-                    .ui.compact.circular.basic.small.button.limit_1
+                    .ui.compact.circular.basic.small.tertiary.button.limit_1
                         |1
-                    .ui.compact.circular.basic.small.button.limit_10
+                    .ui.compact.circular.basic.small.tertiary.button.limit_10
                         |10
-                    .ui.icon.compact.large.circular.basic.small.button.sort_timestamp
+                    .ui.icon.compact.large.circular.basic.small.tertiary.button.sort_timestamp
                         i.clock.icon
-                    .ui.icon.compact.large.circular.basic.small.button.set_points
+                    .ui.icon.compact.large.circular.basic.small.tertiary.button.set_points
                         i.line.chart.icon
                     if skv_is 'view_detail' true
-                        .ui.black.circular.icon.compact.button.toggle_detail
+                        .ui.black.circular.icon.compact.tertiary.button.toggle_detail
                             i.list.large.icon
                             // |detail
                     else
-                        .ui.compact.circular.icon.basic.button.toggle_detail
+                        .ui.compact.circular.icon.basic.tertiary.button.toggle_detail
                             i.list.large.icon
                             // |simple
                         // i.line.chart.icon
@@ -161,6 +161,9 @@ template(name='site_question_item')
                 |!{title} 
             // if skv_is 'view_detail' true
             // i.tag.grey.icon
+            unless skv_is 'view_detail' true
+                if watson.analyzed_text
+                    span.pointer.view_question{{trunc watson.analyzed_text}}...
             if skv_is 'view_detail' true
                 .f9.speak_body.pointer.goto_q !{body}
     
@@ -194,6 +197,15 @@ template(name='stack_tag_selector')
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
         strong #{name}
+        // if in_dev
+        //     small #{count}
+template(name='flat_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.tertiary.circular.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong #{this}
         // if in_dev
         //     small #{count}
 

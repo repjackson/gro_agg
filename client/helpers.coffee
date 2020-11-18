@@ -76,7 +76,8 @@ Template.nav.events
     'click .silence': ->
         window.speechSynthesis.cancel()
     
-        
+Template.registerHelper 'trunc', (input) ->
+    input[0..300]
         
 Template.registerHelper 'post_header_class', (metric) ->
     # console.log @

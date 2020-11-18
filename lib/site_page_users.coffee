@@ -91,7 +91,9 @@ if Meteor.isClient
         'click .get_info': (e,t)-> 
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             Meteor.call 'get_site_info', Router.current().params.site, ->
-        'click .view_question': (e,t)-> window.speechSynthesis.speak new SpeechSynthesisUtterance @title
+        'click .view_question': (e,t)-> 
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @title
+            Router.go "/site/#{Router.current().params.site}/doc/#{@_id}"
         'click .sort_timestamp': (e,t)-> Session.set('sort_key','_timestamp')
         'click .unview_bounties': (e,t)-> Session.set('view_bounties',0)
         'click .view_bounties': (e,t)-> Session.set('view_bounties',1)
@@ -231,9 +233,10 @@ if Meteor.isClient
         # console.log @data.watson
         unless @data.watson
             Meteor.call 'call_watson', @data._id, 'link', 'stack', ->
-            
     Template.site_question_item.onRendered ->
         # console.log @
+    
+    
     Template.stack_tag_selector.onCreated ->
         # console.log @
         @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
@@ -255,8 +258,6 @@ if Meteor.isClient
         term: ->
             Docs.findOne 
                 title:@name.toLowerCase()
-   
-   
     Template.stack_tag_selector.events
         'click .select_tag': -> 
             # results.update
@@ -288,6 +289,39 @@ if Meteor.isClient
             # Meteor.setTimeout( ->
             #     Session.set('toggle',!Session.get('toggle'))
             # , 5000)
+       
+    
+    Template.flat_tag_selector.onCreated ->
+        # console.log @
+        @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
+    Template.flat_tag_selector.helpers
+        selector_class: ()->
+            # console.log @
+            term = 
+                Docs.findOne 
+                    title:@valueOf().toLowerCase()
+            if term
+                if term.max_emotion_name
+                    switch term.max_emotion_name
+                        when 'joy' then " basic green #{Meteor.user().invert_class}"
+                        when "anger" then " basic red #{Meteor.user().invert_class}"
+                        when "sadness" then " basic blue #{Meteor.user().invert_class}"
+                        when "disgust" then " basic orange #{Meteor.user().invert_class}"
+                        when "fear" then " basic grey #{Meteor.user().invert_class}"
+                        else "basic grey #{Meteor.user().invert_class}"
+        term: ->
+            Docs.findOne 
+                title:@valueOf().toLowerCase()
+    Template.flat_tag_selector.events
+        'click .select_flat_tag': -> 
+            # results.update
+            console.log @
+            window.speechSynthesis.cancel()
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+            selected_tags.push @valueOf()
+            Router.go "/site/#{Router.current().params.site}/"
+            $('.search_site').val('')
+            Meteor.call 'search_stack', Router.current().params.site, @valueOf(), ->
        
 
 
@@ -322,7 +356,7 @@ if Meteor.isServer
         if selected_tags.length > 0 then match.tags = $all:selected_tags
         if site
             Docs.find match, 
-                limit:20
+                limit:10
                 # sort:
                 #     "#{sort_key}":sort_direction
                 # limit:limit
@@ -355,7 +389,7 @@ if Meteor.isServer
             { $match: _id: $nin: selected_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:20 }
+            { $limit:10 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         # console.log 'cloud: ', tag_cloud
@@ -478,7 +512,7 @@ if Meteor.isServer
             { $match: _id: $nin: selected_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:20 }
+            { $limit:10 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         # console.log 'cloud: ', tag_cloud
