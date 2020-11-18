@@ -624,7 +624,7 @@ Meteor.methods
    
     search_stackuser: (site, user_id) ->
         # console.log('searching stack user for', site, user_id);
-        url = "https://api.stackexchange.com/2.2/users/#{user_id}?order=desc&sort=reputation&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+        url = "https://api.stackexchange.com/2.2/users/#{user_id}?order=desc&sort=reputation&site=#{site}&filter=!--1nZv)deGu1&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -641,6 +641,31 @@ Meteor.methods
                             site:site
                             user_id:parseInt(user_id)
                     if found
+                        Docs.update found._id,
+                            $set:
+                                badge_counts: item.badge_counts
+                                view_count: item.view_count
+                                down_vote_count: item.down_vote_count
+                                up_vote_count: item.up_vote_count
+                                answer_count: item.answer_count
+                                question_count: item.question_count
+                                account_id: item.account_id
+                                is_employee: item.is_employee
+                                last_modified_date: item.last_modified_date
+                                last_access_date: item.last_access_date
+                                reputation_change_year: item.reputation_change_year
+                                reputation_change_quarter: item.reputation_change_quarter
+                                reputation_change_month: item.reputation_change_month
+                                reputation_change_week: item.reputation_change_week
+                                reputation_change_day: item.reputation_change_day
+                                reputation: item.reputation
+                                creation_date: item.creation_date
+                                user_type: item.user_type
+                                user_id: item.user_id
+                                link: item.link
+                                profile_image: item.profile_image
+                                display_name: item.display_name
+
                         console.log 'found', found.display_name
                     unless found
                         item.site = site
@@ -655,9 +680,9 @@ Meteor.methods
    
     get_site_users: (site) ->
         # console.log('searching stack user for', site, user_id);
-        for num in [1..100]
+        for num in [1..10]
             console.log 'searching ', site, 'round ', num
-            url = "https://api.stackexchange.com/2.2/users?order=desc&sort=reputation&page=#{num}&pagesize=100&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+            url = "https://api.stackexchange.com/2.2/users?order=desc&sort=reputation&page=#{num}&pagesize=100&site=#{site}&filter=!--1nZv)deGu1&key=lPplyGlNUs)cIMOajW03aw(("
             options = {
                 url: url
                 headers: 'accept-encoding': 'gzip'
@@ -673,8 +698,8 @@ Meteor.methods
                                 model:'stackuser'
                                 site:site
                                 user_id:item.user_id
-                        # if found
-                        #     console.log 'found', found.display_name
+                        if found
+                            console.log 'found', found.display_name
                         unless found
                             item.site = site
                             item.model = 'stackuser'

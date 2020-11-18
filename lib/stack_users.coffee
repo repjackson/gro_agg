@@ -109,8 +109,8 @@ if Meteor.isClient
 
     Template.users.helpers
         all_tags: -> results.find(model:'user_tag')
-        all_sites: -> results.find(model:'user_site')
-        all_locations: -> results.find(model:'user_location')
+        all_sites: -> results.find({model:'user_site'},limit:20)
+        all_locations: -> results.find({model:'user_location'},limit:20)
         
         current_location_query: -> Session.get('location_query')
 

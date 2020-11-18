@@ -31,23 +31,23 @@ template(name='stackuser_page')
                     div
                     .ui.inline.right.aligned.header.set_location.pointer.zoomer
                         |!{location}
-                    img.ui.rounded.centered.image.pointer.zoomer.boop(src=profile_image)
+                    img.ui.rounded.inline.image.pointer.zoomer.boop(src=profile_image)
                     each tags
                         +flat_tag_selector
                         // .ui.tertiary.button #{this}
                     +print_this
                     .ui.horizontal.list
-                        // .item #{boops} boops
-                        // .item account id #{account_id}
-                        // .item employee #{is_employee}
+                        .item #{boops} boops
+                        .item account id #{account_id}
+                        .item employee #{is_employee}
                         .item modified {{ufrom last_modified_date}}
                         .item accessed  {{ufrom last_access_date}}
-                        // .item rep change year #{reputation_change_year}
-                        // .item quarterly #{reputation_change_quarter}
-                        // .item monthly  #{reputation_change_month}
-                        // .item weekly rep change #{reputation_change_week}
-                        // .item daily #{reputation_change_day}
-                        // .item reputation #{reputation}
+                        .item rep change year #{reputation_change_year}
+                        .item quarterly #{reputation_change_quarter}
+                        .item monthly  #{reputation_change_month}
+                        .item weekly rep change #{reputation_change_week}
+                        .item daily #{reputation_change_day}
+                        .item reputation #{reputation}
                         .item created {{ufrom creation_date}}
                         .item #{user_type}
                         .item account id #{account_id}
@@ -56,12 +56,58 @@ template(name='stackuser_page')
                             a.item(href=website_url target="_window")
                                 i.globe.icon
                                 |#{website_url}
+                        .item badge_counts: #{badge_counts}
+                        .item view_count: #{view_count}
+                        .item down_vote_count: #{down_vote_count}
+                        .item up_vote_count: #{up_vote_count}
+                        .item answer_count: #{answer_count}
+                        .item question_count: #{question_count}
+                        .item account_id: #{account_id}
+                        .item is_employee: #{is_employee}
+                        .item last_modified_date: #{last_modified_date}
+                        .item last_access_date: #{last_access_date}
+                        .item reputation_change_year: #{reputation_change_year}
+                        .item reputation_change_quarter: #{reputation_change_quarter}
+                        .item reputation_change_month: #{reputation_change_month}
+                        .item reputation_change_week: #{reputation_change_week}
+                        .item reputation_change_day: #{reputation_change_day}
+                        .item reputation: #{reputation}
+                        .item creation_date: #{creation_date}
+                        .item user_type: #{user_type}
+                        .item user_id: #{user_id}
+                        .item link: #{link}
+                        .item profile_image: #{profile_image}
+                        .item display_name: #{display_name}
+                            
                     // i.massive.loading.brown.poop.icon
                     a.ui.external.icon.button(href=link target='_window') 
                         i.linkify.icon
                         // |#{link}
                 .eleven.wide.column
-                    .ui.header 
+                    .ui.header reputation change
+                    .ui.stackable.grid
+                        .five.column.row
+                            .column
+                                .ui.grey.small.statistic
+                                    .value #{reputation_change_year}
+                                    .label year
+                            .column
+                                .ui.grey.small.statistic
+                                    .value #{reputation_change_quarter}
+                                    .label quarter
+                            .column
+                                .ui.grey.small.statistic
+                                    .value #{reputation_change_month}
+                                    .label monthly
+                            .column
+                                .ui.grey.small.statistic
+                                    .value #{reputation_change_week}
+                                    .label week
+                            .column
+                                .ui.grey.small.statistic
+                                    .value #{reputation_change_day}
+                                    .label day
+                    .ui.grey.header 
                         i.rss.icon
                         |feed
                     each user_events

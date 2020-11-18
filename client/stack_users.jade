@@ -1,7 +1,7 @@
 template(name='users')
     .ui.stackable.padded.grid
-        .four.wide.column.scrolling
-            .ui.header
+        .sixteen.wide.column.scrolling
+            .ui.inline.header
                 i.users.icon
                 |stack users
             // #cloud.ui.center.aligned.fluid.segment
@@ -32,7 +32,7 @@ template(name='users')
                 .ui.compact.basic.circular.button.select_site(class=cloud_site_class) 
                     |!{this.name}
                     small #{count}
-            .spacer
+            // .spacer
             .ui.grey.inline.header 
                 i.marker.icon
                 |location
@@ -40,8 +40,9 @@ template(name='users')
                 .unselect_location.ui.primary.compact.circular.button
                     strong !{selected_user_location}
             each all_locations
-                .ui.compact.basic.circular.button.select_location(class=cloud_location_class) !{this.name}
-                    small #{this.count}
+                +tag_selector
+                // .ui.compact.basic.circular.button.select_location(class=cloud_location_class) !{this.name}
+                //     small #{this.count}
             .ui.left.icon.input
                 i.user.icon
                 input.search_username(type='text' placeholder='username')
@@ -51,13 +52,12 @@ template(name='users')
                 else
                     i.marker.link.icon.clear_location
                 input.search_location(type='text' placeholder='location' value=current_location_query)
-        .twelve.wide.column
             .ui.five.stackable.centered.cards.scrolling
                 each users
                     a.ui.card.select_user(href="/site/#{site}/user/#{user_id}")
                         img.ui.fluid.image(src=profile_image class=currentUser.invert_class)
                         .content
-                            a.ui.header #{display_name}
+                            a.ui.header !{display_name}
                                 .ui.basic.circular.label #{reputation}
                             .description
                                 strong(title="#{site} rank") ##{site_rank} 
@@ -68,7 +68,8 @@ template(name='users')
                                 |#{location}
                                 each five_tags
                                     .ui.basic.small.label #{this}
-                                +doc_emotion_small
+                                // +doc_emotion_small
+                                |#{main_emotion}
                                 
                                 
                                 
