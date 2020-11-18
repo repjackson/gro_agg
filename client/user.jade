@@ -71,7 +71,8 @@ template(name='stackuser_page')
                         i.linkify.icon
                         // |#{link}
                 .eleven.wide.column
-                    
+                    .f12
+                        |!{about_me}
                     .ui.inline.small.header rep change
                     .ui.grey.small.horizontal.statistic
                         .value #{reputation_change_day}
@@ -222,12 +223,13 @@ template(name='answer_item')
 template(name='user_question_item')
     .ui.item
         a.ui.header.zoomer.say_title(href="/site/#{site}/doc/#{_id}" class=post_header_class)
-            .ui.basic.circular.label #{score}:
+            strong #{score}:
             |!{title}
+        |!{about_me}
         .description
             if skv_is 'view_detail' true
                 each tags 
-                    .ui.tiny.basic.circular.label #{this}
+                    .ui.tiny.basic.circular.tertiary.button #{this}
             +doc_emotion_small    
             span(title="#{view_count} views")
                 i.grey.eye.icon

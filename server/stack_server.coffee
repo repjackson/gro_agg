@@ -643,6 +643,7 @@ Meteor.methods
                     if found
                         Docs.update found._id,
                             $set:
+                                about_me:item.about_me
                                 badge_counts: item.badge_counts
                                 view_count: item.view_count
                                 down_vote_count: item.down_vote_count

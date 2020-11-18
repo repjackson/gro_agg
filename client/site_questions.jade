@@ -29,21 +29,22 @@ template(name='site_questions')
                         .ui.icon.compact.circular.basic.tertiary.button.sort_up
                             i.caret.up.icon
                     if skv_is 'view_bounties' 1
-                        .ui.compact.circular.black.tertiary.button.unview_bounties
-                            i.checkmark.icon
+                        .ui.compact.circular.black.button.unview_bounties
+                            i.hand.holding.heart.icon
                             | bounties
                     else
                         .ui.compact.circular.basic.tertiary.button.view_bounties
-                            i.money.icon
+                            i.hand.holding.heart.icon
                             | bounties
                     if skv_is 'view_unanswered' 1
-                        .ui.compact.circular.black.tertiary.button.unview_unanswered
+                        .ui.compact.circular.black.button.unview_unanswered
                             i.checkmark.icon
                             | unanswered
                     else
                         .ui.compact.circular.basic.tertiary.button.view_unanswered
                             i.question.icon
                             | unanswered
+                    i.big.fire.link.icon
                     .ui.compact.circular.basic.small.tertiary.button.limit_1
                         |1
                     .ui.compact.circular.basic.small.tertiary.button.limit_10
@@ -53,13 +54,13 @@ template(name='site_questions')
                     .ui.icon.compact.large.circular.basic.small.tertiary.button.set_points
                         i.line.chart.icon
                     if skv_is 'view_detail' true
-                        .ui.black.circular.icon.compact.tertiary.button.toggle_detail
+                        .ui.black.circular.compact.button.toggle_detail
                             i.list.large.icon
-                            // |detail
+                            |detail
                     else
-                        .ui.compact.circular.icon.basic.tertiary.button.toggle_detail
-                            i.list.large.icon
-                            // |simple
+                        .ui.compact.circular.basic.tertiary.button.toggle_detail
+                            i.minus.large.icon
+                            |simple
                         // i.line.chart.icon
                     // .ui.icon.compact.large.button 
                     //     i.th.icon
@@ -151,21 +152,22 @@ template(name='site_question_item')
         // if watson.metadata.image
         //     img.ui.avatar.invert.image(src=watson.metadata.image)    
         .content
-            a.ui.small.inline.header.view_question.zoomer(href="/site/#{site}/doc/#{_id}" class=post_header_class)
-                .ui.basic.circular.label #{score}
+            a.ui.inline.header.view_question.zoomer(href="/site/#{site}/doc/#{_id}" class=post_header_class)
+                strong #{score}
                 if is_answered
                     i.green.checkmark.icon
                 // span
                 //     i.tag.grey.icon
                 //     |#{tags.length}
                 |!{title} 
+            .spacer
             // if skv_is 'view_detail' true
             // i.tag.grey.icon
             unless skv_is 'view_detail' true
                 if watson.analyzed_text
                     span.pointer.view_question{{trunc watson.analyzed_text}}...
             if skv_is 'view_detail' true
-                .f9.speak_body.pointer.goto_q !{body}
+                .speak_body.pointer.goto_q !{body}
     
                 .ui.horizontal.list
                     each tags

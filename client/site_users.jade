@@ -92,23 +92,24 @@ template(name='site_users')
                             +stackuser_item
 template(name='stackuser_item')
     .item
-        a.ui.tiny.rounded.image.say_name(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
-            img(src=profile_image)
+        a.ui.small.image.say_name.zoomer(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
+            img.ui.rounded.tiny.image(src=profile_image)
         .content
-            a.ui.inline.header.say_name(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
+            a.ui.inline.header.say_name.zoomer(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
                 |!{display_name}
                 small #{reputation}
             strong(title="#{site} rank") ##{site_rank} 
             strong(title='global rank') ##{global_rank}
 
-            .ui.compact.circular.basic.button.description.set_location.pointer.say_location
+            .ui.compact.circular.basic.button.description.set_location.say_location.zoomer
                 +term_image                                            
                 |!{location}
             .ui.basic.label
                 small accessed
                 |{{ufrom last_access_date}}
             each seven_tags
-                .ui.small.tertiary.button #{this}
+                +flat_tag_selector
+                // .ui.small.tertiary.button #{this}
             if website_url
                 a.ui.compact.small.basic.button(href=website_url target='_window')
                     |#{website_url}
