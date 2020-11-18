@@ -1,11 +1,16 @@
 template(name='subreddits')
     .ui.stackable.padded.grid
         .row
-                a.ui.button(href="/reddit") 
+            .sixteen.wide.column
+                a.ui.large.circular.basic.button(href="/reddit") 
                     i.reddit.icon
-                .ui.header.search_subs
+                    |reddit
+                .ui.inline.header.search_subs
                     |#{subreddit_docs.count} subs
-                .ui.large.selection.list
+                .ui.icon.input
+                    i.search.icon
+                    input.search_subreddits(type='text')
+                .ui.selection.list
                     each subreddit_docs
                         .item    
                             // img(src=data.community_icon)

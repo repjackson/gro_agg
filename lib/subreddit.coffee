@@ -8,12 +8,31 @@ if Meteor.isClient
         @layout 'layout'
         @render 'subreddit_page'
         ), name:'subreddit_page'
+    Router.route '/subreddits', (->
+        @layout 'layout'
+        @render 'subreddits'
+        ), name:'subreddits'
+    
     
     Router.route '/subreddit/:name/users', (->
         @layout 'layout'
         @render 'subreddit_users'
         ), name:'subreddit_users'
-    
+    Template.subreddits.onCreated ->
+        Session.setDefault('subreddit_query',null)
+        @autorun -> Meteor.subscribe('subreddits',
+            Session.get('subreddit_query')
+            selected_tags.array())
+
+    Template.subreddits.events
+        'keyup .search_subreddits': (e,t)->
+            Session.set('subreddit_query', $('.search_subreddits').val())
+        'click .search_subs': ->
+            Meteor.call 'search_subreddits', 'news', ->
+    Template.subreddits.helpers
+        subreddit_docs: ->
+            Docs.find
+                model:'subreddit'
 
     Template.subreddit_docs.onCreated ->
         # Session.setDefault('user_query', null)
@@ -40,6 +59,16 @@ if Meteor.isServer
         Docs.find
             model:'subreddit'
             "data.display_name":name
+    Meteor.publish 'subreddits', (
+        query=''
+        selected_tags
+        )->
+        match = {model:'subreddit'}
+        
+        if query.length > 0
+            match["data.display_name"] = {$regex:"#{query}", $options:'i'}
+        Docs.find match
+            
     # Meteor.publish 'sub_docs_by_name', (name)->
     #     Docs.find
     #         model:'reddit'
