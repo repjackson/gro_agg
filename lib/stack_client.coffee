@@ -83,13 +83,14 @@ if Meteor.isServer
             match.name = {$regex:"#{name_filter}", $options:'i'}
         Docs.find match,
             {
-                limit:300
+                limit:500
                 fields:
                     audience:1
                     logo_url:1
                     name:1
                     model:1
                     api_site_parameter:1
+                    styling:1
             }
     
     Meteor.publish 'question_answers', (question_doc_id)->

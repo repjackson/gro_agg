@@ -18,8 +18,9 @@ template(name='stack')
                             img.ui.inline.image.site.shadowed(src=logo_url)
                             // .header
                             //     |!{name}
-                            .description 
-                                |#{audience}
+                            .description
+                                span(style="color:#{styling.tag_foreground_color}") !{audience}
+                                // span(style="color:#{styling.link_color}") !{audience}
                 // .ui.inline.header 
                 //     i.question.icon
                 //     |questions

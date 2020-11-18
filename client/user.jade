@@ -25,88 +25,92 @@ template(name='stackuser_page')
                     .spacer
                     .ui.big.inline.right.aligned.header(class=post_header_class)
                         |!{display_name} 
-                        small #{reputation}
+                        small(title='reputation') #{reputation}
                         strong(title="#{site} rank") ##{site_rank} 
                         strong(title='global rank') ##{global_rank}
                     div
-                    .ui.inline.right.aligned.header.set_location.pointer.zoomer
-                        |!{location}
-                    img.ui.rounded.inline.image.pointer.zoomer.boop(src=profile_image)
-                    each tags
+                    with location
                         +flat_tag_selector
-                        // .ui.tertiary.button #{this}
+                    .ui.inline.tertiary.button.set_location.zoomer
+                        |!{location}
+                    if website_url
+                        a.ui.circular.basic.large.button(href=website_url target="_window")
+                            i.globe.icon
+                            |#{website_url}
+                    img.ui.rounded.inline.image.pointer.zoomer.boop(src=profile_image)
+                    .ui.grey.small.header
+                        i.tag.icon
+                        |dao tags
+                    .smallscroll
+                        each tags
+                            +flat_tag_selector
+                            // .ui.tertiary.button #{this}
                     +print_this
                     .ui.horizontal.list
-                        .item #{boops} boops
                         .item account id #{account_id}
                         .item employee #{is_employee}
                         .item modified {{ufrom last_modified_date}}
                         .item accessed  {{ufrom last_access_date}}
-                        .item rep change year #{reputation_change_year}
-                        .item quarterly #{reputation_change_quarter}
-                        .item monthly  #{reputation_change_month}
-                        .item weekly rep change #{reputation_change_week}
-                        .item daily #{reputation_change_day}
-                        .item reputation #{reputation}
                         .item created {{ufrom creation_date}}
                         .item #{user_type}
                         .item account id #{account_id}
                         .item user id #{user_id}
-                        .item accepts #{accept_rate}%                        if website_url
-                            a.item(href=website_url target="_window")
-                                i.globe.icon
-                                |#{website_url}
-                        .item badge_counts: #{badge_counts}
-                        .item view_count: #{view_count}
-                        .item down_vote_count: #{down_vote_count}
-                        .item up_vote_count: #{up_vote_count}
-                        .item answer_count: #{answer_count}
-                        .item question_count: #{question_count}
-                        .item account_id: #{account_id}
-                        .item is_employee: #{is_employee}
-                        .item last_modified_date: #{last_modified_date}
-                        .item last_access_date: #{last_access_date}
-                        .item reputation_change_year: #{reputation_change_year}
-                        .item reputation_change_quarter: #{reputation_change_quarter}
-                        .item reputation_change_month: #{reputation_change_month}
-                        .item reputation_change_week: #{reputation_change_week}
-                        .item reputation_change_day: #{reputation_change_day}
-                        .item reputation: #{reputation}
-                        .item creation_date: #{creation_date}
-                        .item user_type: #{user_type}
-                        .item user_id: #{user_id}
+                        .item accepts #{accept_rate}%                        
+                        // .item badge_counts: #{badge_counts}
+                        // .item view_count: #{view_count}
+                        // .item down_vote_count: #{down_vote_count}
+                        // .item up_vote_count: #{up_vote_count}
+                        // .item answer_count: #{answer_count}
+                        // .item question_count: #{question_count}
                         .item link: #{link}
-                        .item profile_image: #{profile_image}
-                        .item display_name: #{display_name}
-                            
-                    // i.massive.loading.brown.poop.icon
+                        // .item profile_image: #{profile_image}
+                        // .item display_name: #{display_name}
                     a.ui.external.icon.button(href=link target='_window') 
                         i.linkify.icon
                         // |#{link}
                 .eleven.wide.column
-                    .ui.header reputation change
-                    .ui.stackable.grid
-                        .five.column.row
-                            .column
-                                .ui.grey.small.statistic
-                                    .value #{reputation_change_year}
-                                    .label year
-                            .column
-                                .ui.grey.small.statistic
-                                    .value #{reputation_change_quarter}
-                                    .label quarter
-                            .column
-                                .ui.grey.small.statistic
-                                    .value #{reputation_change_month}
-                                    .label monthly
-                            .column
-                                .ui.grey.small.statistic
-                                    .value #{reputation_change_week}
-                                    .label week
-                            .column
-                                .ui.grey.small.statistic
-                                    .value #{reputation_change_day}
-                                    .label day
+                    
+                    .ui.inline.small.header rep change
+                    .ui.grey.small.horizontal.statistic
+                        .value #{reputation_change_day}
+                        .label day
+                    .ui.grey.small.horizontal.statistic
+                        .value #{reputation_change_week}
+                        .label week
+                    .ui.grey.small.horizontal.statistic
+                        .value #{reputation_change_month}
+                        .label month
+                    .ui.grey.tiny.horizontal.statistic
+                        .value #{reputation_change_quarter}
+                        .label quarter
+                    .ui.grey.tiny.horizontal.statistic
+                        .value #{reputation_change_year}
+                        .label year
+                    .ui.grey.tiny.statistic
+                        .value #{down_vote_count}
+                        .label 
+                            i.thumbs.down.outline.icon
+                            |down votes
+                    .ui.grey.tiny.statistic
+                        .value #{up_vote_count}
+                        .label 
+                            i.thumbs.up.outline.icon
+                            |up votes
+                    .ui.grey.tiny.statistic
+                        .value #{answer_count}
+                        .label 
+                            i.reply.icon
+                            |answers
+                    .ui.grey.tiny.statistic
+                        .value #{question_count}
+                        .label 
+                            i.question.icon
+                            |questions
+                    .ui.grey.tiny.statistic
+                        .value #{view_count}
+                        .label 
+                            i.eye.icon
+                            |views
                     .ui.grey.header 
                         i.rss.icon
                         |feed
@@ -139,65 +143,62 @@ template(name='stackuser_page')
                     .ui.list.scrolling
                         each user_answers
                             +answer_item
-                // .three.wide.column
-                //     .ui.grey.small.header 
-                //         i.fork.icon
-                //         |related accounts
-                //     each related_accounts
-                //         .ui.small.header !{title}
-                //     .ui.grey.small.header
-                //         i.tags.icon
-                //         |tags
-                //     with site_doc
-                //         .ui.segment
-                //             a.ui.grey.header(href="/site/#{name}") #{name}
+                .three.wide.column
+                    .ui.grey.small.header 
+                        i.fork.icon
+                        |related accounts
+                    each related_accounts
+                        .ui.small.header !{title}
+                    with site_doc
+                        .ui.segment
+                            a.ui.grey.header(href="/site/#{name}") #{name}
                                 
-                //     .ui.grey.header.get_badges
-                //         i.certificate.icon
-                //         |#{user_badges.count} badges
-                //     .ui.horizontal.list
-                //         .item 
-                //             +i n='medal2--v1' cl="#{currentUser.invert_class} ui avatar image"
-                //             |gold #{badge_counts.gold}
-                //         .item 
-                //             +i n='medal-second-place--v1' cl="#{currentUser.invert_class} ui avatar image"
-                //             |silver #{badge_counts.silver}
-                //         .item
-                //             +i n='medal2-third-place--v1' cl="#{currentUser.invert_class} ui avatar image"
-                //             |bronze #{badge_counts.bronze}
-                //     // .ui.list.smallscroll
-                //     each user_badges
-                //         .ui.basic.label 
-                //             span.header #{name}
-                //             // span.description
-                //             //     |#{rank}
-                //             //     .ui.label #{badge_id}
-                //             //     a(href=link target="_window")
-                //             //         i.external.grey.icon
+                    .ui.grey.header.get_badges
+                        i.certificate.icon
+                        |#{user_badges.count} badges
+                    .ui.horizontal.list
+                        .item 
+                            +i n='medal2--v1' cl="#{currentUser.invert_class} ui avatar image"
+                            |gold #{badge_counts.gold}
+                        .item 
+                            +i n='medal-second-place--v1' cl="#{currentUser.invert_class} ui avatar image"
+                            |silver #{badge_counts.silver}
+                        .item
+                            +i n='medal2-third-place--v1' cl="#{currentUser.invert_class} ui avatar image"
+                            |bronze #{badge_counts.bronze}
+                    // .ui.list.smallscroll
+                    each user_badges
+                        .ui.basic.label 
+                            span.header #{name}
+                            // span.description
+                            //     |#{rank}
+                            //     .ui.label #{badge_id}
+                            //     a(href=link target="_window")
+                            //         i.external.grey.icon
 
-                // .four.wide.column
-                //     .ui.header emotion
-                //     .ui.large.list 
-                //         .item joy avg
-                //         .item sad avg
-                //         .item disgust avg
-                //         .item anger avg
-                //         .item fear avg
-                // .four.wide.column
-                //     .ui.header.get_tags
-                //         i.tag.icon
-                //         |tags
-                //     .ui.list
-                //         each user_tags
-                //             .item #{name}: #{count}
-                // .four.wide.column
-                //     .ui.header.get_comments
-                //         i.chat.outline.icon
-                //         |comments
-                //     .ui.list
-                //         each user_comments
-                //             .item #{title}
-                //     +comments        
+                .four.wide.column
+                    .ui.header emotion
+                    .ui.large.list 
+                        .item joy avg
+                        .item sad avg
+                        .item disgust avg
+                        .item anger avg
+                        .item fear avg
+                .four.wide.column
+                    .ui.header.get_tags
+                        i.tag.icon
+                        |tags
+                    .ui.list
+                        each user_tags
+                            .item #{name}: #{count}
+                .four.wide.column
+                    .ui.header.get_comments
+                        i.chat.outline.icon
+                        |comments
+                    .ui.list
+                        each user_comments
+                            .item #{title}
+                    +comments        
                             
                             
 template(name='answer_item')
