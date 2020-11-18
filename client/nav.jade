@@ -1,6 +1,6 @@
 template(name='nav')
     // a.icon.ui.big.circular.icon.button(href='/')
-    .ui.fluid.attached.six.item.borderless.menu.topnav
+    .ui.fluid.attached.five.item.borderless.menu.topnav
         // a.icon.header.item.pointer.toggle_leftbar
         //     i.bars.large.grey.icon
         if connected
@@ -8,20 +8,22 @@ template(name='nav')
             //     i.big.yin.yang.icon
             a.icon.item.goto_reddit(href='/reddit')
                 i.large.reddit.grey.icon
+            a.icon.item.users(href='/subreddits')
+                i.large.clone.grey.icon
             a.icon.item.stackexchange.clear_tags(href='/stack' data-tab='groups')
                 i.large.stack.exchange.grey.icon
             a.icon.item.users(href='/users')
                 i.large.users.grey.icon
             a.icon.item.silence(href='#')
                 i.large.volume.mute.grey.icon
-            a.icon.disabled.item.goto_wikipedia(href='/wikipedia')
-                i.large.wikipedia.icon
+            // a.icon.disabled.item.goto_wikipedia(href='/wikipedia')
+            //     i.large.wikipedia.icon
             // a.icon.item.tags(href='/tags')
             //     i.large.tags.icon
             // a.icon.item.badges(href='/badges')
             //     i.large.certificate.icon
-            a.icon.item(href='/images')
-                i.large.image.icon
+            // a.icon.item(href='/images')
+            //     i.large.image.icon
             // a.icon.item(href='/videos')
             //     i.large.youtube.icon
             // a.icon.item(href='/events')
