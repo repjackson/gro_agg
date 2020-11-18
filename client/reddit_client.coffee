@@ -8,6 +8,10 @@ Router.route '/reddit', (->
     @layout 'layout'
     @render 'reddit'
     ), name:'reddit'
+Router.route '/subreddits', (->
+    @layout 'layout'
+    @render 'subreddits'
+    ), name:'subreddits'
 
 Meteor.startup ->
     # window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
@@ -25,7 +29,7 @@ Template.nav.events
 
 
 
-Template.reddit.onCreated ->
+Template.subreddits.onCreated ->
     @autorun -> Meteor.subscribe('subreddits',selected_tags.array())
 Template.reddit.onCreated ->
     # window.speechSynthesis.cancel()
@@ -202,9 +206,10 @@ Template.tag_selector.helpers
         Docs.findOne 
             title:@name.toLowerCase()
             
-Template.reddit.events
+Template.subreddits.events
     'click .search_subs': ->
         Meteor.call 'search_subreddits', 'news', ->
+Template.reddit.events
     'keyup .search_stack': (e,t)->
         # search = $('.search_title').val().toLowerCase().trim()
         search = $('.search_stack').val().trim()
@@ -502,6 +507,11 @@ Template.reddit.helpers
         # else 
         results.find(model:'tag')
    
+Template.subreddits.helpers
+    subreddit_docs: ->
+        Docs.find
+            model:'subreddit'
+
 Template.reddit.events   
     'click .add_tag': -> 
         console.log @

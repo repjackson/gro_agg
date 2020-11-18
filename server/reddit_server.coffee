@@ -42,6 +42,7 @@ Meteor.methods
                             permalink: data.permalink
                             ups: data.ups
                             title: data.title
+                            subreddit: data.subreddit
                             # root: query
                             # selftext: false
                             # thumbnail: false
@@ -188,7 +189,7 @@ Meteor.methods
             else if res.data.data.dist > 1
                 # console.log 'found data'
                 # console.log 'data length', res.data.data.children.length
-                _.each(res.data.data.children[0..1], (item)=>
+                _.each(res.data.data.children[0..100], (item)=>
                     # console.log item.data
                     found = 
                         Docs.findOne    
