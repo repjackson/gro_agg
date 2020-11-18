@@ -153,12 +153,12 @@ template(name='site_question_item')
         .content
             a.ui.small.inline.header.view_question.zoomer(href="/site/#{site}/doc/#{_id}" class=post_header_class)
                 .ui.basic.circular.label #{score}
-                |!{title} 
                 if is_answered
                     i.green.checkmark.icon
-                span
-                    i.tag.grey.icon
-                    |#{tags.length}
+                // span
+                //     i.tag.grey.icon
+                //     |#{tags.length}
+                |!{title} 
             // if skv_is 'view_detail' true
             // i.tag.grey.icon
             if skv_is 'view_detail' true

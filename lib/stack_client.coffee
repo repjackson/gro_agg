@@ -10,6 +10,7 @@ if Meteor.isClient
     
 
     Template.nav.events
+        'click .clear_tags': -> 
         'click .home2': -> 
             # console.log @valueOf()
             Session.set('site_name_filter',null)
@@ -24,8 +25,9 @@ if Meteor.isClient
   
     Template.stack.events
         'click .goto_site': -> 
-            selected_tags.clear()
+            Router.go "/site/#{@api_site_parameter}"
             window.speechSynthesis.speak new SpeechSynthesisUtterance "#{@name} #{@audience}"
+            selected_tags.clear()
         # 'click .site': -> 
         #     console.log @valueOf()
         #     window.speechSynthesis.speak new SpeechSynthesisUtterance @name
@@ -85,6 +87,7 @@ if Meteor.isServer
                 fields:
                     audience:1
                     logo_url:1
+                    name:1
                     model:1
                     api_site_parameter:1
             }

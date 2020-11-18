@@ -6,16 +6,16 @@ template(name='nav')
         if connected
             // a.icon.item.home2(href='/')
             //     i.big.yin.yang.icon
-            a.icon.disabled.item.goto_wikipedia(href='/wikipedia')
-                i.large.wikipedia.icon
             a.icon.item.goto_reddit(href='/reddit')
                 i.large.reddit.grey.icon
-            a.icon.item.stackexchange(href='/stack' data-tab='groups')
+            a.icon.item.stackexchange.clear_tags(href='/stack' data-tab='groups')
                 i.large.stack.exchange.grey.icon
             a.icon.item.users(href='/users')
                 i.large.users.grey.icon
             a.icon.item.silence(href='#')
                 i.large.volume.mute.grey.icon
+            a.icon.disabled.item.goto_wikipedia(href='/wikipedia')
+                i.large.wikipedia.icon
             // a.icon.item.tags(href='/tags')
             //     i.large.tags.icon
             // a.icon.item.badges(href='/badges')
