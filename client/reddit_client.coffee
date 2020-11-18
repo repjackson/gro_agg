@@ -26,7 +26,7 @@ Template.nav.events
 
 
 Template.reddit.onCreated ->
-    @autorun -> Meteor.subscribe('stacks',selected_tags.array())
+    @autorun -> Meteor.subscribe('subreddits',selected_tags.array())
 Template.reddit.onCreated ->
     # window.speechSynthesis.cancel()
     
@@ -203,6 +203,8 @@ Template.tag_selector.helpers
             title:@name.toLowerCase()
             
 Template.reddit.events
+    'click .search_subs': ->
+        Meteor.call 'search_subreddits', 'news', ->
     'keyup .search_stack': (e,t)->
         # search = $('.search_title').val().toLowerCase().trim()
         search = $('.search_stack').val().trim()
@@ -472,7 +474,10 @@ Template.reddit.helpers
     selected_models: -> selected_models.array()
     selected_subreddits: -> selected_subreddits.array()
     selected_emotions: -> selected_emotions.array()
-   
+    
+    subreddit_docs: ->
+        Docs.find
+            model:'subreddit'
     site_results: -> results.find(model:'site')
     sport_results: -> results.find(model:'sport')
     award_results: -> results.find(model:'award')

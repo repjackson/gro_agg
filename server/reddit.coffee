@@ -177,3 +177,27 @@ Meteor.methods
                     # console.log Docs.findOne(doc_id)
         else
             console.log 'no reddit id', doc
+
+
+
+    search_subreddits: (search)->
+        @unblock()
+        console.log 'searching subs', search
+        HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}", (err,res)->
+            if err then console.log err
+            else if res.data.data.dist > 1
+                # console.log 'found data'
+                # console.log 'data length', res.data.data.children.length
+                _.each(res.data.data.children[0..1], (item)=>
+                    # console.log item.data
+                    found = 
+                        Docs.findOne    
+                            model:'subreddit'
+                            "data.display_name":item.data.display_name
+                    if found
+                        console.log 'found', found.data.display_name
+                    else
+                        item.model = 'subreddit'
+                        Docs.insert item
+                        console.log 'new item', item.data.display_name
+                )

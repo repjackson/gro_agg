@@ -37,6 +37,13 @@ Meteor.publish 'all_questions', (question_id)->
         # question_id:question_id
             
             
+Meteor.publish 'subreddits', (
+    selected_tags
+    )->
+    Docs.find 
+        model:'subreddit'
+            
+            
 
 Meteor.publish 'questions', (
     selected_tags
