@@ -136,6 +136,24 @@ Meteor.methods
             console.log 'no user doc found', site, user_id
         
         if user_doc
+            site_rank = 
+                Docs.find(
+                    model:'stackuser'
+                    site:site
+                    reputation:$lt:user_doc.reputation
+                ).count()
+            console.log 'site_rank', site_rank
+            global_rank = 
+                Docs.find(
+                    model:'stackuser'
+                    reputation:$lt:user_doc.reputation
+                ).count()
+            console.log 'global_rank', global_rank
+            if site_rank
+                Docs.update user_doc._id,
+                    $set:
+                        site_rank:site_rank
+                        global_rank:global_rank
             agg_res = Meteor.call 'omega2', site, user_id
             user_tag_res = Meteor.call 'user_question_tags', site, user_id
             # console.log 'hi'

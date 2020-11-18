@@ -26,6 +26,8 @@ template(name='stackuser_page')
                     .ui.big.inline.right.aligned.header(class=post_header_class)
                         |!{display_name} 
                         small #{reputation}
+                        strong(title="#{site} rank") ##{site_rank} 
+                        strong(title='global rank') ##{global_rank}
                     div
                     .ui.inline.right.aligned.header.set_location.pointer.zoomer
                         |!{location}

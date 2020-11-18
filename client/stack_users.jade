@@ -55,16 +55,20 @@ template(name='users')
             .ui.five.stackable.centered.cards.scrolling
                 each users
                     a.ui.card.select_user(href="/site/#{site}/user/#{user_id}")
-                        img.ui.image(src=profile_image class=currentUser.invert_class)
+                        img.ui.fluid.image(src=profile_image class=currentUser.invert_class)
                         .content
                             a.ui.header #{display_name}
                                 .ui.basic.circular.label #{reputation}
                             .description
+                                strong(title="#{site} rank") ##{site_rank} 
+                                strong(title='global rank') ##{global_rank}
+
                                 |#{site}
                                 i.grey.marker.icon
                                 |#{location}
                                 each five_tags
                                     .ui.basic.small.label #{this}
+                                +doc_emotion_small
                                 
                                 
                                 

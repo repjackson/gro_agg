@@ -14,9 +14,9 @@ if Meteor.isClient
     Template.stackuser_page.onRendered ->
         # Meteor.call 'stackuser_answers', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'stackuser_questions', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'stackuser_tags', Router.current().params.site, Router.current().params.user_id, ->
         # Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
         # Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
-        Meteor.call 'stackuser_tags', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.setTimeout ->
             Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
         , 1000

@@ -601,6 +601,8 @@ Meteor.methods
                         # console.log 'found', found.title
                         Docs.update found._id,
                             $addToSet:tags:query
+                        unless found.watson
+                            Meteor.call 'call_watson', found._id,'link','stack',->
                     unless found
                         item.site = site
                         item.model = 'stack_question'
@@ -608,6 +610,10 @@ Meteor.methods
                         new_id = 
                             Docs.insert item
                         console.log 'new stack doc', Docs.findOne(new_id).title
+                        Meteor.call 'call_watson', new_id,'link','stack',->
+                    Meteor.call 'stackuser_questions', site, item.owner.user_id, ->
+                    Meteor.call 'stackuser_tags', site, item.owner.user_id, ->
+                    Meteor.call 'omega', site, item.owner.user_id, ->
                 return
             )).catch((err)->
                 console.log 'fail', err
@@ -818,6 +824,11 @@ Meteor.methods
             )
         
     stackuser_tags: (site, user_id) ->
+        user = Docs.findOne
+            model:'stackuser'
+            user_id:parseInt(user_id)
+            site:site
+
         # console.log('searching stack user tags for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/tags?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
