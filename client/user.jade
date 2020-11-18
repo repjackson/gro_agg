@@ -38,6 +38,9 @@ template(name='stackuser_page')
                             i.globe.icon
                             |#{website_url}
                     img.ui.rounded.inline.image.pointer.zoomer.boop(src=profile_image)
+                    a.ui.large.compact.circular.basic.button(href=link target='_window' title="#{site} profile")
+                        i.stack.exchange.icon
+                        i.external.icon
                     .ui.grey.small.header
                         i.tag.icon
                         |dao tags
@@ -62,7 +65,6 @@ template(name='stackuser_page')
                         // .item up_vote_count: #{up_vote_count}
                         // .item answer_count: #{answer_count}
                         // .item question_count: #{question_count}
-                        .item link: #{link}
                         // .item profile_image: #{profile_image}
                         // .item display_name: #{display_name}
                     a.ui.external.icon.button(href=link target='_window') 
@@ -116,22 +118,29 @@ template(name='stackuser_page')
                         |feed
                     each user_events
                         .ui.header #{title}
-                    .ui.grey.inline.header.get_question.agg
-                        i.question.icon
-                        |#{user_questions.count} questions
                     .ui.inline.header 
                         |#{max_emotion_name} #{max_emotion_percent}
-                    each user_tag_agg
-                        .ui.tertiary.button #{title}
-                            small #{count}
+                    div
+                    if skv_is 'view_question_detail' true
+                        .ui.black.tertiary.large.button.toggle_question_detail.agg
+                            i.question.icon
+                            |#{user_questions.count} questions
+                    unless skv_is 'view_question_detail' true
+                        .ui.tertiary.large.button.toggle_question_detail.agg
+                            i.question.icon
+                            |#{user_questions.count} questions
+                    if skv_is 'view_question_detail' true
+                        each user_tag_agg
+                            .ui.tertiary.button #{title}
+                                small #{count}
                     if skv_is 'view_detail' true
-                        .ui.black.circular.compact.icon.button.toggle_detail
+                        .ui.black.circular.compact.button.toggle_detail
                             i.list.large.icon
-                            // |detail
+                            |detail
                     else
-                        .ui.compact.circular.basic.icon.button.toggle_detail
+                        .ui.compact.circular.basic.button.toggle_detail
                             i.list.large.icon
-                            // |simple
+                            |simple
         
                     div
                     .scrolling

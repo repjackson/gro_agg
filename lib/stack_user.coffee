@@ -75,6 +75,7 @@ if Meteor.isClient
             Router.go "/site/#{Router.current().params.site}/users"
 
         'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
+        'click .toggle_question_detail': (e,t)-> Session.set('view_question_detail',!Session.get('view_question_detail'))
 
         'click .boop': ->
             window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
