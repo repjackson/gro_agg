@@ -26,7 +26,14 @@ if Meteor.isClient
 
     Template.subreddits.events
         'keyup .search_subreddits': (e,t)->
-            Session.set('subreddit_query', $('.search_subreddits').val())
+            val = $('.search_subreddits').val()
+            Session.set('subreddit_query', val)
+            if e.which is 13 
+                Meteor.call 'search_subreddits', val, ->
+                    $('.search_subreddits').val('')
+                    Session.set('subreddit_query', null)
+                
+                
         'click .search_subs': ->
             Meteor.call 'search_subreddits', 'news', ->
     Template.subreddits.helpers

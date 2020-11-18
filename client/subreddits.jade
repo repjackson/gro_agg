@@ -5,6 +5,7 @@ template(name='subreddits')
                 a.ui.large.circular.basic.button(href="/reddit") 
                     i.reddit.icon
                     |reddit
+                +cloud filter='subreddit'
                 .ui.inline.header.search_subs
                     |#{subreddit_docs.count} subs
                 .ui.icon.input
@@ -19,68 +20,4 @@ template(name='subreddits')
                                 a.header(href="/subreddit/#{data.display_name}")
                                     | #{data.display_name}
                                 .description #{data.public_description}
-                                // +print_this
-
-            .sixteen.wide.center.aligned.column
-                // .ui.inline.header 
-                //     i.big.stack.exchange.icon
-                //     |stackexchange subreddits
-                .ui.icon.input
-                    i.search.icon
-                    input.search_subreddit_name(type='text')
-                +cloud filter='subreddit'
-                .spacer
-            .sixteen.wide.center.aligned.column
-                .ui.four.column.stackable.center.aligned.grid
-                    each subreddit_docs
-                        .center.aligned.column.pointer.goto_subreddit.zoomer
-                            // img.ui.inline.tiny.image.mobile.hiden.subreddit.shadowed.zoomer(src=high_resolution_icon_url)
-                            img.ui.inline.image.subreddit.shadowed(src=logo_url)
-                            // .header
-                            //     |!{name}
-                            .description
-                                span(style="color:#{styling.tag_foreground_color}") !{audience}
-                                // span(style="color:#{styling.link_color}") !{audience}
-                // .ui.inline.header 
-                //     i.question.icon
-                //     |questions
-                // .ui.dropdown
-                //     span.text {{sv 'limit'}}
-                //     i.dropdown.icon
-                //     .menu 
-                //     +skve k='limit' v=1 l='1'
-                //     +skve k='limit' v=10 l='10'
-                //     +skve k='limit' v=20 l='20'
-                    // .item 1
-                    // .item 5
-                    // .item 10
-                    // .item 20
-                        // |sort
-                // +skve k='sort_key' v='_timestamp' l='when' i='clock'
-                // +skve k='sort_key' v='points' l='points' i='leaderboard'
-                // +skve k='sort_direction' v=-1 l='u' i='up'
-                // +skve k='sort_direction' v=1 l='d' i='down'
-                // |view
-                // +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
-                // +skve k='view_mode' v='list' l='list' i='list' ionly=true
-                // if skv_is 'view_mode' 'list'
-                //     .ui.large.list 
-                //         each stack_docs
-                //             .item
-                //                 a.ui.small.header(href="/subreddit/#{subreddit}/doc/#{_id}")
-                //                     |#{title}
-                // else
-                //     .ui.cards
-                //         each stack_docs
-                //             +stack_card
-                        
-                        
-template(name='subreddit_card')
-    .ui.card
-        .content
-            a.ui.header(href="/subreddit/#{api_subreddit_parameter}")
-                img(src=icon_url)
-                |!{name}
-            .ui.small.header #{audience}
-            each tags 
-                a.ui.basic.pointer.label.add_stack_tag #{this}
+                                +print_this
