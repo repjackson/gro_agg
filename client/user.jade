@@ -4,14 +4,16 @@ template(name='stackuser_page')
         .ui.hidden.divider
         .ui.hidden.divider
         .ui.hidden.divider
-        .ui.massive.fluid.circular.button.f17.zoomer.pointer.search 
-            i.download.icon
-            |download user info
+        .ui.center.aligned.basic.segment.search
+            i.massive.grey.loading.yin.yang.icon
+        // .ui.massive.fluid.circular.button.f17.zoomer.pointer.search 
+        //     i.download.icon
+            // |download user info
     with stackuser_doc
         .ui.stackable.padded.grid
             .row
-                .six.wide.column
-                    .ui.header      
+                .six.wide.right.aligned.column
+                    .ui.right.header      
                         |#{site}
                     .ui.two.item.fluid.menu
                         a.ui.basic.item.say_users(href="/site/#{site}/users")
@@ -21,12 +23,13 @@ template(name='stackuser_page')
                             i.question.icon
                             |questions
                     .spacer
-                    .ui.big.inline.header(class=post_header_class)
+                    .ui.big.inline.right.aligned.header(class=post_header_class)
                         |!{display_name} 
                         small #{reputation}
-                    .ui.inline.header.set_location.pointer.zoomer
+                    div
+                    .ui.inline.right.aligned.header.set_location.pointer.zoomer
                         |!{location}
-                    img.ui.rounded.centered.image.pointer.zoomer(src=profile_image)
+                    img.ui.rounded.centered.image.pointer.zoomer.boop(src=profile_image)
                     each tags
                         // +stack_tag_selector
                         .ui.tertiary.button #{this}
@@ -74,31 +77,7 @@ template(name='stackuser_page')
                     div
                     .scrolling
                         each user_questions
-                            .ui.item
-                                a.ui.header.zoomer.say_title(href="/site/#{site}/doc/#{_id}" class=post_header_class)
-                                    .ui.basic.circular.label #{score}:
-                                    |!{title}
-                                .description
-                                    if skv_is 'view_detail' true
-                                        each tags 
-                                            .ui.tiny.basic.circular.label #{this}
-                                    +doc_emotion_small    
-                                    span(title="#{view_count} views")
-                                        i.grey.eye.icon
-                                        |#{view_count}
-                                    span(title="#{answer_count} answers")
-                                        i.grey.exclamation.icon
-                                        |#{answer_count}
-                                    if creation_date
-                                        span(title="created {{ufrom creation_date}}")
-                                            i.grey.clock.icon
-                                            |{{ufrom creation_date}}
-                                    if last_modified_date
-                                        i.pencil.icon
-                                        |{{ufrom last_modified_date}}
-                                    // .ui.large.label #{site}
-                                    // .ui.large.label #{owner.display_name}
-                            .spacer
+                            +user_question_item
                     .ui.header.get_answers
                         i.exclamation.icon
                         |#{user_answers.count} answers
@@ -172,3 +151,32 @@ template(name='answer_item')
     // hi#{answer_question.title}
     +remove_button
     .ui.divider
+    
+    
+    
+template(name='user_question_item')
+    .ui.item
+        a.ui.header.zoomer.say_title(href="/site/#{site}/doc/#{_id}" class=post_header_class)
+            .ui.basic.circular.label #{score}:
+            |!{title}
+        .description
+            if skv_is 'view_detail' true
+                each tags 
+                    .ui.tiny.basic.circular.label #{this}
+            +doc_emotion_small    
+            span(title="#{view_count} views")
+                i.grey.eye.icon
+                |#{view_count}
+            span(title="#{answer_count} answers")
+                i.grey.exclamation.icon
+                |#{answer_count}
+            if creation_date
+                span(title="created {{ufrom creation_date}}")
+                    i.grey.clock.icon
+                    |{{ufrom creation_date}}
+            if last_modified_date
+                i.pencil.icon
+                |{{ufrom last_modified_date}}
+            // .ui.large.label #{site}
+            // .ui.large.label #{owner.display_name}
+    .spacer

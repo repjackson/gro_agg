@@ -17,9 +17,15 @@ if Meteor.isClient
         # Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
         # Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'stackuser_tags', Router.current().params.site, Router.current().params.user_id, ->
-        Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.setTimeout ->
+            Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
+        , 1000
 
-
+    Template.user_question_item.onRendered ->
+        console.log @
+        unless @data.watson
+            Meteor.call 'call_watson', @data._id,'link','stack',->
+        
         
     Template.stackuser_page.helpers
         stackuser_doc: ->
