@@ -2,13 +2,12 @@ template(name='reddit_page')
     with current_doc
         .ui.stackable.padded.grid
             .twelve.wide.column
-                a.ui.big.icon.button(href="/subreddit/#{subreddit}")
+                a.ui.big.icon.circular.basic.button(href="/subreddit/#{subreddit}")
                     i.chevron.left.icon
                 span.ui.pointer.text.f13.zoomer.toggle_view(class=post_header_class) !{title}
-                a.ui.button(href=url target="_window") url #{url}
-                .ui.button.get_post permalink #{permalink}
+                a.ui.basic.circular.button(href=url target="_window") url #{url}
+                .ui.basic.circular.button.get_post permalink #{permalink}
                 +print_this
-            .ten.wide.column
                 .rounded.full
                     |!{embed}
                 if is_image
@@ -26,15 +25,6 @@ template(name='reddit_page')
                     iframe(width="100%" height="500" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
                 // .medscroll
                 // 
-                a.ui.label(href="https://www.reddit.com#{permalink}" target="_window") r/#{subreddit}
-                .ui.big.label 
-                    i.user.outline.icon
-                    |#{author}
-                .ui.big.label
-                    i.thumbs.up.outline.icon
-                    |#{ups}
-                a.ui.small.header(href=url target='_window')
-                    | #{url}
                 // .ui.label
                 //     | #{domain}
                 // .spacer
@@ -85,12 +75,29 @@ template(name='reddit_page')
                 i.code.link.icon.print_me                    
             .four.wide.column
                 img(src=thumbnail)
-                .ui.header domain #{domain}
-                .ui.header #{comment_count} comments
-                .ui.header reddit_id #{reddit_id}
-                .ui.header ups #{ups}
-                each tags 
-                    .ui.button #{this}
+                .ui.header #{domain}
+                a.ui.fluid.button(href="https://www.reddit.com#{permalink}" target="_window") 
+                    |r/#{subreddit}
+                    i.external.icon
+                .ui.big.basic.label 
+                    i.user.outline.icon
+                    |#{author}
+                a.ui.small.header(href=url target='_window')
+                    | #{url}
+                if in_dev
+                    .ui.small.header reddit_id #{reddit_id}
+                .ui.tiny.statistic
+                    .label
+                        i.comment.outline.icon
+                    .value
+                        |#{comment_count}
+                .ui.tiny.statistic
+                    .label
+                        i.thumbs.up.outline.icon
+                    .value
+                        |#{ups}
+                each tags
+                    +flat_tag_selector
         //   "_author_id": "vwCi2GTJgvBJN5F6c",
         //   "_author_username": "dev",
         //   "_timestamp": 1605655369365,
