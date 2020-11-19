@@ -12,11 +12,11 @@ template(name='subreddits')
                 .ui.icon.input
                     i.search.icon
                     input.search_subreddits(type='text')
-                .scrolling.ui.cards
+                .scrolling.ui.items
                     each subreddit_docs
-                        .ui.card  
-                            a.image(href="/subreddit/#{data.display_name}")
-                                img.ui.rounded.image(src=data.icon_img)
+                        .ui.item  
+                            a.ui.tiny.image(href="/subreddit/#{data.display_name}")
+                                img.ui.rounded.zoomer.image(src=data.icon_img)
                             .content
                                 a.header(href="/subreddit/#{data.display_name}")
                                     | #{data.display_name}

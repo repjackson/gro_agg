@@ -23,17 +23,16 @@ template(name='reddit_page')
                 +skve k='doc_section' v='preview' l='preview' i='content'
                 if skv_is 'doc_section' 'preview'
                     iframe(width="100%" height="500" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
-                // .medscroll
-                // 
-                // .ui.label
-                //     | #{domain}
-                // .spacer
-                // .nl2br
-                // |!{html}
-                // .spacer
-                // pre
-                // .nl2br
-                // if viewing
+                .medscroll
+                
+                .ui.label
+                    | #{domain}
+                .spacer
+                .nl2br
+                |!{html}
+                .spacer
+                pre
+                .nl2br
                 .spacer
                 +call_watson
                 if watson    
@@ -42,7 +41,7 @@ template(name='reddit_page')
                 if parsed_selftext_html
                     .ui.segment
                         |!{parsed_selftext_html}
-                else if selftext
+                else if rd.selftext
                     .ui.segment
                         |{{nl2br selftext}}
                 else if body
@@ -51,7 +50,7 @@ template(name='reddit_page')
                         |{{nl2br body}}
                 // div(style='position:relative; padding-bottom:calc(125.00% + 44px)')
                 //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
-                // |{{selftext}}
+                |{{selftext}}
                 // +convert
                 .spacer
                 a.ui.icon.big.basic.button(href=url target='_window' title=domain)
@@ -72,7 +71,6 @@ template(name='reddit_page')
                 .ui.icon.input
                     i.plus.grey.icon
                     input.tag_post(type='text')
-                i.code.link.icon.print_me                    
             .four.wide.column
                 img(src=thumbnail)
                 .ui.header #{domain}

@@ -1,5 +1,5 @@
 if Meteor.isClient
-    Router.route '/subreddit/:subreddit/user/:user_id', (->
+    Router.route '/ruser/:user_id', (->
         @layout 'layout'
         @render 'ruser'
         ), name:'ruser'
@@ -112,37 +112,37 @@ if Meteor.isClient
         
 
     
-if Meteor.isServer
-    Meteor.publish 'question_from_id', (qid)->
-        Docs.find 
-            # model:'stack_question'
-            question_id:qid
+# if Meteor.isServer
+#     Meteor.publish 'question_from_id', (qid)->
+#         Docs.find 
+#             # model:'stack_question'
+#             question_id:qid
     
-    Meteor.publish 'stackuser_badges', (subreddit,user_id)->
-        Docs.find { 
-            model:'stack_badge'
-            "user.user_id":parseInt(user_id)
-        }, limit:10
-    Meteor.publish 'stackuser_comments', (subreddit,user_id)->
-        Docs.find { 
-            model:'stack_comment'
-            "owner.user_id":parseInt(user_id)
-        }, limit:10
-    Meteor.publish 'stackuser_questions', (subreddit,user_id)->
-        Docs.find { 
-            model:'stack_question'
-            "owner.user_id":parseInt(user_id)
-        }, limit:10
-    Meteor.publish 'stackuser_answers', (subreddit,user_id)->
-        Docs.find { 
-            model:'stack_answer'
-            "owner.user_id":parseInt(user_id)
-        }, limit:10
-    Meteor.publish 'stackuser_tags', (subreddit,user_id)->
-        Docs.find { 
-            model:'stack_tag'
-            user_id:parseInt(user_id)
-        }, limit:10
+#     Meteor.publish 'stackuser_badges', (subreddit,user_id)->
+#         Docs.find { 
+#             model:'stack_badge'
+#             "user.user_id":parseInt(user_id)
+#         }, limit:10
+#     Meteor.publish 'stackuser_comments', (subreddit,user_id)->
+#         Docs.find { 
+#             model:'stack_comment'
+#             "owner.user_id":parseInt(user_id)
+#         }, limit:10
+#     Meteor.publish 'stackuser_questions', (subreddit,user_id)->
+#         Docs.find { 
+#             model:'stack_question'
+#             "owner.user_id":parseInt(user_id)
+#         }, limit:10
+#     Meteor.publish 'stackuser_answers', (subreddit,user_id)->
+#         Docs.find { 
+#             model:'stack_answer'
+#             "owner.user_id":parseInt(user_id)
+#         }, limit:10
+#     Meteor.publish 'stackuser_tags', (subreddit,user_id)->
+#         Docs.find { 
+#             model:'stack_tag'
+#             user_id:parseInt(user_id)
+#         }, limit:10
             
             
             

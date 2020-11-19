@@ -90,7 +90,8 @@ if Meteor.isServer
         
         if query.length > 0
             match["data.display_name"] = {$regex:"#{query}", $options:'i'}
-        Docs.find match
+        Docs.find match,
+            limit:42
             
     Meteor.publish 'sub_docs_by_name', (name)->
         Docs.find {

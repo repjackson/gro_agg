@@ -4,7 +4,7 @@ template(name='subreddit_docs')
             .row
                 .ui.twelve.wide.column
                     a.ui.circular.basic.icon.button(href="/subreddits")
-                        i.reddit.icon
+                        i.reddit.large.icon
                     img.get_info.shadowed.ui.inline.image(src=logo_url )
                     .ui.inline.header #{data.display_name}
                     a.ui.circular.basic.large.disabled.button(href="/subreddit/#{data.display_name}/users")
@@ -23,7 +23,7 @@ template(name='subreddit_docs')
                     each subreddit_tags
                         +stack_tag_selector
                         // .ui.large.label(title=count) #{name}
-                    div
+                    // div
                     if skv_is 'sort_direction' 1
                         .ui.icon.compact.circular.basic.tertiary.button.sort_down
                             i.caret.down.icon
@@ -165,6 +165,13 @@ template(name='subreddit_doc_item')
                 //     i.tag.grey.icon
                 //     |#{tags.length}
                 |!{title} 
+            .rounded.full
+                |!{embed}
+            if is_image
+                img.ui.centered.image.toggle_view(src=url)
+            else if watson.metadata.image
+                img.ui.rounded.image.toggle_view(src=watson.metadata.image)
+                
             .spacer
             // if skv_is 'view_detail' true
             // i.tag.grey.icon
