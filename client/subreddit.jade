@@ -152,12 +152,12 @@ template(name='subreddit_docs')
    
 template(name='subreddit_doc_item')                  
     .ui.item
-        if watson.metadata.image
-            img.ui.avatar.image(src=watson.metadata.image)    
-        img.ui.avatar.image(src=data.header_img)    
-        img.ui.avatar.image(src=data.icon_img)    
+        .image
+            if watson.metadata.image
+                img.ui.small.inline.image(src=watson.metadata.image)    
+            img.ui.small.inline.image(src=data.thumbnail)    
         .content
-            a.ui.inline.small.header.view_question.zoomer(href="/subreddit/#{subreddit}/doc/#{_id}" class=post_header_class)
+            a.ui.inline.header.view_post.zoomer(href="/subreddit/#{subreddit}/doc/#{_id}" class=post_header_class)
                 strong #{ups}
                 if is_answered
                     i.green.checkmark.icon

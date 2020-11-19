@@ -62,6 +62,11 @@ if Meteor.isClient
             # Router.current().params.site
             # Session.get('user_query')
 
+    Template.subreddit_doc_item.events
+        'click .view_post': (e,t)-> 
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @title
+            # Router.go "/subreddit/#{@subreddit}/doc/#{@_id}"
+
     Template.subreddit_docs.helpers
         subreddit_doc: ->
             Docs.findOne

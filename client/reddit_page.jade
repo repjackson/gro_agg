@@ -2,6 +2,8 @@ template(name='reddit_page')
     with current_doc
         .ui.stackable.padded.grid
             .twelve.wide.column
+                a.ui.big.icon.button(href="/subreddit/#{subreddit}")
+                    i.chevron.left.icon
                 span.ui.pointer.text.f13.zoomer.toggle_view(class=post_header_class) !{title}
                 a.ui.button(href=url target="_window") url #{url}
                 .ui.button.get_post permalink #{permalink}
