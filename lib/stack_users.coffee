@@ -196,7 +196,7 @@ if Meteor.isServer
         if selected_user_site then match.site = selected_user_site
         if selected_user_location then match.location = selected_user_location
         Docs.find match,
-            limit:20
+            limit:100
 
 
 
