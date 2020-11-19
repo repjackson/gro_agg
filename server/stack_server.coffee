@@ -623,6 +623,7 @@ Meteor.methods
    
    
     search_stackuser: (site, user_id) ->
+        @unblock()
         # console.log('searching stack user for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}?order=desc&sort=reputation&site=#{site}&filter=!--1nZv)deGu1&key=lPplyGlNUs)cIMOajW03aw(("
         options = {

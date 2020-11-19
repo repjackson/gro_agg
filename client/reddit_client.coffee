@@ -14,7 +14,7 @@ Template.nav.events
     'click .stackexchange': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'stackexchange'
     'click .goto_reddit': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'search'
     'click .users': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'users'
     # 'click .silence': ->

@@ -5,20 +5,20 @@ if Meteor.isClient
         ), name:'ruser'
 
     Template.ruser.onCreated ->
-        @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.subreddit, Router.current().params.user_id
-        # @autorun => Meteor.subscribe 'stackuser_badges', Router.current().params.subreddit, Router.current().params.user_id
-        # @autorun => Meteor.subscribe 'stackuser_tags', Router.current().params.subreddit, Router.current().params.user_id
-        @autorun => Meteor.subscribe 'stackuser_comments', Router.current().params.subreddit, Router.current().params.user_id
-        @autorun => Meteor.subscribe 'stackuser_questions', Router.current().params.subreddit, Router.current().params.user_id
-        @autorun => Meteor.subscribe 'stackuser_answers', Router.current().params.subreddit, Router.current().params.user_id
+        @autorun => Meteor.subscribe 'ruser_doc', Router.current().params.subreddit, Router.current().params.user_id
+        # @autorun => Meteor.subscribe 'ruser_badges', Router.current().params.subreddit, Router.current().params.user_id
+        # @autorun => Meteor.subscribe 'ruser_tags', Router.current().params.subreddit, Router.current().params.user_id
+        @autorun => Meteor.subscribe 'ruser_comments', Router.current().params.subreddit, Router.current().params.user_id
+        @autorun => Meteor.subscribe 'ruser_questions', Router.current().params.subreddit, Router.current().params.user_id
+        @autorun => Meteor.subscribe 'ruser_answers', Router.current().params.subreddit, Router.current().params.user_id
     Template.ruser.onRendered ->
-        Meteor.call 'search_stackuser', Router.current().params.subreddit, Router.current().params.user_id, ->
+        Meteor.call 'search_ruser', Router.current().params.subreddit, Router.current().params.user_id, ->
 
-        # Meteor.call 'stackuser_answers', Router.current().params.subreddit, Router.current().params.user_id, ->
-        Meteor.call 'stackuser_questions', Router.current().params.subreddit, Router.current().params.user_id, ->
-        Meteor.call 'stackuser_tags', Router.current().params.subreddit, Router.current().params.user_id, ->
-        # Meteor.call 'stackuser_comments', Router.current().params.subreddit, Router.current().params.user_id, ->
-        # Meteor.call 'stackuser_badges', Router.current().params.subreddit, Router.current().params.user_id, ->
+        # Meteor.call 'ruser_answers', Router.current().params.subreddit, Router.current().params.user_id, ->
+        Meteor.call 'ruser_questions', Router.current().params.subreddit, Router.current().params.user_id, ->
+        Meteor.call 'ruser_tags', Router.current().params.subreddit, Router.current().params.user_id, ->
+        # Meteor.call 'ruser_comments', Router.current().params.subreddit, Router.current().params.user_id, ->
+        # Meteor.call 'ruser_badges', Router.current().params.subreddit, Router.current().params.user_id, ->
         Meteor.setTimeout ->
             Meteor.call 'omega', Router.current().params.subreddit, Router.current().params.user_id, ->
         , 1000
@@ -30,9 +30,9 @@ if Meteor.isClient
         
         
     Template.ruser.helpers
-        stackuser_doc: ->
+        ruser_doc: ->
             Docs.findOne 
-                model:'stackuser'
+                model:'ruser'
                 subreddit:Router.current().params.subreddit
                 user_id:parseInt(Router.current().params.user_id)
         user_comments: ->
@@ -97,17 +97,17 @@ if Meteor.isClient
 
         'click .search': ->
             window.speechSynthesis.speak new SpeechSynthesisUtterance "import #{Router.current().params.subreddit} user"
-            Meteor.call 'search_stackuser', Router.current().params.subreddit, Router.current().params.user_id, ->
+            Meteor.call 'search_ruser', Router.current().params.subreddit, Router.current().params.user_id, ->
         'click .get_answers': ->
-            Meteor.call 'stackuser_answers', Router.current().params.subreddit, Router.current().params.user_id, ->
+            Meteor.call 'ruser_answers', Router.current().params.subreddit, Router.current().params.user_id, ->
         'click .get_questions': ->
-            Meteor.call 'stackuser_questions', Router.current().params.subreddit, Router.current().params.user_id, ->
+            Meteor.call 'ruser_questions', Router.current().params.subreddit, Router.current().params.user_id, ->
         'click .get_comments': ->
-            Meteor.call 'stackuser_comments', Router.current().params.subreddit, Router.current().params.user_id, ->
+            Meteor.call 'ruser_comments', Router.current().params.subreddit, Router.current().params.user_id, ->
         'click .get_badges': ->
-            Meteor.call 'stackuser_badges', Router.current().params.subreddit, Router.current().params.user_id, ->
+            Meteor.call 'ruser_badges', Router.current().params.subreddit, Router.current().params.user_id, ->
         'click .get_tags': ->
-            Meteor.call 'stackuser_tags', Router.current().params.subreddit, Router.current().params.user_id, ->
+            Meteor.call 'ruser_tags', Router.current().params.subreddit, Router.current().params.user_id, ->
                 
         
 
@@ -118,27 +118,27 @@ if Meteor.isClient
 #             # model:'stack_question'
 #             question_id:qid
     
-#     Meteor.publish 'stackuser_badges', (subreddit,user_id)->
+#     Meteor.publish 'ruser_badges', (subreddit,user_id)->
 #         Docs.find { 
 #             model:'stack_badge'
 #             "user.user_id":parseInt(user_id)
 #         }, limit:10
-#     Meteor.publish 'stackuser_comments', (subreddit,user_id)->
+#     Meteor.publish 'ruser_comments', (subreddit,user_id)->
 #         Docs.find { 
 #             model:'stack_comment'
 #             "owner.user_id":parseInt(user_id)
 #         }, limit:10
-#     Meteor.publish 'stackuser_questions', (subreddit,user_id)->
+#     Meteor.publish 'ruser_questions', (subreddit,user_id)->
 #         Docs.find { 
 #             model:'stack_question'
 #             "owner.user_id":parseInt(user_id)
 #         }, limit:10
-#     Meteor.publish 'stackuser_answers', (subreddit,user_id)->
+#     Meteor.publish 'ruser_answers', (subreddit,user_id)->
 #         Docs.find { 
 #             model:'stack_answer'
 #             "owner.user_id":parseInt(user_id)
 #         }, limit:10
-#     Meteor.publish 'stackuser_tags', (subreddit,user_id)->
+#     Meteor.publish 'ruser_tags', (subreddit,user_id)->
 #         Docs.find { 
 #             model:'stack_tag'
 #             user_id:parseInt(user_id)

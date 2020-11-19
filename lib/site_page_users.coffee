@@ -194,7 +194,8 @@ if Meteor.isClient
         # console.log @
         unless @data.site_rank
             Meteor.call 'rank_user', Router.current().params.site, @data.user_id, ->
- 
+            Meteor.call 'search_stackuser', Router.current().params.site, @data.user_id, ->
+
  
     Template.site_questions.helpers
         site_locations: -> results.find(model:'site_Location')

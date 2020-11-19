@@ -150,7 +150,7 @@ template(name='stackuser_page')
                     .ui.header.get_answers
                         i.exclamation.icon
                         |#{user_answers.count} answers
-                    .ui.list.scrolling
+                    .ui.list.smallscroll
                         each user_answers
                             +answer_item
                 .three.wide.column

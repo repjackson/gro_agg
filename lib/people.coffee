@@ -109,8 +109,8 @@ if Meteor.isClient
 
     Template.people.helpers
         all_tags: -> results.find(model:'user_tag')
-        all_sites: -> results.find({model:'user_site'},limit:20)
-        all_locations: -> results.find({model:'user_location'},limit:20)
+        all_sites: -> results.find({model:'user_site'},limit:10)
+        all_locations: -> results.find({model:'user_location'},limit:10)
         
         current_location_query: -> Session.get('location_query')
 
@@ -197,6 +197,8 @@ if Meteor.isServer
         if selected_user_location then match.location = selected_user_location
         Docs.find match,
             limit:42
+            sort:
+                reputation:-1
 
 
 
@@ -239,7 +241,7 @@ if Meteor.isServer
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: selected_user_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
+            { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         cloud.forEach (user_tag, i) ->
@@ -255,7 +257,7 @@ if Meteor.isServer
             { $group: _id: "$site", count: $sum: 1 }
             # { $match: site: $ne: selected_user_site }
             { $sort: count: -1, _id: 1 }
-            { $limit: 42 }
+            { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         site_cloud.forEach (site_result, i) ->
@@ -271,7 +273,7 @@ if Meteor.isServer
             { $group: _id: "$location", count: $sum: 1 }
             # { $match: location: $ne: selected_user_location }
             { $sort: count: -1, _id: 1 }
-            { $limit: 42 }
+            { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         location_cloud.forEach (location_result, i) ->
