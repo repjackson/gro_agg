@@ -1,33 +1,24 @@
 template(name='reddit_page')
     with current_doc
         .ui.stackable.padded.grid
-            .ui.twelve.wide.column
+            .twelve.wide.column
                 span.ui.pointer.text.f13.zoomer.toggle_view(class=post_header_class) !{title}
                 a.ui.button(href=url target="_window") url #{url}
                 .ui.button.get_post permalink #{permalink}
                 +print_this
-            .ui.four.wide.column
-                img(src=thumbnail)
-                .ui.header domain #{domain}
-                .ui.header #{comment_count} comments
-                .ui.header reddit_id #{reddit_id}
-                .ui.header ups #{ups}
-                each tags 
-                    .ui.button #{this}
-            .ui.eight.wide.column
+            .ten.wide.column
                 .rounded.full
                     |!{embed}
                 if is_image
-                    img.ui.centered.image.pointer.zoomer.toggle_view(src=url)
+                    img.ui.centered.image.toggle_view(src=url)
                 else if watson.metadata.image
-                    img.ui.rounded.pointer.zoomer.image.toggle_view(src=watson.metadata.image)    
-    
-            .ui.eight.wide.column
+                    img.ui.rounded.image.toggle_view(src=watson.metadata.image)
                 small #{max_emotion_name}
                 if is_video
                     div
                     // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                     iframe(width="100%" height="600" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                +skve k='doc_section' v='main' l='main' i='content'
                 +skve k='doc_section' v='preview' l='preview' i='content'
                 if skv_is 'doc_section' 'preview'
                     iframe(width="100%" height="500" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
@@ -52,7 +43,6 @@ template(name='reddit_page')
                 // .nl2br
                 // if viewing
                 .spacer
-                +skve k='doc_section' v='main' l='main' i='content'
                 +call_watson
                 if watson    
                     unless tone
@@ -91,6 +81,14 @@ template(name='reddit_page')
                     i.plus.grey.icon
                     input.tag_post(type='text')
                 i.code.link.icon.print_me                    
+            .four.wide.column
+                img(src=thumbnail)
+                .ui.header domain #{domain}
+                .ui.header #{comment_count} comments
+                .ui.header reddit_id #{reddit_id}
+                .ui.header ups #{ups}
+                each tags 
+                    .ui.button #{this}
         //   "_author_id": "vwCi2GTJgvBJN5F6c",
         //   "_author_username": "dev",
         //   "_timestamp": 1605655369365,

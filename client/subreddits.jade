@@ -15,7 +15,7 @@ template(name='subreddits')
                 .scrolling.ui.cards
                     each subreddit_docs
                         .ui.card  
-                            .image
+                            a.image(href="/subreddit/#{data.display_name}")
                                 img.ui.rounded.image(src=data.icon_img)
                             .content
                                 a.header(href="/subreddit/#{data.display_name}")
