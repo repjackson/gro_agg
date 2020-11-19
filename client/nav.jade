@@ -6,11 +6,11 @@ template(name='nav')
         if connected
             // a.icon.item.home2(href='/')
             //     i.big.yin.yang.icon
-            a.icon.item.goto_reddit(href='/reddit')
+            a.icon.item.goto_reddit(href='/reddit' class="{{isActivePath '/reddit'}}")
                 i.large.reddit.grey.icon
-            a.icon.item.users(href='/subreddits')
+            a.icon.item.users(href='/subreddits' class="{{isActivePath '/subreddits'}}")
                 i.large.clone.grey.icon
-            a.icon.item.stackexchange.clear_tags(href='/stack' data-tab='groups')
+            a.icon.item.stackexchange.clear_tags(href='/stack' class="{{isActivePath '/stack'}}")
                 i.large.stack.exchange.grey.icon
             a.icon.item.users(href='/users')
                 i.large.users.grey.icon

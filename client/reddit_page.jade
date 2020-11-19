@@ -79,7 +79,7 @@ template(name='reddit_page')
                 a.ui.fluid.button(href="https://www.reddit.com#{permalink}" target="_window") 
                     |r/#{subreddit}
                     i.external.icon
-                .ui.big.basic.label 
+                a.ui.big.basic.button(href="https://www.reddit.com/user/#{author}" target='_window')
                     i.user.outline.icon
                     |#{author}
                 a.ui.small.header(href=url target='_window')
