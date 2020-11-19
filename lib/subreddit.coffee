@@ -46,7 +46,7 @@ if Meteor.isClient
         # Session.setDefault('location_query', null)
         # @autorun => Meteor.subscribe 'subrzeddit_user_count', Router.current().params.subreddit
         @autorun => Meteor.subscribe 'subreddit_by_param', Router.current().params.name
-        # @autorun => Meteor.subscribe 'sub_docs_by_name', Router.current().params.name
+        @autorun => Meteor.subscribe 'sub_docs_by_name', Router.current().params.name
         # @autorun => Meteor.subscribe 'stackusers_by_subreddit', 
             # Router.current().params.site
             # Session.get('user_query')
@@ -56,10 +56,10 @@ if Meteor.isClient
             Docs.findOne
                 model:'subreddit'
                 "data.display_name":Router.current().params.name
-        # subreddit_docs: ->
-        #     Docs.find
-        #         model:'reddit'
-        #         subreddit:Router.current().param.name
+        sub_docs: ->
+            Docs.find
+                model:'reddit'
+                subreddit:Router.current().params.name
 
 if Meteor.isServer
     Meteor.publish 'subreddit_by_param', (name)->
@@ -76,8 +76,8 @@ if Meteor.isServer
             match["data.display_name"] = {$regex:"#{query}", $options:'i'}
         Docs.find match
             
-    # Meteor.publish 'sub_docs_by_name', (name)->
-    #     Docs.find
-    #         model:'reddit'
-    #         subreddit:name
-            
+    Meteor.publish 'sub_docs_by_name', (name)->
+        Docs.find {
+            model:'reddit'
+            subreddit:name
+        }, limit:20

@@ -70,8 +70,8 @@ template(name='subreddit_docs')
                     // .ui.icon.compact.large.button 
                     //     i.list.icon
                     .medscroll
-                        each subreddit_questions
-                            +subreddit_question_item
+                        each sub_docs
+                            +subreddit_doc_item
                 .four.wide.column.scrolling
                     +alpha
                     +duck
@@ -150,7 +150,7 @@ template(name='subreddit_docs')
    
    
    
-template(name='subreddit_question_item')                  
+template(name='subreddit_doc_item')                  
     .ui.item
         // if watson.metadata.image
         //     img.ui.avatar.invert.image(src=watson.metadata.image)    
@@ -168,7 +168,7 @@ template(name='subreddit_question_item')
             // i.tag.grey.icon
             unless skv_is 'view_detail' true
                 if watson.analyzed_text
-                    span.pointer.view_question{{trunc watson.analyzed_text}}...
+                    span.pointer.view_question {{trunc watson.analyzed_text}}...
             if skv_is 'view_detail' true
                 .speak_body.pointer.goto_q !{body}
     
