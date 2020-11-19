@@ -3,13 +3,13 @@ if Meteor.isClient
     # @selected_user_roles = new ReactiveArray []
 
 
-    Router.route '/users', (->
-        @render 'users'
-        ), name:'users'
+    Router.route '/people', (->
+        @render 'people'
+        ), name:'people'
 
     # Template.term_image.onCreated ->
     #     console.log @
-    Template.users.onCreated ->
+    Template.people.onCreated ->
         Session.setDefault('selected_user_site',null)
         Session.setDefault('selected_user_location',null)
         Session.setDefault('searching_location',null)
@@ -21,7 +21,7 @@ if Meteor.isClient
             Session.get('location_query')
             Session.get('limit')
 
-    Template.users.events
+    Template.people.events
         'click .select_user': ->
             window.speechSynthesis.cancel()
             window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
@@ -30,7 +30,7 @@ if Meteor.isClient
             Session.set('searching_username',val)
 
 
-    Template.users.helpers
+    Template.people.helpers
         users: ->
             match = {model:'stackuser'}
             # unless 'admin' in Meteor.user().roles
@@ -96,7 +96,7 @@ if Meteor.isClient
 
 
 
-    Template.users.onCreated ->
+    Template.people.onCreated ->
         @autorun -> Meteor.subscribe('user_tags',
             selected_user_tags.array()
             Session.get('selected_user_site')
@@ -107,7 +107,7 @@ if Meteor.isClient
             # Session.get('view_mode')
         )
 
-    Template.users.helpers
+    Template.people.helpers
         all_tags: -> results.find(model:'user_tag')
         all_sites: -> results.find({model:'user_site'},limit:20)
         all_locations: -> results.find({model:'user_location'},limit:20)
@@ -139,7 +139,7 @@ if Meteor.isClient
 
 
             
-    Template.users.events
+    Template.people.events
         'click .select_tag': -> 
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             selected_user_tags.push @name

@@ -12,7 +12,7 @@ template(name='stackuser_page')
     with stackuser_doc
         .ui.stackable.padded.grid
             .row
-                .five.wide.right.aligned.column
+                .four.wide.column
                     .ui.right.header      
                         |#{site}
                     .ui.two.item.fluid.large.menu
@@ -41,13 +41,6 @@ template(name='stackuser_page')
                     a.ui.large.compact.circular.basic.button(href=link target='_window' title="#{site} profile")
                         i.stack.exchange.icon
                         i.external.icon
-                    .ui.grey.small.header
-                        i.tag.icon
-                        |dao tags
-                    .smallscroll
-                        each tags
-                            +flat_tag_selector
-                            // .ui.tertiary.button #{this}
                     +print_this
                     .ui.horizontal.list
                         .item account id #{account_id}
@@ -71,6 +64,13 @@ template(name='stackuser_page')
                         i.linkify.icon
                         // |#{link}
                 .eleven.wide.column
+                    .ui.grey.small.header
+                        i.tag.icon
+                        |dao tags
+                    .smallscroll
+                        each tags
+                            +flat_tag_selector
+                            // .ui.tertiary.button #{this}
                     .f12
                         |!{about_me}
                     .ui.inline.small.header rep change

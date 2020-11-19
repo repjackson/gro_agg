@@ -17,8 +17,8 @@ Template.nav.events
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
     'click .users': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'users'
-    'click .silence': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'silence'
+    # 'click .silence': ->
+    #     window.speechSynthesis.speak new SpeechSynthesisUtterance 'silence'
     # 'click .reddit': ->
     #     window.speechSynthesis.speak new SpeechSynthesisUtterance 'silence'
 

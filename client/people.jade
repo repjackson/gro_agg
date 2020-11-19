@@ -1,6 +1,6 @@
-template(name='users')
+template(name='people')
     .ui.stackable.padded.grid
-        .sixteen.wide.column.scrolling
+        .four.wide.column.scrolling
             // i.big.user.outline.icon
             // #cloud.ui.center.aligned.fluid.segment
                 // if currentUser
@@ -21,7 +21,7 @@ template(name='users')
                 .ui.compact.circular.button.select_tag(class=cloud_tag_class) !{this.name}
                     small #{this.count}
             .ui.grey.inline.header
-                i.globe.icon
+                i.stack.exchange.icon
                 |site
             if selected_user_site
                 .unselect_site.ui.primary.compact.circular.button
@@ -50,6 +50,7 @@ template(name='users')
                 else
                     i.marker.link.icon.clear_location
                 input.search_location(type='text' placeholder='location' value=current_location_query)
+        .twelve.wide.column.scrolling
             .ui.five.stackable.centered.cards.scrolling
                 each users
                     a.ui.card.select_user(href="/site/#{site}/user/#{user_id}")
@@ -58,8 +59,10 @@ template(name='users')
                             a.ui.header !{display_name}
                                 .ui.basic.circular.label #{reputation}
                             .description
-                                strong(title="#{site} rank") ##{site_rank} 
-                                strong(title='global rank') ##{global_rank}
+                                if site_rank
+                                    strong(title="#{site} rank") ##{site_rank} 
+                                if global_rank
+                                    strong(title='global rank') ##{global_rank}
 
                                 |#{site}
                                 i.grey.marker.icon
