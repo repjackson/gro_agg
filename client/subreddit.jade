@@ -3,9 +3,8 @@ template(name='subreddit_docs')
         .ui.stackable.grid
             .row
                 .ui.twelve.wide.column
-                    a.ui.circular.basic.button(href="/subreddits")
+                    a.ui.circular.basic.icon.button(href="/subreddits")
                         i.reddit.icon
-                        |subs
                     img.get_info.shadowed.ui.inline.image(src=logo_url )
                     .ui.inline.header #{data.display_name}
                     a.ui.circular.basic.large.disabled.button(href="/subreddit/#{data.display_name}/users")
@@ -31,22 +30,22 @@ template(name='subreddit_docs')
                     else
                         .ui.icon.compact.circular.basic.tertiary.button.sort_up
                             i.caret.up.icon
-                    if skv_is 'view_bounties' 1
-                        .ui.compact.circular.black.button.unview_bounties
-                            i.hand.holding.heart.icon
-                            | bounties
-                    else
-                        .ui.compact.circular.basic.tertiary.button.view_bounties
-                            i.hand.holding.heart.icon
-                            | bounties
-                    if skv_is 'view_unanswered' 1
-                        .ui.compact.circular.black.button.unview_unanswered
-                            i.checkmark.icon
-                            | unanswered
-                    else
-                        .ui.compact.circular.basic.tertiary.button.view_unanswered
-                            i.question.icon
-                            | unanswered
+                    // if skv_is 'view_bounties' 1
+                    //     .ui.compact.circular.black.button.unview_bounties
+                    //         i.hand.holding.heart.icon
+                    //         | bounties
+                    // else
+                    //     .ui.compact.circular.basic.tertiary.button.view_bounties
+                    //         i.hand.holding.heart.icon
+                    //         | bounties
+                    // if skv_is 'view_unanswered' 1
+                    //     .ui.compact.circular.black.button.unview_unanswered
+                    //         i.checkmark.icon
+                    //         | unanswered
+                    // else
+                    //     .ui.compact.circular.basic.tertiary.button.view_unanswered
+                    //         i.question.icon
+                    //         | unanswered
                     i.big.fire.link.icon
                     .ui.compact.circular.basic.small.tertiary.button.limit_1
                         |1
@@ -115,13 +114,13 @@ template(name='subreddit_docs')
                     .ui.small.list.mobile.hidden
                         .item 
                             strong #{audience}
-                        a.item(href=subreddit_url target="_window")
-                            |#{subreddit_url}
+                        a.item(href=url target="_window")
+                            |#{url}
                             i.external.icon
-                        .item open beta {{ufrom open_beta_date}}
-                        .item closed beta {{ufrom closed_beta_date}}
-                        if launch_date
-                            .item launched {{ufrom launch_date}}
+                        // .item open beta {{ufrom open_beta_date}}
+                        // .item closed beta {{ufrom closed_beta_date}}
+                        // if launch_date
+                        //     .item launched {{ufrom launch_date}}
                         .item state: #{subreddit_state}
                         // .item #{high_resolution_icon_url} high_resolution_icon_url
                         // .item #{favicon_url} favicon_url
@@ -135,7 +134,7 @@ template(name='subreddit_docs')
                         .item 
                             i.grey.thumbs.up.outline.icon
                             |#{total_votes} votes
-                        .item #{total_comments} comments
+                        .item #{comment_count} comments
                         .item #{answers_per_minute} answers/min
                         .item #{questions_per_minute} questions/min
                         .item #{total_questions} questions
@@ -154,8 +153,9 @@ template(name='subreddit_doc_item')
     .ui.item
         .image
             if watson.metadata.image
-                img.ui.small.inline.image(src=watson.metadata.image)    
-            img.ui.small.inline.image(src=data.thumbnail)    
+                img(src=watson.metadata.image)    
+            
+            img(src=data.thumbnail)    
         .content
             a.ui.inline.header.view_post.zoomer(href="/subreddit/#{subreddit}/doc/#{_id}" class=post_header_class)
                 strong #{ups}
@@ -174,27 +174,16 @@ template(name='subreddit_doc_item')
             if skv_is 'view_detail' true
                 .speak_body.pointer.goto_q !{body}
     
-            .ui.label #{subscribers}
             .ui.horizontal.list
                 each tags
                     .item #{this}
             .ui.horizontal.list
-                with owner
-                    a.ui.small.header.item(href="/subreddit/#{../subreddit}/user/#{user_id}")
-                        img.ui.avatar.image(src=profile_image)
-                        |!{display_name}
-                        small #{reputation}
-                        small !{location}
-                // |#{_when}
-                if last_edit_date
-                    .item updated {{ufrom last_edit_date}}
-                if creation_dat
-                    .item created {{ufrom creation_dat}}
-            // +comments
-            // +voting_full
+                .item 
+                    i.thumbs.up.icon
+                    |#{ups}
+            a.ui.header(href="/ruser/#{author}")
+                |#{author}
             +doc_emotion_small
-                // .ui.label user_id #{user_id}
-            // .ui.divider
 
 
 
