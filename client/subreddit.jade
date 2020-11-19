@@ -3,7 +3,7 @@ template(name='subreddit_docs')
         .ui.stackable.grid
             .row
                 .ui.twelve.wide.column
-                    a.ui.circular.basic.button(href="/reddit")
+                    a.ui.circular.basic.button(href="/subreddits")
                         i.reddit.icon
                         |subs
                     img.get_info.shadowed.ui.inline.image(src=logo_url )
@@ -73,8 +73,8 @@ template(name='subreddit_docs')
                         each sub_docs
                             +subreddit_doc_item
                 .four.wide.column.scrolling
-                    +alpha
-                    +duck
+                    // +alpha
+                    // +duck
                     // a.ui.circular.icon.button(href='/')
                     //     i.large.home.icon
                     // img.get_info.mobile.hidden.shadowed(src=high_resolution_icon_url )
@@ -85,7 +85,7 @@ template(name='subreddit_docs')
                     // .ui.label #{link_color}: link_color
                     // .ui.grey.small.header 
                     //     |related subreddits
-                    // .ui.inline.header !{name}
+                    .ui.inline.header !{title}
                     .ui.small.header #{data.public_description}
                     i.large.grey.users.icon
                     each subreddit_organizations
@@ -145,22 +145,20 @@ template(name='subreddit_docs')
                         // .item api_revision: #{api_revision}
                     // if in_dev
                     //     +array_edit k='tags' d=true
-                    +comments
-                    +voting_full
+                    // +comments
+                    // +voting_full
    
    
-   
-template(name='reddit_page')
-    with current_doc
-        .ui.header #{title}
    
 template(name='subreddit_doc_item')                  
     .ui.item
-        // if watson.metadata.image
-        //     img.ui.avatar.invert.image(src=watson.metadata.image)    
+        if watson.metadata.image
+            img.ui.avatar.image(src=watson.metadata.image)    
+        img.ui.avatar.image(src=data.header_img)    
+        img.ui.avatar.image(src=data.icon_img)    
         .content
-            a.ui.inline.header.view_question.zoomer(href="/subreddit/#{subreddit}/doc/#{_id}" class=post_header_class)
-                strong #{score}
+            a.ui.inline.small.header.view_question.zoomer(href="/subreddit/#{subreddit}/doc/#{_id}" class=post_header_class)
+                strong #{ups}
                 if is_answered
                     i.green.checkmark.icon
                 // span
@@ -176,9 +174,10 @@ template(name='subreddit_doc_item')
             if skv_is 'view_detail' true
                 .speak_body.pointer.goto_q !{body}
     
-                .ui.horizontal.list
-                    each tags
-                        .item #{this}
+            .ui.label #{subscribers}
+            .ui.horizontal.list
+                each tags
+                    .item #{this}
             .ui.horizontal.list
                 with owner
                     a.ui.small.header.item(href="/subreddit/#{../subreddit}/user/#{user_id}")

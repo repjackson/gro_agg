@@ -1,6 +1,7 @@
 template(name='subreddits')
     .ui.stackable.padded.grid
         .row
+            // .four.wide.column
             .sixteen.wide.column
                 a.ui.large.circular.basic.button(href="/reddit") 
                     i.reddit.icon
@@ -11,11 +12,11 @@ template(name='subreddits')
                 .ui.icon.input
                     i.search.icon
                     input.search_subreddits(type='text')
-                .ui.selection.list.scrolling
+                .scrolling.ui.cards
                     each subreddit_docs
-                        .item    
-                            // img(src=data.community_icon)
-                            img.ui.avatar.image(src=data.header_img)
+                        .ui.card  
+                            .image
+                                img.ui.rounded.image(src=data.icon_img)
                             .content
                                 a.header(href="/subreddit/#{data.display_name}")
                                     | #{data.display_name}

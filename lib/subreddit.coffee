@@ -25,7 +25,9 @@ if Meteor.isClient
     Template.reddit_page.onCreated ->
         @autorun -> Meteor.subscribe('doc', Router.current().params.doc_id)
     
-    
+    Template.reddit_page.events
+        'click .get_post': ->
+            Meteor.call 'get_reddit_post', Router.current().params.doc_id, @reddit_id, ->
     
     Template.subreddits.onCreated ->
         Session.setDefault('subreddit_query',null)
