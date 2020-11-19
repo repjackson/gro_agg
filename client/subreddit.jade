@@ -7,8 +7,8 @@ template(name='subreddit_docs')
                         i.reddit.icon
                         |subs
                     img.get_info.shadowed.ui.inline.image(src=logo_url )
-                    |#{data.display_name}
-                    a.ui.circular.basic.large.button(href="/subreddit/#{data.display_name}/users")
+                    .ui.inline.header #{data.display_name}
+                    a.ui.circular.basic.large.disabled.button(href="/subreddit/#{data.display_name}/users")
                         i.large.user.outline.icon
                         |users
                     // div
@@ -86,6 +86,7 @@ template(name='subreddit_docs')
                     // .ui.grey.small.header 
                     //     |related subreddits
                     // .ui.inline.header !{name}
+                    .ui.small.header #{data.public_description}
                     i.large.grey.users.icon
                     each subreddit_organizations
                         // .ui.label hi #{name}
@@ -149,6 +150,9 @@ template(name='subreddit_docs')
    
    
    
+template(name='reddit_page')
+    with current_doc
+        .ui.header #{title}
    
 template(name='subreddit_doc_item')                  
     .ui.item

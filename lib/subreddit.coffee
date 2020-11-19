@@ -6,8 +6,10 @@ if Meteor.isClient
         
     Router.route '/subreddit/:name/doc/:doc_id', (->
         @layout 'layout'
-        @render 'subreddit_page'
-        ), name:'subreddit_page'
+        @render 'reddit_page'
+        ), name:'reddit_page'
+        
+        
     Router.route '/subreddits', (->
         @layout 'layout'
         @render 'subreddits'
@@ -18,6 +20,13 @@ if Meteor.isClient
         @layout 'layout'
         @render 'subreddit_users'
         ), name:'subreddit_users'
+        
+        
+    Template.reddit_page.onCreated ->
+        @autorun -> Meteor.subscribe('doc', Router.current().params.doc_id)
+    
+    
+    
     Template.subreddits.onCreated ->
         Session.setDefault('subreddit_query',null)
         @autorun -> Meteor.subscribe('subreddits',
