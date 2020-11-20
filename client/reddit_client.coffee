@@ -533,6 +533,9 @@ Template.duck.events
     #     Meteor.call 'call_watson', @_id, 'url', 'url', ->
 
 
+Template.nav.events
+    'click .clear_tags': -> 
+        selected_tags.clear()
             
 
 Template.reddit.events

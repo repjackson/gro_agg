@@ -622,10 +622,10 @@ input {
 
 
 .icon:not(.loading){
-    animation: fadein .25s !important;
-    transition: all .25s ease !important;
+    animation: fadein .5s !important;
+    transition: all .5s ease !important;
     /* -webkit-transition: opacity .25s ease-out; */
-    animation: fadeout .25s; 
+    animation: fadeout .5s; 
 }
 
 

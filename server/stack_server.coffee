@@ -682,7 +682,7 @@ Meteor.methods
    
     get_site_users: (site) ->
         # console.log('searching stack user for', site, user_id);
-        for num in [1..10]
+        for num in [1..100]
             console.log 'searching ', site, 'round ', num
             url = "https://api.stackexchange.com/2.2/users?order=desc&sort=reputation&page=#{num}&pagesize=100&site=#{site}&filter=!--1nZv)deGu1&key=lPplyGlNUs)cIMOajW03aw(("
             options = {

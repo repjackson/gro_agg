@@ -4,7 +4,7 @@ template(name='site_questions')
             .row
                 .ui.twelve.wide.column
                     img.get_info.shadowed.ui.inline.image(src=logo_url )
-                    |#{audience}
+                    |!{audience}
                     a.ui.circular.basic.large.button(href="/site/#{api_site_parameter}/users")
                         i.large.user.outline.icon
                         |users

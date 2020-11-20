@@ -127,6 +127,7 @@ template(name='stack_page')
                         if watson.metadata.image
                             img.ui.invert.tiny.inline.image(src=watson.metadata.image)    
                         | #{site}
+                    +doc_emotion
                     with owner
                         a.ui.basic.segment.zoomer.pointer.say_name(href="/site/#{current_doc.site}/user/#{user_id}")
                             img.ui.rounded.inline.image(src=profile_image)
@@ -176,7 +177,6 @@ template(name='stack_page')
                     if in_dev
                         +print_this
                     +doc_sentiment
-                    +doc_emotion
                     +watson_full
                     // i.big.refresh.circular.link.icon.get_question
                     // i.big.exclamation.circular.link.icon.get_answers

@@ -13,15 +13,14 @@ template(name='stackuser_page')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    .ui.right.header      
+                    .ui.inline.header      
                         |#{site}
-                    .ui.two.item.fluid.large.menu
-                        a.ui.basic.item.say_users(href="/site/#{site}/users")
-                            i.users.icon
-                            |users
-                        a.ui.basic.item.say_questions(href="/site/#{site}")
-                            i.question.icon
-                            |questions
+                    a.ui.basic.icon.circular.large.button.say_users(href="/site/#{site}/users")
+                        i.users.icon
+                        // |users
+                    a.ui.basic.icon.circular.large.button.say_questions(href="/site/#{site}")
+                        i.question.icon
+                        // |questions
                     .spacer
                     .ui.big.inline.right.aligned.header(class=post_header_class)
                         |!{display_name} 
@@ -63,24 +62,14 @@ template(name='stackuser_page')
                     a.ui.external.icon.button(href=link target='_window') 
                         i.linkify.icon
                         // |#{link}
-                .eleven.wide.column
-                    .ui.grey.small.header
-                        i.tag.icon
-                        |dao tags
-                    .smallscroll
-                        each tags
-                            +flat_tag_selector
-                            // .ui.tertiary.button #{this}
-                    .f12
-                        |!{about_me}
                     .ui.inline.small.header rep change
-                    .ui.grey.small.horizontal.statistic
+                    .ui.grey.tiny.horizontal.statistic
                         .value #{reputation_change_day}
                         .label day
-                    .ui.grey.small.horizontal.statistic
+                    .ui.grey.tiny.horizontal.statistic
                         .value #{reputation_change_week}
                         .label week
-                    .ui.grey.small.horizontal.statistic
+                    .ui.grey.tiny.horizontal.statistic
                         .value #{reputation_change_month}
                         .label month
                     .ui.grey.tiny.horizontal.statistic
@@ -89,31 +78,41 @@ template(name='stackuser_page')
                     .ui.grey.tiny.horizontal.statistic
                         .value #{reputation_change_year}
                         .label year
-                    .ui.grey.tiny.statistic
+                    .ui.grey.tiny.horizontal.statistic
                         .value #{down_vote_count}
                         .label 
                             i.thumbs.down.outline.icon
                             |down votes
-                    .ui.grey.tiny.statistic
+                    .ui.grey.tiny.horizontal.statistic
                         .value #{up_vote_count}
                         .label 
                             i.thumbs.up.outline.icon
                             |up votes
-                    .ui.grey.tiny.statistic
+                    .ui.grey.tiny.horizontal.statistic
                         .value #{answer_count}
                         .label 
                             i.reply.icon
                             |answers
-                    .ui.grey.tiny.statistic
+                    .ui.grey.tiny.horizontal.statistic
                         .value #{question_count}
                         .label 
                             i.question.icon
                             |questions
-                    .ui.grey.tiny.statistic
+                    .ui.grey.tiny.horizontal.statistic
                         .value #{view_count}
                         .label 
                             i.eye.icon
                             |views
+                .eleven.wide.column
+                    // .ui.grey.small.header
+                    //     i.tag.icon
+                    //     |dao tags
+                    .f12
+                        |!{about_me}
+                    .smallscroll
+                        each tags
+                            +flat_tag_selector
+                            // .ui.tertiary.button #{this}
                     .ui.grey.header 
                         i.rss.icon
                         |feed
@@ -213,10 +212,11 @@ template(name='stackuser_page')
                             
 template(name='answer_item')
     |!{body}
-    +print_this
     // hi#{answer_question.title}
-    +remove_button
-    .ui.divider
+    if in_dev
+        +print_this
+        +remove_button
+        // .ui.divider
     
     
     
