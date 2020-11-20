@@ -25,8 +25,8 @@ template(name='stack_page')
                     .scrolling
     
                         if skv_is 'stack_section' 'main'
-                            .ui.basic.segment.speak_this
-                                .f11.speak_body.pointer !{body}
+                            .ui.basic.segment
+                                .f11.pointer.say_this !{body}
                             if question_comments
                                 .ui.small.grey.header.get_question_comments
                                     i.chat.outline.icon
@@ -37,17 +37,17 @@ template(name='stack_page')
                                         .ui.green.label.zoomer
                                             |accepted
                                     // div(class=currentUser.invert_class)
-                                    .f11.speak_body.pointer !{body}
+                                    .f11.say_this.pointer !{body}
                                     with owner
                                         .ui.divider
                                         i.chat.icon
-                                        a.ui.inline.header.say_name.zoomer(href="/site/#{current_doc.site}/user/#{user_id}" class=post_header_class)
+                                        a.say_this.ui.inline.header.say_name.zoomer(href="/site/#{current_doc.site}/user/#{user_id}" class=post_header_class)
                                             img.ui.avatar.invert.image(src=profile_image)
                                             |!{display_name}
                                             |#{reputation}
-                                        .ui.basic.small.label #{user_id}
-                                        .ui.basic.small.label #{user_type}
-                                        .ui.basic.small.label #{accept_rate}
+                                        .say_this.ui.basic.small.label #{user_id}
+                                        .say_this.ui.basic.small.label #{user_type}
+                                        .say_this.ui.basic.small.label #{accept_rate}
                                         a(href=link) #{link}
                                     
                                     small #{content_license}
@@ -149,7 +149,7 @@ template(name='stack_page')
                                 //     i.large.external.icon
                         
                     each tags 
-                        .ui.basic.pointer.circular.tertiary.button.add_stack_tag.speak_this.zoomer #{this}
+                        .ui.basic.pointer.circular.tertiary.button.add_stack_tag.say_this.zoomer #{this}
                     a.ui.circular.icon.button(href=link target='_window' title=link)
                         // |#{link}
                         i.external.large.icon

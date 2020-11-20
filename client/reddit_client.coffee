@@ -318,7 +318,7 @@ Template.watson_full.events
         #     displayTime: 'auto',
         #     position: 'bottom right'
         # )
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
 
         Meteor.call 'search_stack', Router.current().params.site, @valueOf(), =>
 
@@ -330,7 +330,7 @@ Template.stack_page.events
         # if Session.equals('view_mode','stack')
         Router.go "/site/#{Router.current().params.site}"
         # Session.set('thinking',true)
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
 
         Meteor.call 'search_stack', Router.current().params.site, @valueOf(), =>
             # Session.set('thinking',false)

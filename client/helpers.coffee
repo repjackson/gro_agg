@@ -11,7 +11,7 @@ Template.registerHelper 'youtube_parse', (url) ->
    
 Template.body.events
     'click .say_this': ->
-        console.log @innerHTML
+        # console.log @innerHTML
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
 Meteor.startup ->
     window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'

@@ -315,6 +315,20 @@ a.goto_article {
   /* font-size: 120% !important; */
 }
 /*  */
+.say_this {
+    animation: fadein .5s !important;
+    animation: fadeout .5s; 
+    transition: all .25s ease !important; 
+}
+.say_this:hover {
+    animation: fadein .5s !important;
+    animation: fadeout .5s; 
+    transition: all .25s ease !important; 
+    cursor: pointer !important;
+    color: black !important; 
+    transform: scale(1.04) !important;
+    /*zoom: 105% !important;*/
+}
 .pointer:hover {
     /*transition: all .25s linear !important; */
     cursor: pointer !important;

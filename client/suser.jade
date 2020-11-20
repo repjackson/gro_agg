@@ -22,7 +22,7 @@ template(name='stackuser_page')
                     .ui.inline.header      
                         |#{site}
                     .spacer
-                    .ui.big.inline.right.aligned.header(class=post_header_class)
+                    .ui.big.inline.right.aligned.header.say_this(class=post_header_class)
                         |!{display_name} 
                         small(title='reputation') #{reputation}
                         strong(title="#{site} rank") ##{site_rank} 
@@ -30,7 +30,7 @@ template(name='stackuser_page')
                     div
                     // with location
                     //     +flat_tag_selector
-                    .ui.inline.tertiary.button.set_location.zoomer
+                    .ui.inline.tertiary.button.set_location.zoomer.say_this
                         |!{location}
                     img.ui.rounded.inline.image.pointer.zoomer.boop(src=profile_image)
                     a.ui.large.compact.circular.basic.button(href=link target='_window' title="#{site} profile")
@@ -38,15 +38,15 @@ template(name='stackuser_page')
                         i.external.icon
                     +print_this
                     .ui.horizontal.list
-                        .item account id #{account_id}
-                        .item employee #{is_employee}
-                        .item modified {{ufrom last_modified_date}}
-                        .item accessed  {{ufrom last_access_date}}
-                        .item created {{ufrom creation_date}}
-                        .item #{user_type}
-                        .item account id #{account_id}
-                        .item user id #{user_id}
-                        .item accepts #{accept_rate}%                        
+                        .item.say_this account id #{account_id}
+                        .item.say_this employee #{is_employee}
+                        .item.say_this modified {{ufrom last_modified_date}}
+                        .item.say_this accessed  {{ufrom last_access_date}}
+                        .item.say_this created {{ufrom creation_date}}
+                        .item.say_this #{user_type}
+                        .item.say_this account id #{account_id}
+                        .item.say_this user id #{user_id}
+                        .item.say_this accepts #{accept_rate}%                        
                         // .item badge_counts: #{badge_counts}
                         // .item view_count: #{view_count}
                         // .item down_vote_count: #{down_vote_count}
@@ -59,42 +59,42 @@ template(name='stackuser_page')
                         i.linkify.icon
                         // |#{link}
                     .ui.inline.small.header rep change
-                    .ui.grey.mini.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic.say_this
                         .value #{reputation_change_day}
                         .label day
-                    .ui.grey.mini.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic.say_this
                         .value #{reputation_change_week}
                         .label week
-                    .ui.grey.mini.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic.say_this
                         .value #{reputation_change_month}
                         .label month
-                    .ui.grey.mini.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic.say_this
                         .value #{reputation_change_quarter}
                         .label quarter
-                    .ui.grey.mini.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic.say_this
                         .value #{reputation_change_year}
                         .label year
-                    .ui.grey.mini.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic.say_this
                         .value #{down_vote_count}
                         .label 
                             i.thumbs.down.outline.icon
                             |down votes
-                    .ui.grey.mini.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic.say_this
                         .value #{up_vote_count}
                         .label 
                             i.thumbs.up.outline.icon
                             |up votes
-                    .ui.grey.mini.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic.say_this
                         .value #{answer_count}
                         .label 
                             i.reply.icon
                             |answers
-                    .ui.grey.mini.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic.say_this
                         .value #{question_count}
                         .label 
                             i.question.icon
                             |questions
-                    .ui.grey.mini.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic.say_this
                         .value #{view_count}
                         .label 
                             i.eye.icon
@@ -162,17 +162,17 @@ template(name='stackuser_page')
                         .ui.segment
                             a.ui.grey.header(href="/site/#{name}") #{name}
                                 
-                    .ui.grey.header.get_badges
+                    .ui.grey.header.get_badges.say_this
                         i.certificate.icon
                         |#{user_badges.count} badges
                     .ui.horizontal.list
-                        .item 
+                        .item.say_this 
                             +i n='medal2--v1' cl="#{currentUser.invert_class} ui avatar image"
                             |gold #{badge_counts.gold}
-                        .item 
+                        .item.say_this 
                             +i n='medal-second-place--v1' cl="#{currentUser.invert_class} ui avatar image"
                             |silver #{badge_counts.silver}
-                        .item
+                        .item.say_this
                             +i n='medal2-third-place--v1' cl="#{currentUser.invert_class} ui avatar image"
                             |bronze #{badge_counts.bronze}
                     // .ui.list.smallscroll
@@ -211,7 +211,7 @@ template(name='stackuser_page')
                             
                             
 template(name='answer_item')
-    |!{body}
+    span.say_this !{body}
     // hi#{answer_question.title}
     if in_dev
         +print_this
@@ -222,23 +222,23 @@ template(name='answer_item')
     
 template(name='user_question_item')
     .ui.item
-        a.ui.header.zoomer.say_title(href="/site/#{site}/doc/#{_id}" class=post_header_class)
+        a.ui.header.zoomer.say_this(href="/site/#{site}/doc/#{_id}" class=post_header_class)
             strong #{score}:
             |!{title}
         |!{about_me}
         .description
             if skv_is 'view_detail' true
                 each tags 
-                    .ui.tiny.basic.circular.tertiary.button #{this}
+                    .ui.tiny.basic.circular.tertiary.button.say_this #{this}
             +doc_emotion_small    
-            span(title="#{view_count} views")
+            span.say_this(title="#{view_count} views")
                 i.grey.eye.icon
                 |#{view_count}
-            span(title="#{answer_count} answers")
+            span.say_this(title="#{answer_count} answers")
                 i.grey.exclamation.icon
                 |#{answer_count}
             if creation_date
-                span(title="created {{ufrom creation_date}}")
+                span.say_this(title="created {{ufrom creation_date}}")
                     i.grey.clock.icon
                     |{{ufrom creation_date}}
             if last_modified_date
