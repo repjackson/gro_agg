@@ -207,7 +207,7 @@ if Meteor.isServer
         selected_user_site
         selected_user_location
         username_query
-        location_query
+        location_query=''
         # view_mode
         # limit
     )->
@@ -217,7 +217,7 @@ if Meteor.isServer
         if selected_user_site then match.site = selected_user_site
         if username_query    
             match.display_name = {$regex:"#{username_query}", $options: 'i'}
-        if location_query    
+        if location_query.length > 1 
             match.location = {$regex:"#{location_query}", $options: 'i'}
         if selected_user_location then match.location = selected_user_location
         # match.model = 'item'
@@ -233,6 +233,7 @@ if Meteor.isServer
         # if view_mode is 'sold'
         #     match.bought = true
         #     match._author_id = Meteor.userId()
+        doc_count = Docs.find(match).count()
 
         cloud = Docs.aggregate [
             { $match: match }
@@ -241,6 +242,7 @@ if Meteor.isServer
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: selected_user_tags }
             { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
             { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
@@ -258,6 +260,7 @@ if Meteor.isServer
             { $group: _id: "$site", count: $sum: 1 }
             # { $match: site: $ne: selected_user_site }
             { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
             { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
@@ -274,6 +277,7 @@ if Meteor.isServer
             { $group: _id: "$location", count: $sum: 1 }
             # { $match: location: $ne: selected_user_location }
             { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
             { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]

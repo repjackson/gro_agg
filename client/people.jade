@@ -60,10 +60,13 @@ template(name='people')
                 // .ui.compact.basic.circular.button.select_location(class=cloud_location_class) !{this.name}
                 //     small #{this.count}
         .twelve.wide.column.scrolling
-            .ui.left.icon.input
-                i.user.icon
+            .ui.left.icon.input(class="{{#if current_username_query}} focus {{/if}}")
+                if current_username_query
+                    i.remove.link.icon.clear_username
+                else    
+                    i.user.icon
                 input.search_username(type='text' placeholder='username')
-            .ui.icon.input
+            .ui.left.icon.input(class="{{#if current_location_query}} focus {{/if}}")
                 if current_location_query
                     i.remove.link.icon.clear_location
                 else
