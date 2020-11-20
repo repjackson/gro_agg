@@ -13,13 +13,16 @@ template(name='subreddits')
                     i.search.icon
                     input.search_subreddits(type='text')
                 .scrolling.ui.items
+                    unless subreddit_docs.count
+                        i.massive.yin.yang.loading.icon
                     each subreddit_docs
                         .ui.item  
-                            a.ui.tiny.image(href="/subreddit/#{data.display_name}")
+                            a.ui.tiny.image.goto_sub(href="/subreddit/#{data.display_name}")
                                 img.ui.rounded.zoomer.image(src=data.icon_img)
                             .content
-                                a.header(href="/subreddit/#{data.display_name}")
+                                a.header.goto_sub(href="/subreddit/#{data.display_name}")
                                     | #{data.display_name}
-                                .description #{data.public_description}
-                                    +print_this
+                                span.description #{data.public_description}
+                                    if in_dev
+                                        +print_this
 

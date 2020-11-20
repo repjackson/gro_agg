@@ -116,7 +116,7 @@ if Meteor.isClient
 
         
         selected_user_site: -> Session.get('selected_user_site')
-        selected_user_tags: -> selected_user_tags.array()
+        selected_tags: -> selected_user_tags.array()
         selected_user_location: -> Session.get('selected_user_location')
         # all_site: ->
         #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
@@ -241,13 +241,14 @@ if Meteor.isServer
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: selected_user_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         cloud.forEach (user_tag, i) ->
-            self.added 'user_tags', Random.id(),
+            self.added 'results', Random.id(),
                 name: user_tag.name
                 count: user_tag.count
+                model:'user_tag'
                 index: i
     
     

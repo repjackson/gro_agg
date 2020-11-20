@@ -13,14 +13,14 @@ template(name='stackuser_page')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    .ui.inline.header      
-                        |#{site}
-                    a.ui.basic.icon.circular.large.button.say_users(href="/site/#{site}/users")
-                        i.users.icon
-                        // |users
                     a.ui.basic.icon.circular.large.button.say_questions(href="/site/#{site}")
                         i.question.icon
                         // |questions
+                    a.ui.basic.icon.circular.large.button.say_users(href="/site/#{site}/users")
+                        i.users.icon
+                        // |users
+                    .ui.inline.header      
+                        |#{site}
                     .spacer
                     .ui.big.inline.right.aligned.header(class=post_header_class)
                         |!{display_name} 
@@ -32,10 +32,6 @@ template(name='stackuser_page')
                         +flat_tag_selector
                     .ui.inline.tertiary.button.set_location.zoomer
                         |!{location}
-                    if website_url
-                        a.ui.circular.basic.large.button(href=website_url target="_window")
-                            i.globe.icon
-                            |#{website_url}
                     img.ui.rounded.inline.image.pointer.zoomer.boop(src=profile_image)
                     a.ui.large.compact.circular.basic.button(href=link target='_window' title="#{site} profile")
                         i.stack.exchange.icon
@@ -109,6 +105,10 @@ template(name='stackuser_page')
                     //     |dao tags
                     .f12
                         |!{about_me}
+                    if website_url
+                        a.ui.circular.basic.button(href=website_url target="_window")
+                            i.globe.icon
+                            |#{website_url}
                     .smallscroll
                         each tags
                             +flat_tag_selector

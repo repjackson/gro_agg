@@ -128,6 +128,10 @@ Docs.before.insert (userId, doc)->
 
 
 Meteor.methods
+    log_view: (doc_id)->
+        console.log 'viewing', doc_id
+        Docs.update doc_id,
+            $inc:dao_views:1
     upvote_sentence: (doc_id, sentence)->
         # console.log sentence
         if sentence.weight

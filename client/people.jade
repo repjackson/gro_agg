@@ -11,6 +11,7 @@ template(name='people')
                 //     //     i.plus.icon
                 //     //     | Full Add
                 // .ui.hidden.divider
+            i.tag.large.icon
             if selected_tags
                 #clear_tags.ui.primary.icon.compact.circular.button
                     i.remove.icon
@@ -18,7 +19,7 @@ template(name='people')
                     .unselect_tag.ui.primary.compact.circular.button
                         strong !{this}
             each all_tags
-                .ui.compact.circular.button.select_tag(class=cloud_tag_class) !{this.name}
+                .ui.compact.circular.basic.button.select_tag(class=cloud_tag_class) !{this.name}
                     small #{this.count}
             .ui.grey.inline.header
                 i.stack.exchange.icon
@@ -29,17 +30,31 @@ template(name='people')
             each all_sites
                 .ui.compact.basic.circular.button.select_site(class=cloud_site_class) 
                     |!{this.name}
-                    small #{count}
+                    // small #{count}
             unless all_sites.count
                 .ui.basic.center.aligned.segment
-                    i.massive.loading.grey.yin.yang.icon
+                    .ui.placeholder 
+                        .paragraph
+                            .line
+                            .line
+                            .line
+                            .line
+                    // i.massive.loading.grey.yin.yang.icon
             .spacer
             .ui.grey.inline.header 
                 i.marker.icon
-                // |location
+                |location
             if selected_user_location
                 .unselect_location.ui.primary.compact.circular.button
                     strong !{selected_user_location}
+            unless all_locations.count
+                .ui.basic.center.aligned.segment
+                    .ui.placeholder 
+                        .paragraph
+                            .line
+                            .line
+                            .line
+                            .line
             each all_locations
                 +tag_selector
                 // .ui.compact.basic.circular.button.select_location(class=cloud_location_class) !{this.name}
@@ -55,10 +70,12 @@ template(name='people')
                     i.marker.link.icon.clear_location
                 input.search_location(type='text' placeholder='location' value=current_location_query)
             .spacer
-            .ui.five.stackable.centered.cards.scrolling
+            .ui.four.stackable.centered.cards.scrolling
                 unless users.count
                     .ui.basic.center.aligned.segment
-                        i.massive.loading.grey.yin.yang.icon
+                        // i.massive.loading.grey.yin.yang.icon
+                        .ui.placeholder 
+                            .image
                 each users
                     a.ui.card.select_user(href="/site/#{site}/user/#{user_id}")
                         img.ui.fluid.image(src=profile_image class=currentUser.invert_class)

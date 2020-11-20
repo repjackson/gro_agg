@@ -36,6 +36,8 @@ if Meteor.isClient
             selected_tags.array())
 
     Template.subreddits.events
+        'click .goto_sub': (e,t)->
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @data.display_name
         'keyup .search_subreddits': (e,t)->
             val = $('.search_subreddits').val()
             Session.set('subreddit_query', val)
@@ -61,6 +63,7 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'stackusers_by_subreddit', 
             # Router.current().params.site
             # Session.get('user_query')
+        Meteor.call 'log_subreddit_view', Router.current().params.name, ->
 
     Template.subreddit_doc_item.events
         'click .view_post': (e,t)-> 
@@ -98,3 +101,10 @@ if Meteor.isServer
             model:'reddit'
             subreddit:name
         }, limit:20
+    Meteor.methods 
+        log_subreddit_view: (name)->
+            sub = Docs.findOne
+                model:'subreddit'
+                "data.display_name":name
+            Docs.update sub._id,
+                $inc:dao_views:1

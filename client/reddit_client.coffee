@@ -19,8 +19,11 @@ Template.nav.events
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'users'
     # 'click .silence': ->
     #     window.speechSynthesis.speak new SpeechSynthesisUtterance 'silence'
-    # 'click .reddit': ->
-    #     window.speechSynthesis.speak new SpeechSynthesisUtterance 'silence'
+    'click .subreddits': ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'subreddits'
+    'click .clear_tags': -> 
+        selected_tags.clear()
+            
 
 
 
@@ -533,10 +536,6 @@ Template.duck.events
     #     Meteor.call 'call_watson', @_id, 'url', 'url', ->
 
 
-Template.nav.events
-    'click .clear_tags': -> 
-        selected_tags.clear()
-            
 
 Template.reddit.events
     'click #clear_tags': -> 

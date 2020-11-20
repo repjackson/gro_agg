@@ -112,13 +112,14 @@ template(name='subreddit_docs')
                 
                     // +comments
                     .ui.small.list.mobile.hidden
-                        .item 
-                            strong #{audience}
+                        // .item 
+                        //     strong #{audience}
                         a.item(href=url target="_window")
                             |#{url}
                             i.external.icon
-                        // .item open beta {{ufrom open_beta_date}}
-                        // .item closed beta {{ufrom closed_beta_date}}
+                        .item #{dao_views} dao views    
+                        .item open beta {{ufrom open_beta_date}}
+                        .item closed beta {{ufrom closed_beta_date}}
                         // if launch_date
                         //     .item launched {{ufrom launch_date}}
                         .item state: #{subreddit_state}
@@ -135,12 +136,12 @@ template(name='subreddit_docs')
                             i.grey.thumbs.up.outline.icon
                             |#{total_votes} votes
                         .item #{comment_count} comments
-                        .item #{answers_per_minute} answers/min
-                        .item #{questions_per_minute} questions/min
-                        .item #{total_questions} questions
-                        .item #{total_answers} answers
-                        .item #{total_accepted} accepted
-                        .item #{total_unanswered} unanswered
+                        // .item #{answers_per_minute} answers/min
+                        // .item #{questions_per_minute} questions/min
+                        // .item #{total_questions} questions
+                        // .item #{total_answers} answers
+                        // .item #{total_accepted} accepted
+                        // .item #{total_unanswered} unanswered
                         // .item api_revision: #{api_revision}
                     // if in_dev
                     //     +array_edit k='tags' d=true
