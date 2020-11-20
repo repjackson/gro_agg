@@ -153,10 +153,15 @@ template(name='subreddit_docs')
 template(name='subreddit_doc_item')                  
     .ui.item
         .image
-            if watson.metadata.image
-                img(src=watson.metadata.image)    
-            
-            img(src=data.thumbnail)    
+            if is_image
+                a.view_post.zoomer(href="/subreddit/#{subreddit}/doc/#{_id}" class=post_header_class)
+                    img.ui.centered.image.toggle_view(src=url)
+            else if watson.metadata.image
+                a.view_post.zoomer(href="/subreddit/#{subreddit}/doc/#{_id}" class=post_header_class)
+                    img.ui.rounded.image.toggle_view(src=watson.metadata.image)
+            else
+                a.view_post.zoomer(href="/subreddit/#{subreddit}/doc/#{_id}" class=post_header_class)
+                    img(src=data.thumbnail)    
         .content
             a.ui.inline.header.view_post.zoomer(href="/subreddit/#{subreddit}/doc/#{_id}" class=post_header_class)
                 strong #{ups}
@@ -168,10 +173,6 @@ template(name='subreddit_doc_item')
                 |!{title} 
             .rounded.full
                 |!{embed}
-            if is_image
-                img.ui.centered.image.toggle_view(src=url)
-            else if watson.metadata.image
-                img.ui.rounded.image.toggle_view(src=watson.metadata.image)
                 
             .spacer
             // if skv_is 'view_detail' true

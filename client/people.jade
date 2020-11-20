@@ -108,10 +108,13 @@ template(name='people')
                                     strong(title="#{site} rank") ##{site_rank} 
                                 if global_rank
                                     strong(title='global rank') ##{global_rank}
-
-                                .ui.basic.button.set_site
+                                span(title='accessed')
+                                    i.grey.clock.icon
+                                    | {{ufrom last_access_date}}
+                                .ui.label(title='accept rate') #{accept_rate}%
+                                .ui.circular.compact.basic.button.set_site
                                     |#{site}
-                                .ui.basic.button.set_location
+                                .ui.circular.compact.basic.button.set_location
                                     i.grey.marker.icon
                                     |!{location}
                                 each five_tags
