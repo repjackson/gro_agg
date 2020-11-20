@@ -6,13 +6,13 @@ template(name='nav')
         if connected
             // a.icon.item.home2(href='/')
             //     i.big.yin.yang.icon
-            a.icon.item.users(href='/people' class="{{isActivePath regex='people'}}")
+            a.icon.item.clear_tags.users(href='/people' class="{{isActivePath regex='people'}}")
                 i.large.user.outline.grey.icon
-            a.icon.item.goto_reddit(href='/reddit' class="{{isActivePath regex='reddit'}}")
+            a.icon.item.clear_tags.goto_reddit(href='/reddit' class="{{isActivePath regex='reddit'}}")
                 i.large.search.grey.icon
-            a.icon.item.users(href='/subreddits' class="{{isActivePath regex='subreddits'}}")
+            a.icon.item.clear_tags.users(href='/subreddits' class="{{isActivePath regex='subreddits'}}")
                 i.large.reddit.grey.icon
-            a.icon.item.stackexchange.clear_tags(href='/stack' class="{{isActivePath '/stack'}}")
+            a.icon.item.clear_tags.stackexchange.clear_tags(href='/stack' class="{{isActivePath '/stack'}}")
                 i.large.stack.exchange.grey.icon
             a.icon.item.silence(href='#')
                 i.large.volume.mute.grey.icon
