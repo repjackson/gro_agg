@@ -452,10 +452,6 @@ Template.reddit.helpers
     #         model:'wikipedia'
     #         title:@valueOf()
     
-    selected_tags: -> selected_tags.array()
-    selected_models: -> selected_models.array()
-    selected_subreddits: -> selected_subreddits.array()
-    selected_emotions: -> selected_emotions.array()
     
     subreddit_docs: ->
         Docs.find

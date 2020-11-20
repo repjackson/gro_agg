@@ -44,6 +44,13 @@ Template.registerHelper 'sentence_color', () ->
         when 'analytical' then 'orange invert inverted'
         when 'tentative' then 'yellow invert inverted'
         
+Template.registerHelper 'selected_tags', () ->selected_tags.array()
+Template.registerHelper 'selected_models', () ->selected_models.array()
+Template.registerHelper 'selected_subreddits', () ->selected_subreddits.array()
+Template.registerHelper 'selected_emotions', () ->selected_tags.array()
+    
+    
+    
 Template.registerHelper 'editing_mode', () ->
     # Meteor.user().edit_mode and 
     if Meteor.user().edit_mode

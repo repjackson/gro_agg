@@ -73,7 +73,6 @@ if Meteor.isClient
             
             
     Template.site_questions.helpers
-        selected_tags: -> selected_tags.array()
         site_tags: -> results.find(model:'site_tag')
         current_site: ->
             Docs.findOne
@@ -171,7 +170,6 @@ if Meteor.isClient
             window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
 
     Template.site_users.helpers
-        selected_tags: -> selected_tags.array()
         user_tags: -> results.find(model:'site_user_tag')
         site_locations: -> results.find(model:'site_Location')
         current_location_query: -> Session.get('location_query')

@@ -24,10 +24,6 @@ if Meteor.isClient
             # console.log "selected_#{model}_tags"
             selected_tags.array()
 
-        # selected_tags: ->
-        #     # model = 'event'
-        #     # console.log "selected_#{model}_tags"
-        #     selected_user_tags.array()
 
 
     Template.cloud.events

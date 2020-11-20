@@ -10,8 +10,11 @@ template(name='stack')
                     input.search_site_name(type='text')
                 +cloud filter='stack_site'
                 .spacer
-            .sixteen.wide.center.aligned.column
+            .sixteen.wide.center.aligned.column.scrolling
                 .ui.four.column.stackable.center.aligned.grid
+                    unless site_docs.count
+                        .ui.center.aligned.basic.segment
+                            i.massive.grey.yin.yang.loading.icon
                     each site_docs
                         .center.aligned.column.pointer.goto_site.zoomer
                             // img.ui.inline.tiny.image.mobile.hiden.site.shadowed.zoomer(src=high_resolution_icon_url)

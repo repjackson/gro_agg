@@ -116,7 +116,7 @@ if Meteor.isClient
 
         
         selected_user_site: -> Session.get('selected_user_site')
-        selected_tags: -> selected_user_tags.array()
+        selected_user_tags: -> selected_user_tags.array()
         selected_user_location: -> Session.get('selected_user_location')
         # all_site: ->
         #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
