@@ -41,15 +41,15 @@ template(name='site_users')
                     //     i.certificate.icon
                     //     |badges
                     .ui.list.mobile.hidden
-                        // .item #{launch_date} launch_date
-                        // .item #{open_beta_date} open_beta_date
-                        // .item #{closed_beta_date} closed_beta_date
-                        // .item #{site_state} site_state
+                        .item #{launch_date} launch_date
+                        .item #{open_beta_date} open_beta_date
+                        .item #{closed_beta_date} closed_beta_date
+                        .item #{site_state} site_state
                         // .item #{high_resolution_icon_url} high_resolution_icon_url
                         // .item #{favicon_url} favicon_url
                         .item !{audience}
                         // .item #{api_site_parameter} api_site_parameter
-                        // .item #{site_type} site_type
+                        .item #{site_type} site_type
                     // +array_edit k='tags' d=true
                     // +comments
                     // +voting_full
@@ -63,13 +63,13 @@ template(name='site_users')
                         //         i.remove.icon
                         each selected_tags
                             +unselect_tag
-                    .ui.icon.input
-                        if current_user_query
+                    .ui.left.icon.input(class="{{#if current_username_query}} focus {{/if}}")
+                        if current_username_query
                             i.remove.link.icon.clear_user
                         else
                             i.user.link.icon
                         input.search_users(type='text' placeholder='username' val="{{session 'user_query'}}")
-                    .ui.icon.input
+                    .ui.left.icon.input(class="{{#if current_location_query}} focus {{/if}}")
                         if current_location_query
                             i.remove.link.icon.clear_location
                         else
@@ -79,17 +79,19 @@ template(name='site_users')
                         +stack_tag_selector
                         // small #{count}
                         // .ui.large.label(title=count) #{name} 
-                    // if skv_is 'sort_direction' 1
-                    //     .ui.icon.compact.circular.button.sort_down
-                    //         i.caret.down.icon
-                    // else
-                    //     .ui.icon.compact.circular.button.sort_up
-                    //         i.caret.up.icon
+                    if skv_is 'sort_direction' 1
+                        .ui.icon.compact.circular.button.sort_down
+                            i.caret.down.icon
+                    else
+                        .ui.icon.compact.circular.button.sort_up
+                            i.caret.up.icon
                     .ui.inline.small.header 
                         |#{stackusers.count} / #{user_count}
                     .scrolling.ui.items
                         each stackusers
                             +stackuser_item
+                            
+                            
 template(name='stackuser_item')
     .item
         a.ui.small.image.say_name.zoomer(href="/site/#{site}/user/#{user_id}" class=post_header_class) 

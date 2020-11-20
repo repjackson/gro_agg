@@ -11,7 +11,9 @@ template(name='people')
                 //     //     i.plus.icon
                 //     //     | Full Add
                 // .ui.hidden.divider
-            i.tag.large.icon
+            .ui.inline.grey.header
+                i.tag.large.icon
+                |tags
             if selected_tags
                 #clear_tags.ui.primary.icon.compact.circular.button
                     i.remove.icon
@@ -19,8 +21,17 @@ template(name='people')
                     .unselect_tag.ui.primary.compact.circular.button
                         strong !{this}
             each all_tags
-                .ui.compact.circular.basic.button.select_tag(class=cloud_tag_class) !{this.name}
-                    small #{this.count}
+                .ui.compact.circular.basic.button.select_tag(class=cloud_tag_class title=count) !{this.name}
+                    // small #{this.count}
+            unless all_tags.count
+                .ui.basic.center.aligned.segment
+                    .ui.placeholder 
+                        .paragraph
+                            .line
+                            .line
+                            .line
+                            .line
+
             .ui.grey.inline.header
                 i.stack.exchange.icon
                 |site
@@ -79,11 +90,18 @@ template(name='people')
                         // i.massive.loading.grey.yin.yang.icon
                         .ui.placeholder 
                             .image
+                            .paragraph
+                                .line
+                                .line
+                                .line
+                                .line
                 each users
-                    a.ui.card.select_user(href="/site/#{site}/user/#{user_id}")
-                        img.ui.fluid.image(src=profile_image class=currentUser.invert_class)
+                    .ui.card
+                        a.zoomer.select_user(href="/site/#{site}/user/#{user_id}")
+                            img.ui.fluid.image(src=profile_image class=currentUser.invert_class)
                         .content
-                            a.ui.header !{display_name}
+                            a.ui.zoomer.header.select_user(href="/site/#{site}/user/#{user_id}")
+                                |!{display_name}
                                 .ui.basic.circular.label #{reputation}
                             .description
                                 if site_rank
@@ -91,9 +109,11 @@ template(name='people')
                                 if global_rank
                                     strong(title='global rank') ##{global_rank}
 
-                                |#{site}
-                                // i.grey.marker.icon
-                                |!{location}
+                                .ui.basic.button.set_site
+                                    |#{site}
+                                .ui.basic.button.set_location
+                                    i.grey.marker.icon
+                                    |!{location}
                                 each five_tags
                                     .ui.small.tertiary.disabled.button #{this}
                                 // +doc_emotion_small
