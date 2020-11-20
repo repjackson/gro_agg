@@ -6,19 +6,19 @@ template(name='nav')
         if connected
             // a.icon.item.home2(href='/')
             //     i.big.yin.yang.icon
-            a.icon.item.clear_tags.users(href='/people' class="{{isActivePath regex='people'}}")
+            a.icon.zoomer.item.clear_tags.users(href='/people' class="{{isActivePath regex='people'}}" title='people')
                 i.large.user.outline.grey.icon
-            a.icon.item.clear_tags.goto_reddit(href='/reddit' class="{{isActivePath regex='reddit'}}")
+            a.icon.zoomer.item.clear_tags.goto_reddit(href='/reddit' class="{{isActivePath regex='reddit'}}" title='reddit')
                 i.large.search.grey.icon
-            a.icon.item.clear_tags.subreddits(href='/subreddits' class="{{isActivePath regex='subreddits'}}")
+            a.icon.zoomer.item.clear_tags.subreddits(href='/subreddits' class="{{isActivePath regex='subreddits'}}")
                 i.large.reddit.grey.icon
-            a.icon.item.clear_tags.stackexchange.clear_tags(href='/stack' class="{{isActivePath '/stack'}}")
+            a.icon.zoomer.item.clear_tags.stackexchange.clear_tags(href='/stack' class="{{isActivePath '/stack'}}")
                 i.large.stack.exchange.grey.icon
-            a.icon.item.silence(href='#')
+            a.icon.zoomer.item.silence(href='#')
                 i.large.volume.mute.grey.icon
             // a.icon.disabled.item.goto_wikipedia(href='/wikipedia')
             //     i.large.wikipedia.icon
         unless connected
-            .item
-                i.yin.yang.loading.big.icon
-                +status    
+            .spacer
+            i.yin.yang.loading.big.icon
+            +status    

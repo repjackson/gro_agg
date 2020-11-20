@@ -382,18 +382,18 @@ template(name='vote_button')
 
     
 template(name='voting')
-    i.thumbs.up.big.link.outline.icon.upvote(class=upvote_class title='upvote')
-    each upvoter_ids
-        +user_info_small
-    i.thumbs.down.big.link.outline.icon.downvote(class=downvote_class title='downvote')
-    each downvoter_ids
-        +user_info_small
+    i.thumbs.up.large.grey.link.outline.icon.upvote(class=upvote_class title='upvote')
+    // each upvoter_ids
+    //     +user_info_small
+    i.thumbs.down.large.grey.link.outline.icon.downvote(class=downvote_class title='downvote')
+    // each downvoter_ids
+    //     +user_info_small
     if is_dev
         +number_edit k='points' l='edit points' d=1
     if points
-        strong #{points} pts
-    if anon_points
-        strong #{anon_points} anon pts
+        | #{points}pts
+    // if anon_points
+    //     strong #{anon_points} anon pts
     
 
 template(name='voting_small')

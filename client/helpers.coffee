@@ -9,6 +9,28 @@ Template.registerHelper 'youtube_parse', (url) ->
         null
    
    
+Template.body.events
+    'click .say_this': ->
+        console.log @innerHTML
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
+Meteor.startup ->
+    window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
+Template.nav.events
+    'click .stackexchange': ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'stackexchange'
+    'click .goto_reddit': ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'search'
+    'click .users': ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'users'
+    # 'click .silence': ->
+    #     window.speechSynthesis.speak new SpeechSynthesisUtterance 'silence'
+    'click .subreddits': ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddits'
+    'click .clear_tags': -> 
+        selected_tags.clear()
+            
+
+   
 # Deps.autorun ()->
 #     document.title = Session.get('doc_title')
         

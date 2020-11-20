@@ -28,8 +28,8 @@ template(name='stackuser_page')
                         strong(title="#{site} rank") ##{site_rank} 
                         strong(title='global rank') ##{global_rank}
                     div
-                    with location
-                        +flat_tag_selector
+                    // with location
+                    //     +flat_tag_selector
                     .ui.inline.tertiary.button.set_location.zoomer
                         |!{location}
                     img.ui.rounded.inline.image.pointer.zoomer.boop(src=profile_image)
@@ -59,42 +59,42 @@ template(name='stackuser_page')
                         i.linkify.icon
                         // |#{link}
                     .ui.inline.small.header rep change
-                    .ui.grey.tiny.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic
                         .value #{reputation_change_day}
                         .label day
-                    .ui.grey.tiny.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic
                         .value #{reputation_change_week}
                         .label week
-                    .ui.grey.tiny.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic
                         .value #{reputation_change_month}
                         .label month
-                    .ui.grey.tiny.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic
                         .value #{reputation_change_quarter}
                         .label quarter
-                    .ui.grey.tiny.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic
                         .value #{reputation_change_year}
                         .label year
-                    .ui.grey.tiny.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic
                         .value #{down_vote_count}
                         .label 
                             i.thumbs.down.outline.icon
                             |down votes
-                    .ui.grey.tiny.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic
                         .value #{up_vote_count}
                         .label 
                             i.thumbs.up.outline.icon
                             |up votes
-                    .ui.grey.tiny.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic
                         .value #{answer_count}
                         .label 
                             i.reply.icon
                             |answers
-                    .ui.grey.tiny.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic
                         .value #{question_count}
                         .label 
                             i.question.icon
                             |questions
-                    .ui.grey.tiny.horizontal.statistic
+                    .ui.grey.mini.horizontal.statistic
                         .value #{view_count}
                         .label 
                             i.eye.icon
@@ -103,7 +103,7 @@ template(name='stackuser_page')
                     // .ui.grey.small.header
                     //     i.tag.icon
                     //     |dao tags
-                    .f12
+                    .f12.say_this.pointer
                         |!{about_me}
                     if website_url
                         a.ui.circular.basic.button(href=website_url target="_window")

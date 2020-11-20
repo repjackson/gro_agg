@@ -25,6 +25,7 @@ if Meteor.isClient
             Session.get('user_query')
             Session.get('location_query')
             selected_tags.array()
+            ()->Session.set('ready',true)
         @autorun => Meteor.subscribe 'site_user_tags',
             selected_tags.array()
             Router.current().params.site
@@ -120,13 +121,14 @@ if Meteor.isClient
     Template.site_users.events
         'click .set_location': (e,t)->
             window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.site} users in #{@location}"
-
             Session.set('location_query',@location)
+            Session.set('ready',false)
         'keyup .search_location': (e,t)->
             # search = $('.search_site').val().toLowerCase().trim()
             search = $('.search_location').val().trim()
-            console.log 'searc', search
+            # console.log 'searc', search
             Session.set('location_query',search)
+            Session.set('ready',false)
             if e.which is 13
                 if search.length > 0
                     window.speechSynthesis.cancel()
@@ -142,6 +144,7 @@ if Meteor.isClient
             # search = $('.search_site').val().toLowerCase().trim()
             user_search = $('.search_users').val().trim()
             Session.set('user_query',user_search)
+            Session.set('ready',false)
             if e.which is 13
                 if search.length > 0
                     window.speechSynthesis.cancel()
@@ -156,7 +159,9 @@ if Meteor.isClient
             Meteor.call 'get_site_users', Router.current().params.site, ->
         'click .clear_location': (e,t)-> 
             window.speechSynthesis.speak new SpeechSynthesisUtterance "location cleared"
+            Session.set('ready',false)
             Session.set('location_query',null)
+
     
         'click .clear_query': (e,t)-> 
             window.speechSynthesis.speak new SpeechSynthesisUtterance "name cleared"

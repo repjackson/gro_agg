@@ -8,22 +8,6 @@ Router.route '/reddit', (->
     @layout 'layout'
     @render 'reddit'
     ), name:'reddit'
-Meteor.startup ->
-    # window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
-Template.nav.events
-    'click .stackexchange': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'stackexchange'
-    'click .goto_reddit': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'search'
-    'click .users': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'users'
-    # 'click .silence': ->
-    #     window.speechSynthesis.speak new SpeechSynthesisUtterance 'silence'
-    'click .subreddits': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'subreddits'
-    'click .clear_tags': -> 
-        selected_tags.clear()
-            
 
 
 
