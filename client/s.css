@@ -166,7 +166,7 @@ html.ios body {
 }
 
 .topnav.menu > .item {
-  border-radius: 20px !important;
+  border-radius: 5px !important;
 }
 .topnav > .item.active {
   background: black !important;

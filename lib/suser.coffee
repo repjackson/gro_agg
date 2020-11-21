@@ -38,6 +38,7 @@ if Meteor.isClient
         user_comments: ->
             Docs.find
                 model:'stack_comment'
+                site:Router.current().params.site
         user_questions: ->
             Docs.find
                 model:'stack_question'
@@ -46,6 +47,7 @@ if Meteor.isClient
         user_answers: ->
             Docs.find
                 model:'stack_answer'
+                site:Router.current().params.site
                 "owner.user_id":parseInt(Router.current().params.user_id)
         # user_badges: ->
         #     Docs.find
@@ -55,6 +57,7 @@ if Meteor.isClient
         #         model:'stack_tag'
         user_comments: ->
             Docs.find
+                site:Router.current().params.site
                 model:'stack_comment'
 
     Template.answer_item.onCreated ->
@@ -139,26 +142,31 @@ if Meteor.isServer
         Docs.find { 
             model:'stack_badge'
             "user.user_id":parseInt(user_id)
+            site:site
         }, limit:10
     Meteor.publish 'stackuser_comments', (site,user_id)->
         Docs.find { 
             model:'stack_comment'
             "owner.user_id":parseInt(user_id)
+            site:site
         }, limit:10
     Meteor.publish 'stackuser_questions', (site,user_id)->
         Docs.find { 
             model:'stack_question'
             "owner.user_id":parseInt(user_id)
+            site:site
         }, limit:10
     Meteor.publish 'stackuser_answers', (site,user_id)->
         Docs.find { 
             model:'stack_answer'
             "owner.user_id":parseInt(user_id)
+            site:site
         }, limit:10
     Meteor.publish 'stackuser_tags', (site,user_id)->
         Docs.find { 
             model:'stack_tag'
             user_id:parseInt(user_id)
+            site:site
         }, limit:10
             
             

@@ -9,15 +9,6 @@ if Meteor.isClient
 
     
 
-    Template.nav.events
-        'click .clear_tags': -> 
-        'click .home2': -> 
-            # console.log @valueOf()
-            Session.set('site_name_filter',null)
-            selected_tags.clear()
-            window.speechSynthesis.cancel()
-
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance @innerHTML()
 
     Template.body.events
         'click .say_site': -> 

@@ -14,12 +14,12 @@ template(name='stackuser_page')
             .row
                 .four.wide.column
                     a.ui.basic.icon.circular.large.button.say_questions(href="/site/#{site}")
-                        i.question.icon
+                        i.question.large.icon
                         // |questions
                     a.ui.basic.icon.circular.large.button.say_users(href="/site/#{site}/users")
-                        i.users.icon
+                        i.users.large.icon
                         // |users
-                    .ui.inline.header      
+                    .ui.inline.header.say_this   
                         |#{site}
                     .spacer
                     .ui.big.inline.right.aligned.header.say_this(class=post_header_class)
@@ -99,17 +99,20 @@ template(name='stackuser_page')
                         .label 
                             i.eye.icon
                             |views
+                    .ui.inline.header 
+                        |#{max_emotion_name} #{max_emotion_percent}
+                    div
                 .eleven.wide.column
-                    // .ui.grey.small.header
-                    //     i.tag.icon
-                    //     |dao tags
                     .f12.say_this.pointer
                         |!{about_me}
                     if website_url
                         a.ui.circular.basic.button(href=website_url target="_window")
                             i.globe.icon
                             |#{website_url}
-                    .smallscroll
+                    .ui.grey.small.inline.header
+                        i.tag.icon
+                        |#{tags.length} tags
+                    span.smallscroll
                         each tags
                             +flat_tag_selector
                             // .ui.tertiary.button #{this}
@@ -118,9 +121,6 @@ template(name='stackuser_page')
                         |feed
                     each user_events
                         .ui.header #{title}
-                    .ui.inline.header 
-                        |#{max_emotion_name} #{max_emotion_percent}
-                    div
                     if skv_is 'view_question_detail' true
                         .ui.black.tertiary.large.button.toggle_question_detail.agg
                             i.question.icon
@@ -152,6 +152,13 @@ template(name='stackuser_page')
                     .ui.list.smallscroll
                         each user_answers
                             +answer_item
+                    div
+                    .ui.header.get_comments
+                        i.chat.outline.icon
+                        |#{user_comments.count} comments
+                    .ui.list.smallscroll
+                        each user_comments
+                            +user_comment_item
                 .three.wide.column
                     .ui.grey.small.header 
                         i.fork.icon
@@ -193,13 +200,13 @@ template(name='stackuser_page')
                         .item disgust avg
                         .item anger avg
                         .item fear avg
-                .four.wide.column
-                    .ui.header.get_tags
-                        i.tag.icon
-                        |tags
-                    .ui.list
-                        each user_tags
-                            .item #{name}: #{count}
+                // .four.wide.column
+                //     .ui.header.get_tags
+                //         i.tag.icon
+                //         |tags
+                //     .ui.list
+                //         each user_tags
+                //             .item #{name}: #{count}
                 .four.wide.column
                     .ui.header.get_comments
                         i.chat.outline.icon
@@ -212,6 +219,17 @@ template(name='stackuser_page')
                             
 template(name='answer_item')
     span.say_this !{body}
+    // hi#{answer_question.title}
+    |#{site}
+    if in_dev
+        +print_this
+        +remove_button
+        // .ui.divider
+    
+    
+template(name='user_comment_item')
+    span.say_this !{body}
+    |#{site}
     // hi#{answer_question.title}
     if in_dev
         +print_this

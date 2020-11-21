@@ -16,19 +16,26 @@ Template.body.events
 Meteor.startup ->
     window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
 Template.nav.events
-    'click .stackexchange': ->
+    'click .goto_stack': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'stackexchange'
     'click .goto_reddit': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'search'
-    'click .goto_pople': ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
+    'click .goto_people': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'people'
-    # 'click .silence': ->
-    #     window.speechSynthesis.speak new SpeechSynthesisUtterance 'silence'
-    'click .subreddits': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddits'
+    'click .goto_dao': ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
     'click .clear_tags': -> 
         selected_tags.clear()
-            
+    'click .silence': ->
+        window.speechSynthesis.cancel()
+  
+    'click .home2': -> 
+        # console.log @valueOf()
+        Session.set('site_name_filter',null)
+        selected_tags.clear()
+        window.speechSynthesis.cancel()
+
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @innerHTML()
 
    
 # Deps.autorun ()->
@@ -101,9 +108,6 @@ Template.registerHelper 'i_have_points', () ->
     else
         Meteor.user().points > 0
     
-Template.nav.events
-    'click .silence': ->
-        window.speechSynthesis.cancel()
     
 Template.registerHelper 'trunc', (input) ->
     input[0..300]
