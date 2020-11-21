@@ -631,7 +631,7 @@ Meteor.methods
                             model:'stack_question'
                             question_id:item.question_id
                             site:site
-                            user_id:parseInt(user_id)
+                            "owner.user_id":parseInt(user_id)
                     # if found
                     #     console.log 'question', found.title
                     unless found

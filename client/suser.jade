@@ -163,14 +163,6 @@ template(name='stackuser_page')
                         each user_questions
                             +user_question_item
                 .six.wide.column
-                    .ui.header.get_answers
-                        i.exclamation.icon
-                        |#{user_answers.count} answers
-                    .ui.list.medscroll
-                        each user_answers
-                            +answer_item
-                            .ui.divider
-                    div
                     .ui.dividing.header.pointer.get_comments
                         i.chat.outline.icon
                         |#{user_comments.count} comments
@@ -178,6 +170,14 @@ template(name='stackuser_page')
                         each user_comments
                             +user_comment_item
                             .ui.divider
+                    .ui.dividing.header.get_answers
+                        i.reply.icon
+                        |#{user_answers.count} answers
+                    .ui.list.medscroll
+                        each user_answers
+                            +answer_item
+                            .ui.divider
+                    div
                 .three.wide.column
                     .ui.grey.small.header 
                         i.fork.icon
@@ -254,6 +254,7 @@ template(name='user_comment_item')
         +print_this
         +remove_button
         // .ui.divider
+    unless watson
         .ui.small.circular.basic.icon.button.call(title='analyze')
             i.dna.icon
     each tags
@@ -277,7 +278,7 @@ template(name='user_question_item')
                 i.grey.eye.icon
                 |#{view_count}
             span.say_this(title="#{answer_count} answers")
-                i.grey.exclamation.icon
+                i.grey.reply.icon
                 |#{answer_count}
             if creation_date
                 span.say_this(title="created {{ufrom creation_date}}")
