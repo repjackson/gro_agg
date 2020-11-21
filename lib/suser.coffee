@@ -61,11 +61,18 @@ if Meteor.isClient
     Template.user_question_item.onRendered ->
         unless @data.watson
             Meteor.call 'call_watson', @data._id,'link','stack',->
-        
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance "dao"
+
     Template.user_comment_item.events
-        'click .call': -> 
-            console.log 'hi'
-            Meteor.call 'call_watson', @_id, 'body','text', ->
+        'click .call': (e,t)-> 
+            # console.log 'hi'
+            window.speechSynthesis.speak new SpeechSynthesisUtterance "anlyzing emotion"
+            Meteor.call 'call_watson',@_id,'body','text', (err,res)=>
+                # console.log res
+                # if @max_emotion_name
+                #     window.speechSynthesis.speak new SpeechSynthesisUtterance @max_emotion_name
+            # Meteor.setTimeout ->
+            # , 2000
 
 
     Template.suser_comments.helpers

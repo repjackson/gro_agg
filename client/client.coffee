@@ -79,22 +79,24 @@ Template.registerHelper 'post_header_class', (metric) ->
         else if @max_emotion_name is 'disgust' then 'orange invert'
     
 Template.registerHelper 'calculated_size', (metric) ->
-    whole = parseInt(@["#{metric}"]*10)
-
-    if whole is 2 then 'f7'
-    else if whole is 3 then 'f8'
-    else if whole is 4 then 'f9'
-    else if whole is 5 then 'f10'
-    else if whole is 6 then 'f11'
-    else if whole is 7 then 'f12'
-    else if whole is 8 then 'f13'
-    else if whole is 9 then 'f14'
-    else if whole is 10 then 'f15'
+    # whole = parseInt(@["#{metric}"]*10)
+    whole = parseInt(metric*10)
+    # console.log whole
+    switch whole
+        when 0 then 'f5'
+        when 1 then 'f6'
+        when 2 then 'f7'
+        when 3 then 'f8'
+        when 4 then 'f9'
+        when 5 then 'f10'
+        when 6 then 'f11'
+        when 7 then 'f12'
+        when 8 then 'f13'
+        when 9 then 'f14'
+        when 10 then 'f15'
     
     
-Template.registerHelper 'connection', () ->
-    Meteor.status()
-
+Template.registerHelper 'connection', () ->Meteor.status()
 Template.registerHelper 'connected', () -> Meteor.status().connected
     
     

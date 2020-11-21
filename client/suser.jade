@@ -1,4 +1,5 @@
 template(name='suser_layout')
+    +nav
     unless stackuser_doc
         // .ui.header no user found
         .ui.hidden.divider
@@ -38,19 +39,19 @@ template(name='suser_layout')
                         i.stack.exchange.icon
                         i.external.icon
                     .ui.vertical.fluid.stackable.small.menu
-                        a.item(href="/site/#{site}/user/#{user_id}/questions" class="{{isActiveRoute regex='suser_questions'}}")
+                        a.item.say_this(href="/site/#{site}/user/#{user_id}/questions" class="{{isActiveRoute regex='suser_questions'}}")
                             i.question.grey.icon
-                            |questions
-                        a.item(href="/site/#{site}/user/#{user_id}/answers" class="{{isActiveRoute regex='suser_answers'}}")
+                            |#{question_count} questions
+                        a.item.say_this(href="/site/#{site}/user/#{user_id}/answers" class="{{isActiveRoute regex='suser_answers'}}")
                             i.reply.grey.icon
-                            |answers
-                        a.item(href="/site/#{site}/user/#{user_id}/comments" class="{{isActiveRoute regex='suser_comments'}}")
+                            |#{answer_count} answers
+                        a.item.say_this(href="/site/#{site}/user/#{user_id}/comments" class="{{isActiveRoute regex='suser_comments'}}")
                             i.chat.outline.grey.icon
-                            |comments
-                        a.item(href="/site/#{site}/user/#{user_id}/tags" class="{{isActiveRoute regex='suser_tags'}}")
+                            |#{comment_count} comments
+                        a.item.say_this(href="/site/#{site}/user/#{user_id}/tags" class="{{isActiveRoute regex='suser_tags'}}")
                             i.tag.grey.icon
                             |tags
-                        a.item(href="/site/#{site}/user/#{user_id}/badges" class="{{isActiveRoute regex='suser_badges'}}")
+                        a.item.say_this(href="/site/#{site}/user/#{user_id}/badges" class="{{isActiveRoute regex='suser_badges'}}")
                             i.certificate.grey.icon
                             |badges
                     +print_this
@@ -89,14 +90,6 @@ template(name='suser_layout')
                             | #{up_vote_count}
                             |up votes
                         .item.say_this
-                            i.reply.icon
-                            | #{answer_count}
-                            |answers
-                        .item.say_this
-                            i.question.icon
-                            | #{question_count}
-                            |questions
-                        .item.say_this
                             i.eye.icon
                             | #{view_count}
                             |views
@@ -115,7 +108,7 @@ template(name='suser_dashboard')
         .f12.say_this.pointer
             |!{about_me}
         if website_url
-            a.ui.circular.basic.button(href=website_url target="_window")
+            a.ui.basic.button.say_this(href=website_url target="_window")
                 i.globe.icon
                 |#{website_url}
         .smallscroll
@@ -263,7 +256,7 @@ template(name='user_comment_item')
     // |#{site}
     if in_dev
         +print_this
-        +remove_button
+        // +remove_button
         // .ui.divider
     unless watson
         .ui.small.circular.basic.icon.button.call(title='analyze')

@@ -182,7 +182,7 @@ Meteor.methods
                     parameters.clean = true
                     parameters.metadata = {}
 
-        console.log parameters
+        # console.log parameters
 
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>
             if err
@@ -276,4 +276,6 @@ Meteor.methods
                 
                 # Meteor.call 'log_doc_terms', doc_id, ->
                 # if Meteor.isDevelopment
+                return Docs.findOne(doc_id)
         )
+        return Docs.findOne(doc_id)

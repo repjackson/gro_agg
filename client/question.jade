@@ -25,19 +25,18 @@ template(name='stack_page')
                     .scrolling
     
                         if skv_is 'stack_section' 'main'
-                            .ui.basic.segment
-                                .f11.pointer.say_this !{body}
+                            .ui.basic.segment.say_this !{body}
                             if question_comments
                                 .ui.small.grey.header.get_question_comments
                                     i.chat.outline.icon
-                                    // |comments
+                                    |comments
                             each question_comments
                                 .ui.basic.segment
                                     if is_accepted 
                                         .ui.green.label.zoomer
                                             |accepted
                                     // div(class=currentUser.invert_class)
-                                    .f11.say_this.pointer !{body}
+                                    .f10.say_this.pointer !{body}
                                     with owner
                                         .ui.divider
                                         i.chat.icon
@@ -51,7 +50,7 @@ template(name='stack_page')
                                         a(href=link) #{link}
                                     
                                     small #{content_license}
-                            .ui.header 
+                            .ui.dividing.header 
                                 i.reply.grey.icon
                                 |#{question_answers.count} answers
                             each question_answers
@@ -60,7 +59,7 @@ template(name='stack_page')
                                         .ui.green.corner.attached.label.zoomer
                                             i.checkmark.icon
                                     // div(class=currentUser.invert_class)
-                                    .f11.speak_body.pointer.goto_q !{body}
+                                    .say_this !{body}
                                     .ui.divider
                                     .ui.horizontal.list
                                         .item 

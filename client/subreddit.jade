@@ -179,7 +179,7 @@ template(name='subreddit_doc_item')
                 if watson.analyzed_text
                     span.pointer.view_question {{trunc watson.analyzed_text}}...
             if skv_is 'view_detail' true
-                .speak_body.pointer.goto_q !{body}
+                .say_this.goto_q !{body}
     
             .ui.horizontal.list
                 each tags

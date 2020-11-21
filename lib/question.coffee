@@ -38,37 +38,35 @@ if Meteor.isClient
     Template.stack_page.events
         'click .goto_q': -> Router.go "/site/#{Router.current().params.site}/doc/#{@_id}"
 
-        'click .speak_this': ->
-            if Session.get('speaking')
-                window.speechSynthesis.cancel()
-                Session.set('speaking',false)
-            else
-                window.speechSynthesis.speak new SpeechSynthesisUtterance @analyzed_text
-                Session.set('speaking',true)
+        # 'click .speak_this': ->
+        #     if Session.get('speaking')
+        #         window.speechSynthesis.cancel()
+        #         Session.set('speaking',false)
+        #     else
+        #         window.speechSynthesis.speak new SpeechSynthesisUtterance @analyzed_text
+        #         Session.set('speaking',true)
     
-        'click .speak_body': ->
-            if Session.get('speaking')
-                window.speechSynthesis.cancel()
-                Session.set('speaking',false)
-            else
-                window.speechSynthesis.speak new SpeechSynthesisUtterance @body
-                Session.set('speaking',true)
+        # 'click .speak_body': ->
+        #     if Session.get('speaking')
+        #         window.speechSynthesis.cancel()
+        #         Session.set('speaking',false)
+        #     else
+        #         window.speechSynthesis.speak new SpeechSynthesisUtterance @body
+        #         Session.set('speaking',true)
     
-        'click .say_title': (e,t)->
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         'click .say_name': (e,t)->
             Meteor.call 'search_stackuser', Router.current().params.site, @user_id, ->
 
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
-        'click .say_site': (e,t)->
-            window.speechSynthesis.speak new SpeechSynthesisUtterance Router.current().params.site
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
 
         'click .get_linked': (e,t)->
             Meteor.call 'get_linked_questions', Router.current().params.site, Router.current().params.doc_id,->
         'click .get_related': (e,t)->
             Meteor.call 'get_related_questions', Router.current().params.site, Router.current().params.doc_id,->
         'click .call_watson': (e,t)->
+            window.speechSynthesis.speak new SpeechSynthesisUtterance 'analyzing emotion'
             Meteor.call 'call_watson', Router.current().params.doc_id,'link','stack',->
+                
         'click .call_tone': (e,t)->
             Meteor.call 'call_tone', Router.current().params.doc_id,->
         'click .get_question': (e,t)->
@@ -77,9 +75,11 @@ if Meteor.isClient
                 
         'click .get_question_comments': (e,t)->
             # question = Docs.findOne(Router.current().params.doc_id)
+            window.speechSynthesis.speak new SpeechSynthesisUtterance "getting #{Router.current().params.site} comments"
             Meteor.call 'get_question_comments', Router.current().params.site, Router.current().params.doc_id,->
                 
         'click .get_answers': (e,t)->
+            window.speechSynthesis.speak new SpeechSynthesisUtterance "getting #{Router.current().params.site} answers"
             question = Docs.findOne(Router.current().params.doc_id)
             Meteor.call 'question_answers', Router.current().params.site, question.question_id,->
                 

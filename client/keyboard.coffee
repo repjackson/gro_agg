@@ -37,19 +37,14 @@ globalHotkeys.add
 	combo: "m"
 	callback: ->
         window.speechSynthesis.cancel()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'shut up'
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'mute'
 
 globalHotkeys.add
 	combo: "d"
 	callback: ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
-        Router.go "/reddit"
+        Router.go "/dao"
 
-globalHotkeys.add
-	combo: "d"
-	callback: ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
-        Router.go "/reddit"
 
 globalHotkeys.add
 	combo: "left"
