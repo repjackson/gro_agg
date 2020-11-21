@@ -36,20 +36,20 @@ template(name='stackuser_page')
                     a.ui.large.compact.circular.basic.button(href=link target='_window' title="#{site} profile")
                         i.stack.exchange.icon
                         i.external.icon
-                    .ui.vertical.fluid.stackable.menu
-                        a.item(href="/site/#{site}/user/#{user_id}/questions")
+                    .ui.vertical.fluid.stackable.small.menu
+                        a.disabled.item(href="/site/#{site}/user/#{user_id}/questions")
                             i.question.grey.icon
                             |questions
-                        a.item(href="/site/#{site}/user/#{user_id}/answers")
+                        a.disabled.item(href="/site/#{site}/user/#{user_id}/answers")
                             i.reply.grey.icon
                             |answers
-                        a.item(href="/site/#{site}/user/#{user_id}/comments")
+                        a.disabled.item(href="/site/#{site}/user/#{user_id}/comments")
                             i.chat.outline.grey.icon
                             |comments
-                        a.item(href="/site/#{site}/user/#{user_id}/tags")
+                        a.disabled.item(href="/site/#{site}/user/#{user_id}/tags")
                             i.tag.grey.icon
                             |tags
-                        a.item(href="/site/#{site}/user/#{user_id}/badges")
+                        a.disabled.item(href="/site/#{site}/user/#{user_id}/badges")
                             i.certificate.grey.icon
                             |badges
                     +print_this
@@ -248,16 +248,16 @@ template(name='user_comment_item')
             |accessed {{ufrom last_access_date}}
     if last_activity_date
         |active {{ufrom last_activity_date}}
-    span.say_this !{body}
+    .ui.small.header.say_this(class=post_header_class) !{body}
     // |#{site}
     if in_dev
         +print_this
         +remove_button
         // .ui.divider
-        .ui.button.call
+        .ui.small.circular.basic.icon.button.call(title='analyze')
             i.dna.icon
     each tags
-        .ui.label #{this}
+        .ui.tertiary.small.button #{this}
     +doc_emotion_small    
     
     
