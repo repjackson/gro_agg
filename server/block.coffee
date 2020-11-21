@@ -220,11 +220,8 @@ Meteor.methods
             flattened:$ne:true
         }
         todo = Docs.find(match,{limit:100})
-        # console.log 'unflattened', Docs.find(match).count()
         for doc in todo.fetch()
-            console.log 'before',doc.tags
             new_tags = _.flatten(doc.tags)
-            console.log 'after',new_tags
             Docs.update doc._id,
                 $set:
                     flattened:true
@@ -232,16 +229,11 @@ Meteor.methods
 
     
     clear_blocklist: =>
-        # console.log @blocklist
         for black_tag in @blocklist
-            # console.log 'removing', black_tag
-            # console.log 'count', Docs.find({tags:$in:[black_tag]}).count()
 
             result = Docs.update({tags:$in:[black_tag]}, {$pull:tags:black_tag}, {multi:true})
-            console.log 'removed', result, black_tag
 
     clear_blocklist_doc: (doc_id)=>
-        # console.log 'pulling blocklist from doc', doc_id
         Docs.update doc_id,
             $pullAll:
                 tags:@blocklist

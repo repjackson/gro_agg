@@ -36,10 +36,12 @@ if Meteor.isClient
                 site:Router.current().params.site
                 user_id:parseInt(Router.current().params.user_id)
         user_comments: ->
-            Docs.find
+            cur = Docs.find
                 model:'stack_comment'
-                user_id:parseInt(Router.current().params.user_id)
+                # user_id:parseInt(Router.current().params.user_id)
                 site:Router.current().params.site
+            console.log cur.count()
+            cur
         user_questions: ->
             Docs.find
                 model:'stack_question'
@@ -63,7 +65,7 @@ if Meteor.isClient
         
     Template.answer_item.helpers
         answer_question: ->
-            console.log @
+            # console.log @
             Docs.findOne
                 model:'stack_question'
                 question_id:@question_id
@@ -103,7 +105,7 @@ if Meteor.isClient
         'click .get_questions': ->
             Meteor.call 'stackuser_questions', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_comments': ->
-            alert 'hi'
+            console.log 'hi'
             Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_badges': ->
             Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
@@ -145,10 +147,10 @@ if Meteor.isServer
     Meteor.publish 'stackuser_comments', (site,user_id)->
         cur = Docs.find { 
             model:'stack_comment'
-            "owner.user_id":parseInt(user_id)
+            # "owner.user_id":parseInt(user_id)
             site:site
         }, limit:100
-        console.log cur.count()
+        console.log "cur count",cur.count()
         cur
     Meteor.publish 'stackuser_questions', (site,user_id)->
         Docs.find { 

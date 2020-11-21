@@ -59,9 +59,7 @@ Template.dao.onCreated ->
 
 
 Template.alpha.onRendered ->
-    # console.log @data
     # unless @data.watson
-    #     # console.log 'call'
     #     Meteor.call 'call_watson', @data._id, 'url','url',->
     # if @data.response
     # window.speechSynthesis.cancel()
@@ -71,24 +69,18 @@ Template.alpha.onRendered ->
             window.speechSynthesis.speak new SpeechSynthesisUtterance @data.voice
         else if @data.response.queryresult.pods
             window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[0].plaintext
-    # console.log response.queryresult.pods[1].subpods
     # Meteor.setTimeout( =>
     # , 7000)
 
 Template.alpha.helpers
     split_datatypes: ->
-        # console.log 'data', @
         split = @datatypes.split ','
-        # console.log split
         split
 
 Template.alpha.events
     'click .select_datatype': ->
-        # console.log @
         selected_tags.push @valueOf().toLowerCase()
     'click .alphatemp': ->
-        console.log @plaintext
-        console.log @plaintext.split '|'
         window.speechSynthesis.cancel()
         window.speechSynthesis.speak new SpeechSynthesisUtterance @plaintext
         
@@ -97,17 +89,14 @@ Template.alpha.events
 
 
 Template.unselect_tag.onCreated ->
-    # console.log @
     @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
     
 Template.unselect_tag.helpers
     term: ->
-        # console.log @valueOf()
         found = 
             Docs.findOne 
                 # model:'wikipedia'
                 title:@valueOf().toLowerCase()
-        #  console.log found
         found
 Template.unselect_tag.events
    'click .unselect_tag': -> 
@@ -165,11 +154,9 @@ Template.unselect_tag.events
 
 
 Template.tag_selector.onCreated ->
-    # console.log @
     @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
 Template.tag_selector.helpers
     selector_class: ()->
-        # console.log @
         term = 
             Docs.findOne 
                 title:@name.toLowerCase()
@@ -198,7 +185,6 @@ Template.dao.events
         #     Session.set('query','')
         if e.which is 13
             window.speechSynthesis.cancel()
-            # console.log search
             if search.length > 0
                 Meteor.call 'search_stack', search, selected_tags.array(), (err,res)->
 
@@ -245,11 +231,9 @@ Template.tag_selector.events
        
        
 Template.doc_tag.onCreated ->
-    # console.log @
     @autorun => Meteor.subscribe('doc_by_title', @data)
 Template.doc_tag.helpers
     selector_class: ->
-        # console.log @
         term = 
             Docs.findOne 
                 title:@valueOf()
@@ -293,14 +277,12 @@ Template.doc_tag.events
        
        
 # Template.select_subreddit.onCreated ->
-#     # console.log @
 #     @autorun => Meteor.subscribe('tribe_by_title', @data.name)
 # Template.select_subreddit.helpers
 #     tribe_doc: ->
 #         found = Docs.findOne 
 #             title:@name
 #             model:'tribe'
-#         # console.log found 
 #         found 
             
        
@@ -335,13 +317,10 @@ Template.stack_page.events
         Meteor.call 'search_stack', Router.current().params.site, @valueOf(), =>
             # Session.set('thinking',false)
     # 'click .toggle_alpha': -> 
-    #     console.log Session.get 'view_alpha'
     #     Session.set('view_alpha', !Session.get('view_alpha'))
     # 'click .toggle_reddit': -> 
-    #     console.log Session.get 'view_reddit'
     #     Session.set('view_reddit', !Session.get('view_reddit'))
     # 'click .toggle_duck': -> 
-    #     console.log Session.get 'view_duck'
     #     Session.set('view_duck', !Session.get('view_duck'))
 Template.alpha.helpers
     alphas: ->
@@ -361,7 +340,6 @@ Template.dao.helpers
             res += ' stack exchange'
         else if Session.equals('view_mode','wikipedia')
             res += ' wikipedia'
-        # console.log 'res', res
         res
     # viewing_duck: -> Session.get('view_duck')
     # viewing_alpha: -> Session.get('view_alpha')
@@ -440,14 +418,11 @@ Template.dao.helpers
 
     loading_class: ->
         if Template.instance().subscriptionsReady()
-            console.log 'ready'
             ''
         else
-            console.log 'NOT READY'
             'disabled loading'
 
     # term: ->
-    #     # console.log @
     #     Docs.find 
     #         model:'wikipedia'
     #         title:@valueOf()
@@ -483,7 +458,6 @@ Template.dao.helpers
 
 Template.dao.events   
     'click .add_tag': -> 
-        console.log @
         selected_tags.push @name
         # # if Meteor.user()
         Session.set('thinking',true)
@@ -498,18 +472,13 @@ Template.dao.events
 
 Template.duck.events
     'click .topic': (e,t)-> 
-        console.log @
         window.speechSynthesis.speak new SpeechSynthesisUtterance @Text
-        # console.log @FirstURL.replace(/\s+/g, '-')
         url = new URL(@FirstURL);
-        console.log url
-        console.log url.pathname
         selected_tags.push @Text.toLowerCase()
         Meteor.call 'call_wiki', selected_tags.array().toString(), ->
         Meteor.call 'search_reddit', selected_tags.array(), ->
 
     'click .abstract': (e,t)-> 
-        console.log @
         window.speechSynthesis.speak new SpeechSynthesisUtterance @AbstractText
 
     # 'click .tagger': (e,t)->
@@ -540,14 +509,11 @@ Template.dao.events
         #     Session.set('query','')
         if e.which is 13
             window.speechSynthesis.cancel()
-            # console.log search
             if search.length > 0
                 # Meteor.call 'check_url', search, (err,res)->
-                #     console.log res
                 #     if res
                 #         alert 'url'
                 #         Meteor.call 'lookup_url', search, (err,res)=>
-                #             console.log res
                 #             for tag in res.tags
                 #                 selected_tags.push tag
                 #             Session.set('skip',0)
@@ -556,7 +522,6 @@ Template.dao.events
                 #     else
                 # unless search in selected_tags.array()
                 selected_tags.push search
-                # console.log 'selected tags', selected_tags.array()
                 # Meteor.call 'call_alpha', search, ->
                 if Session.equals('view_mode','stack')
                     Session.set('thinking',true)

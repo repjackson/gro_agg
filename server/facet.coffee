@@ -4,7 +4,6 @@ Meteor.publish 'site_user_count', (
         
     match = {model:'stackuser'}
     match.site = site
-    console.log 'finding pub count', Docs.find(match).count()
     Counts.publish this, 'user_counter', Docs.find(match)
     return undefined    # otherwise coffeescript returns a Counts.publish
                       # handle when Meteor expects a Mongo.Cursor object.
@@ -18,7 +17,6 @@ Meteor.publish 'doc_count', (
     selected_emotions
     )->
     match = {}
-    # console.log 'tags', selected_tags
     # match.model = $in:['wikipedia']
     # match.model = 'wikipedia'
     if selected_tags.length > 0 
@@ -69,7 +67,6 @@ Meteor.methods
             points:$ne:0
         }, limit:10)
         # Docs.update
-        console.log cur.count()
     convert_img: ->
         cur = 
             Docs.find({
@@ -80,7 +77,6 @@ Meteor.methods
                 fields:
                     _id:1
                 })
-        # console.log 'images', cur.fetch()
         # domain: $in:['i.imgur.com','i.reddit.com','i.redd.it','imgur.com']
         Docs.update({
             model:'reddit'
@@ -92,9 +88,7 @@ Meteor.methods
         },{multi:true})
         # for image in cur.fetch()
         #     Docs.update image._id,
-        #     console.log 'new image', Docs.findOne(image._id).model
         # Docs.update
-        # console.log cur.count()
 
     lookup_url: (url)->
         found = Docs.findOne url:url 
@@ -126,7 +120,6 @@ Meteor.publish 'docs', (
 
     if selected_tags.length > 0
         match.tags = $all:selected_tags
-    # console.log 'skip', skip
     # match.model = 'wikipedia'
     if selected_emotions.length > 0 then match.max_emotion_name = $all:selected_emotions
     if selected_subreddits.length > 0 then match.subreddit = selected_subreddits.toString()
@@ -151,7 +144,6 @@ Meteor.publish 'docs', (
             match.model = 'porn'
         else 
             match.model = $in:['wikipedia','reddit','stack']
-    # console.log 'doc match', match
     Docs.find match,
         limit:7
         skip:skip
@@ -174,17 +166,13 @@ Meteor.publish 'dtags', (
     # @unblock()
     self = @
     match = {}
-    # console.log 'tags', selected_tags
     if emotion_mode
         match.max_emotion_name = emotion_mode
     if selected_emotions.length > 0 then match.max_emotion_name = $all:selected_emotions
     if selected_subreddits.length > 0 then match.subreddit = selected_subreddits.toString()
     if selected_models.length > 0 then match.model = $all:selected_models
 
-    # console.log 'emotion mode', emotion_mode
     # if selected_tags.length > 0
-        # console.log 'view_mode', view_mode
-        # console.log 'query', query
     
     switch view_mode 
         when 'posts'
@@ -213,12 +201,10 @@ Meteor.publish 'dtags', (
         # unless selected_subreddits.length>0
     # else if view_mode in ['reddit',null]
     doc_count = Docs.find(match).count()
-    # console.log 'count',doc_count
     # if query.length > 3
     #     match.title = {$regex:"#{query}"}
     #     model:'wikipedia'
     # if query.length > 4
-    #     console.log 'searching query', query
     #     # match.tags = {$regex:"#{query}", $options: 'i'}
     #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
     
@@ -249,8 +235,6 @@ Meteor.publish 'dtags', (
     #     { $limit:20 }
     #     { $project: _id: 0, name: '$_id', count: 1 }
     #     ]
-    # # # console.log 'cloud: ', model_cloud
-    # # console.log 'model match', match
     # model_cloud.forEach (model, i) ->
     #     self.added 'results', Random.id(),
     #         name: model.name
@@ -270,10 +254,7 @@ Meteor.publish 'dtags', (
     #         { $limit:10 }
     #         { $project: _id: 0, name: '$_id', count: 1 }
     #         ]
-    #     # # console.log 'cloud: ', subreddit_cloud
-    #     # console.log 'subreddit match', match
     #     subreddit_cloud.forEach (subreddit, i) ->
-    #         # console.log subreddit
     #         self.added 'results', Random.id(),
     #             name: subreddit.name
     #             count: subreddit.count
@@ -292,10 +273,7 @@ Meteor.publish 'dtags', (
         { $limit:7 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
-    # console.log 'cloud: ', location_cloud
-    # console.log 'location match', match
     location_cloud.forEach (location, i) ->
-        # console.log 'location',location
         self.added 'results', Random.id(),
             name: location.name
             count: location.count
@@ -314,10 +292,7 @@ Meteor.publish 'dtags', (
             { $limit:7 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
-        # console.log 'cloud: ', site_cloud
-        # console.log 'site match', match
         site_cloud.forEach (site, i) ->
-            # console.log 'site',site
             self.added 'results', Random.id(),
                 name: site.name
                 count: site.count
@@ -335,10 +310,7 @@ Meteor.publish 'dtags', (
     #     { $limit:7 }
     #     { $project: _id: 0, name: '$_id', count: 1 }
     #     ]
-    # # console.log 'cloud: ', subreddit_cloud
-    # # console.log 'subreddit match', match
     # subreddit_cloud.forEach (subreddit, i) ->
-    #     # console.log 'subreddit',subreddit
     #     self.added 'results', Random.id(),
     #         name: subreddit.name
     #         count: subreddit.count
@@ -356,10 +328,7 @@ Meteor.publish 'dtags', (
         { $limit:7 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
-    # console.log 'cloud: ', facility_cloud
-    # console.log 'facility match', match
     facility_cloud.forEach (facility, i) ->
-        # console.log 'facility',facility
         self.added 'results', Random.id(),
             name: facility.name
             count: facility.count
@@ -379,10 +348,7 @@ Meteor.publish 'dtags', (
         { $limit:7 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
-    # console.log 'cloud: ', organization_cloud
-    # console.log 'organization match', match
     organization_cloud.forEach (organization, i) ->
-        # console.log 'organization',organization
         self.added 'results', Random.id(),
             name: organization.name
             count: organization.count
@@ -403,10 +369,7 @@ Meteor.publish 'dtags', (
         { $limit:7 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
-    # console.log 'cloud: ', movie_cloud
-    # console.log 'movie match', match
     movie_cloud.forEach (movie, i) ->
-        # console.log 'movie',movie
         self.added 'results', Random.id(),
             name: movie.name
             count: movie.count
@@ -426,10 +389,7 @@ Meteor.publish 'dtags', (
         { $limit:7 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
-    # console.log 'cloud: ', sport_cloud
-    # console.log 'sport match', match
     sport_cloud.forEach (sport, i) ->
-        # console.log 'sport',sport
         self.added 'results', Random.id(),
             name: sport.name
             count: sport.count
@@ -449,10 +409,7 @@ Meteor.publish 'dtags', (
         { $limit:7 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
-    # console.log 'cloud: ', award_cloud
-    # console.log 'award match', match
     award_cloud.forEach (award, i) ->
-        # console.log 'award',award
         self.added 'results', Random.id(),
             name: award.name
             count: award.count
@@ -470,10 +427,7 @@ Meteor.publish 'dtags', (
         { $limit:7 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
-    # console.log 'cloud: ', PrintMedia_cloud
-    # console.log 'PrintMedia match', match
     PrintMedia_cloud.forEach (PrintMedia, i) ->
-        # console.log 'PrintMedia',PrintMedia
         self.added 'results', Random.id(),
             name: PrintMedia.name
             count: PrintMedia.count
@@ -492,10 +446,7 @@ Meteor.publish 'dtags', (
         { $limit:7 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
-    # console.log 'cloud: ', person_cloud
-    # console.log 'person match', match
     person_cloud.forEach (person, i) ->
-        # console.log 'person',person
         self.added 'results', Random.id(),
             name: person.name
             count: person.count
@@ -513,10 +464,7 @@ Meteor.publish 'dtags', (
         { $limit:7 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
-    # console.log 'cloud: ', company_cloud
-    # console.log 'company match', match
     company_cloud.forEach (company, i) ->
-        # console.log 'company',company
         self.added 'results', Random.id(),
             name: company.name
             count: company.count
@@ -535,10 +483,7 @@ Meteor.publish 'dtags', (
         { $limit:5 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
-    # console.log 'cloud: ', emotion_cloud
-    # console.log 'emotion match', match
     emotion_cloud.forEach (emotion, i) ->
-        # console.log 'emotion',emotion
         self.added 'results', Random.id(),
             name: emotion.name
             count: emotion.count
@@ -561,8 +506,6 @@ Meteor.publish 'dtags', (
         { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
-    # console.log 'cloud: ', tag_cloud
-    console.log 'tag match', match
     tag_cloud.forEach (tag, i) ->
         self.added 'results', Random.id(),
             name: tag.name

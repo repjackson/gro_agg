@@ -477,7 +477,8 @@ Meteor.methods
                     found = 
                         Docs.findOne
                             model:'stack_comment'
-                            post_id:item.post_id
+                            "item.post_id":item.post_id
+                            site:site
                     # if found
                     #     console.log 'found', found.body
                     #     Docs.update found._id,
@@ -488,7 +489,8 @@ Meteor.methods
                         # item.tags.push query
                         new_id = 
                             Docs.insert item
-                        console.log 'new comment doc', Docs.findOne(new_id).title
+                        console.log 'new comment doc', Docs.findOne(new_id).body
+                        return
                 return
             )).catch((err)->
                 console.log 'fail', err
@@ -776,7 +778,7 @@ Meteor.methods
             )
 
     stackuser_comments: (site, user_id) ->
-        # console.log('searching stack user comments for', site, user_id);
+        console.log('searching stack user comments for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/comments?order=desc&site=#{site}&filter=!--1nZxautsE.&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -792,21 +794,25 @@ Meteor.methods
                         Docs.findOne
                             model:'stack_comment'
                             site:site
-                            user_id:parseInt(user_id)
+                            "owner.user_id":parseInt(user_id)
                     if found
                         # console.log 'found', found.body
                         Docs.update found._id, 
                             $set:
+                                user_id:item.owner.user_id
                                 owner:item.owner
-                                post_type:item.post_type
+                                # post_type:item.post_type
                                 body:item.body
+                        return
                     unless found
                         item.site = site
+                        # item.owner:item.owner
                         item.model = 'stack_comment'
                         item.user_id = parseInt(user_id)
                         new_id = 
                             Docs.insert item
                         # console.log 'new stack comment', Docs.findOne(new_id).body
+                        return
                 return
             )).catch((err)->
                 console.log 'fail', err

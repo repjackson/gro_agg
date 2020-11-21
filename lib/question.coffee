@@ -95,11 +95,13 @@ if Meteor.isServer
         Docs.find 
             model:'stack_comment'
             post_id:question_doc_id
+            site:'cs'
     Meteor.publish 'question_linked_to', (question_doc_id)->
         # console.log question.question_id
         Docs.find 
             model:'stack_question'
             linked_to_ids:$in:[question_doc_id]
+            site:'cs'
     
     Meteor.publish 'related_questions', (question_doc_id)->
         # console.log question.question_id
@@ -107,6 +109,7 @@ if Meteor.isServer
         Docs.find 
             model:'stack_question'
             _id:$in:question.related_question_ids
+            site:'cs'
     
     Meteor.publish 'linked_questions', (question_doc_id)->
         # console.log question.question_id
@@ -114,4 +117,5 @@ if Meteor.isServer
         Docs.find 
             model:'stack_question'
             _id:$in:question.linked_question_ids
+            site:'cs'
     

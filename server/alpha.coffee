@@ -21,18 +21,15 @@ Meteor.publish 'duck', (selected_tags)->
 Meteor.methods
     call_alpha: (query)->
         # @unblock()
-        # console.log 'searching alpha for', query
         found_alpha = 
             Docs.findOne 
                 model:'alpha'
                 query:query
         if found_alpha
-            # console.log 'skipping existing alpha for ', query, found_alpha
             target = found_alpha
             # if target.updated
             #     return target
         else
-            # console.log 'creating new alpha for ', query
             target_id = 
                 Docs.insert
                     model:'alpha'
@@ -42,18 +39,13 @@ Meteor.methods
                    
                     
         HTTP.get "http://api.wolframalpha.com/v1/spoken?i=#{query}&output=JSON&appid=UULLYY-QR2ALYJ9JU",(err,response)=>
-            # console.log response.content
-            if err then console.log err
-            else
+            if response
                 Docs.update target._id,
                     $set:
                         voice:response.content  
-            # console.log 'type query', typeof(query)
             # HTTP.get "https://api.wolframalpha.com/v2/query?input=#{query}&mag=1&ignorecase=true&scantimeout=3&format=html,image,plaintext,sound&output=JSON&appid=UULLYY-QR2ALYJ9JU",(err,response)=>
             HTTP.get "https://api.wolframalpha.com/v2/query?input=#{query}&mag=1&ignorecase=true&scantimeout=5&format=html,image,plaintext&output=JSON&appid=UULLYY-QR2ALYJ9JU",(err,response)=>
-                # console.log response
-                if err then console.log err
-                else
+                if response
                     parsed = JSON.parse(response.content)
                     Docs.update target._id,
                         $set:
@@ -63,25 +55,20 @@ Meteor.methods
                                     
                             
     add_chat: (chat)->
-        # @unblock()
-        console.log 'chatting alpha for', chat
+        @unblock()
         # now = Date.now()
         # found_last_chat = 
         #     Docs.findOne { 
         #         model:'global_chat'
         #         _timestamp: $lt:now
         #     }, limit:1
-        # console.log 'last', found_last_chat
         # new_id = 
         #     Docs.insert 
         #         model:'global_chat'
         #         body:chat
         #         bot:false
-        # console.log 'creating new chat for ', chat
         HTTP.get "http://api.wolframalpha.com/v1/conversation.jsp?appid=UULLYY-QR2ALYJ9JU&i=#{chat}",(err,res)=>
-            if err then console.log err
-            else
-                console.log res
+            if res
                 parsed = JSON.parse(res.content)
                 Docs.insert
                     model:'global_chat'
@@ -93,24 +80,19 @@ Meteor.methods
     arespond: (post_id)->
         # @unblock()
         post = Docs.findOne post_id
-        console.log 'responding alpha for', post.body
         # now = Date.now()
         # found_last_chat = 
         #     Docs.findOne { 
         #         model:'global_chat'
         #         _timestamp: $lt:now
         #     }, limit:1
-        # console.log 'last', found_last_chat
         # new_id = 
         #     Docs.insert 
         #         model:'global_chat'
         #         body:chat
         #         bot:false
-        # console.log 'creating new chat for ', chat
         HTTP.get "http://api.wolframalpha.com/v1/conversation.jsp?appid=UULLYY-QR2ALYJ9JU&i=#{post.body}",(err,response)=>
-            if err then console.log err
-            else
-                console.log response
+            if response
                 parsed = JSON.parse(response.content)
                 Docs.insert
                     model:'alpha_response'
