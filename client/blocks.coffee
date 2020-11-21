@@ -109,54 +109,54 @@ if Meteor.isClient
     Template.session_toggle_button.events
         'click .toggle': -> Session.set(@k, !Session.get(@k))
 #
-    Template.comments.onRendered ->
-        # Meteor.setTimeout ->
-        #     $('.menu .item').tab()
-        # , 2000
-    Template.comments.onCreated ->
-        # if @_id
-        #     parent = Docs.findOne @_id
-        # else
-        #     parent = Docs.findOne Template.parentData()._id
-        # if parent
-        @autorun => Meteor.subscribe 'children', 'comment', @_id
-    Template.comments.helpers
-        doc_comments: ->
-            if @_id
-                parent = Docs.findOne @_id
-            else
-                parent = Docs.findOne Template.parentData()._id
-            if Meteor.user()
-                Docs.find
-                    parent_id:parent._id
-                    model:'comment'
-            else
-                Docs.find
-                    model:'comment'
-                    parent_id:parent._id
-                    _author_id:$exists:false
+    # Template.comments.onRendered ->
+    #     # Meteor.setTimeout ->
+    #     #     $('.menu .item').tab()
+    #     # , 2000
+    # Template.comments.onCreated ->
+    #     # if @_id
+    #     #     parent = Docs.findOne @_id
+    #     # else
+    #     #     parent = Docs.findOne Template.parentData()._id
+    #     # if parent
+    #     @autorun => Meteor.subscribe 'children', 'comment', @_id
+    # Template.comments.helpers
+    #     doc_comments: ->
+    #         if @_id
+    #             parent = Docs.findOne @_id
+    #         else
+    #             parent = Docs.findOne Template.parentData()._id
+    #         if Meteor.user()
+    #             Docs.find
+    #                 parent_id:parent._id
+    #                 model:'comment'
+    #         else
+    #             Docs.find
+    #                 model:'comment'
+    #                 parent_id:parent._id
+    #                 _author_id:$exists:false
                     
-    Template.comments.events
-        'keyup .add_comment': (e,t)->
-            if e.which is 13
-                if @_id
-                    parent = Docs.findOne @_id
-                else
-                    parent = Docs.findOne Template.parentData()._id
-                # parent = Docs.findOne @_id
-                comment = t.$('.add_comment').val()
-                Docs.insert
-                    parent_id: parent._id
-                    model:'comment'
-                    parent_model:parent.model
-                    body:comment
+    # Template.comments.events
+    #     'keyup .add_comment': (e,t)->
+    #         if e.which is 13
+    #             if @_id
+    #                 parent = Docs.findOne @_id
+    #             else
+    #                 parent = Docs.findOne Template.parentData()._id
+    #             # parent = Docs.findOne @_id
+    #             comment = t.$('.add_comment').val()
+    #             Docs.insert
+    #                 parent_id: parent._id
+    #                 model:'comment'
+    #                 parent_model:parent.model
+    #                 body:comment
         
-                t.$('.add_comment').val('')
-                Meteor.call 'calc_user_stats', Meteor.userId(), ->
+    #             t.$('.add_comment').val('')
+    #             Meteor.call 'calc_user_stats', Meteor.userId(), ->
 
-        'click .remove_comment': ->
-            if confirm 'Confirm remove comment'
-                Docs.remove @_id
+    #     'click .remove_comment': ->
+    #         if confirm 'Confirm remove comment'
+    #             Docs.remove @_id
 
     Template.follow.helpers
         followers: ->

@@ -766,6 +766,7 @@ Meteor.methods
                     unless found
                         item.site = site
                         item.model = 'stack_answer'
+                        item.user_id = parseInt(user_id)
                         new_id = 
                             Docs.insert item
                         console.log 'new stack answer', Docs.findOne(new_id).title

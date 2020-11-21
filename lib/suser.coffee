@@ -38,6 +38,7 @@ if Meteor.isClient
         user_comments: ->
             Docs.find
                 model:'stack_comment'
+                user_id:parseInt(Router.current().params.user_id)
                 site:Router.current().params.site
         user_questions: ->
             Docs.find
@@ -55,10 +56,6 @@ if Meteor.isClient
         # user_tags: ->
         #     Docs.find
         #         model:'stack_tag'
-        user_comments: ->
-            Docs.find
-                site:Router.current().params.site
-                model:'stack_comment'
 
     Template.answer_item.onCreated ->
         # console.log @
@@ -145,11 +142,12 @@ if Meteor.isServer
             site:site
         }, limit:10
     Meteor.publish 'stackuser_comments', (site,user_id)->
-        Docs.find { 
+        cur = Docs.find { 
             model:'stack_comment'
             "owner.user_id":parseInt(user_id)
             site:site
-        }, limit:10
+        }, limit:100
+        console.log cur.count()
     Meteor.publish 'stackuser_questions', (site,user_id)->
         Docs.find { 
             model:'stack_question'
