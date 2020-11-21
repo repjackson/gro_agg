@@ -110,7 +110,6 @@ if Meteor.isClient
             if e.which is 13
                 if search.length > 0
                     window.speechSynthesis.cancel()
-                    # console.log search
                     window.speechSynthesis.speak new SpeechSynthesisUtterance search
                     selected_tags.push search
                     $('.search_site').val('')
@@ -125,13 +124,11 @@ if Meteor.isClient
         'keyup .search_location': (e,t)->
             # search = $('.search_site').val().toLowerCase().trim()
             search = $('.search_location').val().trim()
-            # console.log 'searc', search
             Session.set('location_query',search)
             Session.set('ready',false)
             if e.which is 13
                 if search.length > 0
                     window.speechSynthesis.cancel()
-                    # console.log search
                     window.speechSynthesis.speak new SpeechSynthesisUtterance search
                     selected_tags.push search
                     $('.search_site').val('')
@@ -147,7 +144,6 @@ if Meteor.isClient
             if e.which is 13
                 if search.length > 0
                     window.speechSynthesis.cancel()
-                    # console.log search
                     window.speechSynthesis.speak new SpeechSynthesisUtterance search
                     selected_tags.push user_search
                     $('.search_site').val('')
@@ -166,7 +162,6 @@ if Meteor.isClient
             window.speechSynthesis.speak new SpeechSynthesisUtterance "name cleared"
             Session.set('user_query',null)
         'click .say_name': (e,t)->
-            # console.log 'title', @
             window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
 
     Template.site_users.helpers
@@ -194,7 +189,6 @@ if Meteor.isClient
  
  
     Template.stackuser_item.onRendered ->
-        # console.log @
         unless @data.site_rank
             Meteor.call 'rank_user', Router.current().params.site, @data.user_id, ->
             Meteor.call 'search_stackuser', Router.current().params.site, @data.user_id, ->
@@ -229,7 +223,6 @@ if Meteor.isClient
     #         if e.which is 13
     #             if search.length > 0
     #                 window.speechSynthesis.cancel()
-    #                 # console.log search
     #                 window.speechSynthesis.speak new SpeechSynthesisUtterance search
     #                 selected_tags.push search
     #                 $('.search_site').val('')
@@ -238,19 +231,15 @@ if Meteor.isClient
     #                     Session.set('thinking',false)
 
     Template.site_question_item.onCreated ->
-        # console.log @data.watson
         unless @data.watson
             Meteor.call 'call_watson', @data._id, 'link', 'stack', ->
     Template.site_question_item.onRendered ->
-        # console.log @
     
     
     Template.stack_tag_selector.onCreated ->
-        # console.log @
         @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
     Template.stack_tag_selector.helpers
         selector_class: ()->
-            # console.log @
             term = 
                 Docs.findOne 
                     title:@name.toLowerCase()
@@ -300,11 +289,9 @@ if Meteor.isClient
        
     
     Template.flat_tag_selector.onCreated ->
-        # console.log @
         @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
     Template.flat_tag_selector.helpers
         selector_class: ()->
-            # console.log @
             term = 
                 Docs.findOne 
                     title:@valueOf().toLowerCase()
@@ -323,7 +310,6 @@ if Meteor.isClient
     Template.flat_tag_selector.events
         'click .select_flat_tag': -> 
             # results.update
-            console.log @
             window.speechSynthesis.cancel()
             window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
             selected_tags.push @valueOf()
@@ -345,10 +331,6 @@ if Meteor.isServer
         view_bounties
         view_unanswered
     )->
-        # console.log 'site', site
-        # console.log 'sort_key', sort_key
-        # console.log 'sort_direction', sort_direction
-        # console.log 'limit', limit
         # site = Docs.findOne
         #     model:'stack_site'
         #     api_site_parameter:site
@@ -387,7 +369,6 @@ if Meteor.isServer
         if view_unanswered
             match.is_answered = false
         doc_count = Docs.find(match).count()
-        # console.log 'tags', selected_tags
         if selected_tags.length > 0 then match.tags = $in:selected_tags
         site_tag_cloud = Docs.aggregate [
             { $match: match }
@@ -400,8 +381,6 @@ if Meteor.isServer
             { $limit:10 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
-        # console.log 'cloud: ', tag_cloud
-        # console.log 'tag match', match
         site_tag_cloud.forEach (tag, i) ->
             self.added 'results', Random.id(),
                 name: tag.name
@@ -420,8 +399,6 @@ if Meteor.isServer
             { $limit:7 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
-        # console.log 'cloud: ', Location_cloud
-        # console.log 'Location match', match
         site_Location_cloud.forEach (Location, i) ->
             self.added 'results', Random.id(),
                 name: Location.name
@@ -440,8 +417,6 @@ if Meteor.isServer
             { $limit:7 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
-        # console.log 'cloud: ', Organization_cloud
-        # console.log 'Organization match', match
         site_Organization_cloud.forEach (Organization, i) ->
             self.added 'results', Random.id(),
                 name: Organization.name
@@ -460,8 +435,6 @@ if Meteor.isServer
             { $limit:7 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
-        # console.log 'cloud: ', Person_cloud
-        # console.log 'Person match', match
         site_Person_cloud.forEach (Person, i) ->
             self.added 'results', Random.id(),
                 name: Person.name
@@ -480,8 +453,6 @@ if Meteor.isServer
             { $limit:7 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
-        # console.log 'cloud: ', Company_cloud
-        # console.log 'Company match', match
         site_Company_cloud.forEach (Company, i) ->
             self.added 'results', Random.id(),
                 name: Company.name
@@ -510,7 +481,6 @@ if Meteor.isServer
             site:site
             }
         doc_count = Docs.find(match).count()
-        # console.log 'tags', selected_tags
         if selected_tags.length > 0 then match.tags = $in:selected_tags
         site_tag_cloud = Docs.aggregate [
             { $match: match }
@@ -523,8 +493,6 @@ if Meteor.isServer
             { $limit:10 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
-        # console.log 'cloud: ', tag_cloud
-        # console.log 'tag match', match
         site_tag_cloud.forEach (tag, i) ->
             self.added 'results', Random.id(),
                 name: tag.name
@@ -543,8 +511,6 @@ if Meteor.isServer
             { $limit:7 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
-        # console.log 'cloud: ', Location_cloud
-        # console.log 'Location match', match
         site_Location_cloud.forEach (Location, i) ->
             self.added 'results', Random.id(),
                 name: Location.name
@@ -563,8 +529,6 @@ if Meteor.isServer
             { $limit:7 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
-        # console.log 'cloud: ', Organization_cloud
-        # console.log 'Organization match', match
         site_Organization_cloud.forEach (Organization, i) ->
             self.added 'results', Random.id(),
                 name: Organization.name
@@ -583,8 +547,6 @@ if Meteor.isServer
             { $limit:7 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
-        # console.log 'cloud: ', Person_cloud
-        # console.log 'Person match', match
         site_Person_cloud.forEach (Person, i) ->
             self.added 'results', Random.id(),
                 name: Person.name
@@ -603,8 +565,6 @@ if Meteor.isServer
             { $limit:7 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
-        # console.log 'cloud: ', Company_cloud
-        # console.log 'Company match', match
         site_Company_cloud.forEach (Company, i) ->
             self.added 'results', Random.id(),
                 name: Company.name
@@ -624,11 +584,6 @@ if Meteor.isServer
         sort_direction
         limit
     )->
-        console.log 'site', site
-        console.log 'sort_key', sort_key
-        console.log 'sort_direction', sort_direction
-        console.log 'limit', limit
-        console.log 'location', location_query
         # site = Docs.findOne
         #     model:'stack_site'
         #     api_site_parameter:site

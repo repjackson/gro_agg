@@ -15,11 +15,9 @@ Meteor.publish 'stack_docs', (
 
     if selected_tags.length > 0
         match.tags = $all:selected_tags
-    # console.log 'skip', skip
     # match.model = 'wikipedia'
     # if selected_emotions.length > 0 then match.max_emotion_name = $all:selected_emotions
     
-    # console.log 'doc match', match
     Docs.find match,
         limit:7
         skip:skip
@@ -41,15 +39,11 @@ Meteor.publish 'stack_docs', (
 #     # @unblock()
 #     self = @
 #     match = {}
-#     # console.log 'tags', selected_tags
 #     # if emotion_mode
 #     #     match.max_emotion_name = emotion_mode
 #     if selected_models.length > 0 then match.model = $all:selected_models
 
-#     # console.log 'emotion mode', emotion_mode
 #     # if selected_tags.length > 0
-#         # console.log 'view_mode', view_mode
-#         # console.log 'query', query
 #     match.model = 'stack'
 #     # switch view_mode 
 #     #     when 'stack'
@@ -64,12 +58,10 @@ Meteor.publish 'stack_docs', (
 #         # unless selected_subreddits.length>0
 #     # else if view_mode in ['reddit',null]
 #     doc_count = Docs.find(match).count()
-#     # console.log 'count',doc_count
 #     # if query.length > 3
 #     #     match.title = {$regex:"#{query}"}
 #     #     model:'wikipedia'
 #     # if query.length > 4
-#     #     console.log 'searching query', query
 #     #     # match.tags = {$regex:"#{query}", $options: 'i'}
 #     #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
     
@@ -100,8 +92,6 @@ Meteor.publish 'stack_docs', (
 #     #     { $limit:20 }
 #     #     { $project: _id: 0, name: '$_id', count: 1 }
 #     #     ]
-#     # # # console.log 'cloud: ', model_cloud
-#     # # console.log 'model match', match
 #     # model_cloud.forEach (model, i) ->
 #     #     self.added 'results', Random.id(),
 #     #         name: model.name
@@ -121,10 +111,7 @@ Meteor.publish 'stack_docs', (
 #         { $limit:7 }
 #         { $project: _id: 0, name: '$_id', count: 1 }
 #         ]
-#     # console.log 'cloud: ', location_cloud
-#     # console.log 'location match', match
 #     location_cloud.forEach (location, i) ->
-#         # console.log 'location',location
 #         self.added 'results', Random.id(),
 #             name: location.name
 #             count: location.count
@@ -142,10 +129,7 @@ Meteor.publish 'stack_docs', (
 #         { $limit:7 }
 #         { $project: _id: 0, name: '$_id', count: 1 }
 #         ]
-#     # console.log 'cloud: ', site_cloud
-#     # console.log 'site match', match
 #     site_cloud.forEach (site, i) ->
-#         # console.log 'site',site
 #         self.added 'results', Random.id(),
 #             name: site.name
 #             count: site.count
@@ -164,10 +148,7 @@ Meteor.publish 'stack_docs', (
 #         { $limit:7 }
 #         { $project: _id: 0, name: '$_id', count: 1 }
 #         ]
-#     # console.log 'cloud: ', facility_cloud
-#     # console.log 'facility match', match
 #     facility_cloud.forEach (facility, i) ->
-#         # console.log 'facility',facility
 #         self.added 'results', Random.id(),
 #             name: facility.name
 #             count: facility.count
@@ -187,10 +168,7 @@ Meteor.publish 'stack_docs', (
 #         { $limit:7 }
 #         { $project: _id: 0, name: '$_id', count: 1 }
 #         ]
-#     # console.log 'cloud: ', organization_cloud
-#     # console.log 'organization match', match
 #     organization_cloud.forEach (organization, i) ->
-#         # console.log 'organization',organization
 #         self.added 'results', Random.id(),
 #             name: organization.name
 #             count: organization.count
@@ -211,10 +189,7 @@ Meteor.publish 'stack_docs', (
 #         { $limit:7 }
 #         { $project: _id: 0, name: '$_id', count: 1 }
 #         ]
-#     # console.log 'cloud: ', movie_cloud
-#     # console.log 'movie match', match
 #     movie_cloud.forEach (movie, i) ->
-#         # console.log 'movie',movie
 #         self.added 'results', Random.id(),
 #             name: movie.name
 #             count: movie.count
@@ -234,10 +209,7 @@ Meteor.publish 'stack_docs', (
 #         { $limit:7 }
 #         { $project: _id: 0, name: '$_id', count: 1 }
 #         ]
-#     # console.log 'cloud: ', sport_cloud
-#     # console.log 'sport match', match
 #     sport_cloud.forEach (sport, i) ->
-#         # console.log 'sport',sport
 #         self.added 'results', Random.id(),
 #             name: sport.name
 #             count: sport.count
@@ -257,10 +229,7 @@ Meteor.publish 'stack_docs', (
 #         { $limit:7 }
 #         { $project: _id: 0, name: '$_id', count: 1 }
 #         ]
-#     # console.log 'cloud: ', award_cloud
-#     # console.log 'award match', match
 #     award_cloud.forEach (award, i) ->
-#         # console.log 'award',award
 #         self.added 'results', Random.id(),
 #             name: award.name
 #             count: award.count
@@ -278,10 +247,7 @@ Meteor.publish 'stack_docs', (
 #         { $limit:7 }
 #         { $project: _id: 0, name: '$_id', count: 1 }
 #         ]
-#     # console.log 'cloud: ', PrintMedia_cloud
-#     # console.log 'PrintMedia match', match
 #     PrintMedia_cloud.forEach (PrintMedia, i) ->
-#         # console.log 'PrintMedia',PrintMedia
 #         self.added 'results', Random.id(),
 #             name: PrintMedia.name
 #             count: PrintMedia.count
@@ -300,10 +266,7 @@ Meteor.publish 'stack_docs', (
 #         { $limit:7 }
 #         { $project: _id: 0, name: '$_id', count: 1 }
 #         ]
-#     # console.log 'cloud: ', person_cloud
-#     # console.log 'person match', match
 #     person_cloud.forEach (person, i) ->
-#         # console.log 'person',person
 #         self.added 'results', Random.id(),
 #             name: person.name
 #             count: person.count
@@ -321,10 +284,7 @@ Meteor.publish 'stack_docs', (
 #         { $limit:7 }
 #         { $project: _id: 0, name: '$_id', count: 1 }
 #         ]
-#     # console.log 'cloud: ', company_cloud
-#     # console.log 'company match', match
 #     company_cloud.forEach (company, i) ->
-#         # console.log 'company',company
 #         self.added 'results', Random.id(),
 #             name: company.name
 #             count: company.count
@@ -343,10 +303,7 @@ Meteor.publish 'stack_docs', (
 #         { $limit:5 }
 #         { $project: _id: 0, name: '$_id', count: 1 }
 #         ]
-#     # console.log 'cloud: ', emotion_cloud
-#     # console.log 'emotion match', match
 #     emotion_cloud.forEach (emotion, i) ->
-#         # console.log 'emotion',emotion
 #         self.added 'results', Random.id(),
 #             name: emotion.name
 #             count: emotion.count
@@ -369,8 +326,6 @@ Meteor.publish 'stack_docs', (
 #         { $limit:tag_limit }
 #         { $project: _id: 0, name: '$_id', count: 1 }
 #         ]
-#     # console.log 'cloud: ', tag_cloud
-#     console.log 'tag match', match
 #     tag_cloud.forEach (tag, i) ->
 #         self.added 'results', Random.id(),
 #             name: tag.name
@@ -383,9 +338,7 @@ Meteor.publish 'stack_docs', (
 Meteor.methods 
     get_question: (site, question_doc_id)->
         question = Docs.findOne question_doc_id
-        # console.log 'searching question', site, question_id
         url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}?order=desc&sort=activity&site=#{site}&filter=!9_bDDxJY5&key=lPplyGlNUs)cIMOajW03aw(("
-        console.log url
         options = {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -394,14 +347,12 @@ Meteor.methods
         rp(options)
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
-                # console.log 'body',JSON.parse(body), typeof(body)
                 for item in parsed.items
                     found = 
                         Docs.findOne
                             model:'stack_question'
                             question_id:item.question_id
                     if found
-                        # console.log 'found', found.title, 'adding body'
                         Docs.update found._id,
                             $set:body:item.body
                     unless found
@@ -410,21 +361,17 @@ Meteor.methods
                         # item.tags.push query
                         new_id = 
                             Docs.insert item
-                        console.log 'new stack doc', Docs.findOne(new_id).title
                         Meteor.call 'call_watson', new_id,'link','stack',->
 
                 return
             )).catch((err)->
-                console.log 'fail', err
             )
 
 
         
     get_question_answers: (site, question_doc_id)->
         question = Docs.findOne question_doc_id
-        # console.log 'searching question', site, question_id
         url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/answers?order=desc&sort=activity&site=#{site}&filter=!9_bDE(fI5&key=lPplyGlNUs)cIMOajW03aw(("
-        # console.log url
         options = {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -433,7 +380,6 @@ Meteor.methods
         rp(options)
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
-                # console.log 'body',JSON.parse(body), typeof(body)
                 for item in parsed.items
                     found = 
                         Docs.findOne
@@ -441,7 +387,6 @@ Meteor.methods
                             # question_id:item.question_id
                             answer_id:item.answer_id
                     # if found
-                    #     console.log 'found', found.body
                     #     Docs.update found._id,
                     #         $set:body:item.body
                     unless found
@@ -451,19 +396,15 @@ Meteor.methods
                         # item.tags.push query
                         new_id = 
                             Docs.insert item
-                        console.log 'new answer doc', Docs.findOne(new_id).title
                 return
             )).catch((err)->
-                console.log 'fail', err
             )
 
 
         
     get_question_comments: (site, question_doc_id)->
         question = Docs.findOne question_doc_id
-        # console.log 'searching question', site, question_id
         url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/comments?order=desc&sort=creation&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
-        # console.log url
         options = {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -472,7 +413,6 @@ Meteor.methods
         rp(options)
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
-                # console.log 'body',JSON.parse(body), typeof(body)
                 for item in parsed.items
                     found = 
                         Docs.findOne
@@ -480,7 +420,6 @@ Meteor.methods
                             "item.post_id":item.post_id
                             site:site
                     # if found
-                    #     console.log 'found', found.body
                     #     Docs.update found._id,
                     #         $set:body:item.body
                     unless found
@@ -489,20 +428,16 @@ Meteor.methods
                         # item.tags.push query
                         new_id = 
                             Docs.insert item
-                        console.log 'new comment doc', Docs.findOne(new_id).body
                         return
                 return
             )).catch((err)->
-                console.log 'fail', err
             )
 
 
         
     get_linked_questions: (site, question_doc_id)->
         question = Docs.findOne question_doc_id
-        # console.log 'searching linked questions', site, question._id
         url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/linked?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
-        # console.log url
         options = {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -511,14 +446,12 @@ Meteor.methods
         rp(options)
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
-                console.log 'body',JSON.parse(data), typeof(data)
                 for item in parsed.items
                     found = 
                         Docs.findOne
                             model:'stack_question'
                             post_id:item.post_id
                     if found
-                        console.log 'found', found.body
                         Docs.update found._id,
                             $addToSet: linked_to_ids: question_doc_id
                             # $set:body:item.body
@@ -533,19 +466,15 @@ Meteor.methods
                             Docs.insert item
                         Docs.update question_doc_id,
                             $addToSet:linked_question_ids:new_id
-                        console.log 'new question doc', Docs.findOne(new_id).title
                 return
             )).catch((err)->
-                console.log 'fail', err
             )
 
 
         
     get_related_questions: (site, question_doc_id)->
         question = Docs.findOne question_doc_id
-        # console.log 'searching related questions', site, question._id
         url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/related?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
-        # console.log url
         options = {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -554,7 +483,6 @@ Meteor.methods
         rp(options)
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
-                console.log 'body',JSON.parse(data), typeof(data)
                 for item in parsed.items
                     Docs.update question_doc_id,
                         $addToSet:related_question_ids:item._id
@@ -563,7 +491,6 @@ Meteor.methods
                             model:'stack_question'
                             post_id:item.post_id
                     if found
-                        console.log 'found related', found.title
                         Docs.update found._id,
                             $addToSet: linked_to_ids: question_doc_id
                             # $set:body:item.body
@@ -574,16 +501,13 @@ Meteor.methods
                         item.linked_to_ids = [question_doc_id]
                         new_id = 
                             Docs.insert item
-                        console.log 'new question doc', Docs.findOne(new_id).title
                 return
             )).catch((err)->
-                console.log 'fail', err
             )
 
 
         
     search_stack: (site, query, selected_tags) ->
-        # console.log('searching stack for', typeof(query), query);
         url = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=#{query}&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -593,14 +517,12 @@ Meteor.methods
         rp(options)
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
-                # console.log 'body',JSON.parse(body), typeof(body)
                 for item in parsed.items
                     found = 
                         Docs.findOne
                             model:'stack_question'
                             question_id:item.question_id
                     if found
-                        # console.log 'found', found.title
                         Docs.update found._id,
                             $addToSet:tags:query
                         unless found.watson
@@ -611,7 +533,6 @@ Meteor.methods
                         item.tags.push query
                         new_id = 
                             Docs.insert item
-                        console.log 'new stack doc', Docs.findOne(new_id).title
                         # unless found.watson
                         Meteor.call 'call_watson', new_id,'link','stack',->
                     Meteor.call 'stackuser_questions', site, item.owner.user_id, ->
@@ -619,14 +540,12 @@ Meteor.methods
                     Meteor.call 'omega', site, item.owner.user_id, ->
                 return
             )).catch((err)->
-                console.log 'fail', err
             )
 
    
    
     search_stackuser: (site, user_id) ->
         @unblock()
-        # console.log('searching stack user for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}?order=desc&sort=reputation&site=#{site}&filter=!--1nZv)deGu1&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -636,7 +555,6 @@ Meteor.methods
         rp(options)
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
-                # console.log 'body',JSON.parse(body), typeof(body)
                 for item in parsed.items
                     found = 
                         Docs.findOne
@@ -670,22 +588,17 @@ Meteor.methods
                                 profile_image: item.profile_image
                                 display_name: item.display_name
 
-                        # console.log 'found', found.display_name
                     unless found
                         item.site = site
                         item.model = 'stackuser'
                         new_id = 
                             Docs.insert item
-                        # console.log 'new stack user', Docs.findOne(new_id).display_name
                 return
             )).catch((err)->
-                console.log 'fail', err
             )
    
     get_site_users: (site) ->
-        # console.log('searching stack user for', site, user_id);
         for num in [1..100]
-            console.log 'searching ', site, 'round ', num
             url = "https://api.stackexchange.com/2.2/users?order=desc&sort=reputation&page=#{num}&pagesize=100&site=#{site}&filter=!--1nZv)deGu1&key=lPplyGlNUs)cIMOajW03aw(("
             options = {
                 url: url
@@ -695,28 +608,22 @@ Meteor.methods
             rp(options)
                 .then(Meteor.bindEnvironment((data)->
                     parsed = JSON.parse(data)
-                    # console.log 'body',JSON.parse(body), typeof(body)
                     for item in parsed.items
                         found = 
                             Docs.findOne
                                 model:'stackuser'
                                 site:site
                                 user_id:item.user_id
-                        if found
-                            console.log 'found', found.display_name
                         unless found
                             item.site = site
                             item.model = 'stackuser'
                             new_id = 
                                 Docs.insert item
-                            console.log 'new stack user', Docs.findOne(new_id).display_name
                     return
                 )).catch((err)->
-                    console.log 'fail', err
                 )
 
     stackuser_questions: (site, user_id) ->
-        # console.log('searching stack user questions for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/questions?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -726,7 +633,6 @@ Meteor.methods
         rp(options)
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
-                # console.log 'body',JSON.parse(body), typeof(body)
                 for item in parsed.items
                     found = 
                         Docs.findOne
@@ -734,19 +640,15 @@ Meteor.methods
                             site:site
                             "owner.user_id":parseInt(user_id)
                     # if found
-                    #     console.log 'found', found.title
                     unless found
                         item.site = site
                         item.model = 'stack_question'
                         new_id = 
                             Docs.insert item
-                        console.log 'new stack question', Docs.findOne(new_id).title
             )).catch((err)->
-                console.log 'fail', err
             )
    
     stackuser_answers: (site, user_id) ->
-        # console.log('searching stack user answers for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/answers?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -756,7 +658,6 @@ Meteor.methods
         rp(options)
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
-                # console.log 'body',JSON.parse(body), typeof(body)
                 for item in parsed.items
                     found = 
                         Docs.findOne
@@ -764,21 +665,17 @@ Meteor.methods
                             site:site
                             user_id:parseInt(user_id)
                     # if found
-                    #     console.log 'found', found.body
                     unless found
                         item.site = site
                         item.model = 'stack_answer'
                         item.user_id = parseInt(user_id)
                         new_id = 
                             Docs.insert item
-                        console.log 'new stack answer', Docs.findOne(new_id).body
                 return
             )).catch((err)->
-                console.log 'fail', err
             )
 
     stackuser_comments: (site, user_id) ->
-        console.log('searching stack user comments for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/comments?order=desc&site=#{site}&filter=!--1nZxautsE.&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -788,7 +685,6 @@ Meteor.methods
         rp(options)
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
-                # console.log 'body',JSON.parse(body), typeof(body)
                 for item in parsed.items
                     found = 
                         Docs.findOne
@@ -796,7 +692,6 @@ Meteor.methods
                             site:site
                             "owner.user_id":parseInt(user_id)
                     if found
-                        # console.log 'found', found.body
                         Docs.update found._id, 
                             $set:
                                 user_id:item.owner.user_id
@@ -811,58 +706,48 @@ Meteor.methods
                         item.user_id = parseInt(user_id)
                         new_id = 
                             Docs.insert item
-                        # console.log 'new stack comment', Docs.findOne(new_id).body
                         return
                 return
             )).catch((err)->
-                console.log 'fail', err
             )
         # }).then(Meteor.bindEnvironment((error, response, body) =>
         # )).catch(() => {
-        #     console.log('error')
         # })
         
-    stackuser_badges: (site, user_id) ->
-        user = Docs.findOne
-            model:'stackuser'
-            user_id:parseInt(user_id)
-            site:site
-        # console.log 'found user updating badges', user
-        # console.log('searching stack user badges for', site, user_id);
-        url = "https://api.stackexchange.com/2.2/users/#{user_id}/badges?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
-        options = {
-            url: url
-            headers: 'accept-encoding': 'gzip'
-            gzip: true
-        }
-        rp(options)
-            .then(Meteor.bindEnvironment((data)=>
-                parsed = JSON.parse(data)
-                # console.log 'body',JSON.parse(body), typeof(body)
-                # adding_tags = []
-                for item in parsed.items
-                    # adding_tags.push item.name
-                    console.log item.name
-                # Docs.update user._id,
-                #     $addToSet:
-                #         tags:$each:adding_tags
-                #     found = 
-                #         Docs.findOne
-                #             model:'stack_badge'
-                #             site:site
-                #             user_id:parseInt(user_id)
-                #     # if found
-                #     #     console.log 'found', found.title
-                #     unless found
-                #         item.site = site
-                #         item.model = 'stack_badge'
-                #         new_id = 
-                #             Docs.insert item
-                #         console.log 'new stack badge', Docs.findOne(new_id).title
-                return
-            )).catch((err)->
-                console.log 'fail', err
-            )
+    # stackuser_badges: (site, user_id) ->
+    #     user = Docs.findOne
+    #         model:'stackuser'
+    #         user_id:parseInt(user_id)
+    #         site:site
+    #     url = "https://api.stackexchange.com/2.2/users/#{user_id}/badges?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+    #     options = {
+    #         url: url
+    #         headers: 'accept-encoding': 'gzip'
+    #         gzip: true
+    #     }
+    #     rp(options)
+    #         .then(Meteor.bindEnvironment((data)=>
+    #             parsed = JSON.parse(data)
+    #             # adding_tags = []
+    #             for item in parsed.items
+    #                 # adding_tags.push item.name
+    #             # Docs.update user._id,
+    #             #     $addToSet:
+    #             #         tags:$each:adding_tags
+    #             #     found = 
+    #             #         Docs.findOne
+    #             #             model:'stack_badge'
+    #             #             site:site
+    #             #             user_id:parseInt(user_id)
+    #             #     # if found
+    #             #     unless found
+    #             #         item.site = site
+    #             #         item.model = 'stack_badge'
+    #             #         new_id = 
+    #             #             Docs.insert item
+    #             return
+    #         )).catch((err)->
+    #         )
         
     stackuser_tags: (site, user_id) ->
         user = Docs.findOne
@@ -870,7 +755,6 @@ Meteor.methods
             user_id:parseInt(user_id)
             site:site
 
-        # console.log('searching stack user tags for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/tags?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -880,7 +764,6 @@ Meteor.methods
         rp(options)
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
-                # console.log 'body',JSON.parse(body), typeof(body)
                 adding_tags = []
                 for item in parsed.items
                     adding_tags.push item.name
@@ -893,16 +776,13 @@ Meteor.methods
                     #         site:site
                     #         user_id:parseInt(user_id)
                     # if found
-                    #     console.log 'found', found
                     # unless found
                     #     item.site = site
                     #     item.model = 'stack_tag'
                     #     new_id = 
                     #         Docs.insert item
-                    #     console.log 'new stack tag', Docs.findOne(new_id)
                 return
             )).catch((err)->
-                console.log 'fail', err
             )
 
     sites: () ->
@@ -916,7 +796,6 @@ Meteor.methods
             rp(options)
                 .then(Meteor.bindEnvironment((data)->
                     parsed = JSON.parse(data)
-                    # console.log 'body',JSON.parse(body), typeof(body)
                     for item in parsed.items
                         found = 
                             Docs.findOne
@@ -924,7 +803,6 @@ Meteor.methods
                                 name:item.name
                                 # question_id:item.question_id
                         # if found
-                        #     console.log 'found site', found.name
                             # Docs.update found._id,
                             #     $addToSet:tags:query
                         unless found
@@ -933,14 +811,11 @@ Meteor.methods
                             # item.tags.push query
                             new_id = 
                                 Docs.insert item
-                            console.log 'new stack site', Docs.findOne(new_id).name
                     return
                 )).catch((err)->
-                    console.log 'fail', err
                 )
         
     get_site_info: (site) ->
-        # console.log 'getting sites'
         # var url = 'https://api.stackexchange.com/2.2/sites';
         # url = 'http://api.stackexchange.com/2.1/questions?pagesize=1&fromdate=1356998400&todate=1359676800&order=desc&min=0&sort=votes&tagged=javascript&site=stackoverflow'
         # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&tagged=#{selected_tags}&intitle=#{query}&site=stackoverflow"
@@ -954,7 +829,6 @@ Meteor.methods
         rp(options)
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
-                # console.log 'body',JSON.parse(body), typeof(body)
                 for item in parsed.items
                     found = 
                         Docs.findOne
@@ -962,7 +836,6 @@ Meteor.methods
                             api_site_parameter:site
                             # question_id:item.question_id
                     if found
-                        # console.log 'found site', found.name
                         Docs.update found._id,
                             $set:
                                 new_active_users: item.new_active_users
@@ -981,7 +854,6 @@ Meteor.methods
 
                 return
             )).catch((err)->
-                console.log 'fail', err
             )
         
     test: ->
@@ -993,17 +865,12 @@ Meteor.methods
         };
         rp(options)
             .then(Meteor.bindEnvironment((data)->
-                # console.log('User has repos', data)
                 parsed = JSON.parse(data)
                 for item in parsed.items
-                    console.log item
                     found = Docs.findOne
                         model:'stack_tag'
                     if found
-                        console.log found
                     else
-                        console.log 'not found'
             )).catch((err)->
-                console.log 'fail', err
             )
         

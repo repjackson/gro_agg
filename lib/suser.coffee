@@ -24,7 +24,6 @@ if Meteor.isClient
         , 1000
 
     Template.user_question_item.onRendered ->
-        # console.log @
         unless @data.watson
             Meteor.call 'call_watson', @data._id,'link','stack',->
         
@@ -40,7 +39,6 @@ if Meteor.isClient
                 model:'stack_comment'
                 # user_id:parseInt(Router.current().params.user_id)
                 site:Router.current().params.site
-            console.log cur.count()
             cur
         user_questions: ->
             Docs.find
@@ -60,12 +58,10 @@ if Meteor.isClient
         #         model:'stack_tag'
 
     Template.answer_item.onCreated ->
-        # console.log @
         @autorun => Meteor.subscribe 'question_from_id', @data.question_id
         
     Template.answer_item.helpers
         answer_question: ->
-            # console.log @
             Docs.findOne
                 model:'stack_question'
                 question_id:@question_id
@@ -94,7 +90,6 @@ if Meteor.isClient
         'click .say_questions': (e,t)->
             window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.site} questions"
         # 'click .say_title': (e,t)->
-        #     console.log 'title', @
         #     window.speechSynthesis.speak new SpeechSynthesisUtterance @title
 
         'click .search': ->
@@ -105,7 +100,6 @@ if Meteor.isClient
         'click .get_questions': ->
             Meteor.call 'stackuser_questions', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_comments': ->
-            console.log 'hi'
             Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_badges': ->
             Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
@@ -117,18 +111,15 @@ if Meteor.isClient
 
 Meteor.methods
     boop: (site,user_id)->
-        # console.log 'booping'
         user = 
             Docs.findOne
                 model:'stackuser'
                 user_id:parseInt(user_id)
                 site:site
         if user
-            # console.log 'user', user
             Docs.update user._id,
                 $inc:boops:1
         # else
-        #     console.log 'no user'
         
         
     
@@ -150,7 +141,6 @@ if Meteor.isServer
             # "owner.user_id":parseInt(user_id)
             site:site
         }, limit:100
-        console.log "cur count",cur.count()
         cur
     Meteor.publish 'stackuser_questions', (site,user_id)->
         Docs.find { 

@@ -12,7 +12,7 @@ template(name='dao')
                     each selected_tags
                         +unselect_tag
                 // i.big.icon(class=search_icon_class)
-                .ui.left.icon.large.input(class=thinking_class)
+                .ui.left.icon.rounded.input(class=thinking_class)
                     i.search.icon
                     // if skv_is 'thinking' true
                     //     i.big.yin.yang.loading.icon
@@ -42,20 +42,6 @@ template(name='dao')
                 // each subreddit_results
                 //     +tag_selector
                 //     // .ui.compact.small.tertiary.add_tag.button #{name}
-                // +skve k='view_mode' v='posts' l='posts' i='blog'
-                // +skve k='view_mode' v='wikipedia' l='wikipedia' i='wikipedia'
-                // // +skve k='view_mode' v='stack' l='stack' i='stackoverflow'
-                // +skve k='view_mode' v='image' l='image' i='image'
-                // // +skve k='view_mode' v='github' l='github' i='github'
-                // // +skve k='view_mode' v='porn' l='porn' i='mercury'
-                // +skve k='view_mode' v='video' l='youtube' i='youtube'
-                // div
-                // if skv_is 'view_mode' 'stack'
-                //     +icon n='globe' cl='ui mini inline image' t='company'
-                //     |site
-                //     each site_results
-                //         +tag_selector
-
                 +skve k='view_more' v=true l='more' i='bars' ionly=false
                 if skv_is 'view_more' true
                     +skve k='view_locations' v=true l='locations' i='marker' ionly=false

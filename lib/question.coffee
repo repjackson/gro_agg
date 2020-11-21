@@ -39,7 +39,6 @@ if Meteor.isClient
         'click .goto_q': -> Router.go "/site/#{Router.current().params.site}/doc/#{@_id}"
 
         'click .speak_this': ->
-            # console.log @
             if Session.get('speaking')
                 window.speechSynthesis.cancel()
                 Session.set('speaking',false)
@@ -48,7 +47,6 @@ if Meteor.isClient
                 Session.set('speaking',true)
     
         'click .speak_body': ->
-            # console.log @
             if Session.get('speaking')
                 window.speechSynthesis.cancel()
                 Session.set('speaking',false)
@@ -57,15 +55,12 @@ if Meteor.isClient
                 Session.set('speaking',true)
     
         'click .say_title': (e,t)->
-            # console.log 'title', @
             window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         'click .say_name': (e,t)->
-            # console.log 'title', @
             Meteor.call 'search_stackuser', Router.current().params.site, @user_id, ->
 
             window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
         'click .say_site': (e,t)->
-            # console.log 'title', @
             window.speechSynthesis.speak new SpeechSynthesisUtterance Router.current().params.site
 
         'click .get_linked': (e,t)->
@@ -91,20 +86,17 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'question_comments', (question_doc_id)->
-        # console.log question_doc_id
         Docs.find 
             model:'stack_comment'
             post_id:question_doc_id
             site:'cs'
     Meteor.publish 'question_linked_to', (question_doc_id)->
-        # console.log question.question_id
         Docs.find 
             model:'stack_question'
             linked_to_ids:$in:[question_doc_id]
             site:'cs'
     
     Meteor.publish 'related_questions', (question_doc_id)->
-        # console.log question.question_id
         question = Docs.findOne question_doc_id
         Docs.find 
             model:'stack_question'
@@ -112,7 +104,6 @@ if Meteor.isServer
             site:'cs'
     
     Meteor.publish 'linked_questions', (question_doc_id)->
-        # console.log question.question_id
         question = Docs.findOne question_doc_id
         Docs.find 
             model:'stack_question'

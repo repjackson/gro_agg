@@ -8,7 +8,6 @@ if Meteor.isClient
         ), name:'people'
 
     # Template.term_image.onCreated ->
-    #     console.log @
     Template.people.onCreated ->
         Session.setDefault('selected_user_site',null)
         Session.setDefault('selected_user_location',null)
@@ -77,18 +76,13 @@ if Meteor.isClient
 
     # Template.addtoset_user.helpers
     #     ats_class: ->
-    #         # console.log Templat
     #         if Template.parentData()["#{@value}"] in @key
-    #             # console.log 'yes'
     #             'blue'
     #         else
-    #             # console.log 'oh god no'
     #             ''
 
     # Template.addtoset_user.events
     #     'click .toggle_value': ->
-    #         console.log @
-    #         console.log Template.parentData(1)
     #         Meteor.users.update Template.parentData(1)._id,
     #             $addToSet:
     #                 "#{@key}": @value
@@ -127,14 +121,12 @@ if Meteor.isClient
         #     if 0 < user_count < 3 then User_sites.find { count: $lt: user_count } else User_sites.find()
         # selected_user_sites: ->
         #     # model = 'event'
-        #     # console.log "selected_#{model}_sites"
         #     selected_user_sites.array()
         # all_sites: ->
         #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
         #     if 0 < user_count < 3 then site_results.find { count: $lt: user_count } else site_results.find()
         # selected_user_sites: ->
         #     # model = 'event'
-        #     # console.log "selected_#{model}_sites"
         #     selected_user_sites.array()
 
 
@@ -164,12 +156,10 @@ if Meteor.isClient
         'keyup .search_location': (e,t)->
             # search = $('.search_site').val().toLowerCase().trim()
             search = $('.search_location').val().trim()
-            console.log 'searc', search
             Session.set('location_query',search)
             if e.which is 13
                 if search.length > 0
                     window.speechSynthesis.cancel()
-                    # console.log search
                     window.speechSynthesis.speak new SpeechSynthesisUtterance search
                     selected_tags.push search
                     $('.search_site').val('')
@@ -191,7 +181,6 @@ if Meteor.isServer
         if location_query
             match.location = {$regex:"#{location_query}", $options: 'i'}
 
-        # console.log selected_user_site
         if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
         if selected_user_site then match.site = selected_user_site
         if selected_user_location then match.location = selected_user_location
@@ -282,7 +271,6 @@ if Meteor.isServer
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         location_cloud.forEach (location_result, i) ->
-            # console.log location_result
             self.added 'results', Random.id(),
                 name: location_result.name
                 model:'user_location'

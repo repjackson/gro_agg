@@ -4,19 +4,11 @@
 @selected_emotions = new ReactiveArray []
 
 
-Router.route '/dao', (->
-    @layout 'layout'
-    @render 'dao'
-    ), name:'dao'
-
-
-
 Template.dao.onCreated ->
     # window.speechSynthesis.cancel()
     
     # window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
     # document.title = 'the world'
-    Session.setDefault('main_section','alpha')
     Session.setDefault('view_alpha',true)
     Session.setDefault('view_reddit',true)
     Session.setDefault('view_duck',true)
@@ -377,8 +369,6 @@ Template.dao.helpers
             Docs.find match,
                 sort:
                     _timestamp:-1
-                    points:-1
-                    ups:-1
                     # "#{Session.get('sort_key')}": Session.get('sort_direction')
                 limit:10
                 # skip:Session.get('skip')
@@ -407,7 +397,6 @@ Template.dao.helpers
                 match.tags = $all:selected_tags.array()
             Docs.find match,
                 sort:
-                    points:-1
                     ups:-1
                     # _timestamp:-1
                     # "#{Session.get('sort_key')}": Session.get('sort_direction')

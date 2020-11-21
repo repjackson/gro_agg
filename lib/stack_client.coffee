@@ -20,7 +20,6 @@ if Meteor.isClient
             window.speechSynthesis.speak new SpeechSynthesisUtterance "#{@name} #{@audience}"
             selected_tags.clear()
         # 'click .site': -> 
-        #     console.log @valueOf()
         #     window.speechSynthesis.speak new SpeechSynthesisUtterance @name
 
   
@@ -44,7 +43,6 @@ if Meteor.isClient
 
     Template.stack.events
         'click .doc': ->
-            console.log @
         'click .dl': ->
             Meteor.call 'stack_sites'
         'keyup .search_site_name': ->
@@ -86,14 +84,12 @@ if Meteor.isServer
     
     Meteor.publish 'question_answers', (question_doc_id)->
         question = Docs.findOne question_doc_id
-        # console.log question.question_id
         Docs.find 
             model:'stack_answer'
             site:question.site
             question_id:question.question_id
     
     Meteor.publish 'stackuser_doc', (site,user_id)->
-        # console.log 'looking for', site, user_id
         Docs.find 
             model:'stackuser'
             user_id:parseInt(user_id)

@@ -21,7 +21,6 @@ if Meteor.isClient
 
         selected_tags: ->
             # model = 'event'
-            # console.log "selected_#{model}_tags"
             selected_tags.array()
 
 
@@ -58,7 +57,6 @@ if Meteor.isServer
         if selected_tags.length > 0 then match.tags = $all: selected_tags
         if filter then match.model = filter
         if limit
-            console.log 'limit', limit
             calc_limit = limit
         else
             calc_limit = 20
@@ -73,8 +71,6 @@ if Meteor.isServer
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
 
-        # console.log 'filter: ', filter
-        # console.log 'cloud: ', cloud
 
         cloud.forEach (tag, i) ->
             self.added 'tags', Random.id(),

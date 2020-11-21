@@ -73,16 +73,12 @@ Meteor.methods
         params =
             toneInput: { 'text': doc.watson.analyzed_text }
             contentType: 'application/json'
-        # console.log 'params', params
         tone_analyzer.tone params, Meteor.bindEnvironment((err, response)->
-            if err
-                console.log err
-            else
+            if response
                 # console.dir response
                 Docs.update { _id: doc_id},
                     $set:
                         tone: response
-                # console.log(JSON.stringify(response, null, 2))
             )
         # else return
 
@@ -94,10 +90,8 @@ Meteor.methods
         # visual_recognition.classify(classify_params)
         #   .then(response => {
         #     const classifiedImages = response.result;
-        #     console.log(JSON.stringify(classifiedImages, null, 2));
         #   })
         #   .catch(err => {
-        #     console.log('error:', err);
         #   });
         if doc.watson
             if doc.watson.metadata.image
@@ -110,14 +104,10 @@ Meteor.methods
             # images_file: images_file
             # classifier_ids: classifier_ids
         visual_recognition.classify params, Meteor.bindEnvironment((err, response)->
-            if err
-                console.log err
-            else
+            if response
                 visual_tags = []
                 for tag in response.result.images[0].classifiers[0].classes
                     visual_tags.push tag.class.toLowerCase()
-                console.log(JSON.stringify(response, null, 2))
-                # console.log visual_tags
                 Docs.update { _id: doc_id},
                     $set:
                         visual_classes: response.result.images[0].classifiers[0].classes
@@ -127,18 +117,11 @@ Meteor.methods
         )
 
     call_watson: (doc_id, key, mode) ->
-        console.log 'calling watson for ', doc_id
         @unblock()
         self = @
-        # console.log doc_id
-        # console.log key
-        # console.log mode
         doc = Docs.findOne doc_id
-        # console.log 'calling watson on', doc.title
         # if doc.skip_watson is false
-        #     console.log 'skipping flagged doc', doc.title
         # else
-        # console.log 'analyzing', doc.title, 'tags', doc.tags
         parameters =
             concepts:
                 limit:10
@@ -164,7 +147,6 @@ Meteor.methods
             parameters.url = "https://www.reddit.com#{doc.permalink}"
             parameters.returnAnalyzedText = false
             parameters.clean = false
-            # console.log 'calling image'
         else 
             switch mode
                 when 'html'
@@ -187,37 +169,22 @@ Meteor.methods
                     parameters.url = "https://www.reddit.com#{doc.permalink}"
                     parameters.returnAnalyzedText = true
                     parameters.clean = true
-                    # console.log 'calling video'
                 when 'image'
                     parameters.url = "https://www.reddit.com#{doc.permalink}"
                     parameters.returnAnalyzedText = true
                     parameters.clean = true
-                    console.log 'calling image'
 
-        # console.log 'parameters', parameters
 
 
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>
             if err
-                console.log 'watson error for', parameters.url
-                # console.log err
-                if err.code is 400
-                    console.log 'crawl rejected by server'
+                # if err.code is 400
                 unless err.code is 403
                     Docs.update doc_id,
                         $set:skip_watson:false
-                    # console.log 'not html, flaggged doc for future skip', parameters.url
-                else
-                    console.log '403 error api key'
             else
-                # console.log 'analy text', response.analyzed_text
-                # console.log(JSON.stringify(response, null, 2));
-                # console.log 'adding watson info', doc.title
                 response = response.result
-                # console.log response
-                # console.log 'lowered keywords', lowered_keywords
                 # if Meteor.isDevelopment
-                #     console.log 'categories',response.categories
                 emotions = response.emotion.document.emotion
 
                 emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
@@ -230,17 +197,13 @@ Meteor.methods
                         if emotions["#{emotion}"] > .5
                             max_emotion_percent = emotions["#{emotion}"]
                             max_emotion_name = emotion
-                            # console.log emotion_doc["#{emotion}_percent"]
                             # main_emotions.push emotion
 
-                # console.log 'emotions', emotions
                 sadness_percent = emotions.sadness
                 joy_percent = emotions.joy
                 fear_percent = emotions.fear
                 anger_percent = emotions.anger
                 disgust_percent = emotions.disgust
-                # console.log 'main_emotion', max_emotion_name
-                # console.log 'max_emotion_percent', max_emotion_percent
                 # if mode is 'url'
                 Docs.update { _id: doc_id },
                     $set:
@@ -263,8 +226,6 @@ Meteor.methods
                 adding_tags = []
                 if response.categories
                     for category in response.categories
-                        # console.log category.label.split('/')[1..]
-                        # console.log category.label.split('/')
                         for category in category.label.split('/')
                             if category.length > 0
                                 # adding_tags.push category
@@ -276,10 +237,8 @@ Meteor.methods
                 
                 if response.entities and response.entities.length > 0
                     for entity in response.entities
-                        # console.log entity.type, entity.text
                         unless entity.type is 'Quantity'
-                            if Meteor.isDevelopment
-                                console.log entity.type, entity.text
+                            # if Meteor.isDevelopment
                             # else
                             Docs.update { _id: doc_id },
                                 $addToSet:
@@ -300,7 +259,6 @@ Meteor.methods
                     $addToSet:
                         tags:$each:lowered_keywords
                 # final_doc = Docs.findOne doc_id
-                # console.log 'FINAL DOC tags',final_doc.tags
 
                 # if mode is 'url'
                 #     # if doc.model is 'wikipedia'
@@ -309,6 +267,4 @@ Meteor.methods
                 
                 # Meteor.call 'log_doc_terms', doc_id, ->
                 # if Meteor.isDevelopment
-                #     console.log 'all tags', final_doc.tags
-                    # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
         )

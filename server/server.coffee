@@ -11,14 +11,12 @@ Docs.allow
 
 
 Meteor.publish 'doc_by_title', (title)->
-    # console.log title
     Docs.find
         title:title
         model:'wikipedia'
 
 
 Meteor.publish 'current_doc', (doc_id)->
-    console.log 'pulling doc'
     Docs.find doc_id
 
 
@@ -64,8 +62,6 @@ Meteor.publish 'overlap_tags', (
             { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
-        # console.log 'filter: ', filter
-        # console.log 'cloud: ', cloud
         tag_cloud.forEach (tag, i) ->
             self.added 'overlap', Random.id(),
                 name: tag.name
@@ -107,7 +103,6 @@ Meteor.publish 'overlap_docs', (
     target_username
     )->
     
-    console.log target_username
     target_user = Meteor.users.findOne username:target_username    
     if target_user
         match = {}
@@ -120,7 +115,6 @@ Meteor.publish 'overlap_docs', (
         #     match._author_username = $all:selected_authors
         # match._author_id = $in:[Meteor.userId(), target_user._id]
         match.upvoter_ids = $all:[Meteor.userId(), target_user._id]
-        # console.log match
         Docs.find match,
             limit:20
             sort:points:-1

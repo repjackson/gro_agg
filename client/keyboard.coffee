@@ -54,7 +54,6 @@ globalHotkeys.add
 globalHotkeys.add
 	combo: "left"
 	callback: ->
-        console.log Router.current().route.getName()
         switch Router.current().route.getName()
             when 'stack' 
                 Router.go('/dao')
@@ -68,7 +67,6 @@ globalHotkeys.add
 globalHotkeys.add
 	combo: "right"
 	callback: ->
-        console.log Router.current().route.getName()
         switch Router.current().route.getName()
             when 'people'
                 Router.go('/reddit')

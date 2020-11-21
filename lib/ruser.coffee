@@ -24,7 +24,6 @@
 #         , 1000
 
 #     Template.user_question_item.onRendered ->
-#         console.log @
 #         unless @data.watson
 #             Meteor.call 'call_watson', @data._id,'link','stack',->
         
@@ -57,12 +56,10 @@
 #         #         model:'stack_tag'
 
 #     Template.answer_item.onCreated ->
-#         # console.log @
 #         @autorun => Meteor.subscribe 'question_from_id', @data.question_id
         
 #     Template.answer_item.helpers
 #         answer_question: ->
-#             console.log @
 #             Docs.findOne
 #                 model:'stack_question'
 #                 question_id:@question_id
@@ -91,7 +88,6 @@
 #         'click .say_questions': (e,t)->
 #             window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.subreddit} questions"
 #         'click .say_title': (e,t)->
-#             console.log 'title', @
 #             window.speechSynthesis.speak new SpeechSynthesisUtterance @title
 
 #         'click .search': ->
