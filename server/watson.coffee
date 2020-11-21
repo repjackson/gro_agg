@@ -120,6 +120,7 @@ Meteor.methods
         @unblock()
         self = @
         doc = Docs.findOne doc_id
+        console.log 'calling', doc_id, key, mode
         # if doc.skip_watson is false
         # else
         parameters =
@@ -139,7 +140,7 @@ Meteor.methods
                 categories:
                     explanation:false
                 emotion: {}
-                metadata: {}
+                # metadata: {}
                 # relations: {}
                 # semantic_roles: {}
                 sentiment: {}
@@ -153,32 +154,40 @@ Meteor.methods
                     # parameters.html = doc["#{key}"]
                     parameters.returnAnalyzedText = true
                     parameters.html = doc.description
+                    parameters.metadata = {}
                 when 'text'
                     parameters.text = doc["#{key}"]
+                    parameters.returnAnalyzedText = true
+                    parameters.clean = true
                 when 'url'
                     # parameters.url = doc["#{key}"]
                     parameters.url = doc.url
                     parameters.returnAnalyzedText = true
                     parameters.clean = true
+                    parameters.metadata = {}
                 when 'stack'
                     # parameters.url = doc["#{key}"]
                     parameters.url = doc.link
                     parameters.returnAnalyzedText = true
+                    parameters.metadata = {}
                     parameters.clean = true
                 when 'video'
                     parameters.url = "https://www.reddit.com#{doc.permalink}"
                     parameters.returnAnalyzedText = true
                     parameters.clean = true
+                    parameters.metadata = {}
                 when 'image'
                     parameters.url = "https://www.reddit.com#{doc.permalink}"
                     parameters.returnAnalyzedText = true
                     parameters.clean = true
+                    parameters.metadata = {}
 
-
+        console.log parameters
 
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>
             if err
                 # if err.code is 400
+                console.log err
                 unless err.code is 403
                     Docs.update doc_id,
                         $set:skip_watson:false

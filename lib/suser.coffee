@@ -27,7 +27,12 @@ if Meteor.isClient
         unless @data.watson
             Meteor.call 'call_watson', @data._id,'link','stack',->
         
-        
+    Template.user_comment_item.events
+        'click .call': -> 
+            console.log 'hi'
+            Meteor.call 'call_watson', @_id, 'body','text', ->
+
+
     Template.stackuser_page.helpers
         stackuser_doc: ->
             Docs.findOne 
@@ -147,7 +152,7 @@ if Meteor.isServer
             model:'stack_question'
             "owner.user_id":parseInt(user_id)
             site:site
-        }, limit:100
+        }, limit:20
     Meteor.publish 'suser_answers', (site,user_id)->
         Docs.find { 
             model:'stack_answer'

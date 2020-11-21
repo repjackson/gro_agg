@@ -625,7 +625,7 @@ Meteor.methods
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
                 for item in parsed.items
-                    console.log item
+                    # console.log item
                     found = 
                         Docs.findOne
                             model:'stack_question'
@@ -661,7 +661,7 @@ Meteor.methods
                             "owner.user_id":parseInt(user_id)
                             answer_id:item.answer_id
                     if found
-                        console.log 'found answer', found.title
+                        # console.log 'found answer', found.title
                         Docs.update found._id,
                             $set:body:item.body
                         continue

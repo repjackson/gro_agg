@@ -582,4 +582,3 @@ Template.call_watson.events
         Meteor.call 'call_watson', @_id, 'url','url', ->
         # Meteor.call 'search_stack', selected_tags.array(), ->
        
-
