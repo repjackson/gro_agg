@@ -1,7 +1,6 @@
 @Docs = new Meteor.Collection 'docs'
 @results = new Meteor.Collection 'results'
-
-@Tags = new Meteor.Collection 'tags'
+# @Tags = new Meteor.Collection 'tags'
 # @Tag_results = new Meteor.Collection 'tag_results'
 
 
@@ -34,14 +33,12 @@ Docs.helpers
             model:'stack_bounty'
             question_id:@qid
 
-Docs.helpers
     five_tags: ->
         if @tags
             @tags[..5]
     three_tags: ->
         if @tags
             @tags[..3]
-    has_points: -> @points > 0
     initials: ->
         @username[..1]
 
@@ -64,7 +61,7 @@ Docs.before.insert (userId, doc)->
     month = moment(timestamp).format('MMMM')
     year = moment(timestamp).format('YYYY')
 
-    doc.points = 0
+    # doc.points = 0
     # date_array = [ap, "hour #{hour}", "min #{minute}", weekday, month, date, year]
     date_array = [ap, weekday, month, date, year]
     if _

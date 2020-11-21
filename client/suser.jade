@@ -109,10 +109,10 @@ template(name='stackuser_page')
                         a.ui.circular.basic.button(href=website_url target="_window")
                             i.globe.icon
                             |#{website_url}
-                    .ui.grey.small.inline.header
-                        i.tag.icon
-                        |#{tags.length} tags
-                    span.smallscroll
+                    .smallscroll
+                        .ui.grey.small.inline.header
+                            i.tag.icon
+                            |#{tags.length} tags
                         each tags
                             +flat_tag_selector
                             // .ui.tertiary.button #{this}
@@ -210,7 +210,7 @@ template(name='stackuser_page')
                             
                             
 template(name='answer_item')
-    span.say_this !{body}
+    span.say_this #{score}: !{body}
     // hi#{answer_question.title}
     |#{site}
     if in_dev

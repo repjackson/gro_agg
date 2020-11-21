@@ -5,9 +5,9 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe('tags', selected_tags.array(), Template.currentData().filter, Template.currentData().limit)
 
     Template.cloud.helpers
-        all_tags: ->
-            doc_count = Docs.find().count()
-            if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find()
+        # all_tags: ->
+        #     doc_count = Docs.find().count()
+        #     if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find()
 
         tag_cloud_class: ->
             button_class = switch
@@ -26,9 +26,9 @@ if Meteor.isClient
 
 
     Template.cloud.events
-        'click .select_tag': -> selected_tags.push @name
-        'click .unselect_tag': -> selected_tags.remove @valueOf()
-        'click #clear_tags': -> selected_tags.clear()
+        # 'click .select_tag': -> selected_tags.push @name
+        # 'click .unselect_tag': -> selected_tags.remove @valueOf()
+        # 'click #clear_tags': -> selected_tags.clear()
 
         'keyup #search': (e,t)->
             e.preventDefault()

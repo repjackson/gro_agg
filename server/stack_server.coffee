@@ -643,8 +643,8 @@ Meteor.methods
             )).catch((err)->
             )
    
-    stackuser_answers: (site, user_id) ->
-        url = "https://api.stackexchange.com/2.2/users/#{user_id}/answers?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+    get_suser_answers: (site, user_id) ->
+        url = "https://api.stackexchange.com/2.2/users/#{user_id}/answers?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw((&filter=!3zl2.F7X(uyskMHHP"
         options = {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -658,15 +658,19 @@ Meteor.methods
                         Docs.findOne
                             model:'stack_answer'
                             site:site
-                            user_id:parseInt(user_id)
-                    # if found
-                    #     console.log 'found answer', found.site
+                            "owner.user_id":parseInt(user_id)
+                            answer_id:item.answer_id
+                    if found
+                        console.log 'found answer', found.title
+                        Docs.update found._id,
+                            $set:body:item.body
+                        continue
                     unless found
                         item.model = 'stack_answer'
                         item.site = site
-                        item.user_id = parseInt(user_id)
                         new_id = 
                             Docs.insert item
+                        continue
             )).catch((err)->
             )
 
@@ -688,8 +692,8 @@ Meteor.methods
                             site:site
                             # user_id:parseInt(user_id)
                             comment_id:item.comment_id
-                    if found
-                        console.log 'found COMMENT', found
+                    # if found
+                        # console.log 'found COMMENT', found
                         # Docs.update found._id, 
                         #     $set:
                         #         # owner:item.owner
@@ -701,7 +705,7 @@ Meteor.methods
                         # item.user_id = parseInt(user_id)
                         new_id = 
                             Docs.insert item
-                        console.log 'new COMM', Docs.findOne(new_id)
+                        # console.log 'new COMM', Docs.findOne(new_id)
             )).catch((err)->
             )
         

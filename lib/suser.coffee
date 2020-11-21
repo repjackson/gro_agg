@@ -9,13 +9,13 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'stackuser_badges', Router.current().params.site, Router.current().params.user_id
         # @autorun => Meteor.subscribe 'stackuser_tags', Router.current().params.site, Router.current().params.user_id
         @autorun => Meteor.subscribe 'suser_comments', Router.current().params.site, Router.current().params.user_id
-        # @autorun => Meteor.subscribe 'stackuser_questions', Router.current().params.site, Router.current().params.user_id
-        # @autorun => Meteor.subscribe 'stackuser_answers', Router.current().params.site, Router.current().params.user_id
+        @autorun => Meteor.subscribe 'suser_questions', Router.current().params.site, Router.current().params.user_id
+        @autorun => Meteor.subscribe 'suser_answers', Router.current().params.site, Router.current().params.user_id
     Template.stackuser_page.onRendered ->
         Meteor.call 'search_stackuser', Router.current().params.site, Router.current().params.user_id, ->
 
-        # Meteor.call 'stackuser_answers', Router.current().params.site, Router.current().params.user_id, ->
-        # Meteor.call 'get_suser_questions', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'get_suser_answers', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'get_suser_questions', Router.current().params.site, Router.current().params.user_id, ->
         # Meteor.call 'stackuser_tags', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'get_suser_comments', Router.current().params.site, Router.current().params.user_id, ->
         # Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
@@ -69,7 +69,7 @@ if Meteor.isClient
     Template.stackuser_page.events
         'click .set_location': ->
             Session.set('location_query',@location)
-            window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.site} users in #{@location}"
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.site} users in #{@location}"
             Router.go "/site/#{Router.current().params.site}/users"
 
         'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
@@ -96,15 +96,15 @@ if Meteor.isClient
             window.speechSynthesis.speak new SpeechSynthesisUtterance "import #{Router.current().params.site} user"
             Meteor.call 'search_stackuser', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_answers': ->
-            Meteor.call 'stackuser_answers', Router.current().params.site, Router.current().params.user_id, ->
+            Meteor.call 'get_suser_answers', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_questions': ->
             Meteor.call 'get_suser_questions', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_comments': ->
             Meteor.call 'get_suser_comments', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_badges': ->
-            Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
+            Meteor.call 'get_suser_badges', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_tags': ->
-            Meteor.call 'stackuser_tags', Router.current().params.site, Router.current().params.user_id, ->
+            Meteor.call 'get_suser_tags', Router.current().params.site, Router.current().params.user_id, ->
                 
         
 
@@ -129,7 +129,7 @@ if Meteor.isServer
             # model:'stack_question'
             question_id:qid
     
-    Meteor.publish 'stackuser_badges', (site,user_id)->
+    Meteor.publish 'suser_badges', (site,user_id)->
         Docs.find { 
             model:'stack_badge'
             user_id:parseInt(user_id)
@@ -142,19 +142,19 @@ if Meteor.isServer
             site:site
         }, limit:100
         cur
-    Meteor.publish 'stackuser_questions', (site,user_id)->
+    Meteor.publish 'suser_questions', (site,user_id)->
         Docs.find { 
             model:'stack_question'
-            user_id:parseInt(user_id)
+            "owner.user_id":parseInt(user_id)
             site:site
-        }, limit:10
-    Meteor.publish 'stackuser_answers', (site,user_id)->
+        }, limit:100
+    Meteor.publish 'suser_answers', (site,user_id)->
         Docs.find { 
             model:'stack_answer'
-            user_id:parseInt(user_id)
+            "owner.user_id":parseInt(user_id)
             site:site
-        }, limit:10
-    Meteor.publish 'stackuser_tags', (site,user_id)->
+        }, limit:100
+    Meteor.publish 'suser_tags', (site,user_id)->
         Docs.find { 
             model:'stack_tag'
             user_id:parseInt(user_id)
