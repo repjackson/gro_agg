@@ -2,12 +2,12 @@ template(name='dao')
     .ui.stackable.grid
         .row
             .sixteen.wide.column.smallscroll
-                // a.icon.ui.big.circular.icon.button.zoomer(href='/')
+                // a.icon.ui.big.icon.button.zoomer(href='/')
                 //     i.large.yin.yang.grey.icon
                 // unless viewing_doc
                 if selected_tags
                     // if many_tags
-                    //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                    //     a#clear_tags.ui.black.icon.compact.button.select_term
                     //         i.remove.icon
                     each selected_tags
                         +unselect_tag
@@ -28,7 +28,7 @@ template(name='dao')
                 // .spacer
             .four.wide.column.scrolling
                 // .ui.large.basic.label(title='results') #{doc_count} results
-                // .ui.basic.circular.button(title='when')
+                // .ui.basic.button(title='when')
                 // i.clock.icon
                 // +i n='clock' cl='ui mini inline image'
                 // |when
@@ -116,7 +116,7 @@ template(name='dao')
                             |#{this}
                     each emotion_results
                         if name
-                            .ui.compact.basic.circular.button.select_emotion
+                            .ui.compact.basic.button.select_emotion
                                 |#{name}
                 // +skve k='emotion_mode' v='happy' l='happy' i='happy--v1'
                 // +skve k='emotion_mode' v='sad' l='sad' i='sad--v1'
@@ -322,7 +322,7 @@ template(name='view_mode')
         // |#{k}
 
 template(name='emotion_mode')
-    .ui.compact.icon.big.circular.basic.tertiary.button.toggle_emotion
+    .ui.compact.icon.big.basic.tertiary.button.toggle_emotion
         +i n=i cl='ui mini image'
         // i.link.zoomer.icon(class="#{toggle_emotion_class} #{thinking_class}" title=t)
         // |#{k}
@@ -339,7 +339,7 @@ template(name='pull_reddit')
         i.reddit.icon
         
 template(name='call_watson')
-    .ui.icon.massive.circular.basic.button.pull
+    .ui.icon.massive.basic.button.pull
         i.dna.large.teal.icon
 
 template(name='convert')
@@ -348,18 +348,19 @@ template(name='convert')
 
 
 template(name='unselect_tag')
-    a.unselect_tag.ui.black.compact.circular.large.button.select_term(href='#')
+    a.unselect_tag.ui.black.compact.large.button.select_term(href='#')
         if term
             img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
         strong #{this}
 
 template(name='tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.zoomer.tertiary.large.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.zoomer.tertiary.button.say_this.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
-                img.ui.mini.rounded.inline.invert.image.zoomer(src=term.watson.metadata.image)    
+                img.ui.avatar.image.zoomer(src=term.watson.metadata.image)    
         | #{name}
+        // else
         // small #{count}
         
 template(name='select_subreddit')
@@ -367,7 +368,7 @@ template(name='select_subreddit')
     a.ui.image.basic.label.pointer.zoomer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
-                img.ui.avatar.compact.invert.image(src=term.watson.metadata.image)    
+                img.ui.avatar.compact.image(src=term.watson.metadata.image)    
         | #{name}
         small #{count}
 
@@ -421,7 +422,7 @@ template(name='tone')
                         i.chevron.up.link.grey.large.icon.upvote_sentence
                         i.chevron.down.link.grey.large.icon.downvote_sentence
                         each tones
-                            .ui.inverted.invert.small.compact.label(class="#{tone_label_class}") 
+                            .ui.inverted.small.compact.label(class="#{tone_label_class}") 
                             .ui.small.compact.inverted.label(class="{{calculated_size 'weight'}} #{tone_label_class}") 
                                 span.ui.text
                                     |#{tone_id} &nbsp;

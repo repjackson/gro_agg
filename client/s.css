@@ -538,7 +538,7 @@ a.title, #title {
 
 input {
     /*margin: 5px !important;*/
-    /*border-radius: 10px !important; */
+    border-radius: 7px !important; 
 }
 
 ::-webkit-scrollbar {
@@ -619,7 +619,7 @@ input {
 
 
 .button{
-  /*border-radius: 10px !important;  */
+  border-radius: 7px !important;  
 }
 .button:active{
   border-radius: 10px !important;  

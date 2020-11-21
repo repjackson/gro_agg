@@ -85,7 +85,7 @@ template(name='subreddit_docs')
                     // .ui.grey.small.header 
                     //     |related subreddits
                     .ui.inline.header !{title}
-                    .ui.small.header #{data.public_description}
+                    .ui.small.header.say_this !{data.public_description}
                     i.large.grey.users.icon
                     each subreddit_organizations
                         // .ui.label hi #{name}

@@ -1,7 +1,7 @@
 template(name='reddit')
     .ui.stackable.grid
         .row
-            .sixteen.wide.column
+            .sixteen.wide.center.aligned.column
                 // a.icon.ui.big.circular.icon.button.zoomer(href='/')
                 //     i.large.yin.yang.grey.icon
                 // unless viewing_doc
@@ -11,7 +11,7 @@ template(name='reddit')
                     //         i.remove.icon
                     each selected_tags
                         +unselect_tag
-                i.big.icon(class=search_icon_class)
+                // i.big.icon(class=search_icon_class)
                 .ui.left.icon.large.input(class=thinking_class)
                     i.search.icon
                     // if skv_is 'thinking' true
@@ -20,13 +20,14 @@ template(name='reddit')
                     //     i#clear_tags.link.yin.yang.big.icon(class=thinking_class)
                     // i.search.grey.icon
                     input.search_title(type='text' autofocus='' placeholder=doc_count)
-                each tag_results
-                    +tag_selector
+                if selected_tags
+                    each tag_results
+                        +tag_selector
                 // .ui.header 
                 //     i.smile.large.grey.icon
                 //     |emotion
                 // .spacer
-            .four.wide.column
+                // .four.wide.column
                 // .ui.large.basic.label(title='results') #{doc_count} results
                 // .ui.basic.circular.button(title='when')
                 // i.clock.icon
@@ -55,163 +56,121 @@ template(name='reddit')
                 //     each site_results
                 //         +tag_selector
 
-                // unless skv_is 'view_mode' 'stack'
-                .ui.inline.grey.header 
-                    +icon n='marker' cl='ui mini inline image'
-                    // |where
-                each location_results
-                    +tag_selector
+                +skve k='view_more' v=true l='more' i='bars' ionly=true
+                if skv_is 'view_more' true
+                    .ui.inline.grey.header 
+                        +icon n='marker' cl='ui mini inline image'
+                        // |where
+                    each location_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    // .ui.basic.tertiary.button(title='groups')
+                    // i.users.icon
+                    // div
+                    .ui.inline.grey.header 
+                        +icon n='user' cl='ui mini inline image'
+                        // |people
+                    each person_results
+                        +tag_selector
                     // .ui.compact.small.tertiary.add_tag.button #{name}
-                // .ui.basic.tertiary.button(title='groups')
-                // i.users.icon
-                // div
-                .ui.inline.grey.header 
-                    +icon n='user' cl='ui mini inline image'
-                    // |people
-                each person_results
-                    +tag_selector
-                // .ui.compact.small.tertiary.add_tag.button #{name}
-                // .ui.basic.tertiary.button
-                // div
-                .ui.inline.grey.header 
-                    +icon n='home' cl='ui mini inline image' t='facility'
-                    // |facilities
-                each facility_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                +icon n='briefcase' cl='ui mini inline image' t='company'
-                each company_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                // +i n='television' cl='ui mini inline image' t='tv shows'
-                each tvshow_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                +icon n='building' cl='ui mini inline image' t='organization'
-                each organization_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                +icon n='trophy' cl='ui mini inline image' t='award'
-                each award_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                div
-                .ui.inline.grey.header 
-                    +icon n='paper' cl='ui mini inline image'
-                    // |print media
-                    // |where
-                each print_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                +icon n='sport' cl='ui mini inline image' t='sport'
-                each sport_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                +icon n='movie' cl='ui mini inline image' t='movie'
-                each movie_results
-                    +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                each selected_emotions
-                    .ui.black.compact.button.unselect_emotion
-                        |#{this}
-                each emotion_results
-                    if name
-                        .ui.compact.basic.circular.button.select_emotion
-                            |#{name}
-                // +skve k='emotion_mode' v='happy' l='happy' i='happy--v1'
-                // +skve k='emotion_mode' v='sad' l='sad' i='sad--v1'
-                // +skve k='emotion_mode' v='anger' l='anger' i='angry--v1'
-                // +skve k='emotion_mode' v='disgust' l='disgust' i='disgusting'
-                // +skve k='emotion_mode' v='fear' l='fear' i='scream'
-                // +skve k='view_mode' v='twitter' l='twitter' i='twitter'
-                // +skve k='view_mode' v='bitcoin' l='bitcoin' i='bitcoin'
-                // +skve k='view_mode' v='covid' l='covid' i='biohazard'
-                // +view_mode k='alpha' i='disabled brain'
-                // +view_mode k='bitcoin' i='bitcoin'
-                // +view_mode k='covid' i='biohazard'
-                    // i.building.icon
-                    // |organizations
-            .twelve.wide.column
-                // +skve k='main_section' v='dashboard' l='dashboard' i='dashboard'
-                // +skve k='main_section' v='alpha' l='alpha' i='brain'
-                // +skve k='main_section' v='duck' l='search' i='search'
-                // +skve k='main_section' v='reddit' l='reddit' i='reddit'
-                // +skve k='main_section' v='wikipedia' l='wikipedia' i='wikipedia'
-                // +skve k='main_section' v='stack' l='stack' i='stackoverflow'
-                // +skve k='main_section' v='porn' l='porn' i='mercury'
-                // +skve k='main_section' v='shop' l='shop' i='shop'
-                // +skve k='main_section' v='chat' l='chat' i='chat'
-                // +skve k='main_section' v='groups' l='groups' i='groups'
-                // +skve k='main_section' v='events' l='events' i='calendar'
-                // +skve k='main_section' v='tasks' l='tasks' i='tasks'
-                // +skve k='main_section' v='leaderboard' l='leaderboard' i='leaderboard'
-                // +skve k='main_section' v='university' l='university' i='university'
-                // +skve k='main_section' v='faq' l='faq' i='faq'
-                // +skve k='main_section' v='money' l='money' i='money'
-                .scrolling
-                    +alpha
-                    // if skv_is 'main_section' 'dashboard'
-                    //     +icon n='dashboard'
-                    //     +comments
-                    //     .ui.header views 
-                    //     +voting
-                    // if skv_is 'main_section' 'alpha'
-                    // if skv_is 'main_section' 'duck'
-                    //     // .ui.inline.grey.header.toggle_duck.pointer
-                    //     //     i.search.icon
-                    //     //     |search
-                    //     if viewing_duck
-                    //         if skv_is 'loading_duck' true
-                    //             i.big.globe.loading.icon 
-                    //             |duck duck go...
-                    //         else
-                    //             // unless viewing_doc
-                    each ducks
-                        +duck 
-                    |#{reddit_docs.count}
-                    // if viewing_reddit
-                    .ui.dropdown
-                        // span.text limit
-                        i.dropdown.icon
-                        .menu 
-                            +skve k='limit' v=1 l='1'
-                            +skve k='limit' v=10 l='10'
-                            +skve k='limit' v=20 l='20'
-                            // .item 1
-                            // .item 5
-                            // .item 10
-                            // .item 20
-                    // |sort
-                    // +skve k='sort_key' v='_timestamp' l='when' i='clock'
-                    // +skve k='sort_key' v='points' l='points' i='leaderboard'
-                    // +skve k='sort_direction' v=-1 l='u' i='caret-up'
-                    // +skve k='sort_direction' v=1 l='d' i='caret-down'
-                    // |view
-                    +skve k='view_mode' v='cards' l='cards' i='clone' ionly=true
-                    +skve k='view_mode' v='list' l='list' i='list' ionly=true
-                    if skv_is 'view_mode' 'list'
-                        .ui.large.list 
-                            each reddit_docs
-                                .item
-                                    if is_image
-                                        img.ui.small.image.pointer.zoomer.toggle_view(src=url)
-                                    else if watson.metadata.image
-                                        img.ui.rounded.small.pointer.zoomer.image.toggle_view(src=watson.metadata.image)    
-                                    .content
-                                        .header 
-                                            |#{title}
-                    else 
+                    // .ui.basic.tertiary.button
+                    // div
+                    .ui.inline.grey.header 
+                        +icon n='home' cl='ui mini inline image' t='facility'
+                        // |facilities
+                    each facility_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    +icon n='briefcase' cl='ui mini inline image' t='company'
+                    each company_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    // +i n='television' cl='ui mini inline image' t='tv shows'
+                    each tvshow_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    +icon n='building' cl='ui mini inline image' t='organization'
+                    each organization_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    +icon n='trophy' cl='ui mini inline image' t='award'
+                    each award_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    div
+                    .ui.inline.grey.header 
+                        +icon n='paper' cl='ui mini inline image'
+                        // |print media
+                        // |where
+                    each print_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    +icon n='sport' cl='ui mini inline image' t='sport'
+                    each sport_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    +icon n='movie' cl='ui mini inline image' t='movie'
+                    each movie_results
+                        +tag_selector
+                        // .ui.compact.small.tertiary.add_tag.button #{name}
+                    each selected_emotions
+                        .ui.black.compact.button.unselect_emotion
+                            |#{this}
+                    each emotion_results
+                        if name
+                            .ui.compact.basic.circular.button.select_emotion
+                                |#{name}
+            if selected_tags
+                .sixteen.wide.center.aligned.column
+                    .scrolling
+                        if alpha
+                            +alpha
+                        // each ducks
+                        //     +duck 
+                        |#{reddit_docs.count}
+                        // if viewing_reddit
+                        // .ui.dropdown
+                        //     // span.text limit
+                        //     i.dropdown.icon
+                        //     .menu 
+                        //         +skve k='limit' v=1 l='1'
+                        //         +skve k='limit' v=10 l='10'
+                        //         +skve k='limit' v=20 l='20'
+                        //         // .item 1
+                        //         // .item 5
+                        //         // .item 10
+                        //         // .item 20
+                        // |sort
+                        // +skve k='sort_key' v='_timestamp' l='when' i='clock'
+                        // +skve k='sort_key' v='points' l='points' i='leaderboard'
+                        // +skve k='sort_direction' v=-1 l='u' i='caret-up'
+                        // +skve k='sort_direction' v=1 l='d' i='caret-down'
+                        // |view
+                        // +skve k='view_mode' v='cards' l='cards' i='clone' ionly=true
+                        // +skve k='view_mode' v='list' l='list' i='list' ionly=true
+                        if skv_is 'view_mode' 'list'
+                            .ui.large.list 
+                                each reddit_docs
+                                    .item
+                                        if is_image
+                                            img.ui.small.image.pointer.zoomer.toggle_view(src=url)
+                                        else if watson.metadata.image
+                                            img.ui.rounded.small.pointer.zoomer.image.toggle_view(src=watson.metadata.image)    
+                                        .content
+                                            .header 
+                                                |#{title}
+                        else 
+                            .ui.cards
+                                each reddit_docs
+                                    +reddit_doc
+                            
+                        // else if skv_is 'main_section' 'wikipedia'
+                        .ui.inline.header
+                            i.large.wikipedia.icon
+                            |#{wiki_docs.count} wikipedia
                         .ui.cards
-                            each reddit_docs
+                            each wiki_docs
                                 +reddit_doc
-                        
-                    // else if skv_is 'main_section' 'wikipedia'
-                    .ui.inline.header
-                        i.large.wikipedia.icon
-                        |#{wiki_docs.count} wikipedia
-                    .ui.cards
-                        each wiki_docs
-                            +reddit_doc
                 
                     
 template(name='i')

@@ -325,24 +325,24 @@ Meteor.publish 'dtags', (
     
       
   
-    subreddit_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "subreddit": 1 }
-        { $group: _id: "$subreddit", count: $sum: 1 }
-        # { $match: _id: $nin: selected_subreddits }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:7 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-        ]
-    # console.log 'cloud: ', subreddit_cloud
-    # console.log 'subreddit match', match
-    subreddit_cloud.forEach (subreddit, i) ->
-        # console.log 'subreddit',subreddit
-        self.added 'results', Random.id(),
-            name: subreddit.name
-            count: subreddit.count
-            model:'subreddit'
+    # subreddit_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "subreddit": 1 }
+    #     { $group: _id: "$subreddit", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_subreddits }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:7 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    #     ]
+    # # console.log 'cloud: ', subreddit_cloud
+    # # console.log 'subreddit match', match
+    # subreddit_cloud.forEach (subreddit, i) ->
+    #     # console.log 'subreddit',subreddit
+    #     self.added 'results', Random.id(),
+    #         name: subreddit.name
+    #         count: subreddit.count
+    #         model:'subreddit'
     
     
     facility_cloud = Docs.aggregate [
@@ -558,7 +558,7 @@ Meteor.publish 'dtags', (
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:11 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     # console.log 'cloud: ', tag_cloud
