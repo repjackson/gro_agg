@@ -56,36 +56,24 @@ template(name='reddit')
                 //     each site_results
                 //         +tag_selector
 
-                +skve k='view_more' v=true l='more' i='bars' ionly=true
+                +skve k='view_more' v=true l='more' i='bars' ionly=false
                 if skv_is 'view_more' true
-                    .ui.inline.grey.header 
-                        +icon n='marker' cl='ui mini inline image'
-                        // |where
-                    each location_results
-                        +tag_selector
-                        // .ui.compact.small.tertiary.add_tag.button #{name}
-                    // .ui.basic.tertiary.button(title='groups')
-                    // i.users.icon
-                    // div
-                    .ui.inline.grey.header 
-                        +icon n='user' cl='ui mini inline image'
-                        // |people
-                    each person_results
-                        +tag_selector
-                    // .ui.compact.small.tertiary.add_tag.button #{name}
-                    // .ui.basic.tertiary.button
-                    // div
-                    .ui.inline.grey.header 
-                        +icon n='home' cl='ui mini inline image' t='facility'
-                        // |facilities
-                    each facility_results
-                        +tag_selector
-                        // .ui.compact.small.tertiary.add_tag.button #{name}
-                    +icon n='briefcase' cl='ui mini inline image' t='company'
-                    each company_results
-                        +tag_selector
-                        // .ui.compact.small.tertiary.add_tag.button #{name}
-                    // +i n='television' cl='ui mini inline image' t='tv shows'
+                    +skve k='view_locations' v=true l='locations' i='marker' ionly=false
+                    if skv_is 'view_locations' true
+                        each location_results
+                            +tag_selector
+                    +skve k='view_people' v=true l='people' i='user outline' ionly=false
+                    if skv_is 'view_people' true
+                        each person_results
+                            +tag_selector
+                    +skve k='view_facilities' v=true l='facilities' i='building' ionly=false
+                    if skv_is 'view_facilities' true
+                        each facility_results
+                            +tag_selector
+                    +skve k='view_companies' v=true l='companies' i='briefcase' ionly=false
+                    if skv_is 'view_companies' true
+                        each company_results
+                            +tag_selector
                     each tvshow_results
                         +tag_selector
                         // .ui.compact.small.tertiary.add_tag.button #{name}
@@ -122,7 +110,7 @@ template(name='reddit')
                                 |#{name}
             if selected_tags
                 .sixteen.wide.center.aligned.column
-                    .scrolling
+                    .scrollin
                         if alpha
                             +alpha
                         // each ducks
@@ -146,8 +134,8 @@ template(name='reddit')
                         // +skve k='sort_direction' v=-1 l='u' i='caret-up'
                         // +skve k='sort_direction' v=1 l='d' i='caret-down'
                         // |view
-                        // +skve k='view_mode' v='cards' l='cards' i='clone' ionly=true
-                        // +skve k='view_mode' v='list' l='list' i='list' ionly=true
+                        // +skve k='view_mode' v='cards' l='cards' i='clone' ionly=false
+                        // +skve k='view_mode' v='list' l='list' i='list' ionly=false
                         if skv_is 'view_mode' 'list'
                             .ui.large.list 
                                 each reddit_docs
@@ -160,7 +148,7 @@ template(name='reddit')
                                             .header 
                                                 |#{title}
                         else 
-                            .ui.cards
+                            .ui.centered.stackable.cards
                                 each reddit_docs
                                     +reddit_doc
                             

@@ -36,16 +36,26 @@ globalHotkeys.add
             Router.go "/model/edit/#{model._id}"
 
 globalHotkeys.add
-	combo: "d s"
+	combo: "r"
 	callback: ->
-        model = Docs.findOne Router.current().params.doc_id
-        Router.go "/m/#{model.slug}"
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
+        Router.go "/subreddits"
+globalHotkeys.add
+	combo: "s"
+	callback: ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'stack exchange'
+        Router.go "/stack"
+globalHotkeys.add
+	combo: "m"
+	callback: ->
+        window.speechSynthesis.cancel()
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'shut the fuck up'
 
 globalHotkeys.add
-	combo: "d e"
+	combo: "d"
 	callback: ->
-        doc = Docs.findOne Router.current().params.doc_id
-        Router.go "/m/#{doc.model}/#{doc._id}/edit"
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
+        Router.go "/reddit"
 
 
 globalHotkeys.add

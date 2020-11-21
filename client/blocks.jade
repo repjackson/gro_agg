@@ -1,6 +1,6 @@
 template(name='icon')    
-    // i.icon(class=name)
-    img.ui.image(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl)
+    i.icon(class=n)
+    // img.ui.image(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/plasticine/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/ios/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl)
@@ -101,10 +101,10 @@ template(name='skve')
         // if i
         if selected 
             // +i n=i cl='ui mini inline image'
-            i.large.icon(class=i)
+            i.big.icon(class=i)
         else
             // +iios n=i cl='ui mini inline image'
-            i.grey.icon(class=i)
+            i.grey.large.icon(class=i)
         unless ionly
             if l
                 span.say_this #{l}
