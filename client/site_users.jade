@@ -11,18 +11,18 @@ template(name='site_users')
                     // .ui.label #{tag_background_color}: tag_background_color
                     // .ui.label #{tag_foreground_color}: tag_foreground_color
                     // .ui.label #{link_color}: link_color
-                    // .ui.header related sites
-                    // .ui.header !{name}
-                    // each related_sites
-                        // .ui.small.header 
-                        //     i.fork.icon
-                        //     |#{name}
-                        // .ui.list 
-                            // .item relation: #{relation}
-                            // .item api_site_parameter: #{api_site_parameter}
-                            // .item site_url: #{site_url}
-                    // a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
-                    //     i.large.link.twitter.icon
+                    .ui.header related sites
+                    .ui.header !{name}
+                    each related_sites
+                        .ui.small.header 
+                            i.fork.icon
+                            |#{name}
+                        .ui.list 
+                            .item relation: #{relation}
+                            .item api_site_parameter: #{api_site_parameter}
+                            .item site_url: #{site_url}
+                    a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
+                        i.large.link.twitter.icon
                     a.ui.large.basic.icon.circular.button(href=site_url)
                         // |#{site_url}
                         i.external.icon
@@ -31,15 +31,15 @@ template(name='site_users')
                     a.ui.large.circular.basic.button(href="/site/#{api_site_parameter}")
                         i.question.icon
                         |questions
-                    // a.ui.large.disabled.black.circular.button(href="/site/#{api_site_parameter}/users")
-                    //     i.users.icon
-                    //     |users
-                    // a.ui.large.disabled.circular.basic.button(href="/site/#{api_site_parameter}/tags")
-                    //     i.tag.icon
-                    //     |tags
-                    // a.ui.large.disabled.circular.basic.button(href="/site/#{api_site_parameter}/badges")
-                    //     i.certificate.icon
-                    //     |badges
+                    a.ui.large.disabled.black.circular.button(href="/site/#{api_site_parameter}/users")
+                        i.users.icon
+                        |users
+                    a.ui.large.disabled.circular.basic.button(href="/site/#{api_site_parameter}/tags")
+                        i.tag.icon
+                        |tags
+                    a.ui.large.disabled.circular.basic.button(href="/site/#{api_site_parameter}/badges")
+                        i.certificate.icon
+                        |badges
                     .ui.list.mobile.hidden
                         .item #{launch_date} launch_date
                         .item #{open_beta_date} open_beta_date
@@ -51,16 +51,16 @@ template(name='site_users')
                         // .item #{api_site_parameter} api_site_parameter
                         .item #{site_type} site_type
                     // +array_edit k='tags' d=true
-                    // +comments
-                    // +voting_full
+                    +comments
+                    +voting_full
                     if in_dev
                         .ui.icon.button.get_site_users
                             i.refresh.icon
                 .twelve.wide.column
                     if selected_tags
-                        // if many_tags
-                        //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
-                        //         i.remove.icon
+                        if many_tags
+                            a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                                i.remove.icon
                         each selected_tags
                             +unselect_tag
                     .ui.left.icon.input(class="{{#if current_username_query}} focus {{/if}}")

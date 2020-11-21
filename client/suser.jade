@@ -207,14 +207,6 @@ template(name='stackuser_page')
                 //     .ui.list
                 //         each user_tags
                 //             .item #{name}: #{count}
-                .four.wide.column
-                    .ui.header.get_comments
-                        i.chat.outline.icon
-                        |comments
-                    .ui.list
-                        each user_comments
-                            .item #{title}
-                    +comments        
                             
                             
 template(name='answer_item')
@@ -228,9 +220,8 @@ template(name='answer_item')
     
     
 template(name='user_comment_item')
-    span.say_this !{body}
+    .say_this #{body}
     |#{site}
-    // hi#{answer_question.title}
     if in_dev
         +print_this
         +remove_button
