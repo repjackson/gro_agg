@@ -262,7 +262,8 @@ template(name='user_comment_item')
         .ui.small.circular.basic.icon.button.call(title='analyze')
             i.dna.icon
     each tags
-        .ui.tertiary.small.button #{this}
+        +flat_tag_selector
+        // .ui.tertiary.small.button.say_this #{this}
     +doc_emotion  
     
     

@@ -69,7 +69,7 @@ template(name='stack_tag')
                             img.ui.invert.mini.inline.image(src=watson.metadata.image)    
                         | #{site}
                     with owner
-                        a.ui.basic.segment.zoomer.pointer.say_name(href="/site/#{current_doc.site}/user/#{user_id}")
+                        a.ui.basic.segment.zoomer.pointer.say_this(href="/site/#{current_doc.site}/user/#{user_id}")
                             img.ui.rounded.image(src=profile_image)
                             .ui.header #{display_name}
                                 small #{reputation}
@@ -140,7 +140,7 @@ template(name='stack_tag')
                                 with owner
                                     .ui.divider
                                     i.chat.icon
-                                    a.ui.inline.header.say_name.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
+                                    a.ui.inline.header.say_this.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
                                         img.ui.avatar.invert.image(src=profile_image)
                                         |!{display_name}
                                         |#{reputation}
@@ -175,7 +175,7 @@ template(name='stack_tag')
     
                                 with owner
                                     div
-                                    a.ui.header.say_name.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
+                                    a.ui.header.say_this.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
                                         img.ui.avatar.invert.image(src=profile_image)
                                         |!{display_name}
                                     |#{reputation}

@@ -40,7 +40,7 @@ template(name='stack_page')
                                     with owner
                                         .ui.divider
                                         i.chat.icon
-                                        a.say_this.ui.inline.header.say_name.zoomer(href="/site/#{current_doc.site}/user/#{user_id}" class=post_header_class)
+                                        a.say_this.ui.inline.header.say_this.zoomer(href="/site/#{current_doc.site}/user/#{user_id}" class=post_header_class)
                                             img.ui.avatar.invert.image(src=profile_image)
                                             |!{display_name}
                                             |#{reputation}
@@ -74,7 +74,7 @@ template(name='stack_page')
         
                                     with owner
                                         div
-                                        a.ui.header.say_name.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
+                                        a.ui.header.say_this.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
                                             img.ui.avatar.invert.image(src=profile_image)
                                             |!{display_name}
                                             small #{reputation}
@@ -123,7 +123,7 @@ template(name='stack_page')
                         | #{site}
                     +doc_emotion
                     with owner
-                        a.ui.basic.segment.zoomer.pointer.say_name(href="/site/#{current_doc.site}/user/#{user_id}")
+                        a.ui.basic.segment.zoomer.pointer.say_this(href="/site/#{current_doc.site}/user/#{user_id}")
                             img.ui.rounded.inline.image(src=profile_image)
                             .ui.header.inline(class=post_header_class)
                                 if is_answered
