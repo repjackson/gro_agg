@@ -51,9 +51,6 @@ template(name='stack_page')
                                         a(href=link) #{link}
                                     
                                     small #{content_license}
-                                    +voting
-                                    +comments
-                            
                             .ui.header 
                                 i.reply.grey.icon
                                 |#{question_answers.count} answers
@@ -87,9 +84,7 @@ template(name='stack_page')
                                         // |#{accept_rate}
                                         a.ui.icon.small.basic.circular.button(href=link)
                                             i.external.icon
-                                    |#{content_license}
-                                    +voting
-                                    +comments
+                                    // |#{content_license}
                                     if in_dev 
                                         +remove_button
                                 .ui.divider

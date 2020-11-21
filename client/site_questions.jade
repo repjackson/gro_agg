@@ -107,7 +107,6 @@ template(name='site_questions')
                         // .ui.large.label(title=count) #{name}
                     div
                 
-                    // +comments
                     .ui.small.list.mobile.hidden
                         .item 
                             strong #{audience}
@@ -141,10 +140,6 @@ template(name='site_questions')
                         // .item api_revision: #{api_revision}
                     // if in_dev
                     //     +array_edit k='tags' d=true
-                    +comments
-                    +voting_full
-   
-   
    
    
 template(name='site_question_item')                  
@@ -184,8 +179,6 @@ template(name='site_question_item')
                     .item updated {{ufrom last_edit_date}}
                 if creation_dat
                     .item created {{ufrom creation_dat}}
-            // +comments
-            // +voting_full
             +doc_emotion_small
                 // .ui.label user_id #{user_id}
             // .ui.divider
