@@ -17,7 +17,7 @@ if Meteor.isClient
         Meteor.call 'stackuser_answers', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'stackuser_questions', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'stackuser_tags', Router.current().params.site, Router.current().params.user_id, ->
-        # Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.setTimeout ->
             Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
@@ -132,26 +132,26 @@ if Meteor.isServer
     Meteor.publish 'stackuser_badges', (site,user_id)->
         Docs.find { 
             model:'stack_badge'
-            "user.user_id":parseInt(user_id)
+            user_id:parseInt(user_id)
             site:site
         }, limit:10
     Meteor.publish 'stackuser_comments', (site,user_id)->
         cur = Docs.find { 
             model:'stack_comment'
-            # "owner.user_id":parseInt(user_id)
+            user_id:parseInt(user_id)
             site:site
         }, limit:100
         cur
     Meteor.publish 'stackuser_questions', (site,user_id)->
         Docs.find { 
             model:'stack_question'
-            "owner.user_id":parseInt(user_id)
+            user_id:parseInt(user_id)
             site:site
         }, limit:10
     Meteor.publish 'stackuser_answers', (site,user_id)->
         Docs.find { 
             model:'stack_answer'
-            "owner.user_id":parseInt(user_id)
+            user_id:parseInt(user_id)
             site:site
         }, limit:10
     Meteor.publish 'stackuser_tags', (site,user_id)->

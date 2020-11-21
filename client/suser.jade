@@ -149,14 +149,14 @@ template(name='stackuser_page')
                     .ui.header.get_answers
                         i.exclamation.icon
                         |#{user_answers.count} answers
-                    .ui.list.smallscroll
+                    .ui.list.medscroll
                         each user_answers
                             +answer_item
                     div
                     .ui.header.pointer.get_comments
                         i.chat.outline.icon
                         |#{user_comments.count} comments
-                    .ui.list.smallscroll
+                    .ui.list.medscroll
                         each user_comments
                             +user_comment_item
                 .three.wide.column
@@ -220,7 +220,7 @@ template(name='answer_item')
     
     
 template(name='user_comment_item')
-    .say_this #{body}
+    .say_this !{body}
     |#{site}
     if in_dev
         +print_this

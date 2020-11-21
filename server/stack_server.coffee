@@ -638,11 +638,12 @@ Meteor.methods
                         Docs.findOne
                             model:'stack_question'
                             site:site
-                            "owner.user_id":parseInt(user_id)
+                            user_id:parseInt(user_id)
                     # if found
                     unless found
                         item.site = site
                         item.model = 'stack_question'
+                        item.user_id = parseInt(user_id)
                         new_id = 
                             Docs.insert item
             )).catch((err)->
@@ -664,10 +665,11 @@ Meteor.methods
                             model:'stack_answer'
                             site:site
                             user_id:parseInt(user_id)
-                    # if found
+                    if found
+                        console.log 'found answer', found.site
                     unless found
-                        item.site = site
                         item.model = 'stack_answer'
+                        item.site = site
                         item.user_id = parseInt(user_id)
                         new_id = 
                             Docs.insert item
@@ -692,6 +694,7 @@ Meteor.methods
                             site:site
                             "owner.user_id":parseInt(user_id)
                     if found
+                        console.log 'found', found.body
                         Docs.update found._id, 
                             $set:
                                 user_id:item.owner.user_id
@@ -762,7 +765,7 @@ Meteor.methods
             gzip: true
         }
         rp(options)
-            .then(Meteor.bindEnvironment((data)->
+            .then(Meteor.bindEnvironment((data)=>
                 parsed = JSON.parse(data)
                 adding_tags = []
                 for item in parsed.items

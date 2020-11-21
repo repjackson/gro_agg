@@ -23,7 +23,7 @@ template(name='stack_tag_cloud')
         //     .ui.icon.input
         //         i.plus.icon
         //         input#quick_add(type='text')
-        //     // #add.ui.circular.button
+        //     // #add.ui.button
         //     //     i.plus.icon
         //     //     | Full Add
         // .ui.hidden.divider
@@ -31,31 +31,31 @@ template(name='stack_tag_cloud')
         //     i.search.icon
         //     input(type='text')
     if selected_tags
-        #clear_tags.ui.primary.icon.compact.circular.button
+        #clear_tags.ui.primary.icon.compact.button
             i.remove.icon
         each selected_tags
-            .unselect_tag.ui.primary.compact.circular.button
+            .unselect_tag.ui.primary.compact.button
                 strong !{this}
     each all_tags
-        .ui.compact.circular.button.select_tag(class=cloud_tag_class) !{this.name}
+        .ui.compact.button.select_tag(class=cloud_tag_class) !{this.name}
             small #{this.count}
     .ui.grey.inline.header
         i.globe.icon
         |site
     if selected_user_site
-        .unselect_site.ui.primary.compact.circular.button
+        .unselect_site.ui.primary.compact.button
             strong !{selected_user_site}
     each all_sites
-        .ui.compact.basic.circular.zoomer.button.select_site(class=cloud_site_class) !{this.name}
+        .ui.compact.basic.zoomer.button.select_site(class=cloud_site_class) !{this.name}
     .spacer
     .ui.grey.inline.header 
         i.marker.icon
         |location
     if selected_user_location
-        .unselect_location.ui.primary.compact.circular.button
+        .unselect_location.ui.primary.compact.button
             strong !{selected_user_location}
     each all_locations
-        .ui.compact.basic.circular.button.select_location(class=cloud_location_class) !{this.name}
+        .ui.compact.basic.button.select_location(class=cloud_location_class) !{this.name}
             // small #{this.count}
                                 
 template(name='stack_tag')
@@ -63,7 +63,7 @@ template(name='stack_tag')
         .ui.stackable.padded.grid
             .middle.aligned.row
                 .four.wide.column.scrolling
-                    a.ui.large.fluid.basic.circular.button.say_site(href="/site/#{site}") 
+                    a.ui.large.fluid.basic.button.say_site(href="/site/#{site}") 
                         i.chevron.left.icon
                         if watson.metadata.image
                             img.ui.invert.mini.inline.image(src=watson.metadata.image)    
@@ -75,21 +75,21 @@ template(name='stack_tag')
                                 small #{reputation}
                                 // .ui.basic.label id #{user_id}
                                 // .ui.basic.label type #{user_type}
-                                // a.ui.circular.icon.button(href=link)
+                                // a.ui.icon.button(href=link)
                                 //     i.large.external.icon
                         
                     +doc_emotion
                     +watson_full
-                    // i.big.refresh.circular.link.icon.get_question
-                    // i.big.exclamation.circular.link.icon.get_answers
+                    // i.big.refresh.link.icon.get_question
+                    // i.big.exclamation.link.icon.get_answers
                     // +skve k='stack_section' v='main' l='content' i='content' 
                     unless watson
                         .ui.big.fluid.button.call_watson
                             i.large.brain.icon
                             |analyze
                     each tags 
-                        .ui.basic.pointer.circular.tertiary.button.add_stack_tag.speak_this.zoomer #{this}
-                    a.ui.circular.icon.button(href=link target='_window' title=link)
+                        .ui.basic.pointer.tertiary.button.add_stack_tag.say_this.zoomer #{this}
+                    a.ui.icon.button(href=link target='_window' title=link)
                         // |#{link}
                         i.external.large.icon
                     if is_answered
@@ -115,9 +115,6 @@ template(name='stack_tag')
                         .item.zoomer created {{ufrom creation_date}}
                         .item.zoomer imported #{_when}
                         .item.zoomer license #{content_license}
-                        
-                    // +bookmark_button
-                    // +voting
                     +print_this
                     +doc_sentiment
                     
@@ -128,8 +125,8 @@ template(name='stack_tag')
                     +skve k='stack_section' v='main' l='main' i='content' 
                     
                     if skv_is 'stack_section' 'main'
-                        .ui.basic.segment.speak_this
-                            .f11.speak_body.zoomer !{body}
+                        .ui.basic.segment
+                            .f11.say_this.zoomer !{body}
                         .ui.small.grey.header.get_question_comments
                             i.chat.outline.icon
                             // |comments
@@ -139,7 +136,7 @@ template(name='stack_tag')
                                     .ui.green.label.zoomer
                                         |accepted
                                 // div(class=currentUser.invert_class)
-                                .f11.speak_body.zoomer !{body}
+                                .f11.say_this.zoomer !{body}
                                 with owner
                                     .ui.divider
                                     i.chat.icon
@@ -163,7 +160,7 @@ template(name='stack_tag')
                                     .ui.green.corner.attached.label.zoomer
                                         i.checkmark.icon
                                 // div(class=currentUser.invert_class)
-                                .f11.speak_body.zoomer !{body}
+                                .f11.say_this.zoomer !{body}
                                 .ui.divider
                                 .ui.horizontal.list
                                     .item 
@@ -188,8 +185,6 @@ template(name='stack_tag')
                                     a.ui.icon.button(href=link)
                                         i.external.icon
                                 |#{content_license}
-                                // +voting
-                                // +comments
                                 if in_dev 
                                     +remove_button
                     +skve k='stack_section' v='watson' l='watson' i='brain' 

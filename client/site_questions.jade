@@ -160,10 +160,9 @@ template(name='site_question_item')
             // i.tag.grey.icon
             unless skv_is 'view_detail' true
                 if watson.analyzed_text
-                    span.pointer.view_question{{trunc watson.analyzed_text}}...
+                    span.pointer.view_question {{trunc watson.analyzed_text}}...
             if skv_is 'view_detail' true
-                .speak_body.pointer.goto_q !{body}
-    
+                .say_this.pointer.goto_q !{body}
                 .ui.horizontal.list
                     each tags
                         .item #{this}
