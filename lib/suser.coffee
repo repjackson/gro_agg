@@ -8,20 +8,20 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
         # @autorun => Meteor.subscribe 'stackuser_badges', Router.current().params.site, Router.current().params.user_id
         # @autorun => Meteor.subscribe 'stackuser_tags', Router.current().params.site, Router.current().params.user_id
-        @autorun => Meteor.subscribe 'stackuser_comments', Router.current().params.site, Router.current().params.user_id
-        @autorun => Meteor.subscribe 'stackuser_questions', Router.current().params.site, Router.current().params.user_id
-        @autorun => Meteor.subscribe 'stackuser_answers', Router.current().params.site, Router.current().params.user_id
+        @autorun => Meteor.subscribe 'suser_comments', Router.current().params.site, Router.current().params.user_id
+        # @autorun => Meteor.subscribe 'stackuser_questions', Router.current().params.site, Router.current().params.user_id
+        # @autorun => Meteor.subscribe 'stackuser_answers', Router.current().params.site, Router.current().params.user_id
     Template.stackuser_page.onRendered ->
         Meteor.call 'search_stackuser', Router.current().params.site, Router.current().params.user_id, ->
 
-        Meteor.call 'stackuser_answers', Router.current().params.site, Router.current().params.user_id, ->
-        Meteor.call 'get_suser_questions', Router.current().params.site, Router.current().params.user_id, ->
-        Meteor.call 'stackuser_tags', Router.current().params.site, Router.current().params.user_id, ->
-        Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
-        Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
-        Meteor.setTimeout ->
-            Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
-        , 1000
+        # Meteor.call 'stackuser_answers', Router.current().params.site, Router.current().params.user_id, ->
+        # Meteor.call 'get_suser_questions', Router.current().params.site, Router.current().params.user_id, ->
+        # Meteor.call 'stackuser_tags', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'get_suser_comments', Router.current().params.site, Router.current().params.user_id, ->
+        # Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
+        # Meteor.setTimeout ->
+        #     Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
+        # , 1000
 
     Template.user_question_item.onRendered ->
         unless @data.watson
@@ -98,9 +98,9 @@ if Meteor.isClient
         'click .get_answers': ->
             Meteor.call 'stackuser_answers', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_questions': ->
-            Meteor.call 'stackuser_questions', Router.current().params.site, Router.current().params.user_id, ->
+            Meteor.call 'get_suser_questions', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_comments': ->
-            Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
+            Meteor.call 'get_suser_comments', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_badges': ->
             Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_tags': ->
@@ -135,10 +135,10 @@ if Meteor.isServer
             user_id:parseInt(user_id)
             site:site
         }, limit:10
-    Meteor.publish 'stackuser_comments', (site,user_id)->
+    Meteor.publish 'suser_comments', (site,user_id)->
         cur = Docs.find { 
             model:'stack_comment'
-            user_id:parseInt(user_id)
+            "owner.user_id":parseInt(user_id)
             site:site
         }, limit:100
         cur

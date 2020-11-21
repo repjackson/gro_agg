@@ -362,8 +362,6 @@ Meteor.methods
                         new_id = 
                             Docs.insert item
                         Meteor.call 'call_watson', new_id,'link','stack',->
-
-                return
             )).catch((err)->
             )
 
@@ -396,7 +394,6 @@ Meteor.methods
                         # item.tags.push query
                         new_id = 
                             Docs.insert item
-                return
             )).catch((err)->
             )
 
@@ -428,8 +425,6 @@ Meteor.methods
                         # item.tags.push query
                         new_id = 
                             Docs.insert item
-                        return
-                return
             )).catch((err)->
             )
 
@@ -466,7 +461,6 @@ Meteor.methods
                             Docs.insert item
                         Docs.update question_doc_id,
                             $addToSet:linked_question_ids:new_id
-                return
             )).catch((err)->
             )
 
@@ -501,7 +495,6 @@ Meteor.methods
                         item.linked_to_ids = [question_doc_id]
                         new_id = 
                             Docs.insert item
-                return
             )).catch((err)->
             )
 
@@ -535,10 +528,9 @@ Meteor.methods
                             Docs.insert item
                         # unless found.watson
                         Meteor.call 'call_watson', new_id,'link','stack',->
-                    Meteor.call 'get_suser_questions', site, item.owner.user_id, ->
-                    Meteor.call 'stackuser_tags', site, item.owner.user_id, ->
+                    # Meteor.call 'get_suser_questions', site, item.owner.user_id, ->
+                    # Meteor.call 'stackuser_tags', site, item.owner.user_id, ->
                     Meteor.call 'omega', site, item.owner.user_id, ->
-                return
             )).catch((err)->
             )
 
@@ -593,7 +585,6 @@ Meteor.methods
                         item.model = 'stackuser'
                         new_id = 
                             Docs.insert item
-                return
             )).catch((err)->
             )
    
@@ -619,7 +610,6 @@ Meteor.methods
                             item.model = 'stackuser'
                             new_id = 
                                 Docs.insert item
-                    return
                 )).catch((err)->
                 )
 
@@ -646,9 +636,8 @@ Meteor.methods
                     #     console.log 'question', found.title
                     unless found
                         item.model = 'stack_question'
-                        question_id = item.question_id
                         item.site = site
-                        item.user_id = parseInt(user_id)
+                        # item.user_id = parseInt(user_id)
                         new_id = 
                             Docs.insert item
             )).catch((err)->
@@ -678,11 +667,11 @@ Meteor.methods
                         item.user_id = parseInt(user_id)
                         new_id = 
                             Docs.insert item
-                return
             )).catch((err)->
             )
 
-    stackuser_comments: (site, user_id) ->
+    get_suser_comments: (site, user_id) ->
+        console.log 'comm', site, user_id
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/comments?order=desc&sort=creation&site=#{site}&filter=!--1nZxautsE.&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -697,24 +686,22 @@ Meteor.methods
                         Docs.findOne
                             model:'stack_comment'
                             site:site
-                            user_id:parseInt(user_id)
+                            # user_id:parseInt(user_id)
                             comment_id:item.comment_id
                     if found
-                        console.log 'found', found
-                        Docs.update found._id, 
-                            $set:
-                                owner:item.owner
-                                # post_type:item.post_type
-                                body:item.body
-                        return
+                        console.log 'found COMMENT', found
+                        # Docs.update found._id, 
+                        #     $set:
+                        #         # owner:item.owner
+                        #         # post_type:item.post_type
+                        #         body:item.body
                     unless found
                         item.site = site
                         item.model = 'stack_comment'
-                        item.user_id = parseInt(user_id)
+                        # item.user_id = parseInt(user_id)
                         new_id = 
                             Docs.insert item
-                        return
-                return
+                        console.log 'new COMM', Docs.findOne(new_id)
             )).catch((err)->
             )
         
@@ -753,41 +740,40 @@ Meteor.methods
     #         )).catch((err)->
     #         )
         
-    stackuser_tags: (site, user_id) ->
-        user = Docs.findOne
-            model:'stackuser'
-            user_id:parseInt(user_id)
-            site:site
-
-        url = "https://api.stackexchange.com/2.2/users/#{user_id}/tags?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
-        options = {
-            url: url
-            headers: 'accept-encoding': 'gzip'
-            gzip: true
-        }
-        rp(options)
-            .then(Meteor.bindEnvironment((data)=>
-                parsed = JSON.parse(data)
-                adding_tags = []
-                for item in parsed.items
-                    adding_tags.push item.name
-                Docs.update user._id,
-                    $addToSet:
-                        tags:$each:adding_tags
-                    # found = 
-                    #     Docs.findOne
-                    #         model:'stack_tag'
-                    #         site:site
-                    #         user_id:parseInt(user_id)
-                    # if found
-                    # unless found
-                    #     item.site = site
-                    #     item.model = 'stack_tag'
-                    #     new_id = 
-                    #         Docs.insert item
-                return
-            )).catch((err)->
-            )
+    # stackuser_tags: (site, user_id) ->
+    #     user = Docs.findOne
+    #         model:'stackuser'
+    #         user_id:parseInt(user_id)
+    #         site:site
+    #     url = "https://api.stackexchange.com/2.2/users/#{user_id}/tags?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+    #     options = {
+    #         url: url
+    #         headers: 'accept-encoding': 'gzip'
+    #         gzip: true
+    #     }
+    #     rp(options)
+    #         .then(Meteor.bindEnvironment((data)=>
+    #             parsed = JSON.parse(data)
+    #             adding_tags = []
+    #             for item in parsed.items
+    #                 adding_tags.push item.name
+    #             Docs.update user._id,
+    #                 $addToSet:
+    #                     tags:$each:adding_tags
+    #                 # found = 
+    #                 #     Docs.findOne
+    #                 #         model:'stack_tag'
+    #                 #         site:site
+    #                 #         user_id:parseInt(user_id)
+    #                 # if found
+    #                 # unless found
+    #                 #     item.site = site
+    #                 #     item.model = 'stack_tag'
+    #                 #     new_id = 
+    #                 #         Docs.insert item
+    #             return
+    #         )).catch((err)->
+    #         )
 
     sites: () ->
         for num in [1..40]
@@ -815,7 +801,6 @@ Meteor.methods
                             # item.tags.push query
                             new_id = 
                                 Docs.insert item
-                    return
                 )).catch((err)->
                 )
         
@@ -855,26 +840,24 @@ Meteor.methods
                                 total_unanswered: item.total_unanswered
                                 total_questions: item.total_questions
                                 api_revision: item.api_revision
-
-                return
             )).catch((err)->
             )
         
-    test: ->
-        options = {
-            url: "https://api.stackexchange.com/2.2/users/237231/tags?order=desc&site=stats",
-            headers: 'accept-encoding': 'gzip'
-            gzip: true
-            # json: true
-        };
-        rp(options)
-            .then(Meteor.bindEnvironment((data)->
-                parsed = JSON.parse(data)
-                for item in parsed.items
-                    found = Docs.findOne
-                        model:'stack_tag'
-                    if found
-                    else
-            )).catch((err)->
-            )
+    # test: ->
+    #     options = {
+    #         url: "https://api.stackexchange.com/2.2/users/237231/tags?order=desc&site=stats",
+    #         headers: 'accept-encoding': 'gzip'
+    #         gzip: true
+    #         # json: true
+    #     };
+    #     rp(options)
+    #         .then(Meteor.bindEnvironment((data)->
+    #             parsed = JSON.parse(data)
+    #             for item in parsed.items
+    #                 found = Docs.findOne
+    #                     model:'stack_tag'
+    #                 if found
+    #                 else
+    #         )).catch((err)->
+    #         )
         
