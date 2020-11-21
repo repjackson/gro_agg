@@ -17,14 +17,14 @@ if Meteor.isClient
         Meteor.call 'stackuser_answers', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'stackuser_questions', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'stackuser_tags', Router.current().params.site, Router.current().params.user_id, ->
-        Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
+        # Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.setTimeout ->
             Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
         , 1000
 
     Template.user_question_item.onRendered ->
-        console.log @
+        # console.log @
         unless @data.watson
             Meteor.call 'call_watson', @data._id,'link','stack',->
         
@@ -85,15 +85,15 @@ if Meteor.isClient
         'click .agg': ->
             Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
         
-        'click .say_site': (e,t)->
-            window.speechSynthesis.speak new SpeechSynthesisUtterance Router.current().params.site
+        # 'click .say_site': (e,t)->
+        #     window.speechSynthesis.speak new SpeechSynthesisUtterance Router.current().params.site
         'click .say_users': (e,t)->
             window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.site} users"
         'click .say_questions': (e,t)->
             window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.site} questions"
-        'click .say_title': (e,t)->
-            console.log 'title', @
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @title
+        # 'click .say_title': (e,t)->
+        #     console.log 'title', @
+        #     window.speechSynthesis.speak new SpeechSynthesisUtterance @title
 
         'click .search': ->
             window.speechSynthesis.speak new SpeechSynthesisUtterance "import #{Router.current().params.site} user"
@@ -103,6 +103,7 @@ if Meteor.isClient
         'click .get_questions': ->
             Meteor.call 'stackuser_questions', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_comments': ->
+            alert 'hi'
             Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
         'click .get_badges': ->
             Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
@@ -148,6 +149,7 @@ if Meteor.isServer
             site:site
         }, limit:100
         console.log cur.count()
+        cur
     Meteor.publish 'stackuser_questions', (site,user_id)->
         Docs.find { 
             model:'stack_question'

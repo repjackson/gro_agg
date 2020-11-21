@@ -195,10 +195,10 @@ Meteor.methods
                         Docs.findOne    
                             model:'subreddit'
                             "data.display_name":item.data.display_name
-                    if found
-                        console.log 'found', found.data.display_name
-                    else
+                    # if found
+                    #     console.log 'found', found.data.display_name
+                    unless found
                         item.model = 'subreddit'
                         Docs.insert item
-                        console.log 'new item', item.data.display_name
+                        console.log 'new subreddit', item.data.display_name
                 )

@@ -668,13 +668,13 @@ Meteor.methods
                                 profile_image: item.profile_image
                                 display_name: item.display_name
 
-                        console.log 'found', found.display_name
+                        # console.log 'found', found.display_name
                     unless found
                         item.site = site
                         item.model = 'stackuser'
                         new_id = 
                             Docs.insert item
-                        console.log 'new stack user', Docs.findOne(new_id).display_name
+                        # console.log 'new stack user', Docs.findOne(new_id).display_name
                 return
             )).catch((err)->
                 console.log 'fail', err
@@ -762,21 +762,21 @@ Meteor.methods
                             site:site
                             user_id:parseInt(user_id)
                     # if found
-                    #     console.log 'found', found.title
+                    #     console.log 'found', found.body
                     unless found
                         item.site = site
                         item.model = 'stack_answer'
                         item.user_id = parseInt(user_id)
                         new_id = 
                             Docs.insert item
-                        console.log 'new stack answer', Docs.findOne(new_id).title
+                        console.log 'new stack answer', Docs.findOne(new_id).body
                 return
             )).catch((err)->
                 console.log 'fail', err
             )
 
     stackuser_comments: (site, user_id) ->
-        console.log('searching stack user comments for', site, user_id);
+        # console.log('searching stack user comments for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/comments?order=desc&site=#{site}&filter=!--1nZxautsE.&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -794,7 +794,7 @@ Meteor.methods
                             site:site
                             user_id:parseInt(user_id)
                     if found
-                        console.log 'found', found.body
+                        # console.log 'found', found.body
                         Docs.update found._id, 
                             $set:
                                 owner:item.owner
@@ -806,7 +806,7 @@ Meteor.methods
                         item.user_id = parseInt(user_id)
                         new_id = 
                             Docs.insert item
-                        console.log 'new stack comment', Docs.findOne(new_id).body
+                        # console.log 'new stack comment', Docs.findOne(new_id).body
                 return
             )).catch((err)->
                 console.log 'fail', err
@@ -821,7 +821,7 @@ Meteor.methods
             model:'stackuser'
             user_id:parseInt(user_id)
             site:site
-        console.log 'found user updating badges', user
+        # console.log 'found user updating badges', user
         # console.log('searching stack user badges for', site, user_id);
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/badges?order=desc&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
