@@ -535,7 +535,7 @@ Meteor.methods
                             Docs.insert item
                         # unless found.watson
                         Meteor.call 'call_watson', new_id,'link','stack',->
-                    Meteor.call 'stackuser_questions', site, item.owner.user_id, ->
+                    Meteor.call 'get_suser_questions', site, item.owner.user_id, ->
                     Meteor.call 'stackuser_tags', site, item.owner.user_id, ->
                     Meteor.call 'omega', site, item.owner.user_id, ->
                 return
@@ -623,7 +623,8 @@ Meteor.methods
                 )).catch((err)->
                 )
 
-    stackuser_questions: (site, user_id) ->
+    get_suser_questions: (site, user_id) ->
+        console.log 'site', site, 'user id', user_id
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/questions?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -634,15 +635,19 @@ Meteor.methods
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
                 for item in parsed.items
+                    console.log item
                     found = 
                         Docs.findOne
                             model:'stack_question'
+                            question_id:item.question_id
                             site:site
                             user_id:parseInt(user_id)
                     # if found
+                    #     console.log 'question', found.title
                     unless found
-                        item.site = site
                         item.model = 'stack_question'
+                        question_id = item.question_id
+                        item.site = site
                         item.user_id = parseInt(user_id)
                         new_id = 
                             Docs.insert item
@@ -665,8 +670,8 @@ Meteor.methods
                             model:'stack_answer'
                             site:site
                             user_id:parseInt(user_id)
-                    if found
-                        console.log 'found answer', found.site
+                    # if found
+                    #     console.log 'found answer', found.site
                     unless found
                         item.model = 'stack_answer'
                         item.site = site
@@ -678,7 +683,7 @@ Meteor.methods
             )
 
     stackuser_comments: (site, user_id) ->
-        url = "https://api.stackexchange.com/2.2/users/#{user_id}/comments?order=desc&site=#{site}&filter=!--1nZxautsE.&key=lPplyGlNUs)cIMOajW03aw(("
+        url = "https://api.stackexchange.com/2.2/users/#{user_id}/comments?order=desc&sort=creation&site=#{site}&filter=!--1nZxautsE.&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -692,19 +697,18 @@ Meteor.methods
                         Docs.findOne
                             model:'stack_comment'
                             site:site
-                            "owner.user_id":parseInt(user_id)
+                            user_id:parseInt(user_id)
+                            comment_id:item.comment_id
                     if found
-                        console.log 'found', found.body
+                        console.log 'found', found
                         Docs.update found._id, 
                             $set:
-                                user_id:item.owner.user_id
                                 owner:item.owner
                                 # post_type:item.post_type
                                 body:item.body
                         return
                     unless found
                         item.site = site
-                        # item.owner:item.owner
                         item.model = 'stack_comment'
                         item.user_id = parseInt(user_id)
                         new_id = 
@@ -713,9 +717,6 @@ Meteor.methods
                 return
             )).catch((err)->
             )
-        # }).then(Meteor.bindEnvironment((error, response, body) =>
-        # )).catch(() => {
-        # })
         
     # stackuser_badges: (site, user_id) ->
     #     user = Docs.findOne

@@ -15,7 +15,7 @@ if Meteor.isClient
         Meteor.call 'search_stackuser', Router.current().params.site, Router.current().params.user_id, ->
 
         Meteor.call 'stackuser_answers', Router.current().params.site, Router.current().params.user_id, ->
-        Meteor.call 'stackuser_questions', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'get_suser_questions', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'stackuser_tags', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'stackuser_comments', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'stackuser_badges', Router.current().params.site, Router.current().params.user_id, ->
