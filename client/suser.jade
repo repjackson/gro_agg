@@ -1,4 +1,4 @@
-template(name='stackuser_page')
+template(name='suser_layout')
     unless stackuser_doc
         // .ui.header no user found
         .ui.hidden.divider
@@ -22,7 +22,7 @@ template(name='stackuser_page')
                     .ui.inline.header.say_this   
                         |#{site}
                     .spacer
-                    .ui.big.inline.right.aligned.header.say_this(class=post_header_class)
+                    a.ui.big.inline.header.say_this(class=post_header_class href="/site/#{site}/user/#{user_id}")
                         |!{display_name} 
                         small(title='reputation') #{reputation}
                         strong(title="#{site} rank") ##{site_rank} 
@@ -32,201 +32,204 @@ template(name='stackuser_page')
                     //     +flat_tag_selector
                     .ui.inline.tertiary.button.set_location.zoomer.say_this
                         |!{location}
-                    img.ui.rounded.inline.image.pointer.zoomer.boop(src=profile_image)
+                    a(href="/site/#{site}/user/#{user_id}")
+                        img.ui.rounded.inline.image.pointer.zoomer.boop(src=profile_image)
                     a.ui.large.compact.circular.basic.button(href=link target='_window' title="#{site} profile")
                         i.stack.exchange.icon
                         i.external.icon
                     .ui.vertical.fluid.stackable.small.menu
-                        a.disabled.item(href="/site/#{site}/user/#{user_id}/questions")
+                        a.item(href="/site/#{site}/user/#{user_id}/questions" class="{{isActiveRoute regex='suser_questions'}}")
                             i.question.grey.icon
                             |questions
-                        a.disabled.item(href="/site/#{site}/user/#{user_id}/answers")
+                        a.item(href="/site/#{site}/user/#{user_id}/answers" class="{{isActiveRoute regex='suser_answers'}}")
                             i.reply.grey.icon
                             |answers
-                        a.disabled.item(href="/site/#{site}/user/#{user_id}/comments")
+                        a.item(href="/site/#{site}/user/#{user_id}/comments" class="{{isActiveRoute regex='suser_comments'}}")
                             i.chat.outline.grey.icon
                             |comments
-                        a.disabled.item(href="/site/#{site}/user/#{user_id}/tags")
+                        a.item(href="/site/#{site}/user/#{user_id}/tags" class="{{isActiveRoute regex='suser_tags'}}")
                             i.tag.grey.icon
                             |tags
-                        a.disabled.item(href="/site/#{site}/user/#{user_id}/badges")
+                        a.item(href="/site/#{site}/user/#{user_id}/badges" class="{{isActiveRoute regex='suser_badges'}}")
                             i.certificate.grey.icon
                             |badges
                     +print_this
-                    .ui.horizontal.list
+                    .ui.list
                         .item.say_this account id #{account_id}
+                        .item.say_this user id #{user_id}
                         .item.say_this employee #{is_employee}
                         .item.say_this modified {{ufrom last_modified_date}}
                         .item.say_this accessed  {{ufrom last_access_date}}
                         .item.say_this created {{ufrom creation_date}}
                         .item.say_this #{user_type}
-                        .item.say_this account id #{account_id}
-                        .item.say_this user id #{user_id}
                         .item.say_this accepts #{accept_rate}%                        
                         // .item badge_counts: #{badge_counts}
-                        // .item view_count: #{view_count}
-                        // .item down_vote_count: #{down_vote_count}
-                        // .item up_vote_count: #{up_vote_count}
-                        // .item answer_count: #{answer_count}
-                        // .item question_count: #{question_count}
                         // .item profile_image: #{profile_image}
-                        // .item display_name: #{display_name}
-                    a.ui.external.icon.button(href=link target='_window') 
-                        i.linkify.icon
-                        // |#{link}
-                    .ui.inline.small.header rep change
-                    .ui.grey.mini.horizontal.statistic.say_this
-                        .value #{reputation_change_day}
-                        .label day
-                    .ui.grey.mini.horizontal.statistic.say_this
-                        .value #{reputation_change_week}
-                        .label week
-                    .ui.grey.mini.horizontal.statistic.say_this
-                        .value #{reputation_change_month}
-                        .label month
-                    .ui.grey.mini.horizontal.statistic.say_this
-                        .value #{reputation_change_quarter}
-                        .label quarter
-                    .ui.grey.mini.horizontal.statistic.say_this
-                        .value #{reputation_change_year}
-                        .label year
-                    .ui.grey.mini.horizontal.statistic.say_this
-                        .value #{down_vote_count}
-                        .label 
+                        a.item(href=link target='_window') 
+                            i.linkify.icon
+                            |SE link
+                        .item 
+                            strong rep change
+                        .item.say_this
+                            |#{reputation_change_day} day
+                        .item.say_this
+                            |#{reputation_change_week} week
+                        .item.say_this
+                            |#{reputation_change_month} month
+                        .item.say_this
+                            |#{reputation_change_quarter} quarter
+                        .item.say_this
+                            |#{reputation_change_year} year
+                        .item.say_this
+                            |#{down_vote_count}
                             i.thumbs.down.outline.icon
                             |down votes
-                    .ui.grey.mini.horizontal.statistic.say_this
-                        .value #{up_vote_count}
-                        .label 
+                        .item.say_this
                             i.thumbs.up.outline.icon
+                            | #{up_vote_count}
                             |up votes
-                    .ui.grey.mini.horizontal.statistic.say_this
-                        .value #{answer_count}
-                        .label 
+                        .item.say_this
                             i.reply.icon
+                            | #{answer_count}
                             |answers
-                    .ui.grey.mini.horizontal.statistic.say_this
-                        .value #{question_count}
-                        .label 
+                        .item.say_this
                             i.question.icon
+                            | #{question_count}
                             |questions
-                    .ui.grey.mini.horizontal.statistic.say_this
-                        .value #{view_count}
-                        .label 
+                        .item.say_this
                             i.eye.icon
+                            | #{view_count}
                             |views
                     .ui.inline.header 
                         |#{max_emotion_name} #{max_emotion_percent}
                     div
-                .six.wide.column
-                    .f12.say_this.pointer
-                        |!{about_me}
-                    if website_url
-                        a.ui.circular.basic.button(href=website_url target="_window")
-                            i.globe.icon
-                            |#{website_url}
-                    .smallscroll
-                        .ui.grey.small.inline.header
-                            i.tag.icon
-                            |#{tags.length} tags
-                        each tags
-                            +flat_tag_selector
-                            // .ui.tertiary.button #{this}
-                    .ui.grey.header 
-                        i.rss.icon
-                        |feed
-                    each user_events
-                        .ui.header #{title}
-                    if skv_is 'view_question_detail' true
-                        .ui.black.tertiary.large.button.toggle_question_detail.agg
-                            i.question.icon
-                            |#{user_questions.count} questions
-                    unless skv_is 'view_question_detail' true
-                        .ui.tertiary.large.button.toggle_question_detail.agg
-                            i.question.icon
-                            |#{user_questions.count} questions
-                    if skv_is 'view_question_detail' true
-                        each user_tag_agg
-                            .ui.tertiary.button #{title}
-                                small #{count}
-                    if skv_is 'view_detail' true
-                        .ui.black.circular.compact.button.toggle_detail
-                            i.list.large.icon
-                            |detail
-                    else
-                        .ui.compact.circular.basic.button.toggle_detail
-                            i.list.large.icon
-                            |simple
-        
-                    div
-                    .scrolling
-                        each user_questions
-                            +user_question_item
-                .six.wide.column
-                    .ui.dividing.header.pointer.get_comments
-                        i.chat.outline.icon
-                        |#{user_comments.count} comments
-                    .ui.list.medscroll
-                        each user_comments
-                            +user_comment_item
-                            .ui.divider
-                    .ui.dividing.header.get_answers
-                        i.reply.icon
-                        |#{user_answers.count} answers
-                    .ui.list.medscroll
-                        each user_answers
-                            +answer_item
-                            .ui.divider
-                    div
-                .three.wide.column
-                    .ui.grey.small.header 
-                        i.fork.icon
-                        |related accounts
-                    each related_accounts
-                        .ui.small.header !{title}
-                    with site_doc
-                        .ui.segment
-                            a.ui.grey.header(href="/site/#{name}") #{name}
-                                
-                    .ui.grey.header.get_badges.say_this
-                        i.certificate.icon
-                        |#{user_badges.count} badges
-                    .ui.horizontal.list
-                        .item.say_this 
-                            +i n='medal2--v1' cl="#{currentUser.invert_class} ui avatar image"
-                            |gold #{badge_counts.gold}
-                        .item.say_this 
-                            +i n='medal-second-place--v1' cl="#{currentUser.invert_class} ui avatar image"
-                            |silver #{badge_counts.silver}
-                        .item.say_this
-                            +i n='medal2-third-place--v1' cl="#{currentUser.invert_class} ui avatar image"
-                            |bronze #{badge_counts.bronze}
-                    // .ui.list.smallscroll
-                    each user_badges
-                        .ui.basic.label 
-                            span.header #{name}
-                            // span.description
-                            //     |#{rank}
-                            //     .ui.label #{badge_id}
-                            //     a(href=link target="_window")
-                            //         i.external.grey.icon
+                .twelve.wide.column
+                    +yield
+                    
+template(name='suser_questions')
+template(name='suser_badges')
+template(name='suser_tags')
+template(name='suser_answers')
+template(name='suser_dashboard')
+    .six.wide.column
+        .f12.say_this.pointer
+            |!{about_me}
+        if website_url
+            a.ui.circular.basic.button(href=website_url target="_window")
+                i.globe.icon
+                |#{website_url}
+        .smallscroll
+            .ui.grey.small.inline.header
+                i.tag.icon
+                |#{tags.length} tags
+            each tags
+                +flat_tag_selector
+                // .ui.tertiary.button #{this}
+        .ui.grey.header 
+            i.rss.icon
+            |feed
+        each user_events
+            .ui.header #{title}
+        if skv_is 'view_question_detail' true
+            .ui.black.tertiary.large.button.toggle_question_detail.agg
+                i.question.icon
+                |#{user_questions.count} questions
+        unless skv_is 'view_question_detail' true
+            .ui.tertiary.large.button.toggle_question_detail.agg
+                i.question.icon
+                |#{user_questions.count} questions
+        if skv_is 'view_question_detail' true
+            each user_tag_agg
+                .ui.tertiary.button #{title}
+                    small #{count}
+        if skv_is 'view_detail' true
+            .ui.black.circular.compact.button.toggle_detail
+                i.list.large.icon
+                |detail
+        else
+            .ui.compact.circular.basic.button.toggle_detail
+                i.list.large.icon
+                |simple
 
-                .four.wide.column
-                    .ui.header emotion
-                    .ui.large.list 
-                        .item joy avg
-                        .item sad avg
-                        .item disgust avg
-                        .item anger avg
-                        .item fear avg
-                // .four.wide.column
-                //     .ui.header.get_tags
-                //         i.tag.icon
-                //         |tags
-                //     .ui.list
-                //         each user_tags
-                //             .item #{name}: #{count}
+        div
+        .scrolling
+            each user_questions
+                +user_question_item
+    .six.wide.column
+        .ui.dividing.header.pointer.get_comments
+            i.chat.outline.icon
+            |#{user_comments.count} comments
+        .ui.list.medscroll
+            each user_comments
+                +user_comment_item
+                .ui.divider
+        .ui.dividing.header.get_answers
+            i.reply.icon
+            |#{user_answers.count} answers
+        .ui.list.medscroll
+            each user_answers
+                +answer_item
+                .ui.divider
+        div
+    .three.wide.column
+        .ui.grey.small.header 
+            i.fork.icon
+            |related accounts
+        each related_accounts
+            .ui.small.header !{title}
+        with site_doc
+            .ui.segment
+                a.ui.grey.header(href="/site/#{name}") #{name}
+                    
+        .ui.grey.header.get_badges.say_this
+            i.certificate.icon
+            |#{user_badges.count} badges
+        .ui.horizontal.list
+            .item.say_this 
+                +i n='medal2--v1' cl="#{currentUser.invert_class} ui avatar image"
+                |gold #{badge_counts.gold}
+            .item.say_this 
+                +i n='medal-second-place--v1' cl="#{currentUser.invert_class} ui avatar image"
+                |silver #{badge_counts.silver}
+            .item.say_this
+                +i n='medal2-third-place--v1' cl="#{currentUser.invert_class} ui avatar image"
+                |bronze #{badge_counts.bronze}
+        // .ui.list.smallscroll
+        each user_badges
+            .ui.basic.label 
+                span.header #{name}
+                // span.description
+                //     |#{rank}
+                //     .ui.label #{badge_id}
+                //     a(href=link target="_window")
+                //         i.external.grey.icon
+
+    .four.wide.column
+        .ui.header emotion
+        .ui.large.list 
+            .item joy avg
+            .item sad avg
+            .item disgust avg
+            .item anger avg
+            .item fear avg
+    // .four.wide.column
+    //     .ui.header.get_tags
+    //         i.tag.icon
+    //         |tags
+    //     .ui.list
+    //         each user_tags
+    //             .item #{name}: #{count}
                             
+template(name='suser_comments')
+    with stackuser_doc
+        .ui.dividing.header.pointer.get_comments
+            i.chat.outline.icon
+            |#{user_comments.count} comments
+        .ui.list.scrolling
+            each user_comments
+                +user_comment_item
+                .ui.divider
+
                             
 template(name='answer_item')
     span.say_this #{score}: !{body}
@@ -239,6 +242,14 @@ template(name='answer_item')
     
     
 template(name='user_comment_item')
+    .ui.horizontal.list
+        with reply_to_user
+            a.ui.small.header.item(href="/site/#{../site}/user/#{user_id}")
+                img.ui.avatar.image(src=profile_image)
+                |!{display_name}
+                small #{reputation}
+                small !{location}
+
     .ui.grey.inline.header(title='score') #{score}
     if creation_date
         .ui.basic.label
@@ -259,7 +270,7 @@ template(name='user_comment_item')
             i.dna.icon
     each tags
         .ui.tertiary.small.button #{this}
-    +doc_emotion_small    
+    +doc_emotion  
     
     
     

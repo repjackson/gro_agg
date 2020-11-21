@@ -20,37 +20,36 @@ template(name='small_sentiment')
         .progress
 //- 
 template(name='doc_emotion') 
-    .spacer
+    // .spacer
     // .ui.dividing.header 
     //     | emotion
     //- with watson.emotion
-    //- div
+    div
     //- if above_50 'joy_percent'
         //- .spacer
-    span.ui.green.invert.text(class="{{calculated_size joy_percent}}") {{ to_percent joy_percent }}% joy 
+    span.ui.green.text(class="{{calculated_size joy_percent}}") {{ to_percent joy_percent }}% joy 
         |&nbsp;
-    .rounded.invert(class=omega_dark_mode_class style="height:7px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
+    div.rounded(style="height:5px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
     //- if above_50 'sadness_percent'
         //- .spacer
-    span.ui.blue.invert.text(class="{{calculated_size sadness_percent}}") {{ to_percent sadness_percent}}% sad 
+    span.ui.blue.text(class="{{calculated_size sadness_percent}}") {{ to_percent sadness_percent}}% sad 
         |&nbsp;
-    .rounded.invert(class=omega_dark_mode_class style="height:7px;width:{{to_percent sadness_percent}}%;background-color:blue" title="{{to_percent sadness_percent}}% sad")
+    div.rounded(style="height:5px;width:{{to_percent sadness_percent}}%;background-color:blue" title="{{to_percent sadness_percent}}% sad")
     //- if above_50 'fear_percent'
         //- .spacer
-    span.ui.grey.invert.text(class="{{calculated_size fear_percent}}") {{ to_percent fear_percent }}% fear 
+    span.ui.grey.text(class="{{calculated_size fear_percent}}") {{ to_percent fear_percent }}% fear 
         |&nbsp;
-    .rounded.invert(class=omega_dark_mode_class style="height:7px;width:{{to_percent fear_percent}}%;background-color:grey" title="{{to_percent fear_percent}}% fear")
+    div.rounded(style="height:5px;width:{{to_percent fear_percent}}%;background-color:grey" title="{{to_percent fear_percent}}% fear")
     //- if above_50 'disgust_percent'
         //- .spacer
-    span.ui.orange.invert.text(class="{{calculated_size disgust_percent}}") {{ to_percent disgust_percent }}% disgust 
+    span.ui.orange.text(class="{{calculated_size disgust_percent}}") {{ to_percent disgust_percent }}% disgust 
         |&nbsp;
-    .rounded.invert(class=omega_dark_mode_class style="height:7px;width:{{to_percent disgust_percent}}%;background-color:orange" title="{{to_percent disgust_percent}}% disgust")
+    div.rounded(style="height:5px;width:{{to_percent disgust_percent}}%;background-color:orange" title="{{to_percent disgust_percent}}% disgust")
     //- if above_50 'anger_percent'
         //- .spacer
-    span.ui.red.invert.text(class="{{calculated_size anger_percent}}") {{ to_percent anger_percent }}% anger 
+    span.ui.red.text(class="{{calculated_size anger_percent}}") {{ to_percent anger_percent }}% anger 
         |&nbsp;
-    .rounded.invert(class=omega_dark_mode_class style="height:7px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
-    .spacer
+    div.rounded(style="height:5px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
 
 template(name='doc_emotion_small') 
     // .spacer
@@ -60,29 +59,29 @@ template(name='doc_emotion_small')
     //- div
     //- if above_50 'joy_percent'
         //- .spacer
-    span.ui.green.invert.text(class="{{calculated_size joy_percent}}") {{ to_percent joy_percent }} joy 
+    span.ui.green.text(class="{{calculated_size joy_percent}}") {{ to_percent joy_percent }} joy 
         |&nbsp;
-    span.rounded(class=currentUser.invert_class style="height:7px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
+    span.rounded(style="height:7px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
     //- if above_50 'sadness_percent'
         //- .spacer
-    span.ui.blue.invert.text(class="{{calculated_size sadness_percent}}") {{ to_percent sadness_percent}} sad 
+    span.ui.blue.text(class="{{calculated_size sadness_percent}}") {{ to_percent sadness_percent}} sad 
         |&nbsp;
-    span.rounded(class=currentUser.invert_class style="height:7px;width:{{to_percent sadness_percent}}%;background-color:blue" title="{{to_percent sadness_percent}}% sad")
+    span.rounded(style="height:7px;width:{{to_percent sadness_percent}}%;background-color:blue" title="{{to_percent sadness_percent}}% sad")
     //- if above_50 'fear_percent'
         //- .spacer
-    span.ui.grey.invert.text(class="{{calculated_size fear_percent}}") {{ to_percent fear_percent }} fear 
+    span.ui.grey.text(class="{{calculated_size fear_percent}}") {{ to_percent fear_percent }} fear 
         |&nbsp;
-    span.rounded(class=currentUser.invert_class style="height:7px;width:{{to_percent fear_percent}}%;background-color:grey" title="{{to_percent fear_percent}}% fear")
+    span.rounded(style="height:7px;width:{{to_percent fear_percent}}%;background-color:grey" title="{{to_percent fear_percent}}% fear")
     //- if above_50 'disgust_percent'
         //- .spacer
-    span.ui.orange.invert.text(class="{{calculated_size disgust_percent}}") {{ to_percent disgust_percent }} disgust 
+    span.ui.orange.text(class="{{calculated_size disgust_percent}}") {{ to_percent disgust_percent }} disgust 
         |&nbsp;
-    span.rounded(class=currentUser.invert_class style="height:7px;width:{{to_percent disgust_percent}}%;background-color:orange" title="{{to_percent disgust_percent}}% disgust")
+    span.rounded(style="height:7px;width:{{to_percent disgust_percent}}%;background-color:orange" title="{{to_percent disgust_percent}}% disgust")
     //- if above_50 'anger_percent'
         //- .spacer
-    span.ui.red.invert.text(class="{{calculated_size anger_percent}}") {{ to_percent anger_percent }} anger 
+    span.ui.red.text(class="{{calculated_size anger_percent}}") {{ to_percent anger_percent }} anger 
         |&nbsp;
-    span.rounded(class=currentUser.invert_class style="height:7px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
+    span.rounded(style="height:7px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
     // .spacer
 
 // template(name='call_watson')
@@ -132,15 +131,15 @@ template(name='keywords')
                     if emotion
                         with emotion
                             span {{ to_percent sadness }}% sad
-                                .rounded.invert(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad" class=currentUser.invert_class)
+                                .rounded(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad" )
                             span {{ to_percent joy }}% joy
-                                .rounded.invert(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% sadness" class=currentUser.invert_class)
+                                .rounded(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% sadness" )
                             span {{ to_percent disgust }}% disgust
-                                .rounded.invert(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% disgust" class=currentUser.invert_class)
+                                .rounded(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% disgust" )
                             span {{ to_percent fear }}% fear
-                                .rounded.invert(style="height:5px;width:{{to_percent fear}}%;background-color:black" title="{{to_percent fear}}% fear" class=currentUser.invert_class)
+                                .rounded(style="height:5px;width:{{to_percent fear}}%;background-color:black" title="{{to_percent fear}}% fear" )
                             span {{ to_percent anger }}% anger
-                                .rounded.invert(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% anger" class=currentUser.invert_class)
+                                .rounded(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% anger" )
 
 
 
@@ -170,15 +169,15 @@ template(name='entities')
                 if emotion
                     with emotion
                         span {{ to_percent sadness }}% sad
-                            .rounded(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad" class=currentUser.invert_class)
+                            .rounded(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad" )
                         span {{ to_percent joy }}% joy
-                            .rounded(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% sadness" class=currentUser.invert_class)
+                            .rounded(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% sadness" )
                         span {{ to_percent disgust }}% disgust
-                            .rounded(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% disgust" class=currentUser.invert_class)
+                            .rounded(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% disgust" )
                         span {{ to_percent fear }}% fear
-                            .rounded(style="height:5px;width:{{to_percent fear}}%;background-color:black" title="{{to_percent fear}}% fear" class=currentUser.invert_class)
+                            .rounded(style="height:5px;width:{{to_percent fear}}%;background-color:black" title="{{to_percent fear}}% fear" )
                         span {{ to_percent anger }}% anger
-                            .rounded(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% anger" class=currentUser.invert_class)
+                            .rounded(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% anger" )
 
 
 
@@ -249,8 +248,8 @@ template(name='categories')
 //                     i.chevron.up.link.grey.large.icon.upvote_sentence
 //                     i.chevron.down.link.grey.large.icon.downvote_sentence
 //                     each tones
-//                         // .ui.basic.inverted.invert.small.compact.circular.label(class="{{calculated_size 'score'}} #{tone_label_class}") 
-//                         .ui.basic.inverted.invert.small.compact.circular.label(class="#{tone_label_class}") 
+//                         // .ui.basic.inverted.small.compact.circular.label(class="{{calculated_size 'score'}} #{tone_label_class}") 
+//                         .ui.basic.inverted.small.compact.circular.label(class="#{tone_label_class}") 
 //                             span.ui.text
 //                                 |#{tone_id} &nbsp;
 //                             | {{ to_percent score }}% 

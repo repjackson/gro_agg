@@ -10,7 +10,7 @@ if Meteor.isClient
     #         if Template.parentData().emotion is @k then @color else 'grey'
 
     Template.print_this.events
-        'click .print_this': ->
+        'click .print_this': -> console.log @
     Template.smart_tagger.onCreated ->
         # @autorun => @subscribe 'tag_results',
         #     # @_id
