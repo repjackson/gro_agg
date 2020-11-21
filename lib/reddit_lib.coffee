@@ -10,10 +10,10 @@ if Meteor.isClient
         ), name:'reddit_page'
         
         
-    Router.route '/subreddits', (->
+    Router.route '/reddit', (->
         @layout 'layout'
-        @render 'subreddits'
-        ), name:'subreddits'
+        @render 'reddit'
+        ), name:'reddit'
     
     
     Router.route '/subreddit/:name/users', (->
@@ -29,13 +29,13 @@ if Meteor.isClient
         'click .get_post': ->
             Meteor.call 'get_reddit_post', Router.current().params.doc_id, @reddit_id, ->
     
-    Template.subreddits.onCreated ->
+    Template.reddit.onCreated ->
         Session.setDefault('subreddit_query',null)
         @autorun -> Meteor.subscribe('subreddits',
             Session.get('subreddit_query')
             selected_tags.array())
 
-    Template.subreddits.events
+    Template.reddit.events
         'click .goto_sub': (e,t)->
             window.speechSynthesis.speak new SpeechSynthesisUtterance @data.display_name
         'keyup .search_subreddits': (e,t)->
@@ -49,7 +49,7 @@ if Meteor.isClient
                 
         'click .search_subs': ->
             Meteor.call 'search_subreddits', 'news', ->
-    Template.subreddits.helpers
+    Template.reddit.helpers
         subreddit_docs: ->
             Docs.find
                 model:'subreddit'

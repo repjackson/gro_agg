@@ -4,14 +4,14 @@
 @selected_emotions = new ReactiveArray []
 
 
-Router.route '/reddit', (->
+Router.route '/dao', (->
     @layout 'layout'
-    @render 'reddit'
-    ), name:'reddit'
+    @render 'dao'
+    ), name:'dao'
 
 
 
-Template.reddit.onCreated ->
+Template.dao.onCreated ->
     # window.speechSynthesis.cancel()
     
     # window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
@@ -186,7 +186,7 @@ Template.tag_selector.helpers
         Docs.findOne 
             title:@name.toLowerCase()
             
-Template.reddit.events
+Template.dao.events
     'keyup .search_stack': (e,t)->
         # search = $('.search_title').val().toLowerCase().trim()
         search = $('.search_stack').val().trim()
@@ -349,7 +349,7 @@ Template.alpha.helpers
             model:'alpha'
             # query: $in: selected_tags.array()
             query: selected_tags.array().toString()
-Template.reddit.helpers
+Template.dao.helpers
     search_icon_class: ->
         res = ''
         # 'brown poop loading'
@@ -481,7 +481,7 @@ Template.reddit.helpers
         results.find(model:'tag')
    
 
-Template.reddit.events   
+Template.dao.events   
     'click .add_tag': -> 
         console.log @
         selected_tags.push @name
@@ -517,7 +517,7 @@ Template.duck.events
 
 
 
-Template.reddit.events
+Template.dao.events
     'click #clear_tags': -> 
         selected_tags.clear()
         window.speechSynthesis.cancel()

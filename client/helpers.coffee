@@ -20,8 +20,8 @@ Template.nav.events
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'stackexchange'
     'click .goto_reddit': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'search'
-    'click .users': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'users'
+    'click .goto_pople': ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'people'
     # 'click .silence': ->
     #     window.speechSynthesis.speak new SpeechSynthesisUtterance 'silence'
     'click .subreddits': ->

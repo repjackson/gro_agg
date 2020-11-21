@@ -1,20 +1,6 @@
 globalHotkeys = new Hotkeys();
 
 
-
-globalHotkeys.add
-	combo: "c"
-	callback: ->
-        Session.set('view_chat', !Session.get('view_chat'))
-
-globalHotkeys.add
-	combo: "d r"
-	callback: ->
-        model_slug =  Router.current().params.model_slug
-        Session.set 'loading', true
-        Meteor.call 'set_facets', model_slug, ->
-            Session.set 'loading', false
-
 globalHotkeys.add
 	combo: "?"
 	callback: ->
@@ -26,15 +12,17 @@ globalHotkeys.add
 		# 	).modal('show')
 		Session.set('current_global_query', null)
 
-globalHotkeys.add
-	combo: "d c"
-	callback: ->
-	    if 'admin' in Meteor.user().roles
-            model = Docs.findOne
-                model:'model'
-                slug: Router.current().params.model_slug
-            Router.go "/model/edit/#{model._id}"
 
+globalHotkeys.add
+	combo: "u"
+	callback: ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'users'
+        Router.go "/people"
+globalHotkeys.add
+	combo: "p"
+	callback: ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'people'
+        Router.go "/people"
 globalHotkeys.add
 	combo: "r"
 	callback: ->
@@ -49,7 +37,7 @@ globalHotkeys.add
 	combo: "m"
 	callback: ->
         window.speechSynthesis.cancel()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'shut the fuck up'
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'shut up'
 
 globalHotkeys.add
 	combo: "d"
@@ -57,111 +45,39 @@ globalHotkeys.add
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
         Router.go "/reddit"
 
-
 globalHotkeys.add
-	combo: "r a"
+	combo: "d"
 	callback: ->
-        if Meteor.userId() and Meteor.userId() in ['vwCi2GTJgvBJN5F6c']
-            if Meteor.user().roles and 'admin' in Meteor.user().roles
-                Meteor.users.update Meteor.userId(), $pull:roles:'admin'
-            else
-                Meteor.users.update Meteor.userId(), $addToSet:roles:'admin'
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
+        Router.go "/reddit"
+
 globalHotkeys.add
-	combo: "r d"
+	combo: "left"
 	callback: ->
-        if Meteor.userId() and Meteor.userId() in ['vwCi2GTJgvBJN5F6c']
-            if Meteor.user().roles and 'dev' in Meteor.user().roles
-                Meteor.users.update Meteor.userId(), $pull:roles:'dev'
-            else
-                Meteor.users.update Meteor.userId(), $addToSet:roles:'dev'
-
-# globalHotkeys.add
-# 	combo: "m r "
-# 	callback: ->
-#         if Meteor.userId()
-#             Meteor.call ''
-#                 Meteor.users.update Meteor.userId(), $pull:roles:'frontdesk'
-#             else
-#                 Meteor.users.update Meteor.userId(), $addToSet:roles:'frontdesk'
-
-
-
+        console.log Router.current().route.getName()
+        switch Router.current().route.getName()
+            when 'stack' 
+                Router.go('/dao')
+                window.speechSynthesis.speak new SpeechSynthesisUtterance 'goto dao'
+            when 'dao' 
+                Router.go('/reddit')
+                window.speechSynthesis.speak new SpeechSynthesisUtterance 'goto reddit'
+            when 'reddit' 
+                Router.go('/people')
+                window.speechSynthesis.speak new SpeechSynthesisUtterance 'goto people'
 globalHotkeys.add
-	combo: "g h"
-	callback: -> Router.go '/'
-globalHotkeys.add
-	combo: "g d"
+	combo: "right"
 	callback: ->
-        if Meteor.userId() and Meteor.userId() in ['vwCi2GTJgvBJN5F6c']
-            Router.go '/dev'
-globalHotkeys.add
-	combo: "g p"
-	callback: -> Router.go "/u/#{Meteor.user().username}"
+        console.log Router.current().route.getName()
+        switch Router.current().route.getName()
+            when 'people'
+                Router.go('/reddit')
+                window.speechSynthesis.speak new SpeechSynthesisUtterance 'goto reddit'
+            when 'reddit' 
+                Router.go('/dao')
+                window.speechSynthesis.speak new SpeechSynthesisUtterance 'goto dao'
+            when 'dao' 
+                Router.go('/stack')
+                window.speechSynthesis.speak new SpeechSynthesisUtterance 'goto stack'
+        # Router.go "/reddit"
 
-
-
-globalHotkeys.add
-	combo: "g h"
-	callback: -> Router.go '/'
-globalHotkeys.add
-	combo: "g d"
-	callback: ->
-        if Meteor.userId() and Meteor.userId() in ['vwCi2GTJgvBJN5F6c']
-            Router.go '/dev'
-globalHotkeys.add
-	combo: "s d"
-	callback: ->
-        current_model = Docs.findOne
-            model:'model'
-            slug: Router.current().params.model_slug
-        Router.go "/m/#{current_model.slug}/#{Router.current().params.doc_id}/view"
-globalHotkeys.add
-	combo: "g u"
-	callback: ->
-        model_slug =  Router.current().params.model_slug
-        Session.set 'loading', true
-        Meteor.call 'set_facets', model_slug, ->
-            Session.set 'loading', false
-        Router.go "/m/#{model_slug}/"
-globalHotkeys.add
-	combo: "g p"
-	callback: -> Router.go "/u/#{Meteor.user().username}"
-globalHotkeys.add
-	combo: "g i"
-	callback: -> Router.go "/inbox"
-# globalHotkeys.add
-# 	combo: "g m"
-# 	callback: -> Router.go "/students"
-globalHotkeys.add
-	combo: "g a"
-	callback: -> Router.go "/admin"
-
-
-globalHotkeys.add
-	combo: "a d"
-	callback: ->
-        model = Docs.findOne
-            model:'model'
-            slug: Router.current().params.model_slug
-        # console.log model
-        if model.collection and model.collection is 'users'
-            name = prompt 'first and last name'
-            split = name.split ' '
-            first_name = split[0]
-            last_name = split[1]
-            username = name.split(' ').join('_')
-            # console.log username
-            Meteor.call 'add_user', first_name, last_name, username, 'guest', (err,res)=>
-                if err
-                    alert err
-                else
-                    Meteor.users.update res,
-                        $set:
-                            first_name:first_name
-                            last_name:last_name
-                    Router.go "/m/#{model.slug}/#{res}/edit"
-        else
-            new_doc_id = Docs.insert
-                model:model.slug
-            Router.go "/m/#{model.slug}/#{new_doc_id}/edit"
-	
