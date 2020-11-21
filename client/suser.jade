@@ -239,7 +239,16 @@ template(name='answer_item')
     
     
 template(name='user_comment_item')
-    .say_this !{body}
+    .ui.grey.inline.header(title='score') #{score}
+    if creation_date
+        .ui.basic.label
+            |added {{ufrom creation_date}}
+    if last_access_date
+        .ui.basic.label
+            |accessed {{ufrom last_access_date}}
+    if last_activity_date
+        |active {{ufrom last_activity_date}}
+    span.say_this !{body}
     // |#{site}
     if in_dev
         +print_this
@@ -249,6 +258,7 @@ template(name='user_comment_item')
             i.dna.icon
     each tags
         .ui.label #{this}
+    +doc_emotion_small    
     
     
     
