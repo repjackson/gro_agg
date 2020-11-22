@@ -1,4 +1,7 @@
 template(name='site_users')
+    unless current_site
+        .ui.basic.center.aligned.segment
+            i.massive.grey.loading.yin.yang.icon
     with current_site
         .ui.stackable.grid
             .row

@@ -5,8 +5,8 @@ template(name='site_questions')
                 .ui.twelve.wide.column
                     img.get_info.shadowed.ui.inline.image(src=logo_url )
                     span.say.mobile.hidden !{audience}
-                    a.ui.circular.basic.large.button(href="/site/#{api_site_parameter}/users")
-                        i.large.user.outline.icon
+                    a.ui.circular.compact.circular.basic.large.button.say(href="/site/#{api_site_parameter}/users")
+                        i.large.users.icon
                         |users
                     // div
                     if selected_tags

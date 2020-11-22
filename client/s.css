@@ -169,7 +169,7 @@ html.ios body {
   border-radius: 5px !important;
 }
 .topnav > .item.active {
-  background: black !important;
+  background: lightgrey !important;
   
 }
 .topnav.menu {
@@ -333,12 +333,16 @@ a.goto_article {
     transition: all .25s ease !important; 
     cursor: pointer !important;
     color: black !important; 
-    transform: scale(1.04) !important;
-    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.5);
-    padding:2px !important;
+}
+.raise:hover {
+    /*transform: scale(1.1) !important;*/
+    box-shadow: 1px 1px 10px 0px rgba(0,0,0,0.5);
+    /*padding:2px !important;*/
     border-radius: 10px !important;
     /*zoom: 105% !important;*/
+  
 }
+
 .pointer:hover {
     /*transition: all .25s linear !important; */
     cursor: pointer !important;
@@ -625,7 +629,7 @@ input {
 /*}*/
 
 
-.button{
+.button:not(.circular){
   border-radius: 7px !important;  
 }
 .button:active{
