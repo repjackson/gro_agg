@@ -9,10 +9,10 @@ template(name='stack_page')
                             i.large.green.checkmark.icon
                         |!{title}
                     .ui.horizontal.list
-                        .item.zoomer 
+                        .item.say 
                             // i.clock.icon
                             |active {{ufrom last_activity_date}}
-                        .item.zoomer
+                        .item.say
                             // i.clock.icon
                             |created {{ufrom creation_date}}
                         // div(class=currentUser.invert_class)
@@ -32,7 +32,7 @@ template(name='stack_page')
                             each question_comments
                                 .ui.basic.segment
                                     if is_accepted 
-                                        .ui.green.label.zoomer
+                                        .ui.green.label.say
                                             |accepted
                                     .say !{body}
                                     with owner
@@ -54,7 +54,7 @@ template(name='stack_page')
                                 .ui.basic.segment(class=answer_class id=_id)
                                     // div(id=_id)
                                     with owner
-                                        a.ui.header.say.refresh_user(href="/site/#{site}/user/#{user_id}")
+                                        a.ui.header.say.refresh_user(href="/site/#{current_doc.site}/user/#{user_id}")
                                             img.ui.avatar.image(src=profile_image)
                                             |!{display_name}
                                             strong #{reputation}
@@ -98,7 +98,7 @@ template(name='stack_page')
                                 +watson_view
                                 +watson_full
                         // +comments
-                .four.wide.column.scrollin
+                .four.wide.center.aligned.column.scrollin
                     a.ui.fluid.basic.circular.compact.tertiary.button.say(href="/site/#{site}") 
                         i.chevron.left.icon
                         if watson.metadata.image

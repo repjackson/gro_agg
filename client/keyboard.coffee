@@ -47,11 +47,10 @@ globalHotkeys.add
 
 
 globalHotkeys.add
-	combo: "esc"
-	callback: -> 
-	    selected_tags.clear()
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance 'clear tags'
-	
+    combo: "esc"
+    callback: -> 
+        selected_tags.clear()
+        window.speechSynthesis.cancel()
 globalHotkeys.add
 	combo: "left"
 	callback: ->

@@ -26,8 +26,12 @@ template(name='suser_layout')
                     a.ui.big.inline.header.say(class=post_header_class href="/site/#{site}/user/#{user_id}")
                         |!{display_name} 
                         small(title='reputation') #{reputation}
-                        strong(title="#{site} rank") ##{site_rank} 
-                        strong(title='global rank') ##{global_rank}
+                        strong(title="#{site} rank")
+                            small #
+                            |#{site_rank} 
+                        strong(title='global rank')
+                            small #
+                            |#{global_rank}
                     div
                     // with location
                     //     +flat_tag_selector
