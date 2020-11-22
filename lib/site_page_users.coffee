@@ -378,7 +378,7 @@ if Meteor.isServer
             { $match: _id: $nin: selected_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:10 }
+            { $limit:20 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         site_tag_cloud.forEach (tag, i) ->
@@ -414,7 +414,7 @@ if Meteor.isServer
             # { $match: _id: $nin: selected_Organizations }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:7 }
+            { $limit:5 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         site_Organization_cloud.forEach (Organization, i) ->
@@ -432,7 +432,7 @@ if Meteor.isServer
             # { $match: _id: $nin: selected_Persons }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:7 }
+            { $limit:5 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         site_Person_cloud.forEach (Person, i) ->
@@ -450,7 +450,7 @@ if Meteor.isServer
             # { $match: _id: $nin: selected_Companys }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:7 }
+            { $limit:5 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         site_Company_cloud.forEach (Company, i) ->
@@ -490,7 +490,7 @@ if Meteor.isServer
             { $match: _id: $nin: selected_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:10 }
+            { $limit:20 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         site_tag_cloud.forEach (tag, i) ->

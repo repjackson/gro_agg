@@ -11,7 +11,8 @@ Template.body.events
     'click .say': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
 Meteor.startup ->
-    window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
+    if Meteor.isDevelopment
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
 Template.nav.events
     'click .goto_stack': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'stackexchange'

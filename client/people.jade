@@ -1,24 +1,12 @@
 template(name='people')
     .ui.stackable.grid
         .four.wide.column.scrolling
-            // i.big.user.outline.icon
-            // #cloud.ui.center.aligned.fluid.segment
-                // if currentUser
-                //     .ui.icon.input
-                //         i.plus.icon
-                //         input#quick_add(type='text')
-                //     // #add.ui.circular.button
-                //     //     i.plus.icon
-                //     //     | Full Add
-                // .ui.hidden.divider
-            .ui.inline.grey.header
-                i.tag.large.icon
-                |tags
+            i.tag.large.icon(title='tags')
             if selected_tags
-                #clear_tags.ui.primary.icon.compact.circular.button
+                #clear_tags.ui.grey.icon.compact.circular.button
                     i.remove.icon
                 each selected_tags
-                    .unselect_tag.ui.primary.compact.circular.button
+                    .unselect_tag.ui.grey.compact.circular.button
                         strong !{this}
             each all_tags
                 .ui.compact.circular.basic.button.select_tag(class=cloud_tag_class title=count) !{this.name}
@@ -36,7 +24,7 @@ template(name='people')
                 i.stack.exchange.icon
                 |site
             if selected_user_site
-                .unselect_site.ui.primary.compact.circular.button
+                .unselect_site.ui.grey.compact.circular.button
                     strong !{selected_user_site}
             each all_sites
                 .ui.compact.basic.circular.button.select_site(class=cloud_site_class) 
@@ -56,7 +44,7 @@ template(name='people')
                 i.marker.icon
                 |location
             if selected_user_location
-                .unselect_location.ui.primary.compact.circular.button
+                .unselect_location.ui.grey.compact.circular.button
                     strong !{selected_user_location}
             unless all_locations.count
                 .ui.basic.center.aligned.segment
@@ -98,9 +86,9 @@ template(name='people')
                 each users
                     .ui.card
                         a.zoomer.select_user(href="/site/#{site}/user/#{user_id}")
-                            img.ui.fluid.image(src=profile_image class=currentUser.invert_class)
+                            img.ui.fluid.image(src=profile_image)
                         .content
-                            a.ui.zoomer.header.select_user(href="/site/#{site}/user/#{user_id}")
+                            a.ui.zoomer.header.select_user(href="/site/#{site}/user/#{user_id}" class=post_header_class)
                                 |!{display_name}
                                 .ui.basic.circular.label #{reputation}
                             .description
@@ -119,8 +107,9 @@ template(name='people')
                                     |!{location}
                                 each five_tags
                                     .ui.small.tertiary.disabled.button #{this}
-                                // +doc_emotion_small
-                                |#{main_emotion}
+                                if max_emotion_name
+                                    +doc_emotion_small
+                                    |#{max_emotion_name}
                                 
                                 
                                 

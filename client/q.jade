@@ -1,9 +1,9 @@
 template(name='stack_page')
     with current_doc
-        .ui.stackable.padded.grid
+        .ui.stackable.padded.grid.top
             .row
                 .twelve.wide.column
-                    .ui.inline.header.say_title.get_question(class=post_header_class)
+                    .ui.inline.header.say_this.get_question(class=post_header_class)
                         .ui.basic.circular.big.label #{score}
                         if is_answered
                             i.large.green.checkmark.icon
@@ -22,7 +22,7 @@ template(name='stack_page')
                             +skve k='stack_section' v='tone' l='tone' i='user' 
                         // +skve k='stack_section' v='embed' l='embed' i='layout' 
 
-                    .scrolling
+                    .scrollin
                         if skv_is 'stack_section' 'main'
                             .ui.basic.segment.say !{body}
                             if question_comments
@@ -39,7 +39,7 @@ template(name='stack_page')
                                     with owner
                                         .ui.divider
                                         i.chat.icon
-                                        a.say.ui.inline.header.say.zoomer(href="/site/#{current_doc.site}/user/#{user_id}" class=post_header_class)
+                                        a.say.ui.inline.header.say.zoomer.refresh_user(href="/site/#{current_doc.site}/user/#{user_id}" class=post_header_class)
                                             img.ui.avatar.invert.image(src=profile_image)
                                             |!{display_name}
                                             |#{reputation}
@@ -48,11 +48,12 @@ template(name='stack_page')
                                         .say.ui.basic.small.label #{accept_rate}
                                         a(href=link) #{link}
                                     // small #{content_license}
-                            .ui.dividing.header 
+                            #answers.ui.dividing.header 
                                 i.reply.grey.icon
                                 |#{question_answers.count} answers
                             each question_answers
                                 .ui.basic.segment(class=answer_class)
+                                    div(id=_id)
                                     if is_accepted 
                                         .ui.green.corner.attached.label.zoomer
                                             i.checkmark.icon
@@ -72,7 +73,7 @@ template(name='stack_page')
         
                                     with owner
                                         div
-                                        a.ui.header.say.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
+                                        a.ui.header.say.zoomer.refresh_user(href="/site/#{current_doc.site}/user/#{user_id}")
                                             img.ui.avatar.invert.image(src=profile_image)
                                             |!{display_name}
                                             small #{reputation}
@@ -98,28 +99,23 @@ template(name='stack_page')
                                 +watson_view
                                 +watson_full
                         // +comments
-                    .three.wide.column
-                        .ui.grey.small.header.get_linked 
-                            i.linkify.icon
-                            |linked
-                        each linked_question_ids
-                            .ui.header #{this}
-                        each linked_questions
-                            .ui.header #{title}
-                        .ui.grey.small.header.get_related
-                            i.fork.icon
-                            |related
-                        each related_question_ids
-                            .ui.header #{this}
-                        each related_questions
-                            .ui.header #{title}
-                .four.wide.column.scrolling
+                .four.wide.column.scrollin
                     a.ui.fluid.basic.circular.compact.tertiary.button.say(href="/site/#{site}") 
                         i.chevron.left.icon
                         if watson.metadata.image
                             img.ui.invert.tiny.inline.image(src=watson.metadata.image)    
                         | #{site}
                     +doc_emotion
+                    .ui.fluid.vertical.menu
+                        a.item(href='#answers') #{answer_count} answers
+                        each question_answers
+                            a.item(href="##{_id}")  
+                                if is_accepted
+                                    i.large.checkmark.icon
+                                |#{score}
+                                img.ui.avatar.invert.image(src=owner.profile_image)
+                                |!{owner.display_name}
+
                     with owner
                         a.ui.basic.segment.zoomer.pointer.say(href="/site/#{current_doc.site}/user/#{user_id}")
                             img.ui.rounded.inline.image(src=profile_image)
@@ -175,4 +171,18 @@ template(name='stack_page')
                         .ui.big.fluid.button.call_watson
                             i.large.brain.icon
                             |analyze
+                    .ui.grey.small.header.get_linked 
+                        i.linkify.icon
+                        |linked
+                    each linked_question_ids
+                        .ui.header #{this}
+                    each linked_questions
+                        .ui.header #{title}
+                    .ui.grey.small.header.get_related
+                        i.fork.icon
+                        |related
+                    each related_question_ids
+                        .ui.header #{this}
+                    each related_questions
+                        .ui.header #{title}
                     

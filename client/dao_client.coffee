@@ -148,7 +148,8 @@ Template.unselect_tag.events
 
 
 Template.tag_selector.onCreated ->
-    @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+    if @data.name
+        @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
 Template.tag_selector.helpers
     selector_class: ()->
         term = 

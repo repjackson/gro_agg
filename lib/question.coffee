@@ -13,25 +13,45 @@ if Meteor.isClient
         Meteor.call 'get_question_answers', Router.current().params.site, Router.current().params.doc_id,->
         Meteor.call 'call_watson', Router.current().params.doc_id,'link','stack',->
         # Meteor.call 'get_question_comments', Router.current().params.site, Router.current().params.doc_id,->
+        Meteor.setTimeout ->
+            $('.top').visibility
+                onTopVisible: (calculations) ->
+                    console.log 'top vis'
+                    # top is on screen
+                onTopPassed: (calculations) ->
+                    console.log 'top pass'
+                    # top of element passed
+                onUpdate: (calculations) ->
+                    # do something whenever calculations adjust
+                    console.log 'update'
+                    # updateTable calculations
+            , 2000
     Template.stack_page.helpers
         linked_questions: ->
             question = Docs.findOne Router.current().params.doc_id
             Docs.find 
                 model:'stack_question'
                 _id:question.linked_question_ids
+                site:Router.current().params.site
         related_questions: ->
             question = Docs.findOne Router.current().params.doc_id
             Docs.find 
                 model:'stack_question'
                 _id:question.related_question_ids
+                site:Router.current().params.site
         question_answers: ->
-            Docs.find 
+            Docs.find({
                 model:'stack_answer'
+                site:Router.current().params.site
+            }, {
+                sort:score:-1
+            })
         question_comments: ->
             question = Docs.findOne Router.current().params.doc_id
             Docs.find 
                 model:'stack_comment'
                 post_id:question.question_id
+                site:Router.current().params.site
         answer_class: -> if @accepted then 'accepted'
 
 
@@ -54,7 +74,7 @@ if Meteor.isClient
         #         window.speechSynthesis.speak new SpeechSynthesisUtterance @body
         #         Session.set('speaking',true)
     
-        'click .say': (e,t)->
+        'click .refresh_user': (e,t)->
             Meteor.call 'search_stackuser', Router.current().params.site, @user_id, ->
 
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
@@ -86,27 +106,29 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'question_comments', (question_doc_id)->
+        doc = Docs.findOne question_doc_id
         Docs.find 
             model:'stack_comment'
-            post_id:question_doc_id
-            site:'cs'
+            post_id:doc.question_id
+            site:doc.site
     Meteor.publish 'question_linked_to', (question_doc_id)->
+        doc = Docs.findOne question_doc_id
         Docs.find 
             model:'stack_question'
             linked_to_ids:$in:[question_doc_id]
-            site:'cs'
+            site:question.site
     
     Meteor.publish 'related_questions', (question_doc_id)->
         question = Docs.findOne question_doc_id
         Docs.find 
             model:'stack_question'
             _id:$in:question.related_question_ids
-            site:'cs'
+            site:question.site
     
     Meteor.publish 'linked_questions', (question_doc_id)->
         question = Docs.findOne question_doc_id
         Docs.find 
             model:'stack_question'
             _id:$in:question.linked_question_ids
-            site:'cs'
+            site:question.site
     
