@@ -151,9 +151,9 @@ Meteor.methods
         else 
             switch mode
                 when 'html'
-                    # parameters.html = doc["#{key}"]
+                    parameters.html = doc["#{key}"]
                     parameters.returnAnalyzedText = true
-                    parameters.html = doc.description
+                    # parameters.html = doc.description
                     parameters.metadata = {}
                 when 'text'
                     parameters.text = doc["#{key}"]

@@ -93,12 +93,12 @@ if Meteor.isClient
         'click .call': (e,t)-> 
             # console.log 'hi'
             window.speechSynthesis.speak new SpeechSynthesisUtterance "anlyzing"
-            Meteor.call 'call_watson',@_id,'body','text', (err,res)=>
+            Meteor.call 'call_watson',@_id,'body','html', (err,res)=>
     Template.answer_item.events
         'click .call': (e,t)-> 
             # console.log 'hi'
             window.speechSynthesis.speak new SpeechSynthesisUtterance "anlyzing"
-            Meteor.call 'call_watson',@_id,'body','text', (err,res)=>
+            Meteor.call 'call_watson',@_id,'body','html', (err,res)=>
 
 
     Template.suser_dashboard.helpers
