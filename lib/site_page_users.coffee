@@ -161,7 +161,7 @@ if Meteor.isClient
         'click .clear_query': (e,t)-> 
             window.speechSynthesis.speak new SpeechSynthesisUtterance "name cleared"
             Session.set('user_query',null)
-        'click .say_this': (e,t)->
+        'click .say': (e,t)->
             window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
 
     Template.site_users.helpers

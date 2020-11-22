@@ -8,7 +8,7 @@ Template.registerHelper 'youtube_parse', (url) ->
    
    
 Template.body.events
-    'click .say_this': ->
+    'click .say': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
 Meteor.startup ->
     window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
@@ -40,11 +40,11 @@ Template.nav.events
 Template.registerHelper 'sv', (key) -> Session.get(key)
 Template.registerHelper 'sentence_color', () ->
     switch @tones[0].tone_id
-        when 'sadness' then 'blue invert inverted'
-        when 'joy' then 'green invert inverted'
-        when 'confident' then 'teal invert inverted'
-        when 'analytical' then 'orange invert inverted'
-        when 'tentative' then 'yellow invert inverted'
+        when 'sadness' then 'blue'
+        when 'joy' then 'green'
+        when 'confident' then 'teal'
+        when 'analytical' then 'orange'
+        when 'tentative' then 'yellow'
         
 Template.registerHelper 'selected_tags', () ->selected_tags.array()
 Template.registerHelper 'selected_models', () ->selected_models.array()
@@ -96,7 +96,7 @@ Template.registerHelper 'calculated_size', (metric) ->
         when 10 then 'f15'
     
     
-Template.registerHelper 'connection', () ->Meteor.status()
+Template.registerHelper 'connection', () -> Meteor.status()
 Template.registerHelper 'connected', () -> Meteor.status().connected
     
     
@@ -129,7 +129,6 @@ Template.registerHelper 'tag_term', () ->
 Template.registerHelper 'session', () -> Session.get(@key)
 
 Template.registerHelper 'lowered_title', ()-> @title.toLowerCase()
-
 
 Template.registerHelper 'skip_is_zero', ()-> Session.equals('skip', 0)
 Template.registerHelper 'one_post', ()-> Counts.get('result_counter') is 1

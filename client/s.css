@@ -322,18 +322,21 @@ a.goto_article {
   /* font-size: 120% !important; */
 }
 /*  */
-.say_this {
+.say {
     animation: fadein .5s !important;
     animation: fadeout .5s; 
     transition: all .25s ease !important; 
 }
-.say_this:hover {
+.say:hover {
     animation: fadein .5s !important;
     animation: fadeout .5s; 
     transition: all .25s ease !important; 
     cursor: pointer !important;
     color: black !important; 
     transform: scale(1.04) !important;
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.5);
+    padding:2px !important;
+    border-radius: 10px !important;
     /*zoom: 105% !important;*/
 }
 .pointer:hover {
@@ -643,10 +646,10 @@ input {
 
 
 .icon:not(.loading){
-    animation: fadein .5s !important;
-    transition: all .5s ease !important;
+    animation: fadein 1s !important;
+    transition: all 1s ease !important;
     /* -webkit-transition: opacity .25s ease-out; */
-    animation: fadeout .5s; 
+    animation: fadeout 1s; 
 }
 
 

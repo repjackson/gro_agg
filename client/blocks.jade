@@ -50,8 +50,7 @@ template(name='smart_tagger')
 
 
 template(name='print_this')
-    .ui.icon.basic.button.print_this
-        i.orange.code.icon
+    i.link.code.icon.print_this(title='print to console')
 
 
 template(name='viewing')
@@ -97,7 +96,7 @@ template(name='sbt')
                 
 template(name='skve')
     // a.ui.image.big.link.label.set_session_v(class=calculated_class)
-    .ui.zoomer.basic.icon.compact.button.set_session_v(class=calculated_class title=t)
+    .ui.zoomer.basic.compact.button.say.set_session_v(class=calculated_class title=t)
         // if i
         if selected 
             // +i n=i cl='ui mini inline image'
@@ -107,9 +106,9 @@ template(name='skve')
             i.grey.large.icon(class=i)
         unless ionly
             if l
-                span.say_this #{l}
+                span.say #{l}
             else 
-                span.say_this #{v}
+                span.say #{v}
 
                         
 

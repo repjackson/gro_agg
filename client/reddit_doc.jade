@@ -22,7 +22,7 @@ template(name="reddit_doc")
                     img.ui.rounded.pointer.zoomer.image.toggle_view(src=watson.metadata.image)    
     
             .content
-                span.ui.pointer.text.f13.zoomer.toggle_view.say_this(class=post_header_class) !{title}
+                span.ui.pointer.text.f13.zoomer.toggle_view.say(class=post_header_class) !{title}
                     // small #{max_emotion_name}
                 // |#{points}
                     // unless one_post
@@ -67,7 +67,7 @@ template(name="reddit_doc")
                     // .ui.big.label 
                     //     i.user.outline.icon
                     //     |#{author}
-                    .ui.big.label.say_this
+                    .ui.big.label.say
                         i.thumbs.up.outline.icon
                         |#{ups}
                     a.ui.small.header(href=url target='_window')

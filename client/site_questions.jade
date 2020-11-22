@@ -4,7 +4,7 @@ template(name='site_questions')
             .row
                 .ui.twelve.wide.column
                     img.get_info.shadowed.ui.inline.image(src=logo_url )
-                    span.say_this.mobile.hidden !{audience}
+                    span.say.mobile.hidden !{audience}
                     a.ui.circular.basic.large.button(href="/site/#{api_site_parameter}/users")
                         i.large.user.outline.icon
                         |users
@@ -108,35 +108,58 @@ template(name='site_questions')
                     div
                 
                     .ui.small.list.mobile.hidden
-                        .item 
+                        .item.say 
                             strong #{audience}
-                        a.item(href=site_url target="_window")
+                        a.item.say(href=site_url target="_window")
                             |#{site_url}
                             i.external.icon
-                        .item open beta {{ufrom open_beta_date}}
-                        .item closed beta {{ufrom closed_beta_date}}
+                        .item.say open beta {{ufrom open_beta_date}}
+                        .item.say closed beta {{ufrom closed_beta_date}}
                         if launch_date
-                            .item launched {{ufrom launch_date}}
-                        .item state: #{site_state}
-                        // .item #{high_resolution_icon_url} high_resolution_icon_url
-                        // .item #{favicon_url} favicon_url
-                        // .item #{api_site_parameter} api
-                        .item #{site_type} site_type
-                        .item main emotion: #{main_emotion}
-                        .item new_active_users: #{new_active_users}
-                        .item total_users: #{total_users}
-                        .item badges_per_minute: #{badges_per_minute}
-                        .item #{total_badges} badges
-                        .item 
+                            .item.say launched {{ufrom launch_date}}
+                        // .item.say state: #{site_state}
+                        // .item.say #{high_resolution_icon_url} high_resolution_icon_url
+                        // .item.say #{favicon_url} favicon_url
+                        // .item.say #{api_site_parameter} api
+                        // .item.say #{site_type} 
+                        .item.say main emotion: #{main_emotion}
+                        .item.say 
+                            i.lightning.icon
+                            |#{new_active_users}
+                            |active users
+                        .item.say 
+                            i.users.icon
+                            |#{total_users} total users
+                        .item.say 
+                            i.certificate.icon
+                            |#{badges_per_minute} badges/min
+                        .item.say
+                            i.certificate.icon
+                            |#{total_badges} badges
+                        .item.say 
                             i.grey.thumbs.up.outline.icon
                             |#{total_votes} votes
-                        .item #{total_comments} comments
-                        .item #{answers_per_minute} answers/min
-                        .item #{questions_per_minute} questions/min
-                        .item #{total_questions} questions
-                        .item #{total_answers} answers
-                        .item #{total_accepted} accepted
-                        .item #{total_unanswered} unanswered
+                        .item.say 
+                            i.chat.outline.icon
+                            |#{total_comments} comments
+                        .item.say 
+                            i.reply.icon
+                            |#{total_answers} answers
+                        .item.say
+                            i.reply.icon
+                            #{answers_per_minute} answers/min
+                        .item.say
+                            i.question.icon
+                            |#{total_questions} questions
+                        .item.say
+                            i.question.icon
+                            |#{questions_per_minute} questions/min
+                        .item.say 
+                            i.checkmark.icon
+                            |#{total_accepted} accepted
+                        .item.say 
+                            i.exclamation.icon
+                            |#{total_unanswered} unanswered
                         // .item api_revision: #{api_revision}
                     // if in_dev
                     //     +array_edit k='tags' d=true
@@ -162,7 +185,7 @@ template(name='site_question_item')
                 if watson.analyzed_text
                     span.pointer.view_question {{trunc watson.analyzed_text}}...
             if skv_is 'view_detail' true
-                .say_this.pointer.goto_q !{body}
+                .say.pointer.goto_q !{body}
                 .ui.horizontal.list
                     each tags
                         .item #{this}

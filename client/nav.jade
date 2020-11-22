@@ -8,17 +8,17 @@ template(name='nav')
             //     i.large.yin.yang.icon
             a.icon.zoomer.item.goto_people(href='/people' class="{{isActivePath regex='people'}}" title='people')
                 i.large.user.outline.grey.icon
-            a.icon.zoomer.item.clear_tags.goto_reddit(href='/reddit' class="{{isActiveRoute regex='reddit'}}")
-                i.large.reddit.grey.icon
+            a.icon.zoomer.item.clear_tags.goto_stack(href='/stack' class="{{isActivePath '/stack'}}" title='stack exchange')
+                i.large.stack.exchange.grey.icon
             a.icon.zoomer.item.clear_tags.goto_dao(href='/' class="{{isActivePath '/'}}" title='search')
                 i.big.yin.yang.grey.icon
-            a.icon.zoomer.item.clear_tags.goto_stack(href='/stack' class="{{isActivePath '/stack'}}")
-                i.large.stack.exchange.grey.icon
+            a.icon.zoomer.item.clear_tags.goto_reddit(href='/reddit' class="{{isActiveRoute regex='reddit'}}" title='reddit')
+                i.large.reddit.grey.icon
             a.icon.zoomer.item.silence(href='#')
                 i.large.volume.mute.grey.icon
             // a.icon.disabled.item.goto_wikipedia(href='/wikipedia')
             //     i.large.wikipedia.icon
         unless connected
             .icon.item
-                i.yin.yang.grey.loading.large.icon
+                i.yin.yang.grey.loading.big.icon
             // +status    

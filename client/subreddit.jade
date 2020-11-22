@@ -85,7 +85,7 @@ template(name='subreddit_docs')
                     // .ui.grey.small.header 
                     //     |related subreddits
                     .ui.inline.header !{title}
-                    .ui.small.header.say_this !{data.public_description}
+                    .ui.small.header.say !{data.public_description}
                     i.large.grey.users.icon
                     each subreddit_organizations
                         // .ui.label hi #{name}
@@ -179,7 +179,7 @@ template(name='subreddit_doc_item')
                 if watson.analyzed_text
                     span.pointer.view_question {{trunc watson.analyzed_text}}...
             if skv_is 'view_detail' true
-                .say_this.goto_q !{body}
+                .say.goto_q !{body}
     
             .ui.horizontal.list
                 each tags

@@ -54,7 +54,7 @@ if Meteor.isClient
         #         window.speechSynthesis.speak new SpeechSynthesisUtterance @body
         #         Session.set('speaking',true)
     
-        'click .say_this': (e,t)->
+        'click .say': (e,t)->
             Meteor.call 'search_stackuser', Router.current().params.site, @user_id, ->
 
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name

@@ -94,10 +94,10 @@ template(name='site_users')
                             
 template(name='stackuser_item')
     .item
-        a.ui.small.image.say_this.zoomer(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
+        a.ui.small.image.say.zoomer(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
             img.ui.rounded.tiny.image(src=profile_image)
         .content
-            a.ui.inline.header.say_this.zoomer(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
+            a.ui.inline.header.say.zoomer(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
                 |!{display_name}
                 small #{reputation}
             |!{about_me}
