@@ -39,6 +39,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
         @autorun => Meteor.subscribe 'site_tags',
             selected_tags.array()
+            selected_emotions.array()
             Router.current().params.site
             Session.get('toggle')
             Session.get('view_bounties')
@@ -48,6 +49,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'stack_docs_by_site', 
             Router.current().params.site
             selected_tags.array()
+            selected_emotions.array()
             Session.get('sort_key')
             Session.get('sort_direction')
             Session.get('limit')
@@ -57,11 +59,10 @@ if Meteor.isClient
             
         @autorun => Meteor.subscribe 'stackusers_by_site', 
             Router.current().params.site
-            # selected_tags.array()
-            # Session.get('sort_key')
-            # Session.get('sort_direction')
-            # Session.get('limit')
-            # Session.get('toggle')
+            Session.get('user_query')
+            Session.get('location_query')
+            selected_tags.array()
+            ()->Session.set('ready',true)
             
             
     # Template.site_users.onCreated ->
@@ -199,7 +200,8 @@ if Meteor.isClient
         site_organizations: -> results.find(model:'site_Organization')
         site_persons: -> results.find(model:'site_Person')
         site_companys: -> results.find(model:'site_Company')
-
+        site_emotions: -> results.find(model:'site_emotion')
+    
         site_users: ->
             Docs.find {
                 model:'stackuser'
@@ -258,11 +260,15 @@ if Meteor.isClient
     Template.stack_tag_selector.events
         'click .select_tag': -> 
             # results.update
+            console.log @
             window.speechSynthesis.cancel()
-            
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-            selected_tags.push @name
-            $('.search_site').val('')
+            if @model is 'site_tag'
+                selected_tags.push @name
+                $('.search_site').val('')
+            if @model is 'site_emotion'
+                selected_emotions.push @name
+                
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
             # Session.set('thinking',true)
@@ -272,7 +278,7 @@ if Meteor.isClient
             #     displayTime: 'auto',
             #     position: 'bottom right'
             # )
-            Meteor.call 'search_stack', Router.current().params.site, @name, ->
+            # Meteor.call 'search_stack', Router.current().params.site, @name, ->
                 # $('body').toast(
                 #     showIcon: 'stack exchange'
                 #     message: ' done'
@@ -324,6 +330,7 @@ if Meteor.isServer
     Meteor.publish 'stack_docs_by_site', (
         site
         selected_tags
+        selected_emotion
         sort_key
         sort_direction
         limit
@@ -344,6 +351,9 @@ if Meteor.isServer
         if view_bounties 
             match.bounty = true
         if selected_tags.length > 0 then match.tags = $all:selected_tags
+        if selected_emotion.length > 0 
+            console.log selected_emotion
+            match.max_emotion_name = selected_emotion[0]
         if site
             Docs.find match, 
                 limit:10
@@ -352,6 +362,7 @@ if Meteor.isServer
                 # limit:limit
     Meteor.publish 'site_tags', (
         selected_tags
+        selected_emotion
         site
         toggle
         view_bounties
@@ -370,6 +381,7 @@ if Meteor.isServer
             match.is_answered = false
         doc_count = Docs.find(match).count()
         if selected_tags.length > 0 then match.tags = $in:selected_tags
+        if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
         site_tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
@@ -458,6 +470,23 @@ if Meteor.isServer
                 name: Company.name
                 count: Company.count
                 model:'site_Company'
+      
+      
+        site_emotion_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "max_emotion_name": 1 }
+            { $group: _id: "$max_emotion_name", count: $sum: 1 }
+            # { $match: _id: $nin: selected_emotions }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:5 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        site_emotion_cloud.forEach (emotion, i) ->
+            self.added 'results', Random.id(),
+                name: emotion.name
+                count: emotion.count
+                model:'site_emotion'
       
       
         self.ready()

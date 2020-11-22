@@ -86,7 +86,7 @@ if Meteor.isClient
             Meteor.call 'get_related_questions', Router.current().params.site, Router.current().params.doc_id,->
             console.log 'getting related'
         'click .call_watson': (e,t)->
-            window.speechSynthesis.speak new SpeechSynthesisUtterance 'analyzing emotion'
+            window.speechSynthesis.speak new SpeechSynthesisUtterance 'analyzing'
             Meteor.call 'call_watson', Router.current().params.doc_id,'link','stack',->
                 
         'click .call_tone': (e,t)->

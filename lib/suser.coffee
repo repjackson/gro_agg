@@ -86,13 +86,19 @@ if Meteor.isClient
     Template.user_comment_item.events
         'click .call': (e,t)-> 
             # console.log 'hi'
-            window.speechSynthesis.speak new SpeechSynthesisUtterance "anlyzing emotion"
+            window.speechSynthesis.speak new SpeechSynthesisUtterance "anlyzing"
             Meteor.call 'call_watson',@_id,'body','text', (err,res)=>
-                # console.log res
-                # if @max_emotion_name
-                #     window.speechSynthesis.speak new SpeechSynthesisUtterance @max_emotion_name
-            # Meteor.setTimeout ->
-            # , 2000
+
+    Template.user_answer_item.events
+        'click .call': (e,t)-> 
+            # console.log 'hi'
+            window.speechSynthesis.speak new SpeechSynthesisUtterance "anlyzing"
+            Meteor.call 'call_watson',@_id,'body','text', (err,res)=>
+    Template.answer_item.events
+        'click .call': (e,t)-> 
+            # console.log 'hi'
+            window.speechSynthesis.speak new SpeechSynthesisUtterance "anlyzing"
+            Meteor.call 'call_watson',@_id,'body','text', (err,res)=>
 
 
     Template.suser_dashboard.helpers
@@ -119,10 +125,10 @@ if Meteor.isClient
         #     Docs.find
         #         model:'stack_tag'
 
-    Template.answer_item.onCreated ->
+    Template.user_answer_item.onCreated ->
         @autorun => Meteor.subscribe 'question_from_id', @data.question_id
         
-    Template.answer_item.helpers
+    Template.user_answer_item.helpers
         answer_question: ->
             Docs.findOne
                 model:'stack_question'

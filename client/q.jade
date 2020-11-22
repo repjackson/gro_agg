@@ -21,7 +21,6 @@ template(name='stack_page')
                         if tone
                             +skve k='stack_section' v='tone' l='tone' i='user' 
                         // +skve k='stack_section' v='embed' l='embed' i='layout' 
-
                     .scrollin
                         if skv_is 'stack_section' 'main'
                             .ui.basic.segment.say !{body}
@@ -51,42 +50,7 @@ template(name='stack_page')
                                 i.reply.grey.icon
                                 |#{question_answers.count} answers
                             each question_answers
-                                .ui.basic.segment(class=answer_class id=_id)
-                                    // div(id=_id)
-                                    // a(href="#qhead")
-                                    //     i.circular.chevron.up.icon
-                                    // .ui.divider
-                                    .ui.horizontal.list
-                                        if last_activity_date
-                                            .item 
-                                                small active
-                                                |{{ufrom last_activity_date}}
-                                        if last_edit_date
-                                            .item
-                                                small edited
-                                                |{{ufrom last_edit_date}}
-                                        if creation_date
-                                            .item
-                                                small added
-                                                |{{ufrom creation_date}}
-                                    if is_accepted 
-                                        .ui.green.corner.attached.label.rounded
-                                            i.checkmark.icon
-                                    .say !{body}
-        
-                                    // |#{content_license}
-                                    if in_dev 
-                                        +remove_button
-                                with owner
-                                    a.ui.header.say.refresh_user(href="/site/#{current_doc.site}/user/#{user_id}")
-                                        img.ui.avatar.image(src=profile_image)
-                                        |!{display_name}
-                                        strong #{reputation}
-                                        if accept_rate
-                                            small #{accept_rate}%
-                                    a.ui.icon.small.basic.circular.button(href=link)
-                                        i.external.icon
-                                .ui.divider
+                                +answer_item
                         if skv_is 'stack_section' 'tone'
                             if watson 
                                 if tone
@@ -121,21 +85,8 @@ template(name='stack_page')
                         a.ui.basic.segment.zoomer.pointer.say(href="/site/#{current_doc.site}/user/#{user_id}")
                             img.ui.rounded.inline.image(src=profile_image)
                             .ui.header.inline(class=post_header_class)
-                                if is_answered
-                                    i.green.checkmark.large.icon
-                                    // .ui.basic.inverted.green.large.tertiary.button
-                                    // |answered
-                                    // else
-                                    // .ui.basic.tertiary.button
-                                    // i..icon
-                                    // |unanswered
-
                                 |!{display_name}
                                 small #{reputation}
-                                // .ui.basic.label id #{user_id}
-                                // .ui.basic.label type #{user_type}
-                                // a.ui.circular.icon.button(href=link)
-                                //     i.large.external.icon
                         
                     each tags 
                         .ui.basic.pointer.circular.tertiary.button.add_stack_tag.say.zoomer #{this}
@@ -187,3 +138,48 @@ template(name='stack_page')
                     each related_questions
                         .ui.header #{title}
                     
+                    
+                    
+template(name='answer_item')
+    .ui.basic.segment(class=answer_class id=_id)
+        // div(id=_id)
+        // a(href="#qhead")
+        //     i.circular.chevron.up.icon
+        // .ui.divider
+        .ui.horizontal.list
+            if last_activity_date
+                .item 
+                    small active
+                    |{{ufrom last_activity_date}}
+            if last_edit_date
+                .item
+                    small edited
+                    |{{ufrom last_edit_date}}
+            if creation_date
+                .item
+                    small added
+                    |{{ufrom creation_date}}
+        if is_accepted 
+            .ui.green.corner.attached.label.rounded
+                i.checkmark.icon
+        .say !{body}
+
+        // |#{content_license}
+        if in_dev 
+            +remove_button
+        with owner
+            a.ui.header.say.refresh_user(href="/site/#{current_doc.site}/user/#{user_id}")
+                img.ui.avatar.image(src=profile_image)
+                |!{display_name}
+                strong #{reputation}
+                if accept_rate
+                    small #{accept_rate}%
+        unless watson
+            .ui.small.circular.basic.icon.button.call(title='analyze')
+                i.dna.icon
+        each tags
+            +flat_tag_selector
+            // .ui.tertiary.small.button.say #{this}
+        +doc_emotion  
+
+    .ui.divider

@@ -165,7 +165,7 @@ template(name='suser_dashboard')
             |#{user_answers.count} answers
         .ui.list.medscroll
             each user_answers
-                +answer_item
+                +user_answer_item
                 .ui.divider
         div
     .three.wide.column
@@ -228,7 +228,7 @@ template(name='suser_comments')
                 .ui.divider
 
                             
-template(name='answer_item')
+template(name='user_answer_item')
     span.say #{score}: !{body}
     // hi#{answer_question.title}
     |#{site}
@@ -236,7 +236,14 @@ template(name='answer_item')
         +print_this
         +remove_button
         // .ui.divider
-    
+    unless watson
+        .ui.small.circular.basic.icon.button.call(title='analyze')
+            i.dna.icon
+    each tags
+        +flat_tag_selector
+        // .ui.tertiary.small.button.say #{this}
+    +doc_emotion  
+
     
 template(name='user_comment_item')
     .ui.button(href="/site/#{site}/q/#{question_id}")

@@ -198,17 +198,17 @@ Template.tag_selector.events
     'click .select_tag': -> 
         # results.update
         window.speechSynthesis.cancel()
-        
-        selected_tags.push @name
+        console.log @
+        # selected_tags.push @name
         Session.set('query','')
         Session.set('skip',0)
         $('.search_site').val('')
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-        Meteor.call 'call_alpha', selected_tags.array().toString(), ->
-        Session.set('thinking',true)
-        Meteor.call 'search_stack', Router.current().params.site, @name, ->
-            Session.set('thinking',false)
+        # Meteor.call 'call_alpha', selected_tags.array().toString(), ->
+        # Session.set('thinking',true)
+        # Meteor.call 'search_stack', Router.current().params.site, @name, ->
+        #     Session.set('thinking',false)
         # Session.set('thinking',true)
         # Meteor.call 'call_wiki', @name, ->
         # Meteor.call 'search_reddit', selected_tags.array(), ->

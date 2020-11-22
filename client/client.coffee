@@ -8,6 +8,7 @@ Template.registerHelper 'youtube_parse', (url) ->
    
    
 Template.body.events
+    'click .clear_emotions': -> selected_emotions.clear()
     'click .say': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
 Meteor.startup ->
@@ -50,7 +51,7 @@ Template.registerHelper 'sentence_color', () ->
 Template.registerHelper 'selected_tags', () ->selected_tags.array()
 Template.registerHelper 'selected_models', () ->selected_models.array()
 Template.registerHelper 'selected_subreddits', () ->selected_subreddits.array()
-Template.registerHelper 'selected_emotions', () ->selected_tags.array()
+Template.registerHelper 'selected_emotions', () ->selected_emotions.array()
     
     
     

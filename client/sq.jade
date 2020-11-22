@@ -69,8 +69,13 @@ template(name='site_questions')
                     a.ui.circular.compact.circular.basic.large.icon.button.say(href="/site/#{api_site_parameter}/users")
                         i.large.users.icon
                         // |users
-                    // div
-                
+                    i.large.smile.link.icon.clear_emotions(title='emotions')
+                    each selected_emotions
+                        +unselect_tag
+                    each site_emotions
+                        +stack_tag_selector
+                        // .ui.large.label(title=count) #{name}
+
                     +alpha
                     +duck
                     // a.ui.circular.icon.button(href='/')
