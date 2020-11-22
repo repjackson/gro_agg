@@ -634,7 +634,7 @@ input {
 } 
 
 
-.button,.selector,.card,.dark_mode,.item,.ui.header,.ui.label,p,img{
+.button,.card,.image,.item,.header,.label,p,img,.say,.pointer{
     animation: fadein 2s !important;
     /*-webkit-transition: opacity .2s ease-in !important;*/
     /* -webkit-transition: opacity .2s ease-out; */
