@@ -306,6 +306,30 @@ Meteor.methods
                                 Docs.insert item
                 )).catch((err)->
                 )
+    get_user_favs: (site) ->
+        for num in [1..100]
+            url = "https://api.stackexchange.com/2.2/privileges?order=desc&sort=reputation&page=#{num}&pagesize=100&site=#{site}&filter=!--1nZv)deGu1&key=lPplyGlNUs)cIMOajW03aw(("
+            options = {
+                url: url
+                headers: 'accept-encoding': 'gzip'
+                gzip: true
+            }
+            rp(options)
+                .then(Meteor.bindEnvironment((data)->
+                    parsed = JSON.parse(data)
+                    for item in parsed.items
+                        found = 
+                            Docs.findOne
+                                model:'stackuser'
+                                site:site
+                                user_id:item.user_id
+                        unless found
+                            item.site = site
+                            item.model = 'stackuser'
+                            new_id = 
+                                Docs.insert item
+                )).catch((err)->
+                )
 
     get_suser_questions: (site, user_id) ->
         console.log 'site', site, 'user id', user_id

@@ -3,7 +3,7 @@ template(name='stack_page')
         .ui.stackable.padded.grid.top
             .row
                 .twelve.wide.column
-                    .ui.inline.header.say_this.get_question(class=post_header_class)
+                    #qhead.ui.inline.header.say_this.get_question(class=post_header_class)
                         .ui.basic.circular.big.label #{score}
                         if is_answered
                             i.large.green.checkmark.icon
@@ -53,6 +53,8 @@ template(name='stack_page')
                             each question_answers
                                 .ui.basic.segment(class=answer_class id=_id)
                                     // div(id=_id)
+                                    // a(href="#qhead")
+                                    //     i.circular.chevron.up.icon
                                     with owner
                                         a.ui.header.say.refresh_user(href="/site/#{current_doc.site}/user/#{user_id}")
                                             img.ui.avatar.image(src=profile_image)
