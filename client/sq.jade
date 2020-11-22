@@ -2,7 +2,7 @@ template(name='site_questions')
     with current_site
         .ui.stackable.grid
             .row
-                .ui.twelve.wide.column
+                .ui.twelve.wide.center.aligned.column
                     img.ui.medium.get_info.shadowed.ui.inline.image(src=logo_url )
                     span.say.mobile.hidden !{audience}
                     if selected_tags
@@ -11,7 +11,7 @@ template(name='site_questions')
                         //         i.remove.icon
                         each selected_tags
                             +unselect_tag
-                    .ui.icon.input
+                    .ui.icon.large.transparent.input
                         i.search.icon
                         input.search_site(type='text')
                     each site_tags
@@ -54,9 +54,9 @@ template(name='site_questions')
                             i.list.large.icon
                             |detail
                     else
-                        .ui.compact.circular.basic.tertiary.button.toggle_detail
+                        .ui.compact.circular.basic.large.icon.tertiary.button.toggle_detail
                             i.minus.large.icon
-                            |simple
+                            // |simple
                         // i.line.chart.icon
                     // .ui.icon.compact.large.button 
                     //     i.th.icon
@@ -65,10 +65,10 @@ template(name='site_questions')
                     .medscroll
                         each site_questions
                             +site_question_item
-                .four.wide.column.scrolling
-                    a.ui.circular.compact.circular.basic.large.button.say(href="/site/#{api_site_parameter}/users")
+                .four.wide.center.aligned.column.scrolling
+                    a.ui.circular.compact.circular.basic.large.icon.button.say(href="/site/#{api_site_parameter}/users")
                         i.large.users.icon
-                        |users
+                        // |users
                     // div
                 
                     +alpha
