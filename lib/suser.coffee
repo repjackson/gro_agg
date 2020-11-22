@@ -34,13 +34,6 @@ if Meteor.isClient
 
 
 
-    Router.route '/site/:site/user/:user_id/comments', (->
-        @layout 'suser_layout'
-        @render 'suser_comments'
-        ), name:'suser_comments'
-    Template.suser_comments.onCreated ->
-        @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
-        @autorun => Meteor.subscribe 'suser_comments', Router.current().params.site, Router.current().params.user_id
 
     Router.route '/site/:site/user/:user_id/badges', (->
         @layout 'suser_layout'
@@ -61,7 +54,8 @@ if Meteor.isClient
     Template.suser_layout.onCreated ->
         @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
     Template.suser_dashboard.onCreated ->
-        @autorun => Meteor.subscribe 'user_badges', Router.current().params.site, Router.current().params.user_id
+        # console.log 'hi'
+        @autorun => Meteor.subscribe 'suser_badges', Router.current().params.site, Router.current().params.user_id
         @autorun => Meteor.subscribe 'suser_tags', Router.current().params.site, Router.current().params.user_id
         @autorun => Meteor.subscribe 'suser_comments', Router.current().params.site, Router.current().params.user_id
         @autorun => Meteor.subscribe 'suser_questions', Router.current().params.site, Router.current().params.user_id
@@ -101,24 +95,6 @@ if Meteor.isClient
             # , 2000
 
 
-    Template.suser_comments.helpers
-        stackuser_doc: ->
-            Docs.findOne 
-                model:'stackuser'
-                site:Router.current().params.site
-                user_id:parseInt(Router.current().params.user_id)
-        user_comments: ->
-            cur = Docs.find
-                model:'stack_comment'
-                "owner.user_id":parseInt(Router.current().params.user_id)
-                site:Router.current().params.site
-            cur
-    Template.suser_layout.helpers
-        stackuser_doc: ->
-            Docs.findOne 
-                model:'stackuser'
-                site:Router.current().params.site
-                user_id:parseInt(Router.current().params.user_id)
     Template.suser_dashboard.helpers
         user_comments: ->
             cur = Docs.find
@@ -192,20 +168,21 @@ if Meteor.isClient
         'click .get_tags': ->
             Meteor.call 'get_suser_tags', Router.current().params.site, Router.current().params.user_id, ->
                 
-        
-
-
-Meteor.methods
-    boop: (site,user_id)->
-        user = 
-            Docs.findOne
-                model:'stackuser'
-                user_id:parseInt(user_id)
-                site:site
-        if user
-            Docs.update user._id,
-                $inc:boops:1
-        # else
-        
-        
-    
+                
+                
+    Router.route '/site/:site/user/:user_id/comments', (->
+        @layout 'suser_layout'
+        @render 'suser_comments'
+        ), name:'suser_comments'
+    Template.suser_comments.onCreated ->
+        @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
+        @autorun => Meteor.subscribe 'suser_comments', Router.current().params.site, Router.current().params.user_id
+    Template.suser_comments.onRendered ->
+        Meteor.call 'get_suser_comments', Router.current().params.site, Router.current().params.user_id, ->
+    Template.suser_comments.helpers
+        user_comments: ->
+            cur = Docs.find
+                model:'stack_comment'
+                "owner.user_id":parseInt(Router.current().params.user_id)
+                site:Router.current().params.site
+            cur

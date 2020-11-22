@@ -1,6 +1,63 @@
 request = require('request')
 rp = require('request-promise');
 
+Meteor.publish 'question_from_id', (qid)->
+    Docs.find 
+        # model:'stack_question'
+        question_id:qid
+
+Meteor.publish 'suser_badges', (site,user_id)->
+    Docs.find { 
+        model:'stack_badge'
+        "user.user_id":parseInt(user_id)
+    }, limit:10
+Meteor.publish 'suser_comments', (site,user_id)->
+    Docs.find { 
+        model:'stack_comment'
+        "owner.user_id":parseInt(user_id)
+    }, limit:100
+Meteor.publish 'suser_questions', (site,user_id)->
+    Docs.find { 
+        model:'stack_question'
+        "owner.user_id":parseInt(user_id)
+    }, limit:10
+Meteor.publish 'suser_answers', (site,user_id)->
+    Docs.find { 
+        model:'stack_answer'
+        "owner.user_id":parseInt(user_id)
+    }, limit:10
+Meteor.publish 'suser_tags', (site,user_id)->
+    Docs.find { 
+        model:'stack_tag'
+        "owner.user_id":parseInt(user_id)
+    }, limit:10
+    
+Meteor.publish 'question_comments', (question_doc_id)->
+    doc = Docs.findOne question_doc_id
+    Docs.find 
+        model:'stack_comment'
+        post_id:doc.question_id
+        site:doc.site
+Meteor.publish 'question_linked_to', (question_doc_id)->
+    doc = Docs.findOne question_doc_id
+    Docs.find 
+        model:'stack_question'
+        linked_to_ids:$in:[question_doc_id]
+        site:question.site
+
+Meteor.publish 'related_questions', (question_doc_id)->
+    question = Docs.findOne question_doc_id
+    Docs.find 
+        model:'stack_question'
+        _id:$in:question.related_question_ids
+        site:question.site
+
+Meteor.publish 'linked_questions', (question_doc_id)->
+    question = Docs.findOne question_doc_id
+    Docs.find 
+        model:'stack_question'
+        _id:$in:question.linked_question_ids
+        site:question.site
 
 Meteor.publish 'stack_docs', (
     selected_tags
@@ -110,9 +167,10 @@ Meteor.methods
                             model:'stack_comment'
                             "item.post_id":item.post_id
                             site:site
-                    # if found
-                    #     Docs.update found._id,
-                    #         $set:body:item.body
+                    if found
+                        console.log 'found'
+                        Docs.update found._id,
+                            $set:body:item.body
                     unless found
                         item.site = site
                         item.model = 'stack_comment'
@@ -161,6 +219,7 @@ Meteor.methods
 
         
     get_related_questions: (site, question_doc_id)->
+        console.log 'getting related', site, question_doc_id
         question = Docs.findOne question_doc_id
         url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/related?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
@@ -172,6 +231,7 @@ Meteor.methods
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
                 for item in parsed.items
+                    console.log 'related item', item
                     Docs.update question_doc_id,
                         $addToSet:related_question_ids:item._id
                     found = 
@@ -394,6 +454,9 @@ Meteor.methods
 
     get_suser_comments: (site, user_id) ->
         console.log 'comm', site, user_id
+        cl = console.log
+        cl 'hi'
+
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/comments?order=desc&sort=creation&site=#{site}&filter=!--1nZxautsE.&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -408,10 +471,10 @@ Meteor.methods
                         Docs.findOne
                             model:'stack_comment'
                             site:site
-                            # user_id:parseInt(user_id)
+                            "owner.user_id":parseInt(user_id)
                             comment_id:item.comment_id
-                    # if found
-                        # console.log 'found COMMENT', found
+                    if found
+                        cl 'found COMMENT', found
                         # Docs.update found._id, 
                         #     $set:
                         #         # owner:item.owner
@@ -423,7 +486,7 @@ Meteor.methods
                         # item.user_id = parseInt(user_id)
                         new_id = 
                             Docs.insert item
-                        # console.log 'new COMM', Docs.findOne(new_id)
+                        # cl 'new COMM', Docs.findOne(new_id)
             )).catch((err)->
             )
         

@@ -80,9 +80,11 @@ if Meteor.isClient
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
 
         'click .get_linked': (e,t)->
+            console.log 'linked'
             Meteor.call 'get_linked_questions', Router.current().params.site, Router.current().params.doc_id,->
         'click .get_related': (e,t)->
             Meteor.call 'get_related_questions', Router.current().params.site, Router.current().params.doc_id,->
+            console.log 'getting related'
         'click .call_watson': (e,t)->
             window.speechSynthesis.speak new SpeechSynthesisUtterance 'analyzing emotion'
             Meteor.call 'call_watson', Router.current().params.doc_id,'link','stack',->
@@ -104,31 +106,4 @@ if Meteor.isClient
             Meteor.call 'question_answers', Router.current().params.site, question.question_id,->
                 
 
-if Meteor.isServer
-    Meteor.publish 'question_comments', (question_doc_id)->
-        doc = Docs.findOne question_doc_id
-        Docs.find 
-            model:'stack_comment'
-            post_id:doc.question_id
-            site:doc.site
-    Meteor.publish 'question_linked_to', (question_doc_id)->
-        doc = Docs.findOne question_doc_id
-        Docs.find 
-            model:'stack_question'
-            linked_to_ids:$in:[question_doc_id]
-            site:question.site
-    
-    Meteor.publish 'related_questions', (question_doc_id)->
-        question = Docs.findOne question_doc_id
-        Docs.find 
-            model:'stack_question'
-            _id:$in:question.related_question_ids
-            site:question.site
-    
-    Meteor.publish 'linked_questions', (question_doc_id)->
-        question = Docs.findOne question_doc_id
-        Docs.find 
-            model:'stack_question'
-            _id:$in:question.linked_question_ids
-            site:question.site
     

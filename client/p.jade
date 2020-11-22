@@ -72,7 +72,7 @@ template(name='people')
                     i.marker.link.icon.clear_location
                 input.search_location(type='text' placeholder='location' value=current_location_query)
             .spacer
-            .ui.four.stackable.centered.cards.scrolling
+            .ui.stackable.centered.equal.width.grid.row.scrolling
                 unless users.count
                     .ui.basic.center.aligned.segment
                         // i.massive.loading.grey.yin.yang.icon
@@ -84,9 +84,9 @@ template(name='people')
                                 .line
                                 .line
                 each users
-                    .ui.card
-                        a.zoomer.select_user(href="/site/#{site}/user/#{user_id}")
-                            img.ui.fluid.image(src=profile_image)
+                    .three.wide.column
+                        a.select_user(href="/site/#{site}/user/#{user_id}")
+                            img.ui.circular.image.zoomer(src=profile_image)
                         .content
                             a.ui.zoomer.header.select_user(href="/site/#{site}/user/#{user_id}" class=post_header_class)
                                 |!{display_name}

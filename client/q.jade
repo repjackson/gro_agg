@@ -3,7 +3,7 @@ template(name='stack_page')
         .ui.stackable.padded.grid.top
             .row
                 .twelve.wide.column
-                    #qhead.ui.inline.header.say_this.get_question(class=post_header_class)
+                    #qhead.ui.inline.header.say.get_question(class=post_header_class)
                         .ui.basic.circular.big.label #{score}
                         if is_answered
                             i.large.green.checkmark.icon
@@ -55,15 +55,6 @@ template(name='stack_page')
                                     // div(id=_id)
                                     // a(href="#qhead")
                                     //     i.circular.chevron.up.icon
-                                    with owner
-                                        a.ui.header.say.refresh_user(href="/site/#{current_doc.site}/user/#{user_id}")
-                                            img.ui.avatar.image(src=profile_image)
-                                            |!{display_name}
-                                            strong #{reputation}
-                                            if accept_rate
-                                                small #{accept_rate}%
-                                        a.ui.icon.small.basic.circular.button(href=link)
-                                            i.external.icon
                                     // .ui.divider
                                     .ui.horizontal.list
                                         if last_activity_date
@@ -86,6 +77,15 @@ template(name='stack_page')
                                     // |#{content_license}
                                     if in_dev 
                                         +remove_button
+                                with owner
+                                    a.ui.header.say.refresh_user(href="/site/#{current_doc.site}/user/#{user_id}")
+                                        img.ui.avatar.image(src=profile_image)
+                                        |!{display_name}
+                                        strong #{reputation}
+                                        if accept_rate
+                                            small #{accept_rate}%
+                                    a.ui.icon.small.basic.circular.button(href=link)
+                                        i.external.icon
                                 .ui.divider
                         if skv_is 'stack_section' 'tone'
                             if watson 

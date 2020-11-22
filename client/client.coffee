@@ -69,6 +69,12 @@ Template.registerHelper 'user_id_in', (key)->
         false
 
     
+Template.registerHelper 'stackuser_doc', (input) ->
+    Docs.findOne 
+        model:'stackuser'
+        site:Router.current().params.site
+        user_id:parseInt(Router.current().params.user_id)
+
 Template.registerHelper 'trunc', (input) ->
     input[0..300]
         
