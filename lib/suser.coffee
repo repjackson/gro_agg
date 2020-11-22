@@ -67,9 +67,9 @@ if Meteor.isClient
         # Meteor.call 'get_suser_tags', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'get_suser_comments', Router.current().params.site, Router.current().params.user_id, ->
         # Meteor.call 'get_suser_badges', Router.current().params.site, Router.current().params.user_id, ->
-        # Meteor.setTimeout ->
-        #     Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
-        # , 1000
+        Meteor.setTimeout ->
+            Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
+        , 1000
     Template.suser_dashboard.onRendered ->
         suser = 
             Docs.findOne 

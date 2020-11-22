@@ -115,6 +115,10 @@ template(name='suser_dashboard')
             a.ui.basic.button.say(href=website_url target="_window")
                 i.globe.icon
                 |#{website_url}
+        .ui.small.inline.header top emotions
+        each user_top_emotions
+            .ui.basic.label #{title}
+                small #{count}
         .smallscroll
             .ui.grey.small.inline.header
                 i.tag.icon

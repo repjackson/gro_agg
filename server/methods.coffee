@@ -151,6 +151,8 @@ Meteor.methods
             )
         
         if user_doc
+            user_top_emotions = Meteor.call 'calc_user_top_emotions', site, user_id
+            console.log user_top_emotions,'ute'
             agg_res = Meteor.call 'omega2', site, user_id
             user_tag_res = Meteor.call 'user_question_tags', site, user_id
             if user_tag_res
@@ -160,6 +162,7 @@ Meteor.methods
                 Docs.update user_doc._id,
                     $set:
                         user_tag_agg: user_tag_res
+                        user_top_emotions:user_top_emotions
                     $addToSet:
                         tags:$each:added_tags
             # omega = Docs.findOne model:'omega_session'
@@ -293,7 +296,8 @@ Meteor.methods
         else
             return null
 
-    user_emotions: (site,user_id)->
+    calc_user_top_emotions: (site,user_id)->
+        l = console.log
         site_doc =
             Docs.findOne(
                 model:'stack_site'
@@ -318,9 +322,10 @@ Meteor.methods
         # else
         #     match.tags =
         #         $all: ['dao']
-
+        
         match.model = 'stack_question'
         # match.site = site
+        match["owner.user_id"] = parseInt(user_id)
         match.site = site
         total_doc_result_count =
             Docs.find( match,
@@ -329,7 +334,7 @@ Meteor.methods
                         _id:1
                 }
             ).count()
-        
+        l total_doc_result_count,'count'
         options = {
             explain:false
             allowDiskUse:true
@@ -340,6 +345,7 @@ Meteor.methods
         # else
         limit = 33
         # { $match: tags:$all: omega.selected_tags }
+        l match
         pipe =  [
             { $match: match }
             { $project: max_emotion_name: 1 }
