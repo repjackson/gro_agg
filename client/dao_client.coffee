@@ -4,6 +4,8 @@
 @selected_emotions = new ReactiveArray []
 
 
+Template.alpha.onCreated ->
+    @autorun -> Meteor.subscribe('alpha_combo',selected_tags.array())
 Template.dao.onCreated ->
     # window.speechSynthesis.cancel()
     
@@ -202,19 +204,14 @@ Template.tag_selector.events
         $('.search_site').val('')
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-        unless Session.equals('view_mode','porn')
-            Meteor.call 'call_alpha', selected_tags.array().toString(), ->
-        if Session.equals('view_mode','stack')
-            Session.set('thinking',true)
-            Meteor.call 'search_stack', Router.current().params.site, @name, ->
-                Session.set('thinking',false)
-        else if Session.equals('view_mode', 'porn')
-            Meteor.call 'search_ph', selected_tags.array().toString(), ->
-        else
-            Session.set('thinking',true)
-            Meteor.call 'call_wiki', @name, ->
-            Meteor.call 'search_reddit', selected_tags.array(), ->
-                Session.set('thinking',false)
+        Meteor.call 'call_alpha', selected_tags.array().toString(), ->
+        Session.set('thinking',true)
+        Meteor.call 'search_stack', Router.current().params.site, @name, ->
+            Session.set('thinking',false)
+        # Session.set('thinking',true)
+        # Meteor.call 'call_wiki', @name, ->
+        # Meteor.call 'search_reddit', selected_tags.array(), ->
+        #     Session.set('thinking',false)
         # Meteor.call 'search_ddg', @name, ->
         # Session.set('viewing_doc',null)
         Meteor.setTimeout( ->

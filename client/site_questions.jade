@@ -5,10 +5,6 @@ template(name='site_questions')
                 .ui.twelve.wide.column
                     img.get_info.shadowed.ui.inline.image(src=logo_url )
                     span.say.mobile.hidden !{audience}
-                    a.ui.circular.compact.circular.basic.large.button.say(href="/site/#{api_site_parameter}/users")
-                        i.large.users.icon
-                        |users
-                    // div
                     if selected_tags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
@@ -70,6 +66,11 @@ template(name='site_questions')
                         each site_questions
                             +site_question_item
                 .four.wide.column.scrolling
+                    a.ui.circular.compact.circular.basic.large.button.say(href="/site/#{api_site_parameter}/users")
+                        i.large.users.icon
+                        |users
+                    // div
+                
                     +alpha
                     +duck
                     // a.ui.circular.icon.button(href='/')

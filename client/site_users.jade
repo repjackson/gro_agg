@@ -31,12 +31,9 @@ template(name='site_users')
                         i.external.icon
                     if in_dev
                         +print_this
-                    a.ui.large.circular.basic.button(href="/site/#{api_site_parameter}")
+                    a.ui.large.circular.basic.button.say(href="/site/#{api_site_parameter}")
                         i.question.icon
                         |questions
-                    a.ui.large.disabled.black.circular.button(href="/site/#{api_site_parameter}/users")
-                        i.users.icon
-                        |users
                     a.ui.large.disabled.circular.basic.button(href="/site/#{api_site_parameter}/tags")
                         i.tag.icon
                         |tags
