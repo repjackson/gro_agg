@@ -152,7 +152,11 @@ Meteor.methods
         
         if user_doc
             user_top_emotions = Meteor.call 'calc_user_top_emotions', site, user_id
-            console.log user_top_emotions,'ute'
+            user_top_emotion = user_top_emotions[0].title
+            console.log user_top_emotion,'top emotion'
+            
+            
+            
             agg_res = Meteor.call 'omega2', site, user_id
             user_tag_res = Meteor.call 'user_question_tags', site, user_id
             if user_tag_res
@@ -163,6 +167,7 @@ Meteor.methods
                     $set:
                         user_tag_agg: user_tag_res
                         user_top_emotions:user_top_emotions
+                        user_top_emotion:user_top_emotion
                     $addToSet:
                         tags:$each:added_tags
             # omega = Docs.findOne model:'omega_session'

@@ -107,9 +107,12 @@ template(name='people')
                                     |!{location}
                                 each five_tags
                                     .ui.small.tertiary.disabled.button #{this}
-                                if max_emotion_name
-                                    +doc_emotion_small
-                                    |#{max_emotion_name}
-                                
+                                if user_top_emotion
+                                    .ui.inline.header #{user_top_emotion}
+                                // if user_top_emotions
+                                each user_top_emotions
+                                    .ui.basic.label #{title}
+                                        small #{count}
+                            
                                 
                                 

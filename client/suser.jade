@@ -116,6 +116,7 @@ template(name='suser_dashboard')
                 i.globe.icon
                 |#{website_url}
         .ui.small.inline.header top emotions
+        .ui.inline.header #{user_top_emotion}
         each user_top_emotions
             .ui.basic.label #{title}
                 small #{count}
