@@ -265,18 +265,6 @@ input
     padding-bottom: 0 !important;
 }
 
-.ui.button.result {
-  /*transition: all .25s ease !important;*/
-  display: inline !important;
-   /*padding: 5px !important; */
-}
-
-
-.field_segment {
-    transition: all 1 ease !important;
-    /*display: inline !important;*/
-    /* padding: 5px !important; */
-}
 
 .tone_item {
     transition: all .25s ease !important;
@@ -320,11 +308,11 @@ a.goto_article {
   /*transition: height .25s ease !important; */
   /* background-color: rgba(200, 200, 200, 0.2) !important; */
   /* padding: 12px !important; */
-  /*font-family: 'Roboto', sans-serif !important; */
+  font-family: 'Ubuntu+Mono', sans-serif !important; 
   
   /* font-weight: lighter !important; */
   /* font-size: 120% !important; */
-}
+  }
 /*  */
 .say {
     animation: fadein .5s !important;
@@ -682,7 +670,7 @@ input {
   /*font-family: 'Raleway', sans-serif !important; */
   /*font-family: 'Montserrat', sans-serif !important; */
   /*font-family: 'Roboto', sans-serif !important; */
-  /*font-family: 'Lato+Mono', sans-serif !important; */
+  font-family: 'Ubuntu+Mono', sans-serif !important; 
   /*font-family: 'Ubuntu', sans-serif !important;*/
 }
 

@@ -8,11 +8,31 @@ if Meteor.isClient
         @layout 'suser_layout'
         @render 'suser_questions'
         ), name:'suser_questions'
+    Template.suser_questions.onCreated ->
+        @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
+        @autorun => Meteor.subscribe 'suser_questions', Router.current().params.site, Router.current().params.user_id
 
     Router.route '/site/:site/user/:user_id/answers', (->
         @layout 'suser_layout'
         @render 'suser_answers'
         ), name:'suser_answers'
+    Template.suser_answers.onCreated ->
+        @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
+        @autorun => Meteor.subscribe 'suser_answers', Router.current().params.site, Router.current().params.user_id
+    Template.suser_answers.helpers
+        stackuser_doc: ->
+            Docs.findOne 
+                model:'stackuser'
+                site:Router.current().params.site
+                user_id:parseInt(Router.current().params.user_id)
+        user_answers: ->
+            cur = Docs.find
+                model:'stack_comment'
+                "owner.user_id":parseInt(Router.current().params.user_id)
+                site:Router.current().params.site
+            cur
+
+
 
     Router.route '/site/:site/user/:user_id/comments', (->
         @layout 'suser_layout'
@@ -26,11 +46,17 @@ if Meteor.isClient
         @layout 'suser_layout'
         @render 'suser_badges'
         ), name:'suser_badges'
+    Template.suser_badges.onCreated ->
+        @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
+        @autorun => Meteor.subscribe 'suser_badges', Router.current().params.site, Router.current().params.user_id
 
     Router.route '/site/:site/user/:user_id/tags', (->
         @layout 'suser_layout'
         @render 'suser_tags'
         ), name:'suser_tags'
+    Template.suser_tags.onCreated ->
+        @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
+        @autorun => Meteor.subscribe 'suser_tags', Router.current().params.site, Router.current().params.user_id
 
     Template.suser_layout.onCreated ->
         @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
@@ -183,43 +209,3 @@ Meteor.methods
         
         
     
-if Meteor.isServer
-    Meteor.publish 'question_from_id', (qid)->
-        Docs.find 
-            # model:'stack_question'
-            question_id:qid
-    
-    Meteor.publish 'suser_badges', (site,user_id)->
-        Docs.find { 
-            model:'stack_badge'
-            user_id:parseInt(user_id)
-            site:site
-        }, limit:10
-    Meteor.publish 'suser_comments', (site,user_id)->
-        cur = Docs.find { 
-            model:'stack_comment'
-            "owner.user_id":parseInt(user_id)
-            site:site
-        }, limit:100
-        cur
-    Meteor.publish 'suser_questions', (site,user_id)->
-        Docs.find { 
-            model:'stack_question'
-            "owner.user_id":parseInt(user_id)
-            site:site
-        }, limit:20
-    Meteor.publish 'suser_answers', (site,user_id)->
-        Docs.find { 
-            model:'stack_answer'
-            "owner.user_id":parseInt(user_id)
-            site:site
-        }, limit:100
-    Meteor.publish 'suser_tags', (site,user_id)->
-        Docs.find { 
-            model:'stack_tag'
-            user_id:parseInt(user_id)
-            site:site
-        }, limit:10
-            
-            
-            
