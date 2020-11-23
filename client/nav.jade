@@ -1,11 +1,11 @@
 template(name='nav')
     // a.icon.ui.large.circular.icon.button(href='/')
-    .ui.fluid.attached.five.item.borderless.grey.menu.topnav
+    .ui.fluid.attached.seven.item.borderless.grey.menu.topnav
         // a.icon.header.item.pointer.toggle_leftbar
         //     i.bars.large.grey.icon
         if connected
-            // a.icon.item.home2(href='/')
-            //     i.large.yin.yang.icon
+            a.icon.disabled.item.goto_vid(href='/vid')
+                i.large.video.grey.icon
             a.icon.zoomer.item.goto_people(href='/people' class="{{isActivePath regex='people'}}" title='people')
                 i.large.user.outline.grey.icon
             a.icon.zoomer.item.clear_tags.goto_stack(href='/stack' class="{{isActivePath '/stack'}}" title='stack exchange')
@@ -15,10 +15,12 @@ template(name='nav')
                     i.big.yin.yang.grey.loading.icon
                 else
                     i.big.yin.yang.grey.icon
+            a.icon.disabled.item.goto_vid(href='/vid')
+                i.large.grey.github.icon
             a.icon.zoomer.item.clear_tags.goto_reddit(href='/reddit' class="{{isActiveRoute regex='reddit'}}" title='reddit')
                 i.large.reddit.grey.icon
             a.icon.zoomer.item.silence(href='#')
-                i.large.ban.grey.icon
+                i.large.volume.mute.grey.icon
             // a.icon.disabled.item.goto_wikipedia(href='/wikipedia')
             //     i.large.wikipedia.icon
         unless connected

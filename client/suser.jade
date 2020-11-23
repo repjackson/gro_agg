@@ -145,13 +145,13 @@ template(name='suser_dashboard')
                 .ui.tertiary.button #{title}
                     small #{count}
         if skv_is 'view_detail' true
-            .ui.black.circular.compact.button.toggle_detail
+            .ui.black.circular.compact.icon.button.toggle_detail
                 i.list.large.icon
-                |detail
+                // |detail
         else
-            .ui.compact.circular.basic.button.toggle_detail
+            .ui.compact.circular.basic.icon.button.toggle_detail
                 i.list.large.icon
-                |simple
+                // |simple
 
         div
         .scrolling
@@ -224,7 +224,7 @@ template(name='suser_dashboard')
                             
 template(name='suser_comments')
     with stackuser_doc
-        .ui.dividing.header.pointer.get_comments
+        .ui.horizontal.divider.pointer.get_comments
             i.chat.outline.icon
             |#{user_comments.count} comments
         .ui.list.scrolling
@@ -232,6 +232,40 @@ template(name='suser_comments')
                 +user_comment_item
                 .ui.divider
 
+template(name='user_comment_item')
+    .ui.small.header.say(class=post_header_class) !{body}
+    .ui.basic.large.label(title='score') #{score}
+    .ui.horizontal.list
+        with reply_to_user
+            a.ui.small.header.say.item(href="/s/#{../site}/u/#{user_id}")
+                img.ui.avatar.image(src=profile_image)
+                |!{display_name}
+                small {{ commafy reputation }}
+                small !{location}
+    // div
+    a.ui.basic.button(href="/s/#{site}/q/#{question_id}")
+        |#{post_type}
+    if creation_date
+        .ui.basic.say.label
+            |added {{ufrom creation_date}}
+    if last_access_date
+        .ui.basic.say.label
+            |accessed {{ufrom last_access_date}}
+    if last_activity_date
+        |active {{ufrom last_activity_date}}
+    // |#{site}
+    if in_dev
+        +print_this
+        // +remove_button
+        // .ui.divider
+    unless watson
+        .ui.small.circular.basic.icon.button.call(title='analyze')
+            i.dna.icon
+    each tags
+        +flat_tag_selector
+        // .ui.tertiary.small.button.say #{this}
+    +doc_emotion  
+    
                             
 template(name='user_answer_item')
     span.say #{score}: !{body}
@@ -249,40 +283,6 @@ template(name='user_answer_item')
         // .ui.tertiary.small.button.say #{this}
     +doc_emotion  
 
-    
-template(name='user_comment_item')
-    .ui.button(href="/s/#{site}/q/#{question_id}")
-        |#{post_type}
-    .ui.horizontal.list
-        with reply_to_user
-            a.ui.small.header.say.item(href="/s/#{../site}/u/#{user_id}")
-                img.ui.avatar.image(src=profile_image)
-                |!{display_name}
-                small {{ commafy reputation }}
-                small !{location}
-
-    .ui.grey.inline.header(title='score') #{score}
-    if creation_date
-        .ui.basic.say.label
-            |added {{ufrom creation_date}}
-    if last_access_date
-        .ui.basic.say.label
-            |accessed {{ufrom last_access_date}}
-    if last_activity_date
-        |active {{ufrom last_activity_date}}
-    .ui.small.header.say(class=post_header_class) !{body}
-    // |#{site}
-    if in_dev
-        +print_this
-        // +remove_button
-        // .ui.divider
-    unless watson
-        .ui.small.circular.basic.icon.button.call(title='analyze')
-            i.dna.icon
-    each tags
-        +flat_tag_selector
-        // .ui.tertiary.small.button.say #{this}
-    +doc_emotion  
     
     
     

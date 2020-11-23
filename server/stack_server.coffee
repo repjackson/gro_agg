@@ -72,15 +72,11 @@ Meteor.publish 'qid', (site,qid)->
         model:'stack_question'
         question_id:parseInt(qid)
         site:site
-Meteor.publish 'question_comments', (site,qid)->
-    q = Docs.findOne 
-        model:'stack_question'
-        question_id:parseInt(qid)
-        site:site
+Meteor.publish 'q_c', (site,qid)->
     Docs.find 
         model:'stack_comment'
-        post_id:q.question_id
-        site:q.site
+        post_id:parseInt(qid)
+        site:site
 Meteor.publish 'question_linked_to', (site,qid)->
     q = Docs.findOne 
         model:'stack_question'
