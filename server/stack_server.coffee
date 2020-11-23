@@ -33,31 +33,31 @@ Meteor.publish 'suser_tags', (site,user_id)->
     }, limit:10
     
 Meteor.publish 'question_comments', (question_doc_id)->
-    doc = Docs.findOne question_doc_id
+    q = Docs.findOne question_doc_id
     Docs.find 
         model:'stack_comment'
-        post_id:doc.question_id
-        site:doc.site
+        post_id:q.question_id
+        site:q.site
 Meteor.publish 'question_linked_to', (question_doc_id)->
-    doc = Docs.findOne question_doc_id
+    q = Docs.findOne question_doc_id
     Docs.find 
         model:'stack_question'
         linked_to_ids:$in:[question_doc_id]
         site:question.site
 
 Meteor.publish 'related_questions', (question_doc_id)->
-    question = Docs.findOne question_doc_id
+    q = Docs.findOne question_doc_id
     Docs.find 
         model:'stack_question'
-        _id:$in:question.related_question_ids
-        site:question.site
+        _id:$in:q.related_question_ids
+        site:q.site
 
 Meteor.publish 'linked_questions', (question_doc_id)->
-    question = Docs.findOne question_doc_id
+    q = Docs.findOne question_doc_id
     Docs.find 
         model:'stack_question'
-        _id:$in:question.linked_question_ids
-        site:question.site
+        _id:$in:q.linked_question_ids
+        site:q.site
 
 Meteor.publish 'stack_docs', (
     selected_tags
@@ -165,13 +165,14 @@ Meteor.methods
                     found = 
                         Docs.findOne
                             model:'stack_comment'
-                            "item.post_id":question.question_id
+                            post_id:question.question_id
                             site:site
                     if found
-                        console.log 'found'
+                        # console.log 'found'
                         Docs.update found._id,
                             $set:body:item.body
                     unless found
+                        # console.log 'new comment'
                         item.site = site
                         item.model = 'stack_comment'
                         # item.tags.push query

@@ -99,7 +99,7 @@ template(name='stackuser_item')
         .content
             a.ui.inline.header.say.zoomer(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
                 |!{display_name}
-                small #{reputation}
+                small {{ commafy reputation }}
             |!{about_me}
             strong(title="#{site} rank") ##{site_rank} 
             strong(title='global rank') ##{global_rank}

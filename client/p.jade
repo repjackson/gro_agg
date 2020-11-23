@@ -90,7 +90,7 @@ template(name='people')
                         .content
                             a.ui.zoomer.header.select_user(href="/site/#{site}/user/#{user_id}" class=post_header_class)
                                 |!{display_name}
-                                .ui.basic.circular.label #{reputation}
+                                .ui.basic.circular.label {{ commafy reputation }}
                             .description
                                 if site_rank
                                     strong(title="#{site} rank") ##{site_rank} 

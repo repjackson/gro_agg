@@ -72,7 +72,7 @@ template(name='stack_tag')
                         a.ui.basic.segment.zoomer.pointer.say(href="/site/#{current_doc.site}/user/#{user_id}")
                             img.ui.rounded.image(src=profile_image)
                             .ui.header #{display_name}
-                                small #{reputation}
+                                small {{ commafy reputation }}
                                 // .ui.basic.label id #{user_id}
                                 // .ui.basic.label type #{user_type}
                                 // a.ui.icon.button(href=link)
@@ -143,7 +143,7 @@ template(name='stack_tag')
                                     a.ui.inline.header.say.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
                                         img.ui.avatar.invert.image(src=profile_image)
                                         |!{display_name}
-                                        |#{reputation}
+                                        |{{ commafy reputation }}
                                     .ui.basic.small.label #{user_id}
                                     .ui.basic.small.label #{user_type}
                                     .ui.basic.small.label #{accept_rate}
@@ -178,7 +178,7 @@ template(name='stack_tag')
                                     a.ui.header.say.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
                                         img.ui.avatar.invert.image(src=profile_image)
                                         |!{display_name}
-                                    |#{reputation}
+                                    |{{ commafy reputation }}
                                     |#{user_id}
                                     |#{user_type}
                                     |#{accept_rate}

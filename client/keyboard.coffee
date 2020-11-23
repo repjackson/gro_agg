@@ -27,7 +27,7 @@ globalHotkeys.add
 	combo: "r"
 	callback: ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
-        Router.go "/subreddits"
+        Router.go "/reddit"
 globalHotkeys.add
 	combo: "s"
 	callback: ->
@@ -38,6 +38,15 @@ globalHotkeys.add
 	callback: ->
         window.speechSynthesis.cancel()
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'mute'
+        $('body').toast(
+            showIcon: 'volume mute big'
+            message: 'muted'
+            # showProgress: 'bottom'
+            class: 'success'
+            displayTime: 'auto',
+            position: 'bottom right'
+        )
+
 
 globalHotkeys.add
 	combo: "d"
@@ -51,6 +60,15 @@ globalHotkeys.add
     callback: -> 
         selected_tags.clear()
         window.speechSynthesis.cancel()
+        $('body').toast(
+            showIcon: 'volume mute big'
+            message: 'muted'
+            # showProgress: 'bottom'
+            class: 'success'
+            displayTime: 'auto',
+            position: 'bottom right'
+        )
+        
 globalHotkeys.add
 	combo: "left"
 	callback: ->

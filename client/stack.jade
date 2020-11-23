@@ -16,7 +16,7 @@ template(name='stack')
                         .ui.center.aligned.basic.segment
                             i.massive.grey.yin.yang.loading.icon
                     each site_docs
-                        a.ui.center.aligned.column.pointer.goto_site(href='#')
+                        a.ui.center.aligned.column.pointer.goto_site(href='/site/#{api_site_parameter}')
                             // img.ui.inline.tiny.image.mobile.hiden.site.shadowed.zoomer(src=high_resolution_icon_url)
                             img.ui.inline.image.site.shadowed(src=logo_url)
                             // .header
@@ -103,7 +103,7 @@ template(name='stack_card')
                 .ui.compact.segment
                     .ui.inline.header #{display_name}
                     img.ui.tiny.inline.centered.image(src=profile_image)
-                    .ui.label reputation #{reputation}
+                    .ui.label reputation {{ commafy reputation }}
                     .ui.label user_id #{user_id}
                     .ui.label user_type #{user_type}
     

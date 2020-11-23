@@ -27,20 +27,21 @@ template(name='stack_page')
                             .ui.horizontal.divider.get_question_comments
                                 i.chat.outline.icon
                                 |#{question_comments.count} comments
-                            .ui.basic.segment
+                            div.gb hi everyone
+                            .ui.basic.center.aligned.segment
                                 .ui.relaxed.list
                                     each question_comments
-                                        .item.say.zoomer
+                                        .item.say.zoomer.gb
                                             .ui.inline.header #{score}
                                             if is_accepted 
                                                 .ui.green.label.say
                                                     |accepted
                                             | !{body}
                                             with owner
-                                                a.say.ui.inline.header.say.zoomer.refresh_user(href="/site/#{current_doc.site}/user/#{user_id}" class=post_header_class)
+                                                a.say.ui.inline.small.header.say.zoomer.refresh_user(href="/site/#{current_doc.site}/user/#{user_id}" class=post_header_class)
                                                     img.ui.avatar.image(src=profile_image)
                                                     |!{display_name}
-                                                    |#{reputation}
+                                                    |{{ commafy reputation }}
                                             | {{ufrom creation_date}}
                             #answers.ui.dividing.header 
                                 i.reply.grey.icon
@@ -82,7 +83,7 @@ template(name='stack_page')
                             img.ui.rounded.inline.image(src=profile_image)
                             .ui.header.inline(class=post_header_class)
                                 |!{display_name}
-                                small #{reputation}
+                                small {{ commafy reputation }}
                         
                     each tags 
                         .ui.basic.pointer.circular.tertiary.button.add_stack_tag.say.zoomer #{this}
@@ -167,7 +168,7 @@ template(name='answer_item')
             a.ui.header.say.refresh_user(href="/site/#{current_doc.site}/user/#{user_id}")
                 img.ui.avatar.image(src=profile_image)
                 |!{display_name}
-                strong #{reputation}
+                strong {{ commafy reputation }}
                 if accept_rate
                     small #{accept_rate}%
         unless watson

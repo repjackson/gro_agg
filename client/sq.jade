@@ -3,7 +3,7 @@ template(name='site_questions')
         .ui.stackable.grid
             .row
                 .ui.twelve.wide.center.aligned.column
-                    img.ui.get_info.shadowed.ui.inline.small.image(src=logo_url )
+                    img.ui.get_info.shadowed.ui.inline.image(src=logo_url )
                     // span.say.mobile.hidden !{audience}
                     if selected_tags
                         // if many_tags
@@ -200,7 +200,7 @@ template(name='site_question_item')
                     a.ui.small.header.item(href="/site/#{../site}/user/#{user_id}")
                         img.ui.avatar.image(src=profile_image)
                         |!{display_name}
-                        small #{reputation}
+                        small {{ commafy reputation }}
                         small !{location}
                 // |#{_when}
                 if last_edit_date
