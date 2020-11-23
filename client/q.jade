@@ -171,7 +171,8 @@ template(name='answer_item')
         if is_accepted 
             .ui.green.corner.attached.label.rounded
                 i.checkmark.icon
-        .say !{body}
+        .f11.say !{body}
+        +say_this
 
         // |#{content_license}
         if in_dev 

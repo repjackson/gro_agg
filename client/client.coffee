@@ -8,9 +8,9 @@ Template.registerHelper 'youtube_parse', (url) ->
    
 Session.setDefault('loading', false)
 
-Template.body.events
+Template.say_this.events
     'click .clear_emotions': -> selected_emotions.clear()
-    'click .say': ->
+    'click .say_this': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
 Meteor.startup ->
     if Meteor.isDevelopment

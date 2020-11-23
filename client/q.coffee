@@ -56,7 +56,7 @@ Template.q.helpers
         question = Docs.findOne Router.current().params.qid
         Docs.find 
             model:'stack_comment'
-            post_id:Router.current().params.qid
+            post_id:parseInt(Router.current().params.qid)
             site:Router.current().params.site
     answer_class: -> if @accepted then 'accepted'
 

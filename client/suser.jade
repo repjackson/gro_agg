@@ -108,113 +108,111 @@ template(name='suser_badges')
 template(name='suser_tags')
 template(name='suser_answers')
 template(name='suser_dashboard')
-    .six.wide.column
-        .f11.say
-            |!{about_me}
-        if website_url
-            a.ui.basic.button.say(href=website_url target="_window")
-                i.globe.icon
-                |#{website_url}
-        .ui.small.inline.header top emotions
-        .ui.inline.header #{user_top_emotion}
-        each user_top_emotions
-            .ui.basic.label #{title}
-                small #{count}
-        .smallscroll
-            .ui.grey.small.inline.header
-                i.tag.icon
-                |#{tags.length} tags
-            each tags
-                +flat_tag_selector
-                // .ui.tertiary.button #{this}
-        .ui.grey.header 
-            i.rss.icon
-            |feed
-        each user_events
-            .ui.header #{title}
-        if skv_is 'view_question_detail' true
-            .ui.black.tertiary.large.button.toggle_question_detail.agg
-                i.question.icon
-                |#{user_questions.count} questions
-        unless skv_is 'view_question_detail' true
-            .ui.tertiary.large.button.toggle_question_detail.agg
-                i.question.icon
-                |#{user_questions.count} questions
-        if skv_is 'view_question_detail' true
-            each user_tag_agg
-                .ui.tertiary.button #{title}
+    .ui.stackable.grid
+        .eight.wide.column
+            .f11.say
+                |!{about_me}
+            if website_url
+                a.ui.basic.button.say(href=website_url target="_window")
+                    i.globe.icon
+                    |#{website_url}
+            .ui.small.inline.header top emotions
+            .ui.inline.header #{user_top_emotion}
+            each user_top_emotions
+                .ui.basic.label #{title}
                     small #{count}
-        if skv_is 'view_detail' true
-            .ui.black.circular.compact.icon.button.toggle_detail
-                i.list.large.icon
-                // |detail
-        else
-            .ui.compact.circular.basic.icon.button.toggle_detail
-                i.list.large.icon
-                // |simple
-
-        div
-        .scrolling
-            each user_questions
-                +user_question_item
-    .six.wide.column
-        .ui.dividing.header.pointer.get_comments
-            i.chat.outline.icon
-            |#{user_comments.count} comments
-        .ui.list.medscroll
-            each user_comments
-                +user_comment_item
-                .ui.divider
-        .ui.dividing.header.get_answers
-            i.reply.icon
-            |#{user_answers.count} answers
-        .ui.list.medscroll
-            each user_answers
-                +user_answer_item
-                .ui.divider
-        div
-    .three.wide.column
-        .ui.grey.small.header 
-            i.fork.icon
-            |related accounts
-        each related_accounts
-            .ui.small.header !{title}
-        with site_doc
-            .ui.segment
-                a.ui.grey.header(href="/s/#{name}") #{name}
-                    
-        .ui.grey.header.get_badges.say
-            i.certificate.icon
-            |#{user_badges.count} badges
-        .ui.horizontal.list
-            .item.say 
-                +i n='medal2--v1' cl="#{currentUser.invert_class} ui avatar image"
-                |gold #{badge_counts.gold}
-            .item.say 
-                +i n='medal-second-place--v1' cl="#{currentUser.invert_class} ui avatar image"
-                |silver #{badge_counts.silver}
-            .item.say
-                +i n='medal2-third-place--v1' cl="#{currentUser.invert_class} ui avatar image"
-                |bronze #{badge_counts.bronze}
-        // .ui.list.smallscroll
-        each user_badges
-            .ui.basic.label 
-                span.header #{name}
-                // span.description
-                //     |#{rank}
-                //     .ui.label #{badge_id}
-                //     a(href=link target="_window")
-                //         i.external.grey.icon
-
-    .four.wide.column
-        .ui.header emotion
-        .ui.large.list 
-            .item joy avg
-            .item sad avg
-            .item disgust avg
-            .item anger avg
-            .item fear avg
-    // .four.wide.column
+            .smallscroll
+                .ui.grey.small.inline.header
+                    i.tag.icon
+                    |#{tags.length} tags
+                each tags
+                    +flat_tag_selector
+                    // .ui.tertiary.button #{this}
+            .ui.grey.header 
+                i.rss.icon
+                |feed
+            each user_events
+                .ui.header #{title}
+            if skv_is 'view_question_detail' true
+                .ui.black.tertiary.large.button.toggle_question_detail.agg
+                    i.question.icon
+                    |#{user_questions.count} questions
+            unless skv_is 'view_question_detail' true
+                .ui.tertiary.large.button.toggle_question_detail.agg
+                    i.question.icon
+                    |#{user_questions.count} questions
+            if skv_is 'view_question_detail' true
+                each user_tag_agg
+                    .ui.tertiary.button #{title}
+                        small #{count}
+            if skv_is 'view_detail' true
+                .ui.black.circular.compact.icon.button.toggle_detail
+                    i.list.large.icon
+                    // |detail
+            else
+                .ui.compact.circular.basic.icon.button.toggle_detail
+                    i.list.large.icon
+                    // |simple
+    
+            div
+            .scrolling
+                each user_questions
+                    +user_question_item
+        .eight.wide.column
+            .ui.dividing.header.pointer.get_comments
+                i.chat.outline.icon
+                |#{user_comments.count} comments
+            .ui.list.medscroll
+                each user_comments
+                    +user_comment_item
+                    .ui.divider
+            .ui.dividing.header.get_answers
+                i.reply.icon
+                |#{user_answers.count} answers
+            .ui.list.medscroll
+                each user_answers
+                    +user_answer_item
+                    .ui.divider
+            div
+            .ui.grey.small.header 
+                i.fork.icon
+                |related accounts
+            each related_accounts
+                .ui.small.header !{title}
+            with site_doc
+                .ui.segment
+                    a.ui.grey.header(href="/s/#{name}") #{name}
+                        
+            .ui.grey.header.get_badges.say
+                i.certificate.icon
+                |#{user_badges.count} badges
+            .ui.horizontal.list
+                .item.say 
+                    +i n='medal2--v1' cl="#{currentUser.invert_class} ui avatar image"
+                    |gold #{badge_counts.gold}
+                .item.say 
+                    +i n='medal-second-place--v1' cl="#{currentUser.invert_class} ui avatar image"
+                    |silver #{badge_counts.silver}
+                .item.say
+                    +i n='medal2-third-place--v1' cl="#{currentUser.invert_class} ui avatar image"
+                    |bronze #{badge_counts.bronze}
+            // .ui.list.smallscroll
+            each user_badges
+                .ui.basic.label 
+                    span.header #{name}
+                    // span.description
+                    //     |#{rank}
+                    //     .ui.label #{badge_id}
+                    //     a(href=link target="_window")
+                    //         i.external.grey.icon
+            .ui.header emotion
+            .ui.large.list 
+                .item joy avg
+                .item sad avg
+                .item disgust avg
+                .item anger avg
+                .item fear avg
+        // .four.wide.column
     //     .ui.header.get_tags
     //         i.tag.icon
     //         |tags
@@ -242,8 +240,9 @@ template(name='user_comment_item')
                 |!{display_name}
                 small {{ commafy reputation }}
                 small !{location}
+    +say_this
     // div
-    a.ui.basic.button(href="/s/#{site}/q/#{question_id}")
+    a.ui.basic.button(href="/s/#{site}/q/#{post_id}")
         |#{post_type}
     if creation_date
         .ui.basic.say.label
