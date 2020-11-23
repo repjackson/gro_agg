@@ -11,7 +11,7 @@ template(name='site_questions')
                         //         i.remove.icon
                         each selected_tags
                             +unselect_tag
-                    .ui.icon.large.transparent.input
+                    .ui.left.icon.input
                         i.search.icon
                         input.search_site(type='text')
                     each site_tags
@@ -131,41 +131,41 @@ template(name='site_questions')
                         .item.say main emotion: #{main_emotion}
                         .item.say 
                             i.lightning.icon
-                            |#{new_active_users}
+                            |{{commafy new_active_users}}
                             |active users
                         .item.say 
                             i.users.icon
-                            |#{total_users} total users
+                            |{{commafy total_users}} total users
                         .item.say 
                             i.certificate.icon
-                            |#{badges_per_minute} badges/min
+                            |{{commafy badges_per_minute}} badges/min
                         .item.say
                             i.certificate.icon
-                            |#{total_badges} badges
+                            |{{commafy total_badges}} badges
                         .item.say 
                             i.grey.thumbs.up.outline.icon
-                            |#{total_votes} votes
+                            |{{commafy total_votes}} votes
                         .item.say 
                             i.chat.outline.icon
-                            |#{total_comments} comments
+                            |{{commafy total_comments}} comments
                         .item.say 
                             i.reply.icon
-                            |#{total_answers} answers
+                            |{{commafy total_answers}} answers
                         .item.say
                             i.reply.icon
-                            #{answers_per_minute} answers/min
+                            |#{answers_per_minute} answers/min
                         .item.say
                             i.question.icon
-                            |#{total_questions} questions
+                            |{{commafy total_questions}} questions
                         .item.say
                             i.question.icon
-                            |#{questions_per_minute} questions/min
+                            |{{commafy questions_per_minute}} questions/min
                         .item.say 
                             i.checkmark.icon
-                            |#{total_accepted} accepted
+                            |{{commafy total_accepted}} accepted
                         .item.say 
                             i.exclamation.icon
-                            |#{total_unanswered} unanswered
+                            |{{commafy total_unanswered}} unanswered
                         // .item api_revision: #{api_revision}
                     // if in_dev
                     //     +array_edit k='tags' d=true

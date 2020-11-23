@@ -53,9 +53,11 @@ Template.registerHelper 'selected_models', () ->selected_models.array()
 Template.registerHelper 'selected_subreddits', () ->selected_subreddits.array()
 Template.registerHelper 'selected_emotions', () ->selected_emotions.array()
     
+Template.registerHelper 'commafy', (num)-> num.toLocaleString()
+
     
     
-Template.registerHelper 'editing_mode', () ->
+Template.registerHelper 'editing_mode', ()->
     # Meteor.user().edit_mode and 
     if Meteor.user().edit_mode
         if Router.current().params.username is Meteor.user().username

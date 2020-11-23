@@ -152,7 +152,7 @@ Meteor.methods
         
     get_question_comments: (site, question_doc_id)->
         question = Docs.findOne question_doc_id
-        url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/comments?order=desc&sort=creation&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+        url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/comments?order=desc&sort=creation&site=#{site}&filter=!--1nZxautsE.&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -165,7 +165,7 @@ Meteor.methods
                     found = 
                         Docs.findOne
                             model:'stack_comment'
-                            "item.post_id":item.post_id
+                            "item.post_id":question.question_id
                             site:site
                     if found
                         console.log 'found'

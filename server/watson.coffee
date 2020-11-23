@@ -7,7 +7,7 @@ VisualRecognitionV3 = require('ibm-watson/visual-recognition/v3')
 { IamAuthenticator } = require('ibm-watson/auth')
 
 natural_language_understanding = new NaturalLanguageUnderstandingV1(
-    version: '2019-07-12'
+    version: '2020-08-01',
     authenticator: new IamAuthenticator({
         apikey: Meteor.settings.private.language.apikey
     })

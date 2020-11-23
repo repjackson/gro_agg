@@ -23,29 +23,25 @@ template(name='stack_page')
                         // +skve k='stack_section' v='embed' l='embed' i='layout' 
                     .scrollin
                         if skv_is 'stack_section' 'main'
-                            .ui.basic.segment.say !{body}
-                            if question_comments
-                                .ui.small.grey.header.get_question_comments
-                                    i.chat.outline.icon
-                                    |comments
-                            each question_comments
-                                .ui.basic.segment
-                                    if is_accepted 
-                                        .ui.green.label.say
-                                            |accepted
-                                    .say !{body}
-                                    with owner
-                                        .ui.divider
-                                        i.chat.icon
-                                        a.say.ui.inline.header.say.zoomer.refresh_user(href="/site/#{current_doc.site}/user/#{user_id}" class=post_header_class)
-                                            img.ui.avatar.image(src=profile_image)
-                                            |!{display_name}
-                                            |#{reputation}
-                                        .say.ui.basic.small.label #{user_id}
-                                        .say.ui.basic.small.label #{user_type}
-                                        .say.ui.basic.small.label #{accept_rate}
-                                        a(href=link) #{link}
-                                    // small #{content_license}
+                            .f12.ui.basic.segment.say !{body}
+                            .ui.horizontal.divider.get_question_comments
+                                i.chat.outline.icon
+                                |#{question_comments.count} comments
+                            .ui.basic.segment
+                                .ui.relaxed.list
+                                    each question_comments
+                                        .item.say.zoomer
+                                            .ui.inline.header #{score}
+                                            if is_accepted 
+                                                .ui.green.label.say
+                                                    |accepted
+                                            | !{body}
+                                            with owner
+                                                a.say.ui.inline.header.say.zoomer.refresh_user(href="/site/#{current_doc.site}/user/#{user_id}" class=post_header_class)
+                                                    img.ui.avatar.image(src=profile_image)
+                                                    |!{display_name}
+                                                    |#{reputation}
+                                            | {{ufrom creation_date}}
                             #answers.ui.dividing.header 
                                 i.reply.grey.icon
                                 |#{question_answers.count} answers
