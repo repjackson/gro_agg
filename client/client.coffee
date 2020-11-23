@@ -54,7 +54,7 @@ Template.registerHelper 'selected_models', () ->selected_models.array()
 Template.registerHelper 'selected_subreddits', () ->selected_subreddits.array()
 Template.registerHelper 'selected_emotions', () ->selected_emotions.array()
     
-Template.registerHelper 'commafy', (num)-> num.toLocaleString()
+Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 
     
     
@@ -199,14 +199,16 @@ Template.registerHelper 'nl2br', (text)->
     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
     new Spacebars.SafeString(nl2br)
 
-Template.registerHelper 'fixed', (number)->
-    number.toFixed(2)
-    # (number*100).toFixed()
-Template.registerHelper 'to_percent', (number)->
-    (number*100).toFixed()
+Template.registerHelper 'fixed', (number)-> number.toFixed(2)
+Template.registerHelper 'to_percent', (number)-> (number*100).toFixed()
 
 Template.registerHelper 'current_doc', ()->
     Docs.findOne Router.current().params.doc_id
+Template.registerHelper 'current_q', ()->
+    Docs.findOne 
+        question_id:parseInt(Router.current().params.qid)
+        model:'stack_question'
+        site:Router.current().params.site
 
 Template.registerHelper 'is_image', ()->
     if @domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']

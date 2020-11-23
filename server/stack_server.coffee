@@ -3,8 +3,8 @@ rp = require('request-promise');
 
 Meteor.publish 'question_from_id', (qid)->
     Docs.find 
-        # model:'stack_question'
-        question_id:qid
+        model:'stack_question'
+        question_id:parseInt(qid)
 
 Meteor.publish 'suser_badges', (site,user_id)->
     Docs.find { 
@@ -32,28 +32,75 @@ Meteor.publish 'suser_tags', (site,user_id)->
         "owner.user_id":parseInt(user_id)
     }, limit:10
     
-Meteor.publish 'question_comments', (question_doc_id)->
-    q = Docs.findOne question_doc_id
+    
+Meteor.publish 'question_answers', (site,qid)->
+    # q = Docs.findOne 
+    #     model:'stack_question'
+    #     question_id:qid
+    #     site:site
+    Docs.find 
+        model:'stack_answer'
+        site:site
+        question_id:parseInt(qid)
+
+Meteor.publish 'stackuser_doc', (site,uid)->
+    Docs.find 
+        model:'stackuser'
+        user_id:parseInt(uid)
+        site:site
+
+Meteor.publish 'site_by_param', (site)->
+    Docs.find 
+        model:'stack_site'
+        api_site_parameter:site
+
+# Meteor.publish 'stack_docs', ->
+#     Docs.find {
+#         model:'stack'
+#     },
+#         limit:20
+            
+    
+Meteor.publish 'qid', (site,qid)->
+    console.log 'q', site, qid
+    Docs.find 
+        model:'stack_question'
+        question_id:parseInt(qid)
+        site:site
+Meteor.publish 'question_comments', (site,qid)->
+    q = Docs.findOne 
+        model:'stack_question'
+        question_id:parseInt(qid)
+        site:site
     Docs.find 
         model:'stack_comment'
         post_id:q.question_id
         site:q.site
-Meteor.publish 'question_linked_to', (question_doc_id)->
-    q = Docs.findOne question_doc_id
+Meteor.publish 'question_linked_to', (site,qid)->
+    q = Docs.findOne 
+        model:'stack_question'
+        question_id:parseInt(qid)
+        site:site
     Docs.find 
         model:'stack_question'
         linked_to_ids:$in:[question_doc_id]
         site:question.site
 
-Meteor.publish 'related_questions', (question_doc_id)->
-    q = Docs.findOne question_doc_id
+Meteor.publish 'related_questions', (site,qid)->
+    q = Docs.findOne 
+        model:'stack_question'
+        question_id:parseInt(qid)
+        site:site
     Docs.find 
         model:'stack_question'
         _id:$in:q.related_question_ids
         site:q.site
 
-Meteor.publish 'linked_questions', (question_doc_id)->
-    q = Docs.findOne question_doc_id
+Meteor.publish 'linked_questions', (site,qid)->
+    q = Docs.findOne 
+        model:'stack_question'
+        question_id:parseInt(qid)
+        site:site
     Docs.find 
         model:'stack_question'
         _id:$in:q.linked_question_ids
@@ -87,9 +134,12 @@ Meteor.publish 'stack_docs', (
 
 
 Meteor.methods 
-    get_question: (site, question_doc_id)->
-        question = Docs.findOne question_doc_id
-        url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}?order=desc&sort=activity&site=#{site}&filter=!9_bDDxJY5&key=lPplyGlNUs)cIMOajW03aw(("
+    get_question: (site, qid)->
+        question = Docs.findOne 
+            model:'stack_question'
+            question_id:parseInt(qid)
+            site:site
+        url = "https://api.stackexchange.com/2.2/questions/#{qid}?order=desc&sort=activity&site=#{site}&filter=!9_bDDxJY5&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -118,9 +168,12 @@ Meteor.methods
 
 
         
-    get_question_answers: (site, question_doc_id)->
-        question = Docs.findOne question_doc_id
-        url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/answers?order=desc&sort=activity&site=#{site}&filter=!9_bDE(fI5&key=lPplyGlNUs)cIMOajW03aw(("
+    get_question_answers: (site, qid)->
+        question = Docs.findOne 
+            model:'stack_question'
+            question_id:parseInt(qid)
+            site:site
+        url = "https://api.stackexchange.com/2.2/questions/#{qid}/answers?order=desc&sort=activity&site=#{site}&filter=!9_bDE(fI5&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -150,9 +203,12 @@ Meteor.methods
 
 
         
-    get_question_comments: (site, question_doc_id)->
-        question = Docs.findOne question_doc_id
-        url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/comments?order=desc&sort=creation&site=#{site}&filter=!--1nZxautsE.&key=lPplyGlNUs)cIMOajW03aw(("
+    get_question_comments: (site, qid)->
+        question = Docs.findOne 
+            model:'stack_question'
+            question_id:parseInt(qid)
+            site:site
+        url = "https://api.stackexchange.com/2.2/questions/#{qid}/comments?order=desc&sort=creation&site=#{site}&filter=!--1nZxautsE.&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -183,9 +239,12 @@ Meteor.methods
 
 
         
-    get_linked_questions: (site, question_doc_id)->
-        question = Docs.findOne question_doc_id
-        url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/linked?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+    get_linked_questions: (site, qid)->
+        question = Docs.findOne 
+            model:'stack_question'
+            question_id:parseInt(qid)
+            site:site
+        url = "https://api.stackexchange.com/2.2/questions/#{qid}/linked?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -219,10 +278,13 @@ Meteor.methods
 
 
         
-    get_related_questions: (site, question_doc_id)->
-        console.log 'getting related', site, question_doc_id
-        question = Docs.findOne question_doc_id
-        url = "https://api.stackexchange.com/2.2/questions/#{question.question_id}/related?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+    get_related_questions: (site, qid)->
+        console.log 'getting related', site, qid
+        question = Docs.findOne 
+            model:'stack_question'
+            question_id:parseInt(qid)
+            site:site
+        url = "https://api.stackexchange.com/2.2/questions/#{qid}/related?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
             headers: 'accept-encoding': 'gzip'
@@ -647,3 +709,344 @@ Meteor.methods
     #         )).catch((err)->
     #         )
         
+        
+    
+Meteor.publish 'stack_docs_by_site', (
+    site
+    selected_tags
+    selected_emotion
+    sort_key
+    sort_direction
+    limit
+    toggle
+    view_bounties
+    view_unanswered
+)->
+    # site = Docs.findOne
+    #     model:'stack_site'
+    #     api_site_parameter:site
+    match = {
+        model:'stack_question'
+        site:site
+        }
+        
+    if view_unanswered
+        match.is_answered = false
+    if view_bounties 
+        match.bounty = true
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if selected_emotion.length > 0 
+        console.log selected_emotion
+        match.max_emotion_name = selected_emotion[0]
+    if site
+        Docs.find match, 
+            limit:10
+            # sort:
+            #     "#{sort_key}":sort_direction
+            # limit:limit
+Meteor.publish 'site_tags', (
+    selected_tags
+    selected_emotion
+    site
+    toggle
+    view_bounties
+    view_unanswered
+    # query=''
+    )->
+    # @unblock()
+    self = @
+    match = {
+        model:'stack_question'
+        site:site
+        }
+    if view_bounties
+        match.bounty = true
+    if view_unanswered
+        match.is_answered = false
+    doc_count = Docs.find(match).count()
+    if selected_tags.length > 0 then match.tags = $in:selected_tags
+    if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
+    site_tag_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "tags": 1 }
+        { $unwind: "$tags" }
+        { $group: _id: "$tags", count: $sum: 1 }
+        { $match: _id: $nin: selected_tags }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:20 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    site_tag_cloud.forEach (tag, i) ->
+        self.added 'results', Random.id(),
+            name: tag.name
+            count: tag.count
+            model:'site_tag'
+    
+    
+    site_Location_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Location": 1 }
+        { $unwind: "$Location" }
+        { $group: _id: "$Location", count: $sum: 1 }
+        # { $match: _id: $nin: selected_Locations }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    site_Location_cloud.forEach (Location, i) ->
+        self.added 'results', Random.id(),
+            name: Location.name
+            count: Location.count
+            model:'site_Location'
+  
+  
+    site_Organization_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Organization": 1 }
+        { $unwind: "$Organization" }
+        { $group: _id: "$Organization", count: $sum: 1 }
+        # { $match: _id: $nin: selected_Organizations }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:5 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    site_Organization_cloud.forEach (Organization, i) ->
+        self.added 'results', Random.id(),
+            name: Organization.name
+            count: Organization.count
+            model:'site_Organization'
+  
+  
+    site_Person_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Person": 1 }
+        { $unwind: "$Person" }
+        { $group: _id: "$Person", count: $sum: 1 }
+        # { $match: _id: $nin: selected_Persons }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:5 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    site_Person_cloud.forEach (Person, i) ->
+        self.added 'results', Random.id(),
+            name: Person.name
+            count: Person.count
+            model:'site_Person'
+  
+  
+    site_Company_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Company": 1 }
+        { $unwind: "$Company" }
+        { $group: _id: "$Company", count: $sum: 1 }
+        # { $match: _id: $nin: selected_Companys }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:5 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    site_Company_cloud.forEach (Company, i) ->
+        self.added 'results', Random.id(),
+            name: Company.name
+            count: Company.count
+            model:'site_Company'
+  
+  
+    site_emotion_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "max_emotion_name": 1 }
+        { $group: _id: "$max_emotion_name", count: $sum: 1 }
+        # { $match: _id: $nin: selected_emotions }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:5 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    site_emotion_cloud.forEach (emotion, i) ->
+        self.added 'results', Random.id(),
+            name: emotion.name
+            count: emotion.count
+            model:'site_emotion'
+  
+  
+    self.ready()
+
+
+
+Meteor.publish 'site_user_tags', (
+    selected_tags
+    site
+    user_query
+    location_query
+    toggle
+    view_bounties
+    view_unanswered
+    # query=''
+    )->
+    # @unblock()
+    self = @
+    match = {
+        model:'stackuser'
+        site:site
+        }
+    doc_count = Docs.find(match).count()
+    if selected_tags.length > 0 then match.tags = $in:selected_tags
+    site_tag_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "tags": 1 }
+        { $unwind: "$tags" }
+        { $group: _id: "$tags", count: $sum: 1 }
+        { $match: _id: $nin: selected_tags }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:20 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    site_tag_cloud.forEach (tag, i) ->
+        self.added 'results', Random.id(),
+            name: tag.name
+            count: tag.count
+            model:'site_user_tag'
+    
+    
+    site_Location_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Location": 1 }
+        { $unwind: "$Location" }
+        { $group: _id: "$Location", count: $sum: 1 }
+        # { $match: _id: $nin: selected_Locations }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    site_Location_cloud.forEach (Location, i) ->
+        self.added 'results', Random.id(),
+            name: Location.name
+            count: Location.count
+            model:'site_Location'
+  
+  
+    site_Organization_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Organization": 1 }
+        { $unwind: "$Organization" }
+        { $group: _id: "$Organization", count: $sum: 1 }
+        # { $match: _id: $nin: selected_Organizations }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    site_Organization_cloud.forEach (Organization, i) ->
+        self.added 'results', Random.id(),
+            name: Organization.name
+            count: Organization.count
+            model:'site_Organization'
+  
+  
+    site_Person_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Person": 1 }
+        { $unwind: "$Person" }
+        { $group: _id: "$Person", count: $sum: 1 }
+        # { $match: _id: $nin: selected_Persons }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    site_Person_cloud.forEach (Person, i) ->
+        self.added 'results', Random.id(),
+            name: Person.name
+            count: Person.count
+            model:'site_Person'
+  
+  
+    site_Company_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Company": 1 }
+        { $unwind: "$Company" }
+        { $group: _id: "$Company", count: $sum: 1 }
+        # { $match: _id: $nin: selected_Companys }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    site_Company_cloud.forEach (Company, i) ->
+        self.added 'results', Random.id(),
+            name: Company.name
+            count: Company.count
+            model:'site_Company'
+  
+  
+    self.ready()
+
+
+Meteor.publish 'stackusers_by_site', (
+    site
+    user_query
+    location_query
+    selected_tags
+    sort_key
+    sort_direction
+    limit
+)->
+    # site = Docs.findOne
+    #     model:'stack_site'
+    #     api_site_parameter:site
+    match = {
+        model:'stackuser'
+        site:site
+        }
+    if user_query
+        match.display_name = {$regex:"#{user_query}", $options:'i'}
+    if location_query
+        match.location = {$regex:"#{location_query}", $options:'i'}
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if site
+        Docs.find match, 
+            limit:20
+            sort:
+                reputation:-1
+            #     "#{sort_key}":sort_direction
+            # limit:limit
+                    
+                        
+                        
+                
+Meteor.publish 'stack_sites', (selected_tags=[], name_filter='')->
+    match = {model:$in:['stack_site','tribe']}
+    match.site_type = 'main_site'
+    if selected_tags.length > 0
+        match.tags = $all: selected_tags
+    if name_filter.length > 0
+        match.name = {$regex:"#{name_filter}", $options:'i'}
+    Docs.find match,
+        limit:300
+Meteor.publish 'stack_sites_small', (selected_tags=[], name_filter='')->
+    match = {model:$in:['stack_site','tribe']}
+    match.site_type = 'main_site'
+    if selected_tags.length > 0
+        match.tags = $all: selected_tags
+    if name_filter.length > 0
+        match.name = {$regex:"#{name_filter}", $options:'i'}
+    Docs.find match,
+        {
+            limit:500
+            fields:
+                audience:1
+                logo_url:1
+                name:1
+                model:1
+                api_site_parameter:1
+                styling:1
+        }
+
+
+                        

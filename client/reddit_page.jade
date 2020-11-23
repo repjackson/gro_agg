@@ -2,7 +2,7 @@ template(name='reddit_page')
     with current_doc
         .ui.stackable.padded.grid
             .twelve.wide.column
-                a.ui.big.icon.circular.basic.button(href="/subreddit/#{subreddit}")
+                a.ui.big.icon.circular.basic.button(href="/s/#{subreddit}")
                     i.chevron.left.icon
                 span.ui.pointer.text.f13.zoomer.toggle_view(class=post_header_class) !{title}
                 a.ui.basic.circular.button(href=url target="_window") url #{url}
@@ -77,7 +77,7 @@ template(name='reddit_page')
                 a.ui.fluid.button(href="https://www.reddit.com#{permalink}" target="_window") 
                     |r/#{subreddit}
                     i.external.icon
-                a.ui.big.basic.button(href="https://www.reddit.com/user/#{author}" target='_window')
+                a.ui.big.basic.button(href="https://www.reddit.com/u/#{author}" target='_window')
                     i.user.outline.icon
                     |#{author}
                 a.ui.small.header(href=url target='_window')

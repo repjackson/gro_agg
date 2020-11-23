@@ -68,7 +68,7 @@
 #         'click .set_location': ->
 #             Session.set('location_query',@location)
 #             window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.subreddit} users in #{@location}"
-#             Router.go "/subreddit/#{Router.current().params.subreddit}/users"
+#             Router.go "/s/#{Router.current().params.subreddit}/users"
 
 #         'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
 #         'click .toggle_question_detail': (e,t)-> Session.set('view_question_detail',!Session.get('view_question_detail'))

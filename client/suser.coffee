@@ -1,9 +1,9 @@
-Router.route '/site/:site/user/:user_id', (->
+Router.route '/s/:site/u/:user_id', (->
     @layout 'suser_layout'
     @render 'suser_dashboard'
     ), name:'suser_dashboard'
 
-Router.route '/site/:site/user/:user_id/questions', (->
+Router.route '/s/:site/u/:user_id/questions', (->
     @layout 'suser_layout'
     @render 'suser_questions'
     ), name:'suser_questions'
@@ -11,7 +11,7 @@ Template.suser_questions.onCreated ->
     @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
     @autorun => Meteor.subscribe 'suser_questions', Router.current().params.site, Router.current().params.user_id
 
-Router.route '/site/:site/user/:user_id/answers', (->
+Router.route '/s/:site/u/:user_id/answers', (->
     @layout 'suser_layout'
     @render 'suser_answers'
     ), name:'suser_answers'
@@ -34,7 +34,7 @@ Template.suser_answers.helpers
 
 
 
-Router.route '/site/:site/user/:user_id/badges', (->
+Router.route '/s/:site/u/:user_id/badges', (->
     @layout 'suser_layout'
     @render 'suser_badges'
     ), name:'suser_badges'
@@ -42,7 +42,7 @@ Template.suser_badges.onCreated ->
     @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
     @autorun => Meteor.subscribe 'suser_badges', Router.current().params.site, Router.current().params.user_id
 
-Router.route '/site/:site/user/:user_id/tags', (->
+Router.route '/s/:site/u/:user_id/tags', (->
     @layout 'suser_layout'
     @render 'suser_tags'
     ), name:'suser_tags'
@@ -137,7 +137,7 @@ Template.suser_layout.events
     'click .set_location': ->
         Session.set('location_query',@location)
         # window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.site} users in #{@location}"
-        Router.go "/site/#{Router.current().params.site}/users"
+        Router.go "/s/#{Router.current().params.site}/users"
 
     'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
     'click .toggle_question_detail': (e,t)-> Session.set('view_question_detail',!Session.get('view_question_detail'))
@@ -175,7 +175,7 @@ Template.suser_layout.events
             
             
             
-Router.route '/site/:site/user/:user_id/comments', (->
+Router.route '/s/:site/u/:user_id/comments', (->
     @layout 'suser_layout'
     @render 'suser_comments'
     ), name:'suser_comments'

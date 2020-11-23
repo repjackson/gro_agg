@@ -5,7 +5,7 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "http://reddit.com/search.json?q=#{query}&nsfw=1&limit=5&include_facets=false"
+        url = "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=5&include_facets=false"
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         HTTP.get url,(err,response)=>
             if response.data.data.dist > 1
@@ -54,7 +54,6 @@ Meteor.methods
                             # Meteor.users.update Meteor.userId(),
                             #     $inc:points:1
                             Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
-                    else
                 )
 
         # _.each(response.data.data.children, (item)->
@@ -160,58 +159,32 @@ Meteor.methods
                 )
                 
                 
-                
-Meteor.publish 'stack_sites', (selected_tags=[], name_filter='')->
-    match = {model:$in:['stack_site','tribe']}
-    match.site_type = 'main_site'
-    if selected_tags.length > 0
-        match.tags = $all: selected_tags
-    if name_filter.length > 0
-        match.name = {$regex:"#{name_filter}", $options:'i'}
-    Docs.find match,
-        limit:300
-Meteor.publish 'stack_sites_small', (selected_tags=[], name_filter='')->
-    match = {model:$in:['stack_site','tribe']}
-    match.site_type = 'main_site'
-    if selected_tags.length > 0
-        match.tags = $all: selected_tags
-    if name_filter.length > 0
-        match.name = {$regex:"#{name_filter}", $options:'i'}
-    Docs.find match,
-        {
-            limit:500
-            fields:
-                audience:1
-                logo_url:1
-                name:1
-                model:1
-                api_site_parameter:1
-                styling:1
-        }
-
-Meteor.publish 'question_answers', (question_doc_id)->
-    question = Docs.findOne question_doc_id
-    Docs.find 
-        model:'stack_answer'
-        site:question.site
-        question_id:question.question_id
-
-Meteor.publish 'stackuser_doc', (site,user_id)->
-    Docs.find 
-        model:'stackuser'
-        user_id:parseInt(user_id)
-        site:site
-
-Meteor.publish 'site_by_param', (site)->
-    Docs.find 
-        model:'stack_site'
-        api_site_parameter:site
-
-# Meteor.publish 'stack_docs', ->
-#     Docs.find {
-#         model:'stack'
-#     },
-#         limit:20
-        
                         
-            
+
+Meteor.publish 'subreddit_by_param', (name)->
+    Docs.find
+        model:'subreddit'
+        "data.display_name":name
+Meteor.publish 'subreddits', (
+    query=''
+    selected_tags
+    )->
+    match = {model:'subreddit'}
+    
+    if query.length > 0
+        match["data.display_name"] = {$regex:"#{query}", $options:'i'}
+    Docs.find match,
+        limit:42
+        
+Meteor.publish 'sub_docs_by_name', (name)->
+    Docs.find {
+        model:'reddit'
+        subreddit:name
+    }, limit:20
+Meteor.methods 
+    log_subreddit_view: (name)->
+        sub = Docs.findOne
+            model:'subreddit'
+            "data.display_name":name
+        Docs.update sub._id,
+            $inc:dao_views:1

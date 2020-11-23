@@ -1,23 +1,24 @@
-Router.route '/site/:site/doc/:doc_id', (->
+Router.route '/s/:site/q/:qid', (->
     @layout 'layout'
     @render 'q'
     ), name:'q'
 
 
 Template.q.onCreated ->
-    @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    @autorun => Meteor.subscribe 'question_answers', Router.current().params.doc_id
-    @autorun => Meteor.subscribe 'question_comments', Router.current().params.doc_id
-    @autorun => Meteor.subscribe 'question_doc_id', Router.current().params.doc_id
-    @autorun => Meteor.subscribe 'related_questions', Router.current().params.doc_id
-    @autorun => Meteor.subscribe 'linked_questions', Router.current().params.doc_id
+    # @autorun => Meteor.subscribe 'doc', Router.current().params.qid
+    @autorun => Meteor.subscribe 'qid', Router.current().params.site, Router.current().params.qid
+    @autorun => Meteor.subscribe 'question_answers', Router.current().params.site, Router.current().params.qid
+    @autorun => Meteor.subscribe 'question_comments', Router.current().params.site, Router.current().params.qid
+    @autorun => Meteor.subscribe 'question_doc_id', Router.current().params.site, Router.current().params.qid
+    @autorun => Meteor.subscribe 'related_questions', Router.current().params.site, Router.current().params.qid
+    @autorun => Meteor.subscribe 'linked_questions', Router.current().params.site, Router.current().params.qid
     Session.setDefault('stack_section','main')
 
 Template.q.onRendered ->
-    Meteor.call 'get_question', Router.current().params.site, Router.current().params.doc_id,->
-    Meteor.call 'get_question_answers', Router.current().params.site, Router.current().params.doc_id,->
-    Meteor.call 'call_watson', Router.current().params.doc_id,'link','stack',->
-    Meteor.call 'get_question_comments', Router.current().params.site, Router.current().params.doc_id,->
+    Meteor.call 'get_question', Router.current().params.site, Router.current().params.qid,->
+    Meteor.call 'get_question_answers', Router.current().params.site, Router.current().params.qid,->
+    Meteor.call 'call_watson', Router.current().params.qid,'link','stack',->
+    Meteor.call 'get_question_comments', Router.current().params.site, Router.current().params.qid,->
     # Meteor.setTimeout ->
     #     $('.top').visibility
     #         onTopVisible: (calculations) ->
@@ -33,13 +34,13 @@ Template.q.onRendered ->
     #     , 2000
 Template.q.helpers
     linked_questions: ->
-        question = Docs.findOne Router.current().params.doc_id
+        question = Docs.findOne Router.current().params.qid
         Docs.find 
             model:'stack_question'
             _id:question.linked_question_ids
             site:Router.current().params.site
     related_questions: ->
-        question = Docs.findOne Router.current().params.doc_id
+        question = Docs.findOne Router.current().params.qid
         Docs.find 
             model:'stack_question'
             _id:question.related_question_ids
@@ -52,7 +53,7 @@ Template.q.helpers
             sort:score:-1
         })
     question_comments: ->
-        question = Docs.findOne Router.current().params.doc_id
+        question = Docs.findOne Router.current().params.qid
         Docs.find 
             model:'stack_comment'
             post_id:question.question_id
@@ -61,7 +62,7 @@ Template.q.helpers
 
 
 Template.q.events
-    'click .goto_q': -> Router.go "/site/#{Router.current().params.site}/doc/#{@_id}"
+    'click .goto_q': -> Router.go "/s/#{Router.current().params.site}/q/#{@question_id}"
 
     # 'click .speak_this': ->
     #     if Session.get('speaking')
@@ -86,28 +87,28 @@ Template.q.events
 
     'click .get_linked': (e,t)->
         console.log 'linked'
-        Meteor.call 'get_linked_questions', Router.current().params.site, Router.current().params.doc_id,->
+        Meteor.call 'get_linked_questions', Router.current().params.site, Router.current().params.qid,->
     'click .get_related': (e,t)->
-        Meteor.call 'get_related_questions', Router.current().params.site, Router.current().params.doc_id,->
+        Meteor.call 'get_related_questions', Router.current().params.site, Router.current().params.qid,->
         console.log 'getting related'
     'click .call_watson': (e,t)->
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'analyzing'
-        Meteor.call 'call_watson', Router.current().params.doc_id,'link','stack',->
+        Meteor.call 'call_watson', Router.current().params.qid,'link','stack',->
             
     'click .call_tone': (e,t)->
-        Meteor.call 'call_tone', Router.current().params.doc_id,->
+        Meteor.call 'call_tone', Router.current().params.qid,->
     'click .get_question': (e,t)->
-        question = Docs.findOne(Router.current().params.doc_id)
-        Meteor.call 'get_question', Router.current().params.site, Router.current().params.doc_id,->
+        question = Docs.findOne(Router.current().params.qid)
+        Meteor.call 'get_question', Router.current().params.site, Router.current().params.qid,->
             
     'click .get_question_comments': (e,t)->
-        # question = Docs.findOne(Router.current().params.doc_id)
+        # question = Docs.findOne(Router.current().params.qid)
         window.speechSynthesis.speak new SpeechSynthesisUtterance "getting #{Router.current().params.site} comments"
-        Meteor.call 'get_question_comments', Router.current().params.site, Router.current().params.doc_id,->
+        Meteor.call 'get_question_comments', Router.current().params.site, Router.current().params.qid,->
             
     'click .get_answers': (e,t)->
         window.speechSynthesis.speak new SpeechSynthesisUtterance "getting #{Router.current().params.site} answers"
-        question = Docs.findOne(Router.current().params.doc_id)
+        question = Docs.findOne(Router.current().params.qid)
         Meteor.call 'question_answers', Router.current().params.site, question.question_id,->
             
 
@@ -115,7 +116,7 @@ Template.q.events
         selected_tags.clear()
         selected_tags.push @valueOf()
         # if Session.equals('view_mode','stack')
-        Router.go "/site/#{Router.current().params.site}"
+        Router.go "/s/#{Router.current().params.site}"
         # Session.set('thinking',true)
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
 

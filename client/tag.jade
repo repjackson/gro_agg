@@ -8,7 +8,7 @@ template(name='stack_tags')
         .twelve.wide.column
             .ui.centered.cards.scrolling
                 each tags
-                    a.ui.card.select_user(href="/site/#{site}/user/#{user_id}")
+                    a.ui.card.select_user(href="/s/#{site}/u/#{user_id}")
                         img.ui.image(src=profile_image class=currentUser.invert_class)
                         .content
                             a.ui.header #{name}
@@ -63,13 +63,13 @@ template(name='stack_tag')
         .ui.stackable.padded.grid
             .middle.aligned.row
                 .four.wide.column.scrolling
-                    a.ui.large.fluid.basic.button.say_site(href="/site/#{site}") 
+                    a.ui.large.fluid.basic.button.say_site(href="/s/#{site}") 
                         i.chevron.left.icon
                         if watson.metadata.image
                             img.ui.invert.mini.inline.image(src=watson.metadata.image)    
                         | #{site}
                     with owner
-                        a.ui.basic.segment.zoomer.pointer.say(href="/site/#{current_doc.site}/user/#{user_id}")
+                        a.ui.basic.segment.zoomer.pointer.say(href="/s/#{current_doc.site}/u/#{user_id}")
                             img.ui.rounded.image(src=profile_image)
                             .ui.header #{display_name}
                                 small {{ commafy reputation }}
@@ -140,7 +140,7 @@ template(name='stack_tag')
                                 with owner
                                     .ui.divider
                                     i.chat.icon
-                                    a.ui.inline.header.say.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
+                                    a.ui.inline.header.say.zoomer(href="/s/#{current_doc.site}/u/#{user_id}")
                                         img.ui.avatar.invert.image(src=profile_image)
                                         |!{display_name}
                                         |{{ commafy reputation }}
@@ -175,7 +175,7 @@ template(name='stack_tag')
     
                                 with owner
                                     div
-                                    a.ui.header.say.zoomer(href="/site/#{current_doc.site}/user/#{user_id}")
+                                    a.ui.header.say.zoomer(href="/s/#{current_doc.site}/u/#{user_id}")
                                         img.ui.avatar.invert.image(src=profile_image)
                                         |!{display_name}
                                     |{{ commafy reputation }}

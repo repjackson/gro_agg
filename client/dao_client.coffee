@@ -282,7 +282,7 @@ Template.watson_full.events
         selected_tags.clear()
         selected_tags.push @valueOf()
         # if Session.equals('view_mode','stack')
-        Router.go "/site/#{Router.current().params.site}"
+        Router.go "/s/#{Router.current().params.site}"
         # Session.set('thinking',true)
         # $('body').toast(
         #     showIcon: 'stack exchange'

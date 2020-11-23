@@ -85,10 +85,10 @@ template(name='people')
                                 .line
                 each users
                     .three.wide.column
-                        a.select_user(href="/site/#{site}/user/#{user_id}")
+                        a.select_user(href="/s/#{site}/u/#{user_id}")
                             img.ui.circular.image.zoomer(src=profile_image)
                         .content
-                            a.ui.zoomer.header.select_user(href="/site/#{site}/user/#{user_id}" class=post_header_class)
+                            a.ui.zoomer.header.select_user(href="/s/#{site}/u/#{user_id}" class=post_header_class)
                                 |!{display_name}
                                 .ui.basic.circular.label {{ commafy reputation }}
                             .description

@@ -1,7 +1,6 @@
-template(name='site_questions')
+template(name='sq')
     unless current_site
-        .ui.center.aligned.basic.segment
-            i.massive.grey.loading.yin.yang.icon
+        +loading
     with current_site
         .ui.stackable.grid
             .row
@@ -69,7 +68,7 @@ template(name='site_questions')
                         each site_questions
                             +site_question_item
                 .four.wide.center.aligned.column.scrollin
-                    a.ui.circular.compact.circular.basic.large.icon.button.say(href="/site/#{api_site_parameter}/users")
+                    a.ui.circular.compact.circular.basic.large.icon.button.say(href="/s/#{api_site_parameter}/users")
                         i.large.users.icon
                         // |users
                     i.large.smile.link.icon.clear_emotions(title='emotions')
@@ -179,7 +178,7 @@ template(name='site_question_item')
         // if watson.metadata.image
         //     img.ui.avatar.invert.image(src=watson.metadata.image)    
         .content
-            a.ui.inline.header.view_question.zoomer(href="/site/#{site}/doc/#{_id}" class=post_header_class)
+            a.ui.inline.header.view_question.zoomer(href="/s/#{site}/q/#{question_id}" class=post_header_class)
                 strong #{score}
                 if is_answered
                     i.green.checkmark.icon
@@ -200,7 +199,7 @@ template(name='site_question_item')
                         .item #{this}
             .ui.horizontal.list
                 with owner
-                    a.ui.small.header.item(href="/site/#{../site}/user/#{user_id}")
+                    a.ui.small.header.item(href="/s/#{../site}/u/#{user_id}")
                         img.ui.avatar.image(src=profile_image)
                         |!{display_name}
                         small {{ commafy reputation }}

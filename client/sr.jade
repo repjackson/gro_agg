@@ -7,7 +7,7 @@ template(name='subreddit_docs')
                         i.reddit.large.icon
                     img.get_info.shadowed.ui.inline.image(src=logo_url )
                     .ui.inline.header #{data.display_name}
-                    a.ui.circular.basic.large.disabled.button(href="/subreddit/#{data.display_name}/users")
+                    a.ui.circular.basic.large.disabled.button(href="/s/#{data.display_name}/users")
                         i.large.user.outline.icon
                         |users
                     // div
@@ -152,16 +152,16 @@ template(name='subreddit_doc_item')
     .ui.item
         .image
             if is_image
-                a.view_post.zoomer(href="/subreddit/#{subreddit}/doc/#{_id}" class=post_header_class)
+                a.view_post.zoomer(href="/s/#{subreddit}/post/#{_id}" class=post_header_class)
                     img.ui.centered.image.toggle_view(src=url)
             else if watson.metadata.image
-                a.view_post.zoomer(href="/subreddit/#{subreddit}/doc/#{_id}" class=post_header_class)
+                a.view_post.zoomer(href="/s/#{subreddit}/post/#{_id}" class=post_header_class)
                     img.ui.rounded.image.toggle_view(src=watson.metadata.image)
             else
-                a.view_post.zoomer(href="/subreddit/#{subreddit}/doc/#{_id}" class=post_header_class)
+                a.view_post.zoomer(href="/s/#{subreddit}/post/#{_id}" class=post_header_class)
                     img(src=data.thumbnail)    
         .content
-            a.ui.inline.header.view_post.zoomer(href="/subreddit/#{subreddit}/doc/#{_id}" class=post_header_class)
+            a.ui.inline.header.view_post.zoomer(href="/s/#{subreddit}/post/#{_id}" class=post_header_class)
                 strong #{ups}
                 if is_answered
                     i.green.checkmark.icon

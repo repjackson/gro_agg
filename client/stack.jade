@@ -9,14 +9,21 @@ template(name='stack')
                     i.search.icon
                     input.search_site_name(type='text')
                 // +cloud filter='stack_site'
-                .spacer
-            .sixteen.wide.center.aligned.column.scrolling
+                // .spacer
+                unless site_docs.count
+                    +loading
+                if site_docs.count
+                    +skve k='limit' v=1 l='1'
+                    +skve k='limit' v=10 l='10'
+                    +skve k='limit' v=20 l='20'
+                    +skve k='sort_key' v='_timestamp' l='when' i='clock'
+                    +skve k='sort_key' v='points' l='points' i='leaderboard'
+                    +skve k='sort_direction' v=-1 l='u' i='up'
+                    +skve k='sort_direction' v=1 l='d' i='down'
+            .sixteen.wide.center.aligned.column.scrollin
                 .ui.four.column.stackable.center.aligned.grid
-                    unless site_docs.count
-                        .ui.center.aligned.basic.segment
-                            i.massive.grey.yin.yang.loading.icon
                     each site_docs
-                        a.ui.center.aligned.column.pointer.goto_site(href='/site/#{api_site_parameter}')
+                        a.ui.center.aligned.column.pointer.goto_site(href='/s/#{api_site_parameter}')
                             // img.ui.inline.tiny.image.mobile.hiden.site.shadowed.zoomer(src=high_resolution_icon_url)
                             img.ui.inline.image.site.shadowed(src=logo_url)
                             // .header
@@ -31,18 +38,11 @@ template(name='stack')
                 //     span.text {{sv 'limit'}}
                 //     i.dropdown.icon
                 //     .menu 
-                //     +skve k='limit' v=1 l='1'
-                //     +skve k='limit' v=10 l='10'
-                //     +skve k='limit' v=20 l='20'
                     // .item 1
                     // .item 5
                     // .item 10
                     // .item 20
                         // |sort
-                // +skve k='sort_key' v='_timestamp' l='when' i='clock'
-                // +skve k='sort_key' v='points' l='points' i='leaderboard'
-                // +skve k='sort_direction' v=-1 l='u' i='up'
-                // +skve k='sort_direction' v=1 l='d' i='down'
                 // |view
                 // +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
                 // +skve k='view_mode' v='list' l='list' i='list' ionly=true
@@ -50,7 +50,7 @@ template(name='stack')
                 //     .ui.large.list 
                 //         each stack_docs
                 //             .item
-                //                 a.ui.small.header(href="/site/#{site}/doc/#{_id}")
+                //                 a.ui.small.header(href="/s/#{site}/doc/#{_id}")
                 //                     |#{title}
                 // else
                 //     .ui.cards
@@ -61,7 +61,7 @@ template(name='stack')
 template(name='stack_site_card')
     .ui.card
         .content
-            a.ui.header(href="/site/#{api_site_parameter}")
+            a.ui.header(href="/s/#{api_site_parameter}")
                 img(src=icon_url)
                 |!{name}
             .ui.small.header #{audience}
@@ -74,7 +74,7 @@ template(name='stack_site_card')
 template(name='stack_card')
     .ui.card
         .content
-            a.ui.header(href="/site/#{site}/doc/#{_id}") !{title}
+            a.ui.header(href="/s/#{site}/q/#{question_id}") !{title}
             each tags 
                 a.ui.basic.pointer.label.add_stack_tag #{this}
             if is_answered

@@ -1,7 +1,6 @@
-template(name='site_users')
+template(name='su')
     unless current_site
-        .ui.basic.center.aligned.segment
-            i.massive.grey.loading.yin.yang.icon
+        +loading
     with current_site
         .ui.stackable.grid
             .row
@@ -31,13 +30,13 @@ template(name='site_users')
                         i.external.icon
                     if in_dev
                         +print_this
-                    a.ui.large.circular.basic.button.say(href="/site/#{api_site_parameter}")
+                    a.ui.large.circular.basic.button.say(href="/s/#{api_site_parameter}")
                         i.question.icon
                         |questions
-                    a.ui.large.disabled.circular.basic.button(href="/site/#{api_site_parameter}/tags")
+                    a.ui.large.disabled.circular.basic.button(href="/s/#{api_site_parameter}/tags")
                         i.tag.icon
                         |tags
-                    a.ui.large.disabled.circular.basic.button(href="/site/#{api_site_parameter}/badges")
+                    a.ui.large.disabled.circular.basic.button(href="/s/#{api_site_parameter}/badges")
                         i.certificate.icon
                         |badges
                     .ui.list.mobile.hidden
@@ -94,10 +93,10 @@ template(name='site_users')
                             
 template(name='stackuser_item')
     .item
-        a.ui.small.image.say.zoomer(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
+        a.ui.small.image.say.zoomer(href="/s/#{site}/u/#{user_id}" class=post_header_class) 
             img.ui.rounded.tiny.image(src=profile_image)
         .content
-            a.ui.inline.header.say.zoomer(href="/site/#{site}/user/#{user_id}" class=post_header_class) 
+            a.ui.inline.header.say.zoomer(href="/s/#{site}/u/#{user_id}" class=post_header_class) 
                 |!{display_name}
                 small {{ commafy reputation }}
             |!{about_me}

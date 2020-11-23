@@ -14,16 +14,16 @@ template(name='suser_layout')
         .ui.stackable.padded.grid
             .row
                 .three.wide.column
-                    a.ui.basic.icon.circular.large.button.say_questions(href="/site/#{site}")
+                    a.ui.basic.icon.circular.large.button.say_questions(href="/s/#{site}")
                         i.question.large.icon
                         // |questions
-                    a.ui.basic.icon.circular.large.button.say_users(href="/site/#{site}/users")
+                    a.ui.basic.icon.circular.large.button.say_users(href="/s/#{site}/users")
                         i.users.large.icon
                         // |users
                     .ui.inline.header.say   
                         |#{site}
                     .spacer
-                    a.ui.big.inline.header.say(class=post_header_class href="/site/#{site}/user/#{user_id}")
+                    a.ui.big.inline.header.say(class=post_header_class href="/s/#{site}/u/#{user_id}")
                         |!{display_name} 
                         small(title='reputation') {{ commafy reputation }}
                         strong(title="#{site} rank")
@@ -37,25 +37,25 @@ template(name='suser_layout')
                     //     +flat_tag_selector
                     .ui.inline.tertiary.button.set_location.zoomer.say
                         |!{location}
-                    a(href="/site/#{site}/user/#{user_id}")
+                    a(href="/s/#{site}/u/#{user_id}")
                         img.ui.rounded.inline.image.pointer.zoomer.boop(src=profile_image)
                     a.ui.large.compact.circular.basic.button(href=link target='_window' title="#{site} profile")
                         i.stack.exchange.icon
                         i.external.icon
                     .ui.vertical.fluid.stackable.small.menu
-                        a.item.say(href="/site/#{site}/user/#{user_id}/questions" class="{{isActiveRoute regex='suser_questions'}}")
+                        a.item.say(href="/s/#{site}/u/#{user_id}/questions" class="{{isActiveRoute regex='suser_questions'}}")
                             i.question.grey.icon
                             |#{question_count} questions
-                        a.item.say(href="/site/#{site}/user/#{user_id}/answers" class="{{isActiveRoute regex='suser_answers'}}")
+                        a.item.say(href="/s/#{site}/u/#{user_id}/answers" class="{{isActiveRoute regex='suser_answers'}}")
                             i.reply.grey.icon
                             |#{answer_count} answers
-                        a.item.say(href="/site/#{site}/user/#{user_id}/comments" class="{{isActiveRoute regex='suser_comments'}}")
+                        a.item.say(href="/s/#{site}/u/#{user_id}/comments" class="{{isActiveRoute regex='suser_comments'}}")
                             i.chat.outline.grey.icon
                             |#{comment_count} comments
-                        a.item.say(href="/site/#{site}/user/#{user_id}/tags" class="{{isActiveRoute regex='suser_tags'}}")
+                        a.item.say(href="/s/#{site}/u/#{user_id}/tags" class="{{isActiveRoute regex='suser_tags'}}")
                             i.tag.grey.icon
                             |tags
-                        a.item.say(href="/site/#{site}/user/#{user_id}/badges" class="{{isActiveRoute regex='suser_badges'}}")
+                        a.item.say(href="/s/#{site}/u/#{user_id}/badges" class="{{isActiveRoute regex='suser_badges'}}")
                             i.certificate.grey.icon
                             |badges
                     +print_this
@@ -181,7 +181,7 @@ template(name='suser_dashboard')
             .ui.small.header !{title}
         with site_doc
             .ui.segment
-                a.ui.grey.header(href="/site/#{name}") #{name}
+                a.ui.grey.header(href="/s/#{name}") #{name}
                     
         .ui.grey.header.get_badges.say
             i.certificate.icon
@@ -251,11 +251,11 @@ template(name='user_answer_item')
 
     
 template(name='user_comment_item')
-    .ui.button(href="/site/#{site}/q/#{question_id}")
+    .ui.button(href="/s/#{site}/q/#{question_id}")
         |#{post_type}
     .ui.horizontal.list
         with reply_to_user
-            a.ui.small.header.say.item(href="/site/#{../site}/user/#{user_id}")
+            a.ui.small.header.say.item(href="/s/#{../site}/u/#{user_id}")
                 img.ui.avatar.image(src=profile_image)
                 |!{display_name}
                 small {{ commafy reputation }}
@@ -288,7 +288,7 @@ template(name='user_comment_item')
     
 template(name='user_question_item')
     .ui.item
-        a.ui.header.zoomer.say(href="/site/#{site}/doc/#{_id}" class=post_header_class)
+        a.ui.header.zoomer.say(href="/s/#{site}/doc/#{_id}" class=post_header_class)
             strong #{score}:
             |!{title}
         |!{about_me}

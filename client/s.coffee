@@ -15,7 +15,7 @@ Router.route '/stack', (->
 
 Template.stack.events
     'click .goto_site': -> 
-        Router.go "/site/#{@api_site_parameter}"
+        Router.go "/s/#{@api_site_parameter}"
         window.speechSynthesis.speak new SpeechSynthesisUtterance "#{@name} #{@audience}"
         selected_tags.clear()
     # 'click .site': -> 
