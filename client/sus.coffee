@@ -82,13 +82,13 @@ Template.sq.helpers
             limit:Session.get('limit')
 
 Template.sq.events
-    'click .goto_q': -> Router.go "/s/#{@site}/doc/#{@_id}"
+    'click .goto_q': -> Router.go "/s/#{@site}/q/#{@question_id}"
     'click .get_info': (e,t)-> 
         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         Meteor.call 'get_site_info', Router.current().params.site, ->
     'click .view_question': (e,t)-> 
         window.speechSynthesis.speak new SpeechSynthesisUtterance @title
-        Router.go "/s/#{Router.current().params.site}/doc/#{@_id}"
+        Router.go "/s/#{Router.current().params.site}/q/#{@question_id}"
     'click .sort_timestamp': (e,t)-> Session.set('sort_key','_timestamp')
     'click .unview_bounties': (e,t)-> Session.set('view_bounties',0)
     'click .view_bounties': (e,t)-> Session.set('view_bounties',1)

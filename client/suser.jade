@@ -288,7 +288,7 @@ template(name='user_comment_item')
     
 template(name='user_question_item')
     .ui.item
-        a.ui.header.zoomer.say(href="/s/#{site}/doc/#{_id}" class=post_header_class)
+        a.ui.header.zoomer.say(href="/s/#{site}/q/#{question_id}" class=post_header_class)
             strong #{score}:
             |!{title}
         |!{about_me}

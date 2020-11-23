@@ -1,26 +1,30 @@
 request = require('request')
 rp = require('request-promise');
 
-Meteor.publish 'question_from_id', (qid)->
+Meteor.publish 'question_from_id', (site,qid)->
     Docs.find 
         model:'stack_question'
+        site:site
         question_id:parseInt(qid)
 
 Meteor.publish 'suser_badges', (site,user_id)->
     Docs.find { 
         model:'stack_badge'
+        site:site
         "user.user_id":parseInt(user_id)
     }, limit:10
 Meteor.publish 'suser_comments', (site,user_id)->
     Docs.find { 
         model:'stack_comment'
+        site:site
         "owner.user_id":parseInt(user_id)
     }, limit:100
 Meteor.publish 'suser_questions', (site,user_id)->
     Docs.find { 
         model:'stack_question'
+        site:site
         "owner.user_id":parseInt(user_id)
-    }, limit:20
+    }, limit:42
 Meteor.publish 'suser_answers', (site,user_id)->
     Docs.find { 
         model:'stack_answer'
@@ -29,6 +33,7 @@ Meteor.publish 'suser_answers', (site,user_id)->
 Meteor.publish 'suser_tags', (site,user_id)->
     Docs.find { 
         model:'stack_tag'
+        site:site
         "owner.user_id":parseInt(user_id)
     }, limit:10
     

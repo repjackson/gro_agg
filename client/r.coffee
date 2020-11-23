@@ -67,7 +67,7 @@ Template.subreddit_docs.onCreated ->
 Template.subreddit_doc_item.events
     'click .view_post': (e,t)-> 
         window.speechSynthesis.speak new SpeechSynthesisUtterance @title
-        # Router.go "/subreddit/#{@subreddit}/doc/#{@_id}"
+        # Router.go "/subreddit/#{@subreddit}/post/#{@_id}"
 
 Template.subreddit_docs.helpers
     subreddit_doc: ->

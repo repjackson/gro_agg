@@ -3,11 +3,11 @@
 
 
 Router.route '/people', (->
-    @render 'people'
-    ), name:'people'
+    @render 'p'
+    ), name:'p'
 
 # Template.term_image.onCreated ->
-Template.people.onCreated ->
+Template.p.onCreated ->
     Session.setDefault('selected_user_site',null)
     Session.setDefault('selected_user_location',null)
     Session.setDefault('searching_location',null)
@@ -19,7 +19,7 @@ Template.people.onCreated ->
         Session.get('location_query')
         Session.get('limit')
 
-Template.people.events
+Template.p.events
     'click .select_user': ->
         window.speechSynthesis.cancel()
         window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
@@ -28,7 +28,7 @@ Template.people.events
         Session.set('searching_username',val)
 
 
-Template.people.helpers
+Template.p.helpers
     users: ->
         match = {model:'stackuser'}
         # unless 'admin' in Meteor.user().roles
@@ -89,7 +89,7 @@ Template.people.helpers
 
 
 
-Template.people.onCreated ->
+Template.p.onCreated ->
     @autorun -> Meteor.subscribe('user_tags',
         selected_user_tags.array()
         Session.get('selected_user_site')
@@ -100,7 +100,7 @@ Template.people.onCreated ->
         # Session.get('view_mode')
     )
 
-Template.people.helpers
+Template.p.helpers
     all_tags: -> results.find(model:'user_tag')
     all_sites: -> results.find({model:'user_site'},limit:10)
     all_locations: -> results.find({model:'user_location'},limit:10)
@@ -130,7 +130,7 @@ Template.people.helpers
 
 
         
-Template.people.events
+Template.p.events
     'click .select_tag': -> 
         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         selected_user_tags.push @name

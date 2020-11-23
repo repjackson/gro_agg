@@ -49,7 +49,7 @@ template(name='q')
                                                     |accepted
                                             span.f11 !{body}
                                             with owner
-                                                a.say.ui.inline.small.header.say.zoomer.refresh_user(href="/s/#{current_doc.site}/u/#{user_id}" class=post_header_class)
+                                                a.say.ui.inline.small.header.say.zoomer.refresh_user(href="/s/#{site}/u/#{user_id}" class=post_header_class)
                                                     img.ui.avatar.image(src=profile_image)
                                                     |!{display_name}
                                                     |{{ commafy reputation }}
@@ -90,7 +90,7 @@ template(name='q')
                                 |!{owner.display_name}
 
                     with owner
-                        a.ui.basic.segment.zoomer.pointer.say(href="/s/#{current_doc.site}/u/#{user_id}")
+                        a.ui.basic.segment.zoomer.pointer.say(href="/s/#{../site}/u/#{user_id}")
                             img.ui.rounded.inline.image(src=profile_image)
                             .ui.header.inline(class=post_header_class)
                                 |!{display_name}
@@ -177,7 +177,7 @@ template(name='answer_item')
         if in_dev 
             +remove_button
         with owner
-            a.ui.header.say.refresh_user(href="/s/#{current_doc.site}/u/#{user_id}")
+            a.ui.header.say.refresh_user(href="/s/#{site}/u/#{user_id}")
                 img.ui.avatar.image(src=profile_image)
                 |!{display_name}
                 strong {{ commafy reputation }}
