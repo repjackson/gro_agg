@@ -323,8 +323,9 @@ a.goto_article {
     animation: fadein .5s !important;
     animation: fadeout .5s; 
     transition: all .25s ease !important; 
-    cursor: pointer !important;
+    cursor: crosshair !important;
     color: black !important; 
+    transform: scale(1.01) !important;
 }
 .raise:hover {
     /*transform: scale(1.1) !important;*/
@@ -670,7 +671,8 @@ input {
   /*font-family: 'Raleway', sans-serif !important; */
   /*font-family: 'Montserrat', sans-serif !important; */
   /*font-family: 'Roboto', sans-serif !important; */
-  font-family: 'Ubuntu+Mono', sans-serif !important; 
+  /*font-family: 'Ubuntu+Mono', sans-serif !important; */
+  font-family: 'Lato', sans-serif !important; 
   /*font-family: 'Ubuntu', sans-serif !important;*/
 }
 
@@ -792,5 +794,58 @@ input {
 @keyframes moveGradient {
   50% {
     background-position: 100% 50%;
+  }
+}
+
+
+.circle-wrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  float: left;
+  margin: 10px;
+}
+
+/*.icon2 {*/
+/*  position: absolute;*/
+/*  color: #fff;*/
+/*  font-size: 55px;*/
+/*  top: 55px;*/
+/*  left: 55px;*/
+/*  transform: translate(-50%, -50%);*/
+/*}*/
+
+.circle {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /*border-radius: 50%;*/
+  padding: 2.5px;
+  background-clip: content-box;
+  animation: spin 10s linear infinite;
+}
+
+.circle-wrapper:active .circle {
+  animation: spin 2s linear infinite;
+}
+
+.success {
+  background-color: #4BB543;
+  border: 2.5px dashed #4BB543;
+}
+
+.error {
+  background-color: #CA0B00;
+  border: 2.5px dashed #CA0B00;
+}
+
+.warning {
+  background-color: #F0D500;
+  border: 2.5px dashed #F0D500;
+}
+
+@keyframes spin { 
+  100% { 
+    transform: rotateZ(360deg);
   }
 }

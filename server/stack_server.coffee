@@ -20,7 +20,7 @@ Meteor.publish 'suser_questions', (site,user_id)->
     Docs.find { 
         model:'stack_question'
         "owner.user_id":parseInt(user_id)
-    }, limit:10
+    }, limit:20
 Meteor.publish 'suser_answers', (site,user_id)->
     Docs.find { 
         model:'stack_answer'

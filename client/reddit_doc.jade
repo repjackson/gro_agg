@@ -72,11 +72,11 @@ template(name="reddit_doc")
                         |#{ups}
                     a.ui.small.header(href=url target='_window')
                         | #{url}
-                    // .ui.label
-                    //     | #{domain}
+                    .ui.label
+                        | #{domain}
                     // .spacer
                     // .nl2br
-                    // |!{html}
+                    |!{html}
                     // .spacer
                     // pre
                     // .nl2br
@@ -113,9 +113,9 @@ template(name="reddit_doc")
                     // .spacer
                     // div
                     if tone
-                        +skve k='doc_section' v='money' l='money' i='money'
-                        if skv_is 'doc_section'
-                            +tone
+                        +tone
+                        // +skve k='doc_section' v='money' l='money' i='money'
+                        // if skv_is 'doc_section'
                     each tags
                         +doc_tag
                     // |#{tags.length}

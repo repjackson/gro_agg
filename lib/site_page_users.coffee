@@ -4,11 +4,6 @@ if Meteor.isClient
         @render 'site_questions'
         ), name:'site_questions'
         
-    Router.route '/site/:site/doc/:doc_id', (->
-        @layout 'layout'
-        @render 'stack_page'
-        ), name:'stack_page'
-    
     Router.route '/site/:site/users', (->
         @layout 'layout'
         @render 'site_users'

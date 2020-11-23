@@ -1,4 +1,7 @@
 template(name='site_questions')
+    unless current_site
+        .ui.center.aligned.basic.segment
+            i.massive.grey.loading.yin.yang.icon
     with current_site
         .ui.stackable.grid
             .row
@@ -50,9 +53,9 @@ template(name='site_questions')
                     .ui.icon.compact.large.circular.basic.small.tertiary.button.set_points
                         i.line.chart.icon
                     if skv_is 'view_detail' true
-                        .ui.black.circular.compact.button.toggle_detail
+                        .ui.black.circular.compact.icon.button.toggle_detail
                             i.list.large.icon
-                            |detail
+                            // |detail
                     else
                         .ui.compact.circular.basic.large.icon.tertiary.button.toggle_detail
                             i.minus.large.icon
@@ -65,7 +68,7 @@ template(name='site_questions')
                     .medscroll
                         each site_questions
                             +site_question_item
-                .four.wide.center.aligned.column.scrolling
+                .four.wide.center.aligned.column.scrollin
                     a.ui.circular.compact.circular.basic.large.icon.button.say(href="/site/#{api_site_parameter}/users")
                         i.large.users.icon
                         // |users

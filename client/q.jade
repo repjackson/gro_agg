@@ -1,12 +1,19 @@
-template(name='stack_page')
+template(name='q')
+    unless current_doc
+        +loading
     with current_doc
         .ui.stackable.padded.grid.top
             .row
                 .twelve.wide.column
+                    a.ui.basic.circular.compact.icon.button.say(href="/site/#{site}") 
+                        i.chevron.left.icon
+                        // if watson.metadata.image
+                        //     img.ui.tiny.inline.image(src=watson.metadata.image)    
+                        // | #{site}
                     #qhead.ui.inline.header.say.get_question(class=post_header_class)
                         .ui.basic.circular.big.label #{score}
                         if is_answered
-                            i.large.green.checkmark.icon
+                            i.green.checkmark.icon
                         |!{title}
                     .ui.horizontal.list
                         .item.say 
@@ -21,29 +28,33 @@ template(name='stack_page')
                         if tone
                             +skve k='stack_section' v='tone' l='tone' i='user' 
                         // +skve k='stack_section' v='embed' l='embed' i='layout' 
+                        // .circle-wrapper
+                        //     .success.circle
+                        //     .icon2
+                        //         i.checkmark.icon
                     .scrollin
                         if skv_is 'stack_section' 'main'
-                            .f12.ui.basic.segment.say !{body}
+                            .f11.ui.basic.segment.say !{body}
                             .ui.horizontal.divider.get_question_comments
                                 i.chat.outline.icon
                                 |#{question_comments.count} comments
-                            div.gb hi everyone
+                            // div.gb hi everyone
                             .ui.basic.center.aligned.segment
                                 .ui.relaxed.list
                                     each question_comments
-                                        .item.say.zoomer.gb
+                                        .item.say.zoomer
                                             .ui.inline.header #{score}
                                             if is_accepted 
                                                 .ui.green.label.say
                                                     |accepted
-                                            | !{body}
+                                            span.f11 !{body}
                                             with owner
                                                 a.say.ui.inline.small.header.say.zoomer.refresh_user(href="/site/#{current_doc.site}/user/#{user_id}" class=post_header_class)
                                                     img.ui.avatar.image(src=profile_image)
                                                     |!{display_name}
                                                     |{{ commafy reputation }}
                                             | {{ufrom creation_date}}
-                            #answers.ui.dividing.header 
+                            #answers.ui.horizontal.divider 
                                 i.reply.grey.icon
                                 |#{question_answers.count} answers
                             each question_answers
@@ -71,7 +82,7 @@ template(name='stack_page')
                     .ui.fluid.vertical.borderless.menu
                         a.item(href='#answers') #{answer_count} answers
                         each question_answers
-                            a.item(href="##{_id}")  
+                            a.item.say(href="##{_id}")  
                                 if is_accepted
                                     i.large.checkmark.icon
                                 |#{score}
@@ -86,7 +97,8 @@ template(name='stack_page')
                                 small {{ commafy reputation }}
                         
                     each tags 
-                        .ui.basic.pointer.circular.tertiary.button.add_stack_tag.say.zoomer #{this}
+                        +flat_tag_selector
+                        // .ui.basic.pointer.circular.tertiary.button.add_stack_tag.say.zoomer #{this}
                     a.ui.circular.icon.button(href=link target='_window' title=link)
                         // |#{link}
                         i.external.large.icon

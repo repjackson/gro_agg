@@ -6,7 +6,8 @@ Template.registerHelper 'youtube_parse', (url) ->
     else
         null
    
-   
+Session.setDefault('loading', false)
+
 Template.body.events
     'click .clear_emotions': -> selected_emotions.clear()
     'click .say': ->

@@ -135,13 +135,13 @@ template(name='ruser')
                             .ui.tertiary.button #{title}
                                 small #{count}
                     if skv_is 'view_detail' true
-                        .ui.black.circular.compact.button.toggle_detail
+                        .ui.black.circular.compact.icon.button.toggle_detail
                             i.list.large.icon
-                            |detail
+                            // |detail
                     else
-                        .ui.compact.circular.basic.button.toggle_detail
-                            i.list.large.icon
-                            |simple
+                        .ui.compact.circular.basic.icon.button.toggle_detail
+                            i.minus.large.icon
+                            // |simple
         
                     div
                     .scrolling

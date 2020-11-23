@@ -11,7 +11,10 @@ template(name='nav')
             a.icon.zoomer.item.clear_tags.goto_stack(href='/stack' class="{{isActivePath '/stack'}}" title='stack exchange')
                 i.large.stack.exchange.grey.icon
             a.icon.zoomer.item.clear_tags.goto_dao(href='/' class="{{isActivePath '/'}}" title='search')
-                i.big.yin.yang.grey.icon
+                if skv_is 'loading'
+                    i.big.yin.yang.grey.loading.icon
+                else
+                    i.big.yin.yang.grey.icon
             a.icon.zoomer.item.clear_tags.goto_reddit(href='/reddit' class="{{isActiveRoute regex='reddit'}}" title='reddit')
                 i.large.reddit.grey.icon
             a.icon.zoomer.item.silence(href='#')

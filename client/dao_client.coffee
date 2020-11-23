@@ -295,23 +295,6 @@ Template.watson_full.events
         Meteor.call 'search_stack', Router.current().params.site, @valueOf(), =>
 
 
-Template.stack_page.events
-    'click .add_stack_tag': ->
-        selected_tags.clear()
-        selected_tags.push @valueOf()
-        # if Session.equals('view_mode','stack')
-        Router.go "/site/#{Router.current().params.site}"
-        # Session.set('thinking',true)
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-
-        Meteor.call 'search_stack', Router.current().params.site, @valueOf(), =>
-            # Session.set('thinking',false)
-    # 'click .toggle_alpha': -> 
-    #     Session.set('view_alpha', !Session.get('view_alpha'))
-    # 'click .toggle_reddit': -> 
-    #     Session.set('view_reddit', !Session.get('view_reddit'))
-    # 'click .toggle_duck': -> 
-    #     Session.set('view_duck', !Session.get('view_duck'))
 Template.alpha.helpers
     alphas: ->
         Docs.find 

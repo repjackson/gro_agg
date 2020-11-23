@@ -62,9 +62,9 @@ template(name='reddit_page')
                 // .spacer
                 // div
                 if tone
-                    +skve k='doc_section' v='money' l='money' i='money'
-                    if skv_is 'doc_section'
-                        +tone
+                    +tone
+                    // +skve k='doc_section' v='money' l='money' i='money'
+                    // if skv_is 'doc_section'
                 each tags
                     +doc_tag
                 // |#{tags.length}
