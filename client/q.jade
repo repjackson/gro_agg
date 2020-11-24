@@ -5,8 +5,8 @@ template(name='q')
         .ui.stackable.padded.grid.top
             .row
                 .twelve.wide.column
-                    a.ui.basic.circular.compact.icon.button.say(href="/s/#{site}") 
-                        i.chevron.left.icon
+                    a.ui.basic.circular.compact.icon.button.say_title(href="/s/#{site}" title="back to #{site}") 
+                        i.chevron.left.large.grey.icon
                         // if watson.metadata.image
                         //     img.ui.tiny.inline.image(src=watson.metadata.image)    
                         // | #{site}

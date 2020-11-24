@@ -4,7 +4,7 @@ template(name='sq')
     with current_site
         .ui.stackable.grid
             .row
-                .ui.twelve.wide.center.aligned.column
+                .ui.twelve.wide.column
                     img.ui.get_info.shadowed.ui.inline.image(src=logo_url )
                     // span.say.mobile.hidden !{audience}
                     if selected_tags
@@ -68,7 +68,7 @@ template(name='sq')
                     .medscroll
                         each site_questions
                             +site_question_item
-                .four.wide.center.aligned.column.scrollin
+                .four.wide.column.scrollin
                     a.ui.circular.compact.circular.basic.large.icon.button.say(href="/s/#{api_site_parameter}/users")
                         i.large.users.icon
                         // |users

@@ -63,11 +63,16 @@ template(name='doc_emotion')
     div.rounded(style="height:5px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
 
 template(name='doc_emotion_small') 
-    // .spacer
-    // .ui.dividing.header 
-    //     | emotion
-    //- with watson.emotion
-    //- div
+    if kv_is 'doc_sentiment_label' 'positive'
+        span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label}
+            |&nbsp;
+    else if kv_is 'doc_sentiment_label' 'negative'
+        span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  #{doc_sentiment_label} 
+            |&nbsp;
+    else if kv_is 'doc_sentiment_label' 'negative'
+        span.say.ui.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label} 
+            |&nbsp;
+
     //- if above_50 'joy_percent'
         //- .spacer
     span.say.ui.green.text(class="{{calculated_size joy_percent}}") {{ to_percent joy_percent }} joy 

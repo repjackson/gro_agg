@@ -179,14 +179,14 @@ template(name='suser_dash')
                 each suser_q
                     +suser_q_item
         .eight.wide.column
-            a.ui.dividing.header.pointer.get_comments(href="/s/#{stackuser_doc.site}/u/#{stackuser_doc.user_id}")
+            a.ui.horizontal.divider.pointer.get_comments(href="/s/#{stackuser_doc.site}/u/#{stackuser_doc.user_id}/c")
                 i.chat.outline.icon
                 |#{suser_c.count} comments
             .ui.list.medscroll
                 each suser_c
                     +suser_c_item
                     .ui.divider
-            a.ui.dividing.header.get_answers(href="/s/#{site/u/#{user_id}")
+            a.ui.horizontal.divider.pointer.get_answers(href="/s/#{stackuser_doc.site}/u/#{stackuser_doc.user_id}/a")
                 i.reply.icon
                 |#{suser_a.count} answers
             .ui.list.medscroll
@@ -225,13 +225,13 @@ template(name='suser_dash')
                     //     .ui.label #{badge_id}
                     //     a(href=link target="_window")
                     //         i.external.grey.icon
-            .ui.header emotion
-            .ui.large.list 
-                .item joy avg
-                .item sad avg
-                .item disgust avg
-                .item anger avg
-                .item fear avg
+            // .ui.header emotion
+            // .ui.large.list 
+            //     .item joy avg
+            //     .item sad avg
+            //     .item disgust avg
+            //     .item anger avg
+            //     .item fear avg
         // .four.wide.column
     //     .ui.header.get_tags
     //         i.tag.icon
@@ -266,7 +266,7 @@ template(name='suser_c_item')
                 small !{location}
     +say k='body'
     // div
-    a.ui.basic.button(href="/s/#{site}/q/#{post_id}")
+    a.ui.basic.compact.button(href="/s/#{site}/q/#{post_id}")
         |#{post_type}
     if creation_date
         .ui.basic.say.label
@@ -287,7 +287,7 @@ template(name='suser_c_item')
     each tags
         +flat_tag_selector
         // .ui.tertiary.small.button.say #{this}
-    +doc_emotion  
+    +doc_emotion_small 
     
                             
 template(name='suser_a_item')

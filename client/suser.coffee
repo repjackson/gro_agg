@@ -118,41 +118,30 @@ Template.suser_dash.onRendered ->
 
 Template.suser_q_item.onRendered ->
     unless @data.watson
+        Session.set('loading',true)
         Meteor.call 'call_watson',@data._id,'body','html', (err,res)=>
-        window.speechSynthesis.speak new SpeechSynthesisUtterance "analyzing #{@data.owner.display_name}s question"
+            Session.set('loading',false)
 Template.suser_q_item.onRendered ->
     unless @data.watson
+        Session.set('loading',true)
         Meteor.call 'call_watson', @data._id,'link','stack',->
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance "dao"
+            Session.set('loading',false)
 
 Template.suser_c_item.onRendered ->
     unless @data.watson
+        Session.set('loading',true)
         Meteor.call 'call_watson',@data._id,'body','html', (err,res)=>
-        window.speechSynthesis.speak new SpeechSynthesisUtterance "#{@data.owner.display_name}s"
-Template.suser_c_item.events
-    'click .call': (e,t)-> 
-        # console.log 'hi'
-        window.speechSynthesis.speak new SpeechSynthesisUtterance "analyzing"
-        Meteor.call 'call_watson',@_id,'body','text', (err,res)=>
-
+            Session.set('loading',false)
 Template.suser_a_item.onRendered ->
     unless @data.watson
+        Session.set('loading',true)
         Meteor.call 'call_watson',@data._id,'body','html', (err,res)=>
-        window.speechSynthesis.speak new SpeechSynthesisUtterance "#{@data.owner.display_name}"
-Template.suser_a_item.events
-    'click .call': (e,t)-> 
-        # console.log 'hi'
-        window.speechSynthesis.speak new SpeechSynthesisUtterance "analyzing"
-        Meteor.call 'call_watson',@_id,'body','html', (err,res)=>
+            Session.set('loading',false)
 Template.answer_item.onRendered ->
     unless @data.watson
+        Session.set('loading',true)
         Meteor.call 'call_watson',@data._id,'body','html', (err,res)=>
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance "analyzing #{@data.owner.display_name}s answer"
-Template.answer_item.events
-    'click .call': (e,t)-> 
-        # console.log 'hi'
-        window.speechSynthesis.speak new SpeechSynthesisUtterance "analyzing"
-        Meteor.call 'call_watson',@_id,'body','html', (err,res)=>
+            Session.set('loading',false)
 
 
 Template.suser_dash.helpers
