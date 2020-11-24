@@ -20,6 +20,7 @@ template(name='sq')
                         +stack_tag_selector
                         // .ui.large.label(title=count) #{name}
                     div
+                    .ui.inline.header #{q_count}
                     if skv_is 'sort_direction' 1
                         .ui.icon.compact.circular.basic.tertiary.button.sort_down
                             i.caret.down.icon

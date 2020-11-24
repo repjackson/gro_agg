@@ -30,6 +30,10 @@ Template.su.onCreated ->
         Session.get('view_unanswered')
 
 Template.sq.onCreated ->
+    Session.setDefault('sort_direction', -1)
+    @autorun => Meteor.subscribe 'site_q_count', 
+        Router.current().params.site
+        selected_tags.array()
     @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
     @autorun => Meteor.subscribe 'site_tags',
         selected_tags.array()
@@ -80,6 +84,7 @@ Template.sq.helpers
         },
             sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
             limit:Session.get('limit')
+    q_count: -> Counts.get('site_q_counter')
 
 Template.sq.events
     'click .goto_q': -> Router.go "/s/#{@site}/q/#{@question_id}"

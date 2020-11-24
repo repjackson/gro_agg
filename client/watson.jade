@@ -10,9 +10,18 @@ template(name='doc_sentiment')
     //-         | positive
     //-     else
     //-         | negative
-    |#{doc_sentiment_label}
-    |#{sentiment_score_percent}
-
+    if kv_is 'doc_sentiment_label' 'positive'
+        span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label}
+            |&nbsp;
+        div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+    else if kv_is 'doc_sentiment_label' 'negative'
+        span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  #{doc_sentiment_label} 
+            |&nbsp;
+        div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:red" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+    else if kv_is 'doc_sentiment_label' 'negative'
+        span.say.ui.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label} 
+            |&nbsp;
+        div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:black" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
 
 template(name='small_sentiment') 
     .ui.tiny.disabled.progress(data-percent=sentiment_score_percent class=sentiment_bar_class)
@@ -20,6 +29,8 @@ template(name='small_sentiment')
         .progress
 //- 
 template(name='doc_emotion') 
+    div
+    +doc_sentiment
     // .spacer
     // .ui.dividing.header 
     //     | emotion

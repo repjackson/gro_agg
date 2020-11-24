@@ -12,6 +12,10 @@ Template.body.events
         console.log @
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
+    'click .say': ->
+        console.log @
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
+        
 Template.say.events
     'click .quiet': (e,t)->
         Session.set('talking',false)

@@ -709,7 +709,18 @@ Meteor.methods
     #         )).catch((err)->
     #         )
         
+Meteor.publish 'site_q_count', (
+    site
+    selected_tags
+    )->
         
+    match = {model:'stack_question'}
+    match.site = site
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    Counts.publish this, 'site_q_counter', Docs.find(match)
+    return undefined    # otherwise coffeescript returns a Counts.publish
+                      # handle when Meteor expects a Mongo.Cursor object.
+
     
 Meteor.publish 'stack_docs_by_site', (
     site
@@ -740,10 +751,12 @@ Meteor.publish 'stack_docs_by_site', (
         match.max_emotion_name = selected_emotion[0]
     if site
         Docs.find match, 
-            limit:10
-            # sort:
-            #     "#{sort_key}":sort_direction
-            # limit:limit
+            limit:20
+            sort:
+                score:sort_direction
+                # "#{sort_key}":sort_direction
+
+
 Meteor.publish 'site_tags', (
     selected_tags
     selected_emotion
