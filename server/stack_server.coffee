@@ -520,8 +520,6 @@ Meteor.methods
     get_suser_comments: (site, user_id) ->
         console.log 'comm', site, user_id
         cl = console.log
-        cl 'hi'
-
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/comments?order=desc&sort=creation&site=#{site}&filter=!--1nZxautsE.&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url

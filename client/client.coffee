@@ -7,10 +7,10 @@ Template.registerHelper 'youtube_parse', (url) ->
         null
    
 Session.setDefault('loading', false)
-# Template.body.events
-#     'click .say': ->
-#         console.log @
-#         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
+Template.body.events
+    'click .say_body': ->
+        console.log @
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
 Template.say.events
     'click .quiet': (e,t)->
@@ -18,13 +18,19 @@ Template.say.events
         window.speechSynthesis.cancel()
     'click .say_this': (e,t)->
         Session.set('talking',true)
-        window.speechSynthesis.speak new SpeechSynthesisUtterance Template.parentData()["#{@k}"]
+        console.log Template.parentData()["#{@k}"]
+        dom = document.createElement('textarea')
+        # dom.innerHTML = doc.body
+        dom.innerHTML = Template.parentData()["#{@k}"]
+        text1 = $("<textarea/>").html(dom.innerHTML).text();
+        text2 = $("<textarea/>").html(text1).text();
+        console.log text2
+        window.speechSynthesis.speak new SpeechSynthesisUtterance text2
 Meteor.startup ->
     if Meteor.isDevelopment
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
 Template.nav.events
-    'click .goto_stack': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'stackexchange'
+    'click .goto_stack': -> window.speechSynthesis.speak new SpeechSynthesisUtterance 'stackexchange'
     'click .goto_reddit': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
     'click .goto_people': ->

@@ -38,6 +38,37 @@ globalHotkeys.add
 	callback: ->
         window.speechSynthesis.cancel()
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'mute'
+        Session.set('talking', false)
+        $('body').toast(
+            showIcon: 'volume mute big'
+            message: 'muted'
+            # showProgress: 'bottom'
+            class: 'success'
+            displayTime: 'auto',
+            position: 'bottom right'
+        )
+
+globalHotkeys.add
+	combo: "m"
+	callback: ->
+        window.speechSynthesis.cancel()
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'mute'
+        Session.set('talking', false)
+        $('body').toast(
+            showIcon: 'volume mute big'
+            message: 'muted'
+            # showProgress: 'bottom'
+            class: 'success'
+            displayTime: 'auto',
+            position: 'bottom right'
+        )
+
+globalHotkeys.add
+	combo: "esc"
+	callback: ->
+        window.speechSynthesis.cancel()
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'mute'
+        Session.set('talking', false)
         $('body').toast(
             showIcon: 'volume mute big'
             message: 'muted'
