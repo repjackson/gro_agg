@@ -118,28 +118,40 @@ Template.suser_dash.onRendered ->
 
 Template.suser_q_item.onRendered ->
     unless @data.watson
+        Meteor.call 'call_watson',@data._id,'body','html', (err,res)=>
+        window.speechSynthesis.speak new SpeechSynthesisUtterance "analyzing #{@data.owner.display_name}s question"
+Template.suser_q_item.onRendered ->
+    unless @data.watson
         Meteor.call 'call_watson', @data._id,'link','stack',->
         # window.speechSynthesis.speak new SpeechSynthesisUtterance "dao"
 
+Template.suser_c_item.onRendered ->
+    unless @data.watson
+        Meteor.call 'call_watson',@data._id,'body','html', (err,res)=>
+        window.speechSynthesis.speak new SpeechSynthesisUtterance "#{@data.owner.display_name}s"
 Template.suser_c_item.events
     'click .call': (e,t)-> 
         # console.log 'hi'
-        window.speechSynthesis.speak new SpeechSynthesisUtterance "anlyzing"
+        window.speechSynthesis.speak new SpeechSynthesisUtterance "analyzing"
         Meteor.call 'call_watson',@_id,'body','text', (err,res)=>
 
+Template.suser_a_item.onRendered ->
+    unless @data.watson
+        Meteor.call 'call_watson',@data._id,'body','html', (err,res)=>
+        window.speechSynthesis.speak new SpeechSynthesisUtterance "#{@data.owner.display_name}"
 Template.suser_a_item.events
     'click .call': (e,t)-> 
         # console.log 'hi'
-        window.speechSynthesis.speak new SpeechSynthesisUtterance "anlyzing"
+        window.speechSynthesis.speak new SpeechSynthesisUtterance "analyzing"
         Meteor.call 'call_watson',@_id,'body','html', (err,res)=>
 Template.answer_item.onRendered ->
     unless @data.watson
         Meteor.call 'call_watson',@data._id,'body','html', (err,res)=>
-        window.speechSynthesis.speak new SpeechSynthesisUtterance "anlyzing #{@data.owner.display_name}s answer"
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance "analyzing #{@data.owner.display_name}s answer"
 Template.answer_item.events
     'click .call': (e,t)-> 
         # console.log 'hi'
-        window.speechSynthesis.speak new SpeechSynthesisUtterance "anlyzing"
+        window.speechSynthesis.speak new SpeechSynthesisUtterance "analyzing"
         Meteor.call 'call_watson',@_id,'body','html', (err,res)=>
 
 
