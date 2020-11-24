@@ -49,7 +49,15 @@ Template.nav.events
         selected_tags.clear()
     'click .silence': ->
         window.speechSynthesis.cancel()
-  
+        $('body').toast(
+            showIcon: 'volume mute big'
+            message: 'muted'
+            # showProgress: 'bottom'
+            class: 'info'
+            displayTime: 'auto',
+            position: "bottom center"
+        )
+
     'click .home2': -> 
         Session.set('site_name_filter',null)
         selected_tags.clear()

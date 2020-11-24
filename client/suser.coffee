@@ -234,8 +234,8 @@ Template.suser_c.onRendered ->
     Meteor.call 'get_suser_c', Router.current().params.site, Router.current().params.user_id, ->
 Template.suser_c.helpers
     suser_c: ->
-        cur = Docs.find
+        Docs.find {
             model:'stack_comment'
             "owner.user_id":parseInt(Router.current().params.user_id)
             site:Router.current().params.site
-        cur
+        }, sort:score:-1

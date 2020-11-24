@@ -1060,6 +1060,8 @@ Meteor.publish 'stack_sites_small', (selected_tags=[], name_filter='')->
                 model:1
                 api_site_parameter:1
                 styling:1
+                total_answers:1
+                total_questions:1
         }
 
 

@@ -231,10 +231,10 @@ Template.sq.helpers
 #                 Meteor.call 'search_stack', Router.current().params.site, search, ->
 #                     Session.set('thinking',false)
 
-Template.site_question_item.onCreated ->
+Template.s_q_item.onCreated ->
     unless @data.watson
         Meteor.call 'call_watson', @data._id, 'link', 'stack', ->
-Template.site_question_item.onRendered ->
+Template.s_q_item.onRendered ->
 
 
 Template.stack_tag_selector.onCreated ->

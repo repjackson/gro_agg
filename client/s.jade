@@ -13,13 +13,14 @@ template(name='stack')
                 unless site_docs.count
                     +loading
                 if site_docs.count
-                    +skve k='limit' v=1 l='1'
-                    +skve k='limit' v=10 l='10'
-                    +skve k='limit' v=20 l='20'
+                    // +skve k='limit' v=1 l='1'
+                    // +skve k='limit' v=10 l='10'
+                    // +skve k='limit' v=20 l='20'
                     +skve k='sort_key' v='name' l='name' i='header'
-                    +skve k='sort_key' v='points' l='points' i='users'
-                    +skve k='sort_direction' v=-1 l='u' i='chevron up'
-                    +skve k='sort_direction' v=1 l='d' i='chevon down'
+                    +skve k='sort_key' v='total_answers' l='a' i='reply'
+                    +skve k='sort_key' v='total_questions' l='q' i='question'
+                    +skve k='sort_direction' v=-1 i='chevron up'
+                    +skve k='sort_direction' v=1 i='chevron down'
             .sixteen.wide.center.aligned.column.scrollin
                 // .ui.four.column.stackable.center.aligned.grid
                 each site_docs
@@ -30,6 +31,10 @@ template(name='stack')
                         //     |!{name}
                         .description
                             span(style="color:#{styling.tag_foreground_color}") !{audience}
+                            |#{total_answers}
+                            i.reply.grey.icon
+                            |#{total_questions}
+                            i.question.grey.icon
                             // span(style="color:#{styling.link_color}") !{audience}
                 // .ui.inline.header 
                 //     i.question.icon

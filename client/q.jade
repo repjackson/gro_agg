@@ -35,29 +35,30 @@ template(name='q')
                     .scrollin
                         if skv_is 'stack_section' 'main'
                             .f11.ui.basic.segment.say !{body}
-                            .ui.horizontal.divider.get_q_c
+                            .ui.horizontal.large.divider.get_q_c
+                                |#{question_comments.count}
                                 i.chat.outline.icon
-                                |#{question_comments.count} comments
                             // div.gb hi everyone
-                            .ui.basic.segment
-                                .ui.relaxed.list
-                                    each question_comments
-                                        .item.say.zoomer
-                                            .ui.inline.header #{score}
-                                            if is_accepted 
-                                                .ui.green.label.say
-                                                    |accepted
-                                            span.f11 !{body}
-                                            // +say k='body'
-                                            with owner
-                                                a.say.ui.inline.small.header.say.zoomer.refresh_user(href="/s/#{current_q.site}/u/#{user_id}" class=post_header_class)
-                                                    img.ui.avatar.image(src=profile_image)
-                                                    |!{display_name}
-                                                    |{{ commafy reputation }}
-                                            | {{ufrom creation_date}}
-                            #answers.ui.horizontal.divider 
+                            if question_comments.count
+                                .ui.basic.segment
+                                    .ui.relaxed.list
+                                        each question_comments
+                                            .item.say.zoomer
+                                                .ui.inline.header #{score}
+                                                if is_accepted 
+                                                    .ui.green.label.say
+                                                        |accepted
+                                                span.f11 !{body}
+                                                // +say k='body'
+                                                with owner
+                                                    a.say.ui.inline.small.header.say.zoomer.refresh_user(href="/s/#{current_q.site}/u/#{user_id}" class=post_header_class)
+                                                        img.ui.avatar.image(src=profile_image)
+                                                        |!{display_name}
+                                                        |{{ commafy reputation }}
+                                                | {{ufrom creation_date}}
+                            #answers.ui.horizontal.divider.say_title(title="#{question_answers.count} answers") 
+                                |#{question_answers.count}
                                 i.reply.grey.icon
-                                |#{question_answers.count} answers
                             each question_answers
                                 +answer_item
                         if skv_is 'stack_section' 'tone'
@@ -73,14 +74,14 @@ template(name='q')
                                 +watson_view
                                 +watson_full
                         // +comments
-                .four.wide.center.aligned.column.scrollin
+                .four.wide.column.scrollin
                     a.ui.fluid.basic.circular.compact.tertiary.button.say(href="/s/#{current_q.site}") 
                         i.chevron.left.icon
                         if watson.metadata.image
                             img.ui.tiny.inline.image(src=watson.metadata.image)    
                         | #{site}
                     +doc_emotion
-                    .ui.fluid.vertical.borderless.menu
+                    .ui.fluid.vertical.borderless.small.menu
                         a.item(href='#answers') #{answer_count} answers
                         each question_answers
                             a.item.say(href="##{_id}")  

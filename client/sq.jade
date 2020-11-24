@@ -67,7 +67,7 @@ template(name='sq')
                     //     i.list.icon
                     .medscroll
                         each site_questions
-                            +site_question_item
+                            +s_q_item
                 .four.wide.column.scrollin
                     a.ui.circular.compact.circular.basic.large.icon.button.say(href="/s/#{api_site_parameter}/users")
                         i.large.users.icon
@@ -174,7 +174,7 @@ template(name='sq')
                     //     +array_edit k='tags' d=true
    
    
-template(name='site_question_item')                  
+template(name='s_q_item')                  
     .ui.item
         // if watson.metadata.image
         //     img.ui.avatar.invert.image(src=watson.metadata.image)    
@@ -222,7 +222,7 @@ template(name='stack_tag_selector')
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
-        strong #{name}
+        strong !{name}
         // if in_dev
         //     small #{count}
 template(name='flat_tag_selector')

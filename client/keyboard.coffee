@@ -37,45 +37,30 @@ globalHotkeys.add
 	combo: "m"
 	callback: ->
         window.speechSynthesis.cancel()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'mute'
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance 'mute'
         Session.set('talking', false)
         $('body').toast(
             showIcon: 'volume mute big'
             message: 'muted'
             # showProgress: 'bottom'
-            class: 'success'
+            class: 'info'
             displayTime: 'auto',
-            position: 'bottom right'
-        )
-
-globalHotkeys.add
-	combo: "m"
-	callback: ->
-        window.speechSynthesis.cancel()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'mute'
-        Session.set('talking', false)
-        $('body').toast(
-            showIcon: 'volume mute big'
-            message: 'muted'
-            # showProgress: 'bottom'
-            class: 'success'
-            displayTime: 'auto',
-            position: 'bottom right'
+            position: 'top right'
         )
 
 globalHotkeys.add
 	combo: "esc"
 	callback: ->
         window.speechSynthesis.cancel()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'mute'
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance 'mute'
         Session.set('talking', false)
         $('body').toast(
             showIcon: 'volume mute big'
             message: 'muted'
             # showProgress: 'bottom'
-            class: 'success'
+            class: 'info'
             displayTime: 'auto',
-            position: 'bottom right'
+            position: 'top left'
         )
 
 
@@ -85,21 +70,6 @@ globalHotkeys.add
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
         Router.go "/dao"
 
-
-globalHotkeys.add
-    combo: "esc"
-    callback: -> 
-        selected_tags.clear()
-        window.speechSynthesis.cancel()
-        $('body').toast(
-            showIcon: 'volume mute big'
-            message: 'muted'
-            # showProgress: 'bottom'
-            class: 'success'
-            displayTime: 'auto',
-            position: 'bottom right'
-        )
-        
 globalHotkeys.add
 	combo: "left"
 	callback: ->
