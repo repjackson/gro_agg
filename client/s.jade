@@ -16,21 +16,21 @@ template(name='stack')
                     +skve k='limit' v=1 l='1'
                     +skve k='limit' v=10 l='10'
                     +skve k='limit' v=20 l='20'
-                    +skve k='sort_key' v='_timestamp' l='when' i='clock'
-                    +skve k='sort_key' v='points' l='points' i='leaderboard'
-                    +skve k='sort_direction' v=-1 l='u' i='up'
-                    +skve k='sort_direction' v=1 l='d' i='down'
+                    +skve k='sort_key' v='name' l='name' i='header'
+                    +skve k='sort_key' v='points' l='points' i='users'
+                    +skve k='sort_direction' v=-1 l='u' i='chevron up'
+                    +skve k='sort_direction' v=1 l='d' i='chevon down'
             .sixteen.wide.center.aligned.column.scrollin
-                .ui.four.column.stackable.center.aligned.grid
-                    each site_docs
-                        a.ui.center.aligned.column.pointer.goto_site(href='/s/#{api_site_parameter}')
-                            // img.ui.inline.tiny.image.mobile.hiden.site.shadowed.zoomer(src=high_resolution_icon_url)
-                            img.ui.inline.image.site.shadowed(src=logo_url)
-                            // .header
-                            //     |!{name}
-                            .description
-                                span(style="color:#{styling.tag_foreground_color}") !{audience}
-                                // span(style="color:#{styling.link_color}") !{audience}
+                // .ui.four.column.stackable.center.aligned.grid
+                each site_docs
+                    a.ui.tertiary.button.goto_site(href='/s/#{api_site_parameter}')
+                        // img.ui.inline.tiny.image.mobile.hiden.site.shadowed.zoomer(src=high_resolution_icon_url)
+                        img.ui.medium.image.site.shadowed(src=logo_url)
+                        // .header
+                        //     |!{name}
+                        .description
+                            span(style="color:#{styling.tag_foreground_color}") !{audience}
+                            // span(style="color:#{styling.link_color}") !{audience}
                 // .ui.inline.header 
                 //     i.question.icon
                 //     |questions

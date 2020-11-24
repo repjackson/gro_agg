@@ -34,8 +34,12 @@ Template.stack.onCreated ->
         Session.get('site_name_filter')
 Template.stack.helpers
     site_docs: ->
-        Docs.find
-            model:'stack_site'
+        Docs.find {model:'stack_site'},
+            {
+                limit:42
+                sort:
+                    "#{Session.get('sort_key')}": parseInt(Session.get('sort_direction'))
+            }
     stack_docs: ->
         Docs.find
             model:'stack_question'

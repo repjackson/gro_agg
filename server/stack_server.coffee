@@ -7,19 +7,19 @@ Meteor.publish 'question_from_id', (site,qid)->
         site:site
         question_id:parseInt(qid)
 
-Meteor.publish 'suser_badges', (site,user_id)->
+Meteor.publish 'suser_b', (site,user_id)->
     Docs.find { 
         model:'stack_badge'
         site:site
         "user.user_id":parseInt(user_id)
     }, limit:10
-Meteor.publish 'suser_comments', (site,user_id)->
+Meteor.publish 'suser_c', (site,user_id)->
     Docs.find { 
         model:'stack_comment'
         site:site
         "owner.user_id":parseInt(user_id)
     }, limit:100
-Meteor.publish 'suser_questions', (site,user_id)->
+Meteor.publish 'suser_q', (site,user_id)->
     Docs.find { 
         model:'stack_question'
         site:site
@@ -31,7 +31,7 @@ Meteor.publish 'suser_a', (site,user_id)->
         "owner.user_id":parseInt(user_id)
         site:site
     }, limit:10
-Meteor.publish 'suser_tags', (site,user_id)->
+Meteor.publish 'suser_t', (site,user_id)->
     Docs.find { 
         model:'stack_tag'
         site:site
@@ -1066,7 +1066,8 @@ Meteor.publish 'stack_sites_small', (selected_tags=[], name_filter='')->
                         
                         
                         
-Meteor.publish 'suser_a_tags', (
+Meteor.publish 'suser_tags', (
+    model
     site
     user_id
     selected_tags
@@ -1076,7 +1077,7 @@ Meteor.publish 'suser_a_tags', (
     # @unblock()
     self = @
     match = {
-        model:'stack_answer'
+        model:model
         site:site
         "owner.user_id":parseInt(user_id)
         }
@@ -1097,5 +1098,5 @@ Meteor.publish 'suser_a_tags', (
         self.added 'results', Random.id(),
             name: tag.name
             count: tag.count
-            model:'suser_a_tags'
+            model:'suser_tag'
     self.ready()

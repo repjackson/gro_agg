@@ -39,7 +39,7 @@ template(name='q')
                                 i.chat.outline.icon
                                 |#{question_comments.count} comments
                             // div.gb hi everyone
-                            .ui.basic.center.aligned.segment
+                            .ui.basic.segment
                                 .ui.relaxed.list
                                     each question_comments
                                         .item.say.zoomer
@@ -48,7 +48,7 @@ template(name='q')
                                                 .ui.green.label.say
                                                     |accepted
                                             span.f11 !{body}
-                                            +say k='body'
+                                            // +say k='body'
                                             with owner
                                                 a.say.ui.inline.small.header.say.zoomer.refresh_user(href="/s/#{current_q.site}/u/#{user_id}" class=post_header_class)
                                                     img.ui.avatar.image(src=profile_image)

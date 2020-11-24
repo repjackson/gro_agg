@@ -104,12 +104,20 @@ template(name='suser_layout')
                 .twelve.wide.column
                     +yield
                     
-template(name='suser_questions')
-template(name='suser_badges')
-template(name='suser_tags')
+template(name='suser_q')
+    each suser_q_tags
+        +stack_tag_selector
+    .ui.horizontal.divider.get_q
+        i.question.icon
+        |#{q.count} question
+    .ui.list.medscroll
+        each q
+            +user_question_item
+template(name='suser_b')
+template(name='suser_t')
 template(name='suser_a')
     each suser_a_tags
-        +tag_selector
+        +stack_tag_selector
     .ui.dividing.header.get_answers
         i.reply.icon
         |#{user_answers.count} answers
@@ -118,7 +126,7 @@ template(name='suser_a')
             +user_answer_item
             .ui.divider
 
-template(name='suser_dashboard')
+template(name='suser_dash')
     .ui.stackable.grid
         .eight.wide.column
             .f11.say
@@ -236,7 +244,7 @@ template(name='suser_dashboard')
     //         each user_tags
     //             .item #{name}: #{count}
                             
-template(name='suser_comments')
+template(name='suser_c')
     with stackuser_doc
         .ui.horizontal.divider.pointer.get_comments
             i.chat.outline.icon
@@ -311,8 +319,6 @@ template(name='user_question_item')
         a.ui.header.zoomer.say(href="/s/#{site}/q/#{question_id}" class=post_header_class)
             strong #{score}:
             |!{title}
-        |!{about_me}
-        +say k='about_me'
         .description
             if skv_is 'view_detail' true
                 each tags 

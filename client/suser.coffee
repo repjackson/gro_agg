@@ -1,30 +1,58 @@
 Router.route '/s/:site/u/:user_id', (->
     @layout 'suser_layout'
-    @render 'suser_dashboard'
-    ), name:'suser_dashboard'
+    @render 'suser_dash'
+    ), name:'suser_dash'
 
-Router.route '/s/:site/u/:user_id/questions', (->
+Router.route '/s/:site/u/:user_id/q', (->
     @layout 'suser_layout'
-    @render 'suser_questions'
-    ), name:'suser_questions'
-Template.suser_questions.onCreated ->
+    @render 'suser_q'
+    ), name:'suser_q'
+Template.suser_q.onCreated ->
     @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
-    @autorun => Meteor.subscribe 'suser_questions', Router.current().params.site, Router.current().params.user_id
+    @autorun => Meteor.subscribe 'suser_q', Router.current().params.site, Router.current().params.user_id
+    @autorun => Meteor.subscribe 'suser_tags', 
+        'stack_question'
+        Router.current().params.site, 
+        Router.current().params.user_id
+        selected_tags.array()
+Template.suser_q.helpers
+    stackuser_doc: ->
+        Docs.findOne 
+            model:'stackuser'
+            site:Router.current().params.site
+            user_id:parseInt(Router.current().params.user_id)
+    q: ->
+        cur = Docs.find
+            model:'stack_question'
+            "owner.user_id":parseInt(Router.current().params.user_id)
+            site:Router.current().params.site
+        cur
+    suser_q_tags: -> results.find(model:'suser_tag')
 
-Router.route '/s/:site/u/:user_id/answers', (->
+Template.suser_q.events
+    'click .select_location': -> selected_locations.push @name
+    
+    'click .unselect_location': -> selected_locations.remove @valueOf()
+
+
+
+
+
+Router.route '/s/:site/u/:user_id/a', (->
     @layout 'suser_layout'
     @render 'suser_a'
     ), name:'suser_a'
 Template.suser_a.onCreated ->
     @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
     @autorun => Meteor.subscribe 'suser_a', Router.current().params.site, Router.current().params.user_id
-    @autorun => Meteor.subscribe 'suser_a_tags', 
+    @autorun => Meteor.subscribe 'suser_tags', 
+        'stack_answer'
         Router.current().params.site, 
         Router.current().params.user_id
         selected_tags.array()
 Template.suser_a.helpers
     stackuser_doc: ->
-        Docs.findOne 
+        Docs.findOne
             model:'stackuser'
             site:Router.current().params.site
             user_id:parseInt(Router.current().params.user_id)
@@ -34,7 +62,7 @@ Template.suser_a.helpers
             "owner.user_id":parseInt(Router.current().params.user_id)
             site:Router.current().params.site
         cur
-    suser_a_tags: -> results.find(model:'suser_a_tags')
+    suser_a_tags: -> results.find(model:'suser_tags')
 
 Template.suser_a.events
     'click .select_location': -> selected_locations.push @name
@@ -43,42 +71,42 @@ Template.suser_a.events
 
 
 
-Router.route '/s/:site/u/:user_id/badges', (->
+Router.route '/s/:site/u/:user_id/b', (->
     @layout 'suser_layout'
-    @render 'suser_badges'
-    ), name:'suser_badges'
-Template.suser_badges.onCreated ->
+    @render 'suser_b'
+    ), name:'suser_b'
+Template.suser_b.onCreated ->
     @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
-    @autorun => Meteor.subscribe 'suser_badges', Router.current().params.site, Router.current().params.user_id
+    @autorun => Meteor.subscribe 'suser_b', Router.current().params.site, Router.current().params.user_id
 
-Router.route '/s/:site/u/:user_id/tags', (->
+Router.route '/s/:site/u/:user_id/t', (->
     @layout 'suser_layout'
-    @render 'suser_tags'
-    ), name:'suser_tags'
-Template.suser_tags.onCreated ->
+    @render 'suser_t'
+    ), name:'suser_t'
+Template.suser_t.onCreated ->
     @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
-    @autorun => Meteor.subscribe 'suser_tags', Router.current().params.site, Router.current().params.user_id
+    @autorun => Meteor.subscribe 'suser_t', Router.current().params.site, Router.current().params.user_id
 
 Template.suser_layout.onCreated ->
     @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
-Template.suser_dashboard.onCreated ->
+Template.suser_dash.onCreated ->
     # console.log 'hi'
-    @autorun => Meteor.subscribe 'suser_badges', Router.current().params.site, Router.current().params.user_id
-    @autorun => Meteor.subscribe 'suser_tags', Router.current().params.site, Router.current().params.user_id
-    @autorun => Meteor.subscribe 'suser_comments', Router.current().params.site, Router.current().params.user_id
-    @autorun => Meteor.subscribe 'suser_questions', Router.current().params.site, Router.current().params.user_id
+    @autorun => Meteor.subscribe 'suser_b', Router.current().params.site, Router.current().params.user_id
+    @autorun => Meteor.subscribe 'suser_t', Router.current().params.site, Router.current().params.user_id
+    @autorun => Meteor.subscribe 'suser_c', Router.current().params.site, Router.current().params.user_id
+    @autorun => Meteor.subscribe 'suser_q', Router.current().params.site, Router.current().params.user_id
     @autorun => Meteor.subscribe 'suser_a', Router.current().params.site, Router.current().params.user_id
 Template.suser_layout.onRendered ->
     Meteor.call 'search_stackuser', Router.current().params.site, Router.current().params.user_id, ->
     Meteor.call 'get_suser_a', Router.current().params.site, Router.current().params.user_id, ->
-    Meteor.call 'get_suser_questions', Router.current().params.site, Router.current().params.user_id, ->
-    # Meteor.call 'get_suser_tags', Router.current().params.site, Router.current().params.user_id, ->
-    Meteor.call 'get_suser_comments', Router.current().params.site, Router.current().params.user_id, ->
-    # Meteor.call 'get_suser_badges', Router.current().params.site, Router.current().params.user_id, ->
+    Meteor.call 'get_suser_q', Router.current().params.site, Router.current().params.user_id, ->
+    # Meteor.call 'get_suser_t', Router.current().params.site, Router.current().params.user_id, ->
+    Meteor.call 'get_suser_c', Router.current().params.site, Router.current().params.user_id, ->
+    # Meteor.call 'get_suser_b', Router.current().params.site, Router.current().params.user_id, ->
     Meteor.setTimeout ->
         Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
     , 1000
-Template.suser_dashboard.onRendered ->
+Template.suser_dash.onRendered ->
     suser = 
         Docs.findOne 
             model:'stackuser'
@@ -109,24 +137,24 @@ Template.answer_item.events
         Meteor.call 'call_watson',@_id,'body','html', (err,res)=>
 
 
-Template.suser_dashboard.helpers
-    user_comments: ->
+Template.suser_dash.helpers
+    user_c: ->
         cur = Docs.find
             model:'stack_comment'
             site:Router.current().params.site
             "owner.user_id":parseInt(Router.current().params.user_id)
         cur
-    user_questions: ->
+    user_q: ->
         Docs.find
             model:'stack_question'
             site:Router.current().params.site
             "owner.user_id":parseInt(Router.current().params.user_id)
-    user_answers: ->
+    user_a: ->
         Docs.find
             model:'stack_answer'
             site:Router.current().params.site
             "owner.user_id":parseInt(Router.current().params.user_id)
-    # user_badges: ->
+    # user_b: ->
     #     Docs.find
     #         model:'stack_badge'
     # user_tags: ->
@@ -172,33 +200,33 @@ Template.suser_layout.events
     'click .get_answers': ->
         Meteor.call 'get_suser_a', Router.current().params.site, Router.current().params.user_id, ->
     'click .get_questions': ->
-        Meteor.call 'get_suser_questions', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'get_suser_q', Router.current().params.site, Router.current().params.user_id, ->
     'click .get_comments': ->
-        Meteor.call 'get_suser_comments', Router.current().params.site, Router.current().params.user_id, ->
-    'click .get_badges': ->
-        Meteor.call 'get_suser_badges', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'get_suser_c', Router.current().params.site, Router.current().params.user_id, ->
+    'click .get_b': ->
+        Meteor.call 'get_suser_b', Router.current().params.site, Router.current().params.user_id, ->
     'click .get_tags': ->
-        Meteor.call 'get_suser_tags', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'get_suser_t', Router.current().params.site, Router.current().params.user_id, ->
             
            
-Template.suser_dashboard.events
+Template.suser_dash.events
     'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
     'click .tog_qtags': (e,t)-> Session.set('view_qtags',!Session.get('view_qtags'))
            
            
             
             
-Router.route '/s/:site/u/:user_id/comments', (->
+Router.route '/s/:site/u/:user_id/c', (->
     @layout 'suser_layout'
-    @render 'suser_comments'
-    ), name:'suser_comments'
-Template.suser_comments.onCreated ->
+    @render 'suser_c'
+    ), name:'suser_c'
+Template.suser_c.onCreated ->
     @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
-    @autorun => Meteor.subscribe 'suser_comments', Router.current().params.site, Router.current().params.user_id
-Template.suser_comments.onRendered ->
-    Meteor.call 'get_suser_comments', Router.current().params.site, Router.current().params.user_id, ->
-Template.suser_comments.helpers
-    user_comments: ->
+    @autorun => Meteor.subscribe 'suser_c', Router.current().params.site, Router.current().params.user_id
+Template.suser_c.onRendered ->
+    Meteor.call 'get_suser_c', Router.current().params.site, Router.current().params.user_id, ->
+Template.suser_c.helpers
+    user_c: ->
         cur = Docs.find
             model:'stack_comment'
             "owner.user_id":parseInt(Router.current().params.user_id)
