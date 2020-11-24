@@ -148,8 +148,6 @@ Template.suser_layout.events
         # window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.site} users in #{@location}"
         Router.go "/s/#{Router.current().params.site}/users"
 
-    'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
-    'click .toggle_question_detail': (e,t)-> Session.set('view_question_detail',!Session.get('view_question_detail'))
 
     'click .boop': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
@@ -182,6 +180,12 @@ Template.suser_layout.events
     'click .get_tags': ->
         Meteor.call 'get_suser_tags', Router.current().params.site, Router.current().params.user_id, ->
             
+           
+Template.suser_dashboard.events
+    'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
+    'click .tog_qtags': (e,t)-> Session.set('view_qtags',!Session.get('view_qtags'))
+           
+           
             
             
 Router.route '/s/:site/u/:user_id/comments', (->

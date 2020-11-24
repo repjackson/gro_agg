@@ -26,12 +26,13 @@ template(name='suser_layout')
                     a.ui.big.inline.header.say(class=post_header_class href="/s/#{site}/u/#{user_id}")
                         |!{display_name} 
                         small(title='reputation') {{ commafy reputation }}
-                        strong(title="#{site} rank")
-                            small #
-                            |#{site_rank} 
-                        strong(title='global rank')
-                            small #
-                            |#{global_rank}
+                    small #
+                    i.grey.clone.icon
+                    strong.say(title="#{site} rank") {{commafy site_rank}}
+                    div
+                    i.stack.exchange.icon
+                    small #
+                    strong.say(title='global rank') {{commafy global_rank}}
                     div
                     // with location
                     //     +flat_tag_selector
@@ -143,26 +144,30 @@ template(name='suser_dashboard')
                 i.rss.icon
                 |feed
             each user_events
+                +u_event
+            a.ui.inline.header.zoomer.say(href="/s/#{site}/u/#{user_id}/q")
                 .ui.header #{title}
-            if skv_is 'view_question_detail' true
-                .ui.black.tertiary.large.button.toggle_question_detail.agg
-                    i.question.icon
-                    |#{user_questions.count} questions
-            unless skv_is 'view_question_detail' true
-                .ui.tertiary.large.button.toggle_question_detail.agg
-                    i.question.icon
-                    |#{user_questions.count} questions
-            if skv_is 'view_question_detail' true
+                i.question.icon
+                |#{user_questions.count} questions
+            if skv_is 'view_qtags' true
+                .ui.circular.black.zoomer.button.tog_qtags.agg
+                    i.tag.icon
+                    |#{user_tag_agg.length}
+            unless skv_is 'view_qtags' true
+                .ui.tertiary.zoomer.button.tog_qtags.agg
+                    i.tag.icon
+                    |#{user_tag_agg.length}
+            if skv_is 'view_qtags' true
                 each user_tag_agg
-                    .ui.tertiary.button #{title}
+                    .ui.tertiary.small.button #{title}
                         small #{count}
             if skv_is 'view_detail' true
                 .ui.black.circular.compact.icon.button.toggle_detail
-                    i.list.large.icon
+                    i.list.icon
                     // |detail
             else
                 .ui.compact.circular.basic.icon.button.toggle_detail
-                    i.list.large.icon
+                    i.list.icon
                     // |simple
     
             div
@@ -170,14 +175,14 @@ template(name='suser_dashboard')
                 each user_questions
                     +user_question_item
         .eight.wide.column
-            .ui.dividing.header.pointer.get_comments
+            a.ui.dividing.header.pointer.get_comments(href="/s/#{site}/u/#{user_id}")
                 i.chat.outline.icon
                 |#{user_comments.count} comments
             .ui.list.medscroll
                 each user_comments
                     +user_comment_item
                     .ui.divider
-            .ui.dividing.header.get_answers
+            a.ui.dividing.header.get_answers(href="/s/#{site/u/#{user_id}")
                 i.reply.icon
                 |#{user_answers.count} answers
             .ui.list.medscroll
@@ -240,6 +245,10 @@ template(name='suser_comments')
             each user_comments
                 +user_comment_item
                 .ui.divider
+
+
+template(name='u_event')
+
 
 template(name='user_comment_item')
     .ui.small.header.say(class=post_header_class) !{body}
