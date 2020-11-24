@@ -62,7 +62,7 @@ Template.suser_a.helpers
             "owner.user_id":parseInt(Router.current().params.user_id)
             site:Router.current().params.site
         cur
-    suser_a_tags: -> results.find(model:'suser_tags')
+    suser_a_tags: -> results.find(model:'suser_tag')
 
 Template.suser_a.events
     'click .select_location': -> selected_locations.push @name
@@ -89,13 +89,6 @@ Template.suser_t.onCreated ->
 
 Template.suser_layout.onCreated ->
     @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
-Template.suser_dash.onCreated ->
-    # console.log 'hi'
-    @autorun => Meteor.subscribe 'suser_b', Router.current().params.site, Router.current().params.user_id
-    @autorun => Meteor.subscribe 'suser_t', Router.current().params.site, Router.current().params.user_id
-    @autorun => Meteor.subscribe 'suser_c', Router.current().params.site, Router.current().params.user_id
-    @autorun => Meteor.subscribe 'suser_q', Router.current().params.site, Router.current().params.user_id
-    @autorun => Meteor.subscribe 'suser_a', Router.current().params.site, Router.current().params.user_id
 Template.suser_layout.onRendered ->
     Meteor.call 'search_stackuser', Router.current().params.site, Router.current().params.user_id, ->
     Meteor.call 'get_suser_a', Router.current().params.site, Router.current().params.user_id, ->
@@ -103,9 +96,18 @@ Template.suser_layout.onRendered ->
     # Meteor.call 'get_suser_t', Router.current().params.site, Router.current().params.user_id, ->
     Meteor.call 'get_suser_c', Router.current().params.site, Router.current().params.user_id, ->
     # Meteor.call 'get_suser_b', Router.current().params.site, Router.current().params.user_id, ->
-    Meteor.setTimeout ->
-        Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
-    , 1000
+    # Meteor.setTimeout ->
+    #     Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
+    # , 1000
+    
+    
+Template.suser_dash.onCreated ->
+    # console.log 'hi'
+    @autorun => Meteor.subscribe 'suser_b', Router.current().params.site, Router.current().params.user_id
+    @autorun => Meteor.subscribe 'suser_t', Router.current().params.site, Router.current().params.user_id
+    @autorun => Meteor.subscribe 'suser_c', Router.current().params.site, Router.current().params.user_id
+    @autorun => Meteor.subscribe 'suser_q', Router.current().params.site, Router.current().params.user_id
+    @autorun => Meteor.subscribe 'suser_a', Router.current().params.site, Router.current().params.user_id
 Template.suser_dash.onRendered ->
     suser = 
         Docs.findOne 
@@ -114,18 +116,18 @@ Template.suser_dash.onRendered ->
             user_id:parseInt(Router.current().params.user_id)
     Meteor.call 'log_view', suser._id, ->
 
-Template.user_question_item.onRendered ->
+Template.suser_q_item.onRendered ->
     unless @data.watson
         Meteor.call 'call_watson', @data._id,'link','stack',->
         # window.speechSynthesis.speak new SpeechSynthesisUtterance "dao"
 
-Template.user_comment_item.events
+Template.suser_c_item.events
     'click .call': (e,t)-> 
         # console.log 'hi'
         window.speechSynthesis.speak new SpeechSynthesisUtterance "anlyzing"
         Meteor.call 'call_watson',@_id,'body','text', (err,res)=>
 
-Template.user_answer_item.events
+Template.suser_a_item.events
     'click .call': (e,t)-> 
         # console.log 'hi'
         window.speechSynthesis.speak new SpeechSynthesisUtterance "anlyzing"
@@ -138,34 +140,34 @@ Template.answer_item.events
 
 
 Template.suser_dash.helpers
-    user_c: ->
+    suser_c: ->
         cur = Docs.find
             model:'stack_comment'
             site:Router.current().params.site
             "owner.user_id":parseInt(Router.current().params.user_id)
         cur
-    user_q: ->
+    suser_q: ->
         Docs.find
             model:'stack_question'
             site:Router.current().params.site
             "owner.user_id":parseInt(Router.current().params.user_id)
-    user_a: ->
+    suser_a: ->
         Docs.find
             model:'stack_answer'
             site:Router.current().params.site
             "owner.user_id":parseInt(Router.current().params.user_id)
-    # user_b: ->
-    #     Docs.find
-    #         model:'stack_badge'
-    # user_tags: ->
-    #     Docs.find
-    #         model:'stack_tag'
+    suser_b: ->
+        Docs.find
+            model:'stack_badge'
+    suser_t: ->
+        Docs.find
+            model:'stack_tag'
 
-Template.user_answer_item.onCreated ->
+Template.suser_a_item.onCreated ->
     @autorun => Meteor.subscribe 'question_from_id', @data.question_id
     
-Template.user_answer_item.helpers
-    answer_question: ->
+Template.suser_a_item.helpers
+    a_q: ->
         Docs.findOne
             model:'stack_question'
             question_id:@question_id
@@ -226,7 +228,7 @@ Template.suser_c.onCreated ->
 Template.suser_c.onRendered ->
     Meteor.call 'get_suser_c', Router.current().params.site, Router.current().params.user_id, ->
 Template.suser_c.helpers
-    user_c: ->
+    suser_c: ->
         cur = Docs.find
             model:'stack_comment'
             "owner.user_id":parseInt(Router.current().params.user_id)

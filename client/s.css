@@ -11,7 +11,7 @@ body {
     /*background: rgba(200,200,200,1) !important;*/
     /*filter: invert(1) !important; */
      /*overscroll-behavior: none; */
-    transition: all .5s ease !important;
+    transition: all .25s ease !important;
     /* background: #0e0e44 !important; */
 }
 html {
@@ -308,7 +308,7 @@ a.goto_article {
   /*transition: height .25s ease !important; */
   /* background-color: rgba(200, 200, 200, 0.2) !important; */
   /* padding: 12px !important; */
-  font-family: 'Ubuntu+Mono', sans-serif !important; 
+  /*font-family: 'Ubuntu+Mono', sans-serif !important; */
   
   /* font-weight: lighter !important; */
   /* font-size: 120% !important; */

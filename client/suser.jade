@@ -43,61 +43,60 @@ template(name='suser_layout')
                     a.ui.large.compact.circular.basic.button(href=link target='_window' title="#{site} profile")
                         i.stack.exchange.icon
                         i.external.icon
-                    .ui.vertical.fluid.stackable.small.menu
-                        a.item.say(href="/s/#{site}/u/#{user_id}/questions" class="{{isActiveRoute regex='suser_questions'}}")
+                    .ui.vertical.fluid.stackable.rounded.menu
+                        a.item.say(href="/s/#{site}/u/#{user_id}/q" class="{{isActiveRoute regex='suser_q'}}")
                             i.question.grey.icon
                             |#{question_count} questions
-                        a.item.say(href="/s/#{site}/u/#{user_id}/answers" class="{{isActiveRoute regex='suser_a'}}")
+                        a.item.say(href="/s/#{site}/u/#{user_id}/a" class="{{isActiveRoute regex='suser_a'}}")
                             i.reply.grey.icon
                             |#{answer_count} answers
-                        a.item.say(href="/s/#{site}/u/#{user_id}/comments" class="{{isActiveRoute regex='suser_comments'}}")
+                        a.item.say(href="/s/#{site}/u/#{user_id}/c" class="{{isActiveRoute regex='suser_c'}}")
                             i.chat.outline.grey.icon
                             |#{comment_count} comments
-                        a.item.say(href="/s/#{site}/u/#{user_id}/tags" class="{{isActiveRoute regex='suser_tags'}}")
+                        a.item.say(href="/s/#{site}/u/#{user_id}/t" class="{{isActiveRoute regex='suser_t'}}")
                             i.tag.grey.icon
                             |tags
-                        a.item.say(href="/s/#{site}/u/#{user_id}/badges" class="{{isActiveRoute regex='suser_badges'}}")
+                        a.item.say(href="/s/#{site}/u/#{user_id}/b" class="{{isActiveRoute regex='suser_b'}}")
                             i.certificate.grey.icon
                             |badges
                     +print_this
-                    .ui.list
-                        .item.say account id #{account_id}
-                        .item.say user id #{user_id}
-                        .item.say employee #{is_employee}
-                        .item.say modified {{ufrom last_modified_date}}
-                        .item.say accessed  {{ufrom last_access_date}}
-                        .item.say created {{ufrom creation_date}}
-                        .item.say #{user_type}
-                        .item.say accepts #{accept_rate}%                        
-                        // .item badge_counts: #{badge_counts}
-                        // .item profile_image: #{profile_image}
-                        a.item(href=link target='_window') 
-                            i.linkify.icon
-                            |SE link
-                        .item 
-                            strong rep change
-                        .item.say
-                            |#{reputation_change_day} day
-                        .item.say
-                            |#{reputation_change_week} week
-                        .item.say
-                            |#{reputation_change_month} month
-                        .item.say
-                            |#{reputation_change_quarter} quarter
-                        .item.say
-                            |#{reputation_change_year} year
-                        .item.say
-                            |#{down_vote_count}
-                            i.thumbs.down.outline.icon
-                            |down votes
-                        .item.say
-                            i.thumbs.up.outline.icon
-                            | #{up_vote_count}
-                            |up votes
-                        .item.say
-                            i.eye.icon
-                            | #{view_count}
-                            |views
+                    .ui.tertiary.button.say account id #{account_id}
+                    .ui.tertiary.button.say user id #{user_id}
+                    .ui.tertiary.button.say employee #{is_employee}
+                    .ui.tertiary.button.say modified {{ufrom last_modified_date}}
+                    .ui.tertiary.button.say accessed  {{ufrom last_access_date}}
+                    .ui.tertiary.button.say created {{ufrom creation_date}}
+                    .ui.tertiary.button.say #{user_type}
+                    .ui.tertiary.button.say accepts #{accept_rate}%                        
+                    // .ui.tertiary.button badge_counts: #{badge_counts}
+                    // .ui.tertiary.button profile_image: #{profile_image}
+                    a.ui.tertiary.button(href=link target='_window') 
+                        i.linkify.icon
+                        |SE link
+                    .ui.tertiary.button 
+                        strong rep change
+                    .ui.tertiary.button.say
+                        |#{reputation_change_day} day
+                    .ui.tertiary.button.say
+                        |#{reputation_change_week} week
+                    .ui.tertiary.button.say
+                        |#{reputation_change_month} month
+                    .ui.tertiary.button.say
+                        |#{reputation_change_quarter} quarter
+                    .ui.tertiary.button.say
+                        |#{reputation_change_year} year
+                    .ui.tertiary.button.say
+                        |#{down_vote_count}
+                        i.thumbs.down.outline.icon
+                        |down votes
+                    .ui.tertiary.button.say
+                        i.thumbs.up.outline.icon
+                        | #{up_vote_count}
+                        |up votes
+                    .ui.tertiary.button.say
+                        i.eye.icon
+                        | #{view_count}
+                        |views
                     .ui.inline.header 
                         |#{max_emotion_name} #{max_emotion_percent}
                     div
@@ -112,7 +111,7 @@ template(name='suser_q')
         |#{q.count} question
     .ui.list.medscroll
         each q
-            +user_question_item
+            +user_q_item
 template(name='suser_b')
 template(name='suser_t')
 template(name='suser_a')
@@ -120,10 +119,10 @@ template(name='suser_a')
         +stack_tag_selector
     .ui.dividing.header.get_answers
         i.reply.icon
-        |#{user_answers.count} answers
+        |#{suser_a.count} answers
     .ui.list.medscroll
-        each user_answers
-            +user_answer_item
+        each suser_a
+            +user_a_item
             .ui.divider
 
 template(name='suser_dash')
@@ -131,7 +130,7 @@ template(name='suser_dash')
         .eight.wide.column
             .f11.say
                 |!{about_me}
-                +say k='about_me'
+                // +say k='about_me'
             if website_url
                 a.ui.basic.button.say(href=website_url target="_window")
                     i.globe.icon
@@ -156,7 +155,7 @@ template(name='suser_dash')
             a.ui.inline.header.zoomer.say(href="/s/#{site}/u/#{user_id}/q")
                 .ui.header #{title}
                 i.question.icon
-                |#{user_questions.count} questions
+                |#{suser_q.count} questions
             if skv_is 'view_qtags' true
                 .ui.circular.black.zoomer.button.tog_qtags.agg
                     i.tag.icon
@@ -170,32 +169,29 @@ template(name='suser_dash')
                     .ui.tertiary.small.button #{title}
                         small #{count}
             if skv_is 'view_detail' true
-                .ui.black.circular.compact.icon.button.toggle_detail
+                .ui.black.circular.compact.icon.button.toggle_detail(title='view detail')
                     i.list.icon
-                    // |detail
             else
-                .ui.compact.circular.basic.icon.button.toggle_detail
+                .ui.compact.circular.basic.icon.button.toggle_detail(title='view list')
                     i.list.icon
-                    // |simple
-    
             div
             .scrolling
-                each user_questions
-                    +user_question_item
+                each suser_q
+                    +suser_q_item
         .eight.wide.column
             a.ui.dividing.header.pointer.get_comments(href="/s/#{site}/u/#{user_id}")
                 i.chat.outline.icon
-                |#{user_comments.count} comments
+                |#{suser_c.count} comments
             .ui.list.medscroll
-                each user_comments
-                    +user_comment_item
+                each suser_c
+                    +suser_c_item
                     .ui.divider
             a.ui.dividing.header.get_answers(href="/s/#{site/u/#{user_id}")
                 i.reply.icon
-                |#{user_answers.count} answers
+                |#{suser_a.count} answers
             .ui.list.medscroll
-                each user_answers
-                    +user_answer_item
+                each suser_a
+                    +suser_a_item
                     .ui.divider
             div
             .ui.grey.small.header 
@@ -209,7 +205,7 @@ template(name='suser_dash')
                         
             .ui.grey.header.get_badges.say
                 i.certificate.icon
-                |#{user_badges.count} badges
+                |#{suser_badges.count} badges
             .ui.horizontal.list
                 .item.say 
                     +i n='medal2--v1' cl="#{currentUser.invert_class} ui avatar image"
@@ -221,7 +217,7 @@ template(name='suser_dash')
                     +i n='medal2-third-place--v1' cl="#{currentUser.invert_class} ui avatar image"
                     |bronze #{badge_counts.bronze}
             // .ui.list.smallscroll
-            each user_badges
+            each suser_badges
                 .ui.basic.label 
                     span.header #{name}
                     // span.description
@@ -248,17 +244,17 @@ template(name='suser_c')
     with stackuser_doc
         .ui.horizontal.divider.pointer.get_comments
             i.chat.outline.icon
-            |#{user_comments.count} comments
+            |#{suser_c.count} comments
         .ui.list.scrolling
-            each user_comments
-                +user_comment_item
+            each suser_c
+                +suser_c_item
                 .ui.divider
 
 
 template(name='u_event')
 
 
-template(name='user_comment_item')
+template(name='suser_c_item')
     .ui.small.header.say(class=post_header_class) !{body}
     .ui.basic.large.label(title='score') #{score}
     .ui.horizontal.list
@@ -294,7 +290,7 @@ template(name='user_comment_item')
     +doc_emotion  
     
                             
-template(name='user_answer_item')
+template(name='suser_a_item')
     span.say #{score}: !{body}
     +say k='body'
     // hi#{answer_question.title}
@@ -314,7 +310,7 @@ template(name='user_answer_item')
     
     
     
-template(name='user_question_item')
+template(name='suser_q_item')
     .ui.item
         a.ui.header.zoomer.say(href="/s/#{site}/q/#{question_id}" class=post_header_class)
             strong #{score}:

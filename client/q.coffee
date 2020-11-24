@@ -16,9 +16,9 @@ Template.q.onCreated ->
 
 Template.q.onRendered ->
     Meteor.call 'get_question', Router.current().params.site, Router.current().params.qid,->
-    Meteor.call 'get_question_answers', Router.current().params.site, Router.current().params.qid,->
+    Meteor.call 'get_q_a', Router.current().params.site, Router.current().params.qid,->
     # Meteor.call 'call_watson', Router.current().params.qid,'link','stack',->
-    Meteor.call 'get_question_comments', Router.current().params.site, Router.current().params.qid,->
+    Meteor.call 'get_q_c', Router.current().params.site, Router.current().params.qid,->
     # Meteor.setTimeout ->
     #     $('.top').visibility
     #         onTopVisible: (calculations) ->
@@ -102,10 +102,10 @@ Template.q.events
         question = Docs.findOne(Router.current().params.qid)
         Meteor.call 'get_question', Router.current().params.site, Router.current().params.qid,->
             
-    'click .get_question_comments': (e,t)->
+    'click .get_q_c': (e,t)->
         # question = Docs.findOne(Router.current().params.qid)
         window.speechSynthesis.speak new SpeechSynthesisUtterance "getting #{Router.current().params.site} comments"
-        Meteor.call 'get_question_comments', Router.current().params.site, Router.current().params.qid,->
+        Meteor.call 'get_q_c', Router.current().params.site, Router.current().params.qid,->
             
     'click .get_answers': (e,t)->
         window.speechSynthesis.speak new SpeechSynthesisUtterance "getting #{Router.current().params.site} answers"

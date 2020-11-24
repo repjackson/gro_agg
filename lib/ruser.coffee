@@ -23,7 +23,7 @@
 #             Meteor.call 'omega', Router.current().params.subreddit, Router.current().params.user_id, ->
 #         , 1000
 
-#     Template.user_question_item.onRendered ->
+#     Template.user_q_item.onRendered ->
 #         unless @data.watson
 #             Meteor.call 'call_watson', @data._id,'link','stack',->
         

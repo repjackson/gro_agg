@@ -20,6 +20,7 @@ Meteor.publish 'suser_c', (site,user_id)->
         "owner.user_id":parseInt(user_id)
     }, limit:100
 Meteor.publish 'suser_q', (site,user_id)->
+    console.log 'looking ', site, user_id
     Docs.find { 
         model:'stack_question'
         site:site
@@ -170,7 +171,7 @@ Meteor.methods
 
 
         
-    get_question_answers: (site, qid)->
+    get_q_a: (site, qid)->
         question = Docs.findOne 
             model:'stack_question'
             question_id:parseInt(qid)
@@ -205,7 +206,7 @@ Meteor.methods
 
 
         
-    get_question_comments: (site, qid)->
+    get_q_c: (site, qid)->
         question = Docs.findOne 
             model:'stack_question'
             question_id:parseInt(qid)
@@ -456,7 +457,7 @@ Meteor.methods
                 )).catch((err)->
                 )
 
-    get_suser_questions: (site, user_id) ->
+    get_suser_q: (site, user_id) ->
         console.log 'site', site, 'user id', user_id
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/questions?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
@@ -517,7 +518,7 @@ Meteor.methods
             )).catch((err)->
             )
 
-    get_suser_comments: (site, user_id) ->
+    get_suser_c: (site, user_id) ->
         console.log 'comm', site, user_id
         cl = console.log
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/comments?order=desc&sort=creation&site=#{site}&filter=!--1nZxautsE.&key=lPplyGlNUs)cIMOajW03aw(("
