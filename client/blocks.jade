@@ -16,9 +16,11 @@ template(name='user_button')
 template(name='new')
     .ui.header
         
-template(name='say_this')
-    .ui.circular.icon.button.say_this   
-        i.megaphone.icon
+template(name='say')
+    if skv_is 'talking' true
+        i.volume.up.green.link.circular.loading.large.icon.quiet
+    else
+        i.volume.off.link.circular.icon.say_this
 
 // template(name='viewed')
 //     .ui.header viewed by

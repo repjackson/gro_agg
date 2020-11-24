@@ -107,6 +107,14 @@ template(name='suser_questions')
 template(name='suser_badges')
 template(name='suser_tags')
 template(name='suser_answers')
+    .ui.dividing.header.get_answers
+        i.reply.icon
+        |#{user_answers.count} answers
+    .ui.list.medscroll
+        each user_answers
+            +user_answer_item
+            .ui.divider
+
 template(name='suser_dashboard')
     .ui.stackable.grid
         .eight.wide.column
@@ -240,7 +248,7 @@ template(name='user_comment_item')
                 |!{display_name}
                 small {{ commafy reputation }}
                 small !{location}
-    +say_this
+    +say k='body'
     // div
     a.ui.basic.button(href="/s/#{site}/q/#{post_id}")
         |#{post_type}

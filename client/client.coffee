@@ -7,11 +7,18 @@ Template.registerHelper 'youtube_parse', (url) ->
         null
    
 Session.setDefault('loading', false)
-
-Template.say_this.events
-    'click .clear_emotions': -> selected_emotions.clear()
-    'click .say_this': ->
+Template.body.events
+    'click .say': ->
+        console.log @
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
+        
+Template.say.events
+    'click .quiet': (e,t)->
+        Session.set('talking',false)
+        window.speechSynthesis.cancel()
+    'click .say_this': (e,t)->
+        Session.set('talking',true)
+        window.speechSynthesis.speak new SpeechSynthesisUtterance Template.parentData()["#{@k}"]
 Meteor.startup ->
     if Meteor.isDevelopment
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'

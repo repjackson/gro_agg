@@ -23,7 +23,7 @@ template(name='q')
                             // i.clock.icon
                             |created {{ufrom creation_date}}
                         // div(class=currentUser.invert_class)
-                        +skve k='stack_section' v='main' l='main' i='content' 
+                        +skve k='stack_section' v='main' l='main' i='content'
                         +skve k='stack_section' v='watson' l='watson' i='brain' 
                         if tone
                             +skve k='stack_section' v='tone' l='tone' i='user' 
@@ -48,6 +48,7 @@ template(name='q')
                                                 .ui.green.label.say
                                                     |accepted
                                             span.f11 !{body}
+                                            +say k='body'
                                             with owner
                                                 a.say.ui.inline.small.header.say.zoomer.refresh_user(href="/s/#{current_q.site}/u/#{user_id}" class=post_header_class)
                                                     img.ui.avatar.image(src=profile_image)
@@ -172,7 +173,7 @@ template(name='answer_item')
             .ui.green.corner.attached.label.rounded
                 i.checkmark.icon
         .f11.say !{body}
-        +say_this
+        +say k='body'
 
         // |#{content_license}
         if in_dev 
