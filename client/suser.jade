@@ -108,10 +108,10 @@ template(name='suser_q')
         +stack_tag_selector
     .ui.horizontal.divider.get_q
         i.question.icon
-        |#{q.count} question
+        |#{q.count} questions
     .ui.list.medscroll
         each q
-            +user_q_item
+            +suser_q_item
 template(name='suser_b')
 template(name='suser_t')
 template(name='suser_a')
@@ -152,7 +152,7 @@ template(name='suser_dash')
                 |feed
             each user_events
                 +u_event
-            a.ui.inline.header.zoomer.say(href="/s/#{site}/u/#{user_id}/q")
+            a.ui.inline.header.zoomer.say(href="/s/#{stackuser_doc.site}/u/#{stackuser_doc.user_id}/q")
                 .ui.header #{title}
                 i.question.icon
                 |#{suser_q.count} questions
@@ -179,7 +179,7 @@ template(name='suser_dash')
                 each suser_q
                     +suser_q_item
         .eight.wide.column
-            a.ui.dividing.header.pointer.get_comments(href="/s/#{site}/u/#{user_id}")
+            a.ui.dividing.header.pointer.get_comments(href="/s/#{stackuser_doc.site}/u/#{stackuser_doc.user_id}")
                 i.chat.outline.icon
                 |#{suser_c.count} comments
             .ui.list.medscroll

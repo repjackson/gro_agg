@@ -132,6 +132,10 @@ Template.suser_a_item.events
         # console.log 'hi'
         window.speechSynthesis.speak new SpeechSynthesisUtterance "anlyzing"
         Meteor.call 'call_watson',@_id,'body','html', (err,res)=>
+Template.answer_item.onRendered ->
+    unless @data.watson
+        Meteor.call 'call_watson',@data._id,'body','html', (err,res)=>
+        window.speechSynthesis.speak new SpeechSynthesisUtterance "anlyzing #{@data.owner.display_name}s answer"
 Template.answer_item.events
     'click .call': (e,t)-> 
         # console.log 'hi'
