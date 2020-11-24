@@ -49,6 +49,7 @@ Template.q.helpers
         Docs.find({
             model:'stack_answer'
             site:Router.current().params.site
+            question_id:parseInt(Router.current().params.qid)
         }, {
             sort:score:-1
         })

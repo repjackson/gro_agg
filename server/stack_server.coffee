@@ -25,10 +25,11 @@ Meteor.publish 'suser_questions', (site,user_id)->
         site:site
         "owner.user_id":parseInt(user_id)
     }, limit:42
-Meteor.publish 'suser_answers', (site,user_id)->
+Meteor.publish 'suser_a', (site,user_id)->
     Docs.find { 
         model:'stack_answer'
         "owner.user_id":parseInt(user_id)
+        site:site
     }, limit:10
 Meteor.publish 'suser_tags', (site,user_id)->
     Docs.find { 
@@ -485,7 +486,7 @@ Meteor.methods
             )).catch((err)->
             )
    
-    get_suser_answers: (site, user_id) ->
+    get_suser_a: (site, user_id) ->
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/answers?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw((&filter=!3zl2.F7X(uyskMHHP"
         options = {
             url: url
@@ -537,8 +538,8 @@ Meteor.methods
                             site:site
                             "owner.user_id":parseInt(user_id)
                             comment_id:item.comment_id
-                    if found
-                        cl 'found COMMENT', found
+                    # if found
+                    #     cl 'found COMMENT', found
                         # Docs.update found._id, 
                         #     $set:
                         #         # owner:item.owner
@@ -1051,3 +1052,39 @@ Meteor.publish 'stack_sites_small', (selected_tags=[], name_filter='')->
 
 
                         
+                        
+                        
+                        
+Meteor.publish 'suser_a_tags', (
+    site
+    user_id
+    selected_tags
+    user_query
+    # query=''
+    )->
+    # @unblock()
+    self = @
+    match = {
+        model:'stack_answer'
+        site:site
+        "owner.user_id":parseInt(user_id)
+        }
+    doc_count = Docs.find(match).count()
+    if selected_tags.length > 0 then match.tags = $in:selected_tags
+    site_tag_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "tags": 1 }
+        { $unwind: "$tags" }
+        { $group: _id: "$tags", count: $sum: 1 }
+        { $match: _id: $nin: selected_tags }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:20 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    site_tag_cloud.forEach (tag, i) ->
+        self.added 'results', Random.id(),
+            name: tag.name
+            count: tag.count
+            model:'suser_a_tags'
+    self.ready()

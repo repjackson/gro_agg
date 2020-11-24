@@ -13,12 +13,16 @@ Template.suser_questions.onCreated ->
 
 Router.route '/s/:site/u/:user_id/answers', (->
     @layout 'suser_layout'
-    @render 'suser_answers'
-    ), name:'suser_answers'
-Template.suser_answers.onCreated ->
+    @render 'suser_a'
+    ), name:'suser_a'
+Template.suser_a.onCreated ->
     @autorun => Meteor.subscribe 'stackuser_doc', Router.current().params.site, Router.current().params.user_id
-    @autorun => Meteor.subscribe 'suser_answers', Router.current().params.site, Router.current().params.user_id
-Template.suser_answers.helpers
+    @autorun => Meteor.subscribe 'suser_a', Router.current().params.site, Router.current().params.user_id
+    @autorun => Meteor.subscribe 'suser_a_tags', 
+        Router.current().params.site, 
+        Router.current().params.user_id
+        selected_tags.array()
+Template.suser_a.helpers
     stackuser_doc: ->
         Docs.findOne 
             model:'stackuser'
@@ -26,11 +30,16 @@ Template.suser_answers.helpers
             user_id:parseInt(Router.current().params.user_id)
     user_answers: ->
         cur = Docs.find
-            model:'stack_comment'
+            model:'stack_answer'
             "owner.user_id":parseInt(Router.current().params.user_id)
             site:Router.current().params.site
         cur
+    suser_a_tags: -> results.find(model:'suser_a_tags')
 
+Template.suser_a.events
+    'click .select_location': -> selected_locations.push @name
+    
+    'click .unselect_location': -> selected_locations.remove @valueOf()
 
 
 
@@ -58,10 +67,10 @@ Template.suser_dashboard.onCreated ->
     @autorun => Meteor.subscribe 'suser_tags', Router.current().params.site, Router.current().params.user_id
     @autorun => Meteor.subscribe 'suser_comments', Router.current().params.site, Router.current().params.user_id
     @autorun => Meteor.subscribe 'suser_questions', Router.current().params.site, Router.current().params.user_id
-    @autorun => Meteor.subscribe 'suser_answers', Router.current().params.site, Router.current().params.user_id
+    @autorun => Meteor.subscribe 'suser_a', Router.current().params.site, Router.current().params.user_id
 Template.suser_layout.onRendered ->
     Meteor.call 'search_stackuser', Router.current().params.site, Router.current().params.user_id, ->
-    Meteor.call 'get_suser_answers', Router.current().params.site, Router.current().params.user_id, ->
+    Meteor.call 'get_suser_a', Router.current().params.site, Router.current().params.user_id, ->
     Meteor.call 'get_suser_questions', Router.current().params.site, Router.current().params.user_id, ->
     # Meteor.call 'get_suser_tags', Router.current().params.site, Router.current().params.user_id, ->
     Meteor.call 'get_suser_comments', Router.current().params.site, Router.current().params.user_id, ->
@@ -163,7 +172,7 @@ Template.suser_layout.events
         window.speechSynthesis.speak new SpeechSynthesisUtterance "import #{Router.current().params.site} user"
         Meteor.call 'search_stackuser', Router.current().params.site, Router.current().params.user_id, ->
     'click .get_answers': ->
-        Meteor.call 'get_suser_answers', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'get_suser_a', Router.current().params.site, Router.current().params.user_id, ->
     'click .get_questions': ->
         Meteor.call 'get_suser_questions', Router.current().params.site, Router.current().params.user_id, ->
     'click .get_comments': ->

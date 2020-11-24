@@ -46,7 +46,7 @@ template(name='suser_layout')
                         a.item.say(href="/s/#{site}/u/#{user_id}/questions" class="{{isActiveRoute regex='suser_questions'}}")
                             i.question.grey.icon
                             |#{question_count} questions
-                        a.item.say(href="/s/#{site}/u/#{user_id}/answers" class="{{isActiveRoute regex='suser_answers'}}")
+                        a.item.say(href="/s/#{site}/u/#{user_id}/answers" class="{{isActiveRoute regex='suser_a'}}")
                             i.reply.grey.icon
                             |#{answer_count} answers
                         a.item.say(href="/s/#{site}/u/#{user_id}/comments" class="{{isActiveRoute regex='suser_comments'}}")
@@ -106,7 +106,9 @@ template(name='suser_layout')
 template(name='suser_questions')
 template(name='suser_badges')
 template(name='suser_tags')
-template(name='suser_answers')
+template(name='suser_a')
+    each suser_a_tags
+        +tag_selector
     .ui.dividing.header.get_answers
         i.reply.icon
         |#{user_answers.count} answers
@@ -120,6 +122,7 @@ template(name='suser_dashboard')
         .eight.wide.column
             .f11.say
                 |!{about_me}
+                +say k='about_me'
             if website_url
                 a.ui.basic.button.say(href=website_url target="_window")
                     i.globe.icon
@@ -276,6 +279,7 @@ template(name='user_comment_item')
                             
 template(name='user_answer_item')
     span.say #{score}: !{body}
+    +say k='body'
     // hi#{answer_question.title}
     |#{site}
     if in_dev
@@ -299,6 +303,7 @@ template(name='user_question_item')
             strong #{score}:
             |!{title}
         |!{about_me}
+        +say k='about_me'
         .description
             if skv_is 'view_detail' true
                 each tags 
