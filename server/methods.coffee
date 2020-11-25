@@ -154,7 +154,7 @@ Meteor.methods
         
         if user_doc
             sent_avg = Meteor.call 'sent_avg', site, user_id
-            console.log 'sent-avg', sent_avg[0].avg_sent_score
+            console.log 'sent-avg', sent_avg
             user_top_emotions = Meteor.call 'calc_user_top_emotions', site, user_id
             user_top_emotion = user_top_emotions[0].title
             # console.log user_top_emotion,'top emotion'
@@ -290,7 +290,10 @@ Meteor.methods
             #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
             #     avg_sent_score: { $avg: "$doc_sentiment_score" }
             # }
-            { $group: _id:null, avg_sent_score: { $avg: "$doc_sentiment_score" }}
+            { $group: 
+                _id:'$doc_sentiment_label'
+                avg_sent_score: { $avg: "$doc_sentiment_score" }
+            }
         ]
 
         if pipe
