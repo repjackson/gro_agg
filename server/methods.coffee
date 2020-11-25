@@ -170,7 +170,8 @@ Meteor.methods
                         user_tag_agg: user_tag_res
                         user_top_emotions:user_top_emotions
                         user_top_emotion:user_top_emotion
-                        sentiment_avg: sent_avg[0].avg_sent_score
+                        sentiment_positive_avg: sent_avg[0].avg_sent_score
+                        sentiment_negative_avg: sent_avg[1].avg_sent_score
                         tags:added_tags
             # omega = Docs.findOne model:'omega_session'
             # doc_count = omega.total_doc_result_count
