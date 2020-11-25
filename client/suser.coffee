@@ -132,6 +132,11 @@ Template.suser_c_item.onRendered ->
         Session.set('loading',true)
         Meteor.call 'call_watson',@data._id,'body','html', (err,res)=>
             Session.set('loading',false)
+Template.c_item.onRendered ->
+    unless @data.watson
+        Session.set('loading',true)
+        Meteor.call 'call_watson',@data._id,'body','html', (err,res)=>
+            Session.set('loading',false)
 Template.suser_a_item.onRendered ->
     unless @data.watson
         Session.set('loading',true)

@@ -271,7 +271,6 @@ input
 }
 
 .ui.button.result:hover{
-    transition: transform .25s; /* Animation */
     /* color: black !important; */
     /* font-size: 120% !important; */
     /* : 130% !important; */

@@ -262,11 +262,12 @@ Template.stack_tag_selector.events
         console.log @
         window.speechSynthesis.cancel()
         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        if @model is 'site_tag'
-            selected_tags.push @name
-            $('.search_site').val('')
         if @model is 'site_emotion'
             selected_emotions.push @name
+        else
+            # if @model is 'site_tag'
+            selected_tags.push @name
+            $('.search_site').val('')
             
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()

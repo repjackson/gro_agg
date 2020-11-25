@@ -18,7 +18,32 @@ template(name='sq')
                         input.search_site(type='text')
                     each site_tags
                         +stack_tag_selector
+                    +skve k='view_emotions' v=true l="emotions" i='smile' ionly=false
+                    if skv_is 'view_emotions' true
+                        i.grey.remove.link.icon.clear_emotions(title='emotions')
+                        each selected_emotions
+                            +unselect_tag
+                        each site_emotions
+                            // +stack_tag_selector
+                            .ui.large.label(title=count) #{name}
                         // .ui.large.label(title=count) #{name}
+                    +skve k='view_people' v=true l="people" i='users' ionly=false
+                    if skv_is 'view_people' true
+                        each site_persons
+                            +stack_tag_selector
+                
+                    +skve k='view_orgs' v=true l="organisations" i='building' ionly=false
+                    if skv_is 'view_orgs' true
+                        each site_organizations
+                            +stack_tag_selector
+                    +skve k='view_locations' v=true l="locations" i='marker' ionly=false
+                    if skv_is 'view_locations' true
+                        each site_locations
+                            +stack_tag_selector
+                    +skve k='view_companies' v=true l="companies" i='briefcase' ionly=false
+                    if skv_is 'view_companies' true
+                        each site_companys
+                            +stack_tag_selector
                     div
                     .ui.inline.header #{q_count}
                     if skv_is 'sort_direction' 1
@@ -69,15 +94,9 @@ template(name='sq')
                         each site_questions
                             +s_q_item
                 .four.wide.column.scrollin
-                    a.ui.circular.compact.circular.basic.large.icon.button.say(href="/s/#{api_site_parameter}/users")
+                    a.ui.circular.compact.basic.large.button.say(href="/s/#{api_site_parameter}/users")
                         i.large.users.icon
-                        // |users
-                    i.large.smile.link.icon.clear_emotions(title='emotions')
-                    each selected_emotions
-                        +unselect_tag
-                    each site_emotions
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
+                        |users
 
                     +alpha
                     +duck
@@ -86,36 +105,6 @@ template(name='sq')
                     // img.get_info.mobile.hidden.shadowed(src=high_resolution_icon_url )
                     // img(src=icon_url)
                     // .ui.segment(style="background-color:#{styling.tag_background_color}")
-                    // .ui.label #{tag_background_color}: tag_background_color
-                    // .ui.label #{tag_foreground_color}: tag_foreground_color
-                    // .ui.label #{link_color}: link_color
-                    // .ui.grey.small.header 
-                    //     |related sites
-                    // .ui.inline.header !{name}
-                    i.large.grey.users.icon
-                    each site_organizations
-                        // .ui.label hi #{name}
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    i.large.grey.marker.icon
-                    each site_locations
-                        // .ui.label hi #{name}
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    div
-                    i.large.grey.building.grey.icon
-                    each site_companys
-                        // .ui.label hi #{name}
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    div
-                    i.large.grey.user.icon
-                    each site_persons
-                        // .ui.label hi #{name}
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    div
-                
                     .ui.small.list.mobile.hidden
                         .item.say 
                             strong #{audience}
@@ -197,7 +186,7 @@ template(name='s_q_item')
                 .say.pointer.goto_q !{body}
                 .ui.horizontal.list
                     each tags
-                        .item #{this}
+                        +flat_tag_selector
             .ui.horizontal.list
                 with owner
                     a.ui.small.header.item(href="/s/#{../site}/u/#{user_id}")
@@ -208,8 +197,8 @@ template(name='s_q_item')
                 // |#{_when}
                 if last_edit_date
                     .item updated {{ufrom last_edit_date}}
-                if creation_dat
-                    .item created {{ufrom creation_dat}}
+                if creation_date
+                    .item created {{ufrom creation_date}}
             +doc_emotion_small
                 // .ui.label user_id #{user_id}
             // .ui.divider
@@ -218,7 +207,7 @@ template(name='s_q_item')
 
 template(name='stack_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.basic.tertiary.circular.compact.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.small.tertiary.compact.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -227,7 +216,7 @@ template(name='stack_tag_selector')
         //     small #{count}
 template(name='flat_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.basic.tertiary.circular.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.small.tertiary.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    

@@ -43,19 +43,7 @@ template(name='q')
                                 .ui.basic.segment
                                     .ui.relaxed.list
                                         each question_comments
-                                            .item.say.zoomer
-                                                .ui.inline.header #{score}
-                                                if is_accepted 
-                                                    .ui.green.label.say
-                                                        |accepted
-                                                span.f11 !{body}
-                                                // +say k='body'
-                                                with owner
-                                                    a.say.ui.inline.small.header.say.zoomer.refresh_user(href="/s/#{current_q.site}/u/#{user_id}" class=post_header_class)
-                                                        img.ui.avatar.image(src=profile_image)
-                                                        |!{display_name}
-                                                        |{{ commafy reputation }}
-                                                | {{ufrom creation_date}}
+                                            +c_item
                             #answers.ui.horizontal.divider.say_title(title="#{question_answers.count} answers") 
                                 |#{question_answers.count}
                                 i.reply.grey.icon
@@ -151,6 +139,43 @@ template(name='q')
                     
                     
                     
+template(name='c_item')                    
+    .item.say.zoomer
+        .ui.inline.header #{score}
+        if is_accepted 
+            .ui.green.label.say
+                |accepted
+        span.f11 !{body}
+        // +say k='body'
+        with owner
+            a.say.ui.inline.small.header.say.zoomer.refresh_user(href="/s/#{current_q.site}/u/#{user_id}" class=post_header_class)
+                img.ui.avatar.image(src=profile_image)
+                |!{display_name}
+                |{{ commafy reputation }}
+        | {{ufrom creation_date}}
+        +say k='body'
+        // div
+        if creation_date
+            .ui.basic.say.label
+                |added {{ufrom creation_date}}
+        if last_access_date
+            .ui.basic.say.label
+                |accessed {{ufrom last_access_date}}
+        if last_activity_date
+            |active {{ufrom last_activity_date}}
+        // |#{site}
+        if in_dev
+            +print_this
+            // +remove_button
+            // .ui.divider
+        unless watson
+            .ui.small.circular.basic.icon.button.call(title='analyze')
+                i.dna.icon
+        each tags
+            +flat_tag_selector
+            // .ui.tertiary.small.button.say #{this}
+        +doc_emotion_small 
+                
 template(name='answer_item')
     .ui.basic.segment(class=answer_class id=_id)
         // div(id=_id)
