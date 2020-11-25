@@ -154,7 +154,7 @@ Meteor.methods
         
         if user_doc
             sent_avg = Meteor.call 'sent_avg', site, user_id
-            console.log 'sent-avg', sent_avg
+            console.log 'sent-avg', sent_avg[0].avg_sent_score
             user_top_emotions = Meteor.call 'calc_user_top_emotions', site, user_id
             user_top_emotion = user_top_emotions[0].title
             # console.log user_top_emotion,'top emotion'
@@ -170,7 +170,7 @@ Meteor.methods
                         user_tag_agg: user_tag_res
                         user_top_emotions:user_top_emotions
                         user_top_emotion:user_top_emotion
-                    $set:
+                        sentiment_avg: sent_avg[0].avg_sent_score
                         tags:added_tags
             # omega = Docs.findOne model:'omega_session'
             # doc_count = omega.total_doc_result_count
