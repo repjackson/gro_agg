@@ -2,22 +2,22 @@ Template.registerHelper 'youtube_parse', (url) ->
     regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     match = @url.match(regExp)
     if match && match[2].length == 11
-        return match[2];
+        match[2]
     else
         null
    
 Session.setDefault('loading', false)
 Template.body.events
     'click .say_title': ->
-        console.log @
+        # console.log @
         window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         
     'click .say_body': ->
-        console.log @
+        # console.log @
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
     'click .say': ->
-        console.log @
+        # console.log @
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
 Template.say.events
@@ -80,6 +80,9 @@ Template.registerHelper 'sentence_color', () ->
         when 'analytical' then 'orange'
         when 'tentative' then 'yellow'
         
+Template.registerHelper 'abs_percent', (num) -> 
+    # console.l/og Math.abs(num*100)
+    parseInt(Math.abs(num*100))
 Template.registerHelper 'selected_tags', () ->selected_tags.array()
 Template.registerHelper 'selected_models', () ->selected_models.array()
 Template.registerHelper 'selected_subreddits', () ->selected_subreddits.array()

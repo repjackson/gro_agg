@@ -123,7 +123,7 @@ Meteor.methods
         # console.log 'calling', doc_id, key, mode
         # if doc.skip_watson is false
         # else
-        parameters =
+        params =
             concepts:
                 limit:10
             features:
@@ -140,51 +140,50 @@ Meteor.methods
                 categories:
                     explanation:false
                 emotion: {}
-                # metadata: {}
                 # relations: {}
                 # semantic_roles: {}
                 sentiment: {}
         if doc.domain and doc.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
-            parameters.url = "https://www.reddit.com#{doc.permalink}"
-            parameters.returnAnalyzedText = false
-            parameters.clean = false
+            params.url = "https://www.reddit.com#{doc.permalink}"
+            params.returnAnalyzedText = false
+            params.clean = false
         else 
             switch mode
                 when 'html'
-                    parameters.html = doc["#{key}"]
-                    parameters.returnAnalyzedText = true
-                    # parameters.html = doc.description
-                    parameters.metadata = {}
+                    params.html = doc["#{key}"]
+                    params.returnAnalyzedText = true
+                    # params.html = doc.description
+                    params.metadata = {}
                 when 'text'
-                    parameters.text = doc["#{key}"]
-                    parameters.returnAnalyzedText = true
-                    parameters.clean = true
+                    params.text = doc["#{key}"]
+                    params.returnAnalyzedText = true
+                    params.clean = true
                 when 'url'
-                    # parameters.url = doc["#{key}"]
-                    parameters.url = doc.url
-                    parameters.returnAnalyzedText = true
-                    parameters.clean = true
-                    parameters.metadata = {}
+                    # params.url = doc["#{key}"]
+                    params.url = doc.url
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                    params.metadata = {}
                 when 'stack'
-                    # parameters.url = doc["#{key}"]
-                    parameters.url = doc.link
-                    parameters.returnAnalyzedText = true
-                    parameters.metadata = {}
-                    parameters.clean = true
+                    # params.url = doc["#{key}"]
+                    params.url = doc.link
+                    params.returnAnalyzedText = true
+                    params.metadata = {}
+                    params.clean = true
                 when 'video'
-                    parameters.url = "https://www.reddit.com#{doc.permalink}"
-                    parameters.returnAnalyzedText = true
-                    parameters.clean = true
-                    parameters.metadata = {}
+                    params.url = "https://www.reddit.com#{doc.permalink}"
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                    params.metadata = {}
                 when 'image'
-                    parameters.url = "https://www.reddit.com#{doc.permalink}"
-                    parameters.returnAnalyzedText = true
-                    parameters.clean = true
-                    parameters.metadata = {}
+                    params.url = "https://www.reddit.com#{doc.permalink}"
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                    params.metadata = {}
 
-        # console.log parameters
+        # console.log params
 
-        natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>
+        natural_language_understanding.analyze params, Meteor.bindEnvironment((err, response)=>
             if err
                 # if err.code is 400
                 console.log err

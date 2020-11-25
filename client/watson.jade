@@ -17,7 +17,7 @@ template(name='doc_sentiment')
     else if kv_is 'doc_sentiment_label' 'negative'
         span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  #{doc_sentiment_label} 
             |&nbsp;
-        div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:red" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+        div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
     else if kv_is 'doc_sentiment_label' 'negative'
         span.say.ui.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label} 
             |&nbsp;

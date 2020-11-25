@@ -96,9 +96,9 @@ Template.suser_layout.onRendered ->
     # Meteor.call 'get_suser_t', Router.current().params.site, Router.current().params.user_id, ->
     Meteor.call 'get_suser_c', Router.current().params.site, Router.current().params.user_id, ->
     # Meteor.call 'get_suser_b', Router.current().params.site, Router.current().params.user_id, ->
-    Meteor.setTimeout ->
-        Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
-    , 1000
+    Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
+    # Meteor.setTimeout ->
+    # , 1000
     
     
 Template.suser_dash.onCreated ->

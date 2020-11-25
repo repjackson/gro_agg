@@ -27,7 +27,7 @@ template(name='suser_layout')
                         |!{display_name} 
                         small(title='reputation') {{ commafy reputation }}
                     div
-                    .ui.basic.label(class=sentiment_class) {{to_percent sentiment_avg}}% sentiment
+                    .ui.basic.label(class=sentiment_class) {{to_percent sentiment_avg}}% #{doc_sentiment_label}
                     div
                     // .ui.green.label pos: {{to_percent sentiment_positive_avg}}%
                     // .ui.red.label neg: {{to_percent sentiment_negative_avg}}%
