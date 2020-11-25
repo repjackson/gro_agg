@@ -30,15 +30,15 @@ template(name='su')
                         i.external.icon
                     if in_dev
                         +print_this
-                    a.ui.large.circular.basic.button.say_title(href="/s/#{api_site_parameter}" title='site questions')
-                        i.question.icon
+                    a.ui.large.circular.basic.icon.button.say_title(href="/s/#{api_site_parameter}" title='site questions')
+                        i.question.large.icon
                         // |questions
-                    a.ui.large.disabled.circular.basic.button.say(href="/s/#{api_site_parameter}/tags")
-                        i.tag.icon
-                        |tags
-                    a.ui.large.disabled.circular.basic.button.say_title(href="/s/#{api_site_parameter}/badges" title="hi there")
-                        i.certificate.icon
-                        |badges
+                    // a.ui.large.disabled.circular.basic.button.say(href="/s/#{api_site_parameter}/tags")
+                    //     i.tag.icon
+                    //     |tags
+                    // a.ui.large.disabled.circular.basic.button.say_title(href="/s/#{api_site_parameter}/badges" title="hi there")
+                    //     i.certificate.icon
+                    //     |badges
                     .ui.list.mobile.hidden
                         .item #{launch_date} launch_date
                         .item #{open_beta_date} open_beta_date

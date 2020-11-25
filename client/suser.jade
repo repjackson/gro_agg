@@ -44,9 +44,10 @@ template(name='suser_layout')
                         i.stack.exchange.icon
                         i.external.icon
                     .ui.vertical.fluid.stackable.rounded.menu
-                        a.item.say(href="/s/#{site}/u/#{user_id}/q" class="{{isActiveRoute regex='suser_q'}}")
-                            i.question.grey.icon
-                            |#{question_count} questions
+                        if question_count
+                            a.item.say(href="/s/#{site}/u/#{user_id}/q" class="{{isActiveRoute regex='suser_q'}}")
+                                i.question.grey.icon
+                                |#{question_count} questions
                         a.item.say(href="/s/#{site}/u/#{user_id}/a" class="{{isActiveRoute regex='suser_a'}}")
                             i.reply.grey.icon
                             |#{answer_count} answers
@@ -153,31 +154,32 @@ template(name='suser_dash')
                 |feed
             each user_events
                 +u_event
-            a.ui.horizontal.divider.zoomer.say_title(href="/s/#{stackuser_doc.site}/u/#{stackuser_doc.user_id}/q" title="view questions")
-                |#{suser_q.count}
-                i.question.icon
-            if skv_is 'view_qtags' true
-                .ui.circular.black.zoomer.button.tog_qtags.agg
-                    i.tag.icon
-                    |#{user_tag_agg.length}
-            unless skv_is 'view_qtags' true
-                .ui.tertiary.zoomer.button.tog_qtags.agg
-                    i.tag.icon
-                    |#{user_tag_agg.length}
-            if skv_is 'view_qtags' true
-                each user_tag_agg
-                    .ui.tertiary.small.button #{title}
-                        small #{count}
-            if skv_is 'view_detail' true
-                .ui.black.circular.compact.icon.button.toggle_detail(title='view detail')
-                    i.list.icon
-            else
-                .ui.compact.circular.basic.icon.button.toggle_detail(title='view list')
-                    i.list.icon
-            div
-            .scrolling
-                each suser_q
-                    +suser_q_item
+            if question_count
+                a.ui.horizontal.divider.zoomer.say_title(href="/s/#{stackuser_doc.site}/u/#{stackuser_doc.user_id}/q" title="view questions")
+                    |#{suser_q.count}
+                    i.question.icon
+                if skv_is 'view_qtags' true
+                    .ui.circular.black.zoomer.button.tog_qtags.agg
+                        i.tag.icon
+                        |#{user_tag_agg.length}
+                unless skv_is 'view_qtags' true
+                    .ui.tertiary.zoomer.button.tog_qtags.agg
+                        i.tag.icon
+                        |#{user_tag_agg.length}
+                if skv_is 'view_qtags' true
+                    each user_tag_agg
+                        .ui.tertiary.small.button #{title}
+                            small #{count}
+                if skv_is 'view_detail' true
+                    .ui.black.circular.compact.icon.button.toggle_detail(title='view detail')
+                        i.list.icon
+                else
+                    .ui.compact.circular.basic.icon.button.toggle_detail(title='view list')
+                        i.list.icon
+                div
+                .scrolling
+                    each suser_q
+                        +suser_q_item
         .eight.wide.column
             a.ui.horizontal.divider.pointer.get_comments(href="/s/#{stackuser_doc.site}/u/#{stackuser_doc.user_id}/c" title="#{suser_c.count} comments")
                 |#{suser_c.count}

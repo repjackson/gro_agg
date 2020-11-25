@@ -20,7 +20,7 @@ Meteor.publish 'suser_c', (site,user_id)->
         "owner.user_id":parseInt(user_id)
     }, limit:100
 Meteor.publish 'suser_q', (site,user_id)->
-    console.log 'looking ', site, user_id
+    # console.log 'looking ', site, user_id
     Docs.find { 
         model:'stack_question'
         site:site
@@ -69,7 +69,6 @@ Meteor.publish 'site_by_param', (site)->
             
     
 Meteor.publish 'qid', (site,qid)->
-    console.log 'q', site, qid
     Docs.find 
         model:'stack_question'
         question_id:parseInt(qid)
@@ -86,8 +85,8 @@ Meteor.publish 'question_linked_to', (site,qid)->
         site:site
     Docs.find 
         model:'stack_question'
-        linked_to_ids:$in:[question_doc_id]
-        site:question.site
+        linked_to_ids:$in:[q._id]
+        site:site
 
 Meteor.publish 'related_questions', (site,qid)->
     q = Docs.findOne 
@@ -169,8 +168,6 @@ Meteor.methods
             )).catch((err)->
             )
 
-
-        
     get_q_a: (site, qid)->
         question = Docs.findOne 
             model:'stack_question'
@@ -204,8 +201,6 @@ Meteor.methods
             )).catch((err)->
             )
 
-
-        
     get_q_c: (site, qid)->
         question = Docs.findOne 
             model:'stack_question'
@@ -240,8 +235,6 @@ Meteor.methods
             )).catch((err)->
             )
 
-
-        
     get_linked_questions: (site, qid)->
         question = Docs.findOne 
             model:'stack_question'
@@ -279,8 +272,6 @@ Meteor.methods
             )).catch((err)->
             )
 
-
-        
     get_related_questions: (site, qid)->
         console.log 'getting related', site, qid
         question = Docs.findOne 
@@ -298,7 +289,7 @@ Meteor.methods
                 parsed = JSON.parse(data)
                 for item in parsed.items
                     console.log 'related item', item
-                    Docs.update question_doc_id,
+                    Docs.update question._id,
                         $addToSet:related_question_ids:item._id
                     found = 
                         Docs.findOne
@@ -306,13 +297,13 @@ Meteor.methods
                             post_id:item.post_id
                     if found
                         Docs.update found._id,
-                            $addToSet: linked_to_ids: question_doc_id
+                            $addToSet: linked_to_ids: qid
                             # $set:body:item.body
                     unless found
                         item.site = site
                         item.model = 'stack_question'
                         # item.tags.push query
-                        item.linked_to_ids = [question_doc_id]
+                        item.linked_to_ids = [qid]
                         new_id = 
                             Docs.insert item
             )).catch((err)->
@@ -722,6 +713,17 @@ Meteor.publish 'site_q_count', (
     return undefined    # otherwise coffeescript returns a Counts.publish
                       # handle when Meteor expects a Mongo.Cursor object.
 
+Meteor.publish 'sentiment', (
+    site
+    selected_tags
+    )->
+        
+    match = {model:'stack_question'}
+    match.site = site
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    Counts.publish this, 'site_q_counter', Docs.find(match)
+    return undefined
+
     
 Meteor.publish 'stack_docs_by_site', (
     site
@@ -1043,6 +1045,7 @@ Meteor.publish 'stack_sites', (selected_tags=[], name_filter='')->
         match.name = {$regex:"#{name_filter}", $options:'i'}
     Docs.find match,
         limit:300
+        
 Meteor.publish 'stack_sites_small', (selected_tags=[], name_filter='')->
     match = {model:$in:['stack_site','tribe']}
     match.site_type = 'main_site'

@@ -97,7 +97,7 @@ template(name='sq')
                     a.ui.circular.compact.basic.large.button.say(href="/s/#{api_site_parameter}/users")
                         i.large.users.icon
                         |users
-
+                    |#{current_sentiment} sent
                     +alpha
                     +duck
                     // a.ui.circular.icon.button(href='/')
@@ -122,41 +122,41 @@ template(name='sq')
                         // .item.say #{site_type} 
                         .item.say main emotion: #{main_emotion}
                         .item.say 
-                            i.lightning.icon
+                            i.grey.lightning.icon
                             |{{commafy new_active_users}}
                             |active users
                         .item.say 
-                            i.users.icon
+                            i.grey.users.icon
                             |{{commafy total_users}} total users
                         .item.say 
-                            i.certificate.icon
+                            i.grey.certificate.icon
                             |{{commafy badges_per_minute}} badges/min
                         .item.say
-                            i.certificate.icon
+                            i.grey.certificate.icon
                             |{{commafy total_badges}} badges
                         .item.say 
-                            i.grey.thumbs.up.outline.icon
+                            i.grey.grey.thumbs.up.outline.icon
                             |{{commafy total_votes}} votes
                         .item.say 
-                            i.chat.outline.icon
+                            i.grey.chat.outline.icon
                             |{{commafy total_comments}} comments
                         .item.say 
-                            i.reply.icon
+                            i.grey.reply.icon
                             |{{commafy total_answers}} answers
                         .item.say
-                            i.reply.icon
+                            i.grey.reply.icon
                             |#{answers_per_minute} answers/min
                         .item.say
-                            i.question.icon
+                            i.grey.question.icon
                             |{{commafy total_questions}} questions
                         .item.say
-                            i.question.icon
+                            i.grey.question.icon
                             |{{commafy questions_per_minute}} questions/min
                         .item.say 
-                            i.checkmark.icon
+                            i.grey.checkmark.icon
                             |{{commafy total_accepted}} accepted
                         .item.say 
-                            i.exclamation.icon
+                            i.grey.exclamation.icon
                             |{{commafy total_unanswered}} unanswered
                         // .item api_revision: #{api_revision}
                     // if in_dev

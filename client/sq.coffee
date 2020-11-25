@@ -14,6 +14,11 @@ Template.su.onCreated ->
     Session.setDefault('location_query', null)
     @autorun => Meteor.subscribe 'site_user_count', Router.current().params.site
     @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
+    @autorun => Meteor.subscribe 'agg_sent_site',
+        Router.current().params.site
+        selected_tags.array()
+        ()->Session.set('ready',true)
+        
     @autorun => Meteor.subscribe 'stackusers_by_site', 
         Router.current().params.site
         Session.get('user_query')
@@ -28,10 +33,14 @@ Template.su.onCreated ->
         Session.get('toggle')
         Session.get('view_bounties')
         Session.get('view_unanswered')
+        ()->Session.set('ready',true)
 
 Template.sq.onCreated ->
     Session.setDefault('sort_direction', -1)
     @autorun => Meteor.subscribe 'site_q_count', 
+        Router.current().params.site
+        selected_tags.array()
+    @autorun => Meteor.subscribe 'sentiment',
         Router.current().params.site
         selected_tags.array()
     @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site

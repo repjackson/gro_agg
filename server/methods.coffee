@@ -136,7 +136,9 @@ Meteor.methods
                 $set:
                     site_rank:site_rank+1
                     global_rank:global_rank+1
+    
     omega: (site,user_id)->
+        # @unblock()
         # agg_res = Meteor.call 'agg_omega2', (err, res)->
         site_doc =
             Docs.findOne(
@@ -151,13 +153,13 @@ Meteor.methods
             )
         
         if user_doc
+            sent_avg = Meteor.call 'sent_avg', site, user_id
+            console.log 'sent-avg', sent_avg
             user_top_emotions = Meteor.call 'calc_user_top_emotions', site, user_id
             user_top_emotion = user_top_emotions[0].title
-            console.log user_top_emotion,'top emotion'
+            # console.log user_top_emotion,'top emotion'
             
-            
-            
-            agg_res = Meteor.call 'omega2', site, user_id
+            agg_res = Meteor.call 'utags', site, user_id
             user_tag_res = Meteor.call 'user_question_tags', site, user_id
             if user_tag_res
                 added_tags = []
@@ -168,8 +170,8 @@ Meteor.methods
                         user_tag_agg: user_tag_res
                         user_top_emotions:user_top_emotions
                         user_top_emotion:user_top_emotion
-                    $addToSet:
-                        tags:$each:added_tags
+                    $set:
+                        tags:added_tags
             # omega = Docs.findOne model:'omega_session'
             # doc_count = omega.total_doc_result_count
             # doc_count = omega.doc_result_ids.length
@@ -194,7 +196,9 @@ Meteor.methods
             #     $set:
             #         # agg:agg_res
             #         filtered_agg_res:filtered_agg_res
-    omega2: (site,user_id)->
+    
+    
+    utags: (site,user_id)->
         site_doc =
             Docs.findOne(
                 model:'stack_site'
@@ -207,21 +211,10 @@ Meteor.methods
                 user_id:user_id
             )
         
-        # omega =
-        #     Docs.findOne
-        #         model:'omega_session'
-
-        # match = {tags:$in:[term]}
         match = {}
-        # if omega.selected_tags.length > 0
-        #     match.tags =
-        #         $all: omega.selected_tags
-        # else
-        #     match.tags =
-        #         $all: ['dao']
 
-        match.model = 'stack_question'
-        # match.site = site
+        match.model = ['stack_question','stack_question','stack_answer']
+        match["owner.user_id"] = parseInt(user_id)
         match.site = site
         total_doc_result_count =
             Docs.find( match,
@@ -230,41 +223,7 @@ Meteor.methods
                         _id:1
                 }
             ).count()
-        # doc_results =
-        #     Docs.find( match,
-        #         {
-        #             limit:20
-        #             sort:
-        #                 points:-1
-        #                 ups:-1
-        #             fields:
-        #                 _id:1
-        #         }
-        #     ).fetch()
-        # if doc_results[0]
-        #     unless doc_results[0].rd
-        #         if doc_results[0].reddit_id
-        #             Meteor.call 'get_reddit_post', doc_results[0]._id, doc_results[0].reddit_id, =>
-        # doc_result_ids = []
-        # for result in doc_results
-        #     doc_result_ids.push result._id
-        # Docs.update omega._id,
-        #     $set:
-        #         doc_result_ids:doc_result_ids
-        #         total_doc_result_count:total_doc_result_count
-        # if doc_re
-        # found_wiki_doc =
-        #     Docs.findOne
-        #         model:'wikipedia'
-        #         title:$in:omega.selected_tags
-        # if found_wiki_doc
-        #     Docs.update omega._id,
-        #         $addToSet:
-        #             doc_result_ids:found_wiki_doc._id
 
-        # Docs.update omega._id,
-        #     $set:
-        #         match:match
         # limit=20
         options = {
             explain:false
@@ -286,6 +245,52 @@ Meteor.methods
             { $sort: count: -1, _id: 1 }
             { $limit: 5 }
             { $project: _id: 0, title: '$_id', count: 1 }
+        ]
+
+        if pipe
+            agg = global['Docs'].rawCollection().aggregate(pipe,options)
+            # else
+            res = {}
+            if agg
+                agg.toArray()
+                # omega = Docs.findOne model:'omega_session'
+                # Docs.update omega._id,
+                #     $set:
+                #         agg:agg.toArray()
+        else
+            return null
+            
+            
+    sent_avg: (site,user_id)->
+        l = console.log
+        user_doc =
+            Docs.findOne(
+                model:'stackuser'
+                site:site
+                user_id:user_id
+            )
+        
+        options = {
+            explain:false
+            allowDiskUse:true
+        }
+        match = {}
+        # if omega.selected_tags.length > 0
+        #     match.tags =
+        #         $all: omega.selected_tags
+        match.model = 'stack_question'
+        # match.site = site
+        match["owner.user_id"] = parseInt(user_id)
+        match.site = site
+        
+        pipe =  [
+            { $match: match }
+            # { $group:
+            #     _id: "$doc_sentiment_score",
+            #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
+            #     avg_sent_score: { $avg: "$doc_sentiment_score" }
+            # }
+            { $group: _id:null, avg_sent_score: { $avg: "$doc_sentiment_score" }}
         ]
 
         if pipe
@@ -434,62 +439,3 @@ Meteor.methods
                 #         agg:agg.toArray()
         else
             return null
-
-
-
-
-    # get_top_emotion: ->
-    #     emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
-    #     #
-    #     current_most_emotion = ''
-    #     current_max_emotion_count = 0
-    #     current_max_emotion_percent = 0
-    #     omega = Docs.findOne model:'omega_session'
-    #     # doc_results =
-    #         # Docs.find
-    #
-    #     match = {_id:$in:omega.doc_result_ids}
-    #     for doc_id in omega.doc_result_ids
-    #         doc = Docs.findOne(doc_id)
-    #         if doc.max_emotion_percent
-    #             if doc.max_emotion_percent > current_max_emotion_percent
-    #                 current_max_emotion_percent = doc.max_emotion_percent
-    #                 if doc.max_emotion_name is 'anger'
-    #                     emotion_color = 'green'
-    #                 else if doc.max_emotion_name is 'disgust'
-    #                     emotion_color = 'teal'
-    #                 else if doc.max_emotion_name is 'sadness'
-    #                     emotion_color = 'orange'
-    #                 else if doc.max_emotion_name is 'fear'
-    #                     emotion_color = 'grey'
-    #                 else if doc.max_emotion_name is 'joy'
-    #                     emotion_color = 'red'
-    #
-    #                 Docs.update omega._id,
-    #                     $set:
-    #                         current_most_emotion:doc.max_emotion_name
-    #                         current_max_emotion_percent: current_max_emotion_percent
-    #                         emotion_color:emotion_color
-    #     # for emotion in emotion_list
-    #     #     emotion_match = match
-    #     #     emotion_match.max_emotion_name = emotion
-    #     #     found_emotions =
-    #     #         Docs.find(emotion_match)
-    #     #
-    #     #     # Docs.update omega._id,
-    #     #     #     $set:
-    #     #     #         "current_#{emotion}_count":found_emotions.count()
-    #     #     if omega.current_most_emotion < found_emotions.count()
-    #     #         current_most_emotion = emotion
-    #     #         current_max_emotion_count = found_emotions.count()
-    #     emotion_match = match
-    #     emotion_match.max_emotion_name = $exists:true
-    #     # main_emotion = Docs.findOne(emotion_match)
-    #
-    #     # for doc_id in omega.doc_result_ids
-    #     #     doc = Docs.findOne(doc_id)
-    #     # if main_emotion
-    #     #     Docs.update omega._id,
-    #     #         $set:
-    #     #             emotion_color:emotion_color
-    #     #             max_emotion_name:main_emotion.max_emotion_name
