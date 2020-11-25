@@ -102,6 +102,7 @@ template(name='stackuser_item')
             |!{about_me}
             strong(title="#{site} rank") ##{site_rank} 
             strong(title='global rank') ##{global_rank}
+            .ui.basic.label(class=sentiment_class) {{to_percent sentiment_avg}}% sentiment
 
             .ui.compact.circular.basic.button.description.set_location.say_location.zoomer
                 +term_image                                            

@@ -69,6 +69,8 @@ Template.nav.events
 # Deps.autorun ()->
 #     document.title = Session.get('doc_title')
         
+Template.registerHelper 'sentiment_class', () ->
+    if @sentiment_avg > 0 then 'green' else 'red'
 Template.registerHelper 'sv', (key) -> Session.get(key)
 Template.registerHelper 'sentence_color', () ->
     switch @tones[0].tone_id

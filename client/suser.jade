@@ -26,8 +26,11 @@ template(name='suser_layout')
                     a.ui.big.inline.header.say(class=post_header_class href="/s/#{site}/u/#{user_id}")
                         |!{display_name} 
                         small(title='reputation') {{ commafy reputation }}
-                    .ui.green.label pos: {{to_percent sentiment_positive_avg}}%
-                    .ui.red.label neg: {{to_percent sentiment_negative_avg}}%
+                    div
+                    .ui.basic.label(class=sentiment_class) {{to_percent sentiment_avg}}% sentiment
+                    div
+                    // .ui.green.label pos: {{to_percent sentiment_positive_avg}}%
+                    // .ui.red.label neg: {{to_percent sentiment_negative_avg}}%
                     small #
                     i.grey.clone.icon
                     strong.say(title="#{site} rank") {{commafy site_rank}}

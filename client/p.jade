@@ -91,6 +91,7 @@ template(name='p')
                             a.ui.zoomer.header.select_user(href="/s/#{site}/u/#{user_id}" class=post_header_class)
                                 |!{display_name}
                                 .ui.basic.circular.label {{ commafy reputation }}
+                                .ui.basic.label(class=sentiment_class) {{to_percent sentiment_avg}}% sentiment
                             .description
                                 if site_rank
                                     strong(title="#{site} rank") ##{site_rank} 

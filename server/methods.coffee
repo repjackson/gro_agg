@@ -156,8 +156,10 @@ Meteor.methods
             sent_avg = Meteor.call 'sent_avg', site, user_id
             console.log 'sent-avg', sent_avg
             user_top_emotions = Meteor.call 'calc_user_top_emotions', site, user_id
-            user_top_emotion = user_top_emotions[0].title
-            # console.log user_top_emotion,'top emotion'
+            
+            if user_top_emotions[0]
+                user_top_emotion = user_top_emotions[0].title
+                console.log user_top_emotion,'top emotion'
             
             agg_res = Meteor.call 'utags', site, user_id
             user_tag_res = Meteor.call 'user_question_tags', site, user_id
@@ -170,8 +172,9 @@ Meteor.methods
                         user_tag_agg: user_tag_res
                         user_top_emotions:user_top_emotions
                         user_top_emotion:user_top_emotion
-                        sentiment_positive_avg: sent_avg[0].avg_sent_score
-                        sentiment_negative_avg: sent_avg[1].avg_sent_score
+                        sentiment_avg: sent_avg[0].avg_sent_score
+                        # sentiment_positive_avg: sent_avg[0].avg_sent_score
+                        # sentiment_negative_avg: sent_avg[1].avg_sent_score
                         tags:added_tags
             # omega = Docs.findOne model:'omega_session'
             # doc_count = omega.total_doc_result_count
@@ -214,7 +217,7 @@ Meteor.methods
         
         match = {}
 
-        match.model = ['stack_question','stack_question','stack_answer']
+        match.model = $in:['stack_question','stack_question','stack_answer']
         match["owner.user_id"] = parseInt(user_id)
         match.site = site
         total_doc_result_count =
@@ -279,7 +282,7 @@ Meteor.methods
         # if omega.selected_tags.length > 0
         #     match.tags =
         #         $all: omega.selected_tags
-        match.model = 'stack_question'
+        match.model = $in:['stack_question','stack_answer','stack_comment']
         # match.site = site
         match["owner.user_id"] = parseInt(user_id)
         match.site = site
@@ -292,7 +295,8 @@ Meteor.methods
             #     avg_sent_score: { $avg: "$doc_sentiment_score" }
             # }
             { $group: 
-                _id:'$doc_sentiment_label'
+                # _id:'$doc_sentiment_label'
+                _id:null
                 avg_sent_score: { $avg: "$doc_sentiment_score" }
             }
         ]
@@ -337,7 +341,7 @@ Meteor.methods
         #     match.tags =
         #         $all: ['dao']
         
-        match.model = 'stack_question'
+        match.model = $in:['stack_question','stack_answer','stack_comment']
         # match.site = site
         match["owner.user_id"] = parseInt(user_id)
         match.site = site

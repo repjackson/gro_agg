@@ -96,9 +96,9 @@ Template.suser_layout.onRendered ->
     # Meteor.call 'get_suser_t', Router.current().params.site, Router.current().params.user_id, ->
     Meteor.call 'get_suser_c', Router.current().params.site, Router.current().params.user_id, ->
     # Meteor.call 'get_suser_b', Router.current().params.site, Router.current().params.user_id, ->
-    # Meteor.setTimeout ->
-    #     Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
-    # , 1000
+    Meteor.setTimeout ->
+        Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
+    , 1000
     
     
 Template.suser_dash.onCreated ->
@@ -151,21 +151,25 @@ Template.answer_item.onRendered ->
 
 Template.suser_dash.helpers
     suser_c: ->
-        cur = Docs.find
+        Docs.find {
             model:'stack_comment'
             site:Router.current().params.site
             "owner.user_id":parseInt(Router.current().params.user_id)
-        cur
+        }, 
+            limit:10
     suser_q: ->
         Docs.find
             model:'stack_question'
             site:Router.current().params.site
             "owner.user_id":parseInt(Router.current().params.user_id)
     suser_a: ->
-        Docs.find
+        Docs.find {
             model:'stack_answer'
             site:Router.current().params.site
             "owner.user_id":parseInt(Router.current().params.user_id)
+        }, 
+            limit:10
+            sort:score:-1
     suser_b: ->
         Docs.find
             model:'stack_badge'
