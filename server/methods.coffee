@@ -289,7 +289,6 @@ Meteor.methods
         #     match.tags =
         #         $all: omega.selected_tags
         match.model = $in:['stack_question','stack_answer','stack_comment']
-        # match.site = site
         match["owner.user_id"] = parseInt(user_id)
         match.site = site
         

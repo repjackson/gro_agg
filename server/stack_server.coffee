@@ -127,10 +127,6 @@ Meteor.methods
             )
 
     get_q_c: (site, qid)->
-        question = Docs.findOne 
-            model:'stack_question'
-            question_id:parseInt(qid)
-            site:site
         url = "https://api.stackexchange.com/2.2/questions/#{qid}/comments?order=desc&sort=creation&site=#{site}&filter=!--1nZxautsE.&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -144,14 +140,14 @@ Meteor.methods
                     found = 
                         Docs.findOne
                             model:'stack_comment'
-                            post_id:question.question_id
+                            post_id:parseInt(qid)
                             site:site
                     if found
-                        # console.log 'found'
+                        console.log 'found', found
                         Docs.update found._id,
                             $set:body:item.body
                     unless found
-                        # console.log 'new comment'
+                        console.log 'new comment'
                         item.site = site
                         item.model = 'stack_comment'
                         # item.tags.push query
@@ -234,8 +230,6 @@ Meteor.methods
             )).catch((err)->
             )
 
-
-        
     search_stack: (site, query, selected_tags) ->
         url = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=#{query}&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
@@ -269,8 +263,6 @@ Meteor.methods
                     Meteor.call 'omega', site, item.owner.user_id, ->
             )).catch((err)->
             )
-
-   
    
     search_stackuser: (site, user_id) ->
         @unblock()
@@ -636,21 +628,8 @@ Meteor.publish 'site_q_count', (
     match.site = site
     if selected_tags.length > 0 then match.tags = $all:selected_tags
     Counts.publish this, 'site_q_counter', Docs.find(match)
-    return undefined    # otherwise coffeescript returns a Counts.publish
-                      # handle when Meteor expects a Mongo.Cursor object.
-
-Meteor.publish 'sentiment', (
-    site
-    selected_tags
-    )->
-        
-    match = {model:'stack_question'}
-    match.site = site
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
-    Counts.publish this, 'site_q_counter', Docs.find(match)
     return undefined
 
-    
 Meteor.publish 'stack_docs_by_site', (
     site
     selected_tags
@@ -1031,4 +1010,45 @@ Meteor.publish 'suser_tags', (
             name: tag.name
             count: tag.count
             model:'suser_tag'
+    self.ready()
+    
+    
+    
+Meteor.publish 'agg_sentiment_site', (
+    site
+    selected_tags
+    )->
+    # @unblock()
+    self = @
+    match = {
+        model:$in:['stack_question','stack_answer','stack_comment']
+        site:site
+    }
+        
+    doc_count = Docs.find(match).count()
+    if selected_tags.length > 0 then match.tags = $in:selected_tags
+    emotion_avgs = Docs.aggregate [
+        { $match: match }
+        #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
+        { $group: 
+            _id:null
+            avg_sent_score: { $avg: "$doc_sentiment_score" }
+            avg_joy_score: { $avg: "$joy_percent" }
+            avg_anger_score: { $avg: "$anger_percent" }
+            avg_sadness_score: { $avg: "$sadness_percent" }
+            avg_disgust_score: { $avg: "$disgust_percent" }
+            avg_fear_score: { $avg: "$fear_percent" }
+        }
+    ]
+    emotion_avgs.forEach (res, i) ->
+        console.log res
+        self.added 'results', Random.id(),
+            model:'emotion_avg'
+            avg_sent_score: res.avg_sent_score
+            avg_joy_score: res.avg_joy_score
+            avg_anger_score: res.avg_anger_score
+            avg_sadness_score: res.avg_sadness_score
+            avg_disgust_score: res.avg_disgust_score
+            avg_fear_score: res.avg_fear_score
+
     self.ready()

@@ -14,11 +14,6 @@ Template.su.onCreated ->
     Session.setDefault('location_query', null)
     @autorun => Meteor.subscribe 'site_user_count', Router.current().params.site
     @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
-    @autorun => Meteor.subscribe 'agg_sent_site',
-        Router.current().params.site
-        selected_tags.array()
-        ()->Session.set('ready',true)
-        
     @autorun => Meteor.subscribe 'stackusers_by_site', 
         Router.current().params.site
         Session.get('user_query')
@@ -37,6 +32,11 @@ Template.su.onCreated ->
 
 Template.sq.onCreated ->
     Session.setDefault('sort_direction', -1)
+    @autorun => Meteor.subscribe 'agg_sentiment_site',
+        Router.current().params.site
+        selected_tags.array()
+        ()->Session.set('ready',true)
+
     @autorun => Meteor.subscribe 'site_q_count', 
         Router.current().params.site
         selected_tags.array()
@@ -81,6 +81,8 @@ Template.sq.onCreated ->
         
         
 Template.sq.helpers
+    emotion_avg: -> results.findOne(model:'emotion_avg')
+
     site_tags: -> results.find(model:'site_tag')
     current_site: ->
         Docs.findOne

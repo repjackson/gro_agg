@@ -57,7 +57,6 @@ Template.q.helpers
             sort:score:-1
         })
     question_comments: ->
-        question = Docs.findOne Router.current().params.qid
         Docs.find({
             model:'stack_comment'
             post_id:parseInt(Router.current().params.qid)

@@ -172,7 +172,6 @@ Template.registerHelper 'lowered_title', ()-> @title.toLowerCase()
 Template.registerHelper 'skip_is_zero', ()-> Session.equals('skip', 0)
 Template.registerHelper 'one_post', ()-> Counts.get('result_counter') is 1
 Template.registerHelper 'two_posts', ()-> Counts.get('result_counter') is 2
-Template.registerHelper 'seven_tags', ()-> @tags[..7]
 Template.registerHelper 'key_value', (key,value)-> @["#{key}"] is value
 
 

@@ -6,6 +6,9 @@ template(name='sq')
             .row
                 .ui.twelve.wide.column
                     img.ui.get_info.shadowed.ui.inline.image(src=logo_url )
+                    .ui.left.icon.input
+                        i.search.icon
+                        input.search_site(type='text')
                     .smallscroll                    
                         if selected_tags
                             // if many_tags
@@ -13,9 +16,6 @@ template(name='sq')
                             //         i.remove.icon
                             each selected_tags
                                 +unselect_tag
-                        .ui.left.icon.input
-                            i.search.icon
-                            input.search_site(type='text')
                         each site_tags
                             +stack_tag_selector
                     +skve k='view_emotions' v=true l="emotions" i='smile' ionly=false
@@ -94,6 +94,15 @@ template(name='sq')
                         each site_questions
                             +s_q_item
                 .four.wide.column.scrollin
+                    with emotion_avg
+                        .ui.list
+                            .item #{avg_sent_score} sent
+                            .item #{avg_joy_score} joy
+                            .item #{avg_anger_score} anger
+                            .item #{avg_sadness_score} sad
+                            .item #{avg_disgust_score} disgust
+                            .item #{avg_fear_score} fear
+
                     a.ui.circular.compact.basic.large.button.say(href="/s/#{api_site_parameter}/users")
                         i.large.users.icon
                         |users

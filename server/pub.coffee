@@ -30,7 +30,11 @@ Meteor.publish 'suser_q', (site,user_id)->
         model:'stack_question'
         site:site
         "owner.user_id":parseInt(user_id)
-    }, limit:42
+    }, {
+        limit:10
+        sort:
+            score:-1
+    }
 Meteor.publish 'suser_a', (site,user_id)->
     Docs.find { 
         model:'stack_answer'
@@ -49,10 +53,13 @@ Meteor.publish 'qid', (site,qid)->
         question_id:parseInt(qid)
         site:site
 Meteor.publish 'q_c', (site,qid)->
-    Docs.find 
+    console.log site, qid
+    cur = Docs.find 
         model:'stack_comment'
         post_id:parseInt(qid)
         site:site
+    console.log 'comment count',cur.count() 
+    cur
 # Meteor.publish 'question_linked_to', (site,qid)->
 #     q = Docs.findOne 
 #         model:'stack_question'
