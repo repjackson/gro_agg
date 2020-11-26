@@ -44,10 +44,10 @@ template(name='q')
                                     .ui.relaxed.list
                                         each question_comments
                                             +c_item
-                            #answers.ui.horizontal.divider.say_title(title="#{question_answers.count} answers") 
-                                |#{question_answers.count}
+                            #answers.ui.horizontal.divider.say_title(title="#{q_a.count} answers") 
+                                |#{q_a.count}
                                 i.reply.grey.icon
-                            each question_answers
+                            each q_a
                                 +answer_item
                         if skv_is 'stack_section' 'tone'
                             if watson 
@@ -71,7 +71,7 @@ template(name='q')
                     +doc_emotion
                     .ui.fluid.vertical.borderless.small.menu
                         a.item(href='#answers') #{answer_count} answers
-                        each question_answers
+                        each q_a
                             a.item.say(href="##{_id}")  
                                 if is_accepted
                                     i.large.checkmark.icon

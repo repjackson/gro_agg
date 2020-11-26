@@ -62,8 +62,9 @@ Template.alpha.onRendered ->
     if @data 
         if @data.voice
             window.speechSynthesis.speak new SpeechSynthesisUtterance @data.voice
-        else if @data.response.queryresult.pods
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[0].plaintext
+        else if @data.response 
+            if @data.response.queryresult.pods
+                window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[0].plaintext
     # Meteor.setTimeout( =>
     # , 7000)
 
@@ -196,7 +197,6 @@ Template.tag_selector.events
     'click .select_tag': -> 
         # results.update
         window.speechSynthesis.cancel()
-        console.log @
         # selected_tags.push @name
         Session.set('query','')
         Session.set('skip',0)

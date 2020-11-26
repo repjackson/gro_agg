@@ -9,15 +9,12 @@ Template.registerHelper 'youtube_parse', (url) ->
 Session.setDefault('loading', false)
 Template.body.events
     'click .say_title': ->
-        # console.log @
         window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         
     'click .say_body': ->
-        # console.log @
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
     'click .say': ->
-        # console.log @
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
 Template.say.events
@@ -26,13 +23,11 @@ Template.say.events
         window.speechSynthesis.cancel()
     'click .say_this': (e,t)->
         Session.set('talking',true)
-        console.log Template.parentData()["#{@k}"]
         dom = document.createElement('textarea')
         # dom.innerHTML = doc.body
         dom.innerHTML = Template.parentData()["#{@k}"]
         text1 = $("<textarea/>").html(dom.innerHTML).text();
         text2 = $("<textarea/>").html(text1).text();
-        console.log text2
         window.speechSynthesis.speak new SpeechSynthesisUtterance text2
 # Meteor.startup ->
 #     if Meteor.isDevelopment
@@ -126,7 +121,6 @@ Template.registerHelper 'post_header_class', (metric) ->
 Template.registerHelper 'calculated_size', (metric) ->
     # whole = parseInt(@["#{metric}"]*10)
     whole = parseInt(metric*10)
-    # console.log whole
     switch whole
         when 0 then 'f5'
         when 1 then 'f6'

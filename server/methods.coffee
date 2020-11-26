@@ -154,7 +154,7 @@ Meteor.methods
         
         if user_doc
             sent_avg = Meteor.call 'sent_avg', site, user_id
-            console.log 'sent-avg', sent_avg
+            # console.log 'sent-avg', sent_avg
             if sent_avg[0]
                 sentiment_avg = sent_avg[0].avg_sent_score
             else
@@ -165,7 +165,7 @@ Meteor.methods
             
             if user_top_emotions[0]
                 user_top_emotion = user_top_emotions[0].title
-                console.log user_top_emotion,'top emotion'
+                # console.log user_top_emotion,'top emotion'
             
             agg_res = Meteor.call 'utags', site, user_id
             user_tag_res = Meteor.call 'user_question_tags', site, user_id

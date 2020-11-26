@@ -7,7 +7,7 @@ Router.route '/s/:site/q/:qid', (->
 Template.q.onCreated ->
     # @autorun => Meteor.subscribe 'doc', Router.current().params.qid
     @autorun => Meteor.subscribe 'qid', Router.current().params.site, Router.current().params.qid
-    @autorun => Meteor.subscribe 'question_answers', Router.current().params.site, Router.current().params.qid
+    @autorun => Meteor.subscribe 'q_a', Router.current().params.site, Router.current().params.qid
     @autorun => Meteor.subscribe 'q_c', Router.current().params.site, Router.current().params.qid
     @autorun => Meteor.subscribe 'question_doc_id', Router.current().params.site, Router.current().params.qid
     @autorun => Meteor.subscribe 'related_questions', Router.current().params.site, Router.current().params.qid
@@ -48,7 +48,7 @@ Template.q.helpers
     #         model:'stack_question'
     #         _id:question.related_question_ids
     #         site:Router.current().params.site
-    question_answers: ->
+    q_a: ->
         Docs.find({
             model:'stack_answer'
             site:Router.current().params.site
@@ -116,7 +116,7 @@ Template.q.events
     'click .get_answers': (e,t)->
         window.speechSynthesis.speak new SpeechSynthesisUtterance "getting #{Router.current().params.site} answers"
         question = Docs.findOne(Router.current().params.qid)
-        Meteor.call 'question_answers', Router.current().params.site, question.question_id,->
+        Meteor.call 'q_a', Router.current().params.site, question.question_id,->
             
 
     'click .add_stack_tag': ->

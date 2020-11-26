@@ -3,7 +3,7 @@ rp = require('request-promise');
 
 
     
-Meteor.publish 'question_answers', (site,qid)->
+Meteor.publish 'q_a', (site,qid)->
     # q = Docs.findOne 
     #     model:'stack_question'
     #     question_id:qid
@@ -374,7 +374,7 @@ Meteor.methods
                 )
 
     get_suser_q: (site, user_id) ->
-        console.log 'site', site, 'user id', user_id
+        console.log 'getting suser q', site, 'user id', user_id
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/questions?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -392,8 +392,8 @@ Meteor.methods
                             question_id:item.question_id
                             site:site
                             "owner.user_id":parseInt(user_id)
-                    # if found
-                    #     console.log 'question', found.title
+                    if found
+                        console.log 'question', found.title
                     unless found
                         item.model = 'stack_question'
                         item.site = site
@@ -401,6 +401,7 @@ Meteor.methods
                         new_id = 
                             Docs.insert item
             )).catch((err)->
+                console.log err
             )
    
     get_suser_a: (site, user_id) ->
@@ -435,7 +436,7 @@ Meteor.methods
             )
 
     get_suser_c: (site, user_id) ->
-        console.log 'comm', site, user_id
+        # console.log 'comm', site, user_id
         cl = console.log
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/comments?order=desc&sort=creation&site=#{site}&filter=!--1nZxautsE.&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
@@ -962,7 +963,7 @@ Meteor.publish 'stackusers_by_site', (
                         
                 
 Meteor.publish 'stack_sites', (selected_tags=[], name_filter='')->
-    match = {model:$in:['stack_site','tribe']}
+    match = {model:'stack_site'}
     match.site_type = 'main_site'
     if selected_tags.length > 0
         match.tags = $all: selected_tags
@@ -972,7 +973,7 @@ Meteor.publish 'stack_sites', (selected_tags=[], name_filter='')->
         limit:300
         
 Meteor.publish 'stack_sites_small', (selected_tags=[], name_filter='')->
-    match = {model:$in:['stack_site','tribe']}
+    match = {model:'stack_site'}
     match.site_type = 'main_site'
     if selected_tags.length > 0
         match.tags = $all: selected_tags
