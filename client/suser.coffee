@@ -102,7 +102,7 @@ Template.suser_layout.onRendered ->
     
     
 Template.suser_dash.onCreated ->
-    # console.log 'hi'
+    console.log 'hi'
     @autorun => Meteor.subscribe 'suser_b', Router.current().params.site, Router.current().params.user_id
     @autorun => Meteor.subscribe 'suser_t', Router.current().params.site, Router.current().params.user_id
     @autorun => Meteor.subscribe 'suser_c', Router.current().params.site, Router.current().params.user_id

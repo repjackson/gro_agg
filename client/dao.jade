@@ -2,15 +2,6 @@ template(name='dao')
     .ui.stackable.grid
         .row
             .sixteen.wide.center.aligned.column
-                // a.icon.ui.big.circular.icon.button.zoomer(href='/')
-                //     i.large.yin.yang.grey.icon
-                // unless viewing_doc
-                if selected_tags
-                    // if many_tags
-                    //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
-                    //         i.remove.icon
-                    each selected_tags
-                        +unselect_tag
                 // i.big.icon(class=search_icon_class)
                 .ui.left.icon.rounded.input(class=thinking_class)
                     i.search.icon
@@ -23,6 +14,21 @@ template(name='dao')
                 if selected_tags
                     each tag_results
                         +tag_selector
+                if selected_tags
+                    // if many_tags
+                    //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                    //         i.remove.icon
+                    each selected_tags
+                        +unselect_tag
+                else
+                    .ui.header stack stats
+                    .ui.small.header #{q_count} questions
+                    .ui.small.header #{a_count} answers
+                    .ui.small.header #{c_count} comments
+                    .ui.small.header #{t_count} tags
+                    .ui.small.header #{q_count} questions
+                    .ui.small.header #{q_count} questions
+                    .ui.small.header #{q_count} questions
                 // .ui.header 
                 //     i.smile.large.grey.icon
                 //     |emotion

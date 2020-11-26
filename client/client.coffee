@@ -34,9 +34,9 @@ Template.say.events
         text2 = $("<textarea/>").html(text1).text();
         console.log text2
         window.speechSynthesis.speak new SpeechSynthesisUtterance text2
-Meteor.startup ->
-    if Meteor.isDevelopment
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
+# Meteor.startup ->
+#     if Meteor.isDevelopment
+#         window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
 Template.nav.events
     'click .goto_stack': -> window.speechSynthesis.speak new SpeechSynthesisUtterance 'stackexchange'
     'click .goto_reddit': ->

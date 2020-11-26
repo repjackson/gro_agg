@@ -45,7 +45,7 @@ template(name='suser_layout')
                         |!{location}
                     a(href="/s/#{site}/u/#{user_id}")
                         img.ui.rounded.inline.image.pointer.zoomer.boop(src=profile_image)
-                    a.ui.large.compact.circular.basic.button(href=link target='_window' title="#{site} profile")
+                    a.ui.large.compact.circular.basic.icon.button(href=link target='_window' title="#{site} profile")
                         i.stack.exchange.icon
                         i.external.icon
                     .ui.vertical.fluid.stackable.rounded.menu
@@ -59,12 +59,12 @@ template(name='suser_layout')
                         a.item.say(href="/s/#{site}/u/#{user_id}/c" class="{{isActiveRoute regex='suser_c'}}")
                             i.chat.outline.grey.icon
                             |#{comment_count} comments
-                        a.item.say(href="/s/#{site}/u/#{user_id}/t" class="{{isActiveRoute regex='suser_t'}}")
-                            i.tag.grey.icon
-                            |tags
-                        a.item.say(href="/s/#{site}/u/#{user_id}/b" class="{{isActiveRoute regex='suser_b'}}")
-                            i.certificate.grey.icon
-                            |badges
+                        // a.item.say(href="/s/#{site}/u/#{user_id}/t" class="{{isActiveRoute regex='suser_t'}}")
+                        //     i.tag.grey.icon
+                        //     |tags
+                        // a.item.say(href="/s/#{site}/u/#{user_id}/b" class="{{isActiveRoute regex='suser_b'}}")
+                        //     i.certificate.grey.icon
+                        //     |badges
                     +print_this
                     .ui.tertiary.button.say account id #{account_id}
                     .ui.tertiary.button.say user id #{user_id}

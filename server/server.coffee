@@ -15,7 +15,15 @@ Meteor.publish 'doc_by_title', (title)->
         title:title
         model:'wikipedia'
 
-
+Meteor.publish 'doc_by_title_small', (title)->
+    Docs.find({
+        title:title
+        model:'wikipedia'
+    }, {
+        fields:
+            title:1
+            "watson.metadata.image":1
+    })
 Meteor.publish 'current_doc', (doc_id)->
     Docs.find doc_id
 

@@ -186,7 +186,7 @@ Meteor.methods
         natural_language_understanding.analyze params, Meteor.bindEnvironment((err, response)=>
             if err
                 # if err.code is 400
-                console.log err
+                # console.log err
                 unless err.code is 403
                     Docs.update doc_id,
                         $set:skip_watson:false

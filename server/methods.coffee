@@ -155,6 +155,12 @@ Meteor.methods
         if user_doc
             sent_avg = Meteor.call 'sent_avg', site, user_id
             console.log 'sent-avg', sent_avg
+            if sent_avg[0]
+                sentiment_avg = sent_avg[0].avg_sent_score
+            else
+                sentiment_avg = 0
+
+            
             user_top_emotions = Meteor.call 'calc_user_top_emotions', site, user_id
             
             if user_top_emotions[0]
@@ -172,7 +178,7 @@ Meteor.methods
                         user_tag_agg: user_tag_res
                         user_top_emotions:user_top_emotions
                         user_top_emotion:user_top_emotion
-                        sentiment_avg: sent_avg[0].avg_sent_score
+                        sentiment_avg: sentiment_avg
                         # sentiment_positive_avg: sent_avg[0].avg_sent_score
                         # sentiment_negative_avg: sent_avg[1].avg_sent_score
                         tags:added_tags
@@ -431,7 +437,7 @@ Meteor.methods
             # { $group: _id: "$max_emotion_name", count: $sum: 1 }
             # { $match: _id: $nin: omega.selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 42 }
+            { $limit:20 }
             { $project: _id: 0, title: '$_id', count: 1 }
         ]
 

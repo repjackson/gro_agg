@@ -247,7 +247,7 @@ Template.s_q_item.onRendered ->
 
 
 Template.stack_tag_selector.onCreated ->
-    @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+    @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
 Template.stack_tag_selector.helpers
     selector_class: ()->
         term = 
@@ -290,7 +290,7 @@ Template.stack_tag_selector.events
    
 
 Template.flat_tag_selector.onCreated ->
-    @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
+    @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
 Template.flat_tag_selector.helpers
     selector_class: ()->
         term = 

@@ -6,18 +6,18 @@ template(name='sq')
             .row
                 .ui.twelve.wide.column
                     img.ui.get_info.shadowed.ui.inline.image(src=logo_url )
-                    // span.say.mobile.hidden !{audience}
-                    if selected_tags
-                        // if many_tags
-                        //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
-                        //         i.remove.icon
-                        each selected_tags
-                            +unselect_tag
-                    .ui.left.icon.input
-                        i.search.icon
-                        input.search_site(type='text')
-                    each site_tags
-                        +stack_tag_selector
+                    .smallscroll                    
+                        if selected_tags
+                            // if many_tags
+                            //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                            //         i.remove.icon
+                            each selected_tags
+                                +unselect_tag
+                        .ui.left.icon.input
+                            i.search.icon
+                            input.search_site(type='text')
+                        each site_tags
+                            +stack_tag_selector
                     +skve k='view_emotions' v=true l="emotions" i='smile' ionly=false
                     if skv_is 'view_emotions' true
                         i.grey.remove.link.icon.clear_emotions(title='emotions')

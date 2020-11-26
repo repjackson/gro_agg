@@ -15,7 +15,7 @@ template(name='nav')
                     i.big.yin.yang.grey.loading.icon
                 else
                     i.big.yin.yang.grey.icon
-            a.icon.disabled.item.goto_vid(href='/vid')
+            a.icon.disabled.item.goto_vid(href='/github')
                 i.large.grey.github.icon
             a.icon.zoomer.item.clear_tags.goto_reddit(href='/reddit' class="{{isActiveRoute regex='reddit'}}" title='reddit')
                 i.large.reddit.grey.icon
@@ -24,6 +24,6 @@ template(name='nav')
             // a.icon.disabled.item.goto_wikipedia(href='/wikipedia')
             //     i.large.wikipedia.icon
         unless connected
-            .item
-                i.yin.yang.grey.loading.big.icon
-                +status    
+            // .item
+            i.yin.yang.grey.loading.big.icon
+            +status    

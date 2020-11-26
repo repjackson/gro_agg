@@ -15,7 +15,7 @@ Meteor.publish 'selected_users', (
     if selected_user_site then match.site = selected_user_site
     if selected_user_location then match.location = selected_user_location
     Docs.find match,
-        limit:42
+        limit:20
         sort:
             reputation:-1
 

@@ -33,18 +33,21 @@ Template.q.onRendered ->
     #             # updateTable calculations
     #     , 2000
 Template.q.helpers
-    linked_questions: ->
-        question = Docs.findOne Router.current().params.qid
-        Docs.find 
-            model:'stack_question'
-            _id:question.linked_question_ids
-            site:Router.current().params.site
-    related_questions: ->
-        question = Docs.findOne Router.current().params.qid
-        Docs.find 
-            model:'stack_question'
-            _id:question.related_question_ids
-            site:Router.current().params.site
+    # linked_questions: ->
+    #     question = Docs.findOne Router.current().params.qid
+    #     Docs.find({
+    #         model:'stack_question'
+    #         _id:question.linked_question_ids
+    #         site:Router.current().params.site
+    #     }, {
+    #         sort:score:-1
+    #     })
+    # related_questions: ->
+    #     question = Docs.findOne Router.current().params.qid
+    #     Docs.find 
+    #         model:'stack_question'
+    #         _id:question.related_question_ids
+    #         site:Router.current().params.site
     question_answers: ->
         Docs.find({
             model:'stack_answer'
@@ -55,10 +58,13 @@ Template.q.helpers
         })
     question_comments: ->
         question = Docs.findOne Router.current().params.qid
-        Docs.find 
+        Docs.find({
             model:'stack_comment'
             post_id:parseInt(Router.current().params.qid)
             site:Router.current().params.site
+        }, {
+            sort:score:-1
+        })
     answer_class: -> if @accepted then 'accepted'
 
 

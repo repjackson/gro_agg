@@ -20,6 +20,7 @@ Template.dao.onCreated ->
     # @autorun -> Meteor.subscribe('alpha_single',selected_tags.array())
     @autorun -> Meteor.subscribe('duck',selected_tags.array())
     @autorun -> Meteor.subscribe('search_doc',selected_tags.array())
+    @autorun -> Meteor.subscribe('model_count','stack_question')
     @autorun -> Meteor.subscribe('doc_count',
         selected_tags.array()
         Session.get('view_mode')
@@ -83,7 +84,7 @@ Template.alpha.events
 
 
 Template.unselect_tag.onCreated ->
-    @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
+    @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
     
 Template.unselect_tag.helpers
     term: ->
@@ -144,12 +145,9 @@ Template.unselect_tag.events
     
 
 
-
-
-
 Template.tag_selector.onCreated ->
     if @data.name
-        @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+        @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
 Template.tag_selector.helpers
     selector_class: ()->
         term = 
@@ -221,7 +219,7 @@ Template.tag_selector.events
        
        
 Template.doc_tag.onCreated ->
-    @autorun => Meteor.subscribe('doc_by_title', @data)
+    @autorun => Meteor.subscribe('doc_by_title_small', @data)
 Template.doc_tag.helpers
     selector_class: ->
         term = 
@@ -340,6 +338,7 @@ Template.dao.helpers
             query: selected_tags.array().toString()
     many_tags: -> selected_tags.array().length > 1
     doc_count: -> Counts.get('result_counter')
+    q_count: -> Counts.get('model_counter')
     stack_docs: ->
         if Session.get('viewing_doc')
             Docs.find Session.get('viewing_doc')
