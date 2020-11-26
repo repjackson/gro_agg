@@ -395,6 +395,36 @@ Meteor.methods
             )).catch((err)->
                 console.log err
             )
+       get_priv: (site, user_id) ->
+        console.log 'getting priv', site, 'user id', user_id
+        url = "https://api.stackexchange.com/2.2/privileges?&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
+        options = {
+            url: url
+            headers: 'accept-encoding': 'gzip'
+            gzip: true
+        }
+        rp(options)
+            .then(Meteor.bindEnvironment((data)->
+                parsed = JSON.parse(data)
+                for item in parsed.items
+                    console.log item
+                    # found = 
+                    #     Docs.findOne
+                    #         model:'stack_question'
+                    #         question_id:item.question_id
+                    #         site:site
+                    #         "owner.user_id":parseInt(user_id)
+                    # # if found
+                    # #     console.log 'question', found.title
+                    # unless found
+                    #     item.model = 'stack_question'
+                    #     item.site = site
+                    #     # item.user_id = parseInt(user_id)
+                    #     new_id = 
+                    #         Docs.insert item
+            )).catch((err)->
+                console.log err
+            )
    
     get_suser_a: (site, user_id) ->
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/answers?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw((&filter=!3zl2.F7X(uyskMHHP"
@@ -601,23 +631,6 @@ Meteor.methods
             )).catch((err)->
             )
         
-    # test: ->
-    #     options = {
-    #         url: "https://api.stackexchange.com/2.2/users/237231/tags?order=desc&site=stats",
-    #         headers: 'accept-encoding': 'gzip'
-    #         gzip: true
-    #         # json: true
-    #     };
-    #     rp(options)
-    #         .then(Meteor.bindEnvironment((data)->
-    #             parsed = JSON.parse(data)
-    #             for item in parsed.items
-    #                 found = Docs.findOne
-    #                     model:'stack_tag'
-    #                 if found
-    #                 else
-    #         )).catch((err)->
-    #         )
         
 Meteor.publish 'site_q_count', (
     site
@@ -640,7 +653,7 @@ Meteor.publish 'stack_docs_by_site', (
     toggle
     view_bounties
     view_unanswered
-)->
+    )->
     # site = Docs.findOne
     #     model:'stack_site'
     #     api_site_parameter:site
@@ -1050,5 +1063,4 @@ Meteor.publish 'agg_sentiment_site', (
             avg_sadness_score: res.avg_sadness_score
             avg_disgust_score: res.avg_disgust_score
             avg_fear_score: res.avg_fear_score
-
     self.ready()

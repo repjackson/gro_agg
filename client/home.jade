@@ -35,7 +35,7 @@ template(name='dao')
                 // .spacer
                 // .four.wide.column
                 // .ui.large.basic.label(title='results') #{doc_count} results
-                // .ui.basic.circular.button(title='when')
+                // .ui.basic.button(title='when')
                 // i.clock.icon
                 // +i n='clock' cl='ui mini inline image'
                 // |when
@@ -98,7 +98,7 @@ template(name='dao')
                             |#{this}
                     each emotion_results
                         if name
-                            .ui.compact.basic.circular.button.select_emotion
+                            .ui.compact.basic.button.select_emotion
                                 |#{name}
             if selected_tags
                 .sixteen.wide.center.aligned.column
@@ -189,9 +189,10 @@ template(name='convert')
 
 
 template(name='unselect_tag')
-    a.unselect_tag.ui.black.compact.circular.button.select_term(href='#')
+    a.unselect_tag.ui.black.compact.button.select_term(href='#')
         if term
-            img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
+            if term.watson.metadata.image
+                img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
         strong #{this}
 
 template(name='tag_selector')

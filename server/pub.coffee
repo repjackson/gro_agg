@@ -6,6 +6,17 @@
 #     Counts.publish this, 'model_counter', Docs.find(match)
 #     return undefined
 
+Meteor.publish 'wikis', (
+    w_query
+    selected_tags
+    )->
+    Docs.find({
+        model:'wikipedia'
+    },{ 
+        limit:10
+    })
+    
+    
 Meteor.publish 'question_from_id', (site,qid)->
     Docs.find 
         model:'stack_question'

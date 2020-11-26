@@ -1,12 +1,9 @@
 template(name='nav')
-    // a.icon.ui.large.circular.icon.button(href='/')
     .ui.fluid.attached.small.nine.item.borderless.grey.menu.topnav
-        // a.icon.header.item.pointer.toggle_leftbar
-        //     i.bars.large.grey.icon
         if connected
             a.icon.disabled.item.goto_vid(href='/vid')
                 i.large.video.grey.icon
-            a.icon.disabled.item.goto_vid(href='/wikipedia')
+            a.icon.zoomer.item.goto_vid(href='/wiki')
                 i.large.wikipedia.grey.icon
             a.icon.zoomer.item.goto_people(href='/people' class="{{isActivePath regex='people'}}" title='people')
                 i.large.user.outline.grey.icon
@@ -25,8 +22,6 @@ template(name='nav')
                 i.large.reddit.grey.icon
             a.icon.zoomer.item.silence(href='#')
                 i.large.volume.mute.grey.icon
-            // a.icon.disabled.item.goto_wikipedia(href='/wikipedia')
-            //     i.large.wikipedia.icon
         unless connected
             // .item
             i.yin.yang.grey.loading.big.icon
