@@ -12,8 +12,8 @@ Template.dao.onCreated ->
     # window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
     # document.title = 'the world'
     Session.setDefault('view_alpha',true)
-    Session.setDefault('view_reddit',true)
-    Session.setDefault('view_duck',true)
+    # Session.setDefault('view_reddit',true)
+    # Session.setDefault('view_duck',true)
     Session.setDefault('skip',0)
     Session.setDefault('view_section','content')
     @autorun -> Meteor.subscribe('alpha_combo',selected_tags.array())

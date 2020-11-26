@@ -392,8 +392,8 @@ Meteor.methods
                             question_id:item.question_id
                             site:site
                             "owner.user_id":parseInt(user_id)
-                    if found
-                        console.log 'question', found.title
+                    # if found
+                    #     console.log 'question', found.title
                     unless found
                         item.model = 'stack_question'
                         item.site = site
