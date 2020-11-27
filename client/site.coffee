@@ -40,6 +40,9 @@ Template.sq.onCreated ->
     @autorun => Meteor.subscribe 'site_q_count', 
         Router.current().params.site
         selected_tags.array()
+        selected_emotions.array()
+        Session.get 'view_bounties'
+        Session.get 'view_unanswered'
  
     @autorun => Meteor.subscribe 'sentiment',
         Router.current().params.site
@@ -48,9 +51,9 @@ Template.sq.onCreated ->
     @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
   
     @autorun => Meteor.subscribe 'site_tags',
+        Router.current().params.site
         selected_tags.array()
         selected_emotions.array()
-        Router.current().params.site
         Session.get 'toggle'
         Session.get 'view_bounties'
         Session.get 'view_unanswered'
@@ -289,9 +292,9 @@ Template.stack_tag_selector.events
         Session.set('loading',true)
         Meteor.call 'search_stack', Router.current().params.site, @name, ->
             Session.set('loading',false)
-        Meteor.setTimeout( ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 5000)
+        # Meteor.setTimeout( ->
+        #     Session.set('toggle',!Session.get('toggle'))
+        # , 5000)
    
 
 Template.flat_tag_selector.onCreated ->

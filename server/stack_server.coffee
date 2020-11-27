@@ -665,9 +665,9 @@ Meteor.publish 's_q', (
 
 
 Meteor.publish 'site_tags', (
+    site
     selected_tags
     selected_emotion
-    site
     toggle
     view_bounties
     view_unanswered
@@ -683,8 +683,8 @@ Meteor.publish 'site_tags', (
         match.bounty = true
     if view_unanswered
         match.is_answered = false
-    if selected_tags.length > 0 then match.tags = $in:selected_tags
-    if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
     doc_count = Docs.find(match).count()
     console.log 'doc_count', doc_count
     site_tag_cloud = Docs.aggregate [
@@ -815,7 +815,7 @@ Meteor.publish 'site_user_tags', (
         site:site
         }
     doc_count = Docs.find(match).count()
-    if selected_tags.length > 0 then match.tags = $in:selected_tags
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
     site_tag_cloud = Docs.aggregate [
         { $match: match }
         { $project: "tags": 1 }
@@ -1026,7 +1026,7 @@ Meteor.publish 'agg_sentiment_site', (
     }
         
     doc_count = Docs.find(match).count()
-    if selected_tags.length > 0 then match.tags = $in:selected_tags
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
     emotion_avgs = Docs.aggregate [
         { $match: match }
         #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
