@@ -1,10 +1,12 @@
 template(name='nav')
-    .ui.fluid.attached.small.nine.item.borderless.grey.menu.topnav
+    .ui.fluid.attached.small.six.item.borderless.grey.menu.topnav
         if connected
-            a.icon.zoomer.item.goto_vid(href='/vids' class="{{isActivePath regex='vids'}}" title='videos')
-                i.large.video.grey.icon
-            a.icon.zoomer.item.goto_wiki(href='/wiki' class="{{isActivePath regex='wiki'}}" title='wikipedia')
-                i.large.wikipedia.grey.icon
+            // a.icon.zoomer.item.goto_vid(href='/vids' class="{{isActivePath regex='vids'}}" title='videos')
+            //     i.large.video.grey.icon
+            a.icon.zoomer.item.goto_nature(href='/ea' class="{{isActivePath regex='ea'}}" title='ea')
+                i.large.tint.grey.icon
+            // a.icon.zoomer.item.goto_wiki(href='/wiki' class="{{isActivePath regex='wiki'}}" title='wikipedia')
+            //     i.large.wikipedia.grey.icon
             a.icon.zoomer.item.goto_people(href='/people' class="{{isActivePath regex='people'}}" title='people')
                 i.large.user.outline.grey.icon
             a.icon.zoomer.item.clear_tags.goto_stack(href='/stack' class="{{isActivePath '/stack'}}" title='stack exchange')
@@ -14,10 +16,10 @@ template(name='nav')
                     i.big.yin.yang.grey.loading.icon
                 else
                     i.big.yin.yang.grey.icon
-            a.icon.zoomer.item.goto_vid(href='/pics' class="{{isActivePath regex='pics'}}" title='pics')
-                i.large.picture.grey.icon
-            a.icon.zoomer.item.goto_vid(href='/github' class="{{isActivePath regex='github'}}" title='github')
-                i.large.grey.github.icon
+            // a.icon.zoomer.item.goto_vid(href='/pics' class="{{isActivePath regex='pics'}}" title='pics')
+            //     i.large.picture.grey.icon
+            // a.icon.zoomer.item.goto_vid(href='/github' class="{{isActivePath regex='github'}}" title='github')
+            //     i.large.grey.github.icon
             a.icon.zoomer.item.clear_tags.goto_reddit(href='/reddit' class="{{isActiveRoute regex='reddit'}}" title='reddit')
                 i.large.reddit.grey.icon
             a.icon.zoomer.item.silence(href='#')
