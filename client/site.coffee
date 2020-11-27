@@ -270,9 +270,9 @@ Template.stack_tag_selector.helpers
 Template.stack_tag_selector.events
     'click .select_tag': -> 
         # results.update
-        console.log @
+        # console.log @
         window.speechSynthesis.cancel()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         if @model is 'site_emotion'
             selected_emotions.push @name
         else
@@ -281,14 +281,13 @@ Template.stack_tag_selector.events
             $('.search_site').val('')
             
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+        window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
         Session.set('loading',true)
         Meteor.call 'search_stack', Router.current().params.site, @name, ->
             Session.set('loading',false)
-    # Session.set('viewing_doc',null)
-        # Meteor.setTimeout( ->
-        #     Session.set('toggle',!Session.get('toggle'))
-        # , 5000)
+        Meteor.setTimeout( ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 5000)
    
 
 Template.flat_tag_selector.onCreated ->

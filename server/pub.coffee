@@ -36,7 +36,6 @@ Meteor.publish 'suser_c', (site,user_id)->
         "owner.user_id":parseInt(user_id)
     }, limit:100
 Meteor.publish 'suser_q', (site,user_id)->
-    # console.log 'looking ', site, user_id
     Docs.find { 
         model:'stack_question'
         site:site
@@ -64,12 +63,10 @@ Meteor.publish 'qid', (site,qid)->
         question_id:parseInt(qid)
         site:site
 Meteor.publish 'q_c', (site,qid)->
-    console.log site, qid
     cur = Docs.find 
         model:'stack_comment'
         post_id:parseInt(qid)
         site:site
-    console.log 'comment count',cur.count() 
     cur
 # Meteor.publish 'question_linked_to', (site,qid)->
 #     q = Docs.findOne 

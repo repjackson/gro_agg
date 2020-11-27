@@ -143,11 +143,9 @@ Meteor.methods
                             post_id:parseInt(qid)
                             site:site
                     if found
-                        console.log 'found', found
                         Docs.update found._id,
                             $set:body:item.body
                     unless found
-                        console.log 'new comment'
                         item.site = site
                         item.model = 'stack_comment'
                         # item.tags.push query
@@ -194,7 +192,6 @@ Meteor.methods
             )
 
     get_related_questions: (site, qid)->
-        console.log 'getting related', site, qid
         question = Docs.findOne 
             model:'stack_question'
             question_id:parseInt(qid)
@@ -209,7 +206,6 @@ Meteor.methods
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
                 for item in parsed.items
-                    console.log 'related item', item
                     Docs.update question._id,
                         $addToSet:related_question_ids:item._id
                     found = 
@@ -244,6 +240,7 @@ Meteor.methods
                     found = 
                         Docs.findOne
                             model:'stack_question'
+                            site:site
                             question_id:item.question_id
                     if found
                         Docs.update found._id,
@@ -366,7 +363,6 @@ Meteor.methods
                 )
 
     get_suser_q: (site, user_id) ->
-        console.log 'getting suser q', site, 'user id', user_id
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/questions?order=desc&sort=activity&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -377,7 +373,6 @@ Meteor.methods
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
                 for item in parsed.items
-                    # console.log item
                     found = 
                         Docs.findOne
                             model:'stack_question'
@@ -385,7 +380,6 @@ Meteor.methods
                             site:site
                             "owner.user_id":parseInt(user_id)
                     # if found
-                    #     console.log 'question', found.title
                     unless found
                         item.model = 'stack_question'
                         item.site = site
@@ -393,10 +387,8 @@ Meteor.methods
                         new_id = 
                             Docs.insert item
             )).catch((err)->
-                console.log err
             )
        get_priv: (site, user_id) ->
-        console.log 'getting priv', site, 'user id', user_id
         url = "https://api.stackexchange.com/2.2/privileges?&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -406,8 +398,8 @@ Meteor.methods
         rp(options)
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
-                for item in parsed.items
-                    console.log item
+                # for item in parsed.items
+                    # console.log item.
                     # found = 
                     #     Docs.findOne
                     #         model:'stack_question'
@@ -415,7 +407,6 @@ Meteor.methods
                     #         site:site
                     #         "owner.user_id":parseInt(user_id)
                     # # if found
-                    # #     console.log 'question', found.title
                     # unless found
                     #     item.model = 'stack_question'
                     #     item.site = site
@@ -423,7 +414,6 @@ Meteor.methods
                     #     new_id = 
                     #         Docs.insert item
             )).catch((err)->
-                console.log err
             )
    
     get_suser_a: (site, user_id) ->
@@ -444,7 +434,6 @@ Meteor.methods
                             "owner.user_id":parseInt(user_id)
                             answer_id:item.answer_id
                     if found
-                        # console.log 'found answer', found.title
                         Docs.update found._id,
                             $set:body:item.body
                         continue
@@ -458,8 +447,6 @@ Meteor.methods
             )
 
     get_suser_c: (site, user_id) ->
-        # console.log 'comm', site, user_id
-        cl = console.log
         url = "https://api.stackexchange.com/2.2/users/#{user_id}/comments?order=desc&sort=creation&site=#{site}&filter=!--1nZxautsE.&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -668,7 +655,6 @@ Meteor.publish 'stack_docs_by_site', (
         match.bounty = true
     if selected_tags.length > 0 then match.tags = $all:selected_tags
     if selected_emotion.length > 0 
-        console.log selected_emotion
         match.max_emotion_name = selected_emotion[0]
     if site
         Docs.find match, 
@@ -1054,7 +1040,6 @@ Meteor.publish 'agg_sentiment_site', (
         }
     ]
     emotion_avgs.forEach (res, i) ->
-        console.log res
         self.added 'results', Random.id(),
             model:'emotion_avg'
             avg_sent_score: res.avg_sent_score

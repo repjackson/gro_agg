@@ -154,7 +154,6 @@ Meteor.methods
         
         if user_doc
             sent_avg = Meteor.call 'sent_avg', site, user_id
-            # console.log 'sent-avg', sent_avg
             if sent_avg[0]
                 sentiment_avg = sent_avg[0].avg_sent_score
             else
@@ -162,10 +161,10 @@ Meteor.methods
 
             
             user_top_emotions = Meteor.call 'calc_user_top_emotions', site, user_id
-            
+            console.log user_top_emotions
             if user_top_emotions[0]
                 user_top_emotion = user_top_emotions[0].title
-                # console.log user_top_emotion,'top emotion'
+            
             
             agg_res = Meteor.call 'utags', site, user_id
             user_tag_res = Meteor.call 'user_question_tags', site, user_id
@@ -176,9 +175,16 @@ Meteor.methods
                 Docs.update user_doc._id,
                     $set:
                         user_tag_agg: user_tag_res
-                        user_top_emotions:user_top_emotions
-                        user_top_emotion:user_top_emotion
+                        # user_top_emotions:user_top_emotions
+                        # user_top_emotion:user_top_emotion
                         sentiment_avg: sentiment_avg
+                        avg_sent_score: user_top_emotions[0].avg_sent_score
+                        avg_joy_score: user_top_emotions[0].avg_joy_score
+                        avg_anger_score: user_top_emotions[0].avg_anger_score
+                        avg_sadness_score: user_top_emotions[0].avg_sadness_score
+                        avg_disgust_score: user_top_emotions[0].avg_disgust_score
+                        avg_fear_score: user_top_emotions[0].avg_fear_score
+
                         # sentiment_positive_avg: sent_avg[0].avg_sent_score
                         # sentiment_negative_avg: sent_avg[1].avg_sent_score
                         tags:added_tags
@@ -272,7 +278,6 @@ Meteor.methods
             
             
     sent_avg: (site,user_id)->
-        l = console.log
         user_doc =
             Docs.findOne(
                 model:'stackuser'
@@ -320,7 +325,6 @@ Meteor.methods
             return null
 
     calc_user_top_emotions: (site,user_id)->
-        l = console.log
         site_doc =
             Docs.findOne(
                 model:'stack_site'
@@ -357,7 +361,6 @@ Meteor.methods
                         _id:1
                 }
             ).count()
-        l total_doc_result_count,'count'
         options = {
             explain:false
             allowDiskUse:true
@@ -368,17 +371,23 @@ Meteor.methods
         # else
         limit = 33
         # { $match: tags:$all: omega.selected_tags }
-        l match
         pipe =  [
             { $match: match }
-            { $project: max_emotion_name: 1 }
+            # { $project: max_emotion_name: 1 }
             # { $unwind: "$max_emotion_name" }
-            { $group: _id: "$max_emotion_name", count: $sum: 1 }
-            # { $group: _id: "$max_emotion_name", count: $sum: 1 }
-            # { $match: _id: $nin: omega.selected_tags }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 5 }
-            { $project: _id: 0, title: '$_id', count: 1 }
+            { $group: 
+                # _id: "$max_emotion_name", count: $sum: 1 
+                _id: null 
+                avg_sent_score: { $avg: "$doc_sentiment_score" }
+                avg_joy_score: { $avg: "$joy_percent" }
+                avg_anger_score: { $avg: "$anger_percent" }
+                avg_sadness_score: { $avg: "$sadness_percent" }
+                avg_disgust_score: { $avg: "$disgust_percent" }
+                avg_fear_score: { $avg: "$fear_percent" }
+            }
+            # { $sort: count: -1, _id: 1 }
+            # { $limit: 5 }
+            # { $project: _id: 0, title: '$_id', count: 1 }
         ]
 
         if pipe
