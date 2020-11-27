@@ -204,9 +204,9 @@ Template.tag_selector.events
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
         # Meteor.call 'call_alpha', selected_tags.array().toString(), ->
-        Session.set('ready',false)
+        # Session.set('loading',true)
         # Meteor.call 'search_stack', Router.current().params.site, @name, ->
-        #     Session.set('thinking',false)
+            # Session.set('loading',false)
         # Session.set('thinking',true)
         # Meteor.call 'call_wiki', @name, ->
         # Meteor.call 'search_reddit', selected_tags.array(), ->

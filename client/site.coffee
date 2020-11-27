@@ -282,9 +282,9 @@ Template.stack_tag_selector.events
             
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-        # Session.set('thinking',true)
-        # Meteor.call 'search_stack', Router.current().params.site, @name, ->
-            # Session.set('thinking',false)
+        Session.set('loading',true)
+        Meteor.call 'search_stack', Router.current().params.site, @name, ->
+            Session.set('loading',false)
     # Session.set('viewing_doc',null)
         # Meteor.setTimeout( ->
         #     Session.set('toggle',!Session.get('toggle'))

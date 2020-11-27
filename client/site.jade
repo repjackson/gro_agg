@@ -6,15 +6,15 @@ template(name='sq')
             .row
                 .ui.twelve.wide.column
                     img.ui.get_info.shadowed.ui.inline.image(src=logo_url )
-                    .ui.left.icon.input
-                        i.search.icon
-                        input.search_site(type='text')
                     if selected_tags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                         //         i.remove.icon
                         each selected_tags
                             +unselect_tag
+                    .ui.left.icon.input
+                        i.search.icon
+                        input.search_site(type='text')
                     .smallscroll                    
                         each site_tags
                             +stack_tag_selector

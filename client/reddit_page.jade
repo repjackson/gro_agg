@@ -23,16 +23,10 @@ template(name='reddit_page')
                 +skve k='doc_section' v='preview' l='preview' i='content'
                 if skv_is 'doc_section' 'preview'
                     iframe(width="100%" height="500" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
-                .medscroll
-                
                 .ui.label
                     | #{domain}
                 .spacer
-                .nl2br
                 |!{html}
-                .spacer
-                pre
-                .nl2br
                 .spacer
                 +call_watson
                 if watson    
