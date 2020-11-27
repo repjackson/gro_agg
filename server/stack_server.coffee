@@ -630,7 +630,7 @@ Meteor.publish 'site_q_count', (
     Counts.publish this, 'site_q_counter', Docs.find(match)
     return undefined
 
-Meteor.publish 'stack_docs_by_site', (
+Meteor.publish 's_q', (
     site
     selected_tags
     selected_emotion
@@ -683,9 +683,10 @@ Meteor.publish 'site_tags', (
         match.bounty = true
     if view_unanswered
         match.is_answered = false
-    doc_count = Docs.find(match).count()
     if selected_tags.length > 0 then match.tags = $in:selected_tags
     if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
+    doc_count = Docs.find(match).count()
+    console.log 'doc_count', doc_count
     site_tag_cloud = Docs.aggregate [
         { $match: match }
         { $project: "tags": 1 }

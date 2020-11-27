@@ -40,36 +40,39 @@ Template.sq.onCreated ->
     @autorun => Meteor.subscribe 'site_q_count', 
         Router.current().params.site
         selected_tags.array()
+ 
     @autorun => Meteor.subscribe 'sentiment',
         Router.current().params.site
         selected_tags.array()
+  
     @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
+  
     @autorun => Meteor.subscribe 'site_tags',
         selected_tags.array()
         selected_emotions.array()
         Router.current().params.site
-        Session.get('toggle')
-        Session.get('view_bounties')
-        Session.get('view_unanswered')
+        Session.get 'toggle'
+        Session.get 'view_bounties'
+        Session.get 'view_unanswered'
         
         
-    @autorun => Meteor.subscribe 'stack_docs_by_site', 
+    @autorun => Meteor.subscribe 's_q', 
         Router.current().params.site
         selected_tags.array()
         selected_emotions.array()
-        Session.get('sort_key')
-        Session.get('sort_direction')
-        Session.get('limit')
-        Session.get('toggle')
-        Session.get('view_bounties')
-        Session.get('view_unanswered')
+        Session.get 'sort_key'
+        Session.get 'sort_direction'
+        Session.get 'limit'
+        Session.get 'toggle'
+        Session.get 'view_bounties'
+        Session.get 'view_unanswered'
         
-    @autorun => Meteor.subscribe 'stackusers_by_site', 
-        Router.current().params.site
-        Session.get('user_query')
-        Session.get('location_query')
-        selected_tags.array()
-        ()->Session.set('ready',true)
+    # @autorun => Meteor.subscribe 'stackusers_by_site', 
+    #     Router.current().params.site
+    #     Session.get('user_query')
+    #     Session.get('location_query')
+    #     selected_tags.array()
+    #     ()->Session.set('ready',true)
         
         
 # Template.su.onCreated ->
@@ -125,8 +128,9 @@ Template.sq.events
                 selected_tags.push search
                 $('.search_site').val('')
 
+                Session.set('loading',true)
                 Meteor.call 'search_stack', Router.current().params.site, search, ->
-                    Session.set('thinking',false)
+                    Session.set('loading',false)
 Template.su.events
     'click .set_location': (e,t)->
         window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.site} users in #{@location}"
@@ -212,14 +216,14 @@ Template.sq.helpers
     site_companys: -> results.find(model:'site_Company')
     site_emotions: -> results.find(model:'site_emotion')
 
-    site_users: ->
-        Docs.find {
-            model:'stackuser'
-            site:Router.current().params.site
-        },
-            sort:
-                reputation: -1
-            limit:10
+    # site_users: ->
+    #     Docs.find {
+    #         model:'stackuser'
+    #         site:Router.current().params.site
+    #     },
+    #         sort:
+    #             reputation: -1
+    #         limit:10
 
 # Template.site_users.events
 #     'click .view_question': (e,t)-> window.speechSynthesis.speak new SpeechSynthesisUtterance @title
@@ -258,12 +262,12 @@ Template.stack_tag_selector.helpers
         if term
             if term.max_emotion_name
                 switch term.max_emotion_name
-                    when 'joy' then " basic green #{Meteor.user().invert_class}"
-                    when "anger" then " basic red #{Meteor.user().invert_class}"
-                    when "sadness" then " basic blue #{Meteor.user().invert_class}"
-                    when "disgust" then " basic orange #{Meteor.user().invert_class}"
-                    when "fear" then " basic grey #{Meteor.user().invert_class}"
-                    else "basic grey #{Meteor.user().invert_class}"
+                    when 'joy' then " basic green"
+                    when "anger" then " basic red"
+                    when "sadness" then " basic blue"
+                    when "disgust" then " basic orange"
+                    when "fear" then " basic grey"
+                    else "basic grey"
     term: ->
         Docs.findOne 
             title:@name.toLowerCase()
@@ -300,12 +304,12 @@ Template.flat_tag_selector.helpers
         if term
             if term.max_emotion_name
                 switch term.max_emotion_name
-                    when 'joy' then " basic green #{Meteor.user().invert_class}"
-                    when "anger" then " basic red #{Meteor.user().invert_class}"
-                    when "sadness" then " basic blue #{Meteor.user().invert_class}"
-                    when "disgust" then " basic orange #{Meteor.user().invert_class}"
-                    when "fear" then " basic grey #{Meteor.user().invert_class}"
-                    else "basic grey #{Meteor.user().invert_class}"
+                    when 'joy' then " basic green"
+                    when "anger" then " basic red"
+                    when "sadness" then " basic blue"
+                    when "disgust" then " basic orange"
+                    when "fear" then " basic grey"
+                    else "basic grey"
     term: ->
         Docs.findOne 
             title:@valueOf().toLowerCase()
