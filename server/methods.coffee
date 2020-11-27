@@ -161,7 +161,6 @@ Meteor.methods
 
             
             user_top_emotions = Meteor.call 'calc_user_top_emotions', site, user_id
-            console.log user_top_emotions
             if user_top_emotions[0]
                 user_top_emotion = user_top_emotions[0].title
             

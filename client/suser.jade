@@ -28,14 +28,7 @@ template(name='suser_layout')
                         small(title='reputation') {{ commafy reputation }}
                     div
                     .ui.basic.label(class=sentiment_class) {{to_percent sentiment_avg}}% #{doc_sentiment_label}
-                    .ui.list
-                        .item {{ to_percent avg_sent_score}} sentiment
-                        .item {{ to_percent avg_joy_score}} joy
-                        .item {{ to_percent avg_anger_score}} anger
-                        .item {{ to_percent avg_sadness_score}} sadness
-                        .item {{ to_percent avg_disgust_score}} disgust
-                        .item {{ to_percent avg_fear_score}} fear
-
+                    +suser_top_emotions
                     div
                     // .ui.green.label pos: {{to_percent sentiment_positive_avg}}%
                     // .ui.red.label neg: {{to_percent sentiment_negative_avg}}%
@@ -90,6 +83,18 @@ template(name='suser_layout')
                     div
                 .twelve.wide.column
                     +yield
+                    
+                    
+template(name='suser_top_emotions')
+    .ui.basic.label {{ to_percent avg_sent_score}} sentiment
+    .ui.basic.green.label {{ to_percent avg_joy_score}}% joyful
+    .ui.basic.red.label {{ to_percent avg_anger_score}}% angry
+    .ui.basic.blue.label {{ to_percent avg_sadness_score}}% sad
+    .ui.basic.orange.label {{ to_percent avg_disgust_score}}% disgusted
+    .ui.basic.grey.label {{ to_percent avg_fear_score}}% fearful
+
+                    
+                    
                     
 template(name='suser_q')
     each suser_q_tags
