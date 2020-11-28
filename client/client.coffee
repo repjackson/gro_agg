@@ -40,6 +40,8 @@ Template.nav.events
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'people'
     'click .goto_dao': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
+    'click .goto_ea': ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'environmental agency'
     'click .clear_tags': -> 
         selected_tags.clear()
     'click .silence': ->

@@ -5,16 +5,14 @@ Router.route '/ea', (->
 
 
 Template.ea.onCreated ->
+    @autorun -> Meteor.subscribe 'ea_docs'
 
 Template.ea.onRendered ->
 
-
 Template.ea.helpers
-    question_comments: ->
+    ea_docs: ->
         Docs.find({
-            model:'stack_comment'
-            post_id:parseInt(Router.current().params.qid)
-            site:Router.current().params.site
+            model:'ea'
         }, {
             sort:score:-1
         })

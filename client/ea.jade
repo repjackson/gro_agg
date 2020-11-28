@@ -10,3 +10,6 @@ template(name='ea')
             a.ui.basic.button(href="waste-carriers-brokers") Water Quality Exemptions	
             a.ui.basic.button(href="waste-carriers-brokers") Environmental Permitting Regulations – Radioactive Substances		
             a.ui.basic.button(href="waste-carriers-brokers") Environmental Permitting Regulations – Installations			
+            each ea_docs
+                with edata
+                    .ui.header #{holder.name}
