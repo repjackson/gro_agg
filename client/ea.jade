@@ -2,14 +2,43 @@ template(name='ea')
     .ui.padded.stackable.grid
         .four.wide.column
             img.ui.medium.image.get_ea(src="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/organisation/logo/199/EA_logo_354.jpg")
-        .twelve.wide.column
-            a.ui.basic.button(href="waste-carriers-brokers") Waste Carriers, Brokers and Dealers
-            a.ui.basic.button(href="waste-carriers-brokers") Waste Exemptions	
-            a.ui.basic.button(href="waste-carriers-brokers") Scrap Metal Dealers	
-            a.ui.basic.button(href="waste-carriers-brokers") Enforcement Actions	
-            a.ui.basic.button(href="waste-carriers-brokers") Water Quality Exemptions	
-            a.ui.basic.button(href="waste-carriers-brokers") Environmental Permitting Regulations – Radioactive Substances		
-            a.ui.basic.button(href="waste-carriers-brokers") Environmental Permitting Regulations – Installations			
+            .ui.basic.button Waste Carriers, Brokers and Dealers
+            .ui.basic.button Waste Exemptions	
+            .ui.basic.button Scrap Metal Dealers	
+            .ui.basic.button Enforcement Actions	
+            .ui.basic.button Water Quality Exemptions	
+            .ui.basic.button Environmental Permitting Regulations – Radioactive Substances		
+            .ui.basic.button Environmental Permitting Regulations – Installations			
+        .twelve.wide.column.scrolling
             each ea_docs
-                with edata
-                    .ui.header #{holder.name}
+                +ea_doc
+                    
+                    
+template(name='ea_doc')
+    .ui.segment
+        with edata
+            .ui.list
+                .item #{holder.name}
+                .item #{applicantType.prefLabel}
+                .item expires #{expiryDate} 
+                .item #{tier.upper}
+            .ui.list
+                .item.header holder
+                with holder
+                    .item #{name}
+                    .item #{type}  
+            .ui.list
+                .item #{regime.prefLabel}
+                .item #{register.label}
+                .item #{registrationDate}
+                .item #{registrationNumber}
+                .item #{registrationType.label}
+            .ui.list
+                .header.item site
+                with site.siteAddress
+                    .item #{address}
+                    .item #{locality}
+                    .item #{organization_name}
+                    .item #{postcode}
+                    .item #{postcodeURI}
+                    .item #{street_address}
