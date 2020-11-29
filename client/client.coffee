@@ -228,6 +228,7 @@ Template.registerHelper 'nl2br', (text)->
     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
     new Spacebars.SafeString(nl2br)
 
+Template.registerHelper 'fixed0', (number)-> number.toFixed()
 Template.registerHelper 'fixed', (number)-> number.toFixed(2)
 Template.registerHelper 'to_percent', (number)-> (number*100).toFixed()
 

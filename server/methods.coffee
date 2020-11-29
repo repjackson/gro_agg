@@ -153,11 +153,11 @@ Meteor.methods
             )
         
         if user_doc
-            sent_avg = Meteor.call 'sent_avg', site, user_id
-            if sent_avg[0]
-                sentiment_avg = sent_avg[0].avg_sent_score
-            else
-                sentiment_avg = 0
+            # sent_avg = Meteor.call 'sent_avg', site, user_id
+            # if sent_avg[0]
+            #     sentiment_avg = sent_avg[0].avg_sent_score
+            # else
+            #     sentiment_avg = 0
 
             
             user_top_emotions = Meteor.call 'calc_user_top_emotions', site, user_id
@@ -171,12 +171,26 @@ Meteor.methods
                 added_tags = []
                 for tag in user_tag_res
                     added_tags.push tag.title
+                    
+                    
+                rep_joy = user_doc.reputation*user_top_emotions[0].avg_joy_score
+                rep_sad = user_doc.reputation*user_top_emotions[0].avg_sadness_score
+                rep_anger = user_doc.reputation*user_top_emotions[0].avg_anger_score
+                rep_disgust = user_doc.reputation*user_top_emotions[0].avg_disgust_score
+                rep_fear = user_doc.reputation*user_top_emotions[0].avg_fear_score
+                
+                    
                 Docs.update user_doc._id,
                     $set:
                         user_tag_agg: user_tag_res
                         # user_top_emotions:user_top_emotions
                         # user_top_emotion:user_top_emotion
-                        sentiment_avg: sentiment_avg
+                        # sentiment_avg: sentiment_avg
+                        rep_joy:rep_joy
+                        rep_sad:rep_sad
+                        rep_anger:rep_anger
+                        rep_disgust:rep_disgust
+                        rep_fear:rep_fear
                         avg_sent_score: user_top_emotions[0].avg_sent_score
                         avg_joy_score: user_top_emotions[0].avg_joy_score
                         avg_anger_score: user_top_emotions[0].avg_anger_score
@@ -228,7 +242,7 @@ Meteor.methods
         
         match = {}
 
-        match.model = $in:['stack_question','stack_question','stack_answer']
+        match.model = $in:['stack_question','stack_comment','stack_answer']
         match["owner.user_id"] = parseInt(user_id)
         match.site = site
         total_doc_result_count =
@@ -307,6 +321,11 @@ Meteor.methods
                 # _id:'$doc_sentiment_label'
                 _id:null
                 avg_sent_score: { $avg: "$doc_sentiment_score" }
+                avg_joy_score: { $avg: "$joy_percent" }
+                avg_anger_score: { $avg: "$anger_percent" }
+                avg_sadness_score: { $avg: "$sadness_percent" }
+                avg_disgust_score: { $avg: "$disgust_percent" }
+                avg_fear_score: { $avg: "$fear_percent" }
             }
         ]
 
