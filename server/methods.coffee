@@ -132,10 +132,24 @@ Meteor.methods
                     reputation:$gt:user_doc.reputation
                 ).count()
             
+            site_joy_rep_rank = 
+                Docs.find(
+                    model:'stackuser'
+                    site:site
+                    rep_joy:$gt:user_doc.rep_joy
+                ).count()
+            global_joy_rep_rank = 
+                Docs.find(
+                    model:'stackuser'
+                    rep_joy:$gt:user_doc.rep_joy
+                ).count()
+            
             Docs.update user_doc._id,
                 $set:
                     site_rank:site_rank+1
                     global_rank:global_rank+1
+                    site_joy_rep_rank:site_joy_rep_rank+1
+                    global_joy_rep_rank:global_joy_rep_rank+1
     
     omega: (site,user_id)->
         # @unblock()
