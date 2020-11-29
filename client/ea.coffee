@@ -1,4 +1,5 @@
-selected_reg_type = new ReactiveArray()
+picked_types = new ReactiveArray()
+picked_localities = new ReactiveArray()
 
 Router.route '/ea', (->
     @layout 'layout'
@@ -13,14 +14,16 @@ Template.ea.onCreated ->
     Session.setDefault('number_query','')
     @autorun -> Meteor.subscribe 'ea_count' 
     @autorun -> Meteor.subscribe 'ea_docs', 
-        selected_reg_type.array()
+        picked_localities.array()
+        picked_types.array()
         Session.get 'name_query'
         Session.get 'location_query'
         Session.get 'register_query'
         Session.get 'number_query'
         
     @autorun -> Meteor.subscribe 'e_tags', 
-        selected_reg_type.array()
+        picked_localities.array()
+        picked_types.array()
         Session.get 'name_query'
         Session.get 'location_query'
         Session.get 'register_query'
@@ -50,11 +53,14 @@ Template.ea.helpers
         })
     answer_class: -> if @accepted then 'accepted'
     ea_count: -> Counts.get('ea_counter')
-
-
+    picked_localities: -> picked_localities.array()
+    picked_types: -> picked_types.array()
+    
 Template.ea.events
     'click .goto_q': -> Router.go "/s/#{Router.current().params.site}/q/#{@question_id}"
-
+    'click .unpick_type': -> picked_types.remove @valueOf()
+    'click .pick_type': -> picked_types.push @name
+    'click .pick_locality': -> picked_localities.push @name
     'keyup .search_name': (e,t)->
         val = $('.search_name').val()
         Session.set('name_query', val)

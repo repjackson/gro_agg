@@ -4,12 +4,16 @@ template(name='ea')
             img.ui.medium.image.get_ea(src="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/organisation/logo/199/EA_logo_354.jpg")
             .ui.header #{ea_count} docs
             .ui.inline.header localities
+            each picked_localities
+                .ui.button.unpick_locality #{this}
             each localities
-                .ui.compact.basic.small.button #{name} #{count}
+                .ui.compact.basic.small.button.pick_locality #{name} #{count}
             div
             .ui.inline.header types
+            each picked_types
+                .ui.button.unpick_type #{this}
             each types
-                .ui.compact.basic.small.button #{name} #{count}
+                .ui.compact.basic.small.button.pick_type #{name} #{count}
         .eight.wide.column
             // +field_filter
             .ui.icon.input

@@ -2,9 +2,8 @@ request = require('request')
 rp = require('request-promise');
 
 Meteor.publish 'e_tags', (
-    selected_models
-    selected_subreddits
-    selected_emotions
+    picked_localities
+    picked_types
     # query=''
     )->
     
@@ -12,7 +11,8 @@ Meteor.publish 'e_tags', (
     match = {model:'ea'}
     # if emotion_mode
     #     match.max_emotion_name = emotion_mode
-    # if selected_emotions.length > 0 then match.max_emotion_name = $all:selected_emotions
+    if picked_localities.length > 0 then match.edata.site.siteAddress.locality = $all:picked_localities
+    if picked_types.length > 0 then match.edata.registrationType.label = $all:picked_types
     # if selected_subreddits.length > 0 then match.subreddit = selected_subreddits.toString()
     # if selected_models.length > 0 then match.model = $all:selected_models
 
@@ -63,13 +63,17 @@ Meteor.publish 'ea_count', (
     return undefined
 
 Meteor.publish 'ea_docs', (
-    selected_reg_type
+    picked_localities
+    picked_types
     name_query=''
     location_query=''
     type_query=''
     number_query=''
     )->
     match = {model:'ea'}
+    if picked_localities.length > 0 then match["edata.site.siteAddress.locality"] = $all:picked_localities
+    if picked_types.length > 0 then match["edata.registrationType.label"] = $all:picked_types
+    
     # if selected_reg_type.length > 0
     #     match['registrationType.label'] = $in: selected_reg_type
     #     # match['holder.title'] = {$regex:"#{selected_reg_type}"}
