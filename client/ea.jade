@@ -2,20 +2,15 @@ template(name='ea')
     .ui.stackable.grid
         .four.wide.column
             img.ui.medium.image.get_ea(src="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/organisation/logo/199/EA_logo_354.jpg")
-            +call_register k='waste-carriers-brokers' l='Waste Carriers, Brokers and Dealers'
-            +call_register k='waste-exemptions' l='Waste Exemptions'
-            +call_register k='scrap-metal-dealers' l='Scrap Metal Dealers'
-            +call_register k='water-discharge-exemptions' l='Water Quality Exemptions'
-            +call_register k='flood-risk-exemptions' l='Flood Risk Activity Exemptions'
-            +call_register k='enforcement-action' l='Enforcement Actions'
-            +call_register k='radioactive-substance' l='Radioactive Substances permits'
-            +call_register k='industrial-installations' l='Environmental Permitting Regulations - Installations'
-            +call_register k='waste-operations' l='Environmental Permitting Regulations - Waste Operations'
-            +call_register k='end-of-life-vehicles' l='Environmental Permitting Regulations - End of Life Vehicles'
-            +call_register k='water-discharges' l='Environmental Permitting Regulations - Discharge Consents'
+            .ui.header #{ea_count} docs
+            .ui.inline.header localities
             each localities
-                .ui.compact.basic.button #{name} #{count}
-        .twelve.wide.column
+                .ui.compact.basic.small.button #{name} #{count}
+            div
+            .ui.inline.header types
+            each types
+                .ui.compact.basic.small.button #{name} #{count}
+        .eight.wide.column
             // +field_filter
             .ui.icon.input
                 if sv 'name_query'
@@ -44,6 +39,18 @@ template(name='ea')
             .scrolling
                 each ea_docs
                     +ea_doc
+        .four.wide.column
+            +call_register k='waste-carriers-brokers' l='Waste Carriers, Brokers and Dealers'
+            +call_register k='waste-exemptions' l='Waste Exemptions'
+            +call_register k='scrap-metal-dealers' l='Scrap Metal Dealers'
+            +call_register k='water-discharge-exemptions' l='Water Quality Exemptions'
+            +call_register k='flood-risk-exemptions' l='Flood Risk Activity Exemptions'
+            +call_register k='enforcement-action' l='Enforcement Actions'
+            +call_register k='radioactive-substance' l='Radioactive Substances permits'
+            +call_register k='industrial-installations' l='Environmental Permitting Regulations - Installations'
+            +call_register k='waste-operations' l='Environmental Permitting Regulations - Waste Operations'
+            +call_register k='end-of-life-vehicles' l='Environmental Permitting Regulations - End of Life Vehicles'
+            +call_register k='water-discharges' l='Environmental Permitting Regulations - Discharge Consents'
      
 template(name='call_register')
     .ui.small.basic.compact.button.call_ea

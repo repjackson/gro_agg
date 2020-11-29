@@ -57,8 +57,7 @@ Meteor.publish 'doc_count', (
             match.model = $in:['wikipedia','reddit','stack']
 
     Counts.publish this, 'result_counter', Docs.find(match)
-    return undefined    # otherwise coffeescript returns a Counts.publish
-                      # handle when Meteor expects a Mongo.Cursor object.
+    return undefined
 
 
 Meteor.methods

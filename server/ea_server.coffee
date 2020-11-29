@@ -33,9 +33,35 @@ Meteor.publish 'e_tags', (
             name: locality.name
             count: locality.count
             model:'locality'
+
+
+    types = Docs.aggregate [
+        { $match: match }
+        { $project: "edata.registrationType.label": 1 }
+        # { $unwind: "$tags" }
+        { $group: _id: "$edata.registrationType.label", count: $sum: 1 }
+        # { $match: _id: $nin: selected_tags }
+        { $sort: count: -1, _id: 1 }
+        # { $match: count: $lt: doc_count }
+        { $limit:20 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    types.forEach (type, i) ->
+        self.added 'results', Random.id(),
+            name: type.name
+            count: type.count
+            model:'type'
     self.ready()
             
-    
+Meteor.publish 'ea_count', (
+    site
+    )->
+        
+    match = {model:'ea'}
+    match.site = site
+    Counts.publish this, 'ea_counter', Docs.find(match)
+    return undefined
+
 Meteor.publish 'ea_docs', (
     selected_reg_type
     name_query=''

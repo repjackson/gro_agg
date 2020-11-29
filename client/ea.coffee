@@ -11,6 +11,7 @@ Template.ea.onCreated ->
     Session.setDefault('location_query','')
     Session.setDefault('register_query','')
     Session.setDefault('number_query','')
+    @autorun -> Meteor.subscribe 'ea_count' 
     @autorun -> Meteor.subscribe 'ea_docs', 
         selected_reg_type.array()
         Session.get 'name_query'
@@ -41,7 +42,14 @@ Template.ea.helpers
         }, {
             sort:count:-1
         })
+    types: ->
+        results.find({
+            model:'type'
+        }, {
+            sort:count:-1
+        })
     answer_class: -> if @accepted then 'accepted'
+    ea_count: -> Counts.get('ea_counter')
 
 
 Template.ea.events
