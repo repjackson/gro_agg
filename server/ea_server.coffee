@@ -4,17 +4,15 @@ rp = require('request-promise');
 Meteor.publish 'e_tags', (
     picked_localities
     picked_types
+    picked_postcodes
     # query=''
     )->
     
     self = @
     match = {model:'ea'}
-    # if emotion_mode
-    #     match.max_emotion_name = emotion_mode
-    if picked_localities.length > 0 then match.edata.site.siteAddress.locality = $all:picked_localities
+    if picked_localities.length > 0 then match["edata.site.siteAddress.locality"] = $all:picked_localities
+    if picked_postcodes.length > 0 then match["edata.site.siteAddress.postcode"] = $all:picked_postcodes
     if picked_types.length > 0 then match.edata.registrationType.label = $all:picked_types
-    # if selected_subreddits.length > 0 then match.subreddit = selected_subreddits.toString()
-    # if selected_models.length > 0 then match.model = $all:selected_models
 
       
     localities = Docs.aggregate [
@@ -33,6 +31,23 @@ Meteor.publish 'e_tags', (
             name: locality.name
             count: locality.count
             model:'locality'
+
+    postcodes = Docs.aggregate [
+        { $match: match }
+        { $project: "edata.site.siteAddress.postcode": 1 }
+        # { $unwind: "$tags" }
+        { $group: _id: "$edata.site.siteAddress.postcode", count: $sum: 1 }
+        # { $match: _id: $nin: selected_tags }
+        { $sort: count: -1, _id: 1 }
+        # { $match: count: $lt: doc_count }
+        { $limit:20 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    postcodes.forEach (postcode, i) ->
+        self.added 'results', Random.id(),
+            name: postcode.name
+            count: postcode.count
+            model:'postcode'
 
 
     types = Docs.aggregate [
@@ -65,6 +80,7 @@ Meteor.publish 'ea_count', (
 Meteor.publish 'ea_docs', (
     picked_localities
     picked_types
+    picked_postcodes
     name_query=''
     location_query=''
     type_query=''
@@ -73,10 +89,8 @@ Meteor.publish 'ea_docs', (
     match = {model:'ea'}
     if picked_localities.length > 0 then match["edata.site.siteAddress.locality"] = $all:picked_localities
     if picked_types.length > 0 then match["edata.registrationType.label"] = $all:picked_types
-    
-    # if selected_reg_type.length > 0
-    #     match['registrationType.label'] = $in: selected_reg_type
-    #     # match['holder.title'] = {$regex:"#{selected_reg_type}"}
+    if picked_postcodes.length > 0 then match["edata.site.siteAddress.postcode"] = $all:picked_postcodes
+
     if name_query and name_query.length > 0
         match["edata.holder.name"] = {$regex:"#{name_query}",$options:'i'}
     if location_query and location_query.length > 0

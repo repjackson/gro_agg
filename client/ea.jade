@@ -1,12 +1,13 @@
 template(name='ea')
     .ui.stackable.grid
-        .four.wide.column
-            img.ui.medium.image.get_ea(src="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/organisation/logo/199/EA_logo_354.jpg")
-            .ui.header #{ea_count} docs
+        .five.wide.column
+            img.ui.small.inline.image.get_ea(src="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/organisation/logo/199/EA_logo_354.jpg")
+            .ui.inline.header #{ea_count} docs
             .ui.inline.header localities
             each picked_localities
                 .ui.button.unpick_locality #{this}
             each localities
+                // +tag_selector
                 .ui.compact.basic.small.button.pick_locality #{name} #{count}
             div
             .ui.inline.header types
@@ -14,6 +15,12 @@ template(name='ea')
                 .ui.button.unpick_type #{this}
             each types
                 .ui.compact.basic.small.button.pick_type #{name} #{count}
+            div
+            .ui.inline.header postcodes
+            each picked_postcodes
+                .ui.button.unpick_postcode #{this}
+            each postcodes
+                .ui.compact.basic.small.button.pick_postcode #{name} #{count}
         .eight.wide.column
             // +field_filter
             .ui.icon.input
@@ -43,7 +50,7 @@ template(name='ea')
             .scrolling
                 each ea_docs
                     +ea_doc
-        .four.wide.column
+        .two.wide.column
             +call_register k='waste-carriers-brokers' l='Waste Carriers, Brokers and Dealers'
             +call_register k='waste-exemptions' l='Waste Exemptions'
             +call_register k='scrap-metal-dealers' l='Scrap Metal Dealers'
@@ -57,7 +64,7 @@ template(name='ea')
             +call_register k='water-discharges' l='Environmental Permitting Regulations - Discharge Consents'
      
 template(name='call_register')
-    .ui.small.basic.compact.button.call_ea
+    .ui.tiny.basic.compact.button.call_ea
         |#{l}
      
                     
@@ -65,13 +72,12 @@ template(name='call_register')
 template(name='ea_doc')
     .ui.segment
         with edata
-            .ui.header #{holder.name}
-            .ui.list
-                .item #{applicantType.prefLabel}
-                .item expires #{expiryDate} ({{from_now expiryDate}})
-                .ui.label 
-                    small tier: 
-                    |#{tier.label}
+            .ui.inline.header #{holder.name}
+            .ui.label 
+                small tier: 
+                |#{tier.label}
+            .ui.label #{applicantType.prefLabel}
+            .ui.label expires #{expiryDate} ({{from_now expiryDate}})
             // .ui.list
             //     .item.header holder
             //     with holder
@@ -84,11 +90,10 @@ template(name='ea_doc')
                 .item number: #{registrationNumber}
                 .item registration type: #{registrationType.label}
             .ui.list
-                .ui.header.item site
                 with site.siteAddress
                     .item #{address}
-                    .item #{locality}
-                    // .item #{organization_name}
-                    .item #{postcode}
-                    .item #{postcodeURI}
-                    .item #{street_address}
+                    // .item #{locality}
+                    // // .item #{organization_name}
+                    // .item #{postcode}
+                    // // .item #{postcodeURI}
+                    // .item #{street_address}

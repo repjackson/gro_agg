@@ -1,4 +1,5 @@
 picked_types = new ReactiveArray()
+picked_postcodes = new ReactiveArray()
 picked_localities = new ReactiveArray()
 
 Router.route '/ea', (->
@@ -16,6 +17,7 @@ Template.ea.onCreated ->
     @autorun -> Meteor.subscribe 'ea_docs', 
         picked_localities.array()
         picked_types.array()
+        picked_postcodes.array()
         Session.get 'name_query'
         Session.get 'location_query'
         Session.get 'register_query'
@@ -24,6 +26,7 @@ Template.ea.onCreated ->
     @autorun -> Meteor.subscribe 'e_tags', 
         picked_localities.array()
         picked_types.array()
+        picked_postcodes.array()
         Session.get 'name_query'
         Session.get 'location_query'
         Session.get 'register_query'
@@ -37,11 +40,17 @@ Template.ea.helpers
         Docs.find({
             model:'ea'
         }, {
-            sort:score:-1
+            sort:count:-1
         })
     localities: ->
         results.find({
             model:'locality'
+        }, {
+            sort:count:-1
+        })
+    postcodes: ->
+        results.find({
+            model:'postcode'
         }, {
             sort:count:-1
         })
@@ -55,11 +64,17 @@ Template.ea.helpers
     ea_count: -> Counts.get('ea_counter')
     picked_localities: -> picked_localities.array()
     picked_types: -> picked_types.array()
+    picked_types: -> picked_postcodes.array()
     
 Template.ea.events
     'click .goto_q': -> Router.go "/s/#{Router.current().params.site}/q/#{@question_id}"
     'click .unpick_type': -> picked_types.remove @valueOf()
     'click .pick_type': -> picked_types.push @name
+
+    'click .unpick_postcode': -> picked_postcodes.remove @valueOf()
+    'click .pick_postcode': -> picked_postcodes.push @name
+
+    'click .unpick_locality': -> picked_localities.remove @valueOf()
     'click .pick_locality': -> picked_localities.push @name
     'keyup .search_name': (e,t)->
         val = $('.search_name').val()
