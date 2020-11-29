@@ -15,8 +15,8 @@ Router.configure
 
 Router.route '/', (->
     @layout 'layout'
-    @render 'dao'
-    ), name:'dao'
+    @render 'ea'
+    ), name:'ea_home'
 
 
 Docs.helpers

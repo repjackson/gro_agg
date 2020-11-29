@@ -1,5 +1,5 @@
 Meteor.methods
-    hi: ->
+    # hi: ->
     # stringify_tags: ->
     #     docs = Docs.find({
     #         tags: $exists: true

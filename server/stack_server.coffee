@@ -388,7 +388,7 @@ Meteor.methods
                             Docs.insert item
             )).catch((err)->
             )
-       get_priv: (site, user_id) ->
+      get_priv: (site, user_id) ->
         url = "https://api.stackexchange.com/2.2/privileges?&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url

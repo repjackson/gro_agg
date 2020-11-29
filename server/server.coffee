@@ -5,7 +5,7 @@ Docs.allow
     update: (user_id, doc) ->
         true
     remove: (user_id, doc) ->
-        true
+        false
 
 
 

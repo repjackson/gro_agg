@@ -1,15 +1,39 @@
 template(name='ea')
-    .ui.padded.stackable.grid
+    .ui.stackable.grid
         .four.wide.column
             img.ui.medium.image.get_ea(src="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/organisation/logo/199/EA_logo_354.jpg")
-            .ui.basic.button Waste Carriers, Brokers and Dealers
-            .ui.basic.button Waste Exemptions	
-            .ui.basic.button Scrap Metal Dealers	
-            .ui.basic.button Enforcement Actions	
-            .ui.basic.button Water Quality Exemptions	
-            .ui.basic.button Environmental Permitting Regulations – Radioactive Substances		
-            .ui.basic.button Environmental Permitting Regulations – Installations			
+            .ui.basic.compact.button Waste Carriers, Brokers and Dealers
+            .ui.basic.compact.button Waste Exemptions	
+            .ui.basic.compact.button Scrap Metal Dealers	
+            .ui.basic.compact.button Enforcement Actions
+            .ui.basic.compact.button Water Quality Exemptions	
+            .ui.basic.compact.button Environmental Permitting Regulations – Radioactive Substances		
+            .ui.basic.compact.button Environmental Permitting Regulations – Installations			
         .twelve.wide.column.scrolling
+            .ui.icon.input
+                if sv 'name_query'
+                    i.link.remove.icon.clear_name
+                else
+                    i.header.icon
+                input.search_name(type='text' placeholder='name')
+            .ui.icon.input
+                if sv 'location_query'
+                    i.link.remove.icon.clear_location
+                else
+                    i.marker.icon
+                input.search_location(type='text' placeholder='location')
+            .ui.icon.input
+                if sv 'type_query'
+                    i.link.remove.icon.clear_type
+                else
+                    i.clone.icon
+                input.search_type(type='text' placeholder='register type')
+            .ui.icon.input
+                if sv 'number_query'
+                    i.link.remove.icon.clear_number
+                else
+                    i.hashtag.icon
+                input.search_number(type='text' placeholder='number')
             each ea_docs
                 +ea_doc
                     
@@ -17,24 +41,26 @@ template(name='ea')
 template(name='ea_doc')
     .ui.segment
         with edata
+            .ui.header #{holder.name}
             .ui.list
-                .item #{holder.name}
                 .item #{applicantType.prefLabel}
-                .item expires #{expiryDate} 
-                .item #{tier.upper}
+                .item expires #{expiryDate} ({{from_now expiryDate}})
+                .ui.label 
+                    small tier: 
+                    |#{tier.label}
+            // .ui.list
+            //     .item.header holder
+            //     with holder
+            //         .item #{name}
+            //         // .item #{type}  
             .ui.list
-                .item.header holder
-                with holder
-                    .item #{name}
-                    .item #{type}  
+                .item regime label: #{regime.prefLabel}
+                .item register label: #{register.label}
+                .item register date: #{registrationDate} ({{from_now registrationDate}})
+                .item number: #{registrationNumber}
+                .item registration type: #{registrationType.label}
             .ui.list
-                .item #{regime.prefLabel}
-                .item #{register.label}
-                .item #{registrationDate}
-                .item #{registrationNumber}
-                .item #{registrationType.label}
-            .ui.list
-                .header.item site
+                .ui.header.item site
                 with site.siteAddress
                     .item #{address}
                     .item #{locality}
