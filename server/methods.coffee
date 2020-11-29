@@ -149,11 +149,12 @@ Meteor.methods
                         model:'stackuser'
                         "rep_#{emotion}":$gt:user_doc["rep_#{emotion}"]
                     ).count()
-                Docs.update user_doc._id,
-                    $set:
-                        "site_#{emotion}_rep_rank":site_emo_rep_rank+1
-                        "global_#{emotion}_rep_rank":global_emo_rep_rank+1
-    
+                Docs.update({_id:user_doc._id},
+                    {
+                        $set:
+                            "site_#{emotion}_rep_rank":site_emo_rep_rank+1
+                            "global_#{emotion}_rep_rank":global_emo_rep_rank+1
+                    }, -> )
     omega: (site,user_id)->
         # @unblock()
         # agg_res = Meteor.call 'agg_omega2', (err, res)->
