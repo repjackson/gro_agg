@@ -36,7 +36,7 @@ Template.stack.helpers
     site_docs: ->
         Docs.find {model:'stack_site'},
             {
-                limit:20
+                limit:209
                 sort:
                     "#{Session.get('sort_key')}": parseInt(Session.get('sort_direction'))
             }

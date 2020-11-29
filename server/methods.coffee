@@ -131,25 +131,28 @@ Meteor.methods
                     model:'stackuser'
                     reputation:$gt:user_doc.reputation
                 ).count()
-            
-            site_joy_rep_rank = 
-                Docs.find(
-                    model:'stackuser'
-                    site:site
-                    rep_joy:$gt:user_doc.rep_joy
-                ).count()
-            global_joy_rep_rank = 
-                Docs.find(
-                    model:'stackuser'
-                    rep_joy:$gt:user_doc.rep_joy
-                ).count()
-            
             Docs.update user_doc._id,
                 $set:
                     site_rank:site_rank+1
                     global_rank:global_rank+1
-                    site_joy_rep_rank:site_joy_rep_rank+1
-                    global_joy_rep_rank:global_joy_rep_rank+1
+            
+            for emotion in ['joy','sadness','disgust','fear','anger']
+                console.log 'emotion', emotion
+                site_emo_rep_rank = 
+                    Docs.find(
+                        model:'stackuser'
+                        site:site
+                        "rep_#{emotion}":$gt:user_doc["rep_#{emotion}"]
+                    ).count()
+                global_emo_rep_rank = 
+                    Docs.find(
+                        model:'stackuser'
+                        "rep_#{emotion}":$gt:user_doc["rep_#{emotion}"]
+                    ).count()
+                Docs.update user_doc._id,
+                    $set:
+                        "site_#{emotion}_rep_rank":site_emo_rep_rank+1
+                        "global_#{emotion}_rep_rank":global_emo_rep_rank+1
     
     omega: (site,user_id)->
         # @unblock()
@@ -188,7 +191,7 @@ Meteor.methods
                     
                     
                 rep_joy = user_doc.reputation*user_top_emotions[0].avg_joy_score
-                rep_sad = user_doc.reputation*user_top_emotions[0].avg_sadness_score
+                rep_sadness = user_doc.reputation*user_top_emotions[0].avg_sadness_score
                 rep_anger = user_doc.reputation*user_top_emotions[0].avg_anger_score
                 rep_disgust = user_doc.reputation*user_top_emotions[0].avg_disgust_score
                 rep_fear = user_doc.reputation*user_top_emotions[0].avg_fear_score
@@ -201,7 +204,7 @@ Meteor.methods
                         # user_top_emotion:user_top_emotion
                         # sentiment_avg: sentiment_avg
                         rep_joy:rep_joy
-                        rep_sad:rep_sad
+                        rep_sadness:rep_sadness
                         rep_anger:rep_anger
                         rep_disgust:rep_disgust
                         rep_fear:rep_fear
