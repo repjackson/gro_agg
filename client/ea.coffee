@@ -18,6 +18,13 @@ Template.ea.onCreated ->
         Session.get 'register_query'
         Session.get 'number_query'
         
+    @autorun -> Meteor.subscribe 'e_tags', 
+        selected_reg_type.array()
+        Session.get 'name_query'
+        Session.get 'location_query'
+        Session.get 'register_query'
+        Session.get 'number_query'
+        
 
 Template.ea.onRendered ->
 
@@ -27,6 +34,12 @@ Template.ea.helpers
             model:'ea'
         }, {
             sort:score:-1
+        })
+    localities: ->
+        results.find({
+            model:'locality'
+        }, {
+            sort:count:-1
         })
     answer_class: -> if @accepted then 'accepted'
 
@@ -78,7 +91,10 @@ Template.ea.events
     'click .clear_type': -> 
         Session.set('type_query', null)
         $('.search_type').val('')
-    'click .get_ea': (e,t)->
-        Meteor.call 'call_ea', ->
+    
+Template.call_register.events    
+    'click .call_ea': (e,t)->
+        console.log @
+        Meteor.call 'call_ea', @k, ->
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name

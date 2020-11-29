@@ -1,6 +1,41 @@
 request = require('request')
 rp = require('request-promise');
 
+Meteor.publish 'e_tags', (
+    selected_models
+    selected_subreddits
+    selected_emotions
+    # query=''
+    )->
+    
+    self = @
+    match = {model:'ea'}
+    # if emotion_mode
+    #     match.max_emotion_name = emotion_mode
+    # if selected_emotions.length > 0 then match.max_emotion_name = $all:selected_emotions
+    # if selected_subreddits.length > 0 then match.subreddit = selected_subreddits.toString()
+    # if selected_models.length > 0 then match.model = $all:selected_models
+
+      
+    localities = Docs.aggregate [
+        { $match: match }
+        { $project: "edata.site.siteAddress.locality": 1 }
+        # { $unwind: "$tags" }
+        { $group: _id: "$edata.site.siteAddress.locality", count: $sum: 1 }
+        # { $match: _id: $nin: selected_tags }
+        { $sort: count: -1, _id: 1 }
+        # { $match: count: $lt: doc_count }
+        { $limit:20 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    localities.forEach (locality, i) ->
+        self.added 'results', Random.id(),
+            name: locality.name
+            count: locality.count
+            model:'locality'
+    self.ready()
+            
+    
 Meteor.publish 'ea_docs', (
     selected_reg_type
     name_query=''
@@ -26,33 +61,34 @@ Meteor.publish 'ea_docs', (
     
     
     
-# Meteor.methods 
-    # call_ea: (input)->
-    #     # HTTP.get "https://environment.data.gov.uk/public-register/search.json?"
-    #     url = "https://environment.data.gov.uk/public-register/waste-carriers-brokers/registration.json?_limit=20"
-    #     options = {
-    #         url: url
-    #         headers: 'accept-encoding': 'gzip'
-    #         gzip: true
-    #     }
-    #     rp(options)
-    #         .then(Meteor.bindEnvironment((data)->
-    #             parsed = JSON.parse(data)
-    #             for item in parsed.items
-    #                 console.log item
-    #                 found = 
-    #                     Docs.findOne
-    #                         model:'ea'
-    #                         edata:item
-    #                 if found
-    #                     console.log found
-    #                     # Docs.update found._id,
-    #                     #     $set:body:item.body
-    #                 unless found
-    #                     doc = {}
-    #                     doc.model = 'ea'
-    #                     doc.edata = item
-    #                     new_id = 
-    #                         Docs.insert doc
-    #         )).catch((err)->
-    #         )
+Meteor.methods 
+    call_ea: (register)->
+        console.log 'register', register
+        # HTTP.get "https://environment.data.gov.uk/public-register/search.json?"
+        url = "https://environment.data.gov.uk/public-register/#{register}/registration.json?_limit=100"
+        options = {
+            url: url
+            headers: 'accept-encoding': 'gzip'
+            gzip: true
+        }
+        rp(options)
+            .then(Meteor.bindEnvironment((data)->
+                parsed = JSON.parse(data)
+                for item in parsed.items
+                    console.log item
+                    found = 
+                        Docs.findOne
+                            model:'ea'
+                            edata:item
+                    if found
+                        console.log found.edata.holder.name
+                        # Docs.update found._id,
+                        #     $set:body:item.body
+                    unless found
+                        doc = {}
+                        doc.model = 'ea'
+                        doc.edata = item
+                        new_id = 
+                            Docs.insert doc
+            )).catch((err)->
+            )
