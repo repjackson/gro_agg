@@ -14,6 +14,39 @@ body {
     transition: all .25s ease !important;
     /* background: #0e0e44 !important; */
 }
+
+
+.pulsing {
+    /*height: 250px; */
+    /*width: 250px; */
+    /*margin: 0 auto; */
+    /*background-color: lime; */
+    animation-name: stretch; 
+    animation-duration: 2.0s; 
+    animation-timing-function: ease-out; 
+    animation-direction: alternate; 
+    animation-iteration-count: infinite; 
+    animation-play-state: running; 
+} 
+  
+@keyframes stretch { 
+  0% { 
+      transform: scale(.5); 
+      background-color: green; 
+      border-radius: 100%; 
+  } 
+
+  50% { 
+      background-color: orange; 
+  } 
+
+  100% { 
+      transform: scale(2.0); 
+      background-color: red; 
+  } 
+} 
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -172,10 +205,10 @@ html.ios body {
 .topnav.menu > .item {
   /*border-radius: 20px !important;*/
 }
-.topnav > .item.active {
-  background: lightgrey !important;
+/*.topnav > .item.active {*/
+/*  background: lightgrey !important;*/
   
-}
+/*}*/
 .topnav.menu {
   /*border-radius: 0 0 10px 10px !important; */
   transition: color 1s ease !important;
@@ -593,7 +626,7 @@ input {
     /*padding-left: 1em;*/
 }
 .scrolling{
-    max-height: 100vh !important;
+    max-height: 95vh !important;
     /*min-height: 50vh !important;*/
     /* padding: 5px !important;
     border-radius: 10px !important;

@@ -1,15 +1,15 @@
 Meteor.methods
     search_reddit: (query, subreddit)->
         @unblock()
-        # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
+        # res = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
         url = "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=5&include_facets=false"
-        # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
-        HTTP.get url,(err,response)=>
-            if response.data.data.dist > 1
-                _.each(response.data.data.children, (item)=>
+        # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,res)=>
+        HTTP.get url,(err,res)=>
+            if res.data.data.dist > 1
+                _.each(res.data.data.children, (item)=>
                     unless item.domain is "OneWordBan"
                         data = item.data
                         len = 200
@@ -55,11 +55,35 @@ Meteor.methods
                             #     $inc:points:1
                             Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                 )
-
-        # _.each(response.data.data.children, (item)->
-        #     # data = item.data
-        #     # len = 200
-        # )
+    
+    
+    get_sub_info: (subreddit)->
+        @unblock()
+        console.log 'getting info', subreddit
+        # if subreddit 
+        #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
+        # else
+        url = "http://reddit.com/r/#{subreddit}/about.json?"
+        HTTP.get url,(err,res)=>
+            # console.log res.data.data
+            if res.data.data
+                existing_doc = Docs.findOne 
+                    model:'subreddit'
+                    name:subreddit
+                if existing_doc
+                    console.log 'existing', existing_doc
+                    # if Meteor.isDevelopment
+                    # if typeof(existing_doc.tags) is 'string'
+                    #     Doc.update
+                    #         $unset: tags: 1
+                    Docs.update existing_doc._id,
+                        $set: rdata:res.data.data
+                unless existing_doc
+                    sub = {}
+                    sub.model = 'subreddit'
+                    sub.name = subreddit
+                    sub.rdata = res.data.data
+                    new_reddit_post_id = Docs.insert sub
 
     reddit_all: ->
         total = 
@@ -151,7 +175,7 @@ Meteor.methods
                     found = 
                         Docs.findOne    
                             model:'subreddit'
-                            "data.display_name":item.data.display_name
+                            "rdata.display_name":item.data.display_name
                     # if found
                     unless found
                         item.model = 'subreddit'
@@ -164,7 +188,7 @@ Meteor.methods
 Meteor.publish 'subreddit_by_param', (name)->
     Docs.find
         model:'subreddit'
-        "data.display_name":name
+        "rdata.display_name":name
 Meteor.publish 'subreddits', (
     query=''
     selected_tags
@@ -172,7 +196,7 @@ Meteor.publish 'subreddits', (
     match = {model:'subreddit'}
     
     if query.length > 0
-        match["data.display_name"] = {$regex:"#{query}", $options:'i'}
+        match["rdata.display_name"] = {$regex:"#{query}", $options:'i'}
     Docs.find match,
         limit:20
         
@@ -185,6 +209,7 @@ Meteor.methods
     log_subreddit_view: (name)->
         sub = Docs.findOne
             model:'subreddit'
-            "data.display_name":name
-        Docs.update sub._id,
-            $inc:dao_views:1
+            "rdata.display_name":name
+        if sub
+            Docs.update sub._id,
+                $inc:dao_views:1

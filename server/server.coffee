@@ -4,10 +4,7 @@ Docs.allow
         true
     update: (user_id, doc) ->
         true
-    remove: (user_id, doc) ->
-        false
-
-
+    remove: (user_id, doc) -> false
 
 
 Meteor.publish 'doc_by_title', (title)->
@@ -34,8 +31,6 @@ Meteor.publish 'doc', (doc_id)->
     found_doc = Docs.findOne doc_id
     if found_doc
         Docs.find doc_id
-    else
-        Meteor.users.find doc_id
 
 
 
@@ -105,25 +100,25 @@ Meteor.publish 'search_doc', (selected_tags)->
         tags:$in:selected_tags
 
 
-Meteor.publish 'overlap_docs', (
-    query=''
-    selected_tags
-    target_username
-    )->
+# Meteor.publish 'overlap_docs', (
+#     query=''
+#     selected_tags
+#     target_username
+#     )->
     
-    target_user = Meteor.users.findOne username:target_username    
-    if target_user
-        match = {}
-        match.model = 'post'
-        if query.length > 0
-            match.title = {$regex:"#{query}", $options: 'i'}
-        if selected_tags.length > 0
-            match.tags = $all:selected_tags
-        # if selected_authors.length > 0
-        #     match._author_username = $all:selected_authors
-        # match._author_id = $in:[Meteor.userId(), target_user._id]
-        match.upvoter_ids = $all:[Meteor.userId(), target_user._id]
-        Docs.find match,
-            limit:20
-            sort:points:-1
+#     target_user = Meteor.users.findOne username:target_username    
+#     if target_user
+#         match = {}
+#         match.model = 'post'
+#         if query.length > 0
+#             match.title = {$regex:"#{query}", $options: 'i'}
+#         if selected_tags.length > 0
+#             match.tags = $all:selected_tags
+#         # if selected_authors.length > 0
+#         #     match._author_username = $all:selected_authors
+#         # match._author_id = $in:[Meteor.userId(), target_user._id]
+#         match.upvoter_ids = $all:[Meteor.userId(), target_user._id]
+#         Docs.find match,
+#             limit:20
+#             sort:points:-1
                  

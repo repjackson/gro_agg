@@ -1,4 +1,7 @@
 template(name='subreddit')
+    unless subreddit_doc
+        .ui.basic.center.aligned.segment
+            i.massive.download.link.icon.pulsing
     with subreddit_doc
         .ui.stackable.grid
             .row
@@ -6,7 +9,7 @@ template(name='subreddit')
                     a.ui.circular.basic.icon.button(href="/reddit")
                         i.reddit.large.icon
                     img.get_info.shadowed.ui.inline.image(src=logo_url )
-                    .ui.inline.header #{data.display_name}
+                    .ui.inline.header.get_info #{data.display_name}
                     a.ui.circular.basic.large.disabled.button(href="/s/#{data.display_name}/users")
                         i.large.user.outline.icon
                         |users
@@ -68,10 +71,12 @@ template(name='subreddit')
                     //     i.th.icon
                     // .ui.icon.compact.large.button 
                     //     i.list.icon
-                    .medscroll
+                    .scrolling
                         each sub_docs
                             +subreddit_doc_item
-                .four.wide.column.scrolling
+                .four.wide.column.scrollin
+                    with rdata
+                        .ui.header #{data.display_name}
                     // +alpha
                     // +duck
                     // a.ui.circular.icon.button(href='/')
