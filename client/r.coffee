@@ -3,7 +3,7 @@ Router.route '/r/:name', (->
     @render 'subreddit'
     ), name:'subreddit'
     
-Router.route '/r/:name/post/:rid', (->
+Router.route '/r/:name/post/:doc_id', (->
     @layout 'layout'
     @render 'reddit_page'
     ), name:'reddit_page'
@@ -53,9 +53,10 @@ Template.reddit.helpers
         Docs.find
             model:'subreddit'
 
-Template.subreddit_docs.onCreated ->
+Template.subreddit.onCreated ->
     # Session.setDefault('user_query', null)
     # Session.setDefault('location_query', null)
+    @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     # @autorun => Meteor.subscribe 'subrzeddit_user_count', Router.current().params.subreddit
     @autorun => Meteor.subscribe 'subreddit_by_param', Router.current().params.name
     @autorun => Meteor.subscribe 'sub_docs_by_name', Router.current().params.name
@@ -69,7 +70,7 @@ Template.subreddit_doc_item.events
         window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         # Router.go "/subreddit/#{@subreddit}/post/#{@_id}"
 
-Template.subreddit_docs.helpers
+Template.subreddit.helpers
     subreddit_doc: ->
         Docs.findOne
             model:'subreddit'
