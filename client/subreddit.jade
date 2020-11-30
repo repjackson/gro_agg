@@ -1,7 +1,7 @@
 template(name='subreddit')
     unless current_subreddit
         .ui.basic.center.aligned.segment
-            i.massive.download.link.icon.pulsing
+            i.massive.yin.yang.loading.link.icon
     with current_subreddit.rdata
         .ui.stackable.grid
             .row
@@ -74,8 +74,10 @@ template(name='subreddit')
                     .scrolling
                         each sub_docs
                             +subreddit_doc_item
-                .four.wide.column.scrollin
-                    .ui.header #{display_name}
+                .four.wide.column.scrolling
+                    .ui.inline.header #{display_name}
+                    .ui.small.inline.header #{title}
+                    img.ui.inline.image(src=header_img)
                     // +alpha
                     // +duck
                     // a.ui.circular.icon.button(href='/')
@@ -88,51 +90,32 @@ template(name='subreddit')
                     // .ui.label #{link_color}: link_color
                     // .ui.grey.small.header 
                     //     |related subreddits
-                    .ui.small.header.say !{public_description}
-                    i.large.grey.users.icon
-                    each subreddit_organizations
-                        // .ui.label hi #{name}
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    i.large.grey.marker.icon
-                    each subreddit_locations
-                        // .ui.label hi #{name}
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    div
-                    i.large.grey.building.grey.icon
-                    each subreddit_companys
-                        // .ui.label hi #{name}
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    div
-                    i.large.grey.user.icon
-                    each subreddit_persons
-                        // .ui.label hi #{name}
-                        +stack_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    div
-                
-                    // +comments
-                    .ui.small.list.mobile.hidden
+                    
+                    .ui.list.mobile.hidden
+                        .item.say !{public_description}
+                        .item.say 
+                            |{{#markdown}} !{description} {{/markdown}}
+                        .item 
+                            i.grey.lightning.icon
+                            |#{active_user_count} activeusers
+                        .item 
+                            i.grey.users.icon
+                            |#{subscribers} subscribers
                         // .item 
                         //     strong #{audience}
                         a.item(href=url target="_window")
                             |#{url}
                             i.external.icon
+                        .item
+                            |#{advertiser_category} ad category
                         .item #{dao_views} dao views    
-                        .item open beta {{ufrom open_beta_date}}
-                        .item closed beta {{ufrom closed_beta_date}}
-                        // if launch_date
-                        //     .item launched {{ufrom launch_date}}
+                        .item created {{ufrom created_utc}}
                         .item state: #{subreddit_state}
                         // .item #{high_resolution_icon_url} high_resolution_icon_url
                         // .item #{favicon_url} favicon_url
                         // .item #{api_subreddit_parameter} api
                         .item #{subreddit_type} subreddit_type
                         .item main emotion: #{main_emotion}
-                        .item new_active_users: #{new_active_users}
-                        .item total_users: #{total_users}
                         .item badges_per_minute: #{badges_per_minute}
                         .item #{total_badges} badges
                         .item 
