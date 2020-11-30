@@ -71,7 +71,7 @@ template(name='subreddit')
                     //     i.th.icon
                     // .ui.icon.compact.large.button 
                     //     i.list.icon
-                    .scrolling
+                    .scrolling.ui.items
                         each sub_docs
                             +subreddit_doc_item
                 .four.wide.column.scrolling
@@ -136,16 +136,18 @@ template(name='subreddit')
    
 template(name='subreddit_doc_item')                  
     .ui.item
-        .image
-            if is_image
-                a.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    img.ui.centered.image.toggle_view(src=url)
-            else if watson.metadata.image
-                a.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    img.ui.rounded.image.toggle_view(src=watson.metadata.image)
-            else
-                a.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    img(src=data.thumbnail)    
+        if is_image
+            .image
+                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                    img.ui.centered.rounded.zoomer.image.toggle_view(src=url)
+        else if watson.metadata.image
+            .image
+                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                    img.ui.rounded.image.zoomer.toggle_view(src=watson.metadata.image)
+        else if data.thumbnail
+            .image
+                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                    img.ui.rounded.image.zoomer(src=data.thumbnail)    
         .content
             a.ui.inline.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                 strong #{ups}
