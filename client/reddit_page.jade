@@ -5,16 +5,14 @@ template(name='reddit_page')
                 a.ui.big.icon.circular.basic.button(href="/r/#{subreddit}")
                     i.chevron.left.icon
                 span.ui.pointer.text.f13.zoomer.toggle_view(class=post_header_class) !{title}
-                a.ui.basic.circular.button(href=url target="_window") url #{url}
-                .ui.basic.circular.button.get_post permalink #{permalink}
-                +print_this
+                // .ui.basic.circular.button.get_post permalink #{permalink}
                 .rounded.full
                     |!{embed}
                 if is_image
                     img.ui.centered.image.toggle_view(src=url)
                 else if watson.metadata.image
                     img.ui.rounded.image.toggle_view(src=watson.metadata.image)
-                small #{max_emotion_name}
+                // small #{max_emotion_name}
                 if is_video
                     div
                     // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
@@ -29,15 +27,12 @@ template(name='reddit_page')
                 // img(src=url)
                 |!{rd.html}
                 .spacer
-                if watson    
-                    unless tone
-                        +call_tone    
                 if parsed_selftext_html
                     .ui.segment
                         |!{parsed_selftext_html}
                 if rd.selftext
-                    .ui.segment
-                        |{{nl2br rd.selftext}}
+                    // .ui.segment
+                    |{{#markdown}} {{rd.selftext}} {{/markdown}}
                 else if body
                     div
                     .ui.segment
@@ -67,6 +62,11 @@ template(name='reddit_page')
                     i.plus.grey.icon
                     input.tag_post(type='text')
             .four.wide.column
+                if in_dev
+                    +print_this
+                a.ui.basic.circular.button(href=url target="_window" title=url) 
+                    i.external.icon
+                    |url
                 if thumbnail
                     img.ui.fluid.image(src=thumbnail)
                 .ui.header #{domain}
@@ -77,7 +77,14 @@ template(name='reddit_page')
                 a.ui.fluid.basic.button(href="https://www.reddit.com/u/#{author}" target='_window')
                     i.user.outline.icon
                     |#{author}
-                +call_watson
+                unless watson
+                    +call_watson
+                else
+                    +doc_emotion
+                if watson    
+                    unless tone
+                        +call_tone    
+
                 a.ui.small.header(href=url target='_window')
                     | #{url}
                 if in_dev

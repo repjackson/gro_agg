@@ -1,7 +1,7 @@
 template(name='subreddit')
     unless current_subreddit
         .ui.basic.center.aligned.segment
-            i.massive.yin.yang.loading.link.icon
+            i.massive.yin.yang.loading.link.icon.get_info
     with current_subreddit.rdata
         .ui.stackable.grid
             .row

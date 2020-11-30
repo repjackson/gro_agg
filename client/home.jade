@@ -272,16 +272,11 @@ template(name='tone')
                         //     input.tag_sentence(type='text' placeholder='tag')
                         // each tags 
                         //     .ui.label #{this}
-    // unless tone                
-    //- #call_tone.ui.icon.button
-    //-     i.refresh.icon
-            // +jsonView(json=tone)
 
 
 template(name='call_tone')
-    button.ui.large.button.call
-        i.big.download.icon
-        |call tone
-        |download
+    button.ui.large.basic.circular.button.call
+        i.download.icon
+        |analyze tone
     if page_doc.tone 
         i.checkmark.icon
