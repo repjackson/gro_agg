@@ -232,6 +232,11 @@ Template.registerHelper 'fixed0', (number)-> number.toFixed().toLocaleString()
 Template.registerHelper 'fixed', (number)-> number.toFixed(2)
 Template.registerHelper 'to_percent', (number)-> (number*100).toFixed()
 
+Template.registerHelper 'current_subreddit', ()->
+    Docs.findOne 
+        model:'subreddit'
+        name:Router.current().params.subreddit
+    
 Template.registerHelper 'current_doc', ()->
     Docs.findOne Router.current().params.doc_id
 Template.registerHelper 'current_q', ()->

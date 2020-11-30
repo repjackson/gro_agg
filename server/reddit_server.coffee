@@ -188,7 +188,7 @@ Meteor.methods
 Meteor.publish 'subreddit_by_param', (name)->
     Docs.find
         model:'subreddit'
-        "rdata.display_name":name
+        name:name
 Meteor.publish 'subreddits', (
     query=''
     selected_tags

@@ -1,8 +1,8 @@
 template(name='subreddit')
-    unless subreddit_doc
+    unless current_subreddit
         .ui.basic.center.aligned.segment
             i.massive.download.link.icon.pulsing
-    with subreddit_doc
+    with current_subreddit.rdata
         .ui.stackable.grid
             .row
                 .ui.twelve.wide.column
@@ -10,7 +10,7 @@ template(name='subreddit')
                         i.reddit.large.icon
                     img.get_info.shadowed.ui.inline.image(src=logo_url )
                     .ui.inline.header.get_info #{data.display_name}
-                    a.ui.circular.basic.large.disabled.button(href="/s/#{data.display_name}/users")
+                    a.ui.circular.basic.large.disabled.button(href="/s/#{display_name}/users")
                         i.large.user.outline.icon
                         |users
                     // div
@@ -75,8 +75,7 @@ template(name='subreddit')
                         each sub_docs
                             +subreddit_doc_item
                 .four.wide.column.scrollin
-                    with rdata
-                        .ui.header #{data.display_name}
+                    .ui.header #{display_name}
                     // +alpha
                     // +duck
                     // a.ui.circular.icon.button(href='/')
@@ -89,8 +88,7 @@ template(name='subreddit')
                     // .ui.label #{link_color}: link_color
                     // .ui.grey.small.header 
                     //     |related subreddits
-                    .ui.inline.header !{title}
-                    .ui.small.header.say !{data.public_description}
+                    .ui.small.header.say !{public_description}
                     i.large.grey.users.icon
                     each subreddit_organizations
                         // .ui.label hi #{name}
