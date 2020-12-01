@@ -2,14 +2,14 @@ template(name='reddit_page')
     with current_doc
         .ui.stackable.padded.grid
             .twelve.wide.column
-                a.ui.big.icon.circular.basic.button(href="/r/#{subreddit}")
+                a.ui.big.icon.circular.basic.button(href="/r/#{data.subreddit}")
                     i.chevron.left.icon
-                span.ui.pointer.text.f13.zoomer(class=post_header_class) !{title}
+                span.ui.pointer.text.f13.zoomer(class=post_header_class) !{data.title} #{data.link_title}
                 // .ui.basic.circular.button.get_post permalink #{permalink}
                 .rounded.full
                     |!{embed}
                 if is_image
-                    img.ui.centered.rounded.image(src=url)
+                    img.ui.centered.rounded.image(src=data.url)
                 else if watson.metadata.image
                     img.ui.rounded.image(src=watson.metadata.image)
                 // small #{max_emotion_name}
@@ -22,21 +22,27 @@ template(name='reddit_page')
                 if skv_is 'doc_section' 'preview'
                     iframe(width="100%" height="500" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
                 .ui.label
-                    | #{rd.domain}
+                    | #{data.domain}
                 .spacer
                 // img(src=url)
-                |!{rd.html}
+                |!{data.html}
                 .spacer
                 if parsed_selftext_html
                     .ui.segment
                         |!{parsed_selftext_html}
-                if rd.selftext
+                if data.selftext
                     // .ui.segment
-                    |{{#markdown}} {{rd.selftext}} {{/markdown}}
-                else if body
+                    |{{#markdown}} {{data.selftext}} {{/markdown}}
+                else if data.body
                     div
                     .ui.segment
-                        |{{nl2br body}}
+                        |{{nl2br data.body}}
+                else if data.body_html
+                    div
+                    .ui.segment
+                        |!{data.body_html}
+                if data.link_url
+                    img.ui.image(src=data.link_url)
                 // div(style='position:relative; padding-bottom:calc(125.00% + 44px)')
                 //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
                 |{{selftext}}
@@ -47,7 +53,7 @@ template(name='reddit_page')
                 // a.ui.icon.big.basic.button(href=url target='_window' title=domain)
                 //     i.external.icon
                 //     |view site 
-                //     |#{rd.domain}
+                //     |#{data.domain}
                 // a.ui.center.aligned.header(href=url target='_window' class=post_header_class title=url) #{title}
 
                 // .spacer
@@ -67,15 +73,15 @@ template(name='reddit_page')
                     |url
                 if thumbnail
                     img.ui.fluid.rounded.image(src=thumbnail)
-                .ui.header #{domain}
-                a.ui.basic.fluid.button(href="https://www.reddit.com#{permalink}" target="_window") 
+                .ui.header #{data.domain}
+                a.ui.basic.fluid.button(href="https://www.reddit.com#{data.permalink}" target="_window") 
                     i.external.grey.icon
-                    |r/#{subreddit}
+                    |r/#{data.subreddit}
                 .spacer
                 // a.ui.fluid.basic.button(href="https://www.reddit.com/u/#{author}" target='_window')
-                a.ui.fluid.basic.button(href="/user/#{author}")
+                a.ui.fluid.basic.button(href="/user/#{data.author}")
                     i.user.outline.icon
-                    |#{author}
+                    |#{data.author}
                 unless watson
                     +call_watson
                 else
@@ -85,21 +91,21 @@ template(name='reddit_page')
                         +call_tone    
 
                 a.ui.small.header(href=url target='_window')
-                    | #{url}
+                    | #{data.url}
                 if in_dev
-                    .ui.small.header reddit_id #{reddit_id}
+                    .ui.small.header reddit_id #{data.reddit_id}
                 .ui.small.statistic
                     .label
                         i.comment.outline.icon
                     .value
-                        |#{comment_count}
+                        |#{data.comment_count}
                 .ui.tiny.statistic
                     .label
                         i.thumbs.up.outline.icon
                     .value
-                        |#{ups}
-                    |{{to_percent upvote_ratio}}%
-                .ui.small.inline.header #{num_crossposts} crossposts
+                        |#{data.ups}
+                |{{to_percent data.upvote_ratio}}%
+                .ui.small.inline.header #{data.num_crossposts} crossposts
                 each tags
                     +flat_tag_selector
         //   "_author_id": "vwCi2GTJgvBJN5F6c",

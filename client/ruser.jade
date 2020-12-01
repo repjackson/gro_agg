@@ -5,7 +5,7 @@ template(name='ruser')
         .ui.hidden.divider
         .ui.hidden.divider
         .ui.center.aligned.basic.segment.search
-            i.massive.grey.loading.yin.yang.link.icon.get_user_info
+            i.massive.grey.download.link.icon.get_user_info
         // .ui.massive.fluid.circular.button.f17.zoomer.pointer.search 
         //     i.download.icon
             // |download user info
@@ -39,7 +39,7 @@ template(name='ruser')
                         // .item down_vote_count: #{down_vote_count}
                         // .item up_vote_count: #{up_vote_count}
                         // .item answer_count: #{answer_count}
-                        // .item question_count: #{question_count}
+                        // .item post_count: #{post_count}
                         // .item profile_image: #{profile_image}
                         // .item display_name: #{display_name}
                     a.ui.external.icon.button(href=link target='_window') 
@@ -57,40 +57,15 @@ template(name='ruser')
                             i.thumbs.up.outline.icon
                             |up votes
                     .ui.grey.tiny.statistic
-                        .value #{answer_count}
-                        .label 
-                            i.reply.icon
-                            |answers
-                    .ui.grey.tiny.statistic
-                        .value #{question_count}
-                        .label 
-                            i.question.icon
-                            |questions
-                    .ui.grey.tiny.statistic
                         .value #{view_count}
                         .label 
                             i.eye.icon
                             |views
-                    .ui.grey.header 
-                        i.rss.icon
-                        |feed
-                    each user_events
-                        .ui.header #{title}
-                    .ui.inline.header 
-                        |#{max_emotion_name} #{max_emotion_percent}
                     div
-                    if skv_is 'view_question_detail' true
-                        .ui.black.tertiary.large.button.toggle_question_detail.agg
-                            i.question.icon
-                            |#{user_questions.count} questions
-                    unless skv_is 'view_question_detail' true
-                        .ui.tertiary.large.button.toggle_question_detail.agg
-                            i.question.icon
-                            |#{user_questions.count} questions
-                    if skv_is 'view_question_detail' true
-                        each user_tag_agg
-                            .ui.tertiary.button #{title}
-                                small #{count}
+                    if skv_is 'view_post_detail' true
+                        .ui.black.tertiary.large.button.toggle_post_detail.agg
+                            i.post.icon
+                            |#{user_posts.count} posts
                     if skv_is 'view_detail' true
                         .ui.black.circular.compact.icon.button.toggle_detail
                             i.list.large.icon
@@ -108,28 +83,30 @@ template(name='ruser')
                             
 template(name='ruser_doc_item')
     .ui.item
-        a.ui.header.zoomer.say_title(href="/s/#{site}/psot/#{_id}" class=post_header_class)
-            strong #{score}:
-            |!{title}
-        |!{about_me}
-        .description
-            if skv_is 'view_detail' true
-                each tags 
-                    .ui.tiny.basic.circular.tertiary.button #{this}
-            +doc_emotion_small    
-            span(title="#{view_count} views")
-                i.grey.eye.icon
-                |#{view_count}
-            span(title="#{answer_count} answers")
-                i.grey.exclamation.icon
-                |#{answer_count}
-            if creation_date
-                span(title="created {{ufrom creation_date}}")
-                    i.grey.clock.icon
-                    |{{ufrom creation_date}}
-            if last_modified_date
-                i.pencil.icon
-                |{{ufrom last_modified_date}}
-            // .ui.large.label #{site}
-            // .ui.large.label #{owner.display_name}
+        with data
+            a.ui.header.zoomer.say_title(href="/r/#{subreddit}/post/#{../_id}" class=post_header_class)
+                strong #{score}:
+                |!{link_title} #{title}
+            |!{about_me}
+            .description
+                if skv_is 'view_detail' true
+                    each tags 
+                        .ui.tiny.basic.circular.tertiary.button #{this}
+                +doc_emotion_small    
+                span(title="#{view_count} views")
+                    i.grey.eye.icon
+                    |#{view_count}
+                span(title="#{answer_count} answers")
+                    i.grey.exclamation.icon
+                    |#{answer_count}
+                if creation_date
+                    span(title="created {{ufrom creation_date}}")
+                        i.grey.clock.icon
+                        |{{ufrom creation_date}}
+                if last_modified_date
+                    i.pencil.icon
+                    |{{ufrom last_modified_date}}
+                .ui.large.label #{domain}
+                .ui.large.label #{num_comments}
+                // .ui.large.label #{owner.display_name}
     .spacer

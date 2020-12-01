@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.fluid.attached.small.six.item.borderless.grey.menu.topnav
+    .ui.fluid.attached.small.five.item.borderless.grey.menu.topnav
         if connected
             // a.icon.zoomer.item.goto_vid(href='/vids' class="{{isActivePath regex='vids'}}" title='videos')
             //     i.large.video.grey.icon
@@ -12,11 +12,11 @@ template(name='nav')
                 i.large.user.outline.grey.icon
             a.icon.zoomer.teal.item.clear_tags.goto_stack(href='/stack' class="{{isActivePath '/stack'}}" title='stack exchange')
                 i.large.stack.exchange.grey.icon
-            a.icon.zoomer.item.clear_tags.goto_dao(href='/' class="{{isActivePath '/'}}" title='search')
-                if skv_is 'loading' true
-                    i.large.yin.yang.grey.loading.icon
-                else
-                    i.large.yin.yang.grey.icon
+            // a.icon.zoomer.item.clear_tags.goto_dao(href='/' class="{{isActivePath '/'}}" title='search')
+            //     if skv_is 'loading' true
+            //         i.large.yin.yang.grey.loading.icon
+            //     else
+            //         i.large.yin.yang.grey.icon
             // a.icon.zoomer.item.goto_vid(href='/pics' class="{{isActivePath regex='pics'}}" title='pics')
             //     i.large.picture.grey.icon
             // a.icon.zoomer.item.goto_vid(href='/github' class="{{isActivePath regex='github'}}" title='github')

@@ -35,19 +35,19 @@ Meteor.publish 'doc_count', (
     #     when 
     switch view_mode 
         when 'image'
-            # match.model = 'reddit'
+            # match.model = 'rpost'
             match.domain = $in:['i.imgur.com','i.reddit.com','i.redd.it','imgur.com']
         when 'video'
-            # match.model = 'reddit'
+            # match.model = 'rpost'
             match.domain = $in:['youtube.com','youtu.be','m.youtube.com','v.redd.it','vimeo.com']
         when 'wikipedia'
             match.model = 'wikipedia'
             # match.domain = $in:['youtube.com','youtu.be','m.youtube.com','v.redd.it','vimeo.com']
         when 'twitter'
-            match.model = 'reddit'
+            match.model = 'rpost'
             match.domain = $in:['twitter.com','mobile.twitter.com']
         when 'posts'
-            match.model = 'reddit'
+            match.model = 'rpost'
             match.domain = $nin:['i.imgur.com','i.reddit.com','i.redd.it','imgur.com','youtube.com','youtu.be','m.youtube.com','v.redd.it','vimeo.com']
         when 'porn'
             match.model = 'porn'
@@ -136,12 +136,12 @@ Meteor.publish 'docs', (
             match.model = 'wikipedia'
             # match.domain = $in:['youtube.com','youtu.be','m.youtube.com','v.redd.it','vimeo.com']
         when 'posts'
-            match.model = 'reddit'
+            match.model = 'rpost'
             # match.domain = $nin:['i.imgur.com','i.reddit.com','i.redd.it','imgur.com','youtube.com','youtu.be','m.youtube.com','v.redd.it','vimeo.com']
         when 'stack'
             match.model = 'stack'
         else 
-            match.model = $in:['wikipedia','reddit','stack']
+            match.model = $in:['wikipedia','rpost','stack']
     Docs.find match,
         limit:7
         skip:skip
@@ -174,7 +174,7 @@ Meteor.publish 'dtags', (
     
     switch view_mode 
         when 'posts'
-            match.model = 'reddit'
+            match.model = 'rpost'
             # match.domain = $nin:['i.imgur.com','i.reddit.com','i.redd.it','imgur.com','youtube.com','youtu.be','m.youtube.com','v.redd.it','vimeo.com']
         when 'image'
             # match.model = 'image'
@@ -188,13 +188,12 @@ Meteor.publish 'dtags', (
         when 'stack'
             match.model = 'stack'
         else
-            match.model = $in:['wikipedia','reddit','stack']
+            match.model = $in:['wikipedia','rpost','stack']
             # match.model = $in:['wikipedia']
     unless selected_tags.length > 0 then self.ready()
 
     if selected_tags.length > 0 
         match.tags = $all: selected_tags
-                
             # unless selected_subreddits.length>0
         # else if view_mode in ['reddit',null]
         doc_count = Docs.find(match).count()

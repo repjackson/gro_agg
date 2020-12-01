@@ -113,6 +113,7 @@ Meteor.methods
                     console.log found, 'not found'
                     item.model = 'rpost'
                     item.reddit_id = item.data.id
+                    item.author = item.data.author
                     # item.rdata = item.data
                     Docs.insert item
             )
@@ -299,9 +300,10 @@ Meteor.publish 'subreddits', (
     Docs.find match,
         limit:20
         
-Meteor.publish 'rposts', (name)->
+Meteor.publish 'rposts', (username)->
     Docs.find
         model:'rpost'
+        author:username
 Meteor.publish 'sub_docs_by_name', (name)->
     Docs.find {
         model:'reddit'
