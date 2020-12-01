@@ -120,7 +120,7 @@ Meteor.methods
         @unblock()
         self = @
         doc = Docs.findOne doc_id
-        # console.log 'calling', doc_id, key, mode
+        console.log 'calling', doc_id, key, mode
         # if doc.skip_watson is false
         # else
         params =
@@ -143,8 +143,8 @@ Meteor.methods
                 # relations: {}
                 # semantic_roles: {}
                 sentiment: {}
-        if doc.domain and doc.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
-            params.url = "https://www.reddit.com#{doc.permalink}"
+        if doc.data.domain and doc.data.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
+            params.url = "https://www.reddit.com#{doc.data.permalink}"
             params.returnAnalyzedText = false
             params.clean = false
         else 
@@ -152,7 +152,7 @@ Meteor.methods
                 when 'html'
                     params.html = doc["#{key}"]
                     params.returnAnalyzedText = true
-                    # params.html = doc.description
+                    # params.html = doc.data.description
                     params.metadata = {}
                 when 'text'
                     params.text = doc["#{key}"]
@@ -160,7 +160,7 @@ Meteor.methods
                     params.clean = true
                 when 'url'
                     # params.url = doc["#{key}"]
-                    params.url = doc.url
+                    params.url = doc.data.link_url
                     params.returnAnalyzedText = true
                     params.clean = true
                     params.metadata = {}
@@ -171,12 +171,12 @@ Meteor.methods
                     params.metadata = {}
                     params.clean = true
                 when 'video'
-                    params.url = "https://www.reddit.com#{doc.permalink}"
+                    params.url = "https://www.reddit.com#{doc.data.permalink}"
                     params.returnAnalyzedText = true
                     params.clean = true
                     params.metadata = {}
                 when 'image'
-                    params.url = "https://www.reddit.com#{doc.permalink}"
+                    params.url = "https://www.reddit.com#{doc.data.permalink}"
                     params.returnAnalyzedText = true
                     params.clean = true
                     params.metadata = {}

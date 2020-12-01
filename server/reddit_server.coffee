@@ -100,17 +100,17 @@ Meteor.methods
         HTTP.get url,(err,res)=>
             # console.log res.data.data.children.length
             # if res.data.data.dist > 1
-            _.each(res.data.data.children[0..2], (item)=>
+            _.each(res.data.data.children[0..100], (item)=>
                 console.log item.data.id
                 found = 
                     Docs.findOne    
                         model:'rpost'
                         reddit_id:item.data.id
                         # subreddit:item.data.id
-                if found
-                    console.log found, 'found'
+                # if found
+                #     console.log found, 'found'
                 unless found
-                    console.log found, 'not found'
+                    # console.log found, 'not found'
                     item.model = 'rpost'
                     item.reddit_id = item.data.id
                     item.author = item.data.author
