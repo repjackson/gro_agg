@@ -1,3 +1,7 @@
+request = require('request')
+rp = require('request-promise');
+
+
 Meteor.methods
     search_reddit: (query, subreddit)->
         @unblock()
@@ -37,19 +41,19 @@ Meteor.methods
                             tags: added_tags
                             model:'reddit'
                             # source:'reddit'
-                        existing_doc = Docs.findOne 
+                        existing = Docs.findOne 
                             model:'reddit'
                             url:data.url
-                        if existing_doc
+                        if existing
                             # if Meteor.isDevelopment
-                            # if typeof(existing_doc.tags) is 'string'
+                            # if typeof(existing.tags) is 'string'
                             #     Doc.update
                             #         $unset: tags: 1
-                            Docs.update existing_doc._id,
+                            Docs.update existing._id,
                                 $addToSet: tags: $each: added_tags
 
-                            Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
-                        unless existing_doc
+                            Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
+                        unless existing
                             new_reddit_post_id = Docs.insert reddit_post
                             # Meteor.users.update Meteor.userId(),
                             #     $inc:points:1
@@ -63,39 +67,133 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "http://reddit.com/r/#{subreddit}/about.json?"
+        url = "https://www.reddit.com/r/#{subreddit}/about.json?"
         HTTP.get url,(err,res)=>
             # console.log res.data.data
             if res.data.data
-                existing_doc = Docs.findOne 
+                existing = Docs.findOne 
                     model:'subreddit'
                     name:subreddit
-                if existing_doc
-                    console.log 'existing', existing_doc
+                if existing
+                    console.log 'existing', existing
                     # if Meteor.isDevelopment
-                    # if typeof(existing_doc.tags) is 'string'
+                    # if typeof(existing.tags) is 'string'
                     #     Doc.update
                     #         $unset: tags: 1
-                    Docs.update existing_doc._id,
+                    Docs.update existing._id,
                         $set: rdata:res.data.data
-                unless existing_doc
+                unless existing
                     sub = {}
                     sub.model = 'subreddit'
                     sub.name = subreddit
                     sub.rdata = res.data.data
                     new_reddit_post_id = Docs.insert sub
-
-    reddit_all: ->
-        total = 
-            Docs.find({
-                model:'reddit'
-                subreddit: $exists:false
-            }, limit:100)
-        total.forEach( (doc)->
-        for doc in total.fetch()
-            Meteor.call 'get_reddit_post', doc._id, doc.reddit_id, ->
-        )
+    
+    
+    get_user_posts: (username)->
+        # @unblock()s
+        console.log 'getting info', username
+        # if subreddit 
+        #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
+        # else
+        url = "https://www.reddit.com/user/#{username}.json"
+        HTTP.get url,(err,res)=>
+            # console.log res.data.data.children.length
+            # if res.data.data.dist > 1
+            _.each(res.data.data.children[0..2], (item)=>
+                console.log item.data.id
+                found = 
+                    Docs.findOne    
+                        model:'rpost'
+                        reddit_id:item.data.id
+                        # subreddit:item.data.id
+                if found
+                    console.log found, 'found'
+                unless found
+                    console.log found, 'not found'
+                    item.model = 'rpost'
+                    item.reddit_id = item.data.id
+                    # item.rdata = item.data
+                    Docs.insert item
+            )
         
+            # for post in res.data.data.children
+            #     existing = 
+            #         Docs.findOne({
+            #             reddit_id: post.data.id
+            #             model:'reddit'
+            #         })
+            #     # continue
+            #     unless existing
+            #         console.log 'not existing'
+            #     #     # if Meteor.isDevelopment
+            #     #     # if typeof(existing.tags) is 'string'
+            #     #     #     Doc.update
+            #     #     #         $unset: tags: 1
+            #     #     # Docs.update existing._id,
+            #     #     #     $set: rdata:res.data.data
+            #     #     continue
+            #     # else
+            #     #     console.log 'create', post.data.id
+            #     #     # new_post = {}
+            #     #     # new_post.model = 'reddit'
+            #     #     # new_post.data = post.data
+            #     #     # new_reddit_post_id = Docs.insert new_post
+            #     #     continue
+
+        
+    get_user_info: (username)->
+        # @unblock()s
+        console.log 'getting info', username
+        # if subreddit 
+        #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
+        # else
+        # url = "https://www.reddit.com/user/#{username}/about.json"
+        # options = {
+        #     url: url
+        #     headers: 'accept-encoding': 'gzip'
+        #     gzip: true
+        # }
+        # rp(options)
+        #     .then(Meteor.bindEnvironment((data)->
+        #         parsed = JSON.parse(data)
+        #         console.log parsed
+        #     )).catch((err)->
+        #         console.log "ERR", err
+        #     )
+
+        # console.log 'url', url
+        # HTTP.get url,(err,res)=>
+        #     console.log res
+        #     # if res.data.data
+        existing = Docs.findOne 
+            model:'ruser'
+            username:username
+        if existing
+            console.log 'existing', existing
+            # if Meteor.isDevelopment
+            # if typeof(existing.tags) is 'string'
+            #     Doc.update
+            #         $unset: tags: 1
+            # Docs.update existing._id,
+            #     $set: rdata:res.data.data
+        unless existing
+            ruser = {}
+            ruser.model = 'ruser'
+            ruser.username = username
+            # ruser.rdata = res.data.data
+            new_reddit_post_id = Docs.insert ruser
+
+    # reddit_all: ->
+    #     total = 
+    #         Docs.find({
+    #             model:'reddit'
+    #             subreddit: $exists:false
+    #         }, limit:100)
+    #     total.forEach( (doc)->
+    #     for doc in total.fetch()
+    #         Meteor.call 'get_reddit_post', doc._id, doc.reddit_id, ->
+    #     )
 
 
     get_reddit_post: (doc_id, reddit_id, root)->
@@ -171,7 +269,7 @@ Meteor.methods
         @unblock()
         HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}", (err,res)->
             if res.data.data.dist > 1
-                _.each(res.data.data.children[0..100], (item)=>
+                _.each(res.data.data.children[0..200], (item)=>
                     found = 
                         Docs.findOne    
                             model:'subreddit'
@@ -189,6 +287,7 @@ Meteor.publish 'subreddit_by_param', (name)->
     Docs.find
         model:'subreddit'
         name:name
+        
 Meteor.publish 'subreddits', (
     query=''
     selected_tags
@@ -200,6 +299,9 @@ Meteor.publish 'subreddits', (
     Docs.find match,
         limit:20
         
+Meteor.publish 'rposts', (name)->
+    Docs.find
+        model:'rpost'
 Meteor.publish 'sub_docs_by_name', (name)->
     Docs.find {
         model:'reddit'

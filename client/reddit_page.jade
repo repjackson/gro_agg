@@ -4,14 +4,14 @@ template(name='reddit_page')
             .twelve.wide.column
                 a.ui.big.icon.circular.basic.button(href="/r/#{subreddit}")
                     i.chevron.left.icon
-                span.ui.pointer.text.f13.zoomer.toggle_view(class=post_header_class) !{title}
+                span.ui.pointer.text.f13.zoomer(class=post_header_class) !{title}
                 // .ui.basic.circular.button.get_post permalink #{permalink}
                 .rounded.full
                     |!{embed}
                 if is_image
-                    img.ui.centered.image.toggle_view(src=url)
+                    img.ui.centered.rounded.image(src=url)
                 else if watson.metadata.image
-                    img.ui.rounded.image.toggle_view(src=watson.metadata.image)
+                    img.ui.rounded.image(src=watson.metadata.image)
                 // small #{max_emotion_name}
                 if is_video
                     div
@@ -40,13 +40,14 @@ template(name='reddit_page')
                 // div(style='position:relative; padding-bottom:calc(125.00% + 44px)')
                 //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
                 |{{selftext}}
-                |!{embed}
+                .rounded
+                    |!{embed}
                 // +convert
                 .spacer
-                a.ui.icon.big.basic.button(href=url target='_window' title=domain)
-                    i.external.icon
-                    |view site 
-                    |#{rd.domain}
+                // a.ui.icon.big.basic.button(href=url target='_window' title=domain)
+                //     i.external.icon
+                //     |view site 
+                //     |#{rd.domain}
                 // a.ui.center.aligned.header(href=url target='_window' class=post_header_class title=url) #{title}
 
                 // .spacer
@@ -58,9 +59,6 @@ template(name='reddit_page')
                 each tags
                     +doc_tag
                 // |#{tags.length}
-                .ui.icon.input
-                    i.plus.grey.icon
-                    input.tag_post(type='text')
             .four.wide.column
                 if in_dev
                     +print_this
@@ -68,13 +66,14 @@ template(name='reddit_page')
                     i.external.icon
                     |url
                 if thumbnail
-                    img.ui.fluid.image(src=thumbnail)
+                    img.ui.fluid.rounded.image(src=thumbnail)
                 .ui.header #{domain}
                 a.ui.basic.fluid.button(href="https://www.reddit.com#{permalink}" target="_window") 
                     i.external.grey.icon
                     |r/#{subreddit}
                 .spacer
-                a.ui.fluid.basic.button(href="https://www.reddit.com/u/#{author}" target='_window')
+                // a.ui.fluid.basic.button(href="https://www.reddit.com/u/#{author}" target='_window')
+                a.ui.fluid.basic.button(href="/user/#{author}")
                     i.user.outline.icon
                     |#{author}
                 unless watson

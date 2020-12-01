@@ -60,6 +60,10 @@ html {
   filter: drop-shadow(0px 0px 1px black);    
 
 }
+.shadowed2 {
+  /*filter: drop-shadow(0px 0px 10px grey);    */
+
+}
 /*.invert > p {*/
 /*  color:white !important;*/
   /*filter: invert(1) !important; */

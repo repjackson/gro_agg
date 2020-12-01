@@ -1,7 +1,7 @@
 template(name='subreddit')
     unless current_subreddit
         .ui.basic.center.aligned.segment
-            i.massive.yin.yang.loading.link.icon.get_info
+            i.massive.yin.yang.loading.link.grey.icon.get_info.shadowed2
     with current_subreddit.rdata
         .ui.stackable.grid
             .row
@@ -71,9 +71,12 @@ template(name='subreddit')
                     //     i.th.icon
                     // .ui.icon.compact.large.button 
                     //     i.list.icon
-                    .scrolling.ui.items
+                    .scrolling
                         each sub_docs
                             +subreddit_doc_item
+                            .spacer
+                            .spacer
+                            .spacer
                 .four.wide.column.scrolling
                     .ui.inline.header #{display_name}
                     .ui.small.inline.header #{title}
@@ -137,18 +140,17 @@ template(name='subreddit')
 template(name='subreddit_doc_item')                  
     .ui.item
         if is_image
-            .image
-                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    img.ui.centered.rounded.zoomer.image.toggle_view(src=url)
+            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                img.ui.centered.rounded.zoomer.inline.image.toggle_view(src=url)
         else if watson.metadata.image
             .image
                 a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    img.ui.rounded.image.zoomer.toggle_view(src=watson.metadata.image)
+                    img.ui.rounded.inline.image.zoomer.toggle_view(src=watson.metadata.image)
         else if data.thumbnail
             .image
                 a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    img.ui.rounded.image.zoomer(src=data.thumbnail)    
-        .content
+                    img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
+        span.inline.content
             a.ui.inline.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                 strong #{ups}
                 if is_answered
@@ -176,9 +178,10 @@ template(name='subreddit_doc_item')
                 .item 
                     i.thumbs.up.icon
                     |#{ups}
-            a.ui.header(href="/ruser/#{author}")
+            a.ui.header(href="/user/#{author}")
                 |#{author}
-            +doc_emotion_small
+            if watson
+                +doc_emotion_small
 
 
 
