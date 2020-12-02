@@ -26,6 +26,9 @@ Template.reddit.onCreated ->
 
 Template.reddit.events
     'click .goto_sub': (e,t)->
+        Meteor.call 'get_sub_latest', @data.display_name, ->
+        Meteor.call 'get_sub_info', @data.display_name, ->
+
         window.speechSynthesis.speak new SpeechSynthesisUtterance @data.display_name
     'keyup .search_subreddits': (e,t)->
         val = $('.search_subreddits').val()

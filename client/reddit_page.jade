@@ -87,7 +87,6 @@ template(name='reddit_page')
                     +doc_emotion
                     unless tone
                         +call_tone    
-
                 a.ui.small.header(href=data.url target='_window')
                     | #{data.url}
                 if in_dev

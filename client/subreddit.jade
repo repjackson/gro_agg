@@ -6,6 +6,8 @@ template(name='subreddit')
         .ui.stackable.grid
             .row
                 .ui.twelve.wide.column
+                    img(src=data.banner_img)
+                    img(src=data.banner_background_image)
                     a.ui.circular.basic.icon.button(href="/reddit")
                         i.reddit.large.icon
                     img.get_info.shadowed.ui.inline.image(src=logo_url )
@@ -78,9 +80,10 @@ template(name='subreddit')
                             .spacer
                             .spacer
                 .four.wide.column.scrolling
-                    .ui.inline.header #{display_name}
+                    .ui.inline.header.pull_latest #{display_name}
                     .ui.small.inline.header #{title}
                     img.ui.inline.image(src=header_img)
+                    +print_this
                     // +alpha
                     // +duck
                     // a.ui.circular.icon.button(href='/')

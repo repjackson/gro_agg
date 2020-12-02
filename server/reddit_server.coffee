@@ -89,6 +89,36 @@ Meteor.methods
                     sub.rdata = res.data.data
                     new_reddit_post_id = Docs.insert sub
     
+    get_sub_latest: (subreddit)->
+        @unblock()
+        console.log 'getting latest', subreddit
+        # if subreddit 
+        #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
+        # else
+        url = "https://www.reddit.com/r/#{subreddit}.json?"
+        HTTP.get url,(err,res)=>
+            # console.log res.data.data.children.length
+            # if res.data.data.dist > 1
+            _.each(res.data.data.children[0..100], (item)=>
+                # console.log item.data.id
+                found = 
+                    Docs.findOne    
+                        model:'rpost'
+                        reddit_id:item.data.id
+                        # subreddit:item.data.id
+                if found
+                    # console.log found, 'found'
+                    Docs.update found._id,
+                        $set:subreddit:item.data.subreddit
+                unless found
+                    # console.log found, 'not found'
+                    item.model = 'rpost'
+                    item.reddit_id = item.data.id
+                    item.author = item.data.author
+                    item.subreddit = item.data.subreddit
+                    # item.rdata = item.data
+                    Docs.insert item
+            )
     
     get_user_posts: (username)->
         # @unblock()s
@@ -298,6 +328,7 @@ Meteor.methods
                         item.model = 'rpost'
                         item.reddit_id = item.data.id
                         item.author = item.data.author
+                        item.subreddit = item.data.subreddit
                         # item.rdata = item.data
                         Docs.insert item
                 )
@@ -317,9 +348,9 @@ Meteor.publish 'subreddits', (
     match = {model:'subreddit'}
     
     if query.length > 0
-        match["name"] = {$regex:"#{query}", $options:'i'}
+        match["data.display_name"] = {$regex:"#{query}", $options:'i'}
     Docs.find match,
-        limit:200
+        limit:100
         
 Meteor.publish 'rposts', (username)->
     Docs.find
