@@ -83,30 +83,34 @@ template(name='ruser')
                             
 template(name='ruser_doc_item')
     .ui.item
-        with data
-            a.ui.header.zoomer.say_title(href="/r/#{subreddit}/post/#{../_id}" class=post_header_class)
-                strong #{score}:
-                |!{link_title} #{title}
-            |!{about_me}
-            .description
-                if skv_is 'view_detail' true
-                    each tags 
-                        .ui.tiny.basic.circular.tertiary.button #{this}
-                +doc_emotion_small    
-                span(title="#{view_count} views")
-                    i.grey.eye.icon
-                    |#{view_count}
-                span(title="#{answer_count} answers")
-                    i.grey.exclamation.icon
-                    |#{answer_count}
-                if creation_date
-                    span(title="created {{ufrom creation_date}}")
-                        i.grey.clock.icon
-                        |{{ufrom creation_date}}
-                if last_modified_date
-                    i.pencil.icon
-                    |{{ufrom last_modified_date}}
-                .ui.large.label #{domain}
-                .ui.large.label #{num_comments}
-                // .ui.large.label #{owner.display_name}
+        if is_image
+            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                img.ui.centered.rounded.zoomer.inline.image.toggle_view(src=data.url)
+        else if watson.metadata.image
+            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                img.ui.rounded.inline.image.zoomer.toggle_view(src=watson.metadata.image)
+        else if data.thumbnail
+            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
+        a.ui.header.zoomer.say_title(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            strong #{data.score}:
+            |!{data.link_title} #{data.title}
+        .description
+            if skv_is 'view_detail' true
+                each tags 
+                    .ui.tiny.basic.circular.tertiary.button #{this}
+            +doc_emotion_small    
+            span(title="#{view_count} views")
+                i.grey.eye.icon
+                |#{view_count}
+            if creation_date
+                span(title="created {{ufrom creation_date}}")
+                    i.grey.clock.icon
+                    |{{ufrom creation_date}}
+            if last_modified_date
+                i.pencil.icon
+                |{{ufrom last_modified_date}}
+            .ui.basic.label #{data.domain}
+            .ui.basic.label #{data.num_comments}
+            // .ui.large.label #{owner.display_name}
     .spacer

@@ -116,7 +116,7 @@ Meteor.methods
                         tags:$each:visual_tags
         )
 
-    call_watson: (doc_id, key, mode) ->
+    call_watson: (doc_id, key, mode, durl) ->
         @unblock()
         self = @
         doc = Docs.findOne doc_id
@@ -153,33 +153,36 @@ Meteor.methods
                     params.html = doc["#{key}"]
                     params.returnAnalyzedText = true
                     # params.html = doc.data.description
-                    params.metadata = {}
+                    params.features.metadata = {}
                 when 'text'
                     params.text = doc["#{key}"]
                     params.returnAnalyzedText = true
                     params.clean = true
                 when 'url'
                     # params.url = doc["#{key}"]
-                    params.url = doc.data.link_url
+                    params.url = durl
+                    # console.log 'calling url', params.url, doc["#{key}"], key
+                    # console.log 'calling url', params.url, doc[key], durl
+                    # params.url = doc.data.link_url
                     params.returnAnalyzedText = true
                     params.clean = true
-                    params.metadata = {}
+                    params.features.metadata = {}
                 when 'stack'
                     # params.url = doc["#{key}"]
                     params.url = doc.link
                     params.returnAnalyzedText = true
-                    params.metadata = {}
+                    params.features.metadata = {}
                     params.clean = true
                 when 'video'
                     params.url = "https://www.reddit.com#{doc.data.permalink}"
                     params.returnAnalyzedText = true
                     params.clean = true
-                    params.metadata = {}
+                    params.features.metadata = {}
                 when 'image'
                     params.url = "https://www.reddit.com#{doc.data.permalink}"
                     params.returnAnalyzedText = true
                     params.clean = true
-                    params.metadata = {}
+                    params.features.metadata = {}
 
         # console.log params
 

@@ -515,6 +515,6 @@ Template.pull_reddit.events
         # Meteor.call 'search_stack', selected_tags.array(), ->
 Template.call_watson.events
     'click .pull': -> 
-        Meteor.call 'call_watson', @_id, 'url','url', =>
+        Meteor.call 'call_watson',@id,@key,@mode,@durl,=>
         # Meteor.call 'search_stack', selected_tags.array(), ->
 

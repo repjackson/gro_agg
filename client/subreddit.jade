@@ -143,22 +143,20 @@ template(name='subreddit_doc_item')
             a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                 img.ui.centered.rounded.zoomer.inline.image.toggle_view(src=url)
         else if watson.metadata.image
-            .image
-                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    img.ui.rounded.inline.image.zoomer.toggle_view(src=watson.metadata.image)
+            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                img.ui.rounded.inline.image.zoomer.toggle_view(src=watson.metadata.image)
         else if data.thumbnail
-            .image
-                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
+            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
         span.inline.content
             a.ui.inline.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                strong #{ups}
+                strong #{data.ups}
                 if is_answered
                     i.green.checkmark.icon
                 // span
                 //     i.tag.grey.icon
                 //     |#{tags.length}
-                |!{title} 
+                |!{data.title} 
             .rounded.full
                 |!{embed}
                 
@@ -169,15 +167,15 @@ template(name='subreddit_doc_item')
                 if watson.analyzed_text
                     span.pointer.view_question {{trunc watson.analyzed_text}}...
             if skv_is 'view_detail' true
-                .say.goto_q !{body}
+                .say.goto_post !{data.body}
     
             .ui.horizontal.list
                 each tags
                     .item #{this}
-            .ui.horizontal.list
-                .item 
-                    i.thumbs.up.icon
-                    |#{ups}
+            // .ui.horizontal.list
+            //     .item 
+            //         i.thumbs.up.icon
+            //         |#{ups}
             a.ui.header(href="/user/#{author}")
                 |#{author}
             if watson

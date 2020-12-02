@@ -283,7 +283,7 @@ Meteor.methods
         HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&raw_json=1", (err,res)->
             if res.data.data.dist > 1
                 _.each(res.data.data.children[0..10], (item)=>
-                    console.log item.data.id
+                    # console.log item.data.id
                     found = 
                         Docs.findOne    
                             model:'rpost'
