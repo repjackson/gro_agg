@@ -12,8 +12,14 @@ Meteor.methods
     #             $set: tags_string:tags_string
     #
 
-
-
+    remove_reddits: ->
+        # count = Docs.find(model:'reddit',subreddit:'news').count()
+        # console.log 'count', count
+        Docs.remove({
+            model:'reddit',
+        })
+        
+        
     log_doc_terms: (doc_id)->
         doc = Docs.findOne doc_id
         if doc.tags
@@ -137,7 +143,7 @@ Meteor.methods
                     global_rank:global_rank+1
             
             for emotion in ['joy','sadness','disgust','fear','anger']
-                console.log 'emotion', emotion
+                # console.log 'emotion', emotion
                 site_emo_rep_rank = 
                     Docs.find(
                         model:'stackuser'

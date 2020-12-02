@@ -9,7 +9,7 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=5&include_facets=false"
+        url = "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=5&include_facets=true&raw_json=1"
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,res)=>
         HTTP.get url,(err,res)=>
             if res.data.data.dist > 1
@@ -201,14 +201,10 @@ Meteor.methods
         @unblock()
         doc = Docs.findOne doc_id
         if doc.reddit_id
-            HTTP.get "http://reddit.com/by_id/t3_#{reddit_id}.json", (err,res)->
+            HTTP.get "http://reddit.com/by_id/t3_#{reddit_id}.json&raw_json=1", (err,res)->
                 if err then console.error err
                 else
                     rd = res.data.data.children[0].data
-                    result =
-                        Docs.update doc_id,
-                            $set:
-                                rd: rd
                     # if rd.is_video
                     #     Meteor.call 'call_watson', doc_id, 'url', 'video', ->
                     # else if rd.is_image
@@ -250,7 +246,7 @@ Meteor.methods
                     #     thumbnail = rd.thumbnail
                     Docs.update doc_id,
                         $set:
-                            rd: rd
+                            data: rd
                             url: rd.url
                             # reddit_image:rd.preview.images[0].source.url
                             thumbnail: rd.thumbnail
@@ -261,14 +257,12 @@ Meteor.methods
                             ups: rd.ups
                             # downs: rd.downs
                             over_18: rd.over_18
-                        # $addToSet:
-                        #     tags: $each: [rd.subreddit.toLowerCase()]
 
 
 
     search_subreddits: (search)->
         @unblock()
-        HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}", (err,res)->
+        HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1", (err,res)->
             if res.data.data.dist > 1
                 _.each(res.data.data.children[0..200], (item)=>
                     found = 
@@ -278,6 +272,33 @@ Meteor.methods
                     # if found
                     unless found
                         item.model = 'subreddit'
+                        Docs.insert item
+                )
+                
+                
+                        
+    search_subreddit: (subreddit,search)->
+        @unblock()
+        console.log 'searching ', subreddit, 'for ', search
+        HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&raw_json=1", (err,res)->
+            if res.data.data.dist > 1
+                _.each(res.data.data.children[0..10], (item)=>
+                    console.log item.data.id
+                    found = 
+                        Docs.findOne    
+                            model:'rpost'
+                            reddit_id:item.data.id
+                            # subreddit:item.data.id
+                    if found
+                        console.log found, 'found and updating', subreddit
+                        Docs.update found._id, 
+                            $set:subreddit:item.data.subreddit
+                    unless found
+                        # console.log found, 'not found'
+                        item.model = 'rpost'
+                        item.reddit_id = item.data.id
+                        item.author = item.data.author
+                        # item.rdata = item.data
                         Docs.insert item
                 )
                 
@@ -296,19 +317,19 @@ Meteor.publish 'subreddits', (
     match = {model:'subreddit'}
     
     if query.length > 0
-        match["rdata.display_name"] = {$regex:"#{query}", $options:'i'}
+        match["name"] = {$regex:"#{query}", $options:'i'}
     Docs.find match,
-        limit:20
+        limit:200
         
 Meteor.publish 'rposts', (username)->
     Docs.find
         model:'rpost'
         author:username
-Meteor.publish 'sub_docs_by_name', (name)->
+Meteor.publish 'sub_docs_by_name', (subreddit)->
     Docs.find {
-        model:'reddit'
-        subreddit:name
-    }, limit:20
+        model:'rpost'
+        subreddit:subreddit
+    }, limit:30
 Meteor.methods 
     log_subreddit_view: (name)->
         sub = Docs.findOne

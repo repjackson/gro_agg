@@ -32,8 +32,8 @@ Template.reddit.events
         Session.set('subreddit_query', val)
         if e.which is 13 
             Meteor.call 'search_subreddits', val, ->
-                $('.search_subreddits').val('')
-                Session.set('subreddit_query', null)
+                # $('.search_subreddits').val('')
+                # Session.set('subreddit_query', null)
             
             
     'click .search_subs': ->

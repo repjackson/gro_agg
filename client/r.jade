@@ -22,7 +22,7 @@ template(name='reddit')
                                 img.ui.rounded.zoomer.image(src=data.icon_img)
                             .content.say
                                 a.ui.header.goto_sub(href="/r/#{data.display_name}")
-                                    | !{data.display_name}
+                                    | !{data.display_name} #{name}
                                 a.ui.small.grey.header.goto_sub(href="/r/#{data.display_name}")
                                     | !{data.header_title}
                                 // span.description !{data.public_description_html}

@@ -29,9 +29,22 @@ Template.subreddit_doc_item.events
 Template.subreddit.events
     'click .download': ->
         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
+    
     'click .get_info': ->
-        console.log 'info'
+        # console.log 'info'
         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
+            
+    'keyup .search_subreddit': (e,t)->
+        val = $('.search_subreddit').val()
+        Session.set('sub_doc_query', val)
+        if e.which is 13 
+            Meteor.call 'search_subreddit', Router.current().params.subreddit, val, ->
+                $('.search_subreddit').val('')
+                Session.set('sub_doc_query', null)
+            
+            
+            
+            
 Template.subreddit.helpers
     subreddit_doc: ->
         Docs.findOne
@@ -39,5 +52,5 @@ Template.subreddit.helpers
             "data.display_name":Router.current().params.subreddit
     sub_docs: ->
         Docs.find
-            model:'reddit'
+            model:'rpost'
             subreddit:Router.current().params.subreddit

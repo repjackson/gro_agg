@@ -33,7 +33,7 @@ Template.say.events
 #     if Meteor.isDevelopment
 #         window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
 Template.nav.events
-    'click .goto_stack': -> window.speechSynthesis.speak new SpeechSynthesisUtterance 'stackexchange'
+    'click .goto_stack': -> window.speechSynthesis.speak new SpeechSynthesisUtterance 'stack'
     'click .goto_reddit': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
     'click .goto_people': ->
@@ -41,7 +41,7 @@ Template.nav.events
     'click .goto_dao': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
     'click .goto_ea': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'environmental agency'
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'environment'
     'click .clear_tags': -> 
         selected_tags.clear()
     'click .silence': ->
@@ -228,8 +228,8 @@ Template.registerHelper 'nl2br', (text)->
     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
     new Spacebars.SafeString(nl2br)
 
-Template.registerHelper 'fixed0', (number)-> number.toFixed().toLocaleString()
-Template.registerHelper 'fixed', (number)-> number.toFixed(2)
+Template.registerHelper 'fixed0', (number)-> if number then number.toFixed().toLocaleString()
+Template.registerHelper 'fixed', (number)-> if number then number.toFixed(2)
 Template.registerHelper 'to_percent', (number)-> (number*100).toFixed()
 
 Template.registerHelper 'current_subreddit', ()->
