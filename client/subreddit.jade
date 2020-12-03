@@ -80,7 +80,7 @@ template(name='subreddit')
                             .spacer
                             .spacer
                 .four.wide.column.scrolling
-                    img.ui.small.image(src=icon_img)
+                    img.ui.mini.inline.image(src=icon_img)
                     .ui.inline.header.pull_latest #{display_name}
                     .ui.small.inline.header #{title}
                     img.ui.inline.image(src=header_img)
@@ -166,21 +166,10 @@ template(name='subreddit')
                         // .item #{api_subreddit_parameter} api
                         .item #{subreddit_type} subreddit_type
                         .item main emotion: #{main_emotion}
-                        .item badges_per_minute: #{badges_per_minute}
-                        .item #{total_badges} badges
                         .item 
                             i.grey.thumbs.up.outline.icon
                             |#{total_votes} votes
                         .item #{comment_count} comments
-                        // .item #{answers_per_minute} answers/min
-                        // .item #{questions_per_minute} questions/min
-                        // .item #{total_questions} questions
-                        // .item #{total_answers} answers
-                        // .item #{total_accepted} accepted
-                        // .item #{total_unanswered} unanswered
-                        // .item api_revision: #{api_revision}
-                    // if in_dev
-                    //     +array_edit k='tags' d=true
    
    
    
@@ -188,15 +177,15 @@ template(name='subreddit_doc_item')
     .ui.item
         if is_image
             a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.centered.rounded.zoomer.inline.image.toggle_view(src=url)
+                img.ui.centered.rounded.inline.image.toggle_view(src=url)
         else if watson.metadata.image
             a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.rounded.inline.image.zoomer.toggle_view(src=watson.metadata.image)
+                img.ui.rounded.inline.image.toggle_view(src=watson.metadata.image)
         else if data.thumbnail
             a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
+                img.ui.rounded.inline.image(src=data.thumbnail)    
         span.inline.content
-            a.ui.inline.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.ui.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                 strong #{data.ups}
                 if is_answered
                     i.green.checkmark.icon

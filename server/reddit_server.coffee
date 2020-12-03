@@ -250,14 +250,14 @@ Meteor.methods
                     #             $set:
                     #                 body: rd.selftext
                     #         }, ->
-                    #         #     Meteor.call 'pull_site', doc_id, url
+                    #         #     Meteor.call 'pull_subreddit', doc_id, url
                     # if rd.selftext_html
                     #     unless rd.is_video
                     #         Docs.update doc_id, {
                     #             $set:
                     #                 html: rd.selftext_html
                     #         }, ->
-                    #             # Meteor.call 'pull_site', doc_id, url
+                    #             # Meteor.call 'pull_subreddit', doc_id, url
                     # if rd.url
                     #     unless rd.is_video
                     #         url = rd.url
@@ -288,8 +288,6 @@ Meteor.methods
                             # downs: rd.downs
                             over_18: rd.over_18
 
-
-
     search_subreddits: (search)->
         @unblock()
         HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1", (err,res)->
@@ -305,8 +303,6 @@ Meteor.methods
                         Docs.insert item
                 )
                 
-                
-                        
     search_subreddit: (subreddit,search)->
         @unblock()
         console.log 'searching ', subreddit, 'for ', search
@@ -356,11 +352,23 @@ Meteor.publish 'rposts', (username)->
     Docs.find
         model:'rpost'
         author:username
-Meteor.publish 'sub_docs_by_name', (subreddit)->
-    Docs.find {
+Meteor.publish 'sub_docs_by_name', (
+    subreddit
+    selected_tags
+    )->
+    self = @
+    match = {
         model:'rpost'
         subreddit:subreddit
-    }, limit:30
+    }
+    # if view_bounties
+    #     match.bounty = true
+    # if view_unanswered
+    #     match.is_answered = false
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    
+    Docs.find match,
+        limit:30
     
     
 Meteor.publish 'agg_sentiment_subreddit', (
@@ -400,6 +408,137 @@ Meteor.publish 'agg_sentiment_subreddit', (
             avg_fear_score: res.avg_fear_score
     self.ready()
     
+
+Meteor.publish 'subreddit_tags', (
+    subreddit
+    selected_tags
+    # view_bounties
+    # view_unanswered
+    # query=''
+    )->
+    # @unblock()
+    self = @
+    match = {
+        model:'rpost'
+        subreddit:subreddit
+        }
+    # if view_bounties
+    #     match.bounty = true
+    # if view_unanswered
+    #     match.is_answered = false
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
+    doc_count = Docs.find(match).count()
+    # console.log 'doc_count', doc_count
+    subreddit_tag_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "tags": 1 }
+        { $unwind: "$tags" }
+        { $group: _id: "$tags", count: $sum: 1 }
+        { $match: _id: $nin: selected_tags }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:20 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    subreddit_tag_cloud.forEach (tag, i) ->
+        self.added 'results', Random.id(),
+            name: tag.name
+            count: tag.count
+            model:'subreddit_tag'
+    
+    
+    # subreddit_Location_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "Location": 1 }
+    #     { $unwind: "$Location" }
+    #     { $group: _id: "$Location", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_Locations }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:7 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # subreddit_Location_cloud.forEach (Location, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: Location.name
+    #         count: Location.count
+    #         model:'subreddit_Location'
+  
+  
+    # subreddit_Organization_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "Organization": 1 }
+    #     { $unwind: "$Organization" }
+    #     { $group: _id: "$Organization", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_Organizations }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # subreddit_Organization_cloud.forEach (Organization, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: Organization.name
+    #         count: Organization.count
+    #         model:'subreddit_Organization'
+  
+  
+    # subreddit_Person_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "Person": 1 }
+    #     { $unwind: "$Person" }
+    #     { $group: _id: "$Person", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_Persons }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # subreddit_Person_cloud.forEach (Person, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: Person.name
+    #         count: Person.count
+    #         model:'subreddit_Person'
+  
+  
+    # subreddit_Company_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "Company": 1 }
+    #     { $unwind: "$Company" }
+    #     { $group: _id: "$Company", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_Companys }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # subreddit_Company_cloud.forEach (Company, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: Company.name
+    #         count: Company.count
+    #         model:'subreddit_Company'
+  
+  
+    # subreddit_emotion_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "max_emotion_name": 1 }
+    #     { $group: _id: "$max_emotion_name", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_emotions }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # subreddit_emotion_cloud.forEach (emotion, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: emotion.name
+    #         count: emotion.count
+    #         model:'subreddit_emotion'
+  
+  
+    self.ready()
+
     
 Meteor.methods 
     log_subreddit_view: (name)->

@@ -15,10 +15,14 @@ Template.subreddit.onCreated ->
     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     # @autorun => Meteor.subscribe 'subrzeddit_user_count', Router.current().params.subreddit
     @autorun => Meteor.subscribe 'subreddit_by_param', Router.current().params.subreddit
-    @autorun => Meteor.subscribe 'sub_docs_by_name', Router.current().params.subreddit
-    # @autorun => Meteor.subscribe 'stackusers_by_subreddit', 
-        # Router.current().params.site
-        # Session.get('user_query')
+    @autorun => Meteor.subscribe 'sub_docs_by_name', 
+        Router.current().params.subreddit
+        selected_tags.array()
+
+    @autorun => Meteor.subscribe 'subreddit_tags',
+        Router.current().params.subreddit
+        selected_tags.array()
+
     Meteor.call 'log_subreddit_view', Router.current().params.subreddit, ->
     @autorun => Meteor.subscribe 'agg_sentiment_subreddit',
         Router.current().params.subreddit
@@ -54,10 +58,9 @@ Template.subreddit.events
                 $('.search_subreddit').val('')
                 Session.set('sub_doc_query', null)
             
-            
-            
-            
 Template.subreddit.helpers
+    subreddit_tags: -> results.find(model:'subreddit_tag')
+
     subreddit_doc: ->
         Docs.findOne
             model:'subreddit'
