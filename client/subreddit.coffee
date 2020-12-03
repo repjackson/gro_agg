@@ -71,3 +71,48 @@ Template.subreddit.helpers
             subreddit:Router.current().params.subreddit
             
     emotion_avg: -> results.findOne(model:'emotion_avg')
+
+
+
+Template.sub_tag_selector.onCreated ->
+    @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
+Template.sub_tag_selector.helpers
+    selector_class: ()->
+        term = 
+            Docs.findOne 
+                title:@name.toLowerCase()
+        if term
+            if term.max_emotion_name
+                switch term.max_emotion_name
+                    when 'joy' then " basic green"
+                    when "anger" then " basic red"
+                    when "sadness" then " basic blue"
+                    when "disgust" then " basic orange"
+                    when "fear" then " basic grey"
+                    else "basic grey"
+    term: ->
+        Docs.findOne 
+            title:@name.toLowerCase()
+            
+            
+Template.sub_tag_selector.events
+    'click .select_tag': -> 
+        # results.update
+        # console.log @
+        window.speechSynthesis.cancel()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        if @model is 'site_emotion'
+            selected_emotions.push @name
+        else
+            # if @model is 'site_tag'
+            selected_tags.push @name
+            $('.search_site').val('')
+            
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+        Session.set('loading',true)
+        Meteor.call 'search_stack', Router.current().params.site, @name, ->
+            Session.set('loading',false)
+        # Meteor.setTimeout( ->
+        #     Session.set('toggle',!Session.get('toggle'))
+        # , 5000)

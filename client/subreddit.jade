@@ -21,12 +21,12 @@ template(name='subreddit')
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                         //         i.remove.icon
                         each selected_tags
-                            +unselect_tag
+                            +unselect_sub_tag
                     .ui.icon.input
                         i.search.icon
                         input.search_subreddit(type='text')
                     each subreddit_tags
-                        +stack_tag_selector
+                        +sub_tag_selector
                         // .ui.large.label(title=count) #{name}
                     // div
                     if skv_is 'sort_direction' 1
@@ -85,6 +85,7 @@ template(name='subreddit')
                     .ui.small.inline.header #{title}
                     img.ui.inline.image(src=header_img)
                     +print_this
+                    div
                     with emotion_avg
                         // .ui.list
                         //     .item {{ to_percent avg_sent_score}}% sentiment
@@ -127,19 +128,6 @@ template(name='subreddit')
                         span.say.ui.red.text(class="{{calculated_size avg_anger_score}}") {{ to_percent avg_anger_score }}% anger 
                             |&nbsp;
                         div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
-                    
-                    // +alpha
-                    // +duck
-                    // a.ui.circular.icon.button(href='/')
-                    //     i.large.home.icon
-                    // img.get_info.mobile.hidden.shadowed(src=high_resolution_icon_url )
-                    // img(src=icon_url)
-                    // .ui.segment(style="background-color:#{styling.tag_background_color}")
-                    // .ui.label #{tag_background_color}: tag_background_color
-                    // .ui.label #{tag_foreground_color}: tag_foreground_color
-                    // .ui.label #{link_color}: link_color
-                    // .ui.grey.small.header 
-                    //     |related subreddits
                     
                     .ui.list.mobile.hidden
                         .item.say !{public_description}
@@ -207,7 +195,7 @@ template(name='subreddit_doc_item')
     
             .ui.horizontal.list
                 each tags
-                    .item #{this}
+                    +flat_tag_selector
             // .ui.horizontal.list
             //     .item 
             //         i.thumbs.up.icon
@@ -219,23 +207,23 @@ template(name='subreddit_doc_item')
 
 
 
-// template(name='stack_tag_selector')
-//     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-//     a.ui.basic.tertiary.circular.compact.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-//         if term
-//             if term.watson.metadata.image
-//                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
-//         strong #{name}
-//         // if in_dev
-//         //     small #{count}
-// template(name='flat_tag_selector')
-//     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-//     .ui.basic.tertiary.circular.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
-//         if term
-//             if term.watson.metadata.image
-//                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
-//         strong #{this}
-//         // if in_dev
-//         //     small #{count}
+template(name='sub_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.tertiary.circular.compact.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong #{name}
+        // if in_dev
+        //     small #{count}
+template(name='flat_sub_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.tertiary.circular.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong #{this}
+        // if in_dev
+        //     small #{count}
 
 
