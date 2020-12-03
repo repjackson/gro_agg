@@ -26,6 +26,12 @@ Template.subreddit_doc_item.events
         window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         # Router.go "/subreddit/#{@subreddit}/post/#{@_id}"
 
+Template.subreddit_doc_item.onRendered ->
+    console.log @
+    unless @data.watson
+        Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
+
+
 Template.subreddit.events
     'click .download': ->
         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->

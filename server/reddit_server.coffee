@@ -67,7 +67,7 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "https://www.reddit.com/r/#{subreddit}/about.json?"
+        url = "https://www.reddit.com/r/#{subreddit}/about.json?&raw_json=1"
         HTTP.get url,(err,res)=>
             # console.log res.data.data
             if res.data.data
@@ -95,7 +95,7 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "https://www.reddit.com/r/#{subreddit}.json?"
+        url = "https://www.reddit.com/r/#{subreddit}.json?&raw_json=1"
         HTTP.get url,(err,res)=>
             # console.log res.data.data.children.length
             # if res.data.data.dist > 1
@@ -126,7 +126,7 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "https://www.reddit.com/user/#{username}.json"
+        url = "https://www.reddit.com/user/#{username}.json&raw_json=1"
         HTTP.get url,(err,res)=>
             # console.log res.data.data.children.length
             # if res.data.data.dist > 1
