@@ -20,6 +20,10 @@ Template.subreddit.onCreated ->
         # Router.current().params.site
         # Session.get('user_query')
     Meteor.call 'log_subreddit_view', Router.current().params.subreddit, ->
+    @autorun => Meteor.subscribe 'agg_sentiment_subreddit',
+        Router.current().params.subreddit
+        selected_tags.array()
+        ()->Session.set('ready',true)
 
 Template.subreddit_doc_item.events
     'click .view_post': (e,t)-> 
@@ -27,7 +31,7 @@ Template.subreddit_doc_item.events
         # Router.go "/subreddit/#{@subreddit}/post/#{@_id}"
 
 Template.subreddit_doc_item.onRendered ->
-    console.log @
+    # console.log @
     unless @data.watson
         Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
 
@@ -62,3 +66,5 @@ Template.subreddit.helpers
         Docs.find
             model:'rpost'
             subreddit:Router.current().params.subreddit
+            
+    emotion_avg: -> results.findOne(model:'emotion_avg')

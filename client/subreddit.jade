@@ -85,6 +85,49 @@ template(name='subreddit')
                     .ui.small.inline.header #{title}
                     img.ui.inline.image(src=header_img)
                     +print_this
+                    with emotion_avg
+                        // .ui.list
+                        //     .item {{ to_percent avg_sent_score}}% sentiment
+                        //     .item {{ to_percent avg_joy_score}}% joy
+                        //     .item {{ to_percent avg_anger_score}}% anger
+                        //     .item {{ to_percent avg_sadness_score}}% sad
+                        //     .item {{ to_percent avg_disgust_score}}% disgust
+                        //     .item {{ to_percent avg_fear_score}}% fear
+                        if kv_is 'doc_sentiment_label' 'positive'
+                            span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label}
+                                |&nbsp;
+                            div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+                        else if kv_is 'doc_sentiment_label' 'negative'
+                            span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  #{doc_sentiment_label} 
+                                |&nbsp;
+                            div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+                        span.say.ui.green.text(class="{{calculated_size avg_sent_score}}") {{ to_percent avg_sent_score }}% joy 
+                            |&nbsp;
+                        div.rounded(style="height:5px;width:{{to_percent avg_sent_score}}%;background-color:green" title="{{to_percent avg_sent_score}}% joy")
+                        span.say.ui.green.text(class="{{calculated_size avg_joy_score}}") {{ to_percent avg_joy_score }}% joy 
+                            |&nbsp;
+                        div.rounded(style="height:5px;width:{{to_percent avg_joy_score}}%;background-color:green" title="{{to_percent avg_joy_score}}% joy")
+                        //- if above_50 'avg_sadness_score'
+                            //- .spacer
+                        span.say.ui.blue.text(class="{{calculated_size avg_sadness_score}}") {{ to_percent avg_sadness_score}}% sad 
+                            |&nbsp;
+                        div.rounded(style="height:5px;width:{{to_percent avg_sadness_score}}%;background-color:blue" title="{{to_percent avg_sadness_score}}% sad")
+                        //- if above_50 'avg_fear_score'
+                            //- .spacer
+                        span.say.ui.grey.text(class="{{calculated_size avg_fear_score}}") {{ to_percent avg_fear_score }}% fear 
+                            |&nbsp;
+                        div.rounded(style="height:5px;width:{{to_percent avg_fear_score}}%;background-color:grey" title="{{to_percent avg_fear_score}}% fear")
+                        //- if above_50 'avg_disgust_score'
+                            //- .spacer
+                        span.say.ui.orange.text(class="{{calculated_size avg_disgust_score}}") {{ to_percent avg_disgust_score }}% disgust 
+                            |&nbsp;
+                        div.rounded(style="height:5px;width:{{to_percent avg_disgust_score}}%;background-color:orange" title="{{to_percent avg_disgust_score}}% disgust")
+                        //- if above_50 'avg_anger_score'
+                            //- .spacer
+                        span.say.ui.red.text(class="{{calculated_size avg_anger_score}}") {{ to_percent avg_anger_score }}% anger 
+                            |&nbsp;
+                        div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
+                    
                     // +alpha
                     // +duck
                     // a.ui.circular.icon.button(href='/')

@@ -44,9 +44,9 @@ Template.sq.onCreated ->
         Session.get 'view_bounties'
         Session.get 'view_unanswered'
  
-    @autorun => Meteor.subscribe 'sentiment',
-        Router.current().params.site
-        selected_tags.array()
+    # @autorun => Meteor.subscribe 'sentiment',
+    #     Router.current().params.site
+    #     selected_tags.array()
   
     @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
   

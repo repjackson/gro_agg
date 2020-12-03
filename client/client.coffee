@@ -8,6 +8,8 @@ Template.registerHelper 'youtube_parse', (url) ->
    
 Session.setDefault('loading', false)
 Template.body.events
+    # 'click a': ->
+        
     'click .say_title': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         

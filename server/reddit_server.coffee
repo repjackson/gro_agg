@@ -361,6 +361,46 @@ Meteor.publish 'sub_docs_by_name', (subreddit)->
         model:'rpost'
         subreddit:subreddit
     }, limit:30
+    
+    
+Meteor.publish 'agg_sentiment_subreddit', (
+    subreddit
+    selected_tags
+    )->
+    # @unblock()
+    self = @
+    match = {
+        model:'rpost'
+        subreddit:subreddit
+    }
+        
+    doc_count = Docs.find(match).count()
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    emotion_avgs = Docs.aggregate [
+        { $match: match }
+        #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
+        { $group: 
+            _id:null
+            avg_sent_score: { $avg: "$doc_sentiment_score" }
+            avg_joy_score: { $avg: "$joy_percent" }
+            avg_anger_score: { $avg: "$anger_percent" }
+            avg_sadness_score: { $avg: "$sadness_percent" }
+            avg_disgust_score: { $avg: "$disgust_percent" }
+            avg_fear_score: { $avg: "$fear_percent" }
+        }
+    ]
+    emotion_avgs.forEach (res, i) ->
+        self.added 'results', Random.id(),
+            model:'emotion_avg'
+            avg_sent_score: res.avg_sent_score
+            avg_joy_score: res.avg_joy_score
+            avg_anger_score: res.avg_anger_score
+            avg_sadness_score: res.avg_sadness_score
+            avg_disgust_score: res.avg_disgust_score
+            avg_fear_score: res.avg_fear_score
+    self.ready()
+    
+    
 Meteor.methods 
     log_subreddit_view: (name)->
         sub = Docs.findOne
