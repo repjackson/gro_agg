@@ -21,7 +21,7 @@ template(name='subreddit')
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                         //         i.remove.icon
                         each selected_tags
-                            +unselect_sub_tag
+                            +sub_unselect_tag
                     .ui.icon.input
                         i.search.icon
                         input.search_subreddit(type='text')
@@ -29,6 +29,7 @@ template(name='subreddit')
                         +sub_tag_selector
                         // .ui.large.label(title=count) #{name}
                     // div
+                    .ui.inline.header #{post_count}
                     if skv_is 'sort_direction' 1
                         .ui.icon.compact.circular.basic.tertiary.button.sort_down
                             i.caret.down.icon
@@ -183,7 +184,6 @@ template(name='subreddit_doc_item')
                 |!{data.title} 
             .rounded.full
                 |!{embed}
-                
             .spacer
             // if skv_is 'view_detail' true
             // i.tag.grey.icon
@@ -195,7 +195,7 @@ template(name='subreddit_doc_item')
     
             .ui.horizontal.list
                 each tags
-                    +flat_tag_selector
+                    +flat_sub_tag_selector
             // .ui.horizontal.list
             //     .item 
             //         i.thumbs.up.icon
@@ -216,6 +216,16 @@ template(name='sub_tag_selector')
         strong #{name}
         // if in_dev
         //     small #{count}
+        
+template(name='sub_unselect_tag')
+    a.unselect_tag.ui.black.compact.button.select_term(href='#')
+        if term
+            if term.watson.metadata.image
+                img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
+        strong #{this}
+
+        
+        
 template(name='flat_sub_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
     .ui.basic.tertiary.circular.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")

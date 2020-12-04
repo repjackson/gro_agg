@@ -318,13 +318,16 @@ Meteor.methods
                     if found
                         console.log found, 'found and updating', subreddit
                         Docs.update found._id, 
-                            $set:subreddit:item.data.subreddit
+                            $addToSet: tags: search
+                            # $set:
+                            #     subreddit:item.data.subreddit
                     unless found
                         # console.log found, 'not found'
                         item.model = 'rpost'
                         item.reddit_id = item.data.id
                         item.author = item.data.author
                         item.subreddit = item.data.subreddit
+                        item.tags = [search]
                         # item.rdata = item.data
                         Docs.insert item
                 )
@@ -408,6 +411,19 @@ Meteor.publish 'agg_sentiment_subreddit', (
             avg_fear_score: res.avg_fear_score
     self.ready()
     
+
+Meteor.publish 'sub_doc_count', (
+    subreddit
+    selected_tags
+    )->
+        
+    match = {model:'rpost'}
+    match.subreddit = subreddit
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    Counts.publish this, 'sub_doc_counter', Docs.find(match)
+    return undefined
+
+
 
 Meteor.publish 'subreddit_tags', (
     subreddit
