@@ -3,11 +3,11 @@ template(name='subreddit')
         .ui.basic.center.aligned.segment
             i.massive.yin.yang.loading.link.grey.icon.get_info.shadowed2
     with current_subreddit.rdata
-        .ui.stackable.grid
+        .ui.stackable.grid(style="background-image:url(#{banner_background_image});, background-repeat: no-repeat;")
             .row
                 .ui.eleven.wide.column
                     // img(src=data.banner_img)
-                    // img(src=data.banner_background_image)
+                    // img(src=banner_background_image)
                     a.ui.basic.compact.circular.icon.button(href="/reddit")
                         i.big.reddit.grey.icon
                         // img.ui.mini.inline.image(src=icon_img)
@@ -86,11 +86,12 @@ template(name='subreddit')
                             .ui.basic.center.aligned.segment
                                 i.big.loading.yin.yang.icon
                 .five.wide.column.scrolling
-                    .ui.inline.header.pull_latest #{display_name}
-                    .ui.small.inline.header #{title}
+                    // .ui.inline.header.pull_latest #{display_name}
                     img.ui.inline.image(src=header_img)
-                    +print_this
-                    div
+                    .ui.inline.header.pull_latest #{title}
+                    if in_dev
+                        +print_this
+                        div
                     with emotion_avg
                         // .ui.list
                         //     .item {{ to_percent avg_sent_score}}% sentiment

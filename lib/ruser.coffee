@@ -3,6 +3,26 @@ if Meteor.isClient
         @layout 'layout'
         @render 'ruser'
         ), name:'ruser'
+    Router.route '/user/:username/comments', (->
+        @layout 'layout'
+        @render 'ruser_comments'
+        ), name:'ruser_comments'
+    Router.route '/user/:username/upvoted', (->
+        @layout 'layout'
+        @render 'ruser_upvoted'
+        ), name:'ruser_upvoted'
+    Router.route '/user/:username/downvoted', (->
+        @layout 'layout'
+        @render 'ruser_downvoted'
+        ), name:'ruser_downvoted'
+    Router.route '/user/:username/hidden', (->
+        @layout 'layout'
+        @render 'ruser_hidden'
+        ), name:'ruser_hidden'
+    Router.route '/user/:username/saved', (->
+        @layout 'layout'
+        @render 'ruser_saved'
+        ), name:'ruser_saved'
 
     Template.ruser.onCreated ->
         @autorun => Meteor.subscribe 'ruser_doc', Router.current().params.username
@@ -54,6 +74,10 @@ if Meteor.isClient
         # user_tags: ->
         #     Docs.find
         #         model:'stack_tag'
+    Template.ruser_doc_item.onRendered ->
+        # console.log @
+        unless @data.watson
+            Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
 
     # Template.answer_item.onCreated ->
     #     @autorun => Meteor.subscribe 'question_from_id', @data.question_id
@@ -97,7 +121,7 @@ if Meteor.isClient
             window.speechSynthesis.speak new SpeechSynthesisUtterance @title
 
         'click .search': ->
-            window.speechSynthesis.speak new SpeechSynthesisUtterance "import #{Router.current().params.subreddit} user"
+            window.speechSynthesis.speak new SpeechSynthesisUtterance "import #{Router.current().params.username}"
             Meteor.call 'search_ruser', Router.current().params.subreddit, Router.current().params.username, ->
         'click .get_answers': ->
             Meteor.call 'ruser_answers', Router.current().params.subreddit, Router.current().params.username, ->

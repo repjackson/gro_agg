@@ -2,7 +2,7 @@ template(name='reddit_page')
     with current_doc
         .ui.stackable.padded.grid
             .twelve.wide.column
-                a.ui.compact.circular.basic.button(href="/r/#{data.subreddit}")
+                a.ui.compact.circular.basic.button.say(href="/r/#{data.subreddit}")
                     i.chevron.left.icon
                     |#{data.subreddit}
                 span.ui.pointer.text.f13.zoomer(class=post_header_class) !{data.title} #{data.link_title}
@@ -21,7 +21,7 @@ template(name='reddit_page')
                 +skve k='doc_section' v='main' l='main' i='content'
                 +skve k='doc_section' v='watson' l='watson' i='dna'
                 +skve k='doc_section' v='preview' l='preview' i='content'
-                .scrolling
+                .scrollin
                     if skv_is 'doc_section' 'watson'
                         +watson_view
                     if skv_is 'doc_section' 'preview'

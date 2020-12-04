@@ -29,7 +29,7 @@ Template.reddit.events
         Meteor.call 'get_sub_latest', @data.display_name, ->
         Meteor.call 'get_sub_info', @data.display_name, ->
 
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @data.display_name
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
     'keyup .search_subreddits': (e,t)->
         val = $('.search_subreddits').val()
         Session.set('subreddit_query', val)

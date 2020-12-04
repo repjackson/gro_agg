@@ -24,35 +24,35 @@ template(name='ruser')
                         i.reddit.icon
                         i.external.icon
                     +print_this
-                    .ui.horizontal.list
-                        .item uid #{account_id}
-                        .item modified {{ufrom last_modified_date}}
-                        .item accessed  {{ufrom last_access_date}}
-                        .item created {{ufrom creation_date}}
-                        .item #{user_type}
+                    // .ui.horizontal.list
+                    //     .item uid #{account_id}
+                    //     .item modified {{ufrom last_modified_date}}
+                    //     .item accessed  {{ufrom last_access_date}}
+                    //     .item created {{ufrom creation_date}}
+                    //     .item #{user_type}
                     a.ui.external.icon.button(href=link target='_window') 
                         i.linkify.icon
                         // |#{link}
                 .twelve.wide.column
-                    .ui.button 
+                    a.ui.button(href="/user/#{username}")
                         i.dashboard.icon
                         |overview
-                    .ui.button 
+                    a.ui.button(href="/user/#{username}/comments")
                         i.reply.icon
                         |submitted
-                    .ui.button 
+                    a.ui.button(href="/user/#{username}/comments")
                         i.chat.icon
                         |comments
-                    .ui.button 
+                    a.ui.button(href="/user/#{username}/upvoted")
                         i.thumbs.up.outline.icon
                         |upvoted
-                    .ui.button 
+                    a.ui.button(href="/user/#{username}/downvoted")
                         i.thumbs.down.outline.icon
                         |downvoted
-                    .ui.button 
+                    a.ui.button(href="/user/#{username}/hidden")
                         i.eye.slash.icon
                         |hidden
-                    .ui.button 
+                    a.ui.button(href="/user/#{username}/saved")
                         i.save.icon
                         |saved
                     div
@@ -106,5 +106,6 @@ template(name='ruser_doc_item')
                 |{{ufrom last_modified_date}}
             .ui.basic.label #{data.domain}
             .ui.basic.label #{data.num_comments}
+            .ui.basic.label #{data.subreddit}
             // .ui.large.label #{owner.display_name}
     .spacer

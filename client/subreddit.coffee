@@ -26,6 +26,7 @@ Template.subreddit.onCreated ->
     @autorun => Meteor.subscribe 'subreddit_tags',
         Router.current().params.subreddit
         selected_tags.array()
+        Session.get('toggle')
 
     Meteor.call 'log_subreddit_view', Router.current().params.subreddit, ->
     @autorun => Meteor.subscribe 'agg_sentiment_subreddit',
@@ -59,6 +60,8 @@ Template.subreddit.events
         Session.set('sub_doc_query', val)
         if e.which is 13 
             selected_tags.push val
+            window.speechSynthesis.speak new SpeechSynthesisUtterance val
+
             Meteor.call 'search_subreddit', Router.current().params.subreddit, val, ->
                 $('.search_subreddit').val('')
                 Session.set('sub_doc_query', null)
@@ -119,9 +122,9 @@ Template.sub_tag_selector.events
         Session.set('loading',true)
         Meteor.call 'search_subreddit', Router.current().params.subreddit, @name, ->
             Session.set('loading',false)
-        # Meteor.setTimeout( ->
-        #     Session.set('toggle',!Session.get('toggle'))
-        # , 5000)
+        Meteor.setTimeout( ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 5000)
         
         
         
