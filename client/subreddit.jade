@@ -175,7 +175,7 @@ template(name='subreddit_doc_item')
                 img.ui.rounded.inline.image(src=data.thumbnail)    
         span.inline.content
             a.ui.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                strong #{data.ups}
+                strong #{data.ups}:
                 if is_answered
                     i.green.checkmark.icon
                 // span

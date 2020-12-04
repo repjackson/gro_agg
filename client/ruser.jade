@@ -20,28 +20,16 @@ template(name='ruser')
                         strong(title='global rank') ##{global_rank}
                     div
                     img.ui.rounded.inline.image.pointer.zoomer(src=profile_image)
-                    a.ui.large.compact.circular.basic.button(href=link target='_window' title="#{site} profile")
-                        i.stack.exchange.icon
+                    a.ui.large.compact.circular.basic.button(href="http://www.reddit.com/user/#{username}" target='_window' title="#{site} profile")
+                        i.reddit.icon
                         i.external.icon
                     +print_this
                     .ui.horizontal.list
-                        .item account id #{account_id}
-                        .item employee #{is_employee}
+                        .item uid #{account_id}
                         .item modified {{ufrom last_modified_date}}
                         .item accessed  {{ufrom last_access_date}}
                         .item created {{ufrom creation_date}}
                         .item #{user_type}
-                        .item account id #{account_id}
-                        .item user id #{user_id}
-                        .item accepts #{accept_rate}%                        
-                        // .item badge_counts: #{badge_counts}
-                        // .item view_count: #{view_count}
-                        // .item down_vote_count: #{down_vote_count}
-                        // .item up_vote_count: #{up_vote_count}
-                        // .item answer_count: #{answer_count}
-                        // .item post_count: #{post_count}
-                        // .item profile_image: #{profile_image}
-                        // .item display_name: #{display_name}
                     a.ui.external.icon.button(href=link target='_window') 
                         i.linkify.icon
                         // |#{link}

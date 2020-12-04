@@ -126,27 +126,26 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "https://www.reddit.com/user/#{username}.json&raw_json=1"
+        url = "https://www.reddit.com/user/#{username}.json"
         HTTP.get url,(err,res)=>
-            # console.log res.data.data.children.length
-            # if res.data.data.dist > 1
-            _.each(res.data.data.children[0..100], (item)=>
-                console.log item.data.id
-                found = 
-                    Docs.findOne    
-                        model:'rpost'
-                        reddit_id:item.data.id
-                        # subreddit:item.data.id
-                # if found
-                #     console.log found, 'found'
-                unless found
-                    # console.log found, 'not found'
-                    item.model = 'rpost'
-                    item.reddit_id = item.data.id
-                    item.author = item.data.author
-                    # item.rdata = item.data
-                    Docs.insert item
-            )
+            if res.data.data.dist > 1
+                _.each(res.data.data.children[0..10], (item)=>
+                    console.log item
+                    found = 
+                        Docs.findOne    
+                            model:'rpost'
+                            reddit_id:item.data.id
+                            # subreddit:item.data.id
+                    # if found
+                    #     console.log found, 'found'
+                    unless found
+                        # console.log found, 'not found'
+                        item.model = 'rpost'
+                        item.reddit_id = item.data.id
+                        item.author = item.data.author
+                        # item.rdata = item.data
+                        Docs.insert item
+                )
         
             # for post in res.data.data.children
             #     existing = 
