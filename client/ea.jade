@@ -1,99 +1,99 @@
-template(name='ea')
-    .ui.stackable.grid
-        .five.wide.column
-            img.ui.small.inline.image.get_ea(src="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/organisation/logo/199/EA_logo_354.jpg")
-            .ui.inline.header #{ea_count} docs
-            .ui.inline.header localities
-            each picked_localities
-                .ui.button.unpick_locality #{this}
-            each localities
-                // +tag_selector
-                .ui.compact.basic.small.button.pick_locality #{name} #{count}
-            div
-            .ui.inline.header types
-            each picked_types
-                .ui.button.unpick_type #{this}
-            each types
-                .ui.compact.basic.small.button.pick_type #{name} #{count}
-            div
-            .ui.inline.header postcodes
-            each picked_postcodes
-                .ui.button.unpick_postcode #{this}
-            each postcodes
-                .ui.compact.basic.small.button.pick_postcode #{name} #{count}
-        .eight.wide.column
-            // +field_filter
-            .ui.icon.input
-                if sv 'name_query'
-                    i.link.remove.icon.clear_name
-                else
-                    i.header.icon
-                input.search_name(type='text' placeholder='name')
-            .ui.icon.input
-                if sv 'location_query'
-                    i.link.remove.icon.clear_location
-                else
-                    i.marker.icon
-                input.search_location(type='text' placeholder='location')
-            .ui.icon.input
-                if sv 'type_query'
-                    i.link.remove.icon.clear_type
-                else
-                    i.clone.icon
-                input.search_type(type='text' placeholder='register type')
-            .ui.icon.input
-                if sv 'number_query'
-                    i.link.remove.icon.clear_number
-                else
-                    i.hashtag.icon
-                input.search_number(type='text' placeholder='number')
-            .scrolling
-                each ea_docs
-                    +ea_doc
-        .two.wide.column
-            +call_register k='waste-carriers-brokers' l='Waste Carriers, Brokers and Dealers'
-            +call_register k='waste-exemptions' l='Waste Exemptions'
-            +call_register k='scrap-metal-dealers' l='Scrap Metal Dealers'
-            +call_register k='water-discharge-exemptions' l='Water Quality Exemptions'
-            +call_register k='flood-risk-exemptions' l='Flood Risk Activity Exemptions'
-            +call_register k='enforcement-action' l='Enforcement Actions'
-            +call_register k='radioactive-substance' l='Radioactive Substances permits'
-            +call_register k='industrial-installations' l='Environmental Permitting Regulations - Installations'
-            +call_register k='waste-operations' l='Environmental Permitting Regulations - Waste Operations'
-            +call_register k='end-of-life-vehicles' l='Environmental Permitting Regulations - End of Life Vehicles'
-            +call_register k='water-discharges' l='Environmental Permitting Regulations - Discharge Consents'
+// template(name='ea')
+//     .ui.stackable.grid
+//         .five.wide.column
+//             img.ui.small.inline.image.get_ea(src="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/organisation/logo/199/EA_logo_354.jpg")
+//             .ui.inline.header #{ea_count} docs
+//             .ui.inline.header localities
+//             each picked_localities
+//                 .ui.button.unpick_locality #{this}
+//             each localities
+//                 // +tag_selector
+//                 .ui.compact.basic.small.button.pick_locality #{name} #{count}
+//             div
+//             .ui.inline.header types
+//             each picked_types
+//                 .ui.button.unpick_type #{this}
+//             each types
+//                 .ui.compact.basic.small.button.pick_type #{name} #{count}
+//             div
+//             .ui.inline.header postcodes
+//             each picked_postcodes
+//                 .ui.button.unpick_postcode #{this}
+//             each postcodes
+//                 .ui.compact.basic.small.button.pick_postcode #{name} #{count}
+//         .eight.wide.column
+//             // +field_filter
+//             .ui.icon.input
+//                 if sv 'name_query'
+//                     i.link.remove.icon.clear_name
+//                 else
+//                     i.header.icon
+//                 input.search_name(type='text' placeholder='name')
+//             .ui.icon.input
+//                 if sv 'location_query'
+//                     i.link.remove.icon.clear_location
+//                 else
+//                     i.marker.icon
+//                 input.search_location(type='text' placeholder='location')
+//             .ui.icon.input
+//                 if sv 'type_query'
+//                     i.link.remove.icon.clear_type
+//                 else
+//                     i.clone.icon
+//                 input.search_type(type='text' placeholder='register type')
+//             .ui.icon.input
+//                 if sv 'number_query'
+//                     i.link.remove.icon.clear_number
+//                 else
+//                     i.hashtag.icon
+//                 input.search_number(type='text' placeholder='number')
+//             .scrolling
+//                 each ea_docs
+//                     +ea_doc
+//         .two.wide.column
+//             +call_register k='waste-carriers-brokers' l='Waste Carriers, Brokers and Dealers'
+//             +call_register k='waste-exemptions' l='Waste Exemptions'
+//             +call_register k='scrap-metal-dealers' l='Scrap Metal Dealers'
+//             +call_register k='water-discharge-exemptions' l='Water Quality Exemptions'
+//             +call_register k='flood-risk-exemptions' l='Flood Risk Activity Exemptions'
+//             +call_register k='enforcement-action' l='Enforcement Actions'
+//             +call_register k='radioactive-substance' l='Radioactive Substances permits'
+//             +call_register k='industrial-installations' l='Environmental Permitting Regulations - Installations'
+//             +call_register k='waste-operations' l='Environmental Permitting Regulations - Waste Operations'
+//             +call_register k='end-of-life-vehicles' l='Environmental Permitting Regulations - End of Life Vehicles'
+//             +call_register k='water-discharges' l='Environmental Permitting Regulations - Discharge Consents'
      
-template(name='call_register')
-    .ui.tiny.basic.compact.button.call_ea
-        |#{l}
+// template(name='call_register')
+//     .ui.tiny.basic.compact.button.call_ea
+//         |#{l}
      
                     
                     
-template(name='ea_doc')
-    .ui.segment
-        with edata
-            .ui.inline.header #{holder.name}
-            .ui.label 
-                small tier: 
-                |#{tier.label}
-            .ui.label #{applicantType.prefLabel}
-            .ui.label expires #{expiryDate} ({{from_now expiryDate}})
-            // .ui.list
-            //     .item.header holder
-            //     with holder
-            //         .item #{name}
-            //         // .item #{type}  
-            .ui.list
-                .item regime label: #{regime.prefLabel}
-                .item register label: #{register.label}
-                .item register date: #{registrationDate} ({{from_now registrationDate}})
-                .item number: #{registrationNumber}
-                .item registration type: #{registrationType.label}
-            .ui.list
-                with site.siteAddress
-                    .item #{address}
-                    // .item #{locality}
-                    // // .item #{organization_name}
-                    // .item #{postcode}
-                    // // .item #{postcodeURI}
-                    // .item #{street_address}
+// template(name='ea_doc')
+//     .ui.segment
+//         with edata
+//             .ui.inline.header #{holder.name}
+//             .ui.label 
+//                 small tier: 
+//                 |#{tier.label}
+//             .ui.label #{applicantType.prefLabel}
+//             .ui.label expires #{expiryDate} ({{from_now expiryDate}})
+//             // .ui.list
+//             //     .item.header holder
+//             //     with holder
+//             //         .item #{name}
+//             //         // .item #{type}  
+//             .ui.list
+//                 .item regime label: #{regime.prefLabel}
+//                 .item register label: #{register.label}
+//                 .item register date: #{registrationDate} ({{from_now registrationDate}})
+//                 .item number: #{registrationNumber}
+//                 .item registration type: #{registrationType.label}
+//             .ui.list
+//                 with site.siteAddress
+//                     .item #{address}
+//                     // .item #{locality}
+//                     // // .item #{organization_name}
+//                     // .item #{postcode}
+//                     // // .item #{postcodeURI}
+//                     // .item #{street_address}

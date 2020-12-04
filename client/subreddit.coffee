@@ -35,7 +35,7 @@ Template.subreddit.onCreated ->
 
 Template.subreddit_doc_item.events
     'click .view_post': (e,t)-> 
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @title
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
         # Router.go "/subreddit/#{@subreddit}/post/#{@_id}"
 
 Template.subreddit_doc_item.onRendered ->
@@ -58,6 +58,7 @@ Template.subreddit.events
         val = $('.search_subreddit').val()
         Session.set('sub_doc_query', val)
         if e.which is 13 
+            selected_tags.push val
             Meteor.call 'search_subreddit', Router.current().params.subreddit, val, ->
                 $('.search_subreddit').val('')
                 Session.set('sub_doc_query', null)
@@ -169,5 +170,5 @@ Template.flat_sub_tag_selector.events
         selected_tags.push @valueOf()
         Router.go "/r/#{Router.current().params.subreddit}/"
         $('.search_subreddit').val('')
-        Meteor.call 'search_stack', Router.current().params.subreddit, @valueOf(), ->
+        Meteor.call 'search_subreddit', Router.current().params.subreddit, @valueOf(), ->
    

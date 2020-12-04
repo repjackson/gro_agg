@@ -34,21 +34,27 @@ template(name='ruser')
                         i.linkify.icon
                         // |#{link}
                 .twelve.wide.column
-                    .ui.grey.tiny.statistic
-                        .value #{down_vote_count}
-                        .label 
-                            i.thumbs.down.outline.icon
-                            |down votes
-                    .ui.grey.tiny.statistic
-                        .value #{up_vote_count}
-                        .label 
-                            i.thumbs.up.outline.icon
-                            |up votes
-                    .ui.grey.tiny.statistic
-                        .value #{view_count}
-                        .label 
-                            i.eye.icon
-                            |views
+                    .ui.button 
+                        i.dashboard.icon
+                        |overview
+                    .ui.button 
+                        i.reply.icon
+                        |submitted
+                    .ui.button 
+                        i.chat.icon
+                        |comments
+                    .ui.button 
+                        i.thumbs.up.outline.icon
+                        |upvoted
+                    .ui.button 
+                        i.thumbs.down.outline.icon
+                        |downvoted
+                    .ui.button 
+                        i.eye.slash.icon
+                        |hidden
+                    .ui.button 
+                        i.save.icon
+                        |saved
                     div
                     if skv_is 'view_post_detail' true
                         .ui.black.tertiary.large.button.toggle_post_detail.agg

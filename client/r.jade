@@ -3,12 +3,14 @@ template(name='reddit')
         .row
             // .four.wide.column
             .sixteen.wide.column
-                // a.ui.large.circular.basic.button(href="/reddit") 
-                //     i.reddit.icon
-                //     |reddit
+                .ui.inline.header
+                    i.reddit.icon
+                    |reddit
                 +cloud filter='subreddit'
                 .ui.inline.header.search_subs
                     |#{subreddit_docs.count} subs
+                .ui.inline.header #{sub_count}
+
                 .ui.icon.input
                     i.search.icon
                     input.search_subreddits(type='text')

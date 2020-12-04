@@ -5,16 +5,17 @@ template(name='subreddit')
     with current_subreddit.rdata
         .ui.stackable.grid
             .row
-                .ui.twelve.wide.column
-                    img(src=data.banner_img)
-                    img(src=data.banner_background_image)
-                    a.ui.circular.basic.icon.button(href="/reddit")
-                        i.reddit.large.icon
+                .ui.eleven.wide.column
+                    // img(src=data.banner_img)
+                    // img(src=data.banner_background_image)
+                    a.ui.basic.compact.circular.icon.button(href="/reddit")
+                        i.big.reddit.grey.icon
+                        // img.ui.mini.inline.image(src=icon_img)
                     img.get_info.shadowed.ui.inline.image(src=logo_url )
                     .ui.inline.header.get_info #{data.display_name}
-                    a.ui.circular.basic.large.disabled.button(href="/s/#{display_name}/users")
-                        i.large.user.outline.icon
-                        |users
+                    // a.ui.circular.basic.large.disabled.button(href="/s/#{display_name}/users")
+                    //     i.large.user.outline.icon
+                    //     |users
                     // div
                     if selected_tags
                         // if many_tags
@@ -75,13 +76,16 @@ template(name='subreddit')
                     // .ui.icon.compact.large.button 
                     //     i.list.icon
                     .scrolling
-                        each sub_docs
-                            +subreddit_doc_item
-                            .spacer
-                            .spacer
-                            .spacer
-                .four.wide.column.scrolling
-                    img.ui.mini.inline.image(src=icon_img)
+                        if sub_docs
+                            each sub_docs
+                                +subreddit_doc_item
+                                .spacer
+                                .spacer
+                                .spacer
+                        else
+                            .ui.basic.center.aligned.segment
+                                i.big.loading.yin.yang.icon
+                .five.wide.column.scrolling
                     .ui.inline.header.pull_latest #{display_name}
                     .ui.small.inline.header #{title}
                     img.ui.inline.image(src=header_img)
@@ -164,10 +168,10 @@ template(name='subreddit')
    
 template(name='subreddit_doc_item')                  
     .ui.item
-        if is_image
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.centered.rounded.inline.image.toggle_view(src=url)
-        else if watson.metadata.image
+        // if is_image
+        a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            img.ui.fluid.rounded.image.toggle_view(src=data.url)
+        if watson.metadata.image
             a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                 img.ui.rounded.inline.image.toggle_view(src=watson.metadata.image)
         else if data.thumbnail
@@ -182,9 +186,9 @@ template(name='subreddit_doc_item')
                 //     i.tag.grey.icon
                 //     |#{tags.length}
                 |!{data.title} 
-            .rounded.full
+            span.rounded.full
                 |!{embed}
-            .spacer
+            // .spacer
             // if skv_is 'view_detail' true
             // i.tag.grey.icon
             unless skv_is 'view_detail' true
@@ -193,9 +197,8 @@ template(name='subreddit_doc_item')
             if skv_is 'view_detail' true
                 .say.goto_post !{data.body}
     
-            .ui.horizontal.list
-                each tags
-                    +flat_sub_tag_selector
+            each tags
+                +flat_sub_tag_selector
             // .ui.horizontal.list
             //     .item 
             //         i.thumbs.up.icon

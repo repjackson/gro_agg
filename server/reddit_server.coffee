@@ -60,7 +60,6 @@ Meteor.methods
                             Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                 )
     
-    
     get_sub_info: (subreddit)->
         @unblock()
         console.log 'getting info', subreddit

@@ -2,11 +2,12 @@ template(name='reddit_page')
     with current_doc
         .ui.stackable.padded.grid
             .twelve.wide.column
-                a.ui.big.icon.circular.basic.button(href="/r/#{data.subreddit}")
+                a.ui.compact.circular.basic.button(href="/r/#{data.subreddit}")
                     i.chevron.left.icon
+                    |#{data.subreddit}
                 span.ui.pointer.text.f13.zoomer(class=post_header_class) !{data.title} #{data.link_title}
                 // .ui.basic.circular.button.get_post permalink #{permalink}
-                .rounded.full
+                span.rounded.full
                     |!{embed}
                 if is_image
                     img.ui.centered.rounded.image(src=data.url)
@@ -24,9 +25,7 @@ template(name='reddit_page')
                     if skv_is 'doc_section' 'watson'
                         +watson_view
                     if skv_is 'doc_section' 'preview'
-                        iframe(width="100%" height="500" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
-                    .ui.label
-                        | #{data.domain}
+                        iframe(width="100%" height="800" src=data.url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
                     .spacer
                     // img(src=url)
                     |!{data.html}
@@ -76,6 +75,8 @@ template(name='reddit_page')
                 a.ui.basic.circular.button(href=data.url target="_window" title=data.url) 
                     i.external.icon
                     |url
+                .ui.label
+                    | #{data.domain}
                 if data.thumbnail
                     img.ui.fluid.rounded.image(src=data.thumbnail)
                 .ui.header #{data.domain}
