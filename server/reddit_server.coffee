@@ -143,7 +143,7 @@ Meteor.methods
                         item.model = 'rpost'
                         item.reddit_id = item.data.id
                         item.author = item.data.author
-                        # item.rdata = item.data
+                        item.subreddit = item.data.subreddit
                         Docs.insert item
                 )
         

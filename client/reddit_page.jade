@@ -6,20 +6,23 @@ template(name='reddit_page')
                     i.chevron.left.icon
                 span.ui.pointer.text.f13.zoomer(class=post_header_class) !{data.title} #{data.link_title}
                 // .ui.basic.circular.button.get_post permalink #{permalink}
+                .rounded.full
+                    |!{embed}
+                if is_image
+                    img.ui.centered.rounded.image(src=data.url)
+                else if watson.metadata.image
+                    img.ui.rounded.image(src=watson.metadata.image)
+                // small #{max_emotion_name}
+                if is_video
+                    div
+                    // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                    iframe(width="100%" height="600" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                +skve k='doc_section' v='main' l='main' i='content'
+                +skve k='doc_section' v='watson' l='watson' i='dna'
+                +skve k='doc_section' v='preview' l='preview' i='content'
                 .scrolling
-                    .rounded.full
-                        |!{embed}
-                    if is_image
-                        img.ui.centered.rounded.image(src=data.url)
-                    else if watson.metadata.image
-                        img.ui.rounded.image(src=watson.metadata.image)
-                    // small #{max_emotion_name}
-                    if is_video
-                        div
-                        // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                        iframe(width="100%" height="600" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                    +skve k='doc_section' v='main' l='main' i='content'
-                    +skve k='doc_section' v='preview' l='preview' i='content'
+                    if skv_is 'doc_section' 'watson'
+                        +watson_view
                     if skv_is 'doc_section' 'preview'
                         iframe(width="100%" height="500" src=url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
                     .ui.label

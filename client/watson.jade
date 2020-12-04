@@ -171,7 +171,7 @@ template(name='entities')
                 .spacer
                 .ui.list 
                     .item {{ to_percent relevance }}% relevant
-                    .item sentiment:  {{ sentiment.label }} {{ to_percent sentiment.score }}%:
+                    .item {{ sentiment.label }} {{ to_percent sentiment.score }}%:
                     .item #{count} count
                     .item {{ to_percent confidence}}% confident
                 .meta 

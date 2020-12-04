@@ -359,7 +359,7 @@ a.goto_article {
     /*animation: fadein .15s !important;*/
     /*animation: fadeout .15s; */
     transition: all .25s ease !important; 
-    cursor: crosshair !important;
+    /*cursor: crosshair !important;*/
     color: black !important; 
     transform: scale(1.01) !important;
 }
