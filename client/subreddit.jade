@@ -5,7 +5,7 @@ template(name='subreddit')
     with current_subreddit.rdata
         .ui.stackable.grid(style="background-image:url(#{banner_background_image});, background-repeat: no-repeat;")
             .row
-                .ui.eleven.wide.column
+                .eleven.wide.column.seg
                     // img(src=data.banner_img)
                     // img(src=banner_background_image)
                     a.ui.basic.compact.circular.icon.button(href="/reddit")
@@ -85,7 +85,8 @@ template(name='subreddit')
                         else
                             .ui.basic.center.aligned.segment
                                 i.big.loading.yin.yang.icon
-                .five.wide.column.scrolling
+                .five.wide.column.scrolling.seg
+                    +alpha
                     // .ui.inline.header.pull_latest #{display_name}
                     img.ui.inline.image(src=header_img)
                     .ui.inline.header.pull_latest #{title}
@@ -222,7 +223,7 @@ template(name='sub_tag_selector')
         //     small #{count}
         
 template(name='sub_unselect_tag')
-    a.unselect_tag.ui.black.compact.button.select_term(href='#')
+    a.unselect_tag.ui.black.compact.circular.button.select_term(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    

@@ -62,8 +62,10 @@ Template.subreddit.events
             selected_tags.push val
             window.speechSynthesis.speak new SpeechSynthesisUtterance val
 
+            $('.search_subreddit').val('')
+            Session.set('loading',true)
             Meteor.call 'search_subreddit', Router.current().params.subreddit, val, ->
-                $('.search_subreddit').val('')
+                Session.set('loading',false)
                 Session.set('sub_doc_query', null)
             
 Template.subreddit.helpers
@@ -74,10 +76,10 @@ Template.subreddit.helpers
             model:'subreddit'
             "data.display_name":Router.current().params.subreddit
     sub_docs: ->
-        Docs.find
+        Docs.find({
             model:'rpost'
             subreddit:Router.current().params.subreddit
-            
+        },limit:7)
     emotion_avg: -> results.findOne(model:'emotion_avg')
 
     post_count: -> Counts.get('sub_doc_counter')
@@ -108,7 +110,7 @@ Template.sub_tag_selector.events
     'click .select_tag': -> 
         # results.update
         # console.log @
-        window.speechSynthesis.cancel()
+        # window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # if @model is 'subreddit_emotion'
         #     selected_emotions.push @name
@@ -168,10 +170,12 @@ Template.flat_sub_tag_selector.helpers
 Template.flat_sub_tag_selector.events
     'click .select_flat_tag': -> 
         # results.update
-        window.speechSynthesis.cancel()
+        # window.speechSynthesis.cancel()
         window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         selected_tags.push @valueOf()
         Router.go "/r/#{Router.current().params.subreddit}/"
         $('.search_subreddit').val('')
+        Session.set('loading',true)
         Meteor.call 'search_subreddit', Router.current().params.subreddit, @valueOf(), ->
+            Session.set('loading',false)
    

@@ -26,6 +26,9 @@
 
 @blocklist = [
     'main articles'
+    '2003 singles'
+    'view entire discussion'
+    'sign up'
     'pages'
     '.inc'
     'following year'
@@ -194,8 +197,11 @@
     'entire discussion'
     'acceptance of our user agreement'
     'blog terms'
+    'alien logo'
+    'trademarks of reddit'
     'all rights reserved'
     'policy'
+    'keyboard shortcut'
     'rest of the keyboard shortcuts'
     'login'
     "'s"
