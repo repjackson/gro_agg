@@ -28,21 +28,22 @@ template(name='reddit_page')
                         iframe(width="100%" height="800" src=data.url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
                     .spacer
                     // img(src=url)
-                    |!{data.html}
+                    span.say !{data.html}
                     .spacer
                     if parsed_selftext_html
                         .ui.segment
                             |!{parsed_selftext_html}
                     if data.selftext
                         // .ui.segment
-                        |{{#markdown}} {{data.selftext}} {{/markdown}}
+                        .ui.basic.segment.say
+                            |{{#markdown}} {{data.selftext}} {{/markdown}}
                     else if data.body
                         div
-                        .ui.segment
+                        .ui.segment.say
                             |{{nl2br data.body}}
                     else if data.body_html
                         div
-                        .ui.segment
+                        .ui.segment.say
                             |!{data.body_html}
                     if data.link_url
                         img.ui.image(src=data.link_url)

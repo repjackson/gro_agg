@@ -15,7 +15,12 @@ body {
   /*background: #0e0e44 !important; */
 }
 
-
+.seg {
+  background: rgba(250,250,250,.5);
+  /*opacity: .5;*/
+  border-radius: 10px;
+  padding:5px;
+}
 .pulsing {
     /*height: 250px; */
     /*width: 250px; */

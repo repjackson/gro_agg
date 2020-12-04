@@ -136,8 +136,8 @@ template(name='subreddit')
                         div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
                     
                     .ui.list.mobile.hidden
-                        .item.say !{public_description}
-                        .item.say 
+                        .item.seg.say !{public_description}
+                        .item.seg.say 
                             |{{#markdown}} !{description} {{/markdown}}
                         .item 
                             i.grey.lightning.icon
@@ -168,8 +168,16 @@ template(name='subreddit')
    
    
 template(name='subreddit_doc_item')                  
-    .ui.item
+    .ui.item.seg
         // if is_image
+        a.ui.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            strong #{data.ups}:
+            if is_answered
+                i.green.checkmark.icon
+            // span
+            //     i.tag.grey.icon
+            //     |#{tags.length}
+            |!{data.title} 
         a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
             img.ui.fluid.rounded.image.toggle_view(src=data.url)
         if watson.metadata.image
@@ -178,36 +186,28 @@ template(name='subreddit_doc_item')
         else if data.thumbnail
             a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                 img.ui.rounded.inline.image(src=data.thumbnail)    
-        span.inline.content
-            a.ui.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                strong #{data.ups}:
-                if is_answered
-                    i.green.checkmark.icon
-                // span
-                //     i.tag.grey.icon
-                //     |#{tags.length}
-                |!{data.title} 
-            span.rounded.full
-                |!{embed}
-            // .spacer
-            // if skv_is 'view_detail' true
-            // i.tag.grey.icon
-            unless skv_is 'view_detail' true
-                if watson.analyzed_text
-                    span.pointer.view_question {{trunc watson.analyzed_text}}...
-            if skv_is 'view_detail' true
-                .say.goto_post !{data.body}
-    
-            each tags
-                +flat_sub_tag_selector
-            // .ui.horizontal.list
-            //     .item 
-            //         i.thumbs.up.icon
-            //         |#{ups}
-            a.ui.header(href="/user/#{author}")
-                |#{author}
-            if watson
-                +doc_emotion_small
+        // span.inline.content
+        span.rounded.full
+            |!{embed}
+        // .spacer
+        // if skv_is 'view_detail' true
+        // i.tag.grey.icon
+        unless skv_is 'view_detail' true
+            if watson.analyzed_text
+                span.pointer.view_question {{trunc watson.analyzed_text}}...
+        if skv_is 'view_detail' true
+            .say.goto_post !{data.body}
+
+        each tags
+            +flat_sub_tag_selector
+        // .ui.horizontal.list
+        //     .item 
+        //         i.thumbs.up.icon
+        //         |#{ups}
+        a.ui.header(href="/user/#{author}")
+            |#{author}
+        if watson
+            +doc_emotion_small
 
 
 
