@@ -135,19 +135,19 @@ Meteor.methods
             # if res.data.data.dist > 1
             # [1].data.children[0].data.body
             _.each(res.data[1].data.children[0..100], (item)=>
-                console.log item
+                # console.log item
                 found = 
                     Docs.findOne    
                         model:'rcomment'
                         reddit_id:item.data.id
                         parent_id:item.data.parent_id
                         # subreddit:item.data.id
-                if found
-                    console.log found, 'found comment'
-                    # Docs.update found._id,
-                    #     $set:subreddit:item.data.subreddit
+                # if found
+                #     console.log found, 'found comment'
+                #     # Docs.update found._id,
+                #     #     $set:subreddit:item.data.subreddit
                 unless found
-                    console.log found, 'not found comment'
+                    # console.log found, 'not found comment'
                     item.model = 'rcomment'
                     item.reddit_id = item.data.id
                     item.parent_id = item.data.parent_id

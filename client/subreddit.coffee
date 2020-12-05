@@ -178,4 +178,6 @@ Template.flat_sub_tag_selector.events
         Session.set('loading',true)
         Meteor.call 'search_subreddit', Router.current().params.subreddit, @valueOf(), ->
             Session.set('loading',false)
-   
+        Meteor.setTimeout( ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 5000)

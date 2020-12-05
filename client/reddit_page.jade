@@ -70,10 +70,12 @@ template(name='reddit_page')
                     |#{tags.length}
                     each tags
                         +flat_sub_tag_selector
-                    i.big.link.comment.icon.get_post_comments
-                    .ui.threaded.comments
-                        each rcomments
-                            +rcomment
+                    .ui.horizontal.divider.get_post_comments
+                        i.grey.comment.outline.icon
+                        |#{rcomments.count} comments
+                    // .ui.items
+                    each rcomments
+                        +rcomment
             .four.wide.column
                 if in_dev
                     +print_this
@@ -114,23 +116,28 @@ template(name='reddit_page')
                 
 
 template(name='rcomment')                
-    .comment.call_watson_comment
-        .content
-            a.author #{data.author}
-            .metadata 
+    .ui.grid.call_watson_comment
+        .sixteen.wide.column
+            a.author.say(href="/user/#{data.author}") #{data.author}
+            span.metadata 
                 span.date {{ufrom data.created}}
                 span.date {{data.score}}
-            .text
+                +doc_emotion_small
+            .say(class=post_header_class)
                 |{{#markdown}} {{data.body}} {{/markdown}}
             .actions
-                +doc_emotion_small
+                each tags 
+                    +flat_sub_tag_selector
+                    // .ui.tiny.basic.label #/{this}
         if data.replies.data.children
-            .comments
+            .ui.grid
                 each data.replies.data.children
-                    .comment
-                        a.author #{data.author}
+                    .one.wide.column
+                    .fifteen.wide.column
+                        a.author(href="/user/#{data.author}") #{data.author}
                         .content
-                            .text #{data.score} #{data.body}
+                            |{{#markdown}} {{data.body}} {{/markdown}}
+                            // .text.say #{data.score} #{data.body}
             // if in_dev
             //     +print_this
                 

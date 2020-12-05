@@ -29,6 +29,7 @@
     '2003 singles'
     '2008 singles'
     '2008 albums'
+    '2000 singles'
     'view entire discussion'
     'sign up'
     'trademark'

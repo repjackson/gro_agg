@@ -122,10 +122,10 @@ Template.registerHelper 'trunc', (input) ->
         
 Template.registerHelper 'post_header_class', (metric) ->
     if @max_emotion_name
-        if @max_emotion_name is 'joy' then 'green invert'
-        else if @max_emotion_name is 'anger' then 'red invert'
-        else if @max_emotion_name is 'sadness' then 'blue invert'
-        else if @max_emotion_name is 'disgust' then 'orange invert'
+        if @max_emotion_name is 'joy' then 'ui green text'
+        else if @max_emotion_name is 'anger' then 'red'
+        else if @max_emotion_name is 'sadness' then 'blue'
+        else if @max_emotion_name is 'disgust' then 'orange'
     
 Template.registerHelper 'calculated_size', (metric) ->
     # whole = parseInt(@["#{metric}"]*10)

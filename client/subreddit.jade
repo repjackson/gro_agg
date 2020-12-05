@@ -4,167 +4,167 @@ template(name='subreddit')
             i.massive.yin.yang.loading.link.grey.icon.get_info.shadowed2
     with current_subreddit.rdata
         .ui.stackable.grid(style="background-image:url(#{banner_background_image});, background-repeat: no-repeat; min-width: 100%; ")
-            .row
-                .eleven.wide.column.seg
-                    // img(src=data.banner_img)
-                    // img(src=banner_background_image)
-                    a.ui.basic.compact.circular.icon.button(href="/reddit")
-                        i.big.reddit.grey.icon
-                        // img.ui.mini.inline.image(src=icon_img)
-                    img.get_info.shadowed.ui.inline.image(src=logo_url )
-                    .ui.inline.header.get_info #{data.display_name}
-                    // a.ui.circular.basic.large.disabled.button(href="/s/#{display_name}/users")
-                    //     i.large.user.outline.icon
-                    //     |users
-                    // div
-                    if selected_tags
-                        // if many_tags
-                        //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
-                        //         i.remove.icon
-                        each selected_tags
-                            +sub_unselect_tag
-                    .ui.icon.input
-                        i.search.icon
-                        input.search_subreddit(type='text')
-                    each subreddit_tags
-                        +sub_tag_selector
-                        // .ui.large.label(title=count) #{name}
-                    // div
-                    .ui.inline.header #{post_count}
-                    if skv_is 'sort_direction' 1
-                        .ui.icon.compact.circular.basic.tertiary.button.sort_down
-                            i.caret.down.icon
+            // .row
+            .eleven.wide.column.seg
+                // img(src=data.banner_img)
+                // img(src=banner_background_image)
+                a.ui.basic.compact.circular.icon.button(href="/reddit")
+                    i.big.reddit.icon
+                    // img.ui.mini.inline.image(src=icon_img)
+                img.get_info.shadowed.ui.inline.image(src=logo_url )
+                .ui.inline.header.get_info #{data.display_name}
+                // a.ui.circular.basic.large.disabled.button(href="/s/#{display_name}/users")
+                //     i.large.user.outline.icon
+                //     |users
+                // div
+                if selected_tags
+                    // if many_tags
+                    //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                    //         i.remove.icon
+                    each selected_tags
+                        +sub_unselect_tag
+                .ui.icon.input
+                    i.search.icon
+                    input.search_subreddit(type='text')
+                each subreddit_tags
+                    +sub_tag_selector
+                    // .ui.large.label(title=count) #{name}
+                // div
+                .ui.inline.header #{post_count}
+                if skv_is 'sort_direction' 1
+                    .ui.icon.compact.circular.basic.tertiary.button.sort_down
+                        i.caret.down.icon
+                else
+                    .ui.icon.compact.circular.basic.tertiary.button.sort_up
+                        i.caret.up.icon
+                // if skv_is 'view_bounties' 1
+                //     .ui.compact.circular.black.button.unview_bounties
+                //         i.hand.holding.heart.icon
+                //         | bounties
+                // else
+                //     .ui.compact.circular.basic.tertiary.button.view_bounties
+                //         i.hand.holding.heart.icon
+                //         | bounties
+                // if skv_is 'view_unanswered' 1
+                //     .ui.compact.circular.black.button.unview_unanswered
+                //         i.checkmark.icon
+                //         | unanswered
+                // else
+                //     .ui.compact.circular.basic.tertiary.button.view_unanswered
+                //         i.question.icon
+                //         | unanswered
+                // i.big.fire.link.icon
+                .ui.compact.circular.basic.small.tertiary.button.limit_1
+                    |1
+                .ui.compact.circular.basic.small.tertiary.button.limit_10
+                    |10
+                .ui.icon.compact.large.circular.basic.small.tertiary.button.sort_timestamp
+                    i.clock.icon
+                .ui.icon.compact.large.circular.basic.small.tertiary.button.set_points
+                    i.line.chart.icon
+                if skv_is 'view_detail' true
+                    .ui.black.circular.compact.button.toggle_detail
+                        i.list.large.icon
+                        |detail
+                else
+                    .ui.compact.circular.basic.tertiary.button.toggle_detail
+                        i.minus.large.icon
+                        |simple
+                    // i.line.chart.icon
+                // .ui.icon.compact.large.button 
+                //     i.th.icon
+                // .ui.icon.compact.large.button 
+                //     i.list.icon
+                .scrolling
+                    if sub_docs
+                        each sub_docs
+                            +subreddit_doc_item
+                            .spacer
+                            .spacer
+                            .spacer
                     else
-                        .ui.icon.compact.circular.basic.tertiary.button.sort_up
-                            i.caret.up.icon
-                    // if skv_is 'view_bounties' 1
-                    //     .ui.compact.circular.black.button.unview_bounties
-                    //         i.hand.holding.heart.icon
-                    //         | bounties
-                    // else
-                    //     .ui.compact.circular.basic.tertiary.button.view_bounties
-                    //         i.hand.holding.heart.icon
-                    //         | bounties
-                    // if skv_is 'view_unanswered' 1
-                    //     .ui.compact.circular.black.button.unview_unanswered
-                    //         i.checkmark.icon
-                    //         | unanswered
-                    // else
-                    //     .ui.compact.circular.basic.tertiary.button.view_unanswered
-                    //         i.question.icon
-                    //         | unanswered
-                    // i.big.fire.link.icon
-                    .ui.compact.circular.basic.small.tertiary.button.limit_1
-                        |1
-                    .ui.compact.circular.basic.small.tertiary.button.limit_10
-                        |10
-                    .ui.icon.compact.large.circular.basic.small.tertiary.button.sort_timestamp
-                        i.clock.icon
-                    .ui.icon.compact.large.circular.basic.small.tertiary.button.set_points
-                        i.line.chart.icon
-                    if skv_is 'view_detail' true
-                        .ui.black.circular.compact.button.toggle_detail
-                            i.list.large.icon
-                            |detail
+                        .ui.basic.center.aligned.segment
+                            i.big.loading.yin.yang.icon
+            .five.wide.column.scrolling.seg
+                +alpha
+                // .ui.inline.header.pull_latest #{display_name}
+                img.ui.inline.image(src=header_img)
+                .ui.inline.header.pull_latest #{title}
+                if in_dev
+                    +print_this
+                    div
+                with emotion_avg
+                    // .ui.list
+                    //     .item {{ to_percent avg_sent_score}}% sentiment
+                    //     .item {{ to_percent avg_joy_score}}% joy
+                    //     .item {{ to_percent avg_anger_score}}% anger
+                    //     .item {{ to_percent avg_sadness_score}}% sad
+                    //     .item {{ to_percent avg_disgust_score}}% disgust
+                    //     .item {{ to_percent avg_fear_score}}% fear
+                    if is_positive
+                        span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% positive
+                            |&nbsp;
+                        div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
                     else
-                        .ui.compact.circular.basic.tertiary.button.toggle_detail
-                            i.minus.large.icon
-                            |simple
-                        // i.line.chart.icon
-                    // .ui.icon.compact.large.button 
-                    //     i.th.icon
-                    // .ui.icon.compact.large.button 
-                    //     i.list.icon
-                    .scrolling
-                        if sub_docs
-                            each sub_docs
-                                +subreddit_doc_item
-                                .spacer
-                                .spacer
-                                .spacer
-                        else
-                            .ui.basic.center.aligned.segment
-                                i.big.loading.yin.yang.icon
-                .five.wide.column.scrolling.seg
-                    +alpha
-                    // .ui.inline.header.pull_latest #{display_name}
-                    img.ui.inline.image(src=header_img)
-                    .ui.inline.header.pull_latest #{title}
-                    if in_dev
-                        +print_this
-                        div
-                    with emotion_avg
-                        // .ui.list
-                        //     .item {{ to_percent avg_sent_score}}% sentiment
-                        //     .item {{ to_percent avg_joy_score}}% joy
-                        //     .item {{ to_percent avg_anger_score}}% anger
-                        //     .item {{ to_percent avg_sadness_score}}% sad
-                        //     .item {{ to_percent avg_disgust_score}}% disgust
-                        //     .item {{ to_percent avg_fear_score}}% fear
-                        if is_positive
-                            span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% positive
-                                |&nbsp;
-                            div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
-                        else
-                            span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  negative
-                                |&nbsp;
-                            div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
-                        span.say.ui.green.text(class="{{calculated_size avg_sent_score}}") {{ to_percent avg_sent_score }}% joy 
+                        span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  negative
                             |&nbsp;
-                        div.rounded(style="height:5px;width:{{to_percent avg_sent_score}}%;background-color:green" title="{{to_percent avg_sent_score}}% joy")
-                        span.say.ui.green.text(class="{{calculated_size avg_joy_score}}") {{ to_percent avg_joy_score }}% joy 
-                            |&nbsp;
-                        div.rounded(style="height:5px;width:{{to_percent avg_joy_score}}%;background-color:green" title="{{to_percent avg_joy_score}}% joy")
-                        //- if above_50 'avg_sadness_score'
-                            //- .spacer
-                        span.say.ui.blue.text(class="{{calculated_size avg_sadness_score}}") {{ to_percent avg_sadness_score}}% sad 
-                            |&nbsp;
-                        div.rounded(style="height:5px;width:{{to_percent avg_sadness_score}}%;background-color:blue" title="{{to_percent avg_sadness_score}}% sad")
-                        //- if above_50 'avg_fear_score'
-                            //- .spacer
-                        span.say.ui.grey.text(class="{{calculated_size avg_fear_score}}") {{ to_percent avg_fear_score }}% fear 
-                            |&nbsp;
-                        div.rounded(style="height:5px;width:{{to_percent avg_fear_score}}%;background-color:grey" title="{{to_percent avg_fear_score}}% fear")
-                        //- if above_50 'avg_disgust_score'
-                            //- .spacer
-                        span.say.ui.orange.text(class="{{calculated_size avg_disgust_score}}") {{ to_percent avg_disgust_score }}% disgust 
-                            |&nbsp;
-                        div.rounded(style="height:5px;width:{{to_percent avg_disgust_score}}%;background-color:orange" title="{{to_percent avg_disgust_score}}% disgust")
-                        //- if above_50 'avg_anger_score'
-                            //- .spacer
-                        span.say.ui.red.text(class="{{calculated_size avg_anger_score}}") {{ to_percent avg_anger_score }}% anger 
-                            |&nbsp;
-                        div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
-                    
-                    .ui.list.mobile.hidden
-                        .item.seg.say !{public_description}
-                        .item.seg.say 
-                            |{{#markdown}} !{description} {{/markdown}}
-                        .item 
-                            i.grey.lightning.icon
-                            |#{active_user_count} activeusers
-                        .item 
-                            i.grey.users.icon
-                            |#{subscribers} subscribers
-                        // .item 
-                        //     strong #{audience}
-                        a.item(href=url target="_window")
-                            |#{url}
-                            i.external.icon
-                        .item
-                            |#{advertiser_category} ad category
-                        .item #{dao_views} dao views    
-                        .item created {{ufrom created_utc}}
-                        .item state: #{subreddit_state}
-                        // .item #{high_resolution_icon_url} high_resolution_icon_url
-                        // .item #{favicon_url} favicon_url
-                        // .item #{api_subreddit_parameter} api
-                        .item #{subreddit_type} subreddit_type
-                        .item main emotion: #{main_emotion}
-                        .item 
-                            i.grey.thumbs.up.outline.icon
-                            |#{total_votes} votes
-                        .item #{comment_count} comments
+                        div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+                    span.say.ui.green.text(class="{{calculated_size avg_sent_score}}") {{ to_percent avg_sent_score }}% joy 
+                        |&nbsp;
+                    div.rounded(style="height:5px;width:{{to_percent avg_sent_score}}%;background-color:green" title="{{to_percent avg_sent_score}}% joy")
+                    span.say.ui.green.text(class="{{calculated_size avg_joy_score}}") {{ to_percent avg_joy_score }}% joy 
+                        |&nbsp;
+                    div.rounded(style="height:5px;width:{{to_percent avg_joy_score}}%;background-color:green" title="{{to_percent avg_joy_score}}% joy")
+                    //- if above_50 'avg_sadness_score'
+                        //- .spacer
+                    span.say.ui.blue.text(class="{{calculated_size avg_sadness_score}}") {{ to_percent avg_sadness_score}}% sad 
+                        |&nbsp;
+                    div.rounded(style="height:5px;width:{{to_percent avg_sadness_score}}%;background-color:blue" title="{{to_percent avg_sadness_score}}% sad")
+                    //- if above_50 'avg_fear_score'
+                        //- .spacer
+                    span.say.ui.grey.text(class="{{calculated_size avg_fear_score}}") {{ to_percent avg_fear_score }}% fear 
+                        |&nbsp;
+                    div.rounded(style="height:5px;width:{{to_percent avg_fear_score}}%;background-color:grey" title="{{to_percent avg_fear_score}}% fear")
+                    //- if above_50 'avg_disgust_score'
+                        //- .spacer
+                    span.say.ui.orange.text(class="{{calculated_size avg_disgust_score}}") {{ to_percent avg_disgust_score }}% disgust 
+                        |&nbsp;
+                    div.rounded(style="height:5px;width:{{to_percent avg_disgust_score}}%;background-color:orange" title="{{to_percent avg_disgust_score}}% disgust")
+                    //- if above_50 'avg_anger_score'
+                        //- .spacer
+                    span.say.ui.red.text(class="{{calculated_size avg_anger_score}}") {{ to_percent avg_anger_score }}% anger 
+                        |&nbsp;
+                    div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
+                
+                .ui.list.mobile.hidden
+                    .item.seg.say !{public_description}
+                    .item.seg.say 
+                        |{{#markdown}} !{description} {{/markdown}}
+                    .item 
+                        i.grey.lightning.icon
+                        |#{active_user_count} activeusers
+                    .item 
+                        i.grey.users.icon
+                        |#{subscribers} subscribers
+                    // .item 
+                    //     strong #{audience}
+                    a.item(href=url target="_window")
+                        |#{url}
+                        i.external.icon
+                    .item
+                        |#{advertiser_category} ad category
+                    .item #{dao_views} dao views    
+                    .item created {{ufrom created_utc}}
+                    .item state: #{subreddit_state}
+                    // .item #{high_resolution_icon_url} high_resolution_icon_url
+                    // .item #{favicon_url} favicon_url
+                    // .item #{api_subreddit_parameter} api
+                    .item #{subreddit_type} subreddit_type
+                    .item main emotion: #{main_emotion}
+                    .item 
+                        i.grey.thumbs.up.outline.icon
+                        |#{total_votes} votes
+                    .item #{comment_count} comments
    
    
    
@@ -214,7 +214,7 @@ template(name='subreddit_doc_item')
 
 template(name='sub_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.basic.tertiary.circular.compact.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.circular.compact.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
