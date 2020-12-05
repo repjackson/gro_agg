@@ -19,7 +19,8 @@ template(name='reddit')
                             i.massive.yin.yang.grey.loading.icon
                     each subreddit_docs
                         .ui.item  
-                            a.ui.tiny.image.goto_sub(href="/r/#{data.display_name}")
+                            // a.ui.tiny.image.goto_sub(href="/r/#{data.display_name}")
+                            .ui.tiny.image.goto_sub
                                 img.ui.rounded.zoomer.image(src=data.icon_img)
                             .content.say
                                 a.ui.header.goto_sub(href="/r/#{data.display_name}")
@@ -29,8 +30,10 @@ template(name='reddit')
                                 // span.description !{data.public_description_html}
                                 span.description !{data.public_description}
                                 span.say
-                                    i.money.icon
+                                    // i.money.icon
                                     |#{data.advertiser_category}
+                                each tags
+                                    .ui.label #{this}
                                 if in_dev
                                     +print_this
 

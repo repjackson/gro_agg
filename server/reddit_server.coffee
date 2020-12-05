@@ -60,6 +60,63 @@ Meteor.methods
                             Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                 )
     
+    calc_sub_tags: (subreddit)->
+        found = 
+            Docs.findOne(
+                model:'subreddit'
+                "data.display_name": subreddit
+            )
+        sub_tags = Meteor.call 'agg_sub_tags', subreddit
+        console.log 'sub tags', sub_tags
+        titles = _.pluck(sub_tags, 'title')
+        console.log 'titles', titles
+        if found
+            Docs.update found._id, 
+                $set:tags:titles
+
+        # Meteor.call 'clear_blocklist_doc', found._id, ->
+    agg_sub_tags: (subreddit)->
+        match = {model:'rpost', subreddit:subreddit}
+        total_doc_result_count =
+            Docs.find( match,
+                {
+                    fields:
+                        _id:1
+                }
+            ).count()
+        console.log total_doc_result_count, 'docs'
+        # limit=20
+        options = {
+            explain:false
+            allowDiskUse:true
+        }
+
+        pipe =  [
+            { $match: match }
+            { $project: tags: 1 }
+            { $unwind: "$tags" }
+            { $group: _id: "$tags", count: $sum: 1 }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 20 }
+            { $project: _id: 0, title: '$_id', count: 1 }
+        ]
+
+        if pipe
+            agg = global['Docs'].rawCollection().aggregate(pipe,options)
+            # else
+            res = {}
+            if agg
+                agg.toArray()
+                # omega = Docs.findOne model:'omega_session'
+                # Docs.update omega._id,
+                #     $set:
+                #         agg:agg.toArray()
+        else
+            return null
+
+        
+        
+        
     get_sub_info: (subreddit)->
         @unblock()
         console.log 'getting info', subreddit
@@ -72,7 +129,7 @@ Meteor.methods
             if res.data.data
                 existing = Docs.findOne 
                     model:'subreddit'
-                    name:subreddit
+                    "data.display_name":subreddit
                 if existing
                     console.log 'existing', existing
                     # if Meteor.isDevelopment
