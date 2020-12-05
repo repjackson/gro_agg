@@ -71,6 +71,8 @@ template(name='reddit_page')
                     each tags
                         +flat_sub_tag_selector
                     i.big.link.comment.icon.get_post_comments
+                    each rcomments
+                        .ui.header hi #{reddit_id} #{data.body}
             .four.wide.column
                 if in_dev
                     +print_this

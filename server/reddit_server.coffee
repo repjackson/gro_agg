@@ -136,23 +136,23 @@ Meteor.methods
             # [1].data.children[0].data.body
             _.each(res.data[1].data.children[0..100], (item)=>
                 console.log item
-                # found = 
-                #     Docs.findOne    
-                #         model:'rcomment'
-                #         reddit_id:item.data.id
-                #         # subreddit:item.data.id
-                # if found
-                #     # console.log found, 'found'
-                #     Docs.update found._id,
-                #         $set:subreddit:item.data.subreddit
-                # unless found
-                #     # console.log found, 'not found'
-                #     item.model = 'rcomment'
-                #     item.reddit_id = item.data.id
-                #     item.author = item.data.author
-                #     item.subreddit = item.data.subreddit
-                #     # item.rdata = item.data
-                #     Docs.insert item
+                found = 
+                    Docs.findOne    
+                        model:'rcomment'
+                        reddit_id:item.data.id
+                        parent_id:item.data.parent_id
+                        # subreddit:item.data.id
+                if found
+                    console.log found, 'found comment'
+                    # Docs.update found._id,
+                    #     $set:subreddit:item.data.subreddit
+                unless found
+                    console.log found, 'not found comment'
+                    item.model = 'rcomment'
+                    item.reddit_id = item.data.id
+                    item.parent_id = item.data.parent_id
+                    item.subreddit = subreddit
+                    Docs.insert item
             )
     
     get_user_posts: (username)->
@@ -373,6 +373,12 @@ Meteor.publish 'subreddit_by_param', (name)->
     Docs.find
         model:'subreddit'
         name:name
+        
+Meteor.publish 'rpost_comments', (subreddit, doc_id)->
+    post = Docs.findOne doc_id
+    Docs.find
+        model:'rcomment'
+        # parent_id:post.reddit_id
         
 Meteor.publish 'subreddits', (
     query=''

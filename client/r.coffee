@@ -13,6 +13,7 @@ Router.route '/r/:subreddit/users', (->
     
 Template.reddit_page.onCreated ->
     @autorun -> Meteor.subscribe('doc', Router.current().params.doc_id)
+    @autorun -> Meteor.subscribe('rpost_comments', Router.current().params.subreddit, Router.current().params.doc_id)
 
 Template.reddit_page.events
     'click .get_post_comments': ->
@@ -23,6 +24,17 @@ Template.reddit_page.events
 
     'click .get_post': ->
         Meteor.call 'get_reddit_post', Router.current().params.doc_id, @reddit_id, ->
+
+Template.reddit_page.helpers
+    rcomments: ->
+        post = Docs.findOne Router.current().params.doc_id
+        Docs.find
+            model:'rcomment'
+            # parent_id:post.reddit_id
+
+
+
+
 
 Template.reddit.onCreated ->
     Session.setDefault('subreddit_query',null)
