@@ -118,6 +118,42 @@ Meteor.methods
                     # item.rdata = item.data
                     Docs.insert item
             )
+            
+            
+    get_post_comments: (subreddit, doc_id)->
+        @unblock()
+        console.log 'getting post comments', subreddit, doc_id
+        doc = Docs.findOne doc_id
+        
+        # if subreddit 
+        #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
+        # else
+        # https://www.reddit.com/r/uwo/comments/fhnl8k/ontario_to_close_all_public_schools_for_two_weeks.json
+        url = "https://www.reddit.com/r/#{subreddit}/comments/#{doc.reddit_id}.json?&raw_json=1&nsfw=1"
+        HTTP.get url,(err,res)=>
+            # console.log res.data.data.children.length
+            # if res.data.data.dist > 1
+            # [1].data.children[0].data.body
+            _.each(res.data[1].data.children[0..100], (item)=>
+                console.log item
+                # found = 
+                #     Docs.findOne    
+                #         model:'rcomment'
+                #         reddit_id:item.data.id
+                #         # subreddit:item.data.id
+                # if found
+                #     # console.log found, 'found'
+                #     Docs.update found._id,
+                #         $set:subreddit:item.data.subreddit
+                # unless found
+                #     # console.log found, 'not found'
+                #     item.model = 'rcomment'
+                #     item.reddit_id = item.data.id
+                #     item.author = item.data.author
+                #     item.subreddit = item.data.subreddit
+                #     # item.rdata = item.data
+                #     Docs.insert item
+            )
     
     get_user_posts: (username)->
         # @unblock()s
@@ -314,7 +350,7 @@ Meteor.methods
                             reddit_id:item.data.id
                             # subreddit:item.data.id
                     if found
-                        console.log found, 'found and updating', subreddit
+                        # console.log found, 'found and updating', subreddit
                         Docs.update found._id, 
                             $addToSet: tags: search
                             # $set:

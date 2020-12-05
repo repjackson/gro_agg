@@ -122,7 +122,7 @@ if Meteor.isClient
 
         'click .search': ->
             window.speechSynthesis.speak new SpeechSynthesisUtterance "import #{Router.current().params.username}"
-            Meteor.call 'search_ruser', Router.current().params.subreddit, Router.current().params.username, ->
+            Meteor.call 'search_ruser', Router.current().params.username, ->
         'click .get_answers': ->
             Meteor.call 'ruser_answers', Router.current().params.subreddit, Router.current().params.username, ->
         'click .get_questions': ->

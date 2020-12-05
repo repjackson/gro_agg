@@ -70,23 +70,24 @@ template(name='reddit_page')
                     |#{tags.length}
                     each tags
                         +flat_sub_tag_selector
+                    i.big.link.comment.icon.get_post_comments
             .four.wide.column
                 if in_dev
                     +print_this
                 a.ui.basic.circular.button(href=data.url target="_window" title=data.url) 
                     i.external.icon
                     |url
-                .ui.label
+                .ui.large.basic.label
                     | #{data.domain}
                 if data.thumbnail
                     img.ui.fluid.rounded.image(src=data.thumbnail)
-                .ui.header #{data.domain}
+                // .ui.header #{data.domain}
                 a.ui.basic.fluid.button(href="https://www.reddit.com#{data.permalink}" target="_window") 
                     i.external.grey.icon
                     |r/#{data.subreddit}
                 .spacer
                 // a.ui.fluid.basic.button(href="https://www.reddit.com/u/#{author}" target='_window')
-                a.ui.fluid.basic.button(href="/user/#{data.author}")
+                a.ui.fluid.basic.button.goto_ruser(href="/user/#{data.author}")
                     i.user.outline.icon
                     |#{data.author}
                 +call_watson id=_id key='data.url' durl=data.url mode='url'
