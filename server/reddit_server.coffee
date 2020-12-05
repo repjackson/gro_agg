@@ -9,7 +9,7 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "http://reddit.com/search.json?q=#{query}&nsfw=0&limit=5&include_facets=true&raw_json=1"
+        url = "http://reddit.com/search.json?q=#{query}&nsfw=1&limit=100&include_facets=true&raw_json=1"
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,res)=>
         HTTP.get url,(err,res)=>
             if res.data.data.dist > 1
@@ -94,7 +94,7 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "https://www.reddit.com/r/#{subreddit}.json?&raw_json=1"
+        url = "https://www.reddit.com/r/#{subreddit}.json?&raw_json=1&nsfw=1"
         HTTP.get url,(err,res)=>
             # console.log res.data.data.children.length
             # if res.data.data.dist > 1
@@ -128,7 +128,7 @@ Meteor.methods
         url = "https://www.reddit.com/user/#{username}.json"
         HTTP.get url,(err,res)=>
             if res.data.data.dist > 1
-                _.each(res.data.data.children[0..10], (item)=>
+                _.each(res.data.data.children[0..100], (item)=>
                     console.log item
                     found = 
                         Docs.findOne    
@@ -288,7 +288,7 @@ Meteor.methods
 
     search_subreddits: (search)->
         @unblock()
-        HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1", (err,res)->
+        HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1&nsfw=1", (err,res)->
             if res.data.data.dist > 1
                 _.each(res.data.data.children[0..200], (item)=>
                     found = 
@@ -304,9 +304,9 @@ Meteor.methods
     search_subreddit: (subreddit,search)->
         @unblock()
         console.log 'searching ', subreddit, 'for ', search
-        HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&raw_json=1", (err,res)->
+        HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&raw_json=1&nsfw=1", (err,res)->
             if res.data.data.dist > 1
-                _.each(res.data.data.children[0..10], (item)=>
+                _.each(res.data.data.children[0..100], (item)=>
                     # console.log item.data.id
                     found = 
                         Docs.findOne    
