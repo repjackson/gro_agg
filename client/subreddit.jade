@@ -101,12 +101,12 @@ template(name='subreddit')
                         //     .item {{ to_percent avg_sadness_score}}% sad
                         //     .item {{ to_percent avg_disgust_score}}% disgust
                         //     .item {{ to_percent avg_fear_score}}% fear
-                        if kv_is 'doc_sentiment_label' 'positive'
-                            span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label}
+                        if is_positive
+                            span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% positive
                                 |&nbsp;
                             div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
-                        else if kv_is 'doc_sentiment_label' 'negative'
-                            span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  #{doc_sentiment_label} 
+                        else
+                            span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  negative
                                 |&nbsp;
                             div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
                         span.say.ui.green.text(class="{{calculated_size avg_sent_score}}") {{ to_percent avg_sent_score }}% joy 

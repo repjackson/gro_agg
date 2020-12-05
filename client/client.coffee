@@ -68,6 +68,11 @@ Template.nav.events
 # Deps.autorun ()->
 #     document.title = Session.get('doc_title')
         
+Template.registerHelper 'is_positive', () ->
+    console.log @doc_sentiment_score
+    if @doc_sentiment_score
+        @doc_sentiment_score > 0
+    
 Template.registerHelper 'sentiment_class', () ->
     if @sentiment_avg > 0 then 'green' else 'red'
 Template.registerHelper 'sv', (key) -> Session.get(key)

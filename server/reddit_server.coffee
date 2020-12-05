@@ -378,7 +378,7 @@ Meteor.publish 'rpost_comments', (subreddit, doc_id)->
     post = Docs.findOne doc_id
     Docs.find
         model:'rcomment'
-        # parent_id:post.reddit_id
+        parent_id:"t3_#{post.reddit_id}"
         
 Meteor.publish 'subreddits', (
     query=''

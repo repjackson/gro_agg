@@ -120,7 +120,7 @@ Meteor.methods
         @unblock()
         self = @
         doc = Docs.findOne doc_id
-        # console.log 'calling', doc_id, key, mode
+        console.log 'calling', doc_id, key, mode
         # if doc.skip_watson is false
         # else
         params =
@@ -156,6 +156,10 @@ Meteor.methods
                     params.features.metadata = {}
                 when 'text'
                     params.text = doc["#{key}"]
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                when 'comment'
+                    params.text = doc.data.body
                     params.returnAnalyzedText = true
                     params.clean = true
                 when 'url'

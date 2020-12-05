@@ -15,6 +15,10 @@ Template.reddit_page.onCreated ->
     @autorun -> Meteor.subscribe('doc', Router.current().params.doc_id)
     @autorun -> Meteor.subscribe('rpost_comments', Router.current().params.subreddit, Router.current().params.doc_id)
 
+Template.rcomment.events
+    'click .call_watson_comment': ->
+        Meteor.call 'call_watson', @_id,'data.body','comment',->
+
 Template.reddit_page.events
     'click .get_post_comments': ->
         Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
@@ -30,7 +34,7 @@ Template.reddit_page.helpers
         post = Docs.findOne Router.current().params.doc_id
         Docs.find
             model:'rcomment'
-            # parent_id:post.reddit_id
+            parent_id:"t3_#{post.reddit_id}"
 
 
 
