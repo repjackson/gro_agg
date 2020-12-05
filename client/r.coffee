@@ -17,7 +17,9 @@ Template.reddit_page.onCreated ->
 
 Template.rcomment.events
     'click .call_watson_comment': ->
-        Meteor.call 'call_watson', @_id,'data.body','comment',->
+        unless @watson
+            console.log 'calling watson on comment'
+            Meteor.call 'call_watson', @_id,'data.body','comment',->
 
 Template.reddit_page.events
     'click .get_post_comments': ->

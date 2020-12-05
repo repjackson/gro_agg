@@ -71,7 +71,7 @@ template(name='reddit_page')
                     each tags
                         +flat_sub_tag_selector
                     i.big.link.comment.icon.get_post_comments
-                    .ui.large.selection.list
+                    .ui.threaded.comments
                         each rcomments
                             +rcomment
             .four.wide.column
@@ -114,11 +114,23 @@ template(name='reddit_page')
                 
 
 template(name='rcomment')                
-    .ui.item.call_watson_comment
-        |{{#markdown}} {{data.body}} {{/markdown}}
-        +doc_emotion_small
-        each replies.data.children
-            .ui.small.header #{data.body} hi
-        if in_dev
-            +print_this
+    .comment.call_watson_comment
+        .content
+            a.author #{data.author}
+            .metadata 
+                span.date {{ufrom data.created}}
+                span.date {{data.score}}
+            .text
+                |{{#markdown}} {{data.body}} {{/markdown}}
+            .actions
+                +doc_emotion_small
+        if data.replies.data.children
+            .comments
+                each data.replies.data.children
+                    .comment
+                        a.author #{data.author}
+                        .content
+                            .text #{data.score} #{data.body}
+            // if in_dev
+            //     +print_this
                 
