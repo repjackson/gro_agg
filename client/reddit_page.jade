@@ -67,6 +67,7 @@ template(name='reddit_page')
                         +watson_full
                     if skv_is 'view_section' 'related'
                         +post_related
+                        +related_questions
                     if skv_is 'view_section' 'tone'
                         +tone
                         // +skve k='view_section' v='money' l='money' i='money'
@@ -171,5 +172,26 @@ template(name='post_related')
                 .ui.inline.small.header !{data.title} #{data.link_title}
                 .ui.basic.label #{data.ups}
                 .ui.label #{subreddit}
+                each tags
+                    .ui.mini.basic.label #{this}        
+                    
+template(name='related_questions')
+    .ui.header related questions
+    .ui.list
+        each qs
+            a.item.say.pointer.zoomer(href="/s/#{site}/q/#{question_id}" class=post_header_class) 
+                if data.is_image
+                    a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
+                        img.ui.small.rounded.image.toggle_view(src=data.url)
+                else if watson.metadata.image
+                    a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
+                        img.ui.rounded.small.inline.image.toggle_view(src=watson.metadata.image)
+                else if data.thumbnail
+                    a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
+                        img.ui.rounded.small.inline.image(src=data.thumbnail)    
+            
+                .ui.inline.small.header !{title}
+                .ui.basic.label #{score}
+                .ui.label #{site}
                 each tags
                     .ui.mini.basic.label #{this}

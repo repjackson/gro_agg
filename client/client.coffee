@@ -238,7 +238,7 @@ Template.registerHelper 'current_subreddit', ()->
     found = Docs.findOne 
         model:'subreddit'
         "data.display_name":Router.current().params.subreddit
-    console.log 'found', found
+    # console.log 'found', found
     if found
         found
     

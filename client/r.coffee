@@ -66,6 +66,18 @@ Template.post_related.helpers
         , limit:10)
 
 
+Template.related_questions.onCreated ->
+    @autorun -> Meteor.subscribe('related_questions', Router.current().params.doc_id)
+
+Template.related_questions.helpers
+    qs: ->
+        post = Docs.findOne Router.current().params.doc_id
+        Docs.find(
+            model:'stack_question'
+            tags:$in:post.tags
+        , limit:10)
+
+
 
 
 

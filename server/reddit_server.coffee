@@ -448,6 +448,21 @@ Meteor.publish 'related_posts', (post_id)->
         })
     # console.log 'related count', related_cur.fetch()
     related_cur
+    
+Meteor.publish 'related_questions', (post_id)->
+    post = Docs.findOne post_id
+    # console.log 'post tags', post.tags
+        
+    related_cur = 
+        Docs.find({
+            model:'stack_question'
+            tags:$in:post.tags
+        },{ 
+            limit:10
+            sort:"score":-1
+        })
+    # console.log 'related count', related_cur.fetch()
+    related_cur
             
 Meteor.publish 'rpost_comments', (subreddit, doc_id)->
     post = Docs.findOne doc_id
