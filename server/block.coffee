@@ -156,6 +156,8 @@
     'Twitter'
     'facebook'
     'twitter'
+    'google'
+    'Google'
     '2000 albums'
     '2001 albums'
     '2002 albums'

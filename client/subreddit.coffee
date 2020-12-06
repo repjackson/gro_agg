@@ -64,10 +64,10 @@ Template.subreddit.events
         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
     
     'click .pull_latest': ->
-        console.log 'latest'
+        # console.log 'latest'
         Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
     'click .get_info': ->
-        console.log 'dl'
+        # console.log 'dl'
         
         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
             

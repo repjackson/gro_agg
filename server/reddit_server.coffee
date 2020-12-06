@@ -437,11 +437,15 @@ Meteor.publish 'related_posts', (post_id)->
     console.log 'post tags', post.tags
         
     related_cur = 
-        Docs.find(
+        Docs.find({
             model:'rpost'
+            subreddit:post.subreddit
             tags:$in:post.tags
             _id:$ne:post._id
-        , limit:10)
+        },{ 
+            limit:10
+            sort:"data.ups":-1
+        })
     console.log 'related count', related_cur.fetch()
     related_cur
             
@@ -572,7 +576,7 @@ Meteor.publish 'subreddit_result_tags', (
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:15 }
+        { $limit:11 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     subreddit_tag_cloud.forEach (tag, i) ->
