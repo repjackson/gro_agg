@@ -196,7 +196,8 @@ template(name='subreddit_doc_item')
         // i.tag.grey.icon
         unless skv_is 'view_detail' true
             if watson.analyzed_text
-                span.pointer.view_question {{trunc watson.analyzed_text}}...
+                .spacer
+                span.pointer.f11.view_post {{trunc watson.analyzed_text}}...
         if skv_is 'view_detail' true
             .say.goto_post !{data.body}
 

@@ -118,7 +118,7 @@ Template.registerHelper 'stackuser_doc', (input) ->
         user_id:parseInt(Router.current().params.user_id)
 
 Template.registerHelper 'trunc', (input) ->
-    input[0..300]
+    input[0..350]
         
 Template.registerHelper 'post_header_class', (metric) ->
     if @max_emotion_name

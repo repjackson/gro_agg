@@ -62,6 +62,7 @@ Meteor.methods
     call_tone: (doc_id)->
         @unblock()
         self = @
+        console.log 'calling tone', doc_id
         doc = Docs.findOne doc_id
         # if doc.html or doc.body
         #     # stringed = JSON.stringify(doc.html, null, 2)

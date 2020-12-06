@@ -32,6 +32,10 @@ Template.reddit_page.events
 
     'click .get_post': ->
         Meteor.call 'get_reddit_post', Router.current().params.doc_id, @reddit_id, ->
+Template.call_tone.events
+    'click .call': (e,t)->
+        console.log 'calling tone'
+        Meteor.call 'call_tone', Router.current().params.doc_id,->
 
 Template.reddit_page.helpers
     rcomments: ->
