@@ -31,6 +31,7 @@ Template.reddit_page.events
         Meteor.call 'get_user_info', doc.data.author, ->
 
     'click .get_post': ->
+        Session.set('view_section','main')
         Meteor.call 'get_reddit_post', Router.current().params.doc_id, @reddit_id, ->
 Template.call_tone.events
     'click .call': (e,t)->

@@ -172,24 +172,43 @@ template(name='subreddit')
 template(name='subreddit_doc_item')                  
     .ui.item.seg
         // if is_image
-        a.ui.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-            strong #{data.ups}:
-            |!{data.title} 
-        // span.inline.content
         span.rounded.full
             |!{embed}
         // .spacer
         // if skv_is 'view_detail' true
         // i.tag.grey.icon
         unless skv_is 'view_detail' true
-            if data.thumbnail
-                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    img.ui.rounded.inline.image(src=data.thumbnail)    
-            if watson.analyzed_text
-                .spacer
-                a.f11.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    |{{trunc watson.analyzed_text}}...
+            .ui.stackable.equal.width.grid
+                if is_image
+                    .column
+                        a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                            img.ui.fluid.rounded.image.toggle_view(src=data.url)
+                else if watson.metadata.image
+                    .column
+                        a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                            img.ui.rounded.inline.image.toggle_view(src=watson.metadata.image)
+                else if data.thumbnail
+                    .column
+                        a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                            img.ui.rounded.inline.image(src=data.thumbnail)    
+                .column
+                    a.ui.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                        strong #{data.ups}:
+                        |!{data.title} 
+                        // span.inline.content
+                    if watson.analyzed_text
+                        .spacer
+                        a.f11.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                            |{{trunc watson.analyzed_text}}...
+                    .ui.basic.label 
+                        i.clock.icon
+                        |{{ufrom data.created}}
+            
         if skv_is 'view_detail' true
+            a.ui.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                strong #{data.ups}:
+                |!{data.title} 
+            // span.inline.content
             if is_image
                 a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                     img.ui.fluid.rounded.image.toggle_view(src=data.url)
@@ -217,16 +236,14 @@ template(name='subreddit_doc_item')
             
             each tags
                 +flat_sub_tag_selector
-
-        .ui.horizontal.list
-            .item 
+            if watson
+                +doc_emotion_small
+            .ui.basic.label 
                 i.clock.icon
                 |{{ufrom data.created}}
-        a.ui.header(href="/user/#{author}")
-            |#{author}
-        if watson
-            +doc_emotion_small
-
+            a.ui.header(href="/user/#{author}")
+                |#{author}
+    
 
 
 template(name='sub_tag_selector')

@@ -20,15 +20,15 @@ template(name='reddit_page')
                     iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                 div
                 // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                +skve k='doc_section' v='main' l='main' i='content'
-                +skve k='doc_section' v='watson' l='watson' i='dna'
+                +skve k='view_section' v='main' l='main' i='content'
+                +skve k='view_section' v='watson' l='watson' i='dna'
                 if tone
-                    +skve k='doc_section' v='tone' l='tone' i='smile grey'
-                +skve k='doc_section' v='tags' l='tags' i='tags'
-                +skve k='doc_section' v='preview' l='preview' i='content'
-                +skve k='doc_section' v='comments' l='comments' i='comment'
+                    +skve k='view_section' v='tone' l='tone' i='smile grey'
+                +skve k='view_section' v='tags' l='tags' i='tags'
+                +skve k='view_section' v='preview' l='preview' i='content'
+                +skve k='view_section' v='comments' l='comments' i='comment'
                 .scrollin
-                    if skv_is 'doc_section' 'main'
+                    if skv_is 'view_section' 'main'
                         .spacer
                         // img(src=url)
                         if data.link_url
@@ -39,9 +39,6 @@ template(name='reddit_page')
                         .rounded
                             |!{embed}
                         span.say !{data.html}
-                        if watson.analyzed_text
-                            .say.pointer
-                                |{{nl2br watson.analyzed_text}}
                         
 
                         // if parsed_selftext_html
@@ -49,32 +46,35 @@ template(name='reddit_page')
                         //         |!{parsed_selftext_html}
                         if data.selftext
                             // .ui.segment
-                            .ui.basic.segment.say
+                            .pointer.say
                                 |{{#markdown}} {{data.selftext}} {{/markdown}}
                         else if data.body
                             div
-                            .ui.segment.say
+                            .pointer.say
                                 |{{nl2br data.body}}
                         else if data.body_html
                             div
-                            .ui.segment.say
+                            .pointer.say
                                 |!{data.body_html}
-                    if skv_is 'doc_section' 'watson'
+                        else if watson.analyzed_text
+                            .say.pointer
+                                |{{nl2br watson.analyzed_text}}
+                    if skv_is 'view_section' 'watson'
                         +watson_view
                         +watson_full
-                    if skv_is 'doc_section' 'tone'
+                    if skv_is 'view_section' 'tone'
                         +tone
-                        // +skve k='doc_section' v='money' l='money' i='money'
-                        // if skv_is 'doc_section'
-                    if skv_is 'doc_section' 'preview'
+                        // +skve k='view_section' v='money' l='money' i='money'
+                        // if skv_is 'view_section'
+                    if skv_is 'view_section' 'preview'
                         iframe(width="100%" height="800" src=data.url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
                     // +convert
                     .spacer
-                    if skv_is 'doc_section' 'tags'
+                    if skv_is 'view_section' 'tags'
                         |#{tags.length}
                         each tags
                             +flat_sub_tag_selector
-                    if skv_is 'doc_section' 'comments'
+                    if skv_is 'view_section' 'comments'
                         .ui.horizontal.divider.get_post_comments
                             i.grey.comment.outline.icon
                             |#{rcomments.count} comments
