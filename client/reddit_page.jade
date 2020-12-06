@@ -24,8 +24,38 @@ template(name='reddit_page')
                 +skve k='doc_section' v='watson' l='watson' i='dna'
                 if tone
                     +skve k='doc_section' v='tone' l='tone' i='smile grey'
+                +skve k='doc_section' v='tags' l='tags' i='tags'
                 +skve k='doc_section' v='preview' l='preview' i='content'
-                .scrollin
+                +skve k='doc_section' v='comments' l='comments' i='comment'
+                .scrolling
+                    if skv_is 'doc_section' 'main'
+                        .spacer
+                        // img(src=url)
+                        if data.link_url
+                            img.ui.image(src=data.link_url)
+                        img.ui.image(src=data.url)
+                        // div(style='position:relative; padding-bottom:calc(125.00% + 44px)')
+                        //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
+                        |{{selftext}}
+                        .rounded
+                            |!{embed}
+                        span.say !{data.html}
+                        .spacer
+                        if parsed_selftext_html
+                            .ui.segment
+                                |!{parsed_selftext_html}
+                        if data.selftext
+                            // .ui.segment
+                            .ui.basic.segment.say
+                                |{{#markdown}} {{data.selftext}} {{/markdown}}
+                        else if data.body
+                            div
+                            .ui.segment.say
+                                |{{nl2br data.body}}
+                        else if data.body_html
+                            div
+                            .ui.segment.say
+                                |!{data.body_html}
                     if skv_is 'doc_section' 'watson'
                         +watson_view
                     if skv_is 'doc_section' 'tone'
@@ -34,52 +64,19 @@ template(name='reddit_page')
                         // if skv_is 'doc_section'
                     if skv_is 'doc_section' 'preview'
                         iframe(width="100%" height="800" src=data.url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
-                    .spacer
-                    // img(src=url)
-                    span.say !{data.html}
-                    .spacer
-                    if parsed_selftext_html
-                        .ui.segment
-                            |!{parsed_selftext_html}
-                    if data.selftext
-                        // .ui.segment
-                        .ui.basic.segment.say
-                            |{{#markdown}} {{data.selftext}} {{/markdown}}
-                    else if data.body
-                        div
-                        .ui.segment.say
-                            |{{nl2br data.body}}
-                    else if data.body_html
-                        div
-                        .ui.segment.say
-                            |!{data.body_html}
-                    if data.link_url
-                        img.ui.image(src=data.link_url)
-                    img.ui.image(src=data.url)
-                    // div(style='position:relative; padding-bottom:calc(125.00% + 44px)')
-                    //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
-                    |{{selftext}}
-                    .rounded
-                        |!{embed}
                     // +convert
                     .spacer
-                    // a.ui.icon.big.basic.button(href=url target='_window' title=domain)
-                    //     i.external.icon
-                    //     |view site 
-                    //     |#{data.domain}
-                    // a.ui.center.aligned.header(href=url target='_window' class=post_header_class title=url) #{title}
-    
-                    // .spacer
-                    // div
-                    |#{tags.length}
-                    each tags
-                        +flat_sub_tag_selector
-                    .ui.horizontal.divider.get_post_comments
-                        i.grey.comment.outline.icon
-                        |#{rcomments.count} comments
-                    // .ui.items
-                    each rcomments
-                        +rcomment
+                    if skv_is 'doc_section' 'tags'
+                        |#{tags.length}
+                        each tags
+                            +flat_sub_tag_selector
+                    if skv_is 'doc_section' 'comments'
+                        .ui.horizontal.divider.get_post_comments
+                            i.grey.comment.outline.icon
+                            |#{rcomments.count} comments
+                        // .ui.items
+                        each rcomments
+                            +rcomment
             .four.wide.column
                 if in_dev
                     +print_this

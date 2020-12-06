@@ -50,6 +50,12 @@ Template.subreddit_doc_item.onRendered ->
 
 
 Template.subreddit.events
+    'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
+    'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
+    'click .sort_up': (e,t)-> Session.set('sort_direction',1)
+    'click .limit_10': (e,t)-> Session.set('limit',10)
+    'click .limit_1': (e,t)-> Session.set('limit',1)
+
     'click .sort_created': ->
         Session.set('sort_key', 'data.created')
     'click .sort_ups': ->
@@ -77,8 +83,8 @@ Template.subreddit.events
                 Session.set('sub_doc_query', null)
             
 Template.subreddit.helpers
-    sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else ''
-    sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else ''
+    sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
+    sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
     subreddit_result_tags: -> results.find(model:'subreddit_result_tag')
 
     subreddit_doc: ->
