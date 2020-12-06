@@ -1,6 +1,6 @@
 Template.registerHelper 'youtube_parse', (url) ->
     regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    match = @url.match(regExp)
+    match = @data.url.match(regExp)
     if match && match[2].length == 11
         match[2]
     else
@@ -196,21 +196,16 @@ Template.registerHelper 'embed', ()->
         #         parsed_selftext_html:dom.value
 
 
-Template.registerHelper 'youtube_parse', ()->
-    regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    match = @url.match(regExp);
-    if match and match[2].length is 11
-        return match[2];
-    else
-
 
 Template.registerHelper 'is_image', ()->
-    @domain in ['i.imgur.com','i.reddit.com','i.redd.it','imgur.com']
-
+    if @data.domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
+        true
+    else 
+        false
 Template.registerHelper 'is_youtube', ()->
-    @domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+    @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
 Template.registerHelper 'is_twitter', ()->
-    @domain in ['twitter.com','mobile.twitter.com','vimeo.com']
+    @data.domain in ['twitter.com','mobile.twitter.com','vimeo.com']
 
 
 Template.registerHelper 'lowered', (input)-> input.toLowerCase()
@@ -255,17 +250,7 @@ Template.registerHelper 'current_q', ()->
         model:'stack_question'
         site:Router.current().params.site
 
-Template.registerHelper 'is_image', ()->
-    if @domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
-        true
-    else 
-        false
 
-Template.registerHelper 'is_youtube', ()->
-    if @domain in ['youtube.com','youtu.be','m.youtube.com']
-        true
-    else 
-        false
 
 
 Template.registerHelper 'session_is', (key)-> Session.get(key)

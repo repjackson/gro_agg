@@ -77,6 +77,8 @@ Template.subreddit.events
                 Session.set('sub_doc_query', null)
             
 Template.subreddit.helpers
+    sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else ''
+    sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else ''
     subreddit_result_tags: -> results.find(model:'subreddit_result_tag')
 
     subreddit_doc: ->

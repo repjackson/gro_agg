@@ -30,7 +30,7 @@ template(name='subreddit')
                     // .ui.label #{this}
                     +sub_tag_selector
                     // .ui.large.label(title=count) #{name}
-                // div
+                div
                 .ui.inline.header #{post_count}
                 if skv_is 'sort_direction' 1
                     .ui.icon.compact.circular.basic.tertiary.button.sort_down
@@ -38,23 +38,23 @@ template(name='subreddit')
                 else
                     .ui.icon.compact.circular.basic.tertiary.button.sort_up
                         i.caret.up.icon
-                // if skv_is 'view_bounties' 1
-                //     .ui.compact.circular.black.button.unview_bounties
-                //         i.hand.holding.heart.icon
-                //         | bounties
-                // else
-                //     .ui.compact.circular.basic.tertiary.button.view_bounties
-                //         i.hand.holding.heart.icon
-                //         | bounties
-                // if skv_is 'view_unanswered' 1
-                //     .ui.compact.circular.black.button.unview_unanswered
-                //         i.checkmark.icon
-                //         | unanswered
-                // else
-                //     .ui.compact.circular.basic.tertiary.button.view_unanswered
-                //         i.question.icon
-                //         | unanswered
-                // i.big.fire.link.icon
+                if skv_is 'view_bounties' 1
+                    .ui.compact.circular.black.button.unview_bounties
+                        i.hand.holding.heart.icon
+                        | bounties
+                else
+                    .ui.compact.circular.basic.tertiary.button.view_bounties
+                        i.hand.holding.heart.icon
+                        | bounties
+                if skv_is 'view_unanswered' 1
+                    .ui.compact.circular.black.button.unview_unanswered
+                        i.checkmark.icon
+                        | unanswered
+                else
+                    .ui.compact.circular.basic.tertiary.button.view_unanswered
+                        i.question.icon
+                        | unanswered
+                i.big.fire.link.icon
                 .ui.compact.circular.basic.small.tertiary.button.limit_1
                     |1
                 .ui.compact.circular.basic.small.tertiary.button.limit_10

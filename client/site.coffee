@@ -7,7 +7,7 @@ Router.route '/s/:site/users', (->
     @layout 'layout'
     @render 'su'
     ), name:'su'
-
+@selected_emotions = new ReactiveArray []
 
 Template.su.onCreated ->
     Session.setDefault('user_query', null)
