@@ -10,7 +10,7 @@ template(name='reddit_page')
                 if data.is_image
                     img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
                 else if watson.metadata.image
-                    img.ui.rounded.image.pointer.call_visual(src=watson.metadata.image)
+                    img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
                 if is_youtube
                     div
                     // .ui.fluid.embed
@@ -88,13 +88,13 @@ template(name='reddit_page')
             .four.wide.column
                 if in_dev
                     +print_this
-                a.ui.basic.circular.button(href=data.url target="_window" title=data.url) 
+                a.ui.basic.circular.fluid.button(href=data.url target="_window" title=data.url) 
                     i.external.icon
                     |url
                 .ui.large.basic.label
                     | #{data.domain}
                 if data.thumbnail
-                    img.ui.fluid.rounded.image(src=data.thumbnail)
+                    img.ui.fluid.rounded.image.pointer.call_thumbnail.zoomer(src=data.thumbnail)
                 // .ui.header #{data.domain}
                 a.ui.basic.fluid.button(href="https://www.reddit.com#{data.permalink}" target="_window") 
                     i.external.grey.icon

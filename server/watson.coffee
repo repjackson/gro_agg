@@ -83,7 +83,7 @@ Meteor.methods
             )
         # else return
 
-    call_visual: (doc_id, field)->
+    call_visual: (doc_id, mode)->
         @unblock()
         self = @
         console.log 'calling visual', doc_id
@@ -95,14 +95,17 @@ Meteor.methods
         #   })
         #   .catch(err => {
         #   });
-        # if doc.watson
-        #     if doc.watson.metadata.image
-        #         params =
-        #             url:doc.watson.metadata.image
-        # else
-        params =
-            # url:doc.thumbnail
-            url:doc.data.url
+        if mode is 'meta'
+            # if doc.watson.metadata.image
+            params =
+                url:doc.watson.metadata.image
+        else if mode is 'url'
+            params =
+                # url:doc.thumbnail
+                url:doc.data.url
+        else if mode is 'thumb'
+            params =
+                url:doc.data.thumbnail
         # images_file: images_file
         # classifier_ids: classifier_ids
         visual_recognition.classify params, Meteor.bindEnvironment((err, response)->

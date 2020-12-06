@@ -24,8 +24,11 @@ Template.rcomment.events
 
 Template.reddit_page.events
     'click .call_visual': ->
-        console.log 'call visual'
-        Meteor.call 'call_visual', Router.current().params.doc_id, ->
+        Meteor.call 'call_visual', Router.current().params.doc_id, 'url', ->
+    'click .call_meta': ->
+        Meteor.call 'call_visual', Router.current().params.doc_id, 'meta', ->
+    'click .call_thumbnail': ->
+        Meteor.call 'call_visual', Router.current().params.doc_id, 'thumb', ->
 
     'click .get_post_comments': ->
         Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
