@@ -452,23 +452,30 @@ Meteor.publish 'rposts', (username)->
     Docs.find
         model:'rpost'
         author:username
+        
 Meteor.publish 'sub_docs_by_name', (
     subreddit
     selected_tags
+    sort_key
     )->
     self = @
     match = {
         model:'rpost'
         subreddit:subreddit
     }
+    if sort_key
+        sk = sort_key
+    else
+        sk = 'data.created'
     # if view_bounties
     #     match.bounty = true
     # if view_unanswered
     #     match.is_answered = false
     if selected_tags.length > 0 then match.tags = $all:selected_tags
-    
+    console.log sk
     Docs.find match,
         limit:30
+        sort: "#{sk}":-1
     
     
 Meteor.publish 'agg_sentiment_subreddit', (

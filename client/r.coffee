@@ -46,6 +46,7 @@ Template.reddit_page.helpers
 
 Template.reddit.onCreated ->
     Session.setDefault('subreddit_query',null)
+    Session.setDefault('sort_key','data.created')
     @autorun -> Meteor.subscribe('subreddits',
         Session.get('subreddit_query')
         selected_tags.array())
@@ -71,5 +72,5 @@ Template.reddit.helpers
     subreddit_docs: ->
         Docs.find(
             model:'subreddit'
-        , limit:30)
+        , {limit:30,sort:"#{Session.get('sort_key')}":-1})
 

@@ -11,6 +11,8 @@ Router.route '/r/:subreddit/post/:doc_id', (->
 
 Template.subreddit.onCreated ->
     # Session.setDefault('user_query', null)
+    Session.setDefault('sort_key', 'data.created')
+    Session.setDefault('sort_direction', -1)
     # Session.setDefault('location_query', null)
     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     # @autorun => Meteor.subscribe 'subrzeddit_user_count', Router.current().params.subreddit
@@ -18,6 +20,8 @@ Template.subreddit.onCreated ->
     @autorun => Meteor.subscribe 'sub_docs_by_name', 
         Router.current().params.subreddit
         selected_tags.array()
+        Session.get('sort_key')
+        Session.get('sort_direction')
   
     @autorun => Meteor.subscribe 'sub_doc_count', 
         Router.current().params.subreddit
@@ -46,6 +50,10 @@ Template.subreddit_doc_item.onRendered ->
 
 
 Template.subreddit.events
+    'click .sort_created': ->
+        Session.set('sort_key', 'data.created')
+    'click .sort_ups': ->
+        Session.set('sort_key', 'data.ups')
     'click .download': ->
         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
     
@@ -79,7 +87,9 @@ Template.subreddit.helpers
         Docs.find({
             model:'rpost'
             subreddit:Router.current().params.subreddit
-        },limit:7)
+        },
+            sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+            limit:7)
     emotion_avg: -> results.findOne(model:'emotion_avg')
 
     post_count: -> Counts.get('sub_doc_counter')

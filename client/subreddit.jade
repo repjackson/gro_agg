@@ -59,10 +59,10 @@ template(name='subreddit')
                     |1
                 .ui.compact.circular.basic.small.tertiary.button.limit_10
                     |10
-                .ui.icon.compact.large.circular.basic.small.tertiary.button.sort_timestamp
+                .ui.icon.compact.large.circular.basic.small.tertiary.button.sort_created(class=sort_created_class)
                     i.clock.icon
-                .ui.icon.compact.large.circular.basic.small.tertiary.button.set_points
-                    i.line.chart.icon
+                .ui.icon.compact.large.circular.basic.small.tertiary.button.sort_ups(class=sort_ups_class)
+                    i.thumbs.up.icon
                 if skv_is 'view_detail' true
                     .ui.black.circular.compact.button.toggle_detail
                         i.list.large.icon
@@ -89,8 +89,8 @@ template(name='subreddit')
             .five.wide.column.scrolling.seg
                 +alpha
                 // .ui.inline.header.pull_latest #{display_name}
-                img.ui.inline.image(src=header_img)
-                .ui.inline.header.pull_latest #{title}
+                img.ui.inline.image(src=data.header_img)
+                .ui.inline.header.pull_latest #{data.title}
                 if in_dev
                     +print_this
                     div
@@ -138,9 +138,9 @@ template(name='subreddit')
                     div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
                 
                 .ui.list.mobile.hidden
-                    .item.seg.say !{public_description}
+                    .item.seg.say !{data.public_description}
                     .item.seg.say 
-                        |{{#markdown}} !{description} {{/markdown}}
+                        |{{#markdown}} !{data.description} {{/markdown}}
                     .item 
                         i.grey.lightning.icon
                         |#{active_user_count} activeusers
@@ -202,10 +202,10 @@ template(name='subreddit_doc_item')
 
         each tags
             +flat_sub_tag_selector
-        // .ui.horizontal.list
-        //     .item 
-        //         i.thumbs.up.icon
-        //         |#{ups}
+        .ui.horizontal.list
+            .item 
+                i.clock.icon
+                |{{ufrom data.created}}
         a.ui.header(href="/user/#{author}")
             |#{author}
         if watson
