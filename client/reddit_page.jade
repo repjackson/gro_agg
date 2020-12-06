@@ -7,7 +7,7 @@ template(name='reddit_page')
                     |#{data.subreddit}
                 span.ui.pointer.text.f13.zoomer(class=post_header_class) !{data.title} #{data.link_title}
                 // .ui.basic.circular.button.get_post permalink #{permalink}
-                if data.is_image
+                if is_image
                     img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
                 else if watson.metadata.image
                     img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
@@ -21,8 +21,6 @@ template(name='reddit_page')
                         |!{embed}
                 if data.link_url
                     img.ui.image.pointer.call_visual(src=data.link_url)
-                if data.is_image
-                    img.ui.image.pointer.call_visual(src=data.url)
                 div
                 span.say !{data.html}
                 

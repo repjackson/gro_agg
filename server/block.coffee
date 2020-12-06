@@ -163,6 +163,7 @@
     'terms'
     'views'
     'ads'
+    'all rights reserved'
     'gifycat pro'
     '2000 albums'
     '2001 albums'
