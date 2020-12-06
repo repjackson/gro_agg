@@ -137,12 +137,13 @@ Meteor.methods
                     #     Doc.update
                     #         $unset: tags: 1
                     Docs.update existing._id,
-                        $set: rdata:res.data.data
+                        $set: data:res.data.data
                 unless existing
+                    console.log 'new sub', subreddit
                     sub = {}
                     sub.model = 'subreddit'
                     sub.name = subreddit
-                    sub.rdata = res.data.data
+                    sub.data = res.data.data
                     new_reddit_post_id = Docs.insert sub
     
     get_sub_latest: (subreddit)->

@@ -67,6 +67,8 @@ Template.subreddit.events
         console.log 'latest'
         Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
     'click .get_info': ->
+        console.log 'dl'
+        
         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
             
     'keyup .search_subreddit': (e,t)->
