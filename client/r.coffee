@@ -10,7 +10,6 @@ Router.route '/r/:subreddit/users', (->
     @render 's_users'
     ), name:'s_users'
     
-    
 Template.reddit_page.onCreated ->
     @autorun -> Meteor.subscribe('doc', Router.current().params.doc_id)
     @autorun -> Meteor.subscribe('rpost_comments', Router.current().params.subreddit, Router.current().params.doc_id)
@@ -44,6 +43,20 @@ Template.reddit_page.helpers
         Docs.find
             model:'rcomment'
             parent_id:"t3_#{post.reddit_id}"
+
+
+    
+Template.post_related.onCreated ->
+    @autorun -> Meteor.subscribe('related_posts', Router.current().params.doc_id)
+
+Template.post_related.helpers
+    related_posts: ->
+        post = Docs.findOne Router.current().params.doc_id
+        Docs.find(
+            model:'rpost'
+            tags:$in:post.tags
+            _id:$ne:post._id
+        , limit:10)
 
 
 

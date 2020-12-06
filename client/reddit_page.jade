@@ -25,6 +25,7 @@ template(name='reddit_page')
                 if tone
                     +skve k='view_section' v='tone' l='tone' i='smile grey'
                 +skve k='view_section' v='tags' l='tags' i='tags'
+                +skve k='view_section' v='related' l='related' i='fork'
                 +skve k='view_section' v='preview' l='preview' i='content'
                 +skve k='view_section' v='comments' l='comments' i='comment'
                 .scrollin
@@ -62,6 +63,8 @@ template(name='reddit_page')
                     if skv_is 'view_section' 'watson'
                         +watson_view
                         +watson_full
+                    if skv_is 'view_section' 'related'
+                        +post_related
                     if skv_is 'view_section' 'tone'
                         +tone
                         // +skve k='view_section' v='money' l='money' i='money'
@@ -146,3 +149,12 @@ template(name='rcomment')
             // if in_dev
             //     +print_this
                 
+                
+                
+template(name='post_related')
+    .ui.header related
+    .ui.list
+        each related_posts
+            .item.pointer.zoomer(class=post_header_class) 
+                |!{data.title} #{data.link_title}
+                .ui.label #{subreddit}

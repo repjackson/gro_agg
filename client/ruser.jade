@@ -79,13 +79,13 @@ template(name='ruser_doc_item')
     .ui.item
         if is_image
             a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.centered.rounded.zoomer.inline.image.toggle_view(src=data.url)
+                img.ui.centered.rounded.zoomer.inline.medium.image.toggle_view(src=data.url)
         else if watson.metadata.image
             a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.rounded.inline.image.zoomer.toggle_view(src=watson.metadata.image)
+                img.ui.rounded.inline.medium.image.zoomer.toggle_view(src=watson.metadata.image)
         else if data.thumbnail
             a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
+                img.ui.rounded.inline.medium.image.zoomer(src=data.thumbnail)    
         a.ui.header.zoomer.say_title(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
             strong #{data.score}:
             |!{data.link_title} #{data.title}
