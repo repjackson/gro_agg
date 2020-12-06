@@ -27,7 +27,7 @@ template(name='reddit_page')
                 +skve k='doc_section' v='tags' l='tags' i='tags'
                 +skve k='doc_section' v='preview' l='preview' i='content'
                 +skve k='doc_section' v='comments' l='comments' i='comment'
-                .scrolling
+                .scrollin
                     if skv_is 'doc_section' 'main'
                         .spacer
                         // img(src=url)
@@ -36,14 +36,17 @@ template(name='reddit_page')
                         img.ui.image(src=data.url)
                         // div(style='position:relative; padding-bottom:calc(125.00% + 44px)')
                         //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
-                        |{{selftext}}
                         .rounded
                             |!{embed}
                         span.say !{data.html}
-                        .spacer
-                        if parsed_selftext_html
-                            .ui.segment
-                                |!{parsed_selftext_html}
+                        if watson.analyzed_text
+                            .say.pointer
+                                |{{nl2br watson.analyzed_text}}
+                        
+
+                        // if parsed_selftext_html
+                        //     .ui.segment
+                        //         |!{parsed_selftext_html}
                         if data.selftext
                             // .ui.segment
                             .ui.basic.segment.say
@@ -58,6 +61,7 @@ template(name='reddit_page')
                                 |!{data.body_html}
                     if skv_is 'doc_section' 'watson'
                         +watson_view
+                        +watson_full
                     if skv_is 'doc_section' 'tone'
                         +tone
                         // +skve k='doc_section' v='money' l='money' i='money'
@@ -124,7 +128,7 @@ template(name='rcomment')
                 span.date {{ufrom data.created}}
                 span.date {{data.score}}
                 +doc_emotion_small
-            .say(class=post_header_class)
+            .pointer.say(class=post_header_class)
                 |{{#markdown}} {{data.body}} {{/markdown}}
             .actions
                 each tags 
@@ -136,7 +140,7 @@ template(name='rcomment')
                     .one.wide.column
                     .fifteen.wide.column
                         a.author(href="/user/#{data.author}") #{data.author}
-                        .content
+                        .pointer.content.say
                             |{{#markdown}} {{data.body}} {{/markdown}}
                             // .text.say #{data.score} #{data.body}
             // if in_dev

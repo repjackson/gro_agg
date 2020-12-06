@@ -174,20 +174,7 @@ template(name='subreddit_doc_item')
         // if is_image
         a.ui.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
             strong #{data.ups}:
-            if is_answered
-                i.green.checkmark.icon
-            // span
-            //     i.tag.grey.icon
-            //     |#{tags.length}
             |!{data.title} 
-        a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-            img.ui.fluid.rounded.image.toggle_view(src=data.url)
-        if watson.metadata.image
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.rounded.inline.image.toggle_view(src=watson.metadata.image)
-        else if data.thumbnail
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.rounded.inline.image(src=data.thumbnail)    
         // span.inline.content
         span.rounded.full
             |!{embed}
@@ -195,14 +182,42 @@ template(name='subreddit_doc_item')
         // if skv_is 'view_detail' true
         // i.tag.grey.icon
         unless skv_is 'view_detail' true
+            if data.thumbnail
+                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                    img.ui.rounded.inline.image(src=data.thumbnail)    
             if watson.analyzed_text
                 .spacer
-                span.pointer.f11.view_post {{trunc watson.analyzed_text}}...
+                a.f11.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                    |{{trunc watson.analyzed_text}}...
         if skv_is 'view_detail' true
+            if is_image
+                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                    img.ui.fluid.rounded.image.toggle_view(src=data.url)
+            else if watson.metadata.image
+                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                    img.ui.rounded.inline.image.toggle_view(src=watson.metadata.image)
             .say.goto_post !{data.body}
+            span.say !{data.html}
+            .spacer
+            if parsed_selftext_html
+                .ui.segment
+                    |!{parsed_selftext_html}
+            if data.selftext
+                // .ui.segment
+                .ui.basic.segment.say
+                    |{{#markdown}} {{data.selftext}} {{/markdown}}
+            else if data.body
+                div
+                .ui.segment.say
+                    |{{nl2br data.body}}
+            else if data.body_html
+                div
+                .ui.segment.say
+                    |!{data.body_html}
+            
+            each tags
+                +flat_sub_tag_selector
 
-        each tags
-            +flat_sub_tag_selector
         .ui.horizontal.list
             .item 
                 i.clock.icon

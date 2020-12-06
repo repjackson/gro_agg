@@ -282,7 +282,7 @@ template(name='categories')
 template(name='watson_view')
     // +tone
     // +doc_sentiment
-    // +doc_emotion
+    +doc_emotion
     .ui.stackable.grid 
         .two.column.row 
             .column
@@ -303,8 +303,6 @@ template(name='watson_view')
     //-             i.dropdown.icon
     //-         .content
     //-             +jsonView(json=watson)
-    //- +personality
-    //- +consumption_preferences
     
     
 template(name='watson_full')

@@ -186,10 +186,10 @@ Template.registerHelper 'key_value', (key,value)-> @["#{key}"] is value
 
 
 Template.registerHelper 'embed', ()->
-    if @rd and @rd.media and @rd.media.oembed and @rd.media.oembed.html
+    if @data and @data.media and @data.media.oembed and @data.media.oembed.html
         dom = document.createElement('textarea')
         # dom.innerHTML = doc.body
-        dom.innerHTML = @rd.media.oembed.html
+        dom.innerHTML = @data.media.oembed.html
         return dom.value
         # Docs.update @_id,
         #     $set:
