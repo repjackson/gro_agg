@@ -23,7 +23,7 @@ Template.subreddit.onCreated ->
         Router.current().params.subreddit
         selected_tags.array()
 
-    @autorun => Meteor.subscribe 'subreddit_tags',
+    @autorun => Meteor.subscribe 'subreddit_result_tags',
         Router.current().params.subreddit
         selected_tags.array()
         Session.get('toggle')
@@ -69,7 +69,7 @@ Template.subreddit.events
                 Session.set('sub_doc_query', null)
             
 Template.subreddit.helpers
-    subreddit_tags: -> results.find(model:'subreddit_tag')
+    subreddit_result_tags: -> results.find(model:'subreddit_result_tag')
 
     subreddit_doc: ->
         Docs.findOne

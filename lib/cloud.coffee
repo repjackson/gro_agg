@@ -5,10 +5,10 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe('tags', selected_tags.array(), Template.currentData().filter, Template.currentData().limit)
 
     Template.cloud.helpers
-        # all_tags: ->
-        #     doc_count = Docs.find().count()
-        #     if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find()
-
+        all_tags: ->
+            # doc_count = Docs.find().count()
+            # if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find()
+            results.find(model:'subreddit_tag')
         tag_cloud_class: ->
             button_class = switch
                 when @index <= 10 then 'big'
@@ -26,9 +26,9 @@ if Meteor.isClient
 
 
     Template.cloud.events
-        # 'click .select_tag': -> selected_tags.push @name
-        # 'click .unselect_tag': -> selected_tags.remove @valueOf()
-        # 'click #clear_tags': -> selected_tags.clear()
+        'click .select_tag': -> selected_tags.push @name
+        'click .unselect_tag': -> selected_tags.remove @valueOf()
+        'click #clear_tags': -> selected_tags.clear()
 
         'keyup #search': (e,t)->
             e.preventDefault()
@@ -56,10 +56,10 @@ if Meteor.isServer
         match = {}
         if selected_tags.length > 0 then match.tags = $all: selected_tags
         if filter then match.model = filter
-        if limit
-            calc_limit = limit
-        else
-            calc_limit = 20
+        # if limit
+        #     calc_limit = limit
+        # else
+        #     calc_limit = 20
         cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
@@ -67,15 +67,15 @@ if Meteor.isServer
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: calc_limit }
+            { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
 
 
         cloud.forEach (tag, i) ->
-            self.added 'tags', Random.id(),
+            self.added 'results', Random.id(),
                 name: tag.name
                 count: tag.count
-                index: i
+                model:'subreddit_tag'
 
         self.ready()

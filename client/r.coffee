@@ -69,7 +69,7 @@ Template.reddit.events
         Meteor.call 'search_subreddits', 'news', ->
 Template.reddit.helpers
     subreddit_docs: ->
-        Docs.find
+        Docs.find(
             model:'subreddit'
-
+        , limit:30)
 

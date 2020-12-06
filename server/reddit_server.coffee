@@ -67,14 +67,14 @@ Meteor.methods
                 "data.display_name": subreddit
             )
         sub_tags = Meteor.call 'agg_sub_tags', subreddit
-        console.log 'sub tags', sub_tags
+        # console.log 'sub tags', sub_tags
         titles = _.pluck(sub_tags, 'title')
-        console.log 'titles', titles
+        # console.log 'titles', titles
         if found
             Docs.update found._id, 
                 $set:tags:titles
+        Meteor.call 'clear_blocklist_doc', found._id, ->
 
-        # Meteor.call 'clear_blocklist_doc', found._id, ->
     agg_sub_tags: (subreddit)->
         match = {model:'rpost', subreddit:subreddit}
         total_doc_result_count =
@@ -84,7 +84,7 @@ Meteor.methods
                         _id:1
                 }
             ).count()
-        console.log total_doc_result_count, 'docs'
+        # console.log total_doc_result_count, 'docs'
         # limit=20
         options = {
             explain:false
@@ -426,10 +426,10 @@ Meteor.methods
                 
                         
 
-Meteor.publish 'subreddit_by_param', (name)->
+Meteor.publish 'subreddit_by_param', (subreddit)->
     Docs.find
         model:'subreddit'
-        name:name
+        "data.display_name":subreddit
         
 Meteor.publish 'rpost_comments', (subreddit, doc_id)->
     post = Docs.findOne doc_id
@@ -442,7 +442,7 @@ Meteor.publish 'subreddits', (
     selected_tags
     )->
     match = {model:'subreddit'}
-    
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
     if query.length > 0
         match["data.display_name"] = {$regex:"#{query}", $options:'i'}
     Docs.find match,
@@ -522,7 +522,7 @@ Meteor.publish 'sub_doc_count', (
 
 
 
-Meteor.publish 'subreddit_tags', (
+Meteor.publish 'subreddit_result_tags', (
     subreddit
     selected_tags
     # view_bounties
@@ -555,10 +555,11 @@ Meteor.publish 'subreddit_tags', (
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     subreddit_tag_cloud.forEach (tag, i) ->
+        console.log tag
         self.added 'results', Random.id(),
             name: tag.name
             count: tag.count
-            model:'subreddit_tag'
+            model:'subreddit_result_tag'
     
     
     # subreddit_Location_cloud = Docs.aggregate [

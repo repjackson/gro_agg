@@ -2,7 +2,7 @@ template(name='subreddit')
     unless current_subreddit
         .ui.basic.center.aligned.segment
             i.massive.yin.yang.loading.link.grey.icon.get_info.shadowed2
-    with current_subreddit.rdata
+    with current_subreddit
         .ui.stackable.grid(style="background-image:url(#{banner_background_image});, background-repeat: no-repeat; min-width: 100%; ")
             // .row
             .eleven.wide.column.seg
@@ -26,7 +26,8 @@ template(name='subreddit')
                 .ui.icon.input
                     i.search.icon
                     input.search_subreddit(type='text')
-                each subreddit_tags
+                each subreddit_result_tags
+                    // .ui.label #{this}
                     +sub_tag_selector
                     // .ui.large.label(title=count) #{name}
                 // div

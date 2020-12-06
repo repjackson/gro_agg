@@ -240,9 +240,12 @@ Template.registerHelper 'fixed', (number)-> if number then number.toFixed(2)
 Template.registerHelper 'to_percent', (number)-> (number*100).toFixed()
 
 Template.registerHelper 'current_subreddit', ()->
-    Docs.findOne 
+    found = Docs.findOne 
         model:'subreddit'
-        name:Router.current().params.subreddit
+        "data.display_name":Router.current().params.subreddit
+    console.log 'found', found
+    if found
+        found
     
 Template.registerHelper 'current_doc', ()->
     Docs.findOne Router.current().params.doc_id
