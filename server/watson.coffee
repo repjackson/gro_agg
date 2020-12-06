@@ -86,6 +86,7 @@ Meteor.methods
     call_visual: (doc_id, field)->
         @unblock()
         self = @
+        console.log 'calling visual', doc_id
         doc = Docs.findOne doc_id
         # link = doc["#{field}"]
         # visual_recognition.classify(classify_params)
@@ -94,21 +95,22 @@ Meteor.methods
         #   })
         #   .catch(err => {
         #   });
-        if doc.watson
-            if doc.watson.metadata.image
-                params =
-                    url:doc.watson.metadata.image
-        else
-            params =
-                url:doc.thumbnail
-                # url:doc.url
-            # images_file: images_file
-            # classifier_ids: classifier_ids
+        # if doc.watson
+        #     if doc.watson.metadata.image
+        #         params =
+        #             url:doc.watson.metadata.image
+        # else
+        params =
+            # url:doc.thumbnail
+            url:doc.data.url
+        # images_file: images_file
+        # classifier_ids: classifier_ids
         visual_recognition.classify params, Meteor.bindEnvironment((err, response)->
             if response
                 visual_tags = []
                 for tag in response.result.images[0].classifiers[0].classes
                     visual_tags.push tag.class.toLowerCase()
+                console.log 'visaul tags', visual_tags
                 Docs.update { _id: doc_id},
                     $set:
                         visual_classes: response.result.images[0].classifiers[0].classes

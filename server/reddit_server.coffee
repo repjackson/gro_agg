@@ -119,7 +119,7 @@ Meteor.methods
         
     get_sub_info: (subreddit)->
         @unblock()
-        console.log 'getting info', subreddit
+        # console.log 'getting info', subreddit
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
@@ -131,7 +131,7 @@ Meteor.methods
                     model:'subreddit'
                     "data.display_name":subreddit
                 if existing
-                    console.log 'existing', existing
+                    # console.log 'existing', existing
                     # if Meteor.isDevelopment
                     # if typeof(existing.tags) is 'string'
                     #     Doc.update
@@ -139,7 +139,7 @@ Meteor.methods
                     Docs.update existing._id,
                         $set: data:res.data.data
                 unless existing
-                    console.log 'new sub', subreddit
+                    # console.log 'new sub', subreddit
                     sub = {}
                     sub.model = 'subreddit'
                     sub.name = subreddit
@@ -148,7 +148,7 @@ Meteor.methods
     
     get_sub_latest: (subreddit)->
         @unblock()
-        console.log 'getting latest', subreddit
+        # console.log 'getting latest', subreddit
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
@@ -219,7 +219,7 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "https://www.reddit.com/user/#{username}.json"
+        url = "https://www.reddit.com/user/#{username}.json&nsfw=1"
         HTTP.get url,(err,res)=>
             if res.data.data.dist > 1
                 _.each(res.data.data.children[0..100], (item)=>
@@ -434,7 +434,7 @@ Meteor.publish 'subreddit_by_param', (subreddit)->
         
 Meteor.publish 'related_posts', (post_id)->
     post = Docs.findOne post_id
-    console.log 'post tags', post.tags
+    # console.log 'post tags', post.tags
         
     related_cur = 
         Docs.find({
@@ -446,7 +446,7 @@ Meteor.publish 'related_posts', (post_id)->
             limit:10
             sort:"data.ups":-1
         })
-    console.log 'related count', related_cur.fetch()
+    # console.log 'related count', related_cur.fetch()
     related_cur
             
 Meteor.publish 'rpost_comments', (subreddit, doc_id)->
@@ -490,7 +490,7 @@ Meteor.publish 'sub_docs_by_name', (
     # if view_unanswered
     #     match.is_answered = false
     if selected_tags.length > 0 then match.tags = $all:selected_tags
-    console.log sk
+    # console.log sk
     Docs.find match,
         limit:30
         sort: "#{sk}":-1
@@ -576,11 +576,11 @@ Meteor.publish 'subreddit_result_tags', (
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:11 }
+        { $limit:15 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     subreddit_tag_cloud.forEach (tag, i) ->
-        console.log tag
+        # console.log tag
         self.added 'results', Random.id(),
             name: tag.name
             count: tag.count

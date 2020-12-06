@@ -23,6 +23,10 @@ Template.rcomment.events
             Meteor.call 'call_watson', @_id,'data.body','comment',->
 
 Template.reddit_page.events
+    'click .call_visual': ->
+        console.log 'call visual'
+        Meteor.call 'call_visual', Router.current().params.doc_id, ->
+
     'click .get_post_comments': ->
         Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
     'click .goto_ruser': ->

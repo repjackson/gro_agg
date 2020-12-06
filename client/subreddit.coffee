@@ -99,7 +99,7 @@ Template.subreddit.helpers
             subreddit:Router.current().params.subreddit
         },
             sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
-            limit:7)
+            limit:20)
     emotion_avg: -> results.findOne(model:'emotion_avg')
 
     post_count: -> Counts.get('sub_doc_counter')
