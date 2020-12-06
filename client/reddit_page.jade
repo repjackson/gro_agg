@@ -21,8 +21,30 @@ template(name='reddit_page')
                         |!{embed}
                 if data.link_url
                     img.ui.image.pointer.call_visual(src=data.link_url)
-                img.ui.image.pointer.call_visual(src=data.url)
+                if data.is_image
+                    img.ui.image.pointer.call_visual(src=data.url)
                 div
+                span.say !{data.html}
+                
+
+                // if parsed_selftext_html
+                //     .ui.segment
+                //         |!{parsed_selftext_html}
+                if data.selftext
+                    // .ui.segment
+                    .pointer.say
+                        |{{#markdown}} {{data.selftext}} {{/markdown}}
+                else if data.body
+                    div
+                    .pointer.say
+                        |{{nl2br data.body}}
+                else if data.body_html
+                    div
+                    .pointer.say
+                        |!{data.body_html}
+                else if watson.analyzed_text
+                    .say.pointer
+                        |{{nl2br watson.analyzed_text}}
                 // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                 +skve k='view_section' v='main' l='main' i='content'
                 +skve k='view_section' v='comments' l='comments' i='comment'
@@ -40,27 +62,6 @@ template(name='reddit_page')
                         //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
                         // .rounded
                         //     |!{embed}
-                        span.say !{data.html}
-                        
-
-                        // if parsed_selftext_html
-                        //     .ui.segment
-                        //         |!{parsed_selftext_html}
-                        if data.selftext
-                            // .ui.segment
-                            .pointer.say
-                                |{{#markdown}} {{data.selftext}} {{/markdown}}
-                        else if data.body
-                            div
-                            .pointer.say
-                                |{{nl2br data.body}}
-                        else if data.body_html
-                            div
-                            .pointer.say
-                                |!{data.body_html}
-                        else if watson.analyzed_text
-                            .say.pointer
-                                |{{nl2br watson.analyzed_text}}
                     if skv_is 'view_section' 'watson'
                         +watson_view
                         +watson_full

@@ -179,15 +179,15 @@ template(name='subreddit_doc_item')
                 else if is_image
                     .column
                         a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                            img.ui.fluid.rounded.image.toggle_view(src=data.url)
+                            img.ui.fluid.rounded.image.zoomer.toggle_view(src=data.url)
                 else if watson.metadata.image.length
                     .column
                         a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                            img.ui.rounded.inline.image.toggle_view(src=watson.metadata.image)
+                            img.ui.rounded.inline.image.zoomer.toggle_view(src=watson.metadata.image)
                 else if data.thumbnail.length
                     .column
                         a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                            img.ui.rounded.inline.image(src=data.thumbnail)    
+                            img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
                 .column
                     a.ui.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                         strong #{data.ups}:
@@ -210,12 +210,24 @@ template(name='subreddit_doc_item')
                 strong #{data.ups}:
                 |!{data.title} 
             // span.inline.content
-            if is_image
+            if embed
+                span.rounded.full
+                    |!{embed}
+            if data.is_image
                 a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    img.ui.fluid.rounded.image.toggle_view(src=data.url)
+                    img.ui.fluid.rounded.image.zoomer.toggle_view(src=data.url)
             else if watson.metadata.image
                 a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    img.ui.rounded.inline.image.toggle_view(src=watson.metadata.image)
+                    img.ui.rounded.inline.image.zoomer.toggle_view(src=watson.metadata.image)
+            else if watson.metadata.image.length
+                .column
+                    a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                        img.ui.rounded.inline.image.zoomer.toggle_view(src=watson.metadata.image)
+            else if data.thumbnail.length
+                .column
+                    a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                        img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
+                    
             a.say.goto_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class) !{data.body}
             a.say(href="/r/#{subreddit}/post/#{_id}" class=post_header_class) !{data.html}
             .spacer

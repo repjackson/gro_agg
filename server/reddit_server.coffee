@@ -492,7 +492,7 @@ Meteor.publish 'sub_docs_by_name', (
     if selected_tags.length > 0 then match.tags = $all:selected_tags
     # console.log sk
     Docs.find match,
-        limit:30
+        limit:20
         sort: "#{sk}":-1
     
     
@@ -576,7 +576,7 @@ Meteor.publish 'subreddit_result_tags', (
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:15 }
+        { $limit:11 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     subreddit_tag_cloud.forEach (tag, i) ->
