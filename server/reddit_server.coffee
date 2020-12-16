@@ -388,7 +388,7 @@ Meteor.methods
                     found = 
                         Docs.findOne    
                             model:'subreddit'
-                            "rdata.display_name":item.data.display_name
+                            "data.display_name":item.data.display_name
                     # if found
                     unless found
                         item.model = 'subreddit'
@@ -473,6 +473,8 @@ Meteor.publish 'rpost_comments', (subreddit, doc_id)->
 Meteor.publish 'subreddits', (
     query=''
     selected_tags
+    sort_key='name'
+    sort_direction=-1
     )->
     match = {model:'subreddit'}
     if selected_tags.length > 0 then match.tags = $all:selected_tags
@@ -480,10 +482,15 @@ Meteor.publish 'subreddits', (
         match["data.display_name"] = {$regex:"#{query}", $options:'i'}
     Docs.find match,
         limit:100
-        
+        sort: "#{sort_key}":sort_direction
 Meteor.publish 'rposts', (username)->
     Docs.find
         model:'rpost'
+        author:username
+        
+Meteor.publish 'rcomments', (username)->
+    Docs.find
+        model:'rcomment'
         author:username
         
 Meteor.publish 'sub_docs_by_name', (
@@ -574,7 +581,7 @@ Meteor.publish 'subreddit_result_tags', (
     match = {
         model:'rpost'
         subreddit:subreddit
-        }
+    }
     # if view_bounties
     #     match.bounty = true
     # if view_unanswered
@@ -591,7 +598,7 @@ Meteor.publish 'subreddit_result_tags', (
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:11 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     subreddit_tag_cloud.forEach (tag, i) ->

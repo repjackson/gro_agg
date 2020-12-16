@@ -165,6 +165,7 @@
     'ads'
     'all rights reserved'
     'gifycat pro'
+    '1995 singles'
     '2000 albums'
     '2001 albums'
     '2002 albums'

@@ -86,14 +86,16 @@ Template.reddit.onCreated ->
     Session.setDefault('sort_key','data.created')
     @autorun -> Meteor.subscribe('subreddits',
         Session.get('subreddit_query')
-        selected_tags.array())
+        selected_tags.array()
+        Session.get('sort_subs')
+    )
 
 Template.reddit.events
     'click .goto_sub': (e,t)->
         Meteor.call 'get_sub_latest', @data.display_name, ->
         Meteor.call 'get_sub_info', @data.display_name, ->
         Meteor.call 'calc_sub_tags', @data.display_name
-            'click .pull_latest': ->
+    'click .pull_latest': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
     'keyup .search_subreddits': (e,t)->
         val = $('.search_subreddits').val()
@@ -102,7 +104,6 @@ Template.reddit.events
             Meteor.call 'search_subreddits', val, ->
                 # $('.search_subreddits').val('')
                 # Session.set('subreddit_query', null)
-            
             
     'click .search_subs': ->
         Meteor.call 'search_subreddits', 'news', ->

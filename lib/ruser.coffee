@@ -24,6 +24,13 @@ if Meteor.isClient
         @render 'ruser_saved'
         ), name:'ruser_saved'
 
+    Template.ruser_comments.onCreated ->
+        @autorun => Meteor.subscribe 'ruser_doc', Router.current().params.username
+        @autorun => Meteor.subscribe 'rcomments', Router.current().params.username
+        # @autorun => Meteor.subscribe 'ruser_badges', Router.current().params.subreddit, Router.current().params.username
+        # @autorun => Meteor.subscribe 'ruser_tags', Router.current().params.subreddit, Router.current().params.username
+  
+  
     Template.ruser.onCreated ->
         @autorun => Meteor.subscribe 'ruser_doc', Router.current().params.username
         @autorun => Meteor.subscribe 'rposts', Router.current().params.username

@@ -11,7 +11,9 @@ Meteor.methods
     #         Docs.update doc._id,
     #             $set: tags_string:tags_string
     #
-
+    remove_doc: (doc_id)->
+        console.log 'removing doc', doc_id
+        Docs.remove doc_id
     remove_reddits: ->
         # count = Docs.find(model:'reddit',subreddit:'news').count()
         # console.log 'count', count
