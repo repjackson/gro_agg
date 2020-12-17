@@ -1,4 +1,5 @@
-    
+@selected_comment_tags = new ReactiveArray []
+
 Router.route '/reddit', (->
     @layout 'layout'
     @render 'reddit'
@@ -13,6 +14,11 @@ Router.route '/r/:subreddit/users', (->
 Template.reddit_page.onCreated ->
     @autorun -> Meteor.subscribe('doc', Router.current().params.doc_id)
     @autorun -> Meteor.subscribe('rpost_comments', Router.current().params.subreddit, Router.current().params.doc_id)
+    @autorun -> Meteor.subscribe('rpost_comment_tags', 
+        Router.current().params.subreddit
+        Router.current().params.doc_id
+        selected_comment_tags.array()
+    )
 Template.reddit_page.onRendered ->
     Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
 
@@ -51,6 +57,8 @@ Template.reddit_page.helpers
             model:'rcomment'
             parent_id:"t3_#{post.reddit_id}"
 
+    rcomment_tags: ->
+        results.find(model:'rpost_comment_tag')
 
     
 Template.post_related.onCreated ->

@@ -569,6 +569,53 @@ Meteor.publish 'sub_doc_count', (
 
 
 
+Meteor.publish 'rpost_comment_tags', (
+    subreddit
+    parent_id
+    selected_tags
+    # view_bounties
+    # view_unanswered
+    # query=''
+    )->
+    # @unblock()
+    
+    parent = Docs.findOne parent_id
+    
+    self = @
+    match = {
+        model:'rcomment'
+        parent_id:"t3_#{parent.reddit_id}"
+    }
+    # if view_bounties
+    #     match.bounty = true
+    # if view_unanswered
+    #     match.is_answered = false
+    # if selected_tags.length > 0 then match.tags = $all:selected_tags
+    # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
+    doc_count = Docs.find(match).count()
+    console.log 'doc_count', doc_count
+    console.log 'match', match
+    rpost_comment_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "tags": 1 }
+        { $unwind: "$tags" }
+        { $group: _id: "$tags", count: $sum: 1 }
+        { $match: _id: $nin: selected_tags }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:11 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    rpost_comment_cloud.forEach (tag, i) ->
+        console.log tag
+        self.added 'results', Random.id(),
+            name: tag.name
+            count: tag.count
+            model:'rpost_comment_tag'
+            
+    self.ready()
+            
+    
 Meteor.publish 'subreddit_result_tags', (
     subreddit
     selected_tags
@@ -598,7 +645,7 @@ Meteor.publish 'subreddit_result_tags', (
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:20 }
+        { $limit:11 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     subreddit_tag_cloud.forEach (tag, i) ->
