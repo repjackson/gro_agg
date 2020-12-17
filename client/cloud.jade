@@ -9,11 +9,11 @@ template(name='cloud')
         #clear_tags.ui.active.icon.zoomer.button
             i.remove.icon
         each selected_tags
-            .unselect_tag.ui.circular.black.zoomer.button
+            .unselect_tag.ui.black.zoomer.button
                 strong #{this}
     each all_tags
         +tag_selector
-        // .ui.compact.circular.basic.button.select_tag(class=cloud_tag_class) 
+        // .ui.compact.basic.button.select_tag(class=cloud_tag_class) 
         //     strong #{this.name}
 
 

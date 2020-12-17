@@ -107,6 +107,7 @@ Template.reddit.events
             
     'click .search_subs': ->
         Meteor.call 'search_subreddits', 'news', ->
+             
 Template.reddit.helpers
     subreddit_docs: ->
         Docs.find(

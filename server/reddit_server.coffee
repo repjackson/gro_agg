@@ -219,11 +219,11 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "https://www.reddit.com/user/#{username}.json&nsfw=1"
+        url = "https://www.reddit.com/user/#{username}.json"
         HTTP.get url,(err,res)=>
             if res.data.data.dist > 1
                 _.each(res.data.data.children[0..100], (item)=>
-                    console.log item
+                    # console.log item
                     found = 
                         Docs.findOne    
                             model:'rpost'

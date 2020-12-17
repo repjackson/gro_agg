@@ -3,16 +3,16 @@ template(name='subreddit')
         .ui.basic.center.aligned.segment
             i.massive.yin.yang.loading.link.grey.icon.get_info.shadowed2
     with current_subreddit
-        .ui.stackable.grid(style="background-image:url(#{data.banner_img});, background-repeat: no-repeat; min-width: 100%; ")
+        .ui.stackable.grid(style="background-image:url(#{data.banner_img}); background-size:cover;, background-repeat: no-repeat; min-width: 100%; ")
             .eleven.wide.column.seg
                 // img(src=data.banner_img)
                 // img(src=banner_background_image)
-                a.ui.basic.compact.circular.icon.button(href="/reddit")
+                a.ui.basic.compact.icon.button(href="/reddit")
                     i.large.chevron.left.grey.icon
                     // img.ui.mini.inline.image(src=icon_img)
                 img.get_info.shadowed.ui.inline.image(src=logo_url )
                 .ui.inline.header.get_info #{data.display_name}
-                // a.ui.circular.basic.large.disabled.button(href="/s/#{display_name}/users")
+                // a.ui.basic.large.disabled.button(href="/s/#{display_name}/users")
                 //     i.large.user.outline.icon
                 //     |users
                 // div
@@ -32,42 +32,42 @@ template(name='subreddit')
                 div
                 .ui.inline.header #{post_count}
                 if skv_is 'sort_direction' 1
-                    .ui.icon.compact.circular.basic.tertiary.button.sort_down
+                    .ui.icon.compact.basic.tertiary.button.sort_down
                         i.caret.down.icon
                 else
-                    .ui.icon.compact.circular.basic.tertiary.button.sort_up
+                    .ui.icon.compact.basic.tertiary.button.sort_up
                         i.caret.up.icon
                 if skv_is 'view_bounties' 1
-                    .ui.compact.circular.black.button.unview_bounties
+                    .ui.compact.black.button.unview_bounties
                         i.hand.holding.heart.icon
                         | bounties
                 else
-                    .ui.compact.circular.basic.tertiary.button.view_bounties
+                    .ui.compact.basic.tertiary.button.view_bounties
                         i.hand.holding.heart.icon
                         | bounties
                 if skv_is 'view_unanswered' 1
-                    .ui.compact.circular.black.button.unview_unanswered
+                    .ui.compact.black.button.unview_unanswered
                         i.checkmark.icon
                         | unanswered
                 else
-                    .ui.compact.circular.basic.tertiary.button.view_unanswered
+                    .ui.compact.basic.tertiary.button.view_unanswered
                         i.question.icon
                         | unanswered
                 i.big.fire.link.icon
-                .ui.compact.circular.basic.small.tertiary.button.limit_1
+                .ui.compact.basic.small.tertiary.button.limit_1
                     |1
-                .ui.compact.circular.basic.small.tertiary.button.limit_10
+                .ui.compact.basic.small.tertiary.button.limit_10
                     |10
-                .ui.icon.compact.large.circular.basic.small.button.sort_created(class=sort_created_class)
+                .ui.icon.compact.large.basic.small.button.sort_created(class=sort_created_class)
                     i.clock.icon
-                .ui.icon.compact.large.circular.basic.small.button.sort_ups(class=sort_ups_class)
+                .ui.icon.compact.large.basic.small.button.sort_ups(class=sort_ups_class)
                     i.thumbs.up.icon
                 if skv_is 'view_detail' true
-                    .ui.black.circular.compact.button.toggle_detail
+                    .ui.black.compact.button.toggle_detail
                         i.list.large.icon
                         |detail
                 else
-                    .ui.compact.circular.basic.tertiary.button.toggle_detail
+                    .ui.compact.basic.tertiary.button.toggle_detail
                         i.minus.large.icon
                         |simple
                     // i.line.chart.icon
@@ -260,7 +260,7 @@ template(name='subreddit_doc_item')
 
 template(name='sub_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.basic.circular.compact.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.compact.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -269,7 +269,7 @@ template(name='sub_tag_selector')
         //     small #{count}
         
 template(name='sub_unselect_tag')
-    a.unselect_tag.ui.black.compact.circular.button.select_term(href='#')
+    a.unselect_tag.ui.black.compact.button.select_term(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -279,7 +279,7 @@ template(name='sub_unselect_tag')
         
 template(name='flat_sub_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.basic.tertiary.circular.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.tertiary.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    

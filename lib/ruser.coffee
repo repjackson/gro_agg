@@ -1,26 +1,26 @@
 if Meteor.isClient
     Router.route '/user/:username', (->
-        @layout 'layout'
-        @render 'ruser'
-        ), name:'ruser'
+        @layout 'ruser'
+        @render 'ruser_posts'
+        ), name:'ruser_posts'
     Router.route '/user/:username/comments', (->
-        @layout 'layout'
+        @layout 'ruser'
         @render 'ruser_comments'
         ), name:'ruser_comments'
     Router.route '/user/:username/upvoted', (->
-        @layout 'layout'
+        @layout 'ruser'
         @render 'ruser_upvoted'
         ), name:'ruser_upvoted'
     Router.route '/user/:username/downvoted', (->
-        @layout 'layout'
+        @layout 'ruser'
         @render 'ruser_downvoted'
         ), name:'ruser_downvoted'
     Router.route '/user/:username/hidden', (->
-        @layout 'layout'
+        @layout 'ruser'
         @render 'ruser_hidden'
         ), name:'ruser_hidden'
     Router.route '/user/:username/saved', (->
-        @layout 'layout'
+        @layout 'ruser'
         @render 'ruser_saved'
         ), name:'ruser_saved'
 
@@ -33,6 +33,7 @@ if Meteor.isClient
   
     Template.ruser.onCreated ->
         @autorun => Meteor.subscribe 'ruser_doc', Router.current().params.username
+    Template.ruser_posts.onCreated ->
         @autorun => Meteor.subscribe 'rposts', Router.current().params.username
         # @autorun => Meteor.subscribe 'ruser_badges', Router.current().params.subreddit, Router.current().params.username
         # @autorun => Meteor.subscribe 'ruser_tags', Router.current().params.subreddit, Router.current().params.username
@@ -66,6 +67,7 @@ if Meteor.isClient
                 model:'stack_comment'
                 user_id:parseInt(Router.current().params.username)
                 subreddit:Router.current().params.subreddit
+    Template.ruser_posts.helpers
         user_posts: ->
             Docs.find
                 model:'rpost'

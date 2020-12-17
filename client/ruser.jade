@@ -70,9 +70,12 @@ template(name='ruser')
                             // |simple
         
                     div
-                    .scrolling
-                        each user_posts
-                            +ruser_doc_item
+                    +yield
+                    
+template(name='ruser_posts')
+    .scrolling
+        each user_posts
+            +ruser_doc_item
                             
                             
 template(name='ruser_doc_item')
