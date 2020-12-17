@@ -272,40 +272,44 @@ Meteor.methods
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
         # url = "https://www.reddit.com/user/#{username}/about.json"
-        # options = {
-        #     url: url
-        #     headers: 'accept-encoding': 'gzip'
-        #     gzip: true
-        # }
-        # rp(options)
-        #     .then(Meteor.bindEnvironment((data)->
-        #         parsed = JSON.parse(data)
-        #         console.log parsed
-        #     )).catch((err)->
-        #         console.log "ERR", err
-        #     )
-
+        url = "https://www.reddit.com/user/hernannadal/about.json"
+        options = {
+            url: url
+            headers: 
+                # 'accept-encoding': 'gzip'
+                "User-Agent": "web:com.dao.af:v1.2.3 (by /u/dontlisten65)"
+            gzip: true
+        }
+        rp(options)
+            .then(Meteor.bindEnvironment((data)->
+                parsed = JSON.parse(data)
+                console.log parsed
+                existing = Docs.findOne 
+                    model:'ruser'
+                    username:username
+                if existing
+                    console.log 'existing', existing
+                    Docs.update existing._id,
+                        $set:   
+                            data:parsed.data
+                    # if Meteor.isDevelopment
+                    # if typeof(existing.tags) is 'string'
+                    # Docs.update existing._id,
+                    #     $set: rdata:res.data.data
+                unless existing
+                    ruser = {}
+                    ruser.model = 'ruser'
+                    ruser.username = username
+                    # ruser.rdata = res.data.data
+                    new_reddit_post_id = Docs.insert ruser
+            )).catch((err)->
+                console.log err
+            )
+        
         # console.log 'url', url
         # HTTP.get url,(err,res)=>
         #     console.log res
         #     # if res.data.data
-        existing = Docs.findOne 
-            model:'ruser'
-            username:username
-        if existing
-            console.log 'existing', existing
-            # if Meteor.isDevelopment
-            # if typeof(existing.tags) is 'string'
-            #     Doc.update
-            #         $unset: tags: 1
-            # Docs.update existing._id,
-            #     $set: rdata:res.data.data
-        unless existing
-            ruser = {}
-            ruser.model = 'ruser'
-            ruser.username = username
-            # ruser.rdata = res.data.data
-            new_reddit_post_id = Docs.insert ruser
 
     # reddit_all: ->
     #     total = 

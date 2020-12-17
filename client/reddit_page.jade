@@ -85,7 +85,8 @@ template(name='reddit_page')
                             |#{rcomments.count} comments
                         // .ui.items
                         each rcomment_tags
-                            .ui.button #{name} #{count}
+                            .ui.compact.button #{name}
+                                small #{count}
                         .spacer
                         each rcomments
                             +rcomment

@@ -19,18 +19,41 @@ template(name='ruser')
                         small(title='reputation') {{ commafy karma }}
                         strong(title="#{site} rank") ##{site_rank} 
                         strong(title='global rank') ##{global_rank}
-                    div
+                    i.circular.info.icon.get_user_info
                     img.ui.rounded.inline.image.pointer.zoomer(src=profile_image)
                     a.ui.large.compact.circular.basic.button(href="http://www.reddit.com/user/#{username}" target='_window' title="#{site} profile")
                         i.reddit.icon
                         i.external.icon
                     +print_this
-                    // .ui.horizontal.list
-                    //     .item uid #{account_id}
-                    //     .item modified {{ufrom last_modified_date}}
-                    //     .item accessed  {{ufrom last_access_date}}
-                    //     .item created {{ufrom creation_date}}
-                    //     .item #{user_type}
+                    with data
+                        .ui.list
+                            .item uid #{account_id}
+                            .item modified {{ufrom last_modified_date}}
+                            .item accessed  {{ufrom last_access_date}}
+                            .item created {{ufrom creation_date}}
+                            .item #{user_type}
+                            .item awardee_karma #{awardee_karma}
+                            .item awarder_karma #{awarder_karma}
+                            .item comment_karma #{comment_karma}
+                            .item created #{created}
+                            .item created_utc #{created_utc}
+                            .item has_subscribed #{has_subscribed}
+                            .item has_verified_email #{has_verified_email}
+                            .item hide_from_robots #{hide_from_robots}
+                            .item icon_img #{icon_img}
+                            .item id #{id}
+                            .item is_employee #{is_employee}
+                            .item is_friend #{is_friend}
+                            .item is_gold #{is_gold}
+                            .item is_mod #{is_mod}
+                            .item link_karma #{link_karma}
+                            .item name #{name}
+                            .item pref_show_snoovatar #{pref_show_snoovatar}
+                            .item snoovatar_img #{snoovatar_img}
+                            .item snoovatar_size #{snoovatar_size}
+                            .item subreddit #{subreddit}
+                            .item total_karma #{total_karma}
+                            .item verified #{verified}
                     a.ui.external.icon.button(href=link target='_window') 
                         i.linkify.icon
                         // |#{link}
@@ -117,4 +140,14 @@ template(name='ruser_doc_item')
     
     
 template(name='ruser_comments')
-    .ui.header hi
+    a.ui.icon.button(href="www.reddit.com/user/#{ruser_doc.username}/comments" target='_window')
+        i.external.icon
+    .scrolling
+        each user_comments
+            +ruser_comment
+                            
+                            
+template(name='ruser_comment')
+    .ui.item
+        .ui.header #{body}    
+    
