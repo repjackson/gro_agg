@@ -104,7 +104,7 @@ Template.reddit.events
         Meteor.call 'get_sub_info', @data.display_name, ->
         Meteor.call 'calc_sub_tags', @data.display_name
     'click .pull_latest': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
     'keyup .search_subreddits': (e,t)->
         val = $('.search_subreddits').val()
         Session.set('subreddit_query', val)
@@ -122,3 +122,4 @@ Template.reddit.helpers
             model:'subreddit'
         , {limit:30,sort:"#{Session.get('sort_key')}":-1})
 
+    sub_count: -> Counts.get('sub_result_count')

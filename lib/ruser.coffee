@@ -1,6 +1,10 @@
 if Meteor.isClient
     Router.route '/user/:username', (->
         @layout 'ruser'
+        @render 'ruser_overview'
+        ), name:'ruser_overview'
+    Router.route '/user/:username/posts', (->
+        @layout 'ruser'
         @render 'ruser_posts'
         ), name:'ruser_posts'
     Router.route '/user/:username/comments', (->
@@ -39,6 +43,13 @@ if Meteor.isClient
 
     Template.ruser.onCreated ->
         @autorun => Meteor.subscribe 'ruser_doc', Router.current().params.username
+    Template.ruser_overview.onCreated ->
+        @autorun => Meteor.subscribe 'rposts', Router.current().params.username, 10
+        @autorun => Meteor.subscribe 'rcomments', Router.current().params.username
+        @autorun => Meteor.subscribe 'rupvoted_top', Router.current().params.username
+        @autorun => Meteor.subscribe 'rdownvoted_top', Router.current().params.username
+        @autorun => Meteor.subscribe 'rhidden_top', Router.current().params.username
+        @autorun => Meteor.subscribe 'rsaved_top', Router.current().params.username
     Template.ruser_posts.onCreated ->
         @autorun => Meteor.subscribe 'rposts', Router.current().params.username
         # @autorun => Meteor.subscribe 'ruser_badges', Router.current().params.subreddit, Router.current().params.username
@@ -48,15 +59,15 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'ruser_answers', Router.current().params.subreddit, Router.current().params.username
     Template.ruser.onRendered ->
         # Meteor.call 'search_ruser', Router.current().params.username, ->
-
         # Meteor.call 'ruser_answers', Router.current().params.subreddit, Router.current().params.username, ->
         # Meteor.call 'ruser_questions', Router.current().params.subreddit, Router.current().params.username, ->
         # Meteor.call 'ruser_tags', Router.current().params.subreddit, Router.current().params.username, ->
         # Meteor.call 'ruser_comments', Router.current().params.subreddit, Router.current().params.username, ->
         # Meteor.call 'ruser_badges', Router.current().params.subreddit, Router.current().params.username, ->
-        # Meteor.setTimeout ->
-        #     Meteor.call 'omega', Router.current().params.subreddit, Router.current().params.username, ->
-        # , 1000
+        Meteor.setTimeout ->
+            Meteor.call 'get_user_info', Router.current().params.username, ->
+            Meteor.call 'get_user_posts', Router.current().params.username, ->
+        , 1000
 
     # Template.user_q_item.onRendered ->
     #     unless @data.watson
@@ -64,31 +75,7 @@ if Meteor.isClient
         
         
     Template.ruser.helpers
-        ruser_doc: ->
-            Docs.findOne 
-                model:'ruser'
-                username:Router.current().params.username
-        user_comments: ->
-            Docs.find
-                model:'stack_comment'
-                user_id:parseInt(Router.current().params.username)
-                subreddit:Router.current().params.subreddit
     Template.ruser_posts.helpers
-        user_posts: ->
-            Docs.find
-                model:'rpost'
-                # subreddit:Router.current().params.subreddit
-                # "data.author":Router.current().params.username
-        user_answers: ->
-            Docs.find
-                model:'stack_answer'
-                "owner.user_id":parseInt(Router.current().params.username)
-        # user_badges: ->
-        #     Docs.find
-        #         model:'stack_badge'
-        # user_tags: ->
-        #     Docs.find
-        #         model:'stack_tag'
     Template.ruser_doc_item.onRendered ->
         # console.log @
         unless @data.watson
@@ -168,6 +155,20 @@ if Meteor.isServer
             model:'rcomment'
             # "owner.user_id":parseInt(user_id)
         }, limit:10
+        
+        
+    Meteor.publish 'rposts', (username, limit=20)->
+        Docs.find
+            model:'rpost'
+            author:username
+        , limit:limit
+            
+    Meteor.publish 'rcomments', (username, limit=20)->
+        Docs.find
+            model:'rcomment'
+            author:username
+        , limit:limit
+        
 #     Meteor.publish 'ruser_questions', (subreddit,user_id)->
 #         Docs.find { 
 #             model:'stack_question'

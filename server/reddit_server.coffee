@@ -215,24 +215,25 @@ Meteor.methods
     
     get_user_posts: (username)->
         # @unblock()s
-        console.log 'getting info', username
+        console.log 'getting posts', username
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
         url = "https://www.reddit.com/user/#{username}.json"
         HTTP.get url,(err,res)=>
-            if res.data.data.dist > 1
+            console.log res
+            if res.data.data.dist > 0
                 _.each(res.data.data.children[0..100], (item)=>
-                    # console.log item
+                    console.log item
                     found = 
                         Docs.findOne    
                             model:'rpost'
                             reddit_id:item.data.id
                             # subreddit:item.data.id
-                    # if found
-                    #     console.log found, 'found'
+                    if found
+                        console.log found, 'found'
                     unless found
-                        # console.log found, 'not found'
+                        console.log found, 'not found'
                         item.model = 'rpost'
                         item.reddit_id = item.data.id
                         item.author = item.data.author
@@ -267,12 +268,12 @@ Meteor.methods
         
     get_user_info: (username)->
         # @unblock()s
-        console.log 'getting info', username
+        # console.log 'getting info', username
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        # url = "https://www.reddit.com/user/#{username}/about.json"
-        url = "https://www.reddit.com/user/hernannadal/about.json"
+        url = "https://www.reddit.com/user/#{username}/about.json"
+        # url = "https://www.reddit.com/user/hernannadal/about.json"
         options = {
             url: url
             headers: 
@@ -283,12 +284,12 @@ Meteor.methods
         rp(options)
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
-                console.log parsed
+                # console.log parsed
                 existing = Docs.findOne 
                     model:'ruser'
                     username:username
                 if existing
-                    console.log 'existing', existing
+                    # console.log 'existing', existing
                     Docs.update existing._id,
                         $set:   
                             data:parsed.data
@@ -487,15 +488,8 @@ Meteor.publish 'subreddits', (
     Docs.find match,
         limit:100
         sort: "#{sort_key}":sort_direction
-Meteor.publish 'rposts', (username)->
-    Docs.find
-        model:'rpost'
-        author:username
         
-Meteor.publish 'rcomments', (username)->
-    Docs.find
-        model:'rcomment'
-        author:username
+        
         
 Meteor.publish 'sub_docs_by_name', (
     subreddit

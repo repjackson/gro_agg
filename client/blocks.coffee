@@ -77,7 +77,6 @@ if Meteor.isClient
                 'disabled loading'
     Template.session_toggle_button.events
         'click .toggle': -> Session.set(@k, !Session.get(@k))
-#
 
 
     Template.remove_button.events
@@ -151,13 +150,13 @@ if Meteor.isClient
                 res += @classes
             if Session.get(@k)
                 if Session.equals(@k,@v)
-                    res += ' blue large compact circular'
+                    res += ' blue large compact '
                 else
                     # res += ' compact displaynone'
-                    res += ' compact basic circular'
+                    res += ' compact basic '
                 res
             else
-                'basic circular'
+                'basic '
         selected: -> Session.equals(@k,@v)
 
 

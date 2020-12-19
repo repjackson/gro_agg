@@ -10,14 +10,14 @@ Session.setDefault('loading', false)
 Template.body.events
     # 'click a': ->
         
-    'click .say_title': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @title
+    # 'click .say_title': ->
+    #     window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         
-    'click .say_body': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
+    # 'click .say_body': ->
+    #     window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
-    'click .say': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
+    # 'click .say': ->
+    #     window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
 Template.say.events
     'click .quiet': (e,t)->
@@ -30,20 +30,20 @@ Template.say.events
         dom.innerHTML = Template.parentData()["#{@k}"]
         text1 = $("<textarea/>").html(dom.innerHTML).text();
         text2 = $("<textarea/>").html(text1).text();
-        window.speechSynthesis.speak new SpeechSynthesisUtterance text2
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance text2
 # Meteor.startup ->
 #     if Meteor.isDevelopment
 #         window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
 Template.nav.events
-    'click .goto_stack': -> window.speechSynthesis.speak new SpeechSynthesisUtterance 'stack'
+    # 'click .goto_stack': -> window.speechSynthesis.speak new SpeechSynthesisUtterance 'stack'
     'click .goto_reddit': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
     'click .goto_people': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'people'
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance 'people'
     'click .goto_dao': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
     'click .goto_ea': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'environment'
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance 'environment'
     'click .clear_tags': -> 
         selected_tags.clear()
     'click .silence': ->
@@ -87,15 +87,31 @@ Template.registerHelper 'sentence_color', () ->
 Template.registerHelper 'abs_percent', (num) -> 
     # console.l/og Math.abs(num*100)
     parseInt(Math.abs(num*100))
-Template.registerHelper 'selected_tags', () ->selected_tags.array()
-Template.registerHelper 'selected_models', () ->selected_models.array()
-Template.registerHelper 'selected_subreddits', () ->selected_subreddits.array()
-Template.registerHelper 'selected_emotions', () ->selected_emotions.array()
+Template.registerHelper 'selected_tags', () -> selected_tags.array()
+Template.registerHelper 'selected_models', () -> selected_models.array()
+Template.registerHelper 'selected_subreddits', () -> selected_subreddits.array()
+Template.registerHelper 'selected_emotions', () -> selected_emotions.array()
     
 Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 
     
     
+Template.registerHelper 'ruser_doc', ()->
+    Docs.findOne 
+        model:'ruser'
+        username:Router.current().params.username
+
+Template.registerHelper 'ruser_posts', ()->
+    Docs.find
+        model:'rpost'
+        # user_id:parseInt(Router.current().params.username)
+        # subreddit:Router.current().params.subreddit
+Template.registerHelper 'rcomments', ()->
+    Docs.find
+        model:'rcomment'
+        # user_id:parseInt(Router.current().params.username)
+        # subreddit:Router.current().params.subreddit
+
 Template.registerHelper 'editing_mode', ()->
     # Meteor.user().edit_mode and 
     if Meteor.user().edit_mode
