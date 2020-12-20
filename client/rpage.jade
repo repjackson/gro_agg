@@ -17,45 +17,43 @@ template(name='reddit_page')
                 +skve k='view_section' v='related' l='related' i='fork'
                 +skve k='view_section' v='preview' l='preview' i='content'
                 // if skv_is 'view_section' 'main'
-                if is_image
-                    img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
-                else if watson.metadata.image
-                    img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
-                if is_youtube
-                    div
-                    // .ui.fluid.embed
-                    //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
-                    iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                else if embed
-                    span.f11.full
-                        |!{embed}
-                if data.link_url
-                    img.ui.image.pointer.call_visual(src=data.link_url)
-                div
-                span.f12.say !{data.html}
-                
-
-                // if parsed_selftext_html
-                //     .ui.segment
-                //         |!{parsed_selftext_html}
-                if data.selftext
-                    // .ui.segment
-                    .f12.say
-                        |{{#markdown}} {{data.selftext}} {{/markdown}}
-                else if data.body
-                    div
-                    .f12.say
-                        |{{nl2br data.body}}
-                else if data.body_html
-                    div
-                    .f12.say
-                        |!{data.body_html}
-                else if watson.analyzed_text
-                    .say.f12
-                        |{{nl2br watson.analyzed_text}}
-                // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                 .scrolling
                     if skv_is 'view_section' 'main'
+                        if is_image
+                            img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
+                        else if watson.metadata.image
+                            img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
+                        if is_youtube
+                            div
+                            // .ui.fluid.embed
+                            //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
+                            iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                        else if embed
+                            span.f11.full
+                                |!{embed}
+                        if data.link_url
+                            img.ui.image.pointer.call_visual(src=data.link_url)
+                        div
+                        span.f12.say !{data.html}
+                        // if parsed_selftext_html
+                        //     .ui.segment
+                        //         |!{parsed_selftext_html}
+                        if data.selftext
+                            // .ui.segment
+                            .f12.say
+                                |{{#markdown}} {{data.selftext}} {{/markdown}}
+                        else if data.body
+                            div
+                            .f12.say
+                                |{{nl2br data.body}}
+                        else if data.body_html
+                            div
+                            .f12.say
+                                |!{data.body_html}
+                        else if watson.analyzed_text
+                            .say.f12
+                                |{{nl2br watson.analyzed_text}}
+                        // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                         .spacer
                         // img(src=url)
                         // div(style='position:relative; padding-bottom:calc(125.00% + 44px)')
@@ -133,10 +131,10 @@ template(name='reddit_page')
 template(name='rcomment')                
     .ui.grid.call_watson_comment
         .sixteen.wide.column
+            .ui.small.inline.header {{data.score}}
             a.author.say(href="/user/#{data.author}") #{data.author}
             span.metadata 
                 span.date {{ufrom data.created}}
-                span.date {{data.score}}
                 +doc_emotion_small
             .pointer.say(class=post_header_class)
                 |{{#markdown}} {{data.body}} {{/markdown}}

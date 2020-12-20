@@ -86,6 +86,12 @@ template(name='subreddit')
                     i.large.user.outline.icon
                     |users
                 +alpha
+                .ui.inline.small.header domains
+                
+                each subreddit_domain_tags
+                    .ui.compact.basic.button.select_domain(class=domain_selector_class)
+                        |#{name} 
+                        small #{count}
                 // .ui.inline.header.pull_latest #{display_name}
                 img.ui.inline.image(src=data.header_img)
                 .ui.inline.header.pull_latest #{data.title}
@@ -201,7 +207,8 @@ template(name='subreddit_doc_item')
                             |{{ufrom data.created}}
                 .row    
                     .column
-                        each tags
+                        .ui.label #{data.domain}
+                        each seven_tags
                             +flat_sub_tag_selector
                         // if watson
                         //     +doc_emotion_small

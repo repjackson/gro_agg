@@ -224,16 +224,16 @@ Meteor.methods
             console.log res
             if res.data.data.dist > 0
                 _.each(res.data.data.children[0..100], (item)=>
-                    console.log item
+                    # console.log item
                     found = 
                         Docs.findOne    
                             model:'rpost'
                             reddit_id:item.data.id
                             # subreddit:item.data.id
-                    if found
-                        console.log found, 'found'
+                    # if found
+                    #     console.log found, 'found'
                     unless found
-                        console.log found, 'not found'
+                        # console.log found, 'not found'
                         item.model = 'rpost'
                         item.reddit_id = item.data.id
                         item.author = item.data.author
@@ -493,7 +493,8 @@ Meteor.publish 'subreddits', (
         
 Meteor.publish 'sub_docs_by_name', (
     subreddit
-    selected_tags
+    selected_subreddit_tags
+    selected_subreddit_domains
     sort_key
     )->
     self = @
@@ -509,7 +510,8 @@ Meteor.publish 'sub_docs_by_name', (
     #     match.bounty = true
     # if view_unanswered
     #     match.is_answered = false
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if selected_subreddit_tags.length > 0 then match.tags = $all:selected_subreddit_tags
+    if selected_subreddit_domains.length > 0 then match.domain = $all:selected_subreddit_domains
     # console.log sk
     Docs.find match,
         limit:20
@@ -616,7 +618,8 @@ Meteor.publish 'rpost_comment_tags', (
     
 Meteor.publish 'subreddit_result_tags', (
     subreddit
-    selected_tags
+    selected_subreddit_tags
+    selected_subreddit_domain
     # view_bounties
     # view_unanswered
     # query=''
@@ -631,7 +634,8 @@ Meteor.publish 'subreddit_result_tags', (
     #     match.bounty = true
     # if view_unanswered
     #     match.is_answered = false
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if selected_subreddit_tags.length > 0 then match.tags = $all:selected_subreddit_tags
+    if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
     # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
@@ -640,7 +644,7 @@ Meteor.publish 'subreddit_result_tags', (
         { $project: "tags": 1 }
         { $unwind: "$tags" }
         { $group: _id: "$tags", count: $sum: 1 }
-        { $match: _id: $nin: selected_tags }
+        { $match: _id: $nin: selected_subreddit_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:11 }
@@ -654,22 +658,22 @@ Meteor.publish 'subreddit_result_tags', (
             model:'subreddit_result_tag'
     
     
-    # subreddit_Location_cloud = Docs.aggregate [
-    #     { $match: match }
-    #     { $project: "Location": 1 }
-    #     { $unwind: "$Location" }
-    #     { $group: _id: "$Location", count: $sum: 1 }
-    #     # { $match: _id: $nin: selected_Locations }
-    #     { $sort: count: -1, _id: 1 }
-    #     { $match: count: $lt: doc_count }
-    #     { $limit:7 }
-    #     { $project: _id: 0, name: '$_id', count: 1 }
-    # ]
-    # subreddit_Location_cloud.forEach (Location, i) ->
-    #     self.added 'results', Random.id(),
-    #         name: Location.name
-    #         count: Location.count
-    #         model:'subreddit_Location'
+    subreddit_domain_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "data.domain": 1 }
+        # { $unwind: "$domain" }
+        { $group: _id: "$data.domain", count: $sum: 1 }
+        # { $match: _id: $nin: selected_domains }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    subreddit_domain_cloud.forEach (domain, i) ->
+        self.added 'results', Random.id(),
+            name: domain.name
+            count: domain.count
+            model:'subreddit_domain_tag'
   
   
     # subreddit_Organization_cloud = Docs.aggregate [

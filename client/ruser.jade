@@ -85,13 +85,13 @@ template(name='ruser_overview')
             .ui.header 
                 i.edit.icon
                 |posts
-            .smallscroll
+            .medscroll
                 each ruser_posts
                     .ui.segment
                         a.ui.small.inline.header(href="/r/#{subreddit}/post/#{_id}") #{data.title}
                         a.ui.label(href="/r/#{subreddit}") #{subreddit}
-                        // each tags 
-                        //     .ui.small.label #{this}
+                        each five_tags 
+                            .ui.small.label #{this}
         .eight.wide.column
             .ui.header 
                 i.chat.icon

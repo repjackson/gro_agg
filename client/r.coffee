@@ -53,10 +53,10 @@ Template.call_tone.events
 Template.reddit_page.helpers
     rcomments: ->
         post = Docs.findOne Router.current().params.doc_id
-        Docs.find
+        Docs.find(
             model:'rcomment'
             parent_id:"t3_#{post.reddit_id}"
-
+        ,sort:"data.score":-1)
     rcomment_tags: ->
         results.find(model:'rpost_comment_tag')
 
@@ -103,6 +103,7 @@ Template.reddit.events
         Meteor.call 'get_sub_latest', @data.display_name, ->
         Meteor.call 'get_sub_info', @data.display_name, ->
         Meteor.call 'calc_sub_tags', @data.display_name
+        Session.set('view_section', 'main')
     'click .pull_latest': ->
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
     'keyup .search_subreddits': (e,t)->
