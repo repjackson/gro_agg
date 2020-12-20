@@ -181,7 +181,7 @@ template(name='related_questions')
     .ui.header related questions
     .ui.list
         each qs
-            a.item.say.pointer.zoomer(href="/s/#{site}/q/#{question_id}" class=post_header_class) 
+            a.item.say.pointer.zoomer.set_main(href="/s/#{site}/q/#{question_id}" class=post_header_class) 
                 if data.is_image
                     a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
                         img.ui.small.rounded.image.toggle_view(src=data.url)

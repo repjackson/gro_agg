@@ -12,11 +12,11 @@ template(name='subreddit')
                     // img.ui.mini.inline.image(src=icon_img)
                 img.get_info.shadowed.ui.inline.image(src=logo_url )
                 .ui.inline.header.get_info #{data.display_name}
-                if selected_tags
+                if selected_sub_tags
                     // if many_tags
                     //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                     //         i.remove.icon
-                    each selected_tags
+                    each selected_sub_tags
                         +sub_unselect_tag
                 .ui.icon.input
                     i.search.icon
@@ -75,8 +75,8 @@ template(name='subreddit')
                     if sub_docs
                         each sub_docs
                             +subreddit_doc_item
-                            .spacer
-                            .spacer
+                            // .spacer
+                            .ui.divider
                             // .spacer
                     else
                         .ui.basic.center.aligned.segment
@@ -174,9 +174,9 @@ template(name='subreddit')
    
    
 template(name='subreddit_doc_item')                  
-    .ui.item.seg
+    .ui.ite.seg
         unless skv_is 'view_detail' true
-            .ui.stackable.equal.width.grid
+            .ui.stackable.equal.width.compact.grid
                 .row
                     if embed
                         span.rounded.full
@@ -194,29 +194,30 @@ template(name='subreddit_doc_item')
                     //         a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                     //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
                     .column
-                        a.ui.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                        a.ui.inline.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                             strong #{data.ups}:
                             |!{data.title} 
                             // span.inline.content
                         if watson.analyzed_text
-                            .spacer
+                            // .spacer
                             a.f11.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                                 |{{trunc watson.analyzed_text}}...
-                        .ui.basic.label 
+                        .ui.label 
                             i.clock.icon
                             |{{ufrom data.created}}
-                .row    
-                    .column
-                        .ui.label #{data.domain}
-                        each seven_tags
+                            small ({{long_date data.created}})
+                        .ui.label(title='domain') #{data.domain}
+                        each tags
                             +flat_sub_tag_selector
+                        if in_dev
+                            +print_this
                         // if watson
                         //     +doc_emotion_small
 
-        if skv_is 'view_detail' true
-            a.ui.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                strong #{data.ups}:
-                |!{data.title} 
+            // if skv_is 'view_detail' true
+            // a.ui.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            //     strong #{data.ups}:
+            //     |!{data.title} 
             // span.inline.content
             if embed
                 span.rounded.full
@@ -238,19 +239,19 @@ template(name='subreddit_doc_item')
                     
             a.say.goto_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class) !{data.body}
             a.say(href="/r/#{subreddit}/post/#{_id}" class=post_header_class) !{data.html}
-            .spacer
-            if parsed_selftext_html
-                .ui.segment
-                    |!{parsed_selftext_html}
-            if data.selftext
-                // .ui.segment
-                .ui.basic.segment.say
-                    |{{#markdown}} {{data.selftext}} {{/markdown}}
-            else if data.body
-                div
-                .ui.segment.say
-                    |{{nl2br data.body}}
-            else if data.body_html
+            // .spacer
+            // if parsed_selftext_html
+            //     .ui.segment
+            //         |!{parsed_selftext_html}
+            // if data.selftext
+            //     // .ui.segment
+            //     .ui.basic.segment.say
+            //         |{{#markdown}} {{data.selftext}} {{/markdown}}
+            // else if data.body
+            //     div
+            //     .ui.segment.say
+            //         |{{nl2br data.body}}
+            if data.body_html
                 div
                 a.pointer.say(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                     |!{data.body_html}
@@ -259,11 +260,8 @@ template(name='subreddit_doc_item')
                 +flat_sub_tag_selector
             if watson
                 +doc_emotion_small
-            .ui.basic.label 
-                i.clock.icon
-                |{{ufrom data.created}}
-            a.ui.header(href="/user/#{author}")
-                |#{author}
+            a.ui.inline.header(href="/user/#{data.author}")
+                |#{data.author}
     
 
 
@@ -278,7 +276,7 @@ template(name='sub_tag_selector')
         //     small #{count}
         
 template(name='sub_unselect_tag')
-    a.unselect_tag.ui.black.compact.button.select_term(href='#')
+    a.unselect_sub_tag.ui.black.compact.button(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    

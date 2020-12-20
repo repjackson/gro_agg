@@ -96,6 +96,7 @@ template(name='sq')
                     .medscroll
                         each site_questions
                             +s_q_item
+                            .ui.divider
                 .four.wide.column.scrollin
                     with emotion_avg
                         // .ui.list
@@ -224,7 +225,7 @@ template(name='s_q_item')
                 if is_answered
                     i.green.checkmark.icon
                 |!{title} 
-            .spacer
+            // .spacer
             unless skv_is 'view_detail' true
                 if watson.analyzed_text
                     span.pointer.view_question {{trunc watson.analyzed_text}}...

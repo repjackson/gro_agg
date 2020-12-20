@@ -8,6 +8,7 @@ Template.registerHelper 'youtube_parse', (url) ->
    
 Session.setDefault('loading', false)
 Template.body.events
+    'click .set_main': -> Session.set('view_section','main')
     # 'click a': ->
         
     # 'click .say_title': ->

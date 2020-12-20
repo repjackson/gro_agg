@@ -1,5 +1,5 @@
 @selected_subreddit_tags = new ReactiveArray []
-@selected_subreddit_domains = new ReactiveArray []
+@selected_subreddit_domain = new ReactiveArray []
 
 
 Router.route '/r/:subreddit', (->
@@ -24,19 +24,19 @@ Template.subreddit.onCreated ->
     @autorun => Meteor.subscribe 'sub_docs_by_name', 
         Router.current().params.subreddit
         selected_subreddit_tags.array()
-        selected_subreddit_domains.array()
+        selected_subreddit_domain.array()
         Session.get('sort_key')
         Session.get('sort_direction')
   
     @autorun => Meteor.subscribe 'sub_doc_count', 
         Router.current().params.subreddit
         selected_subreddit_tags.array()
-        selected_subreddit_domains.array()
+        selected_subreddit_domain.array()
 
     @autorun => Meteor.subscribe 'subreddit_result_tags',
         Router.current().params.subreddit
         selected_subreddit_tags.array()
-        selected_subreddit_domains.array()
+        selected_subreddit_domain.array()
         Session.get('toggle')
 
     Meteor.call 'log_subreddit_view', Router.current().params.subreddit, ->
@@ -76,14 +76,13 @@ Template.subreddit.events
         Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
     'click .get_info': ->
         # console.log 'dl'
-        
         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
             
     'keyup .search_subreddit': (e,t)->
         val = $('.search_subreddit').val()
         Session.set('sub_doc_query', val)
         if e.which is 13 
-            selected_tags.push val
+            selected_subreddit_tags.push val
             window.speechSynthesis.speak new SpeechSynthesisUtterance val
 
             $('.search_subreddit').val('')
@@ -94,12 +93,14 @@ Template.subreddit.events
             
 Template.subreddit.helpers
     domain_selector_class: ->
-        if @name in selected_subreddit_domains.array() then 'blue' else 'basic'
+        if @name in selected_subreddit_domain.array() then 'blue' else 'basic'
     sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
     subreddit_result_tags: -> results.find(model:'subreddit_result_tag')
     subreddit_domain_tags: -> results.find(model:'subreddit_domain_tag')
 
+    selected_sub_tags: -> selected_subreddit_tags.array()
+    
     subreddit_doc: ->
         Docs.findOne
             model:'subreddit'
@@ -156,7 +157,7 @@ Template.subreddit.events
                 Session.set('sub_doc_query', null)
           
     'click .select_domain': ->
-        selected_subreddit_domains.push @name
+        selected_subreddit_domain.push @name
           
             
 
@@ -192,7 +193,7 @@ Template.sub_tag_selector.events
         #     selected_emotions.push @name
         # else
         # if @model is 'subreddit_tag'
-        selected_tags.push @name
+        selected_subreddit_tags.push @name
         $('.search_subreddit').val('')
         
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
@@ -208,6 +209,7 @@ Template.sub_tag_selector.events
         
 
 Template.sub_unselect_tag.onCreated ->
+    
     @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
     
 Template.sub_unselect_tag.helpers
@@ -218,9 +220,10 @@ Template.sub_unselect_tag.helpers
                 title:@valueOf().toLowerCase()
         found
 Template.sub_unselect_tag.events
-  'click .unselect_tag': -> 
-        selected_subreddit_tags.remove @valueOf()
+    'click .unselect_sub_tag': -> 
         Session.set('skip',0)
+        console.log @
+        selected_subreddit_tags.remove @valueOf()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
     
 
