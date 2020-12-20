@@ -579,8 +579,8 @@ a.title, #title {
 }
 
 .label {
-  margin:3px !important;
-  border-radius: 10px !important; 
+  margin:1px !important;
+  /*border-radius: 10px !important; */
 }
 
 input {

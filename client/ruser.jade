@@ -88,10 +88,17 @@ template(name='ruser_overview')
             .medscroll
                 each ruser_posts
                     .ui.segment
-                        a.ui.small.inline.header(href="/r/#{subreddit}/post/#{_id}") #{data.title}
+                        a.ui.small.inline.header(href="/r/#{subreddit}/post/#{_id}")
+                            |#{data.ups}
+                            |#{data.link_title} #{data.title}
                         a.ui.label(href="/r/#{subreddit}") #{subreddit}
                         each five_tags 
                             .ui.small.label #{this}
+                        // +skve k='view_preview' v='preview' l=' ' i='caret down'
+                        // if skv_is 'view_preview' 'preview'
+                        |#{data.body}
+                        .ui.label {{ufrom data.created}}
+                        +print_this
         .eight.wide.column
             .ui.header 
                 i.chat.icon

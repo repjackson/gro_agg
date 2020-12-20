@@ -13,15 +13,25 @@ Router.route '/r/:subreddit/users', (->
     
 Template.reddit_page.onCreated ->
     @autorun -> Meteor.subscribe('doc', Router.current().params.doc_id)
+Template.reddit_page.onRendered ->
+    Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
+
+
+Template.rcomments_tab.onCreated ->
     @autorun -> Meteor.subscribe('rpost_comments', Router.current().params.subreddit, Router.current().params.doc_id)
     @autorun -> Meteor.subscribe('rpost_comment_tags', 
         Router.current().params.subreddit
         Router.current().params.doc_id
         selected_comment_tags.array()
     )
-Template.reddit_page.onRendered ->
-    Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
+Template.rcomment.onRendered ->
+    unless @data.watson
+        # console.log 'calling watson on comment'
+        Meteor.call 'call_watson', @data._id,'data.body','comment',->
 
+Template.rcomments_tab.events
+    'click .get_post_comments': ->
+        Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
 Template.rcomment.events
     'click .call_watson_comment': ->
         unless @watson
@@ -36,8 +46,6 @@ Template.reddit_page.events
     'click .call_thumbnail': ->
         Meteor.call 'call_visual', Router.current().params.doc_id, 'thumb', ->
 
-    'click .get_post_comments': ->
-        Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
     'click .goto_ruser': ->
         doc = Docs.findOne Router.current().params.doc_id
         Meteor.call 'get_user_info', doc.data.author, ->
@@ -50,7 +58,7 @@ Template.call_tone.events
         console.log 'calling tone'
         Meteor.call 'call_tone', Router.current().params.doc_id,->
 
-Template.reddit_page.helpers
+Template.rcomments_tab.helpers
     rcomments: ->
         post = Docs.findOne Router.current().params.doc_id
         Docs.find(

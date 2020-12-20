@@ -79,16 +79,7 @@ template(name='reddit_page')
                         each tags
                             +flat_sub_tag_selector
                     if skv_is 'view_section' 'comments'
-                        .ui.horizontal.divider.get_post_comments
-                            i.grey.comment.outline.icon
-                            |#{rcomments.count} comments
-                        // .ui.items
-                        each rcomment_tags
-                            .ui.compact.button #{name}
-                                small #{count}
-                        .spacer
-                        each rcomments
-                            +rcomment
+                        +rcomments_tab
             .four.wide.column
                 if in_dev
                     +print_this
@@ -125,6 +116,19 @@ template(name='reddit_page')
                     |#{data.ups}
                 |{{to_percent data.upvote_ratio}}%
                 .ui.small.inline.header #{data.num_crossposts} crossposts
+                
+                
+template(name='rcomments_tab')                
+    .ui.horizontal.divider.get_post_comments
+        i.grey.comment.outline.icon
+        |#{rcomments.count} comments
+    // .ui.items
+    each rcomment_tags
+        .ui.compact.button #{name}
+            small #{count}
+    .spacer
+    each rcomments
+        +rcomment
                 
                 
 

@@ -15,7 +15,7 @@ Router.configure
 
 Router.route '/', (->
     @layout 'layout'
-    @render 'reddit'
+    @render 'dao'
     ), name:'home'
 
 

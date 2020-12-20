@@ -32,7 +32,7 @@ template(name='subreddit_doc')
             a.ui.header.goto_sub(href="/r/#{data.display_name}")
                 img.ui.rounded.zoomer.image(src=data.header_img)
                 | !{data.title} 
-                // |!{data.display_name}
+                small !{data.display_name}
             a.ui.small.grey.header.goto_sub(href="/r/#{data.display_name}")
                 | !{data.header_title}
             // span.description !{data.public_description_html}
@@ -41,6 +41,12 @@ template(name='subreddit_doc')
             span.say
                 // i.money.icon
                 |#{data.advertiser_category}
+            .ui.label(title='active users')
+                i.users.icon
+                |#{data.accounts_active}
+            .ui.label(title='subscribers')
+                i.edit.icon
+                |#{data.subscribers}
             each tags
                 .ui.basic.small.label.goto_sub #{this}
             if in_dev

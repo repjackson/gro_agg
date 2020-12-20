@@ -66,6 +66,8 @@ if Meteor.isClient
         # Meteor.call 'ruser_badges', Router.current().params.subreddit, Router.current().params.username, ->
         Meteor.setTimeout ->
             Meteor.call 'get_user_info', Router.current().params.username, ->
+        , 1000
+        Meteor.setTimeout ->
             Meteor.call 'get_user_posts', Router.current().params.username, ->
         , 1000
 
