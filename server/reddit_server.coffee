@@ -221,7 +221,7 @@ Meteor.methods
         # else
         url = "https://www.reddit.com/user/#{username}.json"
         HTTP.get url,(err,res)=>
-            console.log res
+            # console.log res
             if res.data.data.dist > 0
                 _.each(res.data.data.children[0..100], (item)=>
                     # console.log item
@@ -258,8 +258,8 @@ Meteor.methods
                             model:'rcomment'
                             reddit_id:item.data.id
                             # subreddit:item.data.id
-                    if found
-                        console.log found, 'found'
+                    # if found
+                    #     console.log found, 'found'
                     unless found
                         # console.log found, 'not found'
                         item.model = 'rcomment'

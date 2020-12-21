@@ -41,41 +41,41 @@ template(name='ruser')
                         i.external.icon
                     +print_this
                 .twelve.wide.column
-                    a.ui.button(href="/user/#{username}")
-                        i.dashboard.icon
-                        |overview
-                    a.ui.button(href="/user/#{username}/posts")
-                        i.edit.icon
-                        |posts
-                    a.ui.button(href="/user/#{username}/comments")
-                        i.chat.outline.icon
-                        |comments
-                    a.ui.button(href="/user/#{username}/upvoted")
-                        i.thumbs.up.outline.icon
-                        |upvoted
-                    a.ui.button(href="/user/#{username}/downvoted")
-                        i.thumbs.down.outline.icon
-                        |downvoted
-                    a.ui.button(href="/user/#{username}/hidden")
-                        i.eye.slash.icon
-                        |hidden
-                    a.ui.button(href="/user/#{username}/saved")
-                        i.save.icon
-                        |saved
-                    div
+                    // a.ui.button(href="/user/#{username}")
+                    //     i.dashboard.icon
+                    //     |overview
+                    // a.ui.button(href="/user/#{username}/posts")
+                    //     i.edit.icon
+                    //     |posts
+                    // a.ui.button(href="/user/#{username}/comments")
+                    //     i.chat.outline.icon
+                    //     |comments
+                    // a.ui.button(href="/user/#{username}/upvoted")
+                    //     i.thumbs.up.outline.icon
+                    //     |upvoted
+                    // a.ui.button(href="/user/#{username}/downvoted")
+                    //     i.thumbs.down.outline.icon
+                    //     |downvoted
+                    // a.ui.button(href="/user/#{username}/hidden")
+                    //     i.eye.slash.icon
+                    //     |hidden
+                    // a.ui.button(href="/user/#{username}/saved")
+                    //     i.save.icon
+                    //     |saved
+                    // div
                     if skv_is 'view_post_detail' true
                         .ui.black.tertiary.large.button.toggle_post_detail.agg
                             i.post.icon
                             |#{user_posts.count} posts
-                    if skv_is 'view_detail' true
-                        .ui.black.compact.icon.button.toggle_detail
-                            i.list.large.icon
-                            // |detail
-                    else
-                        .ui.compact.basic.icon.button.toggle_detail
-                            i.minus.large.icon
-                            // |simple
-                    div
+                    // if skv_is 'view_detail' true
+                    //     .ui.black.compact.icon.button.toggle_detail
+                    //         i.list.large.icon
+                    //         // |detail
+                    // else
+                    //     .ui.compact.basic.icon.button.toggle_detail
+                    //         i.minus.large.icon
+                    //         // |simple
+                    // div
                     +yield
          
          
@@ -87,48 +87,15 @@ template(name='ruser_overview')
                 |posts
             .medscroll
                 each ruser_posts
-                    .ui.segment
-                        a.ui.small.inline.header(href="/r/#{subreddit}/post/#{_id}")
-                            |#{data.ups}
-                            |#{data.link_title} #{data.title}
-                        a.ui.label(href="/r/#{subreddit}") #{subreddit}
-                        each five_tags 
-                            .ui.small.label #{this}
-                        // +skve k='view_preview' v='preview' l=' ' i='caret down'
-                        // if skv_is 'view_preview' 'preview'
-                        |#{data.body}
-                        .ui.label {{ufrom data.created}}
-                        +print_this
+                    +ruser_post
         .eight.wide.column
             .ui.header.get_user_comments
-                i.chat.icon
+                i.chat.outline.icon
                 |comments
             .medscroll
                 each rcomments
-                    .ui.grid.call_watson_comment
-                        .sixteen.wide.column
-                            .ui.small.inline.header {{data.score}}
-                            span.metadata 
-                                span.date {{ufrom data.created}}
-                                +doc_emotion_small
-                            .pointer.say(class=post_header_class)
-                                |{{#markdown}} {{data.body}} {{/markdown}}
-                            .actions
-                                each tags 
-                                    +flat_sub_tag_selector
-                                    // .ui.tiny.basic.label #/{this}
-                                a.author.say(href="/r/#{data.subreddit}") #{data.subreddit}
-                                if in_dev
-                                    +print_this
-                        // if data.replies.data.children
-                        //     .ui.grid
-                        //         each data.replies.data.children
-                        //             .one.wide.column
-                        //             .fifteen.wide.column
-                        //                 a.author(href="/user/#{data.author}") #{data.author}
-                        //                 .pointer.content.say
-                        //                     |{{#markdown}} {{data.body}} {{/markdown}}
-                        //                     // .text.say #{data.score} #{data.body}
+                    +ruser_comment
+                    .ui.divider
         .eight.wide.column
             .ui.header upvoted
             each top_upvoted
@@ -146,10 +113,28 @@ template(name='ruser_overview')
             each top_saved
                 .ui.header #{title}
                     
+                    
+                    
+                    
 template(name='ruser_posts')
     .scrolling
         each user_posts
             +ruser_doc_item
+
+template(name='ruser_post')
+    .ui.segment
+        a.ui.small.inline.header(href="/r/#{subreddit}/post/#{_id}")
+            |#{data.ups}
+            |#{data.link_title} #{data.title}
+        a.ui.label(href="/r/#{subreddit}") #{subreddit}
+        each five_tags 
+            .ui.small.label #{this}
+        +doc_emotion_small        
+        // +skve k='view_preview' v='preview' l=' ' i='caret down'
+        // if skv_is 'view_preview' 'preview'
+        |#{data.body}
+        .ui.label {{ufrom data.created}}
+        +print_this
                             
                             
 template(name='ruser_doc_item')
@@ -197,7 +182,18 @@ template(name='ruser_comments')
             +ruser_comment
                             
                             
-template(name='ruser_comment')
-    .ui.item
-        .ui.header #{body}    
-    
+template(name='ruser_comment')                    
+    .call_watson_comment
+        .ui.small.inline.header {{data.score}}
+        span.metadata 
+            span.date {{ufrom data.created}}
+            +doc_emotion_small
+        .pointer.say(class=post_header_class)
+            |{{#markdown}} {{data.body}} {{/markdown}}
+        .actions
+            each tags 
+                +flat_sub_tag_selector
+                // .ui.tiny.basic.label #/{this}
+            a.author.say(href="/r/#{data.subreddit}") #{data.subreddit}
+            if in_dev
+                +print_this

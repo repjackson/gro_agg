@@ -110,7 +110,7 @@ Template.reddit.events
     'click .goto_sub': (e,t)->
         Meteor.call 'get_sub_latest', @data.display_name, ->
         Meteor.call 'get_sub_info', @data.display_name, ->
-        Meteor.call 'calc_sub_tags', @data.display_name
+        Meteor.call 'calc_sub_tags', @data.display_name, ->
         Session.set('view_section', 'main')
     'click .pull_latest': ->
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title

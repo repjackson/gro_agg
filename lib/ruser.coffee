@@ -82,6 +82,15 @@ if Meteor.isClient
         # console.log @
         unless @data.watson
             Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
+ 
+    Template.ruser_comment.onRendered ->
+        unless @data.watson
+            # console.log 'calling watson on comment'
+            Meteor.call 'call_watson', @data._id,'data.body','comment',->
+    Template.ruser_post.onRendered ->
+        unless @data.watson
+            # console.log 'calling watson on comment'
+            Meteor.call 'call_watson', @data._id,'data.body','comment',->
 
     # Template.answer_item.onCreated ->
     #     @autorun => Meteor.subscribe 'question_from_id', @data.question_id
@@ -107,8 +116,10 @@ if Meteor.isClient
         #     window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.subreddit} users in #{@location}"
         #     Router.go "/s/#{Router.current().params.subreddit}/users"
 
-        'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
-        'click .toggle_question_detail': (e,t)-> Session.set('view_question_detail',!Session.get('view_question_detail'))
+        'click .toggle_detail': (e,t)-> 
+            Session.set('view_detail',!Session.get('view_detail'))
+        'click .toggle_question_detail': (e,t)-> 
+            Session.set('view_question_detail',!Session.get('view_question_detail'))
 
         'click .boop': ->
             window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
