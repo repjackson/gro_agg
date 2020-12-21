@@ -81,9 +81,9 @@ if Meteor.isClient
 
     Template.remove_button.events
         'click .remove_doc': (e,t)->
-            if confirm 'delete'
-                Meteor.call 'remove_doc', @_id
-                # Docs.remove @_id
+            Meteor.call 'remove_doc', @_id
+            # if confirm 'delete'
+            #     # Docs.remove @_id
 
 
     Template.remove_icon.events

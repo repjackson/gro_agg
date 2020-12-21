@@ -240,6 +240,34 @@ Meteor.methods
                         item.subreddit = item.data.subreddit
                         Docs.insert item
                 )
+    
+    get_user_comments: (username)->
+        # @unblock()s
+        console.log 'getting comments', username
+        # if subreddit 
+        #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
+        # else
+        url = "https://www.reddit.com/user/#{username}/comments.json"
+        HTTP.get url,(err,res)=>
+            # console.log res
+            if res.data.data.dist > 0
+                _.each(res.data.data.children[0..100], (item)=>
+                    # console.log item
+                    found = 
+                        Docs.findOne    
+                            model:'rcomment'
+                            reddit_id:item.data.id
+                            # subreddit:item.data.id
+                    if found
+                        console.log found, 'found'
+                    unless found
+                        # console.log found, 'not found'
+                        item.model = 'rcomment'
+                        item.reddit_id = item.data.id
+                        item.author = item.data.author
+                        item.subreddit = item.data.subreddit
+                        Docs.insert item
+                )
         
             # for post in res.data.data.children
             #     existing = 
@@ -478,7 +506,7 @@ Meteor.publish 'rpost_comments', (subreddit, doc_id)->
 Meteor.publish 'subreddits', (
     query=''
     selected_tags
-    sort_key='name'
+    sort_key='data.subscribers'
     sort_direction=-1
     )->
     match = {model:'subreddit'}

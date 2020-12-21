@@ -100,12 +100,35 @@ template(name='ruser_overview')
                         .ui.label {{ufrom data.created}}
                         +print_this
         .eight.wide.column
-            .ui.header 
+            .ui.header.get_user_comments
                 i.chat.icon
                 |comments
-            .smallscroll
-                each top_comments
-                    .ui.header #{title}
+            .medscroll
+                each rcomments
+                    .ui.grid.call_watson_comment
+                        .sixteen.wide.column
+                            .ui.small.inline.header {{data.score}}
+                            span.metadata 
+                                span.date {{ufrom data.created}}
+                                +doc_emotion_small
+                            .pointer.say(class=post_header_class)
+                                |{{#markdown}} {{data.body}} {{/markdown}}
+                            .actions
+                                each tags 
+                                    +flat_sub_tag_selector
+                                    // .ui.tiny.basic.label #/{this}
+                                a.author.say(href="/r/#{data.subreddit}") #{data.subreddit}
+                                if in_dev
+                                    +print_this
+                        // if data.replies.data.children
+                        //     .ui.grid
+                        //         each data.replies.data.children
+                        //             .one.wide.column
+                        //             .fifteen.wide.column
+                        //                 a.author(href="/user/#{data.author}") #{data.author}
+                        //                 .pointer.content.say
+                        //                     |{{#markdown}} {{data.body}} {{/markdown}}
+                        //                     // .text.say #{data.score} #{data.body}
         .eight.wide.column
             .ui.header upvoted
             each top_upvoted

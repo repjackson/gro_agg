@@ -45,11 +45,11 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'ruser_doc', Router.current().params.username
     Template.ruser_overview.onCreated ->
         @autorun => Meteor.subscribe 'rposts', Router.current().params.username, 10
-        @autorun => Meteor.subscribe 'rcomments', Router.current().params.username
-        @autorun => Meteor.subscribe 'rupvoted_top', Router.current().params.username
-        @autorun => Meteor.subscribe 'rdownvoted_top', Router.current().params.username
-        @autorun => Meteor.subscribe 'rhidden_top', Router.current().params.username
-        @autorun => Meteor.subscribe 'rsaved_top', Router.current().params.username
+        @autorun => Meteor.subscribe 'ruser_comments', Router.current().params.username
+        # @autorun => Meteor.subscribe 'rupvoted_top', Router.current().params.username
+        # @autorun => Meteor.subscribe 'rdownvoted_top', Router.current().params.username
+        # @autorun => Meteor.subscribe 'rhidden_top', Router.current().params.username
+        # @autorun => Meteor.subscribe 'rsaved_top', Router.current().params.username
     Template.ruser_posts.onCreated ->
         @autorun => Meteor.subscribe 'rposts', Router.current().params.username
         # @autorun => Meteor.subscribe 'ruser_badges', Router.current().params.subreddit, Router.current().params.username
@@ -64,10 +64,10 @@ if Meteor.isClient
         # Meteor.call 'ruser_tags', Router.current().params.subreddit, Router.current().params.username, ->
         # Meteor.call 'ruser_comments', Router.current().params.subreddit, Router.current().params.username, ->
         # Meteor.call 'ruser_badges', Router.current().params.subreddit, Router.current().params.username, ->
-        Meteor.setTimeout ->
+        Meteor.setTimeout =>
             Meteor.call 'get_user_info', Router.current().params.username, ->
         , 1000
-        Meteor.setTimeout ->
+        Meteor.setTimeout =>
             Meteor.call 'get_user_posts', Router.current().params.username, ->
         , 1000
 
@@ -92,6 +92,9 @@ if Meteor.isClient
     #             model:'stack_question'
     #             question_id:@question_id
     
+    Template.ruser_overview.events
+        'click .get_user_comments': ->
+            Meteor.call 'get_user_comments', Router.current().params.username, ->
     Template.ruser.events
         'click .get_user_info': ->
             Meteor.call 'get_user_info', Router.current().params.username, ->
@@ -152,11 +155,11 @@ if Meteor.isServer
 #             model:'stack_badge'
 #             "user.user_id":parseInt(user_id)
 #         }, limit:10
-    Meteor.publish 'ruser_comments', (subreddit,user_id)->
-        Docs.find { 
-            model:'rcomment'
-            # "owner.user_id":parseInt(user_id)
-        }, limit:10
+    # Meteor.publish 'ruser_comments', (subreddit,user_id)->
+    #     Docs.find { 
+    #         model:'rcomment'
+    #         # "owner.user_id":parseInt(user_id)
+    #     }, limit:10
         
         
     Meteor.publish 'rposts', (username, limit=20)->
@@ -165,7 +168,7 @@ if Meteor.isServer
             author:username
         , limit:limit
             
-    Meteor.publish 'rcomments', (username, limit=20)->
+    Meteor.publish 'ruser_comments', (username, limit=20)->
         Docs.find
             model:'rcomment'
             author:username
