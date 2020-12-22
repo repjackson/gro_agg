@@ -96,7 +96,7 @@ Template.suser_layout.onRendered ->
     # Meteor.call 'get_suser_t', Router.current().params.site, Router.current().params.user_id, ->
     Meteor.call 'get_suser_c', Router.current().params.site, Router.current().params.user_id, ->
     # Meteor.call 'get_suser_b', Router.current().params.site, Router.current().params.user_id, ->
-    Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
+    Meteor.call 'suser_omega', Router.current().params.site, Router.current().params.user_id, ->
     # Meteor.setTimeout ->
     # , 1000
     
@@ -194,11 +194,11 @@ Template.suser_layout.events
 
     'click .boop': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
-        Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'suser_omega', Router.current().params.site, Router.current().params.user_id, ->
         Meteor.call 'rank_user', Router.current().params.site, Router.current().params.user_id, ->
         # Meteor.call 'boop', Router.current().params.site, Router.current().params.user_id, ->
     'click .agg': ->
-        Meteor.call 'omega', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'suser_suser_omega', Router.current().params.site, Router.current().params.user_id, ->
     
     # 'click .say_site': (e,t)->
     #     window.speechSynthesis.speak new SpeechSynthesisUtterance Router.current().params.site

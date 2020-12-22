@@ -257,7 +257,7 @@ Meteor.methods
                         Meteor.call 'call_watson', new_id,'link','stack',->
                     # Meteor.call 'get_suser_questions', site, item.owner.user_id, ->
                     # Meteor.call 'stackuser_tags', site, item.owner.user_id, ->
-                    Meteor.call 'omega', site, item.owner.user_id, ->
+                    Meteor.call 'suser_omega', site, item.owner.user_id, ->
             )).catch((err)->
             )
    

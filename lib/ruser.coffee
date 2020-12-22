@@ -70,6 +70,9 @@ if Meteor.isClient
         Meteor.setTimeout =>
             Meteor.call 'get_user_posts', Router.current().params.username, ->
         , 1000
+        Meteor.setTimeout =>
+            Meteor.call 'suser_omega', Router.current().params.username, ->
+        , 1000
 
     # Template.user_q_item.onRendered ->
     #     unless @data.watson
@@ -101,16 +104,16 @@ if Meteor.isClient
     #             model:'stack_question'
     #             question_id:@question_id
     
-    Template.ruser_overview.events
-        'click .get_user_comments': ->
-            Meteor.call 'get_user_comments', Router.current().params.username, ->
+    Template.ruser_overview.onRendered ->
+        Meteor.call 'get_user_comments', Router.current().params.username, ->
     Template.ruser.events
         'click .get_user_info': ->
             Meteor.call 'get_user_info', Router.current().params.username, ->
         
         'click .get_user_posts': ->
             Meteor.call 'get_user_posts', Router.current().params.username, ->
-        
+            Meteor.call 'ruser_omega', Router.current().params.username, ->
+
         # 'click .set_location': ->
         #     Session.set('location_query',@location)
         #     window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.subreddit} users in #{@location}"

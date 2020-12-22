@@ -5,8 +5,10 @@ template(name='reddit_page')
                 a.ui.basic.button.say(href="/r/#{data.subreddit}")
                     i.chevron.left.icon
                     |#{data.subreddit}
-                span.ui.pointer.text.f13.zoomer(class=post_header_class) !{data.title} #{data.link_title}
-                // .ui.basic.circular.button.get_post permalink #{permalink}
+                span.ui.pointer.text.f13.zoomer(class=post_header_class)
+                    .ui.label #{data.ups}
+                    |!{data.title} #{data.link_title}
+                // .ui.basic.button.get_post permalink #{permalink}
                 div
                 +skve k='view_section' v='main' l='main' i='content'
                 +skve k='view_section' v='comments' l='comments' i='comment'
@@ -81,9 +83,7 @@ template(name='reddit_page')
                     if skv_is 'view_section' 'comments'
                         +rcomments_tab
             .four.wide.column
-                if in_dev
-                    +print_this
-                a.ui.basic.circular.fluid.button(href=data.url target="_window" title=data.url) 
+                a.ui.basic.fluid.button(href=data.url target="_window" title=data.url) 
                     i.external.icon
                     |url
                 .ui.large.basic.label
@@ -100,12 +100,14 @@ template(name='reddit_page')
                     i.user.outline.icon
                     |#{data.author}
                 +call_watson id=_id key='data.url' durl=data.url mode='url'
+                if in_dev
+                    +print_this
                 if watson
                     +doc_emotion
                     unless tone
                         +call_tone    
-                a.ui.large.basic.label(href=data.url target='_window')
-                    | #{data.url}
+                // a.ui.large.basic.label(href=data.url target='_window')
+                //     | #{data.url}
                 if in_dev
                     .ui.small.header reddit_id #{data.reddit_id}
                 .ui.basic.label

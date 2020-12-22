@@ -33,23 +33,23 @@ template(name='subreddit')
                 else
                     .ui.icon.compact.basic.tertiary.button.sort_up
                         i.caret.up.icon
-                if skv_is 'view_bounties' 1
-                    .ui.compact.black.button.unview_bounties
-                        i.hand.holding.heart.icon
-                        | bounties
-                else
-                    .ui.compact.basic.tertiary.button.view_bounties
-                        i.hand.holding.heart.icon
-                        | bounties
-                if skv_is 'view_unanswered' 1
-                    .ui.compact.black.button.unview_unanswered
-                        i.checkmark.icon
-                        | unanswered
-                else
-                    .ui.compact.basic.tertiary.button.view_unanswered
-                        i.question.icon
-                        | unanswered
-                i.big.fire.link.icon
+                // if skv_is 'view_bounties' 1
+                //     .ui.compact.black.button.unview_bounties
+                //         i.hand.holding.heart.icon
+                //         | bounties
+                // else
+                //     .ui.compact.basic.tertiary.button.view_bounties
+                //         i.hand.holding.heart.icon
+                //         | bounties
+                // if skv_is 'view_unanswered' 1
+                //     .ui.compact.black.button.unview_unanswered
+                //         i.checkmark.icon
+                //         | unanswered
+                // else
+                //     .ui.compact.basic.tertiary.button.view_unanswered
+                //         i.question.icon
+                //         | unanswered
+                // i.big.fire.link.icon
                 .ui.compact.basic.small.tertiary.button.limit_1
                     |1
                 .ui.compact.basic.small.tertiary.button.limit_10
@@ -97,7 +97,7 @@ template(name='subreddit')
                 .ui.inline.header.pull_latest #{data.title}
                 if in_dev
                     +print_this
-                    div
+                    // div
                 with emotion_avg
                     // .ui.list
                     //     .item {{ to_percent avg_sent_score}}% sentiment
@@ -181,6 +181,7 @@ template(name='subreddit_doc_item')
             if embed
                 span.rounded.full
                     |!{embed}
+                div
             else if is_image
                 .column
                     a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
@@ -189,6 +190,10 @@ template(name='subreddit_doc_item')
                 .column
                     a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                         img.ui.rounded.inline.image.toggle_view(src=watson.metadata.image)
+            else if data.thumbnail.length
+                .column
+                    a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                        img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
             // else if data.thumbnail.length
             //     .column
             //         a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
@@ -219,23 +224,6 @@ template(name='subreddit_doc_item')
             //     strong #{data.ups}:
             //     |!{data.title} 
             // span.inline.content
-            if embed
-                span.rounded.full
-                    |!{embed}
-            if data.is_image
-                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    img.ui.fluid.rounded.image.zoomer.toggle_view(src=data.url)
-            else if watson.metadata.image
-                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    img.ui.rounded.inline.image.zoomer.toggle_view(src=watson.metadata.image)
-            else if watson.metadata.image.length
-                .column
-                    a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                        img.ui.rounded.inline.image.zoomer.toggle_view(src=watson.metadata.image)
-            else if data.thumbnail.length
-                .column
-                    a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                        img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
                     
             a.say.goto_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class) !{data.body}
             a.say(href="/r/#{subreddit}/post/#{_id}" class=post_header_class) !{data.html}

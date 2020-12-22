@@ -163,7 +163,7 @@ Meteor.methods
                             "site_#{emotion}_rep_rank":site_emo_rep_rank+1
                             "global_#{emotion}_rep_rank":global_emo_rep_rank+1
                     }, -> )
-    omega: (site,user_id)->
+    suser_omega: (site,user_id)->
         # @unblock()
         # agg_res = Meteor.call 'agg_omega2', (err, res)->
         site_doc =
@@ -186,7 +186,7 @@ Meteor.methods
             #     sentiment_avg = 0
 
             
-            user_top_emotions = Meteor.call 'calc_user_top_emotions', site, user_id
+            user_top_emotions = Meteor.call 'calc_suser_top_emotions', site, user_id
             if user_top_emotions[0]
                 user_top_emotion = user_top_emotions[0].title
             
@@ -368,7 +368,7 @@ Meteor.methods
         else
             return null
 
-    calc_user_top_emotions: (site,user_id)->
+    calc_suser_top_emotions: (site,user_id)->
         site_doc =
             Docs.findOne(
                 model:'stack_site'
