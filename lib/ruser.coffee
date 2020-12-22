@@ -66,12 +66,9 @@ if Meteor.isClient
         # Meteor.call 'ruser_badges', Router.current().params.subreddit, Router.current().params.username, ->
         Meteor.setTimeout =>
             Meteor.call 'get_user_info', Router.current().params.username, ->
-        , 1000
-        Meteor.setTimeout =>
-            Meteor.call 'get_user_posts', Router.current().params.username, ->
-        , 1000
-        Meteor.setTimeout =>
-            Meteor.call 'suser_omega', Router.current().params.username, ->
+                Meteor.call 'get_user_posts', Router.current().params.username, ->
+                    Meteor.call 'ruser_omega', Router.current().params.username, ->
+                        Meteor.call 'rank_ruser', Router.current().params.username, ->
         , 1000
 
     # Template.user_q_item.onRendered ->
@@ -113,6 +110,7 @@ if Meteor.isClient
         'click .get_user_posts': ->
             Meteor.call 'get_user_posts', Router.current().params.username, ->
             Meteor.call 'ruser_omega', Router.current().params.username, ->
+            Meteor.call 'rank_ruser', Router.current().params.username, ->
 
         # 'click .set_location': ->
         #     Session.set('location_query',@location)
@@ -124,22 +122,14 @@ if Meteor.isClient
         'click .toggle_question_detail': (e,t)-> 
             Session.set('view_question_detail',!Session.get('view_question_detail'))
 
-        'click .boop': ->
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
-            Meteor.call 'omega', Router.current().params.subreddit, Router.current().params.username, ->
-            Meteor.call 'rank_user', Router.current().params.subreddit, Router.current().params.username, ->
-            # Meteor.call 'boop', Router.current().params.subreddit, Router.current().params.username, ->
-        'click .agg': ->
-            Meteor.call 'omega', Router.current().params.subreddit, Router.current().params.username, ->
-        
-        'click .say_subreddit': (e,t)->
-            window.speechSynthesis.speak new SpeechSynthesisUtterance Router.current().params.subreddit
-        'click .say_users': (e,t)->
-            window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.subreddit} users"
-        'click .say_questions': (e,t)->
-            window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.subreddit} questions"
-        'click .say_title': (e,t)->
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @title
+        # 'click .say_subreddit': (e,t)->
+        #     window.speechSynthesis.speak new SpeechSynthesisUtterance Router.current().params.subreddit
+        # 'click .say_users': (e,t)->
+        #     window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.subreddit} users"
+        # 'click .say_questions': (e,t)->
+        #     window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.subreddit} questions"
+        # 'click .say_title': (e,t)->
+        #     window.speechSynthesis.speak new SpeechSynthesisUtterance @title
 
         'click .search': ->
             window.speechSynthesis.speak new SpeechSynthesisUtterance "import #{Router.current().params.username}"

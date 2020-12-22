@@ -1,4 +1,4 @@
-template(name='p')
+template(name='rusers')
     .ui.stackable.grid
         .four.wide.column.scrolling
             i.tag.large.icon(title='tags')
@@ -19,45 +19,6 @@ template(name='p')
                             .line
                             .line
                             .line
-
-            .ui.grey.inline.header
-                i.stack.exchange.icon
-                |site
-            if selected_user_site
-                .unselect_site.ui.grey.compact.circular.button
-                    strong !{selected_user_site}
-            each all_sites
-                .ui.compact.basic.circular.button.select_site(class=cloud_site_class) 
-                    |!{this.name}
-                    // small #{count}
-            unless all_sites.count
-                .ui.basic.center.aligned.segment
-                    .ui.placeholder 
-                        .paragraph
-                            .line
-                            .line
-                            .line
-                            .line
-                    // i.massive.loading.grey.yin.yang.icon
-            .spacer
-            .ui.grey.inline.header 
-                i.marker.icon
-                |location
-            if selected_user_location
-                .unselect_location.ui.grey.compact.circular.button
-                    strong !{selected_user_location}
-            unless all_locations.count
-                .ui.basic.center.aligned.segment
-                    .ui.placeholder 
-                        .paragraph
-                            .line
-                            .line
-                            .line
-                            .line
-            each all_locations
-                +tag_selector
-                // .ui.compact.basic.circular.button.select_location(class=cloud_location_class) !{this.name}
-                //     small #{this.count}
         .twelve.wide.column.scrolling
             .ui.left.icon.input(class="{{#if current_username_query}} focus {{/if}}")
                 if current_username_query
@@ -85,24 +46,20 @@ template(name='p')
                                 .line
                 each users
                     .three.wide.column
-                        a.select_user(href="/s/#{site}/u/#{user_id}")
-                            img.ui.circular.image.zoomer(src=profile_image)
+                        a.select_user(href="/user/#{username}")
+                            img.ui.circular.image.zoomer(src=data.snoovatar_img)
                         .content
-                            a.ui.zoomer.header.select_user(href="/s/#{site}/u/#{user_id}" class=post_header_class)
-                                |!{display_name}
-                                .ui.basic.circular.label {{ commafy reputation }}
+                            a.ui.zoomer.header.select_user(href="/user/#{username}" class=post_header_class)
+                                |!{username}
+                                .ui.basic.circular.label {{ commafy data.total_karma }}
                                 .ui.basic.label(class=sentiment_class) {{to_percent sentiment_avg}}% #{doc_sentiment_label}
                             .description
-                                if site_rank
-                                    strong(title="#{site} rank") ##{site_rank} 
                                 if global_rank
                                     strong(title='global rank') ##{global_rank}
                                 span(title='accessed')
                                     i.grey.clock.icon
                                     | {{ufrom last_access_date}}
                                 .ui.label(title='accept rate') #{accept_rate}%
-                                .ui.circular.compact.basic.button.set_site
-                                    |#{site}
                                 .ui.circular.compact.basic.button.set_location
                                     i.grey.marker.icon
                                     |!{location}

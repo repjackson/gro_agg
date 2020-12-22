@@ -271,3 +271,116 @@ Meteor.methods
                 #         agg:agg.toArray()
         else
             return null
+
+
+    rank_ruser: (username)->
+        @unblock()
+        # agg_res = Meteor.call 'agg_omega2', (err, res)->
+        # site_doc =
+        #     Docs.findOne(
+        #         model:'stack_site'
+        #         api_site_parameter:site
+        #     )
+        user_doc =
+            Docs.findOne(
+                model:'ruser'
+                username:username
+            )
+        
+        if user_doc
+            # site_rank = 
+            #     Docs.find(
+            #         model:'ruser'
+            #         site:site
+            #         data.total_karma:$gt:user_doc.data.total_karma
+            #     ).count()
+            global_rank = 
+                Docs.find(
+                    model:'ruser'
+                    "data.total_karma":$gt:user_doc.data.total_karma
+                ).count()
+            Docs.update user_doc._id,
+                $set:
+                    # site_rank:site_rank+1
+                    global_rank:global_rank+1
+            
+            for emotion in ['joy','sadness','disgust','fear','anger']
+                # console.log 'emotion', emotion
+                # site_emo_rep_rank = 
+                #     Docs.find(
+                #         model:'ruser'
+                #         site:site
+                #         "rep_#{emotion}":$gt:user_doc["rep_#{emotion}"]
+                #     ).count()
+                global_emo_rep_rank = 
+                    Docs.find(
+                        model:'ruser'
+                        "rep_#{emotion}":$gt:user_doc["rep_#{emotion}"]
+                    ).count()
+                Docs.update({_id:user_doc._id},
+                    {
+                        $set:
+                            # "site_#{emotion}_rep_rank":site_emo_rep_rank+1
+                            "global_#{emotion}_rep_rank":global_emo_rep_rank+1
+                    }, -> )
+
+
+
+Meteor.publish 'selected_rusers', (
+    selected_ruser_tags
+    username_query
+    )->
+    match = {model:'ruser'}
+    if username_query
+        match.username = {$regex:"#{username_query}", $options: 'i'}
+    if selected_ruser_tags.length > 0 then match.tags = $all: selected_ruser_tags
+    Docs.find match,
+        limit:20
+        sort:
+            reputation:-1
+
+
+
+Meteor.publish 'ruser_tags', (
+    selected_ruser_tags
+    username_query
+    # view_mode
+    # limit
+)->
+    self = @
+    match = {model:'ruser'}
+    if selected_ruser_tags.length > 0 then match.tags = $all: selected_ruser_tags
+    if username_query    
+        match.username = {$regex:"#{username_query}", $options: 'i'}
+    # if location_query.length > 1 
+    #     match.location = {$regex:"#{location_query}", $options: 'i'}
+    # if selected_user_location then match.location = selected_user_location
+    # match.model = 'item'
+    # if view_mode is 'users'
+    #     match.bought = $ne:true
+    #     match._author_id = $ne: Meteor.userId()
+    # if view_mode is 'sold'
+    #     match.bought = true
+    #     match._author_id = Meteor.userId()
+    doc_count = Docs.find(match).count()
+    console.log match
+    cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "tags": 1 }
+        { $unwind: "$tags" }
+        { $group: _id: "$tags", count: $sum: 1 }
+        { $match: _id: $nin: selected_ruser_tags }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit: 20 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+    cloud.forEach (user_tag, i) ->
+        self.added 'results', Random.id(),
+            name: user_tag.name
+            count: user_tag.count
+            model:'ruser_tag'
+            index: i
+
+
+    self.ready()

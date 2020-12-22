@@ -1,124 +1,119 @@
-template(name='su')
-    unless current_site
-        +loading
-    with current_site
-        .ui.stackable.grid
-            .row
-                .four.wide.column
-                    // a.ui.circular.icon.button(href='/')
-                    //     i.large.home.icon
-                    // img.ui.inline.image.shadowed(src=high_resolution_icon_url)
-                    img.shadowed(src=logo_url )
-                    // .ui.segment(style="background-color:#{styling.tag_background_color}")
-                    // .ui.label #{tag_background_color}: tag_background_color
-                    // .ui.label #{tag_foreground_color}: tag_foreground_color
-                    // .ui.label #{link_color}: link_color
-                    // .ui.header related sites
-                    // .ui.header !{name}
-                    // each related_sites
-                    //     .ui.small.header 
-                    //         i.fork.icon
-                    //         |#{name}
-                    //     .ui.list 
-                    //         .item relation: #{relation}
-                    //         .item api_site_parameter: #{api_site_parameter}
-                    //         .item site_url: #{site_url}
-                    // a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
-                    //     i.large.link.twitter.icon
-                    a.ui.large.basic.icon.circular.button(href=site_url)
-                        // |#{site_url}
-                        i.external.icon
-                    if in_dev
-                        +print_this
-                    a.ui.large.circular.basic.icon.button.say_title(href="/s/#{api_site_parameter}" title='site questions')
-                        i.question.large.icon
-                        // |questions
-                    // a.ui.large.disabled.circular.basic.button.say(href="/s/#{api_site_parameter}/tags")
-                    //     i.tag.icon
-                    //     |tags
-                    // a.ui.large.disabled.circular.basic.button.say_title(href="/s/#{api_site_parameter}/badges" title="hi there")
-                    //     i.certificate.icon
-                    //     |badges
-                    .ui.list.mobile.hidden
-                        .item #{launch_date} launch_date
-                        .item #{open_beta_date} open_beta_date
-                        .item #{closed_beta_date} closed_beta_date
-                        .item #{site_state} site_state
-                        // .item #{high_resolution_icon_url} high_resolution_icon_url
-                        // .item #{favicon_url} favicon_url
-                        .item !{audience}
-                        // .item #{api_site_parameter} api_site_parameter
-                        .item #{site_type} site_type
-                    // +array_edit k='tags' d=true
-                    if in_dev
-                        .ui.icon.button.get_site_users
-                            i.refresh.icon
-                .twelve.wide.column
-                    if selected_tags
-                        if many_tags
-                            a#clear_tags.ui.black.invert.icon.compact.button.select_term
-                                i.remove.icon
-                        each selected_tags
-                            +unselect_tag
-                    .ui.left.icon.input(class="{{#if current_username_query}} focus {{/if}}")
-                        if current_username_query
-                            i.remove.link.icon.clear_user
-                        else
-                            i.user.link.icon
-                        input.search_users(type='text' placeholder='username' val="{{session 'user_query'}}")
-                    .ui.left.icon.input(class="{{#if current_location_query}} focus {{/if}}")
-                        if skv_is 'ready' false
-                            i.loading.yin.yang.icon
-                        else if current_location_query
-                            i.remove.link.icon.clear_location
-                        else
-                            i.marker.link.icon.clear_location
-                        input.search_location(type='text' placeholder='location' value=current_location_query)
-                    each user_tags
-                        +stack_tag_selector
-                        // small #{count}
-                        // .ui.large.label(title=count) #{name} 
-                    if skv_is 'sort_direction' 1
-                        .ui.icon.compact.circular.button.sort_down
-                            i.caret.down.icon
-                    else
-                        .ui.icon.compact.circular.button.sort_up
-                            i.caret.up.icon
-                    .ui.inline.small.header 
-                        |#{stackusers.count} / #{user_count}
-                    .scrolling.ui.items
-                        each stackusers
-                            +stackuser_item
+template(name='susers')
+    .ui.stackable.grid
+        .four.wide.column.scrolling
+            i.tag.large.icon(title='tags')
+            if selected_tags
+                #clear_tags.ui.grey.icon.compact.circular.button
+                    i.remove.icon
+                each selected_tags
+                    .unselect_tag.ui.grey.compact.circular.button
+                        strong !{this}
+            each all_tags
+                .ui.compact.circular.basic.button.select_tag(class=cloud_tag_class title=count) !{this.name}
+                    // small #{this.count}
+            unless all_tags.count
+                .ui.basic.center.aligned.segment
+                    .ui.placeholder 
+                        .paragraph
+                            .line
+                            .line
+                            .line
+                            .line
+            .ui.grey.inline.header
+                i.stack.exchange.icon
+                |site
+            if selected_user_site
+                .unselect_site.ui.grey.compact.circular.button
+                    strong !{selected_user_site}
+            each all_sites
+                .ui.compact.basic.circular.button.select_site(class=cloud_site_class) 
+                    |!{this.name}
+                    // small #{count}
+            unless all_sites.count
+                .ui.basic.center.aligned.segment
+                    .ui.placeholder 
+                        .paragraph
+                            .line
+                            .line
+                            .line
+                            .line
+                    // i.massive.loading.grey.yin.yang.icon
+            .spacer
+            .ui.grey.inline.header 
+                i.marker.icon
+                |location
+            if selected_user_location
+                .unselect_location.ui.grey.compact.circular.button
+                    strong !{selected_user_location}
+            unless all_locations.count
+                .ui.basic.center.aligned.segment
+                    .ui.placeholder 
+                        .paragraph
+                            .line
+                            .line
+                            .line
+                            .line
+            each all_locations
+                +tag_selector
+                // .ui.compact.basic.circular.button.select_location(class=cloud_location_class) !{this.name}
+                //     small #{this.count}
+        .twelve.wide.column.scrolling
+            .ui.left.icon.input(class="{{#if current_username_query}} focus {{/if}}")
+                if current_username_query
+                    i.remove.link.icon.clear_username
+                else    
+                    i.user.icon
+                input.search_username(type='text' placeholder='username')
+            .ui.left.icon.input(class="{{#if current_location_query}} focus {{/if}}")
+                if current_location_query
+                    i.remove.link.icon.clear_location
+                else
+                    i.marker.link.icon.clear_location
+                input.search_location(type='text' placeholder='location' value=current_location_query)
+            .spacer
+            .ui.stackable.centered.equal.width.grid.row.scrolling
+                unless users.count
+                    .ui.basic.center.aligned.segment
+                        // i.massive.loading.grey.yin.yang.icon
+                        .ui.placeholder 
+                            .image
+                            .paragraph
+                                .line
+                                .line
+                                .line
+                                .line
+                each users
+                    .three.wide.column
+                        a.select_user(href="/s/#{site}/u/#{user_id}")
+                            img.ui.circular.image.zoomer(src=profile_image)
+                        .content
+                            a.ui.zoomer.header.select_user(href="/s/#{site}/u/#{user_id}" class=post_header_class)
+                                |!{display_name}
+                                .ui.basic.circular.label {{ commafy reputation }}
+                                .ui.basic.label(class=sentiment_class) {{to_percent sentiment_avg}}% #{doc_sentiment_label}
+                            .description
+                                if site_rank
+                                    strong(title="#{site} rank") ##{site_rank} 
+                                if global_rank
+                                    strong(title='global rank') ##{global_rank}
+                                span(title='accessed')
+                                    i.grey.clock.icon
+                                    | {{ufrom last_access_date}}
+                                .ui.label(title='accept rate') #{accept_rate}%
+                                .ui.circular.compact.basic.button.set_site
+                                    |#{site}
+                                .ui.circular.compact.basic.button.set_location
+                                    i.grey.marker.icon
+                                    |!{location}
+                                each five_tags
+                                    .ui.small.tertiary.disabled.button #{this}
+                                if user_top_emotion
+                                    .ui.inline.header #{user_top_emotion}
+                                +suser_top_emotions
+                                // if user_top_emotions
+                                // each user_top_emotions
+                                //     .ui.basic.label #{title}
+                                //         small #{count}
                             
-                            
-template(name='stackuser_item')
-    .item
-        a.ui.small.image.say.zoomer(href="/s/#{site}/u/#{user_id}" class=post_header_class) 
-            img.ui.rounded.tiny.image(src=profile_image)
-        .content
-            a.ui.inline.header.say.zoomer(href="/s/#{site}/u/#{user_id}" class=post_header_class) 
-                |!{display_name}
-                small {{ commafy reputation }}
-            |!{about_me}
-            strong(title="#{site} rank") ##{site_rank} 
-            strong(title='global rank') ##{global_rank}
-            .ui.compact.circular.basic.button.description.set_location.say_location.zoomer
-                +term_image                                            
-                |!{location}
-            .ui.basic.label
-                small accessed
-                |{{ufrom last_access_date}}
-            each seven_tags
-                +flat_tag_selector
-                // .ui.small.tertiary.button #{this}
-            if website_url
-                a.ui.compact.small.basic.button(href=website_url target='_window')
-                    |#{website_url}
-                // .four.wide.center.aligned.column
-                //     .ui.header filter
-            +suser_top_emotions
-
-        
-        
-template(name='term_image')
-    |#{this_thing}
+                                
+                                

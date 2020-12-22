@@ -8,7 +8,7 @@ template(name='nav')
             //     // img(src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.glassdoor.com%2Fsqll%2F139670%2Fenvironment-agency-squarelogo.png&f=1&nofb=1")
             // a.icon.zoomer.item.goto_wiki(href='/wiki' class="{{isActivePath regex='wiki'}}" title='wikipedia')
             //     i.large.wikipedia.grey.icon
-            a.icon.zoomer.item.goto_people(href='/people' class="{{isActivePath regex='people'}}" title='people')
+            a.icon.zoomer.item.goto_people(href='/susers' class="{{isActivePath regex='susers'}}" title='susers')
                 i.large.user.outline.grey.icon
             a.icon.zoomer.teal.item.clear_tags.goto_stack(href='/stack' class="{{isActivePath '/stack'}}" title='stack exchange')
                 i.large.stack.exchange.grey.icon
@@ -23,8 +23,10 @@ template(name='nav')
             //     i.large.grey.github.icon
             a.icon.zoomer.item.clear_tags.goto_reddit(href='/reddit' class="{{isActiveRoute regex='reddit'}}" title='reddit')
                 i.large.reddit.grey.icon
-            a.icon.zoomer.item.silence(href='#')
-                i.large.volume.mute.grey.icon
+            a.icon.zoomer.item.goto_rusers(href='/rusers' class="{{isActivePath regex='rusers'}}" title='rusers')
+                i.large.user.outline.grey.icon
+            // a.icon.zoomer.item.silence(href='#')
+            //     i.large.volume.mute.grey.icon
         unless connected
             .spacer
             i.yin.yang.grey.loading.big.icon

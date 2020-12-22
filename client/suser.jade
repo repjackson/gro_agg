@@ -324,10 +324,11 @@ template(name='suser_c_item')
     
                             
 template(name='suser_a_item')
-    span.say #{score}: !{body}
-    +say k='body'
+    span.say #{score}: 
+    |{{#markdown}} {{body}} {{/markdown}}
+    // +say k='body'
     // hi#{answer_question.title}
-    |#{site}
+    .ui.label #{site}
     if in_dev
         +print_this
         +remove_button
