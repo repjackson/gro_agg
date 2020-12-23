@@ -34,7 +34,7 @@ Meteor.methods
                 for tag in user_tag_res
                     added_tags.push tag.title
                     
-                console.log 'top emotion', user_top_emotions[0]
+                # console.log 'top emotion', user_top_emotions[0]
                     
                 rep_joy = user_doc.data.total_karma*user_top_emotions[0].avg_joy_score
                 rep_sadness = user_doc.data.total_karma*user_top_emotions[0].avg_sadness_score
@@ -383,4 +383,140 @@ Meteor.publish 'ruser_tags', (
             index: i
 
 
+    self.ready()
+
+
+
+Meteor.publish 'ruser_result_tags', (
+    model='rpost'
+    username
+    selected_tags
+    # selected_subreddit_domain
+    # view_bounties
+    # view_unanswered
+    # query=''
+    )->
+    # @unblock()
+    self = @
+    match = {
+        model:model
+        author:username
+    }
+    # if view_bounties
+    #     match.bounty = true
+    # if view_unanswered
+    #     match.is_answered = false
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    # if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
+    # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
+    doc_count = Docs.find(match).count()
+    # console.log 'doc_count', doc_count
+    rpost_tag_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "tags": 1 }
+        { $unwind: "$tags" }
+        { $group: _id: "$tags", count: $sum: 1 }
+        { $match: _id: $nin: selected_tags }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:11 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    rpost_tag_cloud.forEach (tag, i) ->
+        # console.log tag
+        self.added 'results', Random.id(),
+            name: tag.name
+            count: tag.count
+            model:"#{model}_result_tag"
+    
+    
+    # subreddit_domain_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "data.domain": 1 }
+    #     # { $unwind: "$domain" }
+    #     { $group: _id: "$data.domain", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_domains }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:7 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # subreddit_domain_cloud.forEach (domain, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: domain.name
+    #         count: domain.count
+    #         model:'subreddit_domain_tag'
+  
+  
+    # subreddit_Organization_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "Organization": 1 }
+    #     { $unwind: "$Organization" }
+    #     { $group: _id: "$Organization", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_Organizations }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # subreddit_Organization_cloud.forEach (Organization, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: Organization.name
+    #         count: Organization.count
+    #         model:'subreddit_Organization'
+  
+  
+    # subreddit_Person_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "Person": 1 }
+    #     { $unwind: "$Person" }
+    #     { $group: _id: "$Person", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_Persons }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # subreddit_Person_cloud.forEach (Person, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: Person.name
+    #         count: Person.count
+    #         model:'subreddit_Person'
+  
+  
+    # subreddit_Company_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "Company": 1 }
+    #     { $unwind: "$Company" }
+    #     { $group: _id: "$Company", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_Companys }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # subreddit_Company_cloud.forEach (Company, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: Company.name
+    #         count: Company.count
+    #         model:'subreddit_Company'
+  
+  
+    # subreddit_emotion_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "max_emotion_name": 1 }
+    #     { $group: _id: "$max_emotion_name", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_emotions }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # subreddit_emotion_cloud.forEach (emotion, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: emotion.name
+    #         count: emotion.count
+    #         model:'subreddit_emotion'
+  
+  
     self.ready()

@@ -31,8 +31,6 @@ if Meteor.isClient
     Template.ruser_comments.onCreated ->
         @autorun => Meteor.subscribe 'ruser_doc', Router.current().params.username
         @autorun => Meteor.subscribe 'ruser_comments', Router.current().params.username
-        # @autorun => Meteor.subscribe 'ruser_badges', Router.current().params.subreddit, Router.current().params.username
-        # @autorun => Meteor.subscribe 'ruser_tags', Router.current().params.subreddit, Router.current().params.username
   
     Template.ruser_posts.helpers
         user_comments: ->
@@ -46,30 +44,26 @@ if Meteor.isClient
     Template.ruser_overview.onCreated ->
         @autorun => Meteor.subscribe 'rposts', Router.current().params.username, 10
         @autorun => Meteor.subscribe 'ruser_comments', Router.current().params.username
-        # @autorun => Meteor.subscribe 'rupvoted_top', Router.current().params.username
-        # @autorun => Meteor.subscribe 'rdownvoted_top', Router.current().params.username
-        # @autorun => Meteor.subscribe 'rhidden_top', Router.current().params.username
-        # @autorun => Meteor.subscribe 'rsaved_top', Router.current().params.username
-    Template.ruser_posts.onCreated ->
-        @autorun => Meteor.subscribe 'rposts', Router.current().params.username
-        # @autorun => Meteor.subscribe 'ruser_badges', Router.current().params.subreddit, Router.current().params.username
-        # @autorun => Meteor.subscribe 'ruser_tags', Router.current().params.subreddit, Router.current().params.username
-        # @autorun => Meteor.subscribe 'ruser_comments', Router.current().params.subreddit, Router.current().params.username
-        # @autorun => Meteor.subscribe 'ruser_questions', Router.current().params.subreddit, Router.current().params.username
-        # @autorun => Meteor.subscribe 'ruser_answers', Router.current().params.subreddit, Router.current().params.username
+        @autorun => Meteor.subscribe 'ruser_result_tags',
+            'rpost'
+            Router.current().params.username
+            selected_subreddit_tags.array()
+            # selected_subreddit_domain.array()
+            Session.get('toggle')
+        @autorun => Meteor.subscribe 'ruser_result_tags',
+            'rcomment'
+            Router.current().params.username
+            selected_subreddit_tags.array()
+            # selected_subreddit_domain.array()
+            Session.get('toggle')
+
     Template.ruser.onRendered ->
-        # Meteor.call 'search_ruser', Router.current().params.username, ->
-        # Meteor.call 'ruser_answers', Router.current().params.subreddit, Router.current().params.username, ->
-        # Meteor.call 'ruser_questions', Router.current().params.subreddit, Router.current().params.username, ->
-        # Meteor.call 'ruser_tags', Router.current().params.subreddit, Router.current().params.username, ->
-        # Meteor.call 'ruser_comments', Router.current().params.subreddit, Router.current().params.username, ->
-        # Meteor.call 'ruser_badges', Router.current().params.subreddit, Router.current().params.username, ->
         Meteor.setTimeout =>
             Meteor.call 'get_user_info', Router.current().params.username, ->
                 Meteor.call 'get_user_posts', Router.current().params.username, ->
                     Meteor.call 'ruser_omega', Router.current().params.username, ->
                         Meteor.call 'rank_ruser', Router.current().params.username, ->
-        , 1000
+        , 2000
 
     # Template.user_q_item.onRendered ->
     #     unless @data.watson
@@ -103,6 +97,11 @@ if Meteor.isClient
     
     Template.ruser_overview.onRendered ->
         Meteor.call 'get_user_comments', Router.current().params.username, ->
+    Template.ruser_overview.helpers
+        ruser_post_tag_results: ->
+            results.find(model:'rpost_result_tag')
+        ruser_comment_tag_results: ->
+            results.find(model:'rcomment_result_tag')
     Template.ruser.events
         'click .get_user_info': ->
             Meteor.call 'get_user_info', Router.current().params.username, ->

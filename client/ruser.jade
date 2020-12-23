@@ -83,9 +83,20 @@ template(name='ruser')
 template(name='ruser_overview')
     .ui.stackable.grid
         .eight.wide.column
+            // if selected_ruser_post_tags
+            //     each selected_ruser_post_tags
+            //         +ruser_post_unselect_tag
+            // .ui.icon.input
+            //     i.search.icon
+            //     input.search_ruser_postreddit(type='text')
+        
             .ui.header 
                 i.edit.icon
                 |posts
+            each ruser_post_tag_results
+                // .ui.label #{this}
+                // +ruser_post_selector
+                .ui.label(title=count) #{name}
             .medscroll
                 each ruser_posts
                     +ruser_post
@@ -93,6 +104,10 @@ template(name='ruser_overview')
             .ui.header.get_user_comments
                 i.chat.outline.icon
                 |comments
+            each ruser_comment_tag_results
+                // .ui.label #{this}
+                // +ruser_post_selector
+                .ui.label(title=count) #{name}
             .medscroll
                 each rcomments
                     +ruser_comment

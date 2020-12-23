@@ -150,7 +150,7 @@ if Meteor.isClient
                 res += @classes
             if Session.get(@k)
                 if Session.equals(@k,@v)
-                    res += ' blue large compact '
+                    res += ' large compact active'
                 else
                     # res += ' compact displaynone'
                     res += ' compact basic '

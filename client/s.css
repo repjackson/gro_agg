@@ -661,9 +661,6 @@ input {
 }
 
 
-.button:not(.circular){
-  border-radius: 5px !important;  
-}
 .ui.tertiary.button{
   margin:0px !important;
 }
@@ -677,7 +674,7 @@ input {
 
 
 .button,.card,.image,.item,.header,.label,p,img,.say,.pointer{
-    animation: fadein .15s !important;
+    /*animation: fadein .15s !important;*/
     /*-webkit-transition: opacity ..35s ease-in !important;*/
     /* -webkit-transition: opacity ..35s ease-out; */
     /*animation: fadeout ..35s; */
