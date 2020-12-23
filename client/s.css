@@ -580,7 +580,7 @@ a.title, #title {
 
 .label {
   margin:1px !important;
-  /*border-radius: 10px !important; */
+  border-radius: 7px !important; 
 }
 
 input {

@@ -329,15 +329,29 @@ Meteor.methods
 Meteor.publish 'selected_rusers', (
     selected_ruser_tags
     username_query
+    limit=1
+    sort_key
+    sort_direction=-1
     )->
+    console.log sort_key
+    sort_key_final = switch sort_key
+        when 'total' then 'data.total_karma'
+        when 'link' then 'data.link_karma'
+        when 'comment' then 'data.comment_karma'
+        when 'joy' then 'rep_joy'
+        when 'fear' then 'rep_fear'
+        when 'sadness' then 'rep_sadness'
+        when 'disgust' then 'rep_disgust'
     match = {model:'ruser'}
     if username_query
         match.username = {$regex:"#{username_query}", $options: 'i'}
     if selected_ruser_tags.length > 0 then match.tags = $all: selected_ruser_tags
+    
+    console.log sort_key_final
     Docs.find match,
         limit:20
         sort:
-            reputation:-1
+            "#{sort_key_final}":sort_direction
 
 
 

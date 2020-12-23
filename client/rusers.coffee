@@ -14,6 +14,8 @@ Template.rusers.onCreated ->
         selected_ruser_tags.array() 
         Session.get('searching_username')
         Session.get('limit')
+        Session.get('rusers_sort_key')
+        Session.get('sort_direction')
     @autorun -> Meteor.subscribe('ruser_tags',
         selected_ruser_tags.array()
         Session.get('username_query')
@@ -51,6 +53,16 @@ Template.rusers.helpers
         #     Meteor.users.find(
         #         site:$in:['member']
         #     )
+
+
+Template.ruser_karma_sort_button.events
+    'click .sort': ->
+        console.log @l
+        Session.set('rusers_sort_key', @l)
+Template.ruser_karma_sort_button.helpers
+    button_class: ->
+        if Session.equals('rusers_sort_key', @l) then 'active' else 'basic'
+    
 
 # Template.member_card.helpers
 #     credit_ratio: ->
