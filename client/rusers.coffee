@@ -31,6 +31,7 @@ Template.rusers.events
 
 
 Template.rusers.helpers
+    current_username_query: -> Session.get('searching_username')
     users: ->
         match = {model:'ruser'}
         # unless 'admin' in Meteor.user().roles
@@ -98,7 +99,7 @@ Template.rusers.helpers
     # all_site: ->
     #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
     #     if 0 < user_count < 3 then site.find { count: $lt: user_count } else sites.find()
-
+    
     # all_sites: ->
     #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
     #     if 0 < user_count < 3 then User_sites.find { count: $lt: user_count } else User_sites.find()
@@ -122,9 +123,9 @@ Template.rusers.events
     'click #clear_tags': -> selected_ruser_tags.clear()
 
 
-    'click .clear_location': (e,t)-> 
-        window.speechSynthesis.speak new SpeechSynthesisUtterance "location cleared"
-        Session.set('location_query',null)
+    'click .clear_username': (e,t)-> 
+        window.speechSynthesis.speak new SpeechSynthesisUtterance "clear username"
+        Session.set('searching_username',null)
 
     'keyup .search_location': (e,t)->
         # search = $('.search_site').val().toLowerCase().trim()

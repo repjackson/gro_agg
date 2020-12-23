@@ -346,7 +346,7 @@ a.goto_article {
 }
 .ui.button {
   margin: 2px !important;
-  /*border-radius: 10px !important; */
+  border-radius: 7px !important; 
   /*transition: height .1s ease !important; */
   /* background-color: rgba(200, 200, 200, 0.2) !important; */
   /* padding: 12px !important; */
@@ -364,7 +364,7 @@ a.goto_article {
 .say:hover {
     /*animation: fadein .35s !important;*/
     /*animation: fadeout .35s; */
-    transition: all .15s ease !important; 
+    /*transition: all .15s ease !important; */
     /*cursor: crosshair !important;*/
     color: black !important; 
     transform: scale(1.01) !important;

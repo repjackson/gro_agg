@@ -1,6 +1,9 @@
 template(name='rusers')
-    .ui.stackable.grid
+    .ui.stackable.padded.grid
         .four.wide.column.scrolling
+            .ui.header 
+                i.reddit.icon
+                |reddit users
             i.tag.large.icon(title='tags')
             if selected_tags
                 #clear_tags.ui.grey.icon.compact.circular.button
@@ -11,21 +14,21 @@ template(name='rusers')
             each all_tags
                 .ui.compact.circular.basic.button.select_tag(class=cloud_tag_class title=count) !{this.name}
                     // small #{this.count}
-            unless all_tags.count
-                .ui.basic.center.aligned.segment
-                    .ui.placeholder 
-                        .paragraph
-                            .line
-                            .line
-                            .line
-                            .line
+            // unless all_tags.count
+            //     .ui.basic.center.aligned.segment
+            //         .ui.placeholder 
+            //             .paragraph
+            //                 .line
+            //                 .line
+            //                 .line
+            //                 .line
         .twelve.wide.column.scrolling
             .ui.left.icon.input(class="{{#if current_username_query}} focus {{/if}}")
                 if current_username_query
                     i.remove.link.icon.clear_username
                 else    
                     i.user.icon
-                input.search_username(type='text' placeholder='username')
+                input.search_username(type='text' placeholder='username' value=current_username_query)
             .ui.left.icon.input(class="{{#if current_location_query}} focus {{/if}}")
                 if current_location_query
                     i.remove.link.icon.clear_location
@@ -51,8 +54,16 @@ template(name='rusers')
                         .content
                             a.ui.zoomer.header.select_user(href="/user/#{username}" class=post_header_class)
                                 |!{username}
-                                .ui.basic.circular.label {{ commafy data.total_karma }}
-                                .ui.basic.label(class=sentiment_class) {{to_percent sentiment_avg}}% #{doc_sentiment_label}
+                                .ui.basic.circular.label(title='total karma')
+                                    i.grey.yin.yang.icon
+                                    |{{ commafy data.total_karma }}
+                                .ui.basic.circular.label(title='post karma')
+                                    i.grey.edit.icon
+                                    |{{ commafy data.post_karma }}
+                                .ui.basic.circular.label(title='comment karma')
+                                    i.grey.chat.outline.icon
+                                    |{{ commafy data.comment_karma }}
+                                // .ui.basic.label(class=sentiment_class) {{to_percent sentiment_avg}}% #{doc_sentiment_label}
                             .description
                                 if global_rank
                                     strong(title='global rank') ##{global_rank}

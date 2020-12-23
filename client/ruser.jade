@@ -42,41 +42,41 @@ template(name='ruser')
                     +print_this
                     +ruser_top_emotions            
                 .twelve.wide.column
-                    // a.ui.button(href="/user/#{username}")
-                    //     i.dashboard.icon
-                    //     |overview
-                    // a.ui.button(href="/user/#{username}/posts")
-                    //     i.edit.icon
-                    //     |posts
-                    // a.ui.button(href="/user/#{username}/comments")
-                    //     i.chat.outline.icon
-                    //     |comments
-                    // a.ui.button(href="/user/#{username}/upvoted")
-                    //     i.thumbs.up.outline.icon
-                    //     |upvoted
-                    // a.ui.button(href="/user/#{username}/downvoted")
-                    //     i.thumbs.down.outline.icon
-                    //     |downvoted
-                    // a.ui.button(href="/user/#{username}/hidden")
-                    //     i.eye.slash.icon
-                    //     |hidden
-                    // a.ui.button(href="/user/#{username}/saved")
-                    //     i.save.icon
-                    //     |saved
-                    // div
+                    a.ui.button(href="/user/#{username}")
+                        i.dashboard.icon
+                        |overview
+                    a.ui.button(href="/user/#{username}/posts")
+                        i.edit.icon
+                        |posts
+                    a.ui.button(href="/user/#{username}/comments")
+                        i.chat.outline.icon
+                        |comments
+                    a.ui.button(href="/user/#{username}/upvoted")
+                        i.thumbs.up.outline.icon
+                        |upvoted
+                    a.ui.button(href="/user/#{username}/downvoted")
+                        i.thumbs.down.outline.icon
+                        |downvoted
+                    a.ui.button(href="/user/#{username}/hidden")
+                        i.eye.slash.icon
+                        |hidden
+                    a.ui.button(href="/user/#{username}/saved")
+                        i.save.icon
+                        |saved
+                    div
                     if skv_is 'view_post_detail' true
                         .ui.black.tertiary.large.button.toggle_post_detail.agg
                             i.post.icon
                             |#{user_posts.count} posts
-                    // if skv_is 'view_detail' true
-                    //     .ui.black.compact.icon.button.toggle_detail
-                    //         i.list.large.icon
-                    //         // |detail
-                    // else
-                    //     .ui.compact.basic.icon.button.toggle_detail
-                    //         i.minus.large.icon
-                    //         // |simple
-                    // div
+                    if skv_is 'view_detail' true
+                        .ui.black.compact.icon.button.toggle_detail
+                            i.list.large.icon
+                            // |detail
+                    else
+                        .ui.compact.basic.icon.button.toggle_detail
+                            i.minus.large.icon
+                            // |simple
+                    div
                     +yield
          
          
@@ -96,7 +96,7 @@ template(name='ruser_overview')
             each ruser_post_tag_results
                 // .ui.label #{this}
                 // +ruser_post_selector
-                .ui.label(title=count) #{name}
+                .ui.basic.small.label(title=count) #{name}
             .medscroll
                 each ruser_posts
                     +ruser_post
@@ -107,7 +107,7 @@ template(name='ruser_overview')
             each ruser_comment_tag_results
                 // .ui.label #{this}
                 // +ruser_post_selector
-                .ui.label(title=count) #{name}
+                .ui.small.basic.label(title=count) #{name}
             .medscroll
                 each rcomments
                     +ruser_comment
@@ -173,7 +173,7 @@ template(name='ruser_post')
             |#{data.link_title} #{data.title}
         a.ui.label(href="/r/#{subreddit}") #{subreddit}
         each five_tags 
-            .ui.small.label #{this}
+            .ui.small.basic.label #{this}
         +doc_emotion_small        
         // +skve k='view_preview' v='preview' l=' ' i='caret down'
         // if skv_is 'view_preview' 'preview'
