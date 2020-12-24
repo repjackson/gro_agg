@@ -40,14 +40,14 @@ template(name='rusers')
                 else    
                     i.user.icon
                 input.search_username(type='text' placeholder='username' value=current_username_query)
-            .ui.left.icon.input(class="{{#if current_location_query}} focus {{/if}}")
-                if current_location_query
-                    i.remove.link.icon.clear_location
-                else
-                    i.marker.link.icon.clear_location
-                input.search_location(type='text' placeholder='location' value=current_location_query)
+            // .ui.left.icon.input(class="{{#if current_location_query}} focus {{/if}}")
+            //     if current_location_query
+            //         i.remove.link.icon.clear_location
+            //     else
+            //         i.marker.link.icon.clear_location
+            //     input.search_location(type='text' placeholder='location' value=current_location_query)
             .spacer
-            .ui.stackable.centered.equal.width.grid.row.scrolling
+            .ui.stackable.centered.equal.width.grid.scrolling
                 unless users.count
                     .ui.basic.center.aligned.segment
                         // i.massive.loading.grey.yin.yang.icon
