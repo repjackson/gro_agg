@@ -32,6 +32,13 @@ head
 template(name='layout')
     // +status
     +nav
-    +yield
+    .ui.bottom.attached.pushable.segment
+        // +top_sidebar
+        +left_sidebar
+        +right_sidebar
+                
+        #main_area.global_container.pusher
+            +yield
+    
     // .ui.bottom.attached.pushable.segment
     //     #main_area.pusher(class=currentUser.invert_class)
