@@ -207,6 +207,17 @@ Template.image_edit.events
                         Meteor.users.update parent._id,
                             $set:"#{@key}":res.public_id
 
+    'click .call_cloud_visual': (e,t)->
+        Meteor.call 'call_visual', Router.current().params.doc_id, 'cloud', ->
+            $('body').toast(
+                showIcon: 'dna'
+                message: 'image autotagged'
+                # showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom center"
+            )
+
 
     'blur .cloudinary_id': (e,t)->
         cloudinary_id = t.$('.cloudinary_id').val()

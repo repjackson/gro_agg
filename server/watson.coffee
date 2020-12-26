@@ -106,6 +106,10 @@ Meteor.methods
         else if mode is 'thumb'
             params =
                 url:doc.data.thumbnail
+        else if mode is 'cloud'
+            params =
+                url: "https://res.cloudinary.com/facet/image/upload/#{doc.image_id}"
+
         # images_file: images_file
         # classifier_ids: classifier_ids
         visual_recognition.classify params, Meteor.bindEnvironment((err, response)->

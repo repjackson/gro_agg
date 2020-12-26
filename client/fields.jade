@@ -313,6 +313,7 @@ template(name='image_view')
         //- a(href="{{c.url field_value gravity='face' crop='fit'}}")
         //-     |download
     //- +call_visual
+    
 template(name='image_edit')
     .ui.form
         if icon
@@ -333,8 +334,12 @@ template(name='image_edit')
                     img.ui.large.centered.rounded.image(src="{{c.url field_value height=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                 a#remove_photo.ui.right.corner.link.label
                     i.remove.link.icon
+                .ui.button.call_cloud_visual
+                    i.dna.icon
+                    |autotag
             else
                 input(type='file' name='upload_image' accept='image/*' )
+            
 
 template(name='image_link_edit')
     .ui.fluid.input
@@ -780,7 +785,7 @@ template(name='array_edit')
                 
 template(name='array_view')
     if field_value
-        // div
+        div
         if icon
             i.icon(class=icon)
         if label

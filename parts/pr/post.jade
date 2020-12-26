@@ -19,10 +19,10 @@ template(name='post_item')
 template(name='post_view')
     with current_doc
         .ui.stackable.padded.grid
-            .middle.aligned.row 
-                .sixteen.wide.column
-                    a(href="/m/post")
-                        i.newspaper.circular.link.big.icon
+            .row 
+                .four.wide.column
+                    a.ui.button(href="/tribe/#{tribe}")
+                        |#{tribe}
                     .ui.large.inline.header #{title}
                     // div
                     // .ui.inline.grey.header {{from_now start_datetime}}
@@ -30,9 +30,6 @@ template(name='post_view')
                     if can_edit
                         a.edit_post(href="/m/post/#{_id}/edit" title='edit')
                             i.big.circular.link.pencil.icon
-
-            .row 
-                .four.wide.column
                     .ui.segment
                         .ui.header 
                             small author
@@ -42,6 +39,7 @@ template(name='post_view')
                     .ui.small.grey.header 
                         i.line.chart.icon
                         |stats
+                    +boolean_view key='published' direct=true
                     .ui.list
                         .item #{_views} views
                         |viewed by
@@ -75,18 +73,16 @@ template(name='post_view')
 template(name='post_edit')
     with current_doc
         .ui.stackable.padded.grid
-            .centered.middle.aligned.row 
-                .four.wide.center.aligned.column
-                    a.ui.icon.green.big.circular.button(href="/m/post/#{_id}/view" title='save')
+            .row
+                .eight.wide.column
+                    a.ui.green.big.circular.button(href="/m/post/#{_id}/view" title='save')
                         i.checkmark.big.icon
-                .eight.wide.center.aligned.column
-                    .ui.header 
+                        |save
+                    .ui.inline.header 
                         +icolor name='news' cl='ui image inline pointer'
                         |edit post
-                .four.wide.center.aligned.column
                     i.large.link.circular.red.remove.icon.delete_post
-            .row
-                .four.wide.column
+                    +print_this
                     .ui.header 
                         small author
                         |#{_author.username}
@@ -94,10 +90,10 @@ template(name='post_edit')
                         +single_user_edit key='_author_id' label='author' direct=true
                     +image_edit key='image_id' label='image' direct=true
                     div 
-                    // +boolean_edit key='published' icon='visible' direct=true
+                    +text_edit key='tribe' icon='fire' direct=true
+                    +boolean_edit key='published' icon='visible' direct=true
                     if is_admin 
                         +text_edit key='model' label='model' direct=true
-                    //- +array_edit key='location_tags' label='location_tags' direct=true
                     // unless published
                     //     a.ui.fluid.green.button.submit(href="/save")
                     //         i.checkmark.icon
@@ -105,9 +101,9 @@ template(name='post_edit')
                     // else
                     //     .ui.basic.button.unpublish 
                     //         |unpublish
-                    .ui.header
-                        |audience
-                .twelve.wide.column
+                    // .ui.header
+                    //     |audience
+                .eight.wide.column
                     +text_edit key='title' label='title' direct=true
                     +html_edit key='content' label='content' direct=true
                     +array_edit key='tags' label='tags' i='tags' direct=true
