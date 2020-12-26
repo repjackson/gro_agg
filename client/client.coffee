@@ -20,18 +20,18 @@ Template.body.events
     # 'click .say': ->
     #     window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
-Template.say.events
-    'click .quiet': (e,t)->
-        Session.set('talking',false)
-        window.speechSynthesis.cancel()
-    'click .say_this': (e,t)->
-        Session.set('talking',true)
-        dom = document.createElement('textarea')
-        # dom.innerHTML = doc.body
-        dom.innerHTML = Template.parentData()["#{@k}"]
-        text1 = $("<textarea/>").html(dom.innerHTML).text();
-        text2 = $("<textarea/>").html(text1).text();
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance text2
+# Template.say.events
+#     'click .quiet': (e,t)->
+#         Session.set('talking',false)
+#         window.speechSynthesis.cancel()
+#     'click .say_this': (e,t)->
+#         Session.set('talking',true)
+#         dom = document.createElement('textarea')
+#         # dom.innerHTML = doc.body
+#         dom.innerHTML = Template.parentData()["#{@k}"]
+#         text1 = $("<textarea/>").html(dom.innerHTML).text();
+#         text2 = $("<textarea/>").html(text1).text();
+#         # window.speechSynthesis.speak new SpeechSynthesisUtterance text2
 # Meteor.startup ->
 #     if Meteor.isDevelopment
 #         window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'

@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.fluid.attached.borderless.inverted.menu.topnav
+    .ui.fluid.attached.borderless.inverted.menu.topnav.hscroll
         a.icon.item.toggle_leftbar
             i.large.bars.icon
 
@@ -11,11 +11,11 @@ template(name='nav')
                     i.big.yin.yang.icon
             a.icon.zoomer.item.goto_vid(href='/vids' class="{{isActivePath regex='vids'}}" title='videos')
                 i.large.video.icon
-            a.icon.zoomer.item.goto_ea(href='/ea' class="{{isActivePath regex='ea'}}" title='ea')
-                i.large.tree.icon
-                // img(src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.glassdoor.com%2Fsqll%2F139670%2Fenvironment-agency-squarelogo.png&f=1&nofb=1")
-            a.icon.zoomer.item.goto_wiki(href='/wiki' class="{{isActivePath regex='wiki'}}" title='wikipedia')
-                i.large.wikipedia.icon
+            // a.icon.zoomer.item.goto_ea(href='/ea' class="{{isActivePath regex='ea'}}" title='ea')
+            //     i.large.tree.icon
+            //     // img(src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.glassdoor.com%2Fsqll%2F139670%2Fenvironment-agency-squarelogo.png&f=1&nofb=1")
+            // a.icon.zoomer.item.goto_wiki(href='/wiki' class="{{isActivePath regex='wiki'}}" title='wikipedia')
+            //     i.large.wikipedia.icon
             a.icon.zoomer.item.goto_people(href='/susers' class="{{isActivePath regex='susers'}}" title='susers')
                 i.large.user.outline.icon
             a.icon.zoomer.teal.item.clear_tags.goto_stack(href='/stack' class="{{isActivePath '/stack'}}" title='stack exchange')
@@ -68,8 +68,6 @@ template(name='nav')
                     strong.mobile.hidden #{currentUser.name}
                 // a.mobile.hidden.item(href="/user/#{currentUser.username}" class="{{isActiveRoute 'user_credits'}}")
                 //     |#{currentUser.points}p
-                a.icon.large.item.toggle_rightbar.select_term
-                    i.ellipsis.vertical.large.icon
             else
                 a.item(href="/register" title='register')
                     |register
@@ -79,6 +77,10 @@ template(name='nav')
                     // i.large.chevron.right.icon
                     |login
                     // +icon name='login-rounded-right'
+            a.icon.large.item.toggle_rightbar.select_term
+                i.ellipsis.vertical.large.icon
+ 
+   
     if session_is 'viewing_alerts'
         +topbar
 

@@ -1,22 +1,8 @@
 @Docs = new Meteor.Collection 'docs'
 @results = new Meteor.Collection 'results'
-# @Tags = new Meteor.Collection 'tags'
+@Tags = new Meteor.Collection 'tags'
 # @Tag_results = new Meteor.Collection 'tag_results'
 
-
-Router.configure
-    layoutTemplate: 'layout'
-    notFoundTemplate: 'dao'
-    loadingTemplate: 'splash'
-    trackPageView: false
-# 	progressTick: false
-# 	progressDelay: 100
-# Router.route '*', -> @render 'not_found'
-
-Router.route '/', (->
-    @layout 'layout'
-    @render 'dao'
-    ), name:'home'
 
 
 Docs.helpers

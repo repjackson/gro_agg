@@ -1,29 +1,29 @@
 if Meteor.isClient
-    Router.route '/user/:username', (->
+    Router.route '/ruser/:username', (->
         @layout 'ruser'
         @render 'ruser_overview'
         ), name:'ruser_overview'
-    Router.route '/user/:username/posts', (->
+    Router.route '/ruser/:username/posts', (->
         @layout 'ruser'
         @render 'ruser_posts'
         ), name:'ruser_posts'
-    Router.route '/user/:username/comments', (->
+    Router.route '/ruser/:username/comments', (->
         @layout 'ruser'
         @render 'ruser_comments'
         ), name:'ruser_comments'
-    Router.route '/user/:username/upvoted', (->
+    Router.route '/ruser/:username/upvoted', (->
         @layout 'ruser'
         @render 'ruser_upvoted'
         ), name:'ruser_upvoted'
-    Router.route '/user/:username/downvoted', (->
+    Router.route '/ruser/:username/downvoted', (->
         @layout 'ruser'
         @render 'ruser_downvoted'
         ), name:'ruser_downvoted'
-    Router.route '/user/:username/hidden', (->
+    Router.route '/ruser/:username/hidden', (->
         @layout 'ruser'
         @render 'ruser_hidden'
         ), name:'ruser_hidden'
-    Router.route '/user/:username/saved', (->
+    Router.route '/ruser/:username/saved', (->
         @layout 'ruser'
         @render 'ruser_saved'
         ), name:'ruser_saved'

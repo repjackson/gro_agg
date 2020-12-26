@@ -42,3 +42,20 @@ template(name='layout')
     
     // .ui.bottom.attached.pushable.segment
     //     #main_area.pusher(class=currentUser.invert_class)
+
+template(name='not_found')
+    .ui.basic.center.aligned.padded.segment
+        .ui.center.aligned.header page not found
+
+
+template(name='bottom_nav')
+    .ui.bottom.fixed.borderless.inverted.menu
+        a.icon.item.toggle_leftbar
+            i.bars.icon
+        a.icon.item(href="/" class="{{isActivePath 'home'}}")
+            // img.ui.avatar.compact.image(src="{{c.url 'homestar_logo' height=200 width=200 gravity='face' crop='fill'}}")
+            i.home.icon
+        // if currentUser
+            // a.item.set_member(href="/m/member" class="{{isActiveRoute 'users'}}" title='players')
+            //     +icolor name='conference-call' cl='ui mini image'
+            //     // i.users.icon

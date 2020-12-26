@@ -1,0 +1,530 @@
+template(name='ibig')    
+    //- img.ui.image(src="https://img.icons8.com/dusk/256/000000/#{name}.png" class=cl)
+    //- img.ui.image(src="https://img.icons8.com/cotton/256/000000/#{name}.png" class=cl)
+    //- img.ui.image(src="https://img.icons8.com/office/256/000000/#{name}.png" class=cl)
+    //- img.ui.image(src="https://img.icons8.com/plasticine/256/000000/#{name}.png" class=cl)
+    //- img.ui.image(src="https://img.icons8.com/color/256/000000/#{name}.png" class=cl)
+    //- img.ui.image(src="https://img.icons8.com/ios/256/000000/#{name}.png" class=cl)
+template(name='icon')    
+    i.icon(class=name)
+    // img.ui.image(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl)
+    // img.ui.image(src="https://img.icons8.com/plasticine/48/000000/#{name}.png" class=cl)
+    // img.ui.image(src="https://img.icons8.com/ios/48/000000/#{name}.png" class=cl)
+    // img.ui.image(src="https://img.icons8.com/color/48/000000/#{name}.png" class=cl)
+    //- img.ui.image(src="https://img.icons8.com/fluent/48/000000/#{name}.png" class=cl)
+    // img.ui.image(src="https://img.icons8.com/cotton/48/000000/#{name}.png" class=cl)
+    //- img.ui.image(src="https://img.icons8.com/office/48/000000/#{name}.png" class=cl)
+
+template(name='user_button')
+    a.ui.button(href="/user/#{username}")
+        img.ui.avatar.compact.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+        |#{name}
+
+
+template(name='print_this')
+    .ui.icon.basic.button.print_this
+        i.orange.code.icon
+
+template(name='session_boolean_toggle')
+    .ui.compact.button.toggle_session_key(class=calculated_class)
+        +icolor name=icon cl='ui avatar image'
+        |#{label}
+        //- if icon_view 
+        //- else 
+            if label
+                |#{label}
+            else 
+                |#{value}
+template(name='session_edit_value_button')
+    .ui.button.set_session_value(class=calculated_class)
+        if icon_view 
+            i.icon(class=icon)
+        else 
+            if label
+                |#{label}
+            else 
+                |#{value}
+
+template(name='session_toggle_button')
+    .ui.compact.icon.button.toggle(class=session_toggle_button_class title=title)
+        i.large.icon(class=icon)
+
+template(name='comments')
+    .spacer
+    .ui.inline.grey.header
+        i.chat.outline.icon
+        |comments
+    div
+    .ui.fluid.icon.large.input
+        i.plus.icon
+        input.add_comment(model='text' placeholder='add')
+    if currentUser
+        .ui.comments
+            each doc_comments
+                .comment
+                    a.avatar(href="/user/#{_author.username}") 
+                        img(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=user_class)
+                    .content
+                        a.author(href="/user/#{_author.username}") 
+                            |#{_author.name}
+                        .metadata
+                            span.date #{when}
+                        .text
+                            | !{body}
+                        span.meta
+                            if can_edit
+                                +remove_icon
+                            else
+                                +voting_small
+
+
+
+template(name='viewing')
+    if currentUser
+        unless viewed_by
+            .ui.icon.button.mark_read(title='mark read')
+                i.eye.icon
+        else 
+            //- if is_dev
+            .ui.icon.button.mark_unread(title='mark unread')
+                i.eye.slash.icon
+    else 
+        i.eye.icon
+    .ui.grey.inline.header 
+        |viewers
+    each read_ids
+        +user_info
+
+
+template(name='goto_model')
+    if is_staff
+        a.goto_model(href="/m/#{slug}" title="goto #{slug}")
+            i.external.blue.icon
+
+template(name='events_column')
+    .ui.accordion
+        h4.active.title
+            //- i.rss.icon
+            | log
+            i.dropdown.icon
+        .active.content
+            .ui.feed
+                each log_events
+                    .event
+                        .label
+                            img.ui.rounded.image(src="{{c.url object.image width=400 height=400 gravity='face' crop='fill'}}")
+                        .content
+                            .summary
+                                |#{body}
+                                .date
+                                    |#{when}
+                                if is_dev
+                                    +remove_button
+
+
+
+template(name='month_selector')
+    +key_value_edit key='month' value='jan'
+    +key_value_edit key='month' value='feb'
+    +key_value_edit key='month' value='mar'
+    +key_value_edit key='month' value='april'
+    +key_value_edit key='month' value='may'
+    +key_value_edit key='month' value='jun'
+    +key_value_edit key='month' value='jul'
+    +key_value_edit key='month' value='aug'
+    +key_value_edit key='month' value='sep'
+    +key_value_edit key='month' value='oct'
+    +key_value_edit key='month' value='nov'
+    +key_value_edit key='month' value='dec'
+
+
+
+template(name='follow')
+    .ui.segment
+        .ui.header
+            i.user.plus.icon
+            |follow
+        +user_list_toggle key='follower_ids' icon='rss' add_label='Follow' remove_label='Unfollow' color='black'
+
+
+template(name='toggle_edit')
+    .ui.basic.button.toggle_edit
+        i.pencil.icon
+
+template(name='user_list_info')
+    a.ui.basic.button.item(href="/user/#{user.username}/view")
+        img.ui.avatar.image(src=user.profile.profilePic title=name)
+        |#{user.profile.name}
+        +user_status user
+
+
+template(name='view_full_button')
+    a.ui.icon.basic.button(href="/view/#{_id}" data-tooltip='View Full')
+        i.double.icon
+        |view
+
+template(name='user_status')
+    if online 
+        // .ui.label(class='{{labelClass}}') 
+        .ui.empty.label(title='online')
+        // img.ui.avatar.image(src="https://img.icons8.com/connection-user_status-on/color/48" title='Online' width="48" height="48")
+        // |Online
+    else if idle
+        .ui.empty.yellow.label(title='idle')
+        // .ui.label(class='{{labelClass}}') Idle
+    // else 
+    //     |Offline
+
+// template(name='user_card')
+//     with user
+//         .ui.small.horizontal.card
+//             .image
+//                 img.ui.rounded.mini.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
+//             .content    
+//                 a.header(href="/user/#{username}") #{first_name} #{last_name} 
+//                 //- .meta @#{username}
+//                 strong $#{credit}
+//                 small credit
+//                 //- +emails_edit    
+//         //- +user_status user
+
+
+template(name='small_horizontal_user_card')
+    with user
+        .ui.small.horizontal.card
+            .image
+                if profile_photo
+                    img.ui.rounded.tiny.image(src="{{c.url profile_photo width=200 height=200 gravity='face' crop='fill'}}")
+                else if image_id
+                    img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                else if image_id
+                    img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+            .content    
+                a.header(href="/student/#{username}") #{first_initial} #{last_name} 
+                //- .meta @#{username}
+                //- span(title='points')
+                //-     |#{points} pts
+                //- span(title='points')
+                //-     |#{points} 
+                //-     i.yin.yang.icon
+                each tags
+                    .ui.small.basic.label #{this}
+                if is_admin
+                    div
+                    +user_email
+                //- +emails_edit    
+        +user_status user
+
+
+template(name='user_email')
+    .ui.small.inline.header #{email_address}
+    if email_verified
+        .ui.basic.label 
+            i.checkmark.icon
+            |verified
+    else
+        .ui.label 
+            i.ban.icon
+            |unverified
+        
+
+template(name='big_user_card')
+    with user
+        //- .ui.card
+        //- .ui.card(class=student_status_class)
+        .ui.card
+            .image
+                img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+            .content
+                a.header(href="/user/#{username}")
+                     |#{first_name} #{last_name} 
+                    //- .meta @#{username}
+                    //- +array_view key='tags' label='Tags' direct=true
+
+
+template(name='user_info')
+    a.ui.compact.basic.circular.button(href="/user/#{user.username}/")
+        if user.profile_image_id
+            img.ui.avatar.image(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
+        //- .visible.content
+        |#{user.shortname}
+        // |@#{user.username}
+        // +user_status user
+
+template(name='user_info_small')
+    a(href="/user/#{user.username}/")
+        if user.profile_image_id
+            img.ui.avatar.image(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}" title=name)
+        else
+            i.circular.user.outline.icon(title=user.name)
+
+template(name='user_info_tiny')
+    a(href="/user/#{user.username}/")
+        // if user.profile_image_id
+        //     img.ui.avatar.image(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}" title=name)
+        // else
+        //     i.circular.user.outline.icon(title=user.name)
+        .ui.basic.tiny.label #{user.shortname}
+
+template(name='user_avatar')
+    if user.profile_image_id
+        img.ui.avatar.image(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}" title=name)
+    else
+        i.circular.user.outline.icon(title=user.name)
+
+
+template(name='username_info')
+    .ui.small.compact.basic.button.goto_profile
+        if is_student
+            img.ui.tiny.image(src="{{c.url user.profile_image_id width=100 height=100}}")
+        |#{user.name}
+        //- |@#{user.username}
+        +user_status user
+
+
+template(name='role_editor')
+    each roles
+        .ui.basic.button #{this}
+
+template(name='author_info')
+    with author
+        a.ui.compact.basic.button(href="/user/#{username}")
+            if profile_image_id
+                img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
+            |by #{username}
+
+template(name='creation_info')
+    .ui.small.inline.header #{when}
+
+
+template(name='user_list_toggle')
+    if currentUser
+        .ui.icon.compact.circular.button.toggle(class=user_list_toggle_class title=label)
+            i.large.icon(class=icon)
+            // |#{label}
+        //- each list_users
+        //-     +user_info
+
+
+template(name='doc_array_togggle')
+    if currentUser
+        .ui.button.toggle(class=doc_array_toggle_class title=label)
+            if in_list
+                if remove_icon
+                    i.large.icon(class=remove_icon)
+                |#{remove_label}
+            else
+                if add_icon
+                    i.large.icon(class=add_icon)
+                |#{add_label}
+            |#{label}
+        //- each list_users
+        //-     +user_info
+
+
+template(name='bookmark_button')
+    if currentUser
+        .ui.icon.compact.button.toggle(class=bookmark_button_class title=label)
+            if bookmarked
+                |bookmarked
+                //- i.large.icon(class=remove_icon)
+            else
+                |bookmark
+                //- i.large.icon(class=add_icon)
+        //- each list_users
+        //-     +user_info
+
+
+template(name='voting')
+    i.thumbs.up.large.link.icon.upvote(class=upvote_class title='upvote')
+    each upvoter_ids
+        +user_info_small
+    i.thumbs.down.large.link.icon.downvote(class=downvote_class title='downvote')
+    each downvoter_ids
+        +user_info_small
+    if is_dev
+        +number_edit key='points' label='edit points' direct=true
+    if points
+        strong #{points} pts
+    if anon_points
+        strong #{anon_points} anon pts
+    
+
+template(name='voting_small')
+    if points
+        strong #{points}
+    i.thumbs.up.link.icon.upvote(class=upvote_class)
+    // |#{upvoter_ids.length}
+    each upvoter_ids
+        +user_info_tiny
+    i.thumbs.down.link.icon.downvote(class=downvote_class)
+    each downvoter_ids
+        +user_info_tiny
+
+template(name='voting_tiny')
+    i.thumbs.up.icon(class=upvote_class)
+    // |#{upvoter_ids.length}
+    each upvoter_ids
+        +user_avatar
+
+
+template(name='honey_badger')
+    svg.ui.image(xmlns='http://www.w3.org/2000/svg', x='0px', y='0px', width='48', height='48', viewBox='0 0 172 172', style=' fill:#000000;')
+        g(fill='none', fill-rule='nonzero', stroke='none', stroke-width='1', stroke-linecap='butt', stroke-linejoin='miter', stroke-miterlimit='10', stroke-dasharray='', stroke-dashoffset='0', font-family='none', font-weight='none', font-size='none', text-anchor='none', style='mix-blend-mode: normal')
+            path(d='M0,172v-172h172v172z', fill='none')
+            g
+                path(d='M139.75,50.16667c0.17558,-6.63633 0.41567,-15.68067 -1.5695,-20.79408l-0.18275,-0.46942c-1.37242,-3.56542 -4.22475,-10.9865 -10.9005,-10.9865c-2.15717,0 -4.31075,1.40825 -11.87517,6.95525c-1.77017,1.29717 -3.57975,2.62658 -5.25675,3.79475h-23.96533h-23.96533c-1.677,-1.16817 -3.48658,-2.49758 -5.25317,-3.79475c-7.568,-5.547 -9.72158,-6.95525 -11.87875,-6.95525c-6.67575,0 -9.52808,7.42108 -10.9005,10.9865l-0.18275,0.46942c-1.98517,5.11342 -1.74508,14.15775 -1.5695,20.79408c-4.95933,6.59333 -11.30183,16.383 -14.33333,28.66667c12.71008,8.97983 43.20425,58.75233 49.31742,68.86092c0.78117,1.29358 1.89558,2.322 3.25725,2.97417c2.84517,1.36525 8.3205,3.41492 15.50867,3.41492c7.18817,0 12.6635,-2.04967 15.50867,-3.41492c1.36167,-0.65217 2.47608,-1.68417 3.25725,-2.97417c6.11317,-10.10858 36.60733,-59.88108 49.31742,-68.86092c-3.0315,-12.28367 -9.374,-22.07333 -14.33333,-28.66667z', fill='#f1c40f')
+                path(d='M57.88517,132.58333c4.11725,6.52525 7.38525,11.87158 9.10167,14.70242c1.00333,1.65192 2.45817,2.92758 4.22475,3.71592c2.99567,1.34017 8.16642,3.08167 14.78842,3.08167c6.622,0 11.78917,-1.7415 14.78842,-3.08167c1.76658,-0.78833 3.22142,-2.064 4.22475,-3.71592c1.71642,-2.83442 4.98442,-8.18075 9.10167,-14.70242c0,0 -14.00367,14.33333 -28.11483,14.33333c-14.11117,0 -28.11483,-14.33333 -28.11483,-14.33333z', fill='#34495e')
+                path(d='M139.85392,43.14692c-0.05375,2.25033 -0.10392,4.59383 -0.10392,7.01975l-7.23117,2.31125l-10.6855,-5.89458c2.45817,-1.80242 0.29383,-25.08333 10.75,-25.08333c0.56975,0 1.08933,0.05017 1.57667,0.14333c1.92783,2.38292 3.10675,5.36067 3.83775,7.25983l0.18275,0.46942c1.34017,3.45075 1.65908,8.68958 1.67342,13.77433zM32.14608,43.14692c0.05375,2.25033 0.10392,4.59383 0.10392,7.01975l7.23117,2.31125l10.6855,-5.89458c-2.45817,-1.80242 -0.29383,-25.08333 -10.75,-25.08333c-0.56975,0 -1.08933,0.05017 -1.57667,0.14333c-1.92783,2.38292 -3.10675,5.36067 -3.83775,7.25983l-0.18275,0.46942c-1.34017,3.45075 -1.65908,8.68958 -1.67342,13.77433z', fill='#333333')
+                path(d='M77.6365,145.8345v0c-3.50808,-0.9245 -5.96983,-4.23908 -5.96983,-8.04458v-5.86233c0,-1.35808 0.69517,-2.61225 1.82033,-3.27875c0.21858,-0.13258 5.50758,-3.23217 12.513,-3.23217c7.00542,0 12.29442,3.09958 12.513,3.23217c1.12517,0.6665 1.82033,1.92067 1.82033,3.27875v5.86233c0,3.8055 -2.46175,7.12008 -5.96983,8.041v0c-5.48967,1.44767 -11.23733,1.44767 -16.727,0.00358zM120.2495,78.23133c0.97825,1.7845 1.58383,3.80192 1.58383,5.977c0,5.40725 -3.4615,9.98675 -8.26675,11.74258c-4.28925,16.00317 -2.61225,30.65183 2.92042,32.89858c-0.78117,1.2255 -1.548,2.4295 -2.279,3.58692c-3.08525,-1.09292 -21.04133,-9.202 -21.04133,-50.01975c0,-33.82667 10.75,-53.75 10.75,-53.75h6.04867h1.118c0,13.32642 9.91867,10.75 17.91667,10.75c7.998,0 6.70442,9.70008 10.75,10.75c-7.65042,6.46433 -14.53042,17.47592 -19.5005,28.06467zM62.03108,28.66667h-1.11442c0,13.32642 -9.91867,10.75 -17.91667,10.75c-7.998,0 -6.70442,9.70008 -10.75,10.75c7.65042,6.46433 14.53042,17.47592 19.5005,28.06467c-0.97825,1.7845 -1.58383,3.80192 -1.58383,5.977c0,5.40725 3.4615,9.98675 8.26675,11.74258c4.28925,16.00317 2.61225,30.65183 -2.92042,32.89858c0.78117,1.2255 1.548,2.4295 2.279,3.58692c3.08525,-1.09292 21.04133,-9.202 21.04133,-50.01975c0,-33.82667 -10.75,-53.75 -10.75,-53.75z', fill='#34495e')
+                path(d='M96.75,136.16667c0,1.978 -1.60533,3.58333 -3.58333,3.58333c-1.978,0 -3.58333,-1.60533 -3.58333,-3.58333c0,-1.978 1.60533,-3.58333 3.58333,-3.58333c1.978,0 3.58333,1.60533 3.58333,3.58333zM78.83333,132.58333c-1.978,0 -3.58333,1.60533 -3.58333,3.58333c0,1.978 1.60533,3.58333 3.58333,3.58333c1.978,0 3.58333,-1.60533 3.58333,-3.58333c0,-1.978 -1.60533,-3.58333 -3.58333,-3.58333zM114.66667,84.20833c0,2.967 -2.408,5.375 -5.375,5.375c-2.967,0 -5.375,-2.408 -5.375,-5.375c0,-2.967 2.408,-5.375 5.375,-5.375c2.967,0 5.375,2.408 5.375,5.375zM57.33333,84.20833c0,2.967 2.408,5.375 5.375,5.375c2.967,0 5.375,-2.408 5.375,-5.375c0,-2.967 -2.408,-5.375 -5.375,-5.375c-2.967,0 -5.375,2.408 -5.375,5.375z', fill='#000000')
+
+
+template(name='voting_full')
+    unless is_author
+        i.thumbs.up.large.big.circular.link.icon.upvote(class=upvote_class title='upvote')
+        i.thumbs.down.large.big.circular.link.icon.downvote(class=downvote_class title='downvote')
+    if points
+        |&nbsp;
+        span(title='points') #{points} pts
+        //- .ui.large.basic.label(title='anon points') #{anon_points} anon pts
+    if upvoter_ids
+        div
+        .ui.small.grey.inline.header(title='upvoters')
+            i.thumbs.up.outline.green.icon
+            //- |upvoters
+        each upvoter_ids
+            +user_info
+    if downvoter_ids
+        div
+        .ui.small.grey.inline.header(title='downvoters')
+            i.thumbs.down.outline.icon
+            //- |downvoters
+        each downvoter_ids
+            +user_info
+
+
+
+template(name='view_button')
+    a.ui.icon.compact.basic.button.view(title='view' href="/m/#{model}/#{_id}/view")
+        //- i.right.chevron.large.icon
+
+
+template(name='remove_button')
+    .ui.icon.button.remove_doc(title='delete')
+        i.remove.icon
+        // |delete
+
+template(name='remove_icon')
+    i.remove.link.icon.remove_doc(title='delete')
+
+template(name='add_button')
+    a.ui.large.basic.button.add(title="add #{model}")
+        //- |#{model.icon}
+        i.plus.icon
+        if label
+            |#{label}
+        //- |#{model}
+
+
+
+//- template(name='edit_button')
+//-     a.ui.basic.button.icon.edit(title='Edit' href="/m/#{model}/#{_id}/edit")
+//-         i.blue.pencil.icon
+//-         |Edit
+
+
+template(name='save_button')
+    a.ui.basic.button.large.icon.save(title='Save' href="/m/#{model}/#{_id}/view")
+        i.checkmark.icon
+        |Save
+
+template(name='toggle_button')
+    .ui.icon.toggle.basic.button(title=label)
+        i.icon(class=icon)
+    each selected
+        |#{username}
+
+
+template(name='view_user_button')
+    .view_user.view(title="view #{username}")
+        i.play.icon
+        |View
+
+template(name='add_model_button')
+    .ui.icon.basic.button.add(title="add #{model}")
+        i.plus.icon
+        |#{model}
+
+
+
+
+
+
+            
+template(name='email_validation_check')
+    //- if email_verified
+    //-     .ui.large.basic.button
+    //-         i.checkmark.icon
+    //-         |email validated
+    unless email_verified
+        .ui.basic.fluid.button.send_verification
+            //- i.user.shield.icon
+            |resend verification email
+        if times
+            .ui.label
+                |#{times}
+            //- else
+                //- |#{times}x sent
+        if is_staff
+            .ui.button.toggle_email_verified
+                |mark email verified
+        
+        
+
+template(name='user_array_list')
+    .ui.list
+        each users
+            .item
+                +user_info
+
+            
+template(name='user_array_element_toggle')
+    .ui.compact.button.toggle_element(class=user_array_element_toggle_class)
+        |#{value}
+
+template(name='user_string_toggle')
+    .ui.button.toggle_element(class=user_string_element_toggle_class)
+        |#{value}
+
+
+
+template(name='key_value_edit')
+    a.ui.compact.large.circular.button.set_key_value(class=set_key_value_class title=value href='#')
+        if icon
+            // +icon name=icon cl='ui avatar image'
+            i.icon(class=icon)
+        unless icon_only
+            if label
+                |#{label}
+            else 
+                |#{value}
+        
+template(name='user_key_value_edit')
+    .ui.compact.button.set_key_value(class=set_key_value_class)
+        if icon 
+            i.icon(class=icon)
+        if label
+            |#{label}
+        else 
+            |#{value}
+
+
+template(name='session_key_value')
+    .ui.button.set_session_value(class=button_class) 
+        if icon 
+            i.icon(class=icon)
+        if label
+            |#{label}
+        else 
+            |#{value}

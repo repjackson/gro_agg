@@ -1,3 +1,5 @@
+
+
 if Meteor.isClient
     @selected_user_tags = new ReactiveArray []
     # @selected_user_roles = new ReactiveArray []
