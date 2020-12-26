@@ -16,9 +16,6 @@ template(name='tribe_view')
                     if is_admin 
                         a.ui.circular.icon.button(href="/m/tribe/#{_id}/edit" title='edit tribe instance')
                             i.pencil.large.icon
-                    .ui.header
-                        +icon name='calendar'
-                        |#{title} events
                     +image_view key='image_id' label='image' direct=true
                 .eight.wide.column
                     +skve k='view_section' v='posts' l='posts' i='content'
@@ -41,7 +38,7 @@ template(name='tribe_view')
                     +array_view key='tags' label='tags' direct=true
                     .spacer
                     .spacer
-                    +comments
+                    // +comments
                     //- +array_view key='tribe_tags' label='tribe_tags' direct=true
                     .ui.header  
                         +icolor name='prize'
@@ -65,11 +62,18 @@ template(name='tribe_view')
 template(name='tribe_posts')
     .ui.inline.header posts
     if currentUser
-        .ui.circular.icon.button.create_post
-            i.plus.icon
-    each tribe_post_tags
-        .ui.small.compact.button
-            |#{this}
+        .ui.circular.icon.basic.button.create_post
+            i.plus.green.icon
+    i.grey.tags.icon
+    if selected_tribe_tags
+        #clear_tags.ui.black.circular.icon.compact.button
+            i.remove.icon
+        each selected_tribe_tags
+            .unselect_tag.ui.black.circular.compact.button
+                strong #{this}
+    each all_tags
+        .ui.compact.small.basic.button.select_tag(class=cloud_tag_class) 
+            strong #{this.name}
     .scrolling
         each posts
             +tribe_post_card

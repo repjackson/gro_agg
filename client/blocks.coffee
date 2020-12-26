@@ -150,7 +150,7 @@
                 res += @classes
             if Session.get(@k)
                 if Session.equals(@k,@v)
-                    res += ' large compact active'
+                    res += ' large compact black'
                 else
                     # res += ' compact displaynone'
                     res += ' compact basic '

@@ -26,21 +26,46 @@ if Meteor.isClient
         Session.setDefault('view_section', 'posts')
         # @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'tribe_by_name', Router.current().params.name
-        @autorun => Meteor.subscribe 'model_docs', 'feature'
-        @autorun => Meteor.subscribe 'all_users'
+        # @autorun => Meteor.subscribe 'model_docs', 'feature'
+        # @autorun => Meteor.subscribe 'all_users'
         # @autorun => Meteor.subscribe 'tribe_template_from_tribe_id', Router.current().params.doc_id
 
     Template.tribe_edit.onCreated ->
         @autorun => Meteor.subscribe 'tribe_by_name', Router.current().params.name
-        @autorun => Meteor.subscribe 'all_users'
-        @autorun => Meteor.subscribe 'model_docs', 'feature'
+        # @autorun => Meteor.subscribe 'all_users'
+        # @autorun => Meteor.subscribe 'model_docs', 'feature'
         
 
     Template.registerHelper 'is_member', ()->
         Meteor.userId() in @tribe_member_ids
 
     Template.tribe_posts.onRendered ->
-        @autorun => Meteor.subscribe 'tribe_posts', Router.current().params.name
+        @autorun => Meteor.subscribe 'tribe_posts', 
+            Router.current().params.name
+            selected_tribe_tags.array()
+    @selected_tribe_tags = new ReactiveArray []
+
+    Template.tribe_posts.onCreated ->
+        @autorun -> Meteor.subscribe('tribe_tags', selected_tribe_tags.array(), Template.currentData().limit)
+
+    Template.tribe_posts.helpers
+        all_tags: ->
+            results.find(model:'tribe_tag')
+
+        selected_tribe_tags: ->
+            # model = 'event'
+            # console.log "selected_#{model}_tags"
+            selected_tribe_tags.array()
+
+
+    Template.tribe_posts.events
+        'click .select_tag': -> selected_tribe_tags.push @name
+        'click .unselect_tag': -> selected_tribe_tags.remove @valueOf()
+        'click #clear_tags': -> selected_tribe_tags.clear()
+
+
+  
+  
     Template.tribe_posts.events
         'click .create_post': ->
             new_id = Docs.insert
@@ -119,10 +144,47 @@ if Meteor.isClient
                 
 
 if Meteor.isServer
-    Meteor.publish 'tribe_posts', (name)->
-        Docs.find
-            model:'post'
-            tribe:name
+    Meteor.publish 'tribe_tags', (selected_tribe_tags, limit)->
+        self = @
+        match = {model:'post', tribe:'jpfam'}
+        if selected_tribe_tags.length > 0 then match.tags = $all: selected_tribe_tags
+        # if limit
+        #     calc_limit = limit
+        # else
+        #     calc_limit = 20
+        cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "tags": 1 }
+            { $unwind: "$tags" }
+            { $group: _id: "$tags", count: $sum: 1 }
+            { $match: _id: $nin: selected_tribe_tags }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 20 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+
+
+        cloud.forEach (tag, i) ->
+            self.added 'results', Random.id(),
+                name: tag.name
+                count: tag.count
+                model:'tribe_tag'
+        self.ready()    
+
+    Meteor.publish 'tribe_posts', (
+        name, 
+        selected_tribe_tags
+        limit=10
+        sort_key='_timestamp'
+        sort_direction=-1
+        )->
+        match = {model:'post', tribe:'jpfam'}
+        if selected_tribe_tags.length > 0 then match.tags = $all: selected_tribe_tags
+
+        Docs.find match,
+            sort:
+                "#{sort_key}":sort_direction
+            limit:limit
     Meteor.publish 'tribe_by_name', (name)->
         Docs.find
             model:'tribe'

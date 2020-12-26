@@ -21,7 +21,8 @@ template(name='post_view')
         .ui.stackable.padded.grid
             .row 
                 .four.wide.column
-                    a.ui.button(href="/tribe/#{tribe}")
+                    a.ui.fluid.circular.basic.button(href="/tribe/#{tribe}")
+                        i.chevron.left.icon
                         |#{tribe}
                     .ui.large.inline.header #{title}
                     // div
