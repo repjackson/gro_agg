@@ -45,6 +45,7 @@ if Meteor.isClient
             Docs.find({
                 model:'post'
                 tribe:Router.current().params.name
+                published:true
             }, sort:_timestamp:-1)
     
     Template.tribe_view.onRendered ->
@@ -96,7 +97,10 @@ if Meteor.isClient
         'click .switch': ->
             Meteor.call 'switch_tribe', @_id
         'click .join': ->
-            Meteor.call 'join_tribe', @_id, ->
+            if Meteor.userId()
+                Meteor.call 'join_tribe', @_id, ->
+            else 
+                Router.go "/register"
         'click .leave': ->
             Meteor.call 'leave_tribe', @_id, ->
         'click .request': ->

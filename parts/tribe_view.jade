@@ -4,27 +4,30 @@ template(name='tribe_view')
             i.massive.loading.yin.yang.link.grey.icon.create_tribe
     with current_tribe
         .ui.stackable.padded.grid
-            .centered.middle.aligned.row 
-                .four.wide.center.aligned.column
+            .row 
+                .four.wide.column
                     a.ui.circular.button(href="/m/tribe")
                         i.chevron.left.icon
                         i.big.fire.icon
-                .eight.wide.center.aligned.column
                     .ui.header 
                         small view tribe 
                         |#{title}
-                .four.wide.center.aligned.column
-                    if can_edit 
+                    if is_admin 
                         a.ui.circular.icon.button(href="/m/tribe/#{_id}/edit" title='edit tribe instance')
                             i.pencil.large.icon
-            .row 
-                .four.wide.column
                     .ui.header
                         +icon name='calendar'
                         |#{title} events
                     +image_view key='image_id' label='image' direct=true
                 .eight.wide.column
-                    +tribe_posts
+                    +skve k='view_section' v='posts' l='posts' i='content'
+                    +skve k='view_section' v='events' l='events' i='calendar'
+                    +skve k='view_section' v='chat' l='chat' i='chat outline'
+                    +skve k='view_section' v='members' l='members' i='users'
+                    +skve k='view_section' v='stats' l='stats' i='line chart'
+                    div
+                    if skv_is 'view_section' 'posts'
+                        +tribe_posts
                 .four.wide.column
                     +multi_user_view key='tribe_leader_ids' label='tribe leaders' direct=true
                     +multi_user_view key='tribe_member_ids' label='tribe members' direct=true
@@ -60,8 +63,9 @@ template(name='tribe_view')
 
 template(name='tribe_posts')
     .ui.inline.header posts
-    .ui.circular.icon.button.create_post
-        i.plus.icon
+    if currentUser
+        .ui.circular.icon.button.create_post
+            i.plus.icon
     each tribe_post_tags
         .ui.small.compact.button
             |#{this}
@@ -76,11 +80,18 @@ template(name='tribe_post_card')
             img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
         a.ui.header(href="/post/#{_id}/view") 
             |#{title}
-        +array_view key='location_tags' direct=true
-        +array_view key='time_tags' direct=true
-        +array_view key='people_tags' direct=true
-        +array_view key='group_tags' direct=true
-        +array_view key='tags' direct=true
+        i.large.tag.icon(title='tags')
+        each tags
+            .ui.basic.label #{this}
+        i.large.marker.icon(title='location tags')
+        each location_tags
+            .ui.basic.label #{this}
+        i.large.clock.icon(title='time tags')
+        each time_tags
+            .ui.basic.label #{this}
+        i.large.users.icon(title='users tags')
+        each people_tags
+            .ui.basic.label #{this}
 
         div
         | !{body}

@@ -84,9 +84,10 @@ template(name='profile_layout')
                         a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/requests" class="{{isActiveRoute 'user_requests'}}" title="#{user.username} requests")
                             i.concierge.bell.icon
                             span projects
-                        a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} offers")
-                            i.edit.icon
-                            span posts
+                        if currentUser
+                            a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} offers")
+                                i.edit.icon
+                                span posts
                         a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
                             i.chat.icon
                             span chat

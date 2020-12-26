@@ -455,6 +455,9 @@ if Meteor.isClient
                 res += @classes
             if Session.equals(@key,@value)
                 res += ' active'
+            else 
+                res += ' basic'
+                
             # console.log res
             res
 
