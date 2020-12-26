@@ -85,6 +85,21 @@ if Meteor.isClient
             }, sort:_timestamp:-1)
     
 
+    Template.tribe_post_card.events
+        'click .pick_tag': -> selected_tribe_tags.push @valueOf()
+        # 'click .unselect_tag': -> selected_tribe_tags.remove @valueOf()
+
+        'click .pick_location': -> selected_tribe_location_tags.push @valueOf()
+        # 'click .unselect_location_tag': -> selected_tribe_location_tags.remove @valueOf()
+
+        'click .pick_time': -> selected_tribe_time_tags.push @valueOf()
+        # 'click .unselect_time_tag': -> selected_tribe_time_tags.remove @valueOf()
+
+        'click .pick_person': -> selected_tribe_people_tags.push @valueOf()
+        # 'click .unselect_people_tag': -> selected_tribe_people_tags.remove @valueOf()
+
+
+
     Template.tribe_posts.events
         'click .select_tag': -> selected_tribe_tags.push @name
         'click .unselect_tag': -> selected_tribe_tags.remove @valueOf()

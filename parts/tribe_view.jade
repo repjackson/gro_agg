@@ -122,16 +122,16 @@ template(name='tribe_post_card')
         |#{title}
     i.large.tag.icon(title='tags')
     each tags
-        .ui.basic.label #{this}
+        .ui.basic.small.compact.button.pick(class=tag_selector_class) #{this}
     i.large.marker.icon(title='location tags')
     each location_tags
-        .ui.basic.label #{this}
+        .ui.basic.small.compact.button.pick_location(class=tag_selector_class) #{this}
     i.large.clock.icon(title='time tags')
     each time_tags
-        .ui.basic.label #{this}
+        .ui.basic.small.compact.button.pick_time(class=tag_selector_class) #{this}
     i.large.users.icon(title='users tags')
     each people_tags
-        .ui.basic.label #{this}
+        .ui.basic.small.compact.button.pick_person(class=tag_selector_class) #{this}
 
     | !{body}
     if is_admin

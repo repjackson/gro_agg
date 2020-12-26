@@ -187,14 +187,10 @@ Template.image_edit.events
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
-        console.log 'firing'
         Cloudinary.upload files[0],
             # folder:"secret" # optional parameters described in http://cloudinary.com/documentation/upload_images#remote_upload
             # model:"private" # optional: makes the image accessible only via a signed url. The signed url is available publicly for 1 hour.
             (err,res) => #optional callback, you can catch with the Cloudinary collection as well
-                console.dir res
-                console.dir parent
-                
                 if err
                     console.error 'Error uploading', err
                 else

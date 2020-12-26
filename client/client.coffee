@@ -265,7 +265,6 @@ Template.registerHelper 'current_tribe', ()->
     found = Docs.findOne 
         model:'tribe'
         name:Router.current().params.name
-    console.log 'found', found
     if found
         found
     
