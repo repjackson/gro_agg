@@ -63,10 +63,10 @@ template(name='rusers')
                     
 template(name='ruser_small')
     .four.wide.column
-        a.select_user(href="/user/#{username}")
+        a.select_user(href="/ruser/#{username}")
             img.ui.circular.image.zoomer(src=data.snoovatar_img)
         .content
-            a.ui.zoomer.header.select_user(href="/user/#{username}" class=post_header_class)
+            a.ui.zoomer.header.select_user(href="/ruser/#{username}" class=post_header_class)
                 |!{username}
                 .ui.basic.circular.label(title='total karma')
                     i.grey.yin.yang.icon

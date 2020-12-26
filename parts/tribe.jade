@@ -1,7 +1,15 @@
+template(name='tribes')
+    .ui.padded.stackable.grid
+        .sixteen.wide.column
+            .ui.cards
+                each tribes 
+                    +tribe_card
+                    
+                    
 template(name='tribe_item')
-    a.card(href="/tribe/#{_id}/view")
+    a.card(href="/tribe/#{name}/view")
         if image
-            a(href="/tribe/#{_id}/view")
+            a(href="/tribe/#{name}/view")
                 img.ui.image(src="{{c.url image height=500 width=500 gravity='face' crop='fill'}}")
         .content
             a.ui.header(href="/tribe/#{_id}/view") #{title}

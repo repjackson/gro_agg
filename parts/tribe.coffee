@@ -12,7 +12,18 @@ if Meteor.isClient
         @render 'tribes'
         ), name:'tribes'
     
+    Template.tribes.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'tribe'
+    Template.tribes.helpers
+        tribes: ->
+            Docs.find({
+                model:'tribe'
+            }, sort:_timestamp:-1)
+    
+        
+        
     Template.tribe_view.onCreated ->
+        Session.setDefault('view_section', 'posts')
         # @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'tribe_by_name', Router.current().params.name
         @autorun => Meteor.subscribe 'model_docs', 'feature'
