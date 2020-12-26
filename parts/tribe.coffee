@@ -15,8 +15,8 @@ if Meteor.isClient
     Template.tribe_view.onCreated ->
         # @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'tribe_by_name', Router.current().params.name
-        # @autorun => Meteor.subscribe 'model_docs', 'feature'
-        # @autorun => Meteor.subscribe 'all_users'
+        @autorun => Meteor.subscribe 'model_docs', 'feature'
+        @autorun => Meteor.subscribe 'all_users'
         # @autorun => Meteor.subscribe 'tribe_template_from_tribe_id', Router.current().params.doc_id
 
     Template.tribe_edit.onCreated ->
