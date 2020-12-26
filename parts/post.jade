@@ -47,7 +47,6 @@ template(name='post_view')
                         each _viewer_usernames
                             .ui.label #{this}
                     +array_view key='tags' label='tags' direct=true
-                    +voting_full
                     +array_view key='location_tags' direct=true
                     +array_view key='time_tags' direct=true
                     +array_view key='people_tags' direct=true
@@ -61,6 +60,7 @@ template(name='post_view')
                     .ui.segment
                         |!{content}
                 .four.wide.column
+                    +voting_full
                     +comments
 
 template(name='post_edit')

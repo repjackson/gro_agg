@@ -141,4 +141,7 @@ template(name='tribe_post_card')
     //- div
     +author_info
     +creation_info
-
+    | #{_views} views
+    each _viewer_usernames
+        .ui.label #{this}
+    +voting_full
