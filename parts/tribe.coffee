@@ -21,12 +21,32 @@ if Meteor.isClient
 
     Template.tribe_edit.onCreated ->
         @autorun => Meteor.subscribe 'tribe_by_name', Router.current().params.name
+        @autorun => Meteor.subscribe 'all_users'
+        @autorun => Meteor.subscribe 'model_docs', 'feature'
         
-        # @autorun => Meteor.subscribe 'model_docs', 'feature'
 
     Template.registerHelper 'is_member', ()->
         Meteor.userId() in @tribe_member_ids
 
+    Template.tribe_posts.onRendered ->
+        @autorun => Meteor.subscribe 'tribe_posts', Router.current().params.name
+    Template.tribe_posts.events
+        'click .create_post': ->
+            new_id = Docs.insert
+                model:'post'
+                tribe:Router.current().params.name
+            Router.go "/post/#{new_id}/edit"
+    
+    Template.tribe_posts.helpers
+        posts: ->
+            tribe = Docs.findOne 
+                model:'tribe'
+                name:Router.current().params.name
+            Docs.find({
+                model:'post'
+                tribe:Router.current().params.name
+            }, sort:_timestamp:-1)
+    
     Template.tribe_view.onRendered ->
         @autorun => Meteor.subscribe 'tribe_template_from_tribe_id', Router.current().params.doc_id
     Template.tribe_view.events
@@ -84,6 +104,10 @@ if Meteor.isClient
                 
 
 if Meteor.isServer
+    Meteor.publish 'tribe_posts', (name)->
+        Docs.find
+            model:'post'
+            tribe:name
     Meteor.publish 'tribe_by_name', (name)->
         Docs.find
             model:'tribe'

@@ -1,10 +1,18 @@
 # tsqp-gebk-xhpz-eobp-agle
 Docs.allow
-    insert: (user_id, doc) ->
-        true
-    update: (user_id, doc) ->
-        true
-    remove: (user_id, doc) -> false
+    insert: (userId, doc) -> 
+        userId
+    update: (userId, doc) ->
+        userId is doc._author_id
+    remove: (userId, doc) ->
+        user = Meteor.users.findOne userId
+        if user.roles
+            if 'admin' in user.roles
+                true
+            else
+                userId is doc._author_id
+        else
+            userId is doc._author_id
 
 Meteor.users.allow
     insert: (user_id, doc, fields, modifier) ->

@@ -1,7 +1,7 @@
 template(name='tribe_view')
     unless current_tribe
         .ui.center.aligned.basic.segment
-            i.massive.circular.plus.link.icon.create_tribe
+            i.massive.loading.yin.yang.link.grey.icon.create_tribe
     with current_tribe
         .ui.stackable.padded.grid
             .centered.middle.aligned.row 
@@ -24,6 +24,8 @@ template(name='tribe_view')
                         |#{title} events
                     +image_view key='image_id' label='image' direct=true
                 .eight.wide.column
+                    +tribe_posts
+                .four.wide.column
                     +multi_user_view key='tribe_leader_ids' label='tribe leaders' direct=true
                     +multi_user_view key='tribe_member_ids' label='tribe members' direct=true
                     each members
@@ -37,7 +39,6 @@ template(name='tribe_view')
                     .spacer
                     +comments
                     //- +array_view key='tribe_tags' label='tribe_tags' direct=true
-                .four.wide.column
                     .ui.header  
                         +icolor name='prize'
                         |badges
@@ -54,3 +55,41 @@ template(name='tribe_view')
                     //-     i.checkmark.icon
                     //-     |submit
                     
+
+
+
+template(name='tribe_posts')
+    .ui.inline.header posts
+    .ui.circular.icon.button.create_post
+        i.plus.icon
+    each tribe_post_tags
+        .ui.small.compact.button
+            |#{this}
+    .scrolling
+        each posts
+            +tribe_post_card
+        
+        
+template(name='tribe_post_card')
+    .ui.segment
+        a(href="/post/#{_id}/view") 
+            img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+        a.ui.header(href="/post/#{_id}/view") 
+            |#{title}
+        +array_view key='location_tags' direct=true
+        +array_view key='time_tags' direct=true
+        +array_view key='people_tags' direct=true
+        +array_view key='group_tags' direct=true
+        +array_view key='tags' direct=true
+
+        div
+        | !{body}
+        div
+        if is_admin
+            +remove_button
+            +print_this
+        
+        //- div
+        +author_info
+        +creation_info
+
