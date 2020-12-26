@@ -14,22 +14,22 @@ template(name='user_about')
                     |#{this}
                 // +user_info_tag
         div
-        .ui.header 
+        .ui.inline.header 
             i.line.chart.icon
             |levels
         each levels
             .ui.basic.label #{this}
         div
-        .ui.header 
+        .ui.inline.header 
             |city:
             |#{city}               
         div
-        .ui.header 
+        .ui.inline.header 
             |state:
             |#{state}               
         div
         if is_admin
-            .ui.header 
+            .ui.inline.header 
                 i.shield.icon
                 |roles
             each roles

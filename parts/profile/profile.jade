@@ -24,7 +24,7 @@ template(name='profile_layout')
                             |@#{username}
                         if is_admin
                             a.ui.circular.basic.button(href="/user/#{username}/edit" title='admin edit account')
-                                i.shield.large.icon
+                                i.shield.icon
                                 |account
                         //- .ui.compact.icon.button.refresh_user_stats(title='refresh stats')
                         //-     i.refresh.icon
@@ -33,11 +33,11 @@ template(name='profile_layout')
                             +text_edit key='current_status' label='status' icon='clock' direct=true
                         else 
                             if online 
-                                .ui.green.large.label 
-                                    i.large.checkmark.icon
+                                .ui.green.label 
+                                    i.checkmark.icon
                                     |online
                             else
-                                .ui.disabled.large.label 
+                                .ui.disabled.label 
                                     |offline
                             if current_status
                                 .ui.small.header(title='status' )
@@ -47,12 +47,12 @@ template(name='profile_layout')
                             .ui.small.inline.header #{_id}
                                 
                         if is_current_user
-                            a.ui.circular.icon.basic.button(href="/user/#{username}/edit" title='edit your account')
-                                i.cog.big.icon
-                                // |account
-                            a.ui.circular.icon.basic.button.logout(href="#" title='log out')
-                                i.sign.out.big.icon
-                                // |log out
+                            a.ui.circular.basic.button(href="/user/#{username}/edit" title='edit your account')
+                                i.cog.icon
+                                |account
+                            a.ui.circular.basic.button.logout(href="#" title='log out')
+                                i.sign.out.icon
+                                |log out
                         
                         unless is_current_user
                             if currentUser
@@ -60,13 +60,13 @@ template(name='profile_layout')
                                 +user_friend_button 
                         // if is_current_user
                         //     a.ui.button(href="/user/#{username}/edit/membership" class="{{isActiveRoute 'user_finance'}}")
-                        //         i.money.large.icon
+                        //         i.money.icon
                         // unless is_current_user
                         // .ui.basic.circular.button.tip(title='send tip')
-                        //     i.large.dollar.green.icon
+                        //     i.dollar.green.icon
                         //     span tip
                         a.ui.compact.basic.circular.button(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
-                            i.chat.large.blue.icon
+                            i.chat.blue.icon
                             | message
         
         
@@ -75,91 +75,40 @@ template(name='profile_layout')
                         if is_dev
                             +print_this
                     .twelve.wide.column.profile_yield
-                        a.ui.basic.button.select_term.profile_nav_item(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
-                            i.large.dashboard.icon
+                        a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
+                            i.dashboard.icon
                             span dashboard
-                        a.ui.basic.button.select_term.profile_nav_item(href="/user/#{username}/about" class="{{isActiveRoute 'user_about'}}" title="#{user.username} info")
-                            i.info.large.icon
+                        a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/about" class="{{isActiveRoute 'user_about'}}" title="#{user.username} info")
+                            i.info.icon
                             span about
-                        a.ui.basic.button.select_term.profile_nav_item(href="/user/#{username}/requests" class="{{isActiveRoute 'user_requests'}}" title="#{user.username} requests")
-                            i.large.concierge.bell.icon
+                        a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/requests" class="{{isActiveRoute 'user_requests'}}" title="#{user.username} requests")
+                            i.concierge.bell.icon
                             span projects
-                        a.ui.basic.button.select_term.profile_nav_item(href="/user/#{username}/leads" class="{{isActiveRoute 'user_leads'}}" title="#{user.username} offers")
-                            i.large.hand.holding.heart.icon
-                            span leads
-                        a.ui.basic.button.select_term.profile_nav_item(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
-                            i.chat.large.icon
+                        a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} offers")
+                            i.edit.icon
+                            span posts
+                        a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
+                            i.chat.icon
                             span chat
-                        a.ui.basic.button.select_term.profile_nav_item(href="/user/#{username}/services" class="{{isActiveRoute 'user_services'}}" title="#{user.username} services")
-                            i.wrench.large.icon
+                        a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/services" class="{{isActiveRoute 'user_services'}}" title="#{user.username} services")
+                            i.wrench.icon
                             span services
-                        a.ui.basic.button.select_term.profile_nav_item(href="/user/#{username}/badges" class="{{isActiveRoute 'user_badges'}}" title="#{user.username} badges")
-                            i.certificate.large.icon
+                        a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/badges" class="{{isActiveRoute 'user_badges'}}" title="#{user.username} badges")
+                            i.certificate.icon
                             span.mobile.hidden badges
+                        a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}" title="#{user.username} tribes")
+                            i.fire.icon
+                            span.mobile.hidden tribes
                     
                         +yield    
                       
 
 
-template(name='user_dashboard')
-    .ui.stackable.padded.grid
-        .five.wide.column
-            .ui.segment 
-                |Average rating
-                .ui.big.center.aligned.header
-                    i.yellow.star.icon
-                    |4.90
-                |based on 80 online reviews
-                // if background_checked
-                .ui.list
-                    .item
-                        i.users.icon
-                        |Owner Background Checked  
-                    .item No neighbor data for this pro
-                    .item
-                        i.calendar.icon
-                        |1 year in business
-                    .item
-                        i.home.icon
-                        |Typical home value is unknown
-                    .item
-                        i.tasks.icon
-                        |Median project cost is unknown
-                    .item
-                        i.clock.icon
-                        |Response rate is unknown
-        .five.wide.column
-            .ui.segment 
-                .ui.header Professional information
-                .ui.small.header address
-                .ui.small.header phone
-        .four.wide.column
-            .ui.segment 
-                .ui.header mode
-                +boolean_edit key='edit_mode' label='edit mode' direct=true
-        .eight.wide.column
-            .ui.segment 
-                .ui.header Reviews
-                each reviews 
-                    .ui.header #{title}
-        .eight.wide.column
-            .ui.segment 
-                .ui.header Projects
-                each projects 
-                    .ui.header #{title}
-        .eight.wide.column
-            .ui.segment 
-                .ui.header Service Area
-                if is_current_user
-                    if currentUser.edit_mode
-                        +array_edit key='service_area_codes' label='service area codes' direct=true
-                each service_area_codes 
-                    .ui.header #{this}
 
 template(name='user_friend_button')
     if is_friend
-        .ui.blue.large.button.unfriend(title='unfriend')
-            i.checkmark.large.icon
+        .ui.blue.button.unfriend(title='unfriend')
+            i.checkmark.icon
     else
         .ui.button.friend(title='friend')
-            i.user.plus.large.icon
+            i.user.plus.icon
