@@ -584,8 +584,8 @@ a.title, #title {
 }
 
 input {
-    /*margin: 5px !important;*/
-    /*b/order-radius: 7px !important; */
+    /*margin: 7px !important;*/
+    border-radius: 7px !important; 
 }
 
 ::-webkit-scrollbar {

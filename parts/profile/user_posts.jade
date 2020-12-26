@@ -5,12 +5,16 @@ template(name='user_posts')
     .scrolling
         each posts
             .ui.segment
-                img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                a(href="/post/#{_id}/view") 
+                    img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                 a.ui.header(href="/post/#{_id}/view") 
                     |#{title}
-                div
-                    |$#{usd_price}
-                    |#{point_price}pts
+                +array_view key='location_tags' direct=true
+                +array_view key='time_tags' direct=true
+                +array_view key='people_tags' direct=true
+                +array_view key='group_tags' direct=true
+                +array_view key='tags' direct=true
+
                 div
                 | !{body}
                 div

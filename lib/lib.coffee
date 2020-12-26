@@ -129,9 +129,6 @@ Meteor.users.helpers
 
 
 Meteor.methods
-    log_view: (doc_id)->
-        Docs.update doc_id,
-            $inc:dao_views:1
     upvote_sentence: (doc_id, sentence)->
         if sentence.weight
             Docs.update(

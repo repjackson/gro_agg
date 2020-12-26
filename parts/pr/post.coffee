@@ -22,7 +22,8 @@ if Meteor.isClient
     Template.post_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
    
-    
+    Template.post_view.onRendered ->
+        Meteor.call 'log_view', Router.current().params.doc_id, ->
     # Router.route '/posts', (->
     #     @layout 'layout'
     #     @render 'posts'
