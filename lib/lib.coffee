@@ -17,30 +17,6 @@ if Meteor.isServer
         api_key: Meteor.settings.private.cloudinary_key
         api_secret: Meteor.settings.private.cloudinary_secret
 
-Docs.helpers
-    when: -> moment(@_timestamp).fromNow()
-    site_doc: ->
-        Docs.findOne 
-            model:'stack_site'
-            name:@site
-    seven_tags: ->
-        if @tags
-            @tags[..7]
-    question_bounties: ->
-        Docs.find 
-            model:'stack_bounty'
-            question_id:@qid
-
-    five_tags: ->
-        if @tags
-            @tags[..5]
-    three_tags: ->
-        if @tags
-            @tags[..3]
-    initials: ->
-        @username[..1]
-
-
 
 Docs.before.insert (userId, doc)->
     timestamp = Date.now()
@@ -66,6 +42,87 @@ Docs.before.insert (userId, doc)->
         date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
         doc._timestamp_tags = date_array
     return
+
+
+Docs.helpers
+    when: -> moment(@_timestamp).fromNow()
+    site_doc: ->
+        Docs.findOne 
+            model:'stack_site'
+            name:@site
+    seven_tags: ->
+        if @tags
+            @tags[..7]
+    question_bounties: ->
+        Docs.find 
+            model:'stack_bounty'
+            question_id:@qid
+
+    five_tags: ->
+        if @tags
+            @tags[..5]
+    three_tags: ->
+        if @tags
+            @tags[..3]
+    initials: ->
+        @username[..1]
+    _author: -> Meteor.users.findOne @_author_id
+    _buyer: -> Meteor.users.findOne @buyer_id
+    recipient: ->
+        Meteor.users.findOne @recipient_id
+    
+    is_visible: -> @published in [0,1]
+    is_published: -> @published is 1
+    is_anonymous: -> @published is 0
+    is_private: -> @published is -1
+    is_read: ->
+        @read_ids and Meteor.userId() in @read_ids
+
+    enabled_features: () ->
+        Docs.find
+            model:'feature'
+            _id:$in:@enabled_feature_ids
+
+
+    upvoters: ->
+        if @upvoter_ids
+            upvoters = []
+            for upvoter_id in @upvoter_ids
+                upvoter = Meteor.users.findOne upvoter_id
+                upvoters.push upvoter
+            upvoters
+    downvoters: ->
+        if @downvoter_ids
+            downvoters = []
+            for downvoter_id in @downvoter_ids
+                downvoter = Meteor.users.findOne downvoter_id
+                downvoters.push downvoter
+            downvoters
+Meteor.users.helpers
+    name: ->
+        if @nickname
+            "#{@nickname}"
+        else if @first_name
+            "#{@first_name} #{@last_name}"
+        else
+            "#{@username}"
+    shortname: ->
+        if @nickname
+            "#{@nickname}"
+        else if @first_name
+            "#{@first_name}"
+        else
+            "#{@username}"
+    email_address: -> if @emails and @emails[0] then @emails[0].address
+    email_verified: -> if @emails and @emails[0] then @emails[0].verified
+    first_five_tags: ->
+        if @tags
+            @tags[..5]
+    has_points: -> @points > 0
+    # is_tech_admin: ->
+    #     @_id in ['vwCi2GTJgvBJN5F6c','Dw2DfanyyteLytajt','LQEJBS6gHo3ibsJFu','YFPxjXCgjhMYEPADS','RWPa8zfANCJsczDcQ']
+
+
 
 
 

@@ -6,6 +6,28 @@ Docs.allow
         true
     remove: (user_id, doc) -> false
 
+Meteor.users.allow
+    insert: (user_id, doc, fields, modifier) ->
+        # user_id
+        true
+        # if user_id and doc._id == user_id
+        #     true
+    update: (user_id, doc, fields, modifier) ->
+        user = Meteor.users.findOne user_id
+        # console.log user_id
+        # console.log doc
+        if user_id
+            if doc._id is user_id
+                true
+            else if user.roles and 'dev' in user.roles
+                true
+    remove: (user_id, doc, fields, modifier) ->
+        user = Meteor.users.findOne user_id
+        if user_id and 'dev' in user.roles
+            true
+        # if userId and doc._id == userId
+        #     true
+
 
 Meteor.publish 'doc_by_title', (title)->
     Docs.find
