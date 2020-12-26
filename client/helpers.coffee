@@ -7,10 +7,10 @@ Template.registerHelper 'in_role', (role)->
     else
         false
 
-Template.registerHelper 'current_tribe', () ->
-    if Meteor.user()
-        Docs.findOne 
-            _id:Meteor.user().current_tribe_id
+# Template.registerHelper 'current_tribe', () ->
+#     if Meteor.user()
+#         Docs.findOne 
+#             _id:Meteor.user().current_tribe_id
     
 Template.registerHelper 'enabled_features', () ->
     # console.log @

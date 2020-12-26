@@ -261,6 +261,14 @@ Template.registerHelper 'current_subreddit', ()->
     if found
         found
     
+Template.registerHelper 'current_tribe', ()->
+    found = Docs.findOne 
+        model:'tribe'
+        name:Router.current().params.name
+    console.log 'found', found
+    if found
+        found
+    
 Template.registerHelper 'current_doc', ()->
     Docs.findOne Router.current().params.doc_id
 Template.registerHelper 'current_q', ()->
