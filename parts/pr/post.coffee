@@ -4,6 +4,24 @@ if Meteor.isClient
     Template.registerHelper 'completer', () ->
         Meteor.users.findOne @completed_by_user_id
     
+    Router.route '/post/:doc_id/edit', (->
+        @layout 'layout'
+        @render 'post_edit'
+        ), name:'post_edit'
+    Router.route '/post/:doc_id/view', (->
+        @layout 'layout'
+        @render 'post_view'
+        ), name:'post_view'
+    Router.route '/posts/', (->
+        @layout 'layout'
+        @render 'posts'
+        ), name:'posts'
+
+    Template.post_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.post_view.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+   
     
     # Router.route '/posts', (->
     #     @layout 'layout'

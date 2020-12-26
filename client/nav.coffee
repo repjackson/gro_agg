@@ -90,6 +90,13 @@ Template.nav.events
                 model:'gift'
                 recipient_id: @_id
         Router.go "/debit/#{new_gift_id}/edit"
+    
+    'click .add': ->
+        # user = Meteor.users.findOne(username:@username)
+        new_post_id =
+            Docs.insert
+                model:'post'
+        Router.go "/post/#{new_post_id}/edit"
 
     'click .add_request': ->
         # user = Meteor.users.findOne(username:@username)
