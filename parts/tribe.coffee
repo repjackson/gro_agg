@@ -43,25 +43,64 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'tribe_posts', 
             Router.current().params.name
             selected_tribe_tags.array()
+            selected_tribe_location_tags.array()
+            selected_tribe_time_tags.array()
+            selected_tribe_people_tags.array()
+            Session.get('tribe_limit')
+            Session.get('tribe_sort_key')
+            Session.get('tribe_sort_direction')
     @selected_tribe_tags = new ReactiveArray []
+    @selected_tribe_location_tags = new ReactiveArray []
+    @selected_tribe_time_tags = new ReactiveArray []
+    @selected_tribe_people_tags = new ReactiveArray []
 
     Template.tribe_posts.onCreated ->
-        @autorun -> Meteor.subscribe('tribe_tags', selected_tribe_tags.array(), Template.currentData().limit)
+        @autorun -> Meteor.subscribe('tribe_tags', 
+            selected_tribe_tags.array(), 
+            selected_tribe_location_tags.array()
+            selected_tribe_time_tags.array()
+            selected_tribe_people_tags.array()
+            Template.currentData().limit
+        )
 
     Template.tribe_posts.helpers
-        all_tags: ->
-            results.find(model:'tribe_tag')
+        all_tags: -> results.find(model:'tribe_tag')
+        all_location_tags: -> results.find(model:'tribe_location_tag')
+        all_time_tags: -> results.find(model:'tribe_time_tag')
+        all_people_tags: -> results.find(model:'tribe_people_tag')
 
-        selected_tribe_tags: ->
-            # model = 'event'
-            # console.log "selected_#{model}_tags"
-            selected_tribe_tags.array()
+        selected_tribe_tags: -> selected_tribe_tags.array()
+        selected_tribe_location_tags: -> selected_tribe_location_tags.array()
+        selected_tribe_time_tags: -> selected_tribe_time_tags.array()
+        selected_tribe_people_tags: -> selected_tribe_people_tags.array()
 
+        posts: ->
+            tribe = Docs.findOne 
+                model:'tribe'
+                name:Router.current().params.name
+            Docs.find({
+                model:'post'
+                tribe:Router.current().params.name
+                published:true
+            }, sort:_timestamp:-1)
+    
 
     Template.tribe_posts.events
         'click .select_tag': -> selected_tribe_tags.push @name
         'click .unselect_tag': -> selected_tribe_tags.remove @valueOf()
         'click #clear_tags': -> selected_tribe_tags.clear()
+
+        'click .select_location_tag': -> selected_tribe_location_tags.push @name
+        'click .unselect_location_tag': -> selected_tribe_location_tags.remove @valueOf()
+        'click #clear_location_tags': -> selected_tribe_location_tags.clear()
+
+        'click .select_time_tag': -> selected_tribe_time_tags.push @name
+        'click .unselect_time_tag': -> selected_tribe_time_tags.remove @valueOf()
+        'click #clear_time_tags': -> selected_tribe_time_tags.clear()
+
+        'click .select_people_tag': -> selected_tribe_people_tags.push @name
+        'click .unselect_people_tag': -> selected_tribe_people_tags.remove @valueOf()
+        'click #clear_people_tags': -> selected_tribe_people_tags.clear()
 
 
   
@@ -74,16 +113,6 @@ if Meteor.isClient
             Router.go "/post/#{new_id}/edit"
     
     Template.tribe_posts.helpers
-        posts: ->
-            tribe = Docs.findOne 
-                model:'tribe'
-                name:Router.current().params.name
-            Docs.find({
-                model:'post'
-                tribe:Router.current().params.name
-                published:true
-            }, sort:_timestamp:-1)
-    
     Template.tribe_view.onRendered ->
         @autorun => Meteor.subscribe 'tribe_template_from_tribe_id', Router.current().params.doc_id
     Template.tribe_view.events
@@ -144,56 +173,117 @@ if Meteor.isClient
                 
 
 if Meteor.isServer
-    Meteor.publish 'tribe_tags', (selected_tribe_tags, limit)->
+    Meteor.publish 'tribe_tags', (
+        selected_tribe_tags, 
+        selected_tribe_location_tags, 
+        selected_tribe_time_tags, 
+        selected_tribe_people_tags, 
+        limit
+        )->
         self = @
         match = {model:'post', tribe:'jpfam'}
         if selected_tribe_tags.length > 0 then match.tags = $all: selected_tribe_tags
+        if selected_tribe_location_tags.length > 0 then match.location_tags = $all: selected_tribe_location_tags
+        if selected_tribe_time_tags.length > 0 then match.time_tags = $all: selected_tribe_time_tags
+        if selected_tribe_people_tags.length > 0 then match.people_tags = $all: selected_tribe_people_tags
         # if limit
         #     calc_limit = limit
         # else
         #     calc_limit = 20
-        cloud = Docs.aggregate [
+        tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: selected_tribe_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
+            { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
-
-
-        cloud.forEach (tag, i) ->
+        tag_cloud.forEach (tag, i) ->
             self.added 'results', Random.id(),
                 name: tag.name
                 count: tag.count
                 model:'tribe_tag'
+        location_tag_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "location_tags": 1 }
+            { $unwind: "$location_tags" }
+            { $group: _id: "$location_tags", count: $sum: 1 }
+            { $match: _id: $nin: selected_tribe_location_tags }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+        location_tag_cloud.forEach (tag, i) ->
+            self.added 'results', Random.id(),
+                name: tag.name
+                count: tag.count
+                model:'tribe_location_tag'
+
+        time_tag_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "time_tags": 1 }
+            { $unwind: "$time_tags" }
+            { $group: _id: "$time_tags", count: $sum: 1 }
+            { $match: _id: $nin: selected_tribe_time_tags }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+        time_tag_cloud.forEach (tag, i) ->
+            self.added 'results', Random.id(),
+                name: tag.name
+                count: tag.count
+                model:'tribe_time_tag'
+        
+        people_tag_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "people_tags": 1 }
+            { $unwind: "$people_tags" }
+            { $group: _id: "$people_tags", count: $sum: 1 }
+            { $match: _id: $nin: selected_tribe_people_tags }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+        people_tag_cloud.forEach (tag, i) ->
+            self.added 'results', Random.id(),
+                name: tag.name
+                count: tag.count
+                model:'tribe_people_tag'
         self.ready()    
 
     Meteor.publish 'tribe_posts', (
         name, 
         selected_tribe_tags
+        selected_tribe_location_tags
+        selected_tribe_time_tags
+        selected_tribe_people_tags
         limit=10
         sort_key='_timestamp'
         sort_direction=-1
         )->
         match = {model:'post', tribe:'jpfam'}
         if selected_tribe_tags.length > 0 then match.tags = $all: selected_tribe_tags
+        if selected_tribe_location_tags.length > 0 then match.location_tags = $all: selected_tribe_location_tags
+        if selected_tribe_time_tags.length > 0 then match.time_tags = $all: selected_tribe_time_tags
+        if selected_tribe_people_tags.length > 0 then match.people_tags = $all: selected_tribe_people_tags
 
         Docs.find match,
-            sort:
-                "#{sort_key}":sort_direction
-            limit:limit
+            limit:10
+            # sort:
+            #     "#{sort_key}":sort_direction
+            # limit:limit
     Meteor.publish 'tribe_by_name', (name)->
         Docs.find
             model:'tribe'
             name:name
-    Meteor.publish 'tribe_template_from_tribe_id', (tribe_id)->
-        tribe = Docs.findOne tribe_id
-        Docs.find 
-            model:'tribe_template'
-            _id:tribe.template_id
+    # Meteor.publish 'tribe_template_from_tribe_id', (tribe_id)->
+    #     tribe = Docs.findOne tribe_id
+    #     Docs.find 
+    #         model:'tribe_template'
+    #         _id:tribe.template_id
     
     Meteor.methods
         join_tribe: (tribe_id)->

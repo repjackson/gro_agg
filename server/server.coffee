@@ -51,18 +51,6 @@ Meteor.publish 'doc_by_title_small', (title)->
             title:1
             "watson.metadata.image":1
     })
-Meteor.publish 'current_doc', (doc_id)->
-    Docs.find doc_id
-
-
-
-
-Meteor.publish 'doc', (doc_id)->
-    found_doc = Docs.findOne doc_id
-    if found_doc
-        Docs.find doc_id
-
-
 
 
 

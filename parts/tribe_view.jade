@@ -26,6 +26,8 @@ template(name='tribe_view')
                     div
                     if skv_is 'view_section' 'posts'
                         +tribe_posts
+                    if skv_is 'view_section' 'members'
+                        +tribe_membership
                 .four.wide.column
                     +multi_user_view key='tribe_leader_ids' label='tribe leaders' direct=true
                     +multi_user_view key='tribe_member_ids' label='tribe members' direct=true
@@ -46,11 +48,11 @@ template(name='tribe_view')
                     each tribe_badges
                         .ui.header #{title}
                     +tribe_membership
-                    a.ui.header(href="/m/tribe/#{_id}/view")
-                        |#{title}
-                    .ui.list
-                        each members
-                            .item #{username} contributer
+                    // a.ui.header(href="/m/tribe/#{_id}/view")
+                    //     |#{title}
+                    // .ui.list
+                    //     each members
+                    //         .item #{username} contributer
                             
                     //- .ui.fluid.green.button.submit
                     //-     i.checkmark.icon
@@ -73,6 +75,39 @@ template(name='tribe_posts')
                 strong #{this}
     each all_tags
         .ui.compact.small.basic.button.select_tag(class=cloud_tag_class) 
+            strong #{this.name}
+  
+    i.grey.large.marker.icon
+    if selected_tribe_location_tags
+        #clear_location_tags.ui.black.circular.icon.compact.button
+            i.remove.icon
+        each selected_tribe_location_tags
+            .unselect_location_tag.ui.black.circular.compact.button
+                strong #{this}
+    each all_location_tags
+        .ui.compact.small.basic.button.select_location_tag(class=cloud_tag_class) 
+            strong #{this.name}
+   
+    i.grey.large.clock.icon
+    if selected_tribe_time_tags
+        #clear_time_tags.ui.black.circular.icon.compact.button
+            i.remove.icon
+        each selected_tribe_time_tags
+            .unselect_time_tag.ui.black.circular.compact.button
+                strong #{this}
+    each all_time_tags
+        .ui.compact.small.basic.button.select_time_tag(class=cloud_tag_class) 
+            strong #{this.name}
+   
+    i.grey.large.users.icon
+    if selected_tribe_people_tags
+        #clear_people_tags.ui.black.circular.icon.compact.button
+            i.remove.icon
+        each selected_tribe_people_tags
+            .unselect_people_tag.ui.black.circular.compact.button
+                strong #{this}
+    each all_people_tags
+        .ui.compact.small.basic.button.select_people_tag(class=cloud_tag_class) 
             strong #{this.name}
     .scrolling
         each posts
