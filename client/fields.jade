@@ -64,7 +64,7 @@ template(name='html_view')
         //         |#{key}
         //     else
         //         |#{this}
-        .f12 
+        .f10
             |!{field_value}
 
 
@@ -1138,7 +1138,7 @@ template(name='multi_doc_input')
                 //-                 |#{first_name} #{last_name}
                 //-                 @#{username}
 template(name='multi_user_view')
-    .ui.header 
+    .ui.small.grey.header 
         if icon 
             i.icon(class=icon)
         |#{field_value.length}

@@ -1,3 +1,5 @@
+Template.nav.onCreated ->
+    @autorun -> Meteor.subscribe 'me'
 Template.nav.onRendered ->
     Meteor.setTimeout ->
         $('.menu .item')

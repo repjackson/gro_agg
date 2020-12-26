@@ -181,7 +181,7 @@ if Meteor.isServer
         limit
         )->
         self = @
-        match = {model:'post', tribe:'jpfam'}
+        match = {model:'post', tribe:'jpfam', published:true}
         if selected_tribe_tags.length > 0 then match.tags = $all: selected_tribe_tags
         if selected_tribe_location_tags.length > 0 then match.location_tags = $all: selected_tribe_location_tags
         if selected_tribe_time_tags.length > 0 then match.time_tags = $all: selected_tribe_time_tags
@@ -190,6 +190,7 @@ if Meteor.isServer
         #     calc_limit = limit
         # else
         #     calc_limit = 20
+        doc_count = Docs.find(match).count()
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
@@ -197,7 +198,8 @@ if Meteor.isServer
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: selected_tribe_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $match: count: $lt: doc_count }
+            { $limit: 7 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         tag_cloud.forEach (tag, i) ->
@@ -212,7 +214,8 @@ if Meteor.isServer
             { $group: _id: "$location_tags", count: $sum: 1 }
             { $match: _id: $nin: selected_tribe_location_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $match: count: $lt: doc_count }
+            { $limit: 7 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         location_tag_cloud.forEach (tag, i) ->
@@ -228,7 +231,8 @@ if Meteor.isServer
             { $group: _id: "$time_tags", count: $sum: 1 }
             { $match: _id: $nin: selected_tribe_time_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $match: count: $lt: doc_count }
+            { $limit: 7 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         time_tag_cloud.forEach (tag, i) ->
@@ -244,7 +248,8 @@ if Meteor.isServer
             { $group: _id: "$people_tags", count: $sum: 1 }
             { $match: _id: $nin: selected_tribe_people_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $match: count: $lt: doc_count }
+            { $limit: 7 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         people_tag_cloud.forEach (tag, i) ->
@@ -264,7 +269,7 @@ if Meteor.isServer
         sort_key='_timestamp'
         sort_direction=-1
         )->
-        match = {model:'post', tribe:'jpfam'}
+        match = {model:'post', tribe:'jpfam', published:true}
         if selected_tribe_tags.length > 0 then match.tags = $all: selected_tribe_tags
         if selected_tribe_location_tags.length > 0 then match.location_tags = $all: selected_tribe_location_tags
         if selected_tribe_time_tags.length > 0 then match.time_tags = $all: selected_tribe_time_tags
@@ -317,10 +322,9 @@ if Meteor.isClient
                     Router.go "/tribe/#{@_id}/view"
 
 
-    Template.tribe_edit.helpers
-        unselected_stewards: ->
-            Meteor.users.find 
-                levels:$in:['steward']
-    Template.tribe_edit.tribes
+    # Template.tribe_edit.helpers
+    #     unselected_stewards: ->
+    #         Meteor.users.find 
+    #             levels:$in:['steward']
 
 

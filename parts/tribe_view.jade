@@ -11,43 +11,42 @@ template(name='tribe_view')
                         i.big.fire.icon
                         |tribes
                     .ui.header 
-                        small view tribe 
+                        img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}")
                         |#{title}
                     if is_admin 
                         a.ui.circular.icon.button(href="/m/tribe/#{_id}/edit" title='edit tribe instance')
                             i.pencil.large.icon
-                    +image_view key='image_id' label='image' direct=true
                 .eight.wide.column
-                    +skve k='view_section' v='posts' l='posts' i='content'
-                    +skve k='view_section' v='events' l='events' i='calendar'
-                    +skve k='view_section' v='chat' l='chat' i='chat outline'
-                    +skve k='view_section' v='members' l='members' i='users'
-                    +skve k='view_section' v='stats' l='stats' i='line chart'
-                    div
-                    if skv_is 'view_section' 'posts'
-                        +tribe_posts
-                    if skv_is 'view_section' 'members'
-                        +tribe_membership
+                    // +skve k='view_section' v='posts' l='posts' i='content'
+                    // +skve k='view_section' v='events' l='events' i='calendar'
+                    // +skve k='view_section' v='chat' l='chat' i='chat outline'
+                    // +skve k='view_section' v='members' l='members' i='users'
+                    // +skve k='view_section' v='stats' l='stats' i='line chart'
+                    // div
+                    // if skv_is 'view_section' 'posts'
+                    +tribe_posts
+                    // if skv_is 'view_section' 'members'
+                    //     +tribe_membership
                 .four.wide.column
-                    +multi_user_view key='tribe_leader_ids' label='tribe leaders' direct=true
+                    +html_view key='description' label='description' direct=true
+                    +multi_user_view key='tribe_leader_ids' label='tribe admins' direct=true
                     +multi_user_view key='tribe_member_ids' label='tribe members' direct=true
                     each members
                         a.ui.header(href="/user/#{username}")
                             img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                             |#{username}
-                    +html_view key='description' label='description' direct=true
                     div 
                     +array_view key='tags' label='tags' direct=true
                     .spacer
                     .spacer
                     // +comments
                     //- +array_view key='tribe_tags' label='tribe_tags' direct=true
-                    .ui.header  
-                        +icolor name='prize'
-                        |badges
-                    each tribe_badges
-                        .ui.header #{title}
-                    +tribe_membership
+                    // .ui.header  
+                    //     +icolor name='prize'
+                    //     |badges
+                    // each tribe_badges
+                    //     .ui.header #{title}
+                    // +tribe_membership
                     // a.ui.header(href="/m/tribe/#{_id}/view")
                     //     |#{title}
                     // .ui.list
@@ -76,7 +75,7 @@ template(name='tribe_posts')
     each all_tags
         .ui.compact.small.basic.button.select_tag(class=cloud_tag_class) 
             strong #{this.name}
-  
+    div
     i.grey.large.marker.icon
     if selected_tribe_location_tags
         #clear_location_tags.ui.black.circular.icon.compact.button
@@ -87,7 +86,7 @@ template(name='tribe_posts')
     each all_location_tags
         .ui.compact.small.basic.button.select_location_tag(class=cloud_tag_class) 
             strong #{this.name}
-   
+    div
     i.grey.large.clock.icon
     if selected_tribe_time_tags
         #clear_time_tags.ui.black.circular.icon.compact.button
@@ -98,7 +97,7 @@ template(name='tribe_posts')
     each all_time_tags
         .ui.compact.small.basic.button.select_time_tag(class=cloud_tag_class) 
             strong #{this.name}
-   
+    div
     i.grey.large.users.icon
     if selected_tribe_people_tags
         #clear_people_tags.ui.black.circular.icon.compact.button
@@ -112,35 +111,34 @@ template(name='tribe_posts')
     .scrolling
         each posts
             +tribe_post_card
+            .ui.divider
         
         
 template(name='tribe_post_card')
-    .ui.segment
-        a(href="/post/#{_id}/view") 
-            img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-        a.ui.header(href="/post/#{_id}/view") 
-            |#{title}
-        i.large.tag.icon(title='tags')
-        each tags
-            .ui.basic.label #{this}
-        i.large.marker.icon(title='location tags')
-        each location_tags
-            .ui.basic.label #{this}
-        i.large.clock.icon(title='time tags')
-        each time_tags
-            .ui.basic.label #{this}
-        i.large.users.icon(title='users tags')
-        each people_tags
-            .ui.basic.label #{this}
+    // .ui.segment
+    a(href="/post/#{_id}/view") 
+        img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+    a.ui.header(href="/post/#{_id}/view") 
+        |#{title}
+    i.large.tag.icon(title='tags')
+    each tags
+        .ui.basic.label #{this}
+    i.large.marker.icon(title='location tags')
+    each location_tags
+        .ui.basic.label #{this}
+    i.large.clock.icon(title='time tags')
+    each time_tags
+        .ui.basic.label #{this}
+    i.large.users.icon(title='users tags')
+    each people_tags
+        .ui.basic.label #{this}
 
-        div
-        | !{body}
-        div
-        if is_admin
-            +remove_button
-            +print_this
-        
-        //- div
-        +author_info
-        +creation_info
+    | !{body}
+    if is_admin
+        +remove_button
+        +print_this
+    
+    //- div
+    +author_info
+    +creation_info
 

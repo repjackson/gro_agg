@@ -54,22 +54,14 @@ template(name='post_view')
                     +array_view key='group_tags' direct=true
                     +array_view key='tags' direct=true
                     //- +array_view key='location_tags' label='location_tags' direct=true
-                .twelve.wide.column
+                .eight.wide.column
                     img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     // a.ui.header(href="/user/#{target.username}")
                     //     |#{target.username}
                     .ui.segment
                         |!{content}
-                    div 
-                    .spacer
-                    .spacer
+                .four.wide.column
                     +comments
-                // .four.wide.column
-                
-
-                    //- .ui.fluid.green.button.submit
-                    //-     i.checkmark.icon
-                    //-     |submit
 
 template(name='post_edit')
     with current_doc
