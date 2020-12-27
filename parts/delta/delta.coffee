@@ -192,9 +192,9 @@ if Meteor.isClient
                 # console.log _.sortBy current_delta.facets,'rank'
                 _.sortBy current_delta.facets,'rank'
 
-        global_tags: ->
-            doc_count = Docs.find().count()
-            if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find()
+        # global_tags: ->
+        #     doc_count = Docs.find().count()
+        #     if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find()
 
         single_doc: ->
             false

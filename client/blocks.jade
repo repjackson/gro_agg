@@ -16,11 +16,11 @@
 // template(name='new')
 //     .ui.header
         
-// template(name='say')
-//     if skv_is 'talking' true
-//         i.volume.up.green.link.circular.loading.large.icon.quiet
-//     else
-//         i.volume.off.link.circular.icon.say_this
+template(name='say')
+    if skv_is 'talking' true
+        i.volume.up.green.link.circular.loading.large.icon.quiet
+    else
+        i.volume.off.link.circular.icon.say_this
 
 // // template(name='viewed')
 // //     .ui.header viewed by
@@ -52,9 +52,9 @@
 //             //     img.ui.mini.rounded.inline.image(src="{{c.url image height=200 width=200 gravity='face' crop='fill'}}" class='invert')
 //             |#{title}
 
-// template(name='loading')
-//     .ui.basic.center.aligned.segment
-//         i.massive.grey.yin.yang.loading.icon
+template(name='loading')
+    .ui.basic.center.aligned.segment
+        i.massive.grey.yin.yang.loading.icon
 
 // template(name='print_this')
 //     i.link.code.inline.icon.print_this(title='print to console')

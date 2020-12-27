@@ -412,10 +412,14 @@ a.goto_article {
 /*    z-index: 1000 !important;*/
 /*    transform: scale(1.2) !important;*/
 /*}*/
+.grid {
+  margin-left:10px;
+}
+
 .superzoom {
     /*animation: fadeout .35s; */
     transition: all .15s ease !important; 
-
+    z-index:1000 !important;
 }
 .superzoom:hover {
     transition: all .15s ease !important; 

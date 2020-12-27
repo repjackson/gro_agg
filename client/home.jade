@@ -237,22 +237,22 @@ template(name='dao')
 //         i.exchange.icon
 
 
-// template(name='unselect_tag')
-//     a.unselect_tag.ui.black.compact.button.select_term(href='#')
-//         if term
-//             if term.watson.metadata.image
-//                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
-//         strong #{this}
+template(name='unselect_tag')
+    a.unselect_tag.ui.black.compact.button.select_term(href='#')
+        if term
+            if term.watson.metadata.image
+                img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
+        strong #{this}
 
-// template(name='tag_selector')
-//     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-//     a.ui.zoomer.tertiary.button.say.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-//         if term
-//             if term.watson.metadata.image
-//                 img.ui.avatar.image.zoomer(src=term.watson.metadata.image)    
-//         | #{name}
-//         // else
-//         small #{count}
+template(name='tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.zoomer.tertiary.button.say.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.avatar.image.zoomer(src=term.watson.metadata.image)    
+        | #{name}
+        // else
+        small #{count}
         
 // template(name='select_subreddit')
 //     // a.ui.basic.button.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
@@ -271,26 +271,26 @@ template(name='dao')
 //         small #{count}
 
 
-// template(name='duck')
-//     with content
-//         // .ui.segment
-//         .ui.inline.header #{Heading}
-//         // .item abstract #{Abstract}
-//         .item.abstract !{AbstractText}
-//         a.ui.icon.button(href=AbstractURL)
-//             // #{AbstractURL}
-//             i.large.external.icon
-//         img(src=Image)
-//         each RelatedTopics
-//             if Text
-//                 // .ui.compact.button.topic
-//                 .ui.pointer.small.header.topic(class=thinking_class)
-//                     img.ui.mini.inline.rounded.image(src=Icon.URL)
-//                     |#{Text}
-//                     // | {{lowered Text}}
-//             // .content
-//             //     .item #{FirstURL}
-//             //     .item !{Result}
+template(name='duck')
+    with content
+        // .ui.segment
+        .ui.inline.header #{Heading}
+        // .item abstract #{Abstract}
+        .item.abstract !{AbstractText}
+        a.ui.icon.button(href=AbstractURL)
+            // #{AbstractURL}
+            i.large.external.icon
+        img(src=Image)
+        each RelatedTopics
+            if Text
+                // .ui.compact.button.topic
+                .ui.pointer.small.header.topic(class=thinking_class)
+                    img.ui.mini.inline.rounded.image(src=Icon.URL)
+                    |#{Text}
+                    // | {{lowered Text}}
+            // .content
+            //     .item #{FirstURL}
+            //     .item !{Result}
 
 
 

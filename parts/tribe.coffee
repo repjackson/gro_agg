@@ -120,37 +120,6 @@ if Meteor.isClient
 
   
   
-    Template.tribe_posts.events
-        'click .create_post': ->
-            new_id = Docs.insert
-                model:'post'
-                tribe:Router.current().params.name
-            Router.go "/post/#{new_id}/edit"
-    
-    Template.tribe_posts.helpers
-    Template.tribe_view.onRendered ->
-        @autorun => Meteor.subscribe 'tribe_members', Router.current().params.name
-    Template.tribe_view.events
-        'click .create_tribe': ->
-            # console.log 'creating'
-            Docs.insert 
-                model:'tribe'
-                name:Router.current().params.name
-    Template.tribe_edit.helpers
-        enabled_features: ->
-            tribe = Docs.findOne Router.current().params.doc_id
-            Docs.find 
-                model:'feature'
-                _id:$in:tribe.enabled_feature_ids
-        disabled_features: ->
-            tribe = Docs.findOne Router.current().params.doc_id
-            if tribe.enabled_feature_ids
-                Docs.find 
-                    model:'feature'
-                    _id:$nin:tribe.enabled_feature_ids
-            else
-                Docs.find 
-                    model:'feature'
             
     Template.tribe_edit.events
         'click .enable_feature': ->
@@ -201,7 +170,6 @@ if Meteor.isClient
                 Meteor.call 'tip_user', @_id, ->
 
 if Meteor.isServer
-    
     Meteor.publish 'tribe_tags', (
         selected_tribe_tags, 
         selected_tribe_location_tags, 

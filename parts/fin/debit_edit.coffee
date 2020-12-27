@@ -23,7 +23,7 @@ if Meteor.isClient
         terms: ->
             Terms.find()
         suggestions: ->
-            Tags.find()
+            # Tags.find()
         recipient: ->
             debit = Docs.findOne Router.current().params.doc_id
             if debit.recipient_id
