@@ -1081,7 +1081,7 @@ template(name='multi_user_edit')
                     a.select_user.item(href="#")
                         .ui.header
                             img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                            strong #{first_name} #{last_name}
+                            // strong #{name}
                             small @#{username}
     +clear_value                
     each field_value

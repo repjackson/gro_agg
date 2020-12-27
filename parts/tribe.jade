@@ -33,53 +33,52 @@ template(name='tribe_card')
                     
                     
 template(name='tribe_membership')
-    if current_doc.private
-        unless is_member
-            .ui.big.button.request
-                |request membership
-        else
-            .ui.large.button.switch
-                |switch to
+    each members
+        .ui.header #{username}
+    // if current_doc.private
+    //     unless is_member
+    //         .ui.big.button.request
+    //             |request membership
+    //     else
+    //         .ui.large.button.switch
+    //             |switch to
+    // else
+    if is_member
+        // .ui.large.button.switch
+        //     |switch to
+        .ui.divider
+        .ui.large.button.leave
+            |- leave
     else
-        if is_member
-            .ui.large.button.switch
-                |switch to
-            .ui.divider
-            .ui.large.button.leave
-                |- leave
-        else
-            .ui.big.button.join 
-                |+ join
+        .ui.big.button.join 
+            |+ join
                     
                     
 template(name='tribe_edit')
     with current_doc
         .ui.stackable.padded.grid
-            .middle.aligned.row 
-                .four.wide.center.aligned.column
+            .row 
+                .six.wide.column
                     a.ui.green.circular.button(href="/tribe/#{name}" title='save')
                         i.checkmark.big.icon
                         |save
-                .eight.wide.center.aligned.column
                     .ui.small.inline.header 
-                        +icon name='clock'
+                        i.pencil.icon
                         |edit tribe
-                    .ui.inline.header #{title} #{name}
-                .four.wide.center.aligned.column
+                    .ui.inline.header #{title} 
+                        small (#{name})
                     .ui.icon.button.delete_item(title='delete tribe')
                         i.large.remove.icon
-            .row 
-                .four.wide.column
-                    +multi_user_edit key='tribe_leader_ids' label='tribe leaders' direct=true
-                    +multi_user_edit key='tribe_member_ids' label='tribe members' direct=true
+                    +multi_user_edit key='leader_ids' label='tribe leaders' direct=true
+                    +multi_user_edit key='member_ids' label='tribe members' direct=true
                     +image_edit key='image_id' label='image' direct=true
-                .eight.wide.column
+                .ten.wide.column
                     +text_edit key='title' label='title' direct=true
-                    +icon_edit key='icon' label='icon' direct=true
+                    // +icon_edit key='icon' label='icon' direct=true
                     +html_edit key='description' label='description' direct=true
                     div 
                     +array_edit key='tags' label='tags' icon='tags' direct=true
-                .four.wide.column
+                    +print_this
                     +boolean_edit key='private' label='private' direct=true
                     .ui.header enabled features
                     each enabled_features

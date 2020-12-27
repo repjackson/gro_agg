@@ -366,7 +366,7 @@ a.goto_article {
     /*animation: fadeout .35s; */
     /*transition: all .15s ease !important; */
     /*cursor: crosshair !important;*/
-    color: black !important; 
+    /*color: black !important; */
     transform: scale(1.01) !important;
 }
 .raise:hover {
@@ -379,7 +379,7 @@ a.goto_article {
 }
 
 .pointer:hover {
-    transition: all .15s linear !important; 
+    transition: all .1s linear !important; 
     cursor: pointer !important;
     /* color: black !important; */
     /* font-size: 130% !important; */

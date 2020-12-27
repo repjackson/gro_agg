@@ -42,8 +42,8 @@ template(name='user_item')
             img.ui.avatar.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
 
             a.ui.inline.header.pointer(href="/user/#{username}" style="color:#{theme_color};")
-                |#{name}
-                //- |#{username}
+                // |#{name}
+                |#{username}
             .ui.inline.small.header(style="color:#{current_user.theme_color};") #{points}pts
             .ui.large.basic.label(style="color:#{current_user.theme_color};" title='one ratio') {{to_percent one_ratio}}%
             .ui.large.basic.label(style="color:#{current_user.theme_color};") #{flow_volume} vol

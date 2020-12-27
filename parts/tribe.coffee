@@ -27,17 +27,17 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'tribe_by_name', Router.current().params.name
         # @autorun => Meteor.subscribe 'model_docs', 'feature'
-        # @autorun => Meteor.subscribe 'all_users'
+        @autorun => Meteor.subscribe 'tribe_members',Router.current().params.name
         # @autorun => Meteor.subscribe 'tribe_template_from_tribe_id', Router.current().params.doc_id
 
     Template.tribe_edit.onCreated ->
         @autorun => Meteor.subscribe 'tribe_by_name', Router.current().params.name
-        # @autorun => Meteor.subscribe 'all_users'
+        @autorun => Meteor.subscribe 'tribe_members', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'model_docs', 'feature'
         
 
     Template.registerHelper 'is_member', ()->
-        Meteor.userId() in @tribe_member_ids
+        Meteor.userId() in @member_ids
 
     Template.tribe_posts.onRendered ->
         @autorun => Meteor.subscribe 'tribe_posts', 
@@ -129,10 +129,10 @@ if Meteor.isClient
     
     Template.tribe_posts.helpers
     Template.tribe_view.onRendered ->
-        @autorun => Meteor.subscribe 'tribe_template_from_tribe_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'tribe_members', Router.current().params.name
     Template.tribe_view.events
         'click .create_tribe': ->
-            console.log 'creating'
+            # console.log 'creating'
             Docs.insert 
                 model:'tribe'
                 name:Router.current().params.name
@@ -173,6 +173,15 @@ if Meteor.isClient
                 Meteor.call 'send_tribe', @_id, =>
                     Router.go "/tribe/#{@_id}/view"
 
+    Template.tribe_membership.helpers
+        members: ->
+            tribe = 
+                Docs.findOne
+                    model:'tribe'
+                    
+            Meteor.users.find
+                _id:$in:tribe.member_ids
+            
     Template.tribe_membership.events
         'click .switch': ->
             Meteor.call 'switch_tribe', @_id
@@ -299,29 +308,41 @@ if Meteor.isServer
         Docs.find
             model:'tribe'
             name:name
-    # Meteor.publish 'tribe_template_from_tribe_id', (tribe_id)->
-    #     tribe = Docs.findOne tribe_id
-    #     Docs.find 
-    #         model:'tribe_template'
-    #         _id:tribe.template_id
+            
+            
+    Meteor.publish 'tribe_members', (name)->
+        tribe = Docs.findOne 
+            model:'tribe'
+            name:name
+        if tribe 
+            Meteor.users.find
+                _id:$in:tribe.member_ids
+        else 
+            tribe_doc = Docs.findOne
+                model:'tribe'
+                _id:name
+            Meteor.users.find
+                _id:$in:tribe_doc.member_ids
+            
+    
     
     Meteor.methods
         join_tribe: (tribe_id)->
             tribe = Docs.findOne tribe_id
             Docs.update tribe_id, 
                 $addToSet:
-                    tribe_member_ids: Meteor.userId()
+                    member_ids: Meteor.userId()
         
         leave_tribe: (tribe_id)->
             tribe = Docs.findOne tribe_id
             Docs.update tribe_id, 
                 $pull:
-                    tribe_member_ids: Meteor.userId()
+                    member_ids: Meteor.userId()
                     
                     
-        switch_tribe: (tribe_id)->
-            Meteor.users.update Meteor.userId(),
-                $set:current_tribe_id:tribe_id
+        # switch_tribe: (tribe_id)->
+        #     Meteor.users.update Meteor.userId(),
+        #         $set:current_tribe_id:tribe_id
 
 if Meteor.isClient
     Template.tribe_edit.events
