@@ -5,18 +5,18 @@ template(name='user_tribes')
     if is_current_user
         a.ui.circular.basic.icon.button(href="/user/#{current_user.username}/edit/tribes")
             i.pencil.icon
-    .ui.header leader of
+    .ui.header admin of
     each user_leader_tribes
         .ui.segment
-            a.ui.header(href="/m/tribe/#{_id}/view") #{title}
-            if is_current_user
-                +enter_tribe
+            a.ui.header(href="/tribe/#{name}") #{title}
+            // if is_current_user
+            //     +enter_tribe
     .ui.header member of
     each user_member_tribes
         .ui.segment
-            a.ui.header(href="/m/tribe/#{_id}/view") #{title}
-            if is_current_user
-                +enter_tribe
+            a.ui.header(href="/tribe/#{name}") #{title}
+            // if is_current_user
+            //     +enter_tribe
             
             
             

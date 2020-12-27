@@ -214,7 +214,7 @@ if Meteor.isServer
             { $match: _id: $nin: selected_tribe_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit: 7 }
+            { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         tag_cloud.forEach (tag, i) ->
@@ -230,7 +230,7 @@ if Meteor.isServer
             { $match: _id: $nin: selected_tribe_location_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit: 7 }
+            { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         location_tag_cloud.forEach (tag, i) ->
@@ -247,7 +247,7 @@ if Meteor.isServer
             { $match: _id: $nin: selected_tribe_time_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit: 7 }
+            { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         time_tag_cloud.forEach (tag, i) ->
@@ -264,7 +264,7 @@ if Meteor.isServer
             { $match: _id: $nin: selected_tribe_people_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit: 7 }
+            { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         people_tag_cloud.forEach (tag, i) ->

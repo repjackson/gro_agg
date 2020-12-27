@@ -35,12 +35,12 @@ if Meteor.isClient
             #         levels:$in:['member']
             #     )
 
-    Template.member_card.helpers
+    Template.user_card.helpers
         credit_ratio: ->
             unless @debit_count is 0
                 @debit_count/@debit_count
 
-    Template.member_card.events
+    Template.user_card.events
         'click .calc_points': ->
             Meteor.call 'calc_user_points', @_id, ->
         'click .debit': ->

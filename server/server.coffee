@@ -27,11 +27,11 @@ Meteor.users.allow
         if user_id
             if doc._id is user_id
                 true
-            else if user.roles and 'dev' in user.roles
+            else if user.roles and 'admin' in user.roles
                 true
     remove: (user_id, doc, fields, modifier) ->
         user = Meteor.users.findOne user_id
-        if user_id and 'dev' in user.roles
+        if user_id and 'admin' in user.roles
             true
         # if userId and doc._id == userId
         #     true

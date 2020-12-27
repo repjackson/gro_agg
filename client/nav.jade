@@ -22,14 +22,13 @@ template(name='nav')
                 i.large.user.outline.icon
             a.icon.zoomer.teal.item.clear_tags.goto_stack(href='/stack' class="{{isActivePath '/stack'}}" title='stack exchange')
                 i.large.stack.exchange.icon
-            // a.icon.zoomer.item.goto_vid(href='/pics' class="{{isActivePath regex='pics'}}" title='pics')
-            //     i.large.picture.icon
-            // a.icon.zoomer.item.goto_vid(href='/github' class="{{isActivePath regex='github'}}" title='github')
-            //     i.large.github.icon
             a.icon.zoomer.item.clear_tags.goto_reddit(href='/reddit' class="{{isActiveRoute regex='reddit'}}" title='reddit')
                 i.large.reddit.icon
             a.icon.zoomer.item.goto_rusers(href='/rusers' class="{{isActivePath regex='rusers'}}" title='rusers')
                 i.large.user.outline.icon
+            if is_admin
+                a.icon.zoomer.item.goto_rusers(href='/users' class="{{isActivePath regex='rusers'}}" title='rusers')
+                    i.large.users.icon
             // a.icon.zoomer.item.silence(href='#')
             //     i.large.volume.mute.icon
         unless connected

@@ -5,18 +5,17 @@ template(name='tribe_view')
     with current_tribe
         .ui.stackable.padded.grid
             .row 
-                .four.wide.column
+                .twelve.wide.column
                     a.ui.circular.basic.button(href="/tribes")
                         i.chevron.left.icon
                         i.big.fire.icon
                         |tribes
-                    .ui.header 
+                    .ui.inline.header 
                         img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}")
                         |#{title}
                     if is_admin 
                         a.ui.circular.icon.button(href="/m/tribe/#{_id}/edit" title='edit tribe instance')
                             i.pencil.large.icon
-                .eight.wide.column
                     // +skve k='view_section' v='posts' l='posts' i='content'
                     // +skve k='view_section' v='events' l='events' i='calendar'
                     // +skve k='view_section' v='chat' l='chat' i='chat outline'
@@ -61,57 +60,59 @@ template(name='tribe_view')
 
 
 template(name='tribe_posts')
-    .ui.inline.header posts
-    if currentUser
-        .ui.circular.icon.basic.button.create_post
-            i.plus.green.icon
-    i.grey.tags.icon
-    if selected_tribe_tags
-        #clear_tags.ui.black.circular.icon.compact.button
-            i.remove.icon
-        each selected_tribe_tags
-            .unselect_tag.ui.black.circular.compact.button
-                strong #{this}
-    each all_tags
-        .ui.compact.small.basic.button.select_tag(class=cloud_tag_class) 
-            strong #{this.name}
-    div
-    i.grey.large.marker.icon
-    if selected_tribe_location_tags
-        #clear_location_tags.ui.black.circular.icon.compact.button
-            i.remove.icon
-        each selected_tribe_location_tags
-            .unselect_location_tag.ui.black.circular.compact.button
-                strong #{this}
-    each all_location_tags
-        .ui.compact.small.basic.button.select_location_tag(class=cloud_tag_class) 
-            strong #{this.name}
-    div
-    i.grey.large.clock.icon
-    if selected_tribe_time_tags
-        #clear_time_tags.ui.black.circular.icon.compact.button
-            i.remove.icon
-        each selected_tribe_time_tags
-            .unselect_time_tag.ui.black.circular.compact.button
-                strong #{this}
-    each all_time_tags
-        .ui.compact.small.basic.button.select_time_tag(class=cloud_tag_class) 
-            strong #{this.name}
-    div
-    i.grey.large.users.icon
-    if selected_tribe_people_tags
-        #clear_people_tags.ui.black.circular.icon.compact.button
-            i.remove.icon
-        each selected_tribe_people_tags
-            .unselect_people_tag.ui.black.circular.compact.button
-                strong #{this}
-    each all_people_tags
-        .ui.compact.small.basic.button.select_people_tag(class=cloud_tag_class) 
-            strong #{this.name}
-    .scrolling
-        each posts
-            +tribe_post_card
-            .ui.divider
+    .ui.stackable.grid    
+        .sixteen.wide.column
+            .ui.inline.header posts
+            if currentUser
+                .ui.circular.icon.basic.button.create_post
+                    i.plus.green.icon
+            i.grey.tags.icon
+            if selected_tribe_tags
+                // #clear_tags.ui.black.circular.icon.compact.button
+                //     i.remove.icon
+                each selected_tribe_tags
+                    .unselect_tag.ui.black.circular.compact.button
+                        strong #{this}
+            each all_tags
+                .ui.compact.small.basic.button.select_tag(class=cloud_tag_class) 
+                    strong #{this.name}
+            div
+            i.grey.large.marker.icon
+            if selected_tribe_location_tags
+                // #clear_location_tags.ui.black.circular.icon.compact.button
+                //     i.remove.icon
+                each selected_tribe_location_tags
+                    .unselect_location_tag.ui.black.circular.compact.button
+                        strong #{this}
+            each all_location_tags
+                .ui.compact.small.basic.button.select_location_tag(class=cloud_tag_class) 
+                    strong #{this.name}
+            div
+            i.grey.large.clock.icon
+            if selected_tribe_time_tags
+                // #clear_time_tags.ui.black.circular.icon.compact.button
+                //     i.remove.icon
+                each selected_tribe_time_tags
+                    .unselect_time_tag.ui.black.circular.compact.button
+                        strong #{this}
+            each all_time_tags
+                .ui.compact.small.basic.button.select_time_tag(class=cloud_tag_class) 
+                    strong #{this.name}
+            div
+            i.grey.large.users.icon
+            if selected_tribe_people_tags
+                // #clear_people_tags.ui.black.circular.icon.compact.button
+                //     i.remove.icon
+                each selected_tribe_people_tags
+                    .unselect_people_tag.ui.black.circular.compact.button
+                        strong #{this}
+            each all_people_tags
+                .ui.compact.small.basic.button.select_people_tag(class=cloud_tag_class) 
+                    strong #{this.name}
+            .scrolling
+                each posts
+                    +tribe_post_card
+                    .ui.divider
         
         
 template(name='tribe_post_card')

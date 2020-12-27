@@ -81,9 +81,6 @@ template(name='profile_layout')
                         a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/about" class="{{isActiveRoute 'user_about'}}" title="#{user.username} info")
                             i.info.icon
                             span about
-                        a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/requests" class="{{isActiveRoute 'user_requests'}}" title="#{user.username} requests")
-                            i.concierge.bell.icon
-                            span projects
                         if currentUser
                             a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} offers")
                                 i.edit.icon
@@ -91,12 +88,6 @@ template(name='profile_layout')
                         a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
                             i.chat.icon
                             span chat
-                        a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/services" class="{{isActiveRoute 'user_services'}}" title="#{user.username} services")
-                            i.wrench.icon
-                            span services
-                        a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/badges" class="{{isActiveRoute 'user_badges'}}" title="#{user.username} badges")
-                            i.certificate.icon
-                            span.mobile.hidden badges
                         a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}" title="#{user.username} tribes")
                             i.fire.icon
                             span.mobile.hidden tribes
