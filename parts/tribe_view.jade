@@ -57,7 +57,8 @@ template(name='tribe_posts')
                     .unselect_tag.ui.black.circular.compact.button
                         strong #{this}
             each all_tags
-                .ui.compact.circular.small.basic.button.select_tag(class=cloud_tag_class) 
+                // +tribe_selector
+                .ui.compact.circular.small.basic.tertiary.button.say.select_tag(class=cloud_tag_class) 
                     strong #{this.name}
             // div
             i.large.marker.icon
@@ -68,7 +69,9 @@ template(name='tribe_posts')
                     .unselect_location_tag.ui.black.circular.compact.button
                         strong #{this}
             each all_location_tags
-                .ui.compact.circular.small.basic.button.select_location_tag(class=cloud_tag_class) 
+                // +tribe_selector
+                .ui.compact.circular.small.basic.tertiary.button.say.select_location_tag(class=cloud_tag_class) 
+                    +tribe_selector
                     strong #{this.name}
             // div
             i.large.clock.icon
@@ -79,7 +82,12 @@ template(name='tribe_posts')
                     .unselect_time_tag.ui.black.circular.compact.button
                         strong #{this}
             each all_time_tags
-                .ui.compact.circular.small.basic.button.select_time_tag(class=cloud_tag_class) 
+                // +tribe_selector
+                .ui.compact.circular.small.basic.tertiary.button.say.select_time_tag(class=cloud_tag_class) 
+                    // if term
+                    //     if term.watson.metadata.image
+                    //         img.ui.avatar.image.zoomer(src=term.watson.metadata.image)
+                    +tribe_selector
                     strong #{this.name}
             // div
             i.large.users.icon
@@ -90,7 +98,7 @@ template(name='tribe_posts')
                     .unselect_people_tag.ui.black.circular.compact.button
                         strong #{this}
             each all_people_tags
-                .ui.compact.circular.small.basic.button.select_people_tag(class=cloud_tag_class) 
+                .ui.compact.circular.small.basic.tertiary.button.say.select_people_tag(class=cloud_tag_class) 
                     strong #{this.name}
             // div
             .ui.inline.header #{q_count}
@@ -134,10 +142,10 @@ template(name='tribe_posts')
             //         i.minus.large.icon
             //         // |simple
             //     // i.line.chart.icon
-            .ui.icon.compact.large.button.set_grid(class=grid_class) 
-                i.th.icon
-            .ui.icon.compact.large.button.set_list(class=list_class)
-                i.list.icon
+            .ui.icon.compact.circular.large.button.set_grid(class=grid_class) 
+                i.th.large.icon
+            .ui.icon.compact.circular.large.button.set_list(class=list_class)
+                i.list.large.icon
                     
             .scrolling
                 if skv_is 'tribe_view_layout' 'grid'
@@ -148,6 +156,17 @@ template(name='tribe_posts')
                     each posts
                         +tribe_post_card
                         .ui.divider
+        
+template(name='tribe_selector')
+    if term
+        if term.watson.metadata.image
+            img.ui.avatar.image.superzoom(src=term.watson.metadata.image)    
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    // a.ui.zoomer.tertiary.button.say.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+        | #{name}
+        // else
+        small #{count}
+        
         
         
 template(name='tribe_post_card_small')

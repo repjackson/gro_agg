@@ -1,20 +1,47 @@
 if Meteor.isClient
+    Template.tribe_posts.onRendered ->
+        Session.setDefault('tribe_view_layout', 'list')
+
+    Template.tribe_selector.onCreated ->
+        # console.log @
+        if @data.name
+            @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
+    
+    Template.tribe_selector.helpers
+        selector_class: ()->
+            term = 
+                Docs.findOne 
+                    title:@name.toLowerCase()
+            if term
+                if term.max_emotion_name
+                    switch term.max_emotion_name
+                        when 'joy' then ' basic green'
+                        when 'anger' then ' basic red'
+                        when 'sadness' then ' basic blue'
+                        when 'disgust' then ' basic orange'
+                        when 'fear' then ' basic grey'
+                        else 'basic'
+        term: ->
+            Docs.findOne 
+                title:@name.toLowerCase()
+
+
     Template.tribe_posts.events
         'click .create_post': ->
             new_id = Docs.insert
                 model:'post'
                 tribe:Router.current().params.name
             Router.go "/post/#{new_id}/edit"
-        'click .sort_timestamp': (e,t)-> Session.set('sort_key','_timestamp')
+        'click .sort_timestamp': (e,t)-> Session.set('tribe_sort_key','_timestamp')
         'click .unview_bounties': (e,t)-> Session.set('view_bounties',0)
         'click .view_bounties': (e,t)-> Session.set('view_bounties',1)
         'click .unview_unanswered': (e,t)-> Session.set('view_unanswered',0)
         'click .view_unanswered': (e,t)-> Session.set('view_unanswered',1)
-        'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
+        'click .sort_down': (e,t)-> Session.set('tribe_sort_direction',-1)
+        'click .sort_up': (e,t)-> Session.set('tribe_sort_direction',1)
         'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
-        'click .sort_up': (e,t)-> Session.set('sort_direction',1)
-        'click .limit_10': (e,t)-> Session.set('limit',10)
-        'click .limit_1': (e,t)-> Session.set('limit',1)
+        'click .limit_10': (e,t)-> Session.set('tribe_limit',10)
+        'click .limit_1': (e,t)-> Session.set('tribe_limit',1)
         'click .set_grid': (e,t)-> Session.set('tribe_view_layout', 'grid')
         'click .set_list': (e,t)-> Session.set('tribe_view_layout', 'list')
         'keyup .search_site': (e,t)->

@@ -17,8 +17,8 @@ Template.body.events
     # 'click .say_body': ->
     #     window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
-    # 'click .say': ->
-    #     window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
+    'click .say': ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
 # Template.say.events
 #     'click .quiet': (e,t)->
