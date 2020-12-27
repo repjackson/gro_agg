@@ -195,8 +195,13 @@ if Meteor.isClient
         'click .request': ->
             Meteor.call 'request_tribe_membership', @_id, ->
                 
+    Template.tribe_member_item.events
+        'click .tip': ->
+            if confirm 'tip user?'
+                Meteor.call 'tip_user', @_id, ->
 
 if Meteor.isServer
+    
     Meteor.publish 'tribe_tags', (
         selected_tribe_tags, 
         selected_tribe_location_tags, 
@@ -327,6 +332,42 @@ if Meteor.isServer
     
     
     Meteor.methods
+        tip_user: (target_id)->
+            target = Meteor.users.findOne target_id
+            # console.log 'target', target
+            console.log 'tip user', target_id
+            
+            Docs.insert 
+                model:'tip'
+                _target_id: target_id
+                _target_username:target.username
+            Meteor.call 'calc_tips', target_id, ->
+            Meteor.call 'calc_tips', Meteor.userId(), ->
+            
+            
+        calc_tips: (user_id)->
+            console.log 'calc tips', user_id
+            user = Meteor.users.findOne user_id
+            tips_given_count = 
+                Docs.find( 
+                    model:'tip'
+                    _author_id:user_id
+                ).count()
+                
+            tips_received_count = 
+                Docs.find( 
+                    model:'tip'
+                    _target_id:user_id
+                ).count()
+            
+            total_points = tips_received_count*10 - tips_given_count*11    
+                
+            Meteor.users.update user_id,
+                $set:
+                    "stats.tips_received_count":tips_received_count
+                    "stats.tips_given_count":tips_given_count
+                    "stats.points":total_points
+            
         join_tribe: (tribe_id)->
             tribe = Docs.findOne tribe_id
             Docs.update tribe_id, 

@@ -33,8 +33,12 @@ template(name='tribe_card')
                     
                     
 template(name='tribe_membership')
-    each members
-        .ui.header #{username}
+    .ui.items
+        each members
+            +tribe_member_item
+    if is_admin 
+        .ui.input
+            input(type='text')
     // if current_doc.private
     //     unless is_member
     //         .ui.big.button.request
@@ -53,6 +57,24 @@ template(name='tribe_membership')
         .ui.big.button.join 
             |+ join
                     
+                    
+template(name='tribe_member_item')     
+    .item
+        a.ui.tiny.image
+            img.ui.rounded.image(src="{{c.url profile_image_id height=300 width=300 gravity='face' crop='fill'}}")
+        .content
+            a.header(href="/user/#{username}") #{username}
+            .description
+                |#{stats.points} points
+                .ui.basic.button.tip
+                    |tip
+                .ui.label
+                    |#{stats.tips_received_count} tips received
+                .ui.label
+                    |#{stats.tips_given_count} tips given
+                // .ui.label
+                //     |#{stats.tip_points} total points
+
                     
 template(name='tribe_edit')
     with current_doc

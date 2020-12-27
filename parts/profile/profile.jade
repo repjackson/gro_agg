@@ -75,20 +75,23 @@ template(name='profile_layout')
                         if is_dev
                             +print_this
                     .twelve.wide.column.profile_yield
-                        a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
+                        a.ui.basic.button(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
                             i.dashboard.icon
                             span dashboard
-                        a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/about" class="{{isActiveRoute 'user_about'}}" title="#{user.username} info")
+                        a.ui.basic.button(href="/user/#{username}/about" class="{{isActiveRoute 'user_about'}}" title="#{user.username} info")
                             i.info.icon
                             span about
                         if currentUser
-                            a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} offers")
+                            a.ui.basic.button(href="/user/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} offers")
                                 i.edit.icon
                                 span posts
-                        a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
+                        a.ui.basic.button(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
                             i.chat.icon
                             span chat
-                        a.ui.basic.compact.button.select_term.profile_nav_item(href="/user/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}" title="#{user.username} tribes")
+                        a.ui.basic.button(href="/user/#{username}/tips" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
+                            i.plus.icon
+                            span tips
+                        a.ui.basic.button(href="/user/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}" title="#{user.username} tribes")
                             i.fire.icon
                             span.mobile.hidden tribes
                     

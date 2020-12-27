@@ -31,9 +31,9 @@ template(name='post_view')
                     if can_edit
                         a.edit_post(href="/m/post/#{_id}/edit" title='edit')
                             i.big.circular.link.pencil.icon
+                    .ui.small.header created #{when} 
                     .ui.segment
-                        .ui.header 
-                            small author
+                        .ui.inline.small.header author
                         a.ui.header(href="/user/#{_author.username}") 
                             img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{_author.username}
@@ -50,8 +50,6 @@ template(name='post_view')
                     +array_view key='location_tags' direct=true
                     +array_view key='time_tags' direct=true
                     +array_view key='people_tags' direct=true
-                    +array_view key='group_tags' direct=true
-                    +array_view key='tags' direct=true
                     //- +array_view key='location_tags' label='location_tags' direct=true
                 .eight.wide.column
                     img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
@@ -62,6 +60,7 @@ template(name='post_view')
                 .four.wide.column
                     +voting_full
                     +comments
+                    +post_tips
 
 template(name='post_edit')
     with current_doc
@@ -103,3 +102,25 @@ template(name='post_edit')
                     +array_edit key='location_tags' label='location tags' i='marker' direct=true
                     +array_edit key='people_tags' label='people tags' i='users' direct=true
                     +array_edit key='time_tags' label='time tags' i='clock' direct=true
+
+
+
+template(name='post_tips')
+    .ui.dividing.header 
+        i.coins.icon
+        |#{tip_count} tips totaling #{tip_total}p
+    |tips cost 11p, give the author 10p
+    .ui.green.fluid.button.tip
+        i.donate.icon
+        |tip
+    .ui.link.selection.list
+        .ui.styled.fluid.accordion 
+            each tippers
+                .title
+                    img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                    |#{username} #{total_tip_amount}
+                    i.dropdown.icon
+                .content
+                    .ui.list
+                        each tipper_tips
+                            .item #{when} 

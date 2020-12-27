@@ -88,59 +88,6 @@ template(name='user_dashboard')
                                 |#{description}
                                 |{{med_date date}}
                                 |{{long_time time}}
-        .ui.stackable.padded.grid
-            .five.wide.column
-                .ui.segment 
-                    |Average rating
-                    .ui.big.center.aligned.header
-                        i.yellow.star.icon
-                        |4.90
-                    |based on 80 online reviews
-                    // if background_checked
-                    .ui.list
-                        .item
-                            i.users.icon
-                            |Owner Background Checked  
-                        .item No neighbor data for this pro
-                        .item
-                            i.calendar.icon
-                            |1 year in business
-                        .item
-                            i.home.icon
-                            |Typical home value is unknown
-                        .item
-                            i.tasks.icon
-                            |Median project cost is unknown
-                        .item
-                            i.clock.icon
-                            |Response rate is unknown
-            .five.wide.column
-                .ui.segment 
-                    .ui.header Professional information
-                    .ui.small.header address
-                    .ui.small.header phone
-            .four.wide.column
-                .ui.segment 
-                    .ui.header mode
-                    +boolean_edit key='edit_mode' label='edit mode' direct=true
-            .eight.wide.column
-                .ui.segment 
-                    .ui.header Reviews
-                    each reviews 
-                        .ui.header #{title}
-            .eight.wide.column
-                .ui.segment 
-                    .ui.header Projects
-                    each projects 
-                        .ui.header #{title}
-            .eight.wide.column
-                .ui.segment 
-                    .ui.header Service Area
-                    if is_current_user
-                        if currentUser.edit_mode
-                            +array_edit key='service_area_codes' label='service area codes' direct=true
-                    each service_area_codes 
-                        .ui.header #{this}
                 
 
 

@@ -68,12 +68,12 @@ template(name='nav')
                         else
                             i.large.user.large.icon
                     strong.mobile.hidden #{currentUser.name}
-                // a.mobile.hidden.item(href="/user/#{currentUser.username}" class="{{isActiveRoute 'user_credits'}}")
-                //     |#{currentUser.points}p
+                a.mobile.hidden.item(href="/user/#{currentUser.username}" class="{{isActiveRoute 'user_credits'}}")
+                    |#{currentUser.points}p
             else
                 a.item(href="/register" title='register')
-                    |register
                     // i.large.plus.icon
+                    |register
                     // +icon name='plus'
                 a.item(href="/login" title='login')
                     // i.large.chevron.right.icon

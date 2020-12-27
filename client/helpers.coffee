@@ -176,6 +176,9 @@ Template.registerHelper 'nl2br', (text)->
 Template.registerHelper 'author', ->
     Meteor.users.findOne(@_author_id)
 
+Template.registerHelper 'target', ->
+    Meteor.users.findOne(@_target_id)
+
 
 Template.registerHelper 'dev', -> Meteor.isDevelopment
 Template.registerHelper 'fixed', (number)->
