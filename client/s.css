@@ -397,6 +397,18 @@ a.goto_article {
     transition: all .15s ease !important; 
 
 }
+a:active {
+  transform: scale(.95) !important;
+}
+a.segment:active {
+  transform: scale(.95) !important;
+}
+img:active {
+  transform: scale(.95) !important;
+}
+.ui.image:active {
+  transform: scale(.95) !important;
+}
 .zoomer:hover {
     transition: all .15s ease !important; 
     /*text-shadow: 0 0 3px grey !important;*/
@@ -420,6 +432,9 @@ a.goto_article {
     /*animation: fadeout .35s; */
     transition: all .15s ease !important; 
     z-index:1000 !important;
+}
+.superzoom:active {
+    transform: scale(1.5) !important;
 }
 .superzoom:hover {
     transition: all .15s ease !important; 

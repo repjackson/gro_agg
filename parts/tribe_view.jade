@@ -14,7 +14,7 @@ template(name='tribe_view')
                         img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}")
                         |#{title}
                     if is_admin 
-                        a.ui.circular.icon.button(href="/m/tribe/#{_id}/edit" title='edit tribe instance')
+                        a.ui.circular.icon.button(href="/tribe/#{_id}/edit" title='edit tribe instance')
                             i.pencil.large.icon
                     +skve k='view_section' v='posts' l='posts' i='content'
                     // +skve k='view_section' v='events' l='events' i='calendar'
@@ -100,7 +100,7 @@ template(name='tribe_posts')
             each all_people_tags
                 .ui.compact.circular.small.basic.tertiary.button.say.select_people_tag(class=cloud_tag_class) 
                     strong #{this.name}
-            // div
+            div
             .ui.inline.header #{q_count}
             if skv_is 'sort_direction' 1
                 .ui.icon.compact.basic.tertiary.button.sort_down

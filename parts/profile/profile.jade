@@ -1,9 +1,5 @@
-template(name='profile_layout')
-    +nav
+template(name='profile')
     .ui.bottom.attached.pushable.segment
-        // +top_sidebar
-        // +left_sidebar
-        // +right_sidebar
         #main_area.global_container.pusher
             with user
                 .ui.stackable.padded.grid
@@ -55,10 +51,6 @@ template(name='profile_layout')
                                 |log out
                         
                         unless is_current_user
-                            if currentUser
-                                // div
-                                +user_friend_button 
-                        unless is_current_user
                             .ui.basic.circular.button.tip(title='send tip')
                                 i.dollar.green.icon
                                 span tip
@@ -73,19 +65,19 @@ template(name='profile_layout')
                             +print_this
                         +user_tips
                     .twelve.wide.column.profile_yield
-                        a.ui.large.compact.basic.button(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
-                            i.dashboard.icon
-                            span dashboard
-                        // a.ui.large.compact.basic.button(href="/user/#{username}/about" class="{{isActiveRoute 'user_about'}}" title="#{user.username} info")
-                        //     i.info.icon
-                        //     span about
-                        if currentUser
-                            a.ui.large.compact.basic.button(href="/user/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} offers")
-                                i.edit.icon
-                                span posts
-                        a.ui.large.compact.basic.button(href="/user/#{username}/credit" class="{{isActiveRoute 'user_credit'}}" title="#{user.username} messages")
-                            i.money.icon
-                            span credit
+                        // a.ui.large.compact.basic.button(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
+                        //     i.dashboard.icon
+                        //     span dashboard
+                        // // a.ui.large.compact.basic.button(href="/user/#{username}/about" class="{{isActiveRoute 'user_about'}}" title="#{user.username} info")
+                        // //     i.info.icon
+                        // //     span about
+                        // if currentUser
+                        //     a.ui.large.compact.basic.button(href="/user/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} offers")
+                        //         i.edit.icon
+                        //         span posts
+                        // a.ui.large.compact.basic.button(href="/user/#{username}/credit" class="{{isActiveRoute 'user_credit'}}" title="#{user.username} messages")
+                        //     i.money.icon
+                        //     span credit
                         // a.ui.large.compact.basic.button(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
                         //     i.chat.icon
                         //     span chat
@@ -95,16 +87,7 @@ template(name='profile_layout')
                         // a.ui.large.compact.basic.button(href="/user/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}" title="#{user.username} tribes")
                         //     i.fire.icon
                         //     span.mobile.hidden tribes
-                    
-                        +yield    
+                        +user_posts
+                        if is_current_user
+                            +user_credit
                       
-
-
-
-template(name='user_friend_button')
-    if is_friend
-        .ui.blue.button.unfriend(title='unfriend')
-            i.checkmark.icon
-    else
-        .ui.button.friend(title='friend')
-            i.user.plus.icon

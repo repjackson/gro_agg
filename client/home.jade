@@ -445,7 +445,7 @@ template(name='home2')
                             +home_shift_card
             .four.wide.column
                 // .ui.center.aligned.header
-                a.ui.center.aligned.header(href="/m/debit")
+                a.ui.center.aligned.header(href="/debit")
                     i.gift.red.icon
                     |gifts
                 .medscroll
@@ -464,7 +464,7 @@ template(name='home2')
                         +home_event_card
             .four.wide.column
                 // .ui.center.aligned.header
-                a.ui.center.aligned.header(href="/m/request")
+                a.ui.center.aligned.header(href="/request")
                     i.concierge.bell.teal.icon
                     |requests
                 .medscroll
@@ -472,19 +472,19 @@ template(name='home2')
                         +home_request_card
                                             
             .four.wide.column
-                a.ui.center.aligned.header(href="/m/offer")
+                a.ui.center.aligned.header(href="/offer")
                     i.hand.holding.heart.icon
                     |offers
                 .ui.large.link.selection.list.medscroll
                     each latest_offers
                         +home_offer_card
             .four.wide.column
-                a.ui.center.aligned.header(href="/m/post")
+                a.ui.center.aligned.header(href="/post")
                     i.newspaper.icon
                     |news
                 .ui.large.link.selection.list.medscroll
                     each latest_posts
-                        a.item(href="/m/post/#{_id}/view")
+                        a.item(href="/post/#{_id}/view")
                             .header #{title}
                 
                 // .medscroll

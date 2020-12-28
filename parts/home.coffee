@@ -78,11 +78,11 @@ if Meteor.isClient
     
     # Template.home.events
     #     'click .view_debit': ->
-    #         Router.go "/m/debit/#{@_id}/view"
+    #         Router.go "/debit/#{@_id}/view"
     #     'click .view_request': ->
-    #         Router.go "/m/request/#{@_id}/view"
+    #         Router.go "/request/#{@_id}/view"
     #     'click .view_offer': ->
-    #         Router.go "/m/offer/#{@_id}/view"
+    #         Router.go "/offer/#{@_id}/view"
 
     #     'click .refresh_stats': ->
     #         Meteor.call 'calc_global_stats'
@@ -90,33 +90,33 @@ if Meteor.isClient
     #         new_debit_id =
     #             Docs.insert
     #                 model:'debit'
-    #         Router.go "/m/debit/#{new_debit_id}/edit"
+    #         Router.go "/debit/#{new_debit_id}/edit"
     #     'click .request': ->
     #         new_request_id =
     #             Docs.insert
     #                 model:'request'
-    #         Router.go "/m/request/#{new_request_id}/edit"
+    #         Router.go "/request/#{new_request_id}/edit"
     #     'click .add_event': ->
     #         new_event_id =
     #             Docs.insert
     #                 model:'event'
-    #         Router.go "/m/event/#{new_event_id}/edit"
+    #         Router.go "/event/#{new_event_id}/edit"
     #     'click .offer': ->
     #         new_offer_id =
     #             Docs.insert
     #                 model:'offer'
-    #         Router.go "/m/offer/#{new_offer_id}/edit"
+    #         Router.go "/offer/#{new_offer_id}/edit"
     #     'click .add_expense': ->
     #         new_bug_id =
     #             Docs.insert
     #                 model:'expense'
-    #         Router.go "/m/expense/#{new_bug_id}/edit"
+    #         Router.go "/expense/#{new_bug_id}/edit"
         
     #     'click .add_message': ->
     #         new_message_id =
     #             Docs.insert
     #                 model:'message'
-    #         Router.go "/m/message/#{new_message_id}/edit"
+    #         Router.go "/message/#{new_message_id}/edit"
 
     #     'keydown .find_username': (e,t)->
     #         # email = $('submit_email').val()

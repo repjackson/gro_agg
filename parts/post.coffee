@@ -68,7 +68,7 @@ if Meteor.isClient
                         showConfirmButton: false,
                         timer: 1500
                     )
-                    Router.go "/m/post"
+                    Router.go "/post"
             )
 
         'click .publish': ->
@@ -123,15 +123,35 @@ if Meteor.isClient
 
     Template.post_tips.events
         'click .tip': ->
-            if confirm 'tip?'
-                Docs.insert     
-                    model:'tip'
-                    post_id:@_id
-                Docs.update @_id,
-                    $addToSet:
-                        tipper_ids:Meteor.userId()
-                        tipper_usernames:Meteor.user().username
-                Meteor.call 'calc_post_stats', @_id, ->
+            Swal.fire({
+                title: "tip?"
+                text: "this will give them 9 points and charge you 10 points"
+                icon: 'question'
+                confirmButtonText: 'tip'
+                confirmButtonColor: 'green'
+                showCancelButton: true
+                cancelButtonText: 'cancel'
+                reverseButtons: true
+            }).then((result)=>
+                if result.value
+                    Docs.insert     
+                        model:'tip'
+                        post_id:@_id
+                        target_user_id:@_author_id
+                    Docs.update @_id,
+                        $addToSet:
+                            tipper_ids:Meteor.userId()
+                            tipper_usernames:Meteor.user().username
+                    Meteor.call 'calc_post_stats', @_id, =>
+                        Swal.fire(
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'tipped',
+                            showConfirmButton: false,
+                            timer: 1000
+                        )
+            )
+            
     
 
     Template.post_tips.helpers

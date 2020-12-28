@@ -98,7 +98,7 @@ template(name='viewing')
 
 template(name='goto_model')
     if is_staff
-        a.goto_model(href="/m/#{slug}" title="goto #{slug}")
+        a.goto_model(href="/#{slug}" title="goto #{slug}")
             i.external.blue.icon
 
 template(name='events_column')
@@ -402,7 +402,7 @@ template(name='voting_full')
 
 
 template(name='view_button')
-    a.ui.icon.compact.basic.button.view(title='view' href="/m/#{model}/#{_id}/view")
+    a.ui.icon.compact.basic.button.view(title='view' href="/#{model}/#{_id}/view")
         //- i.right.chevron.large.icon
 
 
@@ -425,13 +425,13 @@ template(name='add_button')
 
 
 //- template(name='edit_button')
-//-     a.ui.basic.button.icon.edit(title='Edit' href="/m/#{model}/#{_id}/edit")
+//-     a.ui.basic.button.icon.edit(title='Edit' href="/#{model}/#{_id}/edit")
 //-         i.blue.pencil.icon
 //-         |Edit
 
 
 template(name='save_button')
-    a.ui.basic.button.large.icon.save(title='Save' href="/m/#{model}/#{_id}/view")
+    a.ui.basic.button.large.icon.save(title='Save' href="/#{model}/#{_id}/view")
         i.checkmark.icon
         |Save
 

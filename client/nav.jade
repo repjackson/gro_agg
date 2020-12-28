@@ -204,23 +204,23 @@ template(name='left_sidebar')
                     i.shield.large.icon
             
         if is_admin
-            // a.item.toggle_leftbar.set_badge(href="/m/badge" class="{{isActivePath 'badges'}}")
+            // a.item.toggle_leftbar.set_badge(href="/badge" class="{{isActivePath 'badges'}}")
             //     i.certificate.blue.icon
             //     | badges
-            // a.item.toggle_leftbar.set_debit(href="/m/debit" class="{{isActivePath regex='rentals'}}")
+            // a.item.toggle_leftbar.set_debit(href="/debit" class="{{isActivePath regex='rentals'}}")
             //     i.gift.blue.icon
             //     |gifts
             .divider
-            // a.item.toggle_leftbar.set_project(href="/m/project" class="{{isActivePath regex='projects'}}")
+            // a.item.toggle_leftbar.set_project(href="/project" class="{{isActivePath regex='projects'}}")
             //     i.tasks.blue.icon
             //     | projects
-            // a.item.toggle_leftbar(href="/m/room" class="{{isActiveRoute 'requests'}}")
+            // a.item.toggle_leftbar(href="/room" class="{{isActiveRoute 'requests'}}")
             //     i.building.blue.icon
             //     |rooms
-            a.blue.item.set_model.toggle_leftbar(href="/m/model" class="{{isActivePath '/m/model'}}")
+            a.blue.item.set_model.toggle_leftbar(href="/model" class="{{isActivePath '/model'}}")
                 |admin
                 i.database.blue.icon
-            a.item.set_user.toggle_leftbar(href="/m/user" class="{{isActiveRoute '/m/user'}}")
+            a.item.set_user.toggle_leftbar(href="/user" class="{{isActiveRoute '/user'}}")
                 i.blue.users.icon
                 | all users
 
