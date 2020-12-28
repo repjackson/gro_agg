@@ -2,8 +2,8 @@ template(name='profile_layout')
     +nav
     .ui.bottom.attached.pushable.segment
         // +top_sidebar
-        +left_sidebar
-        +right_sidebar
+        // +left_sidebar
+        // +right_sidebar
         #main_area.global_container.pusher
             with user
                 .ui.stackable.padded.grid
@@ -71,6 +71,7 @@ template(name='profile_layout')
                         // .spacer
                         if is_dev
                             +print_this
+                        +user_tips
                     .twelve.wide.column.profile_yield
                         a.ui.large.compact.basic.button(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
                             i.dashboard.icon
@@ -88,12 +89,12 @@ template(name='profile_layout')
                         // a.ui.large.compact.basic.button(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
                         //     i.chat.icon
                         //     span chat
-                        a.ui.large.compact.basic.button(href="/user/#{username}/tips" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
-                            i.plus.icon
-                            span tips
-                        a.ui.large.compact.basic.button(href="/user/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}" title="#{user.username} tribes")
-                            i.fire.icon
-                            span.mobile.hidden tribes
+                        // a.ui.large.compact.basic.button(href="/user/#{username}/tips" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
+                        //     i.plus.icon
+                        //     span tips
+                        // a.ui.large.compact.basic.button(href="/user/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}" title="#{user.username} tribes")
+                        //     i.fire.icon
+                        //     span.mobile.hidden tribes
                     
                         +yield    
                       
