@@ -28,21 +28,21 @@ template(name='profile_layout')
                                 |account
                         //- .ui.compact.icon.button.refresh_user_stats(title='refresh stats')
                         //-     i.refresh.icon
-                        if is_current_user
-                            +boolean_edit key='online' label='online' direct=true
-                            +text_edit key='current_status' label='status' icon='clock' direct=true
-                        else 
-                            if online 
-                                .ui.green.label 
-                                    i.checkmark.icon
-                                    |online
-                            else
-                                .ui.disabled.label 
-                                    |offline
-                            if current_status
-                                .ui.small.header(title='status' )
-                                    i.grey.clock.icon
-                                    |!{current_status}
+                        // if is_current_user
+                        //     +boolean_edit key='online' label='online' direct=true
+                        //     +text_edit key='current_status' label='status' icon='clock' direct=true
+                        // else 
+                        //     if online 
+                        //         .ui.green.label 
+                        //             i.checkmark.icon
+                        //             |online
+                        //     else
+                        //         .ui.disabled.label 
+                        //             |offline
+                        //     if current_status
+                        //         .ui.small.header(title='status' )
+                        //             i.grey.clock.icon
+                        //             |!{current_status}
                         if is_dev
                             .ui.small.inline.header #{_id}
                                 
@@ -58,16 +58,13 @@ template(name='profile_layout')
                             if currentUser
                                 // div
                                 +user_friend_button 
-                        // if is_current_user
-                        //     a.ui.button(href="/user/#{username}/edit/membership" class="{{isActiveRoute 'user_finance'}}")
-                        //         i.money.icon
-                        // unless is_current_user
-                        // .ui.basic.circular.button.tip(title='send tip')
-                        //     i.dollar.green.icon
-                        //     span tip
-                        a.ui.compact.basic.circular.button(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
-                            i.chat.blue.icon
-                            | message
+                        unless is_current_user
+                            .ui.basic.circular.button.tip(title='send tip')
+                                i.dollar.green.icon
+                                span tip
+                        // a.ui.compact.basic.circular.button(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
+                        //     i.chat.blue.icon
+                        //     | message
         
         
                         // .spacer
@@ -75,23 +72,26 @@ template(name='profile_layout')
                         if is_dev
                             +print_this
                     .twelve.wide.column.profile_yield
-                        a.ui.basic.button(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
+                        a.ui.large.compact.basic.button(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
                             i.dashboard.icon
                             span dashboard
-                        a.ui.basic.button(href="/user/#{username}/about" class="{{isActiveRoute 'user_about'}}" title="#{user.username} info")
-                            i.info.icon
-                            span about
+                        // a.ui.large.compact.basic.button(href="/user/#{username}/about" class="{{isActiveRoute 'user_about'}}" title="#{user.username} info")
+                        //     i.info.icon
+                        //     span about
                         if currentUser
-                            a.ui.basic.button(href="/user/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} offers")
+                            a.ui.large.compact.basic.button(href="/user/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} offers")
                                 i.edit.icon
                                 span posts
-                        a.ui.basic.button(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
-                            i.chat.icon
-                            span chat
-                        a.ui.basic.button(href="/user/#{username}/tips" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
+                        a.ui.large.compact.basic.button(href="/user/#{username}/credit" class="{{isActiveRoute 'user_credit'}}" title="#{user.username} messages")
+                            i.money.icon
+                            span credit
+                        // a.ui.large.compact.basic.button(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
+                        //     i.chat.icon
+                        //     span chat
+                        a.ui.large.compact.basic.button(href="/user/#{username}/tips" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
                             i.plus.icon
                             span tips
-                        a.ui.basic.button(href="/user/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}" title="#{user.username} tribes")
+                        a.ui.large.compact.basic.button(href="/user/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}" title="#{user.username} tribes")
                             i.fire.icon
                             span.mobile.hidden tribes
                     

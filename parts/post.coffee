@@ -12,6 +12,10 @@ if Meteor.isClient
         @layout 'layout'
         @render 'post_view'
         ), name:'post_view'
+    Router.route '/p/:doc_id', (->
+        @layout 'layout'
+        @render 'post_view'
+        ), name:'p_view'
     Router.route '/posts/', (->
         @layout 'layout'
         @render 'posts'
@@ -37,10 +41,10 @@ if Meteor.isClient
 
     Template.post_card.events
         'click .view_post': ->
-            Router.go "/m/post/#{@_id}/view"
+            Router.go "/p/#{@_id}"
     Template.post_item.events
         'click .view_post': ->
-            Router.go "/m/post/#{@_id}/view"
+            Router.go "/p/#{@_id}"
 
 
     Template.post_edit.events
