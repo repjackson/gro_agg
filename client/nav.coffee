@@ -98,15 +98,7 @@ Template.nav.events
         new_post_id =
             Docs.insert
                 model:'post'
-        Router.go "/post/#{new_post_id}/edit"
-
-    'click .add_request': ->
-        # user = Meteor.users.findOne(username:@username)
-        new_id =
-            Docs.insert
-                model:'request'
-                recipient_id: @_id
-        Router.go "/request/#{new_id}/edit"
+        Router.go "/p/#{new_post_id}/edit"
 
 
     'click .view_profile': ->

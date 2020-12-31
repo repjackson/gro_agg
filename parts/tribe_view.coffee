@@ -31,7 +31,7 @@ if Meteor.isClient
             new_id = Docs.insert
                 model:'post'
                 tribe:Router.current().params.name
-            Router.go "/post/#{new_id}/edit"
+            Router.go "/p/#{new_id}/edit"
         'click .sort_timestamp': (e,t)-> Session.set('tribe_sort_key','_timestamp')
         'click .unview_bounties': (e,t)-> Session.set('view_bounties',0)
         'click .view_bounties': (e,t)-> Session.set('view_bounties',1)

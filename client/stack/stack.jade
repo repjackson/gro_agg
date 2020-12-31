@@ -1,10 +1,10 @@
 template(name='stack')
-    .ui.stackable.grid
+    .ui.stackable.padded.grid
         .row
             .sixteen.wide.center.aligned.column
-                // .ui.inline.header 
-                //     i.big.stack.exchange.icon
-                //     |stackexchange sites
+                .ui.inline.header 
+                    i.big.stack.exchange.icon
+                    |stackexchange sites
                 .ui.icon.input
                     i.search.icon
                     input.search_site_name(type='text')
@@ -21,24 +21,25 @@ template(name='stack')
                     +skve k='sort_key' v='total_questions' l='q' i='question'
                     +skve k='sort_direction' v=-1 i='chevron up'
                     +skve k='sort_direction' v=1 i='chevron down'
-            .four.wide.column
-                .ui.header stack docs
-            .twelve.wide.column.scrollin
+            // .four.wide.column
+            //     .ui.header stack docs
+            .sixteen.wide.column.scrollin
                 // .ui.four.column.stackable.center.aligned.grid
-                .ui.items
+                .ui.centered.cards
                     each site_docs
-                        a.ui.item.goto_site(href='/s/#{api_site_parameter}')
-                            // img.ui.inline.tiny.image.mobile.hiden.site.shadowed.zoomer(src=high_resolution_icon_url)
-                            img.ui.small.image.site.shadowed(src=logo_url)
-                            // .header
-                            //     |!{name}
-                            .description
-                                span(style="color:#{styling.tag_foreground_color}") !{audience}
-                                |#{total_answers}
-                                i.reply.grey.icon
-                                |#{total_questions}
-                                i.question.grey.icon
-                                // span(style="color:#{styling.link_color}") !{audience}
+                        a.ui.card.goto_site(href='/s/#{api_site_parameter}')
+                            .content
+                                // img.ui.inline.tiny.image.mobile.hiden.site.shadowed.zoomer(src=high_resolution_icon_url)
+                                img.ui.small.image.site.shadowed(src=logo_url)
+                                // .header
+                                //     |!{name}
+                                .description
+                                    span(style="color:#{styling.tag_foreground_color}") !{audience}
+                                    |#{total_answers}
+                                    i.reply.grey.icon
+                                    |#{total_questions}
+                                    i.question.grey.icon
+                                    // span(style="color:#{styling.link_color}") !{audience}
                 // .ui.inline.header 
                 //     i.question.icon
                 //     |questions

@@ -8,10 +8,6 @@ if Meteor.isClient
         @layout 'layout'
         @render 'post_edit'
         ), name:'post_edit'
-    Router.route '/post/:doc_id/view', (->
-        @layout 'layout'
-        @render 'post_view'
-        ), name:'post_view'
     Router.route '/p/:doc_id', (->
         @layout 'layout'
         @render 'post_view'

@@ -64,10 +64,8 @@ Template.subreddit.events
     'click .limit_10': (e,t)-> Session.set('limit',10)
     'click .limit_1': (e,t)-> Session.set('limit',1)
 
-    'click .sort_created': ->
-        Session.set('sort_key', 'data.created')
-    'click .sort_ups': ->
-        Session.set('sort_key', 'data.ups')
+    'click .sort_created': -> Session.set('sort_key', 'data.created')
+    'click .sort_ups': -> Session.set('sort_key', 'data.ups')
     'click .download': ->
         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
     
@@ -77,7 +75,9 @@ Template.subreddit.events
     'click .get_info': ->
         # console.log 'dl'
         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
-            
+    'click .set_grid': (e,t)-> Session.set('subreddit_view_layout', 'grid')
+    'click .set_list': (e,t)-> Session.set('subreddit_view_layout', 'list')
+
     'keyup .search_subreddit': (e,t)->
         val = $('.search_subreddit').val()
         Session.set('sub_doc_query', val)

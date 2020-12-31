@@ -2,14 +2,14 @@ template(name='post_card')
     .ui.card.view_post.pointer
         img.ui.fluid.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         .content
-            a.ui.header(href="/post/#{_id}/view") #{title}
+            a.ui.header(href="/p/#{_id}") #{title}
             .ui.small.grey.header #{when}
             +comments_view_small
             +author_info
         
 template(name='post_item')
     .ui.fluid.segment.view_post.pointer
-        a.ui.header(href="/post/#{_id}/view") #{title}
+        a.ui.header(href="/p/#{_id}") #{title}
         div
         .ui.small.grey.inline.header #{when}
         each tags 
@@ -29,7 +29,7 @@ template(name='post_view')
                     // .ui.inline.grey.header {{from_now start_datetime}}
                     
                     if can_edit
-                        a.edit_post(href="/post/#{_id}/edit" title='edit')
+                        a.edit_post(href="/p/#{_id}/edit" title='edit')
                             i.big.circular.link.pencil.icon
                     .ui.small.header created #{when} 
                     .ui.segment
@@ -67,7 +67,7 @@ template(name='post_edit')
         .ui.stackable.padded.grid
             .row
                 .eight.wide.column
-                    a.ui.green.big.circular.button(href="/post/#{_id}/view" title='save')
+                    a.ui.green.big.circular.button(href="/p/#{_id}" title='save')
                         i.checkmark.big.icon
                         |save
                     .ui.inline.header 

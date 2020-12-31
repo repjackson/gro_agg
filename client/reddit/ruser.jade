@@ -1,5 +1,4 @@
 template(name='ruser')
-    +nav
     unless ruser_doc
         // .ui.header no user found
         .ui.hidden.divider
@@ -41,97 +40,36 @@ template(name='ruser')
                         i.external.icon
                     +print_this
                     +ruser_top_emotions            
-                .twelve.wide.column
-                    a.ui.button(href="/user/#{username}")
-                        i.dashboard.icon
-                        |overview
-                    a.ui.button(href="/user/#{username}/posts")
+                .five.wide.column
+                    // if selected_ruser_post_tags
+                    //     each selected_ruser_post_tags
+                    //         +ruser_post_unselect_tag
+                    // .ui.icon.input
+                    //     i.search.icon
+                    //     input.search_ruser_postreddit(type='text')
+                
+                    .ui.header 
                         i.edit.icon
                         |posts
-                    a.ui.button(href="/user/#{username}/comments")
+                    each ruser_post_tag_results
+                        // .ui.label #{this}
+                        // +ruser_post_selector
+                        .ui.basic.small.label(title=count) #{name}
+                    .medscroll
+                        each ruser_posts
+                            +ruser_post
+                .five.wide.column
+                    .ui.header.get_user_comments
                         i.chat.outline.icon
                         |comments
-                    a.ui.button(href="/user/#{username}/upvoted")
-                        i.thumbs.up.outline.icon
-                        |upvoted
-                    a.ui.button(href="/user/#{username}/downvoted")
-                        i.thumbs.down.outline.icon
-                        |downvoted
-                    a.ui.button(href="/user/#{username}/hidden")
-                        i.eye.slash.icon
-                        |hidden
-                    a.ui.button(href="/user/#{username}/saved")
-                        i.save.icon
-                        |saved
-                    div
-                    if skv_is 'view_post_detail' true
-                        .ui.black.tertiary.large.button.toggle_post_detail.agg
-                            i.post.icon
-                            |#{user_posts.count} posts
-                    if skv_is 'view_detail' true
-                        .ui.black.compact.icon.button.toggle_detail
-                            i.list.large.icon
-                            // |detail
-                    else
-                        .ui.compact.basic.icon.button.toggle_detail
-                            i.minus.large.icon
-                            // |simple
-                    div
-                    +yield
-         
-         
-template(name='ruser_overview')
-    .ui.stackable.grid
-        .eight.wide.column
-            // if selected_ruser_post_tags
-            //     each selected_ruser_post_tags
-            //         +ruser_post_unselect_tag
-            // .ui.icon.input
-            //     i.search.icon
-            //     input.search_ruser_postreddit(type='text')
-        
-            .ui.header 
-                i.edit.icon
-                |posts
-            each ruser_post_tag_results
-                // .ui.label #{this}
-                // +ruser_post_selector
-                .ui.basic.small.label(title=count) #{name}
-            .medscroll
-                each ruser_posts
-                    +ruser_post
-        .eight.wide.column
-            .ui.header.get_user_comments
-                i.chat.outline.icon
-                |comments
-            each ruser_comment_tag_results
-                // .ui.label #{this}
-                // +ruser_post_selector
-                .ui.small.basic.label(title=count) #{name}
-            .medscroll
-                each rcomments
-                    +ruser_comment
-                    .ui.divider
-        .eight.wide.column
-            .ui.grey.header 
-                i.thumbs.up.outline.icon
-                |upvoted
-            each top_upvoted
-                .ui.header #{title}
-        .eight.wide.column
-            .ui.grey.header 
-                i.thumbs.down.outline.icon
-                |downvoted
-            each top_downvoted
-                .ui.header #{title}
-        .eight.wide.column
-            .ui.header hidden
-            each top_hidden
-                .ui.header #{title}
-        .eight.wide.column
-            .ui.header saved
-            each top_saved
-                .ui.header #{title}
+                    each ruser_comment_tag_results
+                        // .ui.label #{this}
+                        // +ruser_post_selector
+                        .ui.small.basic.label(title=count) #{name}
+                    .medscroll
+                        each rcomments
+                            +ruser_comment
+                            .ui.divider
                     
                     
                     
@@ -159,13 +97,6 @@ template(name='ruser_top_emotions')
 
                     
                                 
-                    
-                    
-template(name='ruser_posts')
-    .scrolling
-        each user_posts
-            +ruser_doc_item
-
 template(name='ruser_post')
     .ui.segment
         a.ui.small.inline.header(href="/r/#{subreddit}/post/#{_id}")
@@ -219,14 +150,6 @@ template(name='ruser_doc_item')
     
     
     
-template(name='ruser_comments')
-    a.ui.icon.button(href="www.reddit.com/user/#{ruser_doc.username}/comments" target='_window')
-        i.external.icon
-    .scrolling
-        each user_comments
-            +ruser_comment
-                            
-                            
 template(name='ruser_comment')                    
     .call_watson_comment
         .ui.small.inline.header {{data.score}}

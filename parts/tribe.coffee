@@ -75,9 +75,9 @@ if Meteor.isClient
         selected_tribe_people_tags: -> selected_tribe_people_tags.array()
 
         posts: ->
-            tribe = Docs.findOne 
-                model:'tribe'
-                name:Router.current().params.name
+            # tribe = Docs.findOne 
+            #     model:'tribe'
+            #     name:Router.current().params.name
             Docs.find({
                 model:'post'
                 tribe:Router.current().params.name
@@ -274,9 +274,9 @@ if Meteor.isServer
 
         Docs.find match,
             limit:10
-            # sort:
-            #     "#{sort_key}":sort_direction
-            # limit:limit
+            sort:
+                "#{sort_key}":sort_direction
+            limit:limit
     Meteor.publish 'tribe_by_name', (name)->
         Docs.find
             model:'tribe'

@@ -100,12 +100,12 @@ template(name='doc_emotion_small')
     span.rounded(style="height:7px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
     // .spacer
 
-// template(name='call_watson')
-//     button.ui.large.icon.circular.button.autotag
-//         i.dna.icon
-//         // |autotag
-//     if page_doc.watson 
-//         i.checkmark.icon
+template(name='call_watson')
+    button.ui.large.icon.circular.button.autotag
+        i.dna.icon
+        // |autotag
+    if page_doc.watson 
+        i.checkmark.icon
 // template(name='call_reddit')
 //     button.ui.large.icon.circular.button.call_reddit
 //         i.reddit.icon
