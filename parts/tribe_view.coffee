@@ -1,6 +1,14 @@
 if Meteor.isClient
     Template.tribe_posts.onRendered ->
         Session.setDefault('tribe_view_layout', 'list')
+    Template.tribe_view.onCreated ->
+        @autorun => Meteor.subscribe 'tribe_members', Router.current().params.name
+        Session.setDefault('view_section', 'posts')
+        # @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'tribe_by_name', Router.current().params.name
+        # @autorun => Meteor.subscribe 'model_docs', 'feature'
+        @autorun => Meteor.subscribe 'tribe_members',Router.current().params.name
+        # @autorun => Meteor.subscribe 'tribe_template_from_tribe_id', Router.current().params.doc_id
 
     Template.tribe_selector.onCreated ->
         # console.log @
@@ -61,8 +69,6 @@ if Meteor.isClient
     Template.tribe_posts.helpers
         grid_class: -> if Session.equals('tribe_view_layout', 'grid') then 'black' else 'basic'
         list_class: -> if Session.equals('tribe_view_layout', 'list') then 'black' else 'basic'
-    Template.tribe_view.onRendered ->
-        @autorun => Meteor.subscribe 'tribe_members', Router.current().params.name
     Template.tribe_view.events
         'click .create_tribe': ->
             # console.log 'creating'

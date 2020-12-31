@@ -4,7 +4,7 @@ if Meteor.isClient
     Template.registerHelper 'completer', () ->
         Meteor.users.findOne @completed_by_user_id
     
-    Router.route '/post/:doc_id/edit', (->
+    Router.route '/p/:doc_id/edit', (->
         @layout 'layout'
         @render 'post_edit'
         ), name:'post_edit'

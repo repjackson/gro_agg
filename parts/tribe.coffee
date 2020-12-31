@@ -22,13 +22,6 @@ if Meteor.isClient
     
         
         
-    Template.tribe_view.onCreated ->
-        Session.setDefault('view_section', 'posts')
-        # @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'tribe_by_name', Router.current().params.name
-        # @autorun => Meteor.subscribe 'model_docs', 'feature'
-        @autorun => Meteor.subscribe 'tribe_members',Router.current().params.name
-        # @autorun => Meteor.subscribe 'tribe_template_from_tribe_id', Router.current().params.doc_id
 
     Template.tribe_edit.onCreated ->
         @autorun => Meteor.subscribe 'tribe_by_name', Router.current().params.name
