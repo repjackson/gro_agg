@@ -138,10 +138,10 @@
 
     Template.skve.events
         'click .set_session_v': ->
-            if Session.equals(@k,@v)
-                Session.set(@k, null)
-            else
-                Session.set(@k, @v)
+            # if Session.equals(@k,@v)
+            #     Session.set(@k, null)
+            # else
+            Session.set(@k, @v)
 
     Template.skve.helpers
         calculated_class: ->

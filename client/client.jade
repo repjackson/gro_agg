@@ -15,12 +15,6 @@ head
     link(rel="manifest" href="/site.webmanifest")
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
 
-    link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
-    script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
-    script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/en.js")
-
-    script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
-
     link(rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css")
     script(src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js")
     script(async src="https://www.googletagmanager.com/gtag/js?id=G-GLYPPRGJFQ")
@@ -51,14 +45,4 @@ template(name='not_found')
         .ui.center.aligned.header page not found
 
 
-template(name='bottom_nav')
-    .ui.bottom.fixed.borderless.inverted.menu
-        a.icon.item.toggle_leftbar
-            i.bars.icon
-        a.icon.item(href="/" class="{{isActivePath 'home'}}")
-            // img.ui.avatar.compact.image(src="{{c.url 'homestar_logo' height=200 width=200 gravity='face' crop='fill'}}")
-            i.home.icon
-        // if currentUser
-            // a.item.set_member(href="/member" class="{{isActiveRoute 'users'}}" title='players')
-            //     +icolor name='conference-call' cl='ui mini image'
-            //     // i.users.icon
+template(name='i')
