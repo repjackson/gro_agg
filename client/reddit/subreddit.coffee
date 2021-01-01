@@ -14,7 +14,7 @@ Router.route '/r/:subreddit/post/:doc_id', (->
     
 
 Template.subreddit.onCreated ->
-    # Session.setDefault('user_query', null)
+    Session.setDefault('subreddit_view_layout', 'grid')
     Session.setDefault('sort_key', 'data.created')
     Session.setDefault('sort_direction', -1)
     # Session.setDefault('location_query', null)
@@ -38,6 +38,7 @@ Template.subreddit.onCreated ->
         selected_subreddit_tags.array()
         selected_subreddit_domain.array()
         Session.get('toggle')
+    Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
 
     Meteor.call 'log_subreddit_view', Router.current().params.subreddit, ->
     @autorun => Meteor.subscribe 'agg_sentiment_subreddit',
@@ -83,7 +84,7 @@ Template.subreddit.events
         Session.set('sub_doc_query', val)
         if e.which is 13 
             selected_subreddit_tags.push val
-            window.speechSynthesis.speak new SpeechSynthesisUtterance val
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance val
 
             $('.search_subreddit').val('')
             Session.set('loading',true)
@@ -121,44 +122,6 @@ Template.subreddit.helpers
     post_count: -> Counts.get('sub_doc_counter')
 
 
-Template.subreddit.events
-    'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
-    'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
-    'click .sort_up': (e,t)-> Session.set('sort_direction',1)
-    'click .limit_10': (e,t)-> Session.set('limit',10)
-    'click .limit_1': (e,t)-> Session.set('limit',1)
-
-    'click .sort_created': ->
-        Session.set('sort_key', 'data.created')
-    'click .sort_ups': ->
-        Session.set('sort_key', 'data.ups')
-    'click .download': ->
-        Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
-    
-    'click .pull_latest': ->
-        # console.log 'latest'
-        Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
-    'click .get_info': ->
-        # console.log 'dl'
-        
-        Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
-            
-    'keyup .search_subreddit': (e,t)->
-        val = $('.search_subreddit').val()
-        Session.set('sub_doc_query', val)
-        if e.which is 13 
-            selected_tags.push val
-            window.speechSynthesis.speak new SpeechSynthesisUtterance val
-
-            $('.search_subreddit').val('')
-            Session.set('loading',true)
-            Meteor.call 'search_subreddit', Router.current().params.subreddit, val, ->
-                Session.set('loading',false)
-                Session.set('sub_doc_query', null)
-          
-    'click .select_domain': ->
-        selected_subreddit_domain.push @name
-          
             
 
 
@@ -259,4 +222,4 @@ Template.flat_sub_tag_selector.events
             Session.set('loading',false)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))
-        , 5000)
+        , 3000)

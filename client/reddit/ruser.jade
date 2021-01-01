@@ -40,7 +40,7 @@ template(name='ruser')
                         i.external.icon
                     +print_this
                     +ruser_top_emotions            
-                .five.wide.column
+                .six.wide.column
                     // if selected_ruser_post_tags
                     //     each selected_ruser_post_tags
                     //         +ruser_post_unselect_tag
@@ -48,25 +48,25 @@ template(name='ruser')
                     //     i.search.icon
                     //     input.search_ruser_postreddit(type='text')
                 
-                    .ui.header 
+                    .ui.inline.header 
                         i.edit.icon
                         |posts
                     each ruser_post_tag_results
                         // .ui.label #{this}
                         // +ruser_post_selector
                         .ui.basic.small.label(title=count) #{name}
-                    .medscroll
+                    .medscrol
                         each ruser_posts
                             +ruser_post
-                .five.wide.column
-                    .ui.header.get_user_comments
+                .six.wide.column
+                    .ui.inline.header.get_user_comments
                         i.chat.outline.icon
                         |comments
                     each ruser_comment_tag_results
                         // .ui.label #{this}
                         // +ruser_post_selector
                         .ui.small.basic.label(title=count) #{name}
-                    .medscroll
+                    .medscrol
                         each rcomments
                             +ruser_comment
                             .ui.divider

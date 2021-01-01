@@ -9,17 +9,17 @@ template(name='reddit_page')
                     .ui.label #{data.ups}
                     |!{data.title} #{data.link_title}
                 // .ui.basic.button.get_post permalink #{permalink}
-                div
-                +skve k='view_section' v='main' l='main' i='content'
-                +skve k='view_section' v='comments' l='comments' i='comment'
-                +skve k='view_section' v='watson' l='watson' i='dna'
-                if tone
-                    +skve k='view_section' v='tone' l='tone' i='smile grey'
-                +skve k='view_section' v='tags' l='tags' i='tags'
-                +skve k='view_section' v='related' l='related' i='fork'
-                +skve k='view_section' v='preview' l='preview' i='content'
-                // if skv_is 'view_section' 'main'
-                .scrollig
+                // div
+                // +skve k='view_section' v='main' l='main' i='content'
+                // +skve k='view_section' v='comments' l='comments' i='comment'
+                // +skve k='view_section' v='watson' l='watson' i='dna'
+                // if tone
+                //     +skve k='view_section' v='tone' l='tone' i='smile grey'
+                // +skve k='view_section' v='tags' l='tags' i='tags'
+                // +skve k='view_section' v='related' l='related' i='fork'
+                // +skve k='view_section' v='preview' l='preview' i='content'
+                // // if skv_is 'view_section' 'main'
+                .scrolling
                     // if skv_is 'view_section' 'main'
                     if is_image
                         img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
@@ -62,24 +62,21 @@ template(name='reddit_page')
                     //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
                     // .rounded
                     //     |!{embed}
-                    if skv_is 'view_section' 'watson'
-                        +watson_view
-                        +watson_full
-                    if skv_is 'view_section' 'related'
-                        +post_related
-                        +related_questions
-                    if skv_is 'view_section' 'tone'
-                        +tone
-                        // +skve k='view_section' v='money' l='money' i='money'
-                        // if skv_is 'view_section'
-                    if skv_is 'view_section' 'preview'
-                        iframe(width="100%" height="800" src=data.url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
+                    // if skv_is 'view_section' 'watson'
+                    //     +watson_view
+                    //     +watson_full
+                    // if skv_is 'view_section' 'related'
+                    //     +post_related
+                    //     +related_questions
+                    // if skv_is 'view_section' 'tone'
+                    //     +tone
+                    //     // +skve k='view_section' v='money' l='money' i='money'
+                    //     // if skv_is 'view_section'
+                    // if skv_is 'view_section' 'preview'
+                    //     iframe(width="100%" height="800" src=data.url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
                     // +convert
-                    .spacer
-                    if skv_is 'view_section' 'tags'
-                        |#{tags.length}
-                        each tags
-                            +flat_sub_tag_selector
+                    // .spacer
+                    // if skv_is 'view_section' 'tags'
                     // if skv_is 'view_section' 'comments'
                     +rcomments_tab
             .four.wide.column
@@ -118,6 +115,9 @@ template(name='reddit_page')
                     |#{data.ups}
                 |{{to_percent data.upvote_ratio}}%
                 .ui.small.inline.header #{data.num_crossposts} crossposts
+                |#{tags.length}
+                each tags
+                    +flat_sub_tag_selector
                 
                 
 template(name='rcomments_tab')                
