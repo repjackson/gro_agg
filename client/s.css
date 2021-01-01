@@ -18,7 +18,7 @@ body {
 .seg {
   background: rgba(250,250,250,.85);
   /*opacity: .5;*/
-  border-radius: 5px;
+  /*border-radius: 5px;*/
   padding:15px;
 }
 .pulsing {
@@ -199,7 +199,7 @@ html.ios body {
 
 .segment:not(.pushable) {
   /*transition: height .15s linear;*/
-  border-radius: 10px !important;
+  /*border-radius: 10px !important;*/
 }
 
 .bottom_rounded {
@@ -328,7 +328,7 @@ input
 
 
 .rounded {
-  border-radius: 7px !important; 
+  /*border-radius: 7px !important; */
   /*padding: 10px !important; */
 }
 
@@ -342,7 +342,7 @@ a.goto_article {
 }
 
 .ui.button:not(.circular) { 
-    border-radius: 7px !important; 
+    /*border-radius: 7px !important; */
     /*border-radius: 10px !important;*/
 }
 .ui.button {
@@ -441,7 +441,7 @@ img:active {
     transform: scale(2) !important;
     /*transform: rotate(20deg) !important;*/
     z-index:1000 !important;
-    /*border-radius: 7px !important;*/
+    border-radius: 7px !important;
     /*animation: fadein .35s !important;*/
     /*-webkit-transition: opacity .15s ease-in !important;*/
     /* -webkit-transition: opacity .15s ease-out; */
@@ -599,12 +599,12 @@ a.title, #title {
 
 .label {
   margin:1px !important;
-  border-radius: 7px !important; 
+  /*border-radius: 7px !important; */
 }
 
 input {
     /*margin: 7px !important;*/
-    border-radius: 7px !important; 
+    /*border-radius: 7px !important; */
 }
 
 ::-webkit-scrollbar {
@@ -684,7 +684,7 @@ input {
   margin:0px !important;
 }
 .button:active{
-  border-radius: 7px !important;  
+  /*border-radius: 7px !important;  */
   /* transition: all .15s !important; */
   /*transform: translate(0, 1px) !important; */
   /*zoom:105% !important;*/
@@ -805,54 +805,6 @@ input {
 }
 
 
-
-.gb {
-  --border-width: 3px;
-
-  /*position: relative;*/
-  /*display: flex;*/
-  /*justify-content: center;*/
-  /*align-items: center;*/
-  /*width: 300px;*/
-  /*height: 200px;*/
-  /*font-family: Lato, sans-serif;*/
-  /*font-size: 2.5rem;*/
-  /*text-transform: uppercase;*/
-  /*color: white;*/
-  /*background: #222;*/
-  border-radius: var(--border-width);
-
-  &::after {
-    position: absolute;
-    content: "";
-    top: calc(-1 * var(--border-width));
-    left: calc(-1 * var(--border-width));
-    z-index: -1;
-    width: calc(100% + var(--border-width) * 2);
-    height: calc(100% + var(--border-width) * 2);
-    background: linear-gradient(
-      60deg,
-      hsl(224, 85%, 66%),
-      hsl(269, 85%, 66%),
-      hsl(314, 85%, 66%),
-      hsl(359, 85%, 66%),
-      hsl(44, 85%, 66%),
-      hsl(89, 85%, 66%),
-      hsl(134, 85%, 66%),
-      hsl(179, 85%, 66%)
-    );
-    background-size: 300% 300%;
-    background-position: 0 50%;
-    border-radius: calc(2 * var(--border-width));
-    animation: moveGradient 4s alternate infinite;
-  }
-}
-
-@keyframes moveGradient {
-  50% {
-    background-position: 100% 50%;
-  }
-}
 
 
 .circle-wrapper {

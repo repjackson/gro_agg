@@ -1,40 +1,9 @@
 # tsqp-gebk-xhpz-eobp-agle
 Docs.allow
-    insert: (userId, doc) -> 
-        userId
-    update: (userId, doc) ->
-        userId is doc._author_id
-    remove: (userId, doc) ->
-        user = Meteor.users.findOne userId
-        if user.roles
-            if 'admin' in user.roles
-                true
-            else
-                userId is doc._author_id
-        else
-            userId is doc._author_id
+    insert: (userId, doc) -> true
+    update: (userId, doc) -> true
+    remove: (userId, doc) -> true
 
-Meteor.users.allow
-    insert: (user_id, doc, fields, modifier) ->
-        # user_id
-        true
-        # if user_id and doc._id == user_id
-        #     true
-    update: (user_id, doc, fields, modifier) ->
-        user = Meteor.users.findOne user_id
-        # console.log user_id
-        # console.log doc
-        if user_id
-            if doc._id is user_id
-                true
-            else if user.roles and 'admin' in user.roles
-                true
-    remove: (user_id, doc, fields, modifier) ->
-        user = Meteor.users.findOne user_id
-        if user_id and 'admin' in user.roles
-            true
-        # if userId and doc._id == userId
-        #     true
 
 
 Meteor.publish 'doc_by_title', (title)->

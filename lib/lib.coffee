@@ -52,25 +52,6 @@ Docs.helpers
     three_tags: ->
         if @tags
             @tags[..3]
-    initials: ->
-        @username[..1]
-    _author: -> Meteor.users.findOne @_author_id
-    _buyer: -> Meteor.users.findOne @buyer_id
-    recipient: ->
-        Meteor.users.findOne @recipient_id
-    
-    is_visible: -> @published in [0,1]
-    is_published: -> @published is 1
-    is_anonymous: -> @published is 0
-    is_private: -> @published is -1
-    is_read: ->
-        @read_ids and Meteor.userId() in @read_ids
-
-    enabled_features: () ->
-        Docs.find
-            model:'feature'
-            _id:$in:@enabled_feature_ids
-
 
 
 

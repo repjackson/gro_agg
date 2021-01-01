@@ -96,7 +96,7 @@ template(name='reddit_page')
                     |r/#{data.subreddit}
                 .spacer
                 // a.ui.fluid.basic.button(href="https://www.reddit.com/u/#{author}" target='_window')
-                a.ui.fluid.basic.button.goto_ruser(href="/user/#{data.author}")
+                a.ui.fluid.basic.button.goto_ruser(href="/ruser/#{data.author}")
                     i.user.outline.icon
                     |#{data.author}
                 +call_watson id=_id key='data.url' durl=data.url mode='url'

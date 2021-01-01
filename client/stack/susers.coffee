@@ -1,4 +1,4 @@
-@selected_user_tags = new ReactiveArray []
+@selected_suser_tags = new ReactiveArray []
 # @selected_user_roles = new ReactiveArray []
 
 
@@ -11,13 +11,23 @@ Template.susers.onCreated ->
     Session.setDefault('selected_user_site',null)
     Session.setDefault('selected_user_location',null)
     Session.setDefault('searching_location',null)
-    @autorun -> Meteor.subscribe 'selected_users', 
-        selected_user_tags.array() 
+    @autorun -> Meteor.subscribe('selected_susers', 
+        selected_suser_tags.array() 
         Session.get('selected_user_site')
         Session.get('selected_user_location')
         Session.get('searching_username')
         Session.get('location_query')
         Session.get('limit')
+    )
+    @autorun -> Meteor.subscribe('suser_tags',
+        selected_suser_tags.array()
+        # Session.get('selected_user_site')
+        # Session.get('selected_user_location')
+        # Session.get('username_query')
+        # Session.get('location_query')
+        # selected_user_roles.array()
+        # Session.get('view_mode')
+    )
 
 Template.susers.events
     'click .select_user': ->
@@ -33,7 +43,7 @@ Template.susers.helpers
         match = {model:'stackuser'}
         # unless 'admin' in Meteor.user().roles
         #     match.site = $in:['member']
-        if selected_user_tags.array().length > 0 then match.tags = $all: selected_user_tags.array()
+        if selected_suser_tags.array().length > 0 then match.tags = $all: selected_suser_tags.array()
         Docs.find match,
             sort:points:-1
         # if Meteor.user()
@@ -89,19 +99,9 @@ Template.susers.helpers
 
 
 
-Template.susers.onCreated ->
-    @autorun -> Meteor.subscribe('user_tags',
-        selected_user_tags.array()
-        Session.get('selected_user_site')
-        Session.get('selected_user_location')
-        Session.get('username_query')
-        Session.get('location_query')
-        # selected_user_roles.array()
-        # Session.get('view_mode')
-    )
 
 Template.susers.helpers
-    all_tags: -> results.find(model:'user_tag')
+    all_tags: -> results.find(model:'suser_tag')
     all_sites: -> results.find({model:'user_site'},limit:10)
     all_locations: -> results.find({model:'user_location'},limit:10)
     
@@ -109,7 +109,7 @@ Template.susers.helpers
 
     
     selected_user_site: -> Session.get('selected_user_site')
-    selected_user_tags: -> selected_user_tags.array()
+    selected_suser_tags: -> selected_suser_tags.array()
     selected_user_location: -> Session.get('selected_user_location')
     # all_site: ->
     #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
@@ -133,9 +133,9 @@ Template.susers.helpers
 Template.susers.events
     'click .select_tag': -> 
         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        selected_user_tags.push @name
-    'click .unselect_tag': -> selected_user_tags.remove @valueOf()
-    'click #clear_tags': -> selected_user_tags.clear()
+        selected_suser_tags.push @name
+    'click .unselect_tag': -> selected_suser_tags.remove @valueOf()
+    'click #clear_tags': -> selected_suser_tags.clear()
 
     'click .select_site': -> 
         window.speechSynthesis.speak new SpeechSynthesisUtterance @name

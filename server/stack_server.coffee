@@ -57,6 +57,56 @@ Meteor.publish 'stack_docs', (
             # views: -1
 
 
+# Meteor.publish 'selected_susers', (
+#     selected_ruser_tags
+#     username_query
+#     limit=1
+#     sort_key
+#     sort_direction=-1
+#     )->
+#     console.log sort_key
+#     sort_key_final = switch sort_key
+#         when 'total' then 'data.total_karma'
+#         when 'link' then 'data.link_karma'
+#         when 'comment' then 'data.comment_karma'
+#         when 'joy' then 'rep_joy'
+#         when 'fear' then 'rep_fear'
+#         when 'sadness' then 'rep_sadness'
+#         when 'disgust' then 'rep_disgust'
+#     match = {model:'stackuser'}
+#     if username_query
+#         match.username = {$regex:"#{username_query}", $options: 'i'}
+#     if selected_ruser_tags.length > 0 then match.tags = $all: selected_ruser_tags
+    
+#     console.log sort_key_final
+#     Docs.find match,
+#         limit:20
+#         sort:
+#             "#{sort_key_final}":sort_direction
+
+Meteor.publish 'selected_susers', (
+    selected_user_tags
+    selected_user_site
+    selected_user_location
+    username_query
+    location_query
+    )->
+    match = {model:'stackuser'}
+    if username_query
+        match.display_name = {$regex:"#{username_query}", $options: 'i'}
+    if location_query
+        match.location = {$regex:"#{location_query}", $options: 'i'}
+
+    if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
+    if selected_user_site then match.site = selected_user_site
+    if selected_user_location then match.location = selected_user_location
+    Docs.find match,
+        limit:20
+        sort:
+            reputation:-1
+
+
+
 
 
 Meteor.methods 
@@ -960,7 +1010,7 @@ Meteor.publish 'stack_sites_small', (selected_tags=[], name_filter='')->
         match.name = {$regex:"#{name_filter}", $options:'i'}
     Docs.find match,
         {
-            limit:500
+            limit:20
             fields:
                 audience:1
                 logo_url:1
@@ -978,19 +1028,18 @@ Meteor.publish 'stack_sites_small', (selected_tags=[], name_filter='')->
                         
                         
 Meteor.publish 'suser_tags', (
-    model
-    site
-    user_id
     selected_tags
-    user_query
+    # site
+    # user_id
+    # user_query
     # query=''
     )->
     # @unblock()
     self = @
     match = {
-        model:model
-        site:site
-        "owner.user_id":parseInt(user_id)
+        model:'stackuser'
+        # site:site
+        # "owner.user_id":parseInt(user_id)
         }
     doc_count = Docs.find(match).count()
     if selected_tags.length > 0 then match.tags = $in:selected_tags
