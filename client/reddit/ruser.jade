@@ -98,7 +98,7 @@ template(name='ruser_top_emotions')
                     
                                 
 template(name='ruser_post')
-    .ui.segment
+    .ui.seg
         a.ui.small.inline.header(href="/r/#{subreddit}/post/#{_id}")
             |#{data.ups}
             |#{data.link_title} #{data.title}
@@ -111,7 +111,7 @@ template(name='ruser_post')
         |#{data.body}
         .ui.label {{ufrom data.created}}
         +print_this
-                            
+    .ui.divider                 
                             
 template(name='ruser_doc_item')
     .ui.item

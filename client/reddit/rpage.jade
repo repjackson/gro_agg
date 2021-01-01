@@ -2,7 +2,7 @@ template(name='reddit_page')
     with current_doc
         .ui.stackable.padded.grid
             .twelve.wide.column
-                a.ui.basic.button.say(href="/r/#{data.subreddit}")
+                a.ui.basic.button.goto_sub(href="/r/#{data.subreddit}")
                     i.chevron.left.icon
                     |#{data.subreddit}
                 span.ui.pointer.text.f13.zoomer(class=post_header_class)

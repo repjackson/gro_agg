@@ -39,7 +39,11 @@ Template.rcomment.events
             Meteor.call 'call_watson', @_id,'data.body','comment',->
 
 Template.reddit_page.events
-    'click .call_visual': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'url', ->
+    'click .goto_sub': -> 
+        Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
+            Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
+            Meteor.call 'log_subreddit_view', Router.current().params.subreddit, ->
+        
     'click .call_meta': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'meta', ->
     'click .call_thumbnail': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'thumb', ->
     'click .goto_ruser': ->
