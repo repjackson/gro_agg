@@ -18,35 +18,35 @@ template(name='sq')
                     .smallscroll                    
                         each site_tags
                             +stack_tag_selector
-                    if site_emotions.count
-                        +skve k='view_emotions' v=true l="emotions" i='smile' ionly=false
-                        if skv_is 'view_emotions' true
-                            i.grey.remove.link.icon.clear_emotions(title='emotions')
-                            each selected_emotions
-                                +unselect_tag
-                            each site_emotions
-                                // +stack_tag_selector
-                                .ui.large.label(title=count) #{name}
-                    if site_person.count
-                        +skve k='view_people' v=true l="people" i='users' ionly=false
-                        if skv_is 'view_people' true
-                            each site_persons
-                                +stack_tag_selector
-                    if site_organizations.count
-                        +skve k='view_orgs' v=true l="organisations" i='building' ionly=false
-                        if skv_is 'view_orgs' true
-                            each site_organizations
-                                +stack_tag_selector
-                    if site_locations.count
-                        +skve k='view_locations' v=true l="locations" i='marker' ionly=false
-                        if skv_is 'view_locations' true
-                            each site_locations
-                                +stack_tag_selector
-                    if site_companys.count
-                        +skve k='view_companies' v=true l="companies" i='briefcase' ionly=false
-                        if skv_is 'view_companies' true
-                            each site_companys
-                                +stack_tag_selector
+                    // if site_emotions.count
+                    //     +skve k='view_emotions' v=true l="emotions" i='smile' ionly=false
+                    //     if skv_is 'view_emotions' true
+                    //         i.grey.remove.link.icon.clear_emotions(title='emotions')
+                    each selected_emotions
+                        +unselect_tag
+                    each site_emotions
+                        // +stack_tag_selector
+                        .ui.large.label(title=count) #{name}
+                    // if site_person.count
+                    //     +skve k='view_people' v=true l="people" i='users' ionly=false
+                    //     if skv_is 'view_people' true
+                    each site_persons
+                        +stack_tag_selector
+                    // if site_organizations.count
+                    //     +skve k='view_orgs' v=true l="organisations" i='building' ionly=false
+                    //     if skv_is 'view_orgs' true
+                    each site_organizations
+                        +stack_tag_selector
+                    // if site_locations.count
+                    //     +skve k='view_locations' v=true l="locations" i='marker' ionly=false
+                    //     if skv_is 'view_locations' true
+                    each site_locations
+                        +stack_tag_selector
+                    // if site_companys.count
+                    //     +skve k='view_companies' v=true l="companies" i='briefcase' ionly=false
+                    //     if skv_is 'view_companies' true
+                    each site_companys
+                        +stack_tag_selector
                     div
                     .ui.inline.header #{q_count}
                     if skv_is 'sort_direction' 1

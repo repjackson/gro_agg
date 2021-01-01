@@ -84,21 +84,21 @@
 
 
 
-# # Template.unselect_tag.onCreated ->
-# #     @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
+Template.unselect_tag.onCreated ->
+    @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
     
-# # Template.unselect_tag.helpers
-# #     term: ->
-# #         found = 
-# #             Docs.findOne 
-# #                 # model:'wikipedia'
-# #                 title:@valueOf().toLowerCase()
-# #         found
-# # Template.unselect_tag.events
-# #   'click .unselect_tag': -> 
-# #         selected_tags.remove @valueOf()
-# #         Session.set('skip',0)
-# #         window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+Template.unselect_tag.helpers
+    term: ->
+        found = 
+            Docs.findOne 
+                # model:'wikipedia'
+                title:@valueOf().toLowerCase()
+        found
+Template.unselect_tag.events
+  'click .unselect_tag': -> 
+        selected_tags.remove @valueOf()
+        Session.set('skip',0)
+        window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
     
 
 
