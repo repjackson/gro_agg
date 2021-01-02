@@ -517,6 +517,20 @@ Meteor.publish 'subreddits', (
         limit:100
         sort: "#{sort_key}":sort_direction
         
+
+Meteor.publish 'sub_count', (
+    query=''
+    selected_tags
+    )->
+        
+    match = {model:'subreddit'}
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if query.length > 0
+        match["data.display_name"] = {$regex:"#{query}", $options:'i'}
+    Counts.publish this, 'sub_counter', Docs.find(match)
+    return undefined
+
+
         
         
 Meteor.publish 'sub_docs_by_name', (
@@ -594,7 +608,6 @@ Meteor.publish 'sub_doc_count', (
     if selected_tags.length > 0 then match.tags = $all:selected_tags
     Counts.publish this, 'sub_doc_counter', Docs.find(match)
     return undefined
-
 
 
 Meteor.publish 'rpost_comment_tags', (

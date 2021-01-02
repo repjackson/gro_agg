@@ -96,9 +96,6 @@ template(name='subreddit')
             .five.wide.column.scrolling.seg
                 img.ui.inline.image(src=data.header_img)
                 .ui.inline.header.pull_latest #{data.title}
-                a.ui.basic.large.disabled.button(href="/s/#{display_name}/users")
-                    i.large.user.outline.icon
-                    |users
                 +alpha
                 .ui.inline.small.header domains
                 
@@ -209,7 +206,7 @@ template(name='subreddit_post_card_small')
         //         a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
         //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
         // .column
-        a.ui.inline.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+        a.ui.inline.small.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
             strong #{data.ups}:
             |!{data.title} 
             // span.inline.content

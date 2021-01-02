@@ -43,7 +43,7 @@ Template.reddit_page.events
         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
             Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
             Meteor.call 'log_subreddit_view', Router.current().params.subreddit, ->
-        
+    'click .call_visual': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'url', ->
     'click .call_meta': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'meta', ->
     'click .call_thumbnail': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'thumb', ->
     'click .goto_ruser': ->
@@ -104,6 +104,11 @@ Template.reddit.onCreated ->
         selected_tags.array()
         Session.get('sort_subs')
     )
+    @autorun -> Meteor.subscribe('sub_count',
+        Session.get('subreddit_query')
+        selected_tags.array()
+        Session.get('sort_subs')
+    )
 
 Template.reddit.events
     'click .goto_sub': (e,t)->
@@ -130,4 +135,4 @@ Template.reddit.helpers
             model:'subreddit'
         , {limit:30,sort:"#{Session.get('sort_key')}":-1})
 
-    sub_count: -> Counts.get('sub_result_count')
+    sub_count: -> Counts.get('sub_counter')

@@ -8,6 +8,7 @@ template(name='reddit_page')
                 span.ui.pointer.text.f13.zoomer(class=post_header_class)
                     .ui.label #{data.ups}
                     |!{data.title} #{data.link_title}
+                | {{ufrom data.created}}
                 // .ui.basic.button.get_post permalink #{permalink}
                 // div
                 // +skve k='view_section' v='main' l='main' i='content'
@@ -21,7 +22,7 @@ template(name='reddit_page')
                 // // if skv_is 'view_section' 'main'
                 .scrolling
                     // if skv_is 'view_section' 'main'
-                    if is_image
+                    if data.is_reddit_media_domain
                         img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
                     else if watson.metadata.image
                         img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
@@ -85,8 +86,9 @@ template(name='reddit_page')
                     |url
                 .ui.large.basic.label
                     | #{data.domain}
-                if data.thumbnail
-                    img.ui.fluid.rounded.image.pointer.call_thumbnail.zoomer(src=data.thumbnail)
+                unless data.is_reddit_media_domain    
+                    if data.thumbnail
+                        img.ui.fluid.rounded.image.pointer.call_thumbnail.zoomer(src=data.thumbnail)
                 // .ui.header #{data.domain}
                 a.ui.basic.fluid.button(href="https://www.reddit.com#{data.permalink}" target="_window") 
                     i.external.grey.icon
@@ -167,7 +169,7 @@ template(name='post_related')
     .ui.list
         each related_posts
             a.item.say.pointer.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class) 
-                if data.is_image
+                if data.is_reddit_media_domain
                     a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                         img.ui.small.rounded.image.toggle_view(src=data.url)
                 else if watson.metadata.image
@@ -188,7 +190,7 @@ template(name='related_questions')
     .ui.list
         each qs
             a.item.say.pointer.zoomer.set_main(href="/s/#{site}/q/#{question_id}" class=post_header_class) 
-                if data.is_image
+                if data.is_reddit_media_domain
                     a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
                         img.ui.small.rounded.image.toggle_view(src=data.url)
                 else if watson.metadata.image

@@ -117,7 +117,7 @@ Meteor.methods
                 visual_tags = []
                 for tag in response.result.images[0].classifiers[0].classes
                     visual_tags.push tag.class.toLowerCase()
-                console.log 'visaul tags', visual_tags
+                # console.log 'visaul tags', visual_tags
                 Docs.update { _id: doc_id},
                     $set:
                         visual_classes: response.result.images[0].classifiers[0].classes
