@@ -27,8 +27,8 @@ Meteor.methods
                 user_top_emotion = user_top_emotions[0].title
             
             
-            agg_res = Meteor.call 'ruser_utags', username
-            user_tag_res = Meteor.call 'user_question_tags', username
+            agg_res = Meteor.call 'ruser_emotions', username
+            user_tag_res = Meteor.call 'calc_ruser_tags', username
             if user_tag_res
                 added_tags = []
                 for tag in user_tag_res
@@ -90,7 +90,7 @@ Meteor.methods
             #         filtered_agg_res:filtered_agg_res
     
     
-    ruser_utags: (username)->
+    ruser_emotions: (username)->
         # site_doc =
         #     Docs.findOne(
         #         model:'stack_site'
@@ -150,6 +150,61 @@ Meteor.methods
         else
             return null
             
+    calc_ruser_tags: (username)->
+        user_doc =
+            Docs.findOne(
+                model:'ruser'
+                username:username
+            )
+        
+        match = {}
+
+        match.model = $in:['rpost','rcomment']
+        match["data.author"] = username
+        total_doc_result_count =
+            Docs.find( match,
+                {
+                    fields:
+                        _id:1
+                }
+            ).count()
+
+        # limit=20
+        options = {
+            explain:false
+            allowDiskUse:true
+        }
+
+        # if omega.selected_tags.length > 0
+        #     limit = 42
+        # else
+        limit = 33
+        # { $match: tags:$all: omega.selected_tags }
+        pipe =  [
+            { $match: match }
+            { $project: tags: 1 }
+            { $unwind: "$tags" }
+            { $group: _id: "$tags", count: $sum: 1 }
+            # { $group: _id: "$max_emotion_name", count: $sum: 1 }
+            # { $match: _id: $nin: omega.selected_tags }
+            { $sort: count: -1, _id: 1 }
+            { $limit:20 }
+            { $project: _id: 0, title: '$_id', count: 1 }
+        ]
+
+        if pipe
+            agg = global['Docs'].rawCollection().aggregate(pipe,options)
+            # else
+            res = {}
+            if agg
+                agg.toArray()
+                # omega = Docs.findOne model:'omega_session'
+                # Docs.update omega._id,
+                #     $set:
+                #         agg:agg.toArray()
+        else
+            return null
+
             
     ruser_sent_avg: (username)->
         user_doc =

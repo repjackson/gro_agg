@@ -198,7 +198,7 @@ Template.suser_layout.events
         Meteor.call 'rank_user', Router.current().params.site, Router.current().params.user_id, ->
         # Meteor.call 'boop', Router.current().params.site, Router.current().params.user_id, ->
     'click .agg': ->
-        Meteor.call 'suser_suser_omega', Router.current().params.site, Router.current().params.user_id, ->
+        Meteor.call 'suser_omega', Router.current().params.site, Router.current().params.user_id, ->
     
     # 'click .say_site': (e,t)->
     #     window.speechSynthesis.speak new SpeechSynthesisUtterance Router.current().params.site

@@ -111,7 +111,7 @@ Template.reddit.onCreated ->
         Session.get('sort_subs')
     )
     @autorun => Meteor.subscribe 'subreddit_tags',
-        selected_subreddit_tags.array()
+        selected_sub_tags.array()
         Session.get('toggle')
 
 Template.reddit.events

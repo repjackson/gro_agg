@@ -39,7 +39,9 @@ template(name='ruser')
                         i.reddit.icon
                         i.external.icon
                     +print_this
-                    +ruser_top_emotions            
+                    +ruser_top_emotions     
+                    each tags
+                        .ui.label #{this}
                 .six.wide.column
                     // if selected_ruser_post_tags
                     //     each selected_ruser_post_tags

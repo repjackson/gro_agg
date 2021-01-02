@@ -23,12 +23,6 @@ Meteor.methods
     remove_doc: (doc_id)->
         console.log 'removing doc', doc_id
         Docs.remove doc_id
-    remove_reddits: ->
-        # count = Docs.find(model:'reddit',subreddit:'news').count()
-        # console.log 'count', count
-        Docs.remove({
-            model:'reddit',
-        })
         
         
     log_doc_terms: (doc_id)->
