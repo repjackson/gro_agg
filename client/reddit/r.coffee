@@ -1,4 +1,5 @@
 @selected_comment_tags = new ReactiveArray []
+@selected_sub_tags = new ReactiveArray []
 
 Router.route '/reddit', (->
     @layout 'layout'
@@ -109,6 +110,9 @@ Template.reddit.onCreated ->
         selected_tags.array()
         Session.get('sort_subs')
     )
+    @autorun => Meteor.subscribe 'subreddit_tags',
+        selected_subreddit_tags.array()
+        Session.get('toggle')
 
 Template.reddit.events
     'click .goto_sub': (e,t)->
@@ -123,9 +127,9 @@ Template.reddit.events
         Session.set('subreddit_query', val)
         if e.which is 13 
             Meteor.call 'search_subreddits', val, ->
-                # $('.search_subreddits').val('')
-                # Session.set('subreddit_query', null)
-            
+            $('.search_subreddits').val('')
+            selected_sub_tags.push val 
+            # Session.set('subreddit_query', null)
     'click .search_subs': ->
         Meteor.call 'search_subreddits', 'news', ->
              
@@ -134,5 +138,8 @@ Template.reddit.helpers
         Docs.find(
             model:'subreddit'
         , {limit:30,sort:"#{Session.get('sort_key')}":-1})
+    subreddit_tags: -> results.find(model:'subreddit_tag')
+
+    selected_sub_tags: -> selected_sub_tags.array()
 
     sub_count: -> Counts.get('sub_counter')

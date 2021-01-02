@@ -57,6 +57,11 @@ Template.subreddit_doc_item.onRendered ->
     unless @data.watson
         Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
 
+Template.subreddit_post_card_small.onRendered ->
+    # console.log @
+    unless @data.watson
+        Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
+
 
 Template.subreddit.events
     'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
