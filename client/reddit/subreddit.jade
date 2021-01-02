@@ -67,11 +67,20 @@ template(name='subreddit')
                         i.minus.large.icon
                         |simple
                     // i.line.chart.icon
-                .ui.icon.compact.circular.large.button.set_grid(class=grid_class) 
-                    i.th.large.icon
-                .ui.icon.compact.circular.large.button.set_list(class=list_class)
-                    i.list.large.icon
-                        
+                if skv_is 'subreddit_view_layout' 'grid'
+                    .ui.compact.circular.large.button.set_grid(class=grid_class) 
+                        i.th.large.icon
+                        |grid
+                else
+                    .ui.icon.compact.circular.large.button.set_grid(class=grid_class) 
+                        i.th.large.icon
+                if skv_is 'subreddit_view_layout' 'list'
+                    .ui.compact.circular.large.button.set_list(class=list_class)
+                        i.list.large.icon
+                        |list
+                else
+                    .ui.icon.compact.circular.large.button.set_list(class=list_class)
+                        i.list.large.icon
                 .scrolling
                     if sub_docs
                         if skv_is 'subreddit_view_layout' 'grid'
@@ -85,6 +94,8 @@ template(name='subreddit')
                         .ui.basic.center.aligned.segment
                             i.big.loading.yin.yang.icon
             .five.wide.column.scrolling.seg
+                img.ui.inline.image(src=data.header_img)
+                .ui.inline.header.pull_latest #{data.title}
                 a.ui.basic.large.disabled.button(href="/s/#{display_name}/users")
                     i.large.user.outline.icon
                     |users
@@ -96,8 +107,6 @@ template(name='subreddit')
                         |#{name} 
                         small #{count}
                 // .ui.inline.header.pull_latest #{display_name}
-                img.ui.inline.image(src=data.header_img)
-                .ui.inline.header.pull_latest #{data.title}
                 if in_dev
                     +print_this
                     // div

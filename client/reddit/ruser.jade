@@ -5,7 +5,7 @@ template(name='ruser')
         .ui.hidden.divider
         .ui.hidden.divider
         .ui.center.aligned.basic.segment.search
-            i.massive.grey.download.link.icon.get_user_info
+            i.massive.grey.yin.yang.loading.link.icon.get_user_info
         // .ui.massive.fluid.button.f17.zoomer.pointer.search 
         //     i.download.icon
             // |download user info
@@ -99,6 +99,20 @@ template(name='ruser_top_emotions')
                                 
 template(name='ruser_post')
     .ui.seg
+        if embed
+            span.rounded.full
+                |!{embed}
+            div
+        else if data.is_image
+            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                img.ui.fluid.rounded.zoomer.image.toggle_view(src=data.url)
+        else if watson.metadata.image.length
+            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                img.ui.rounded.inline.zoomer.image.toggle_view(src=watson.metadata.image)
+        else if data.thumbnail.length
+            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                img.ui.rounded.inline.zoomer.image.zoomer(src=data.thumbnail)    
+
         a.ui.small.inline.header(href="/r/#{subreddit}/post/#{_id}")
             |#{data.ups}
             |#{data.link_title} #{data.title}
