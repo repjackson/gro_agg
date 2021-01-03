@@ -41,7 +41,7 @@ template(name='ruser')
                     +print_this
                     +ruser_top_emotions     
                     each tags
-                        .ui.compact.button.search_tag #{this}
+                        .ui.compact.basic.circular.button.search_tag #{this}
                 .six.wide.column
                     // if selected_ruser_post_tags
                     //     each selected_ruser_post_tags
@@ -57,7 +57,7 @@ template(name='ruser')
                         // .ui.label #{this}
                         // +ruser_post_selector
                         .ui.basic.small.label(title=count) #{name}
-                    .medscrol
+                    .medscroll
                         each ruser_posts
                             +ruser_post
                 .six.wide.column
@@ -68,7 +68,7 @@ template(name='ruser')
                         // .ui.label #{this}
                         // +ruser_post_selector
                         .ui.small.basic.label(title=count) #{name}
-                    .medscrol
+                    .medscroll
                         each rcomments
                             +ruser_comment
                             .ui.divider

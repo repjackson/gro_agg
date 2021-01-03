@@ -51,7 +51,12 @@ if Meteor.isClient
     Template.ruser.events
         'click .get_user_info': ->
             Meteor.call 'get_user_info', Router.current().params.username, ->
-        
+        'click .search_tag': -> 
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            selected_ruser_tags.clear()
+            selected_ruser_tags.push @valueOf()
+            Router.go "/rusers"
+
         'click .get_user_posts': ->
             Meteor.call 'get_user_posts', Router.current().params.username, ->
             Meteor.call 'ruser_omega', Router.current().params.username, ->

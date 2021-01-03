@@ -4,6 +4,17 @@
 # @Tag_results = new Meteor.Collection 'tag_results'
 
 
+if Meteor.isClient
+    Router.route '/', (->
+        @layout 'layout'
+        @render 'reddit'
+        ), name:'home'
+
+Router.configure
+    layoutTemplate: 'layout'
+    notFoundTemplate: 'not_found'
+    loadingTemplate: 'splash'
+    trackPageView: false
 
 
 Docs.before.insert (userId, doc)->

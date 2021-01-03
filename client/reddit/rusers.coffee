@@ -137,7 +137,6 @@ Template.rusers.events
     'click .unselect_ruser_tag': -> selected_ruser_tags.remove @valueOf()
     'click #clear_tags': -> selected_ruser_tags.clear()
 
-
     'click .clear_username': (e,t)-> 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance "clear username"
         Session.set('searching_username',null)
