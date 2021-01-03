@@ -1,16 +1,18 @@
 template(name='nav')
-    .ui.fluid.attached.borderless.inverted.four.item.menu.topnav
+    .ui.fluid.attached.borderless.inverted.five.item.menu.topnav
         // a.icon.item.toggle_leftbar
         //     i.large.bars.icon
         if connected
             a.icon.zoomer.item.goto_people(href='/susers' class="{{isActivePath regex='susers'}}" title='susers')
-                i.user.outline.icon
+                i.large.user.outline.icon
             a.icon.zoomer.teal.item.clear_tags.goto_stack(href='/stack' class="{{isActivePath '/stack'}}" title='stack exchange')
-                i.stack.exchange.icon
+                i.large.stack.exchange.icon
             a.icon.zoomer.item.clear_tags.goto_reddit(href='/reddit' class="{{isActiveRoute regex='reddit'}}" title='reddit')
-                i.reddit.icon
+                i.large.reddit.icon
+            a.icon.zoomer.item.clear_tags.goto_subreddit(href='/subs' class="{{isActiveRoute regex='subs'}}" title='subreddit')
+                i.large.clone.icon
             a.icon.zoomer.item.goto_rusers(href='/rusers' class="{{isActivePath regex='rusers'}}" title='rusers')
-                i.user.outline.icon
+                i.large.user.outline.icon
             if is_admin
                 a.icon.zoomer.item.goto_rusers(href='/users' class="{{isActivePath regex='rusers'}}" title='rusers')
                     i.large.users.icon

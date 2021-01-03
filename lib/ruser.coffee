@@ -7,7 +7,7 @@ if Meteor.isClient
    
     Template.ruser.onCreated ->
         @autorun => Meteor.subscribe 'ruser_doc', Router.current().params.username
-        @autorun => Meteor.subscribe 'rposts', Router.current().params.username, 20
+        @autorun => Meteor.subscribe 'rposts', Router.current().params.username, 42
         @autorun => Meteor.subscribe 'ruser_comments', Router.current().params.username
         @autorun => Meteor.subscribe 'ruser_result_tags',
             'rpost'
@@ -72,7 +72,7 @@ if Meteor.isServer
             model:'ruser'
             username:username
     
-    Meteor.publish 'rposts', (username, limit=20)->
+    Meteor.publish 'rposts', (username, limit=42)->
         Docs.find {
             model:'rpost'
             author:username
@@ -81,7 +81,7 @@ if Meteor.isServer
             sort:
                 _timestamp:-1
         }  
-    Meteor.publish 'ruser_comments', (username, limit=20)->
+    Meteor.publish 'ruser_comments', (username, limit=42)->
         Docs.find
             model:'rcomment'
             author:username

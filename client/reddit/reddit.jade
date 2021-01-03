@@ -1,0 +1,324 @@
+template(name='subreddit')
+    unless current_subreddit
+        .ui.basic.center.aligned.segment
+            i.massive.yin.yang.loading.link.grey.icon.get_info.shadowed2
+    with current_subreddit
+        .ui.stackable.grid(style="background-image:url(#{data.banner_img}); margin-top:0px;, background-size:cover;, background-repeat: no-repeat; min-width: 100%; ")
+            .eleven.wide.column.seg
+                // img(src=data.banner_img)
+                // img(src=banner_background_image)
+                a.ui.basic.compact.icon.button(href="/reddit")
+                    i.large.chevron.left.grey.icon
+                    // img.ui.mini.inline.image(src=icon_img)
+                img.get_info.shadowed.ui.inline.image(src=logo_url )
+                .ui.inline.header.get_info #{data.display_name}
+                if selected_sub_tags
+                    // if many_tags
+                    //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                    //         i.remove.icon
+                    each selected_sub_tags
+                        +sub_unselect_tag
+                .ui.icon.input
+                    i.search.icon
+                    input.search_subreddit(type='text')
+                each subreddit_result_tags
+                    // .ui.label #{this}
+                    +sub_tag_selector
+                    // .ui.large.label(title=count) #{name}
+                div
+                .ui.inline.header #{post_count}
+                if skv_is 'sort_direction' 1
+                    .ui.icon.compact.basic.tertiary.button.sort_down
+                        i.caret.down.icon
+                else
+                    .ui.icon.compact.basic.tertiary.button.sort_up
+                        i.caret.up.icon
+                // if skv_is 'view_bounties' 1
+                //     .ui.compact.black.button.unview_bounties
+                //         i.hand.holding.heart.icon
+                //         | bounties
+                // else
+                //     .ui.compact.basic.tertiary.button.view_bounties
+                //         i.hand.holding.heart.icon
+                //         | bounties
+                // if skv_is 'view_unanswered' 1
+                //     .ui.compact.black.button.unview_unanswered
+                //         i.checkmark.icon
+                //         | unanswered
+                // else
+                //     .ui.compact.basic.tertiary.button.view_unanswered
+                //         i.question.icon
+                //         | unanswered
+                // i.big.fire.link.icon
+                .ui.compact.basic.small.tertiary.button.limit_1
+                    |1
+                .ui.compact.basic.small.tertiary.button.limit_10
+                    |10
+                .ui.icon.compact.large.basic.small.button.sort_created(class=sort_created_class)
+                    i.clock.icon
+                .ui.icon.compact.large.basic.small.button.sort_ups(class=sort_ups_class)
+                    i.thumbs.up.icon
+                if skv_is 'view_detail' true
+                    .ui.black.compact.button.toggle_detail
+                        i.list.large.icon
+                        |detail
+                else
+                    .ui.compact.basic.tertiary.button.toggle_detail
+                        i.minus.large.icon
+                        |simple
+                    // i.line.chart.icon
+                if skv_is 'subreddit_view_layout' 'grid'
+                    .ui.compact.circular.large.button.set_grid(class=grid_class) 
+                        i.th.large.icon
+                        |grid
+                else
+                    .ui.icon.compact.circular.large.button.set_grid(class=grid_class) 
+                        i.th.large.icon
+                if skv_is 'subreddit_view_layout' 'list'
+                    .ui.compact.circular.large.button.set_list(class=list_class)
+                        i.list.large.icon
+                        |list
+                else
+                    .ui.icon.compact.circular.large.button.set_list(class=list_class)
+                        i.list.large.icon
+                .scrolling
+                    if sub_docs
+                        if skv_is 'subreddit_view_layout' 'grid'
+                            .ui.grid 
+                                each sub_docs
+                                    +subreddit_post_card_small
+                        else if skv_is 'subreddit_view_layout' 'list'
+                            each sub_docs
+                                +subreddit_doc_item
+                    else
+                        .ui.basic.center.aligned.segment
+                            i.big.loading.yin.yang.icon
+            .five.wide.column.scrolling.seg
+                img.ui.inline.image(src=data.header_img)
+                .ui.inline.header.pull_latest #{data.title}
+                +alpha
+                .ui.inline.small.header domains
+                
+                each subreddit_domain_tags
+                    .ui.compact.basic.button.select_domain(class=domain_selector_class)
+                        |#{name} 
+                        small #{count}
+                // .ui.inline.header.pull_latest #{display_name}
+                if in_dev
+                    +print_this
+                    // div
+                with emotion_avg
+                    // .ui.list
+                    //     .item {{ to_percent avg_sent_score}}% sentiment
+                    //     .item {{ to_percent avg_joy_score}}% joy
+                    //     .item {{ to_percent avg_anger_score}}% anger
+                    //     .item {{ to_percent avg_sadness_score}}% sad
+                    //     .item {{ to_percent avg_disgust_score}}% disgust
+                    //     .item {{ to_percent avg_fear_score}}% fear
+                    // if is_positive
+                    //     span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% positive
+                    //         |&nbsp;
+                    //     div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+                    // else
+                    //     span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  negative
+                    //         |&nbsp;
+                    //     div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+                    span.say.ui.green.text(class="{{calculated_size avg_sent_score}}") {{ to_percent avg_sent_score }}% sentiment 
+                        |&nbsp;
+                    div.rounded(style="height:5px;width:{{to_percent avg_sent_score}}%;background-color:green" title="{{to_percent avg_sent_score}}% joy")
+                    span.say.ui.green.text(class="{{calculated_size avg_joy_score}}") {{ to_percent avg_joy_score }}% joy 
+                        |&nbsp;
+                    div.rounded(style="height:5px;width:{{to_percent avg_joy_score}}%;background-color:green" title="{{to_percent avg_joy_score}}% joy")
+                    //- if above_50 'avg_sadness_score'
+                        //- .spacer
+                    span.say.ui.blue.text(class="{{calculated_size avg_sadness_score}}") {{ to_percent avg_sadness_score}}% sad 
+                        |&nbsp;
+                    div.rounded(style="height:5px;width:{{to_percent avg_sadness_score}}%;background-color:blue" title="{{to_percent avg_sadness_score}}% sad")
+                    //- if above_50 'avg_fear_score'
+                        //- .spacer
+                    span.say.ui.grey.text(class="{{calculated_size avg_fear_score}}") {{ to_percent avg_fear_score }}% fear 
+                        |&nbsp;
+                    div.rounded(style="height:5px;width:{{to_percent avg_fear_score}}%;background-color:grey" title="{{to_percent avg_fear_score}}% fear")
+                    //- if above_50 'avg_disgust_score'
+                        //- .spacer
+                    span.say.ui.orange.text(class="{{calculated_size avg_disgust_score}}") {{ to_percent avg_disgust_score }}% disgust 
+                        |&nbsp;
+                    div.rounded(style="height:5px;width:{{to_percent avg_disgust_score}}%;background-color:orange" title="{{to_percent avg_disgust_score}}% disgust")
+                    //- if above_50 'avg_anger_score'
+                        //- .spacer
+                    span.say.ui.red.text(class="{{calculated_size avg_anger_score}}") {{ to_percent avg_anger_score }}% anger 
+                        |&nbsp;
+                    div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
+                
+                .ui.list.mobile.hidden
+                    .item.seg.say !{data.public_description}
+                    .item.seg.say 
+                        |{{#markdown}} !{data.description} {{/markdown}}
+                    .item 
+                        i.grey.lightning.icon
+                        |#{active_user_count} activeusers
+                    .item 
+                        i.grey.users.icon
+                        |#{subscribers} subscribers
+                    // .item 
+                    //     strong #{audience}
+                    a.item(href=url target="_window")
+                        |#{url}
+                        i.external.icon
+                    .item
+                        |#{advertiser_category} ad category
+                    .item #{dao_views} dao views    
+                    .item created {{ufrom created_utc}}
+                    .item state: #{subreddit_state}
+                    // .item #{high_resolution_icon_url} high_resolution_icon_url
+                    // .item #{favicon_url} favicon_url
+                    // .item #{api_subreddit_parameter} api
+                    .item #{subreddit_type} subreddit_type
+                    .item main emotion: #{main_emotion}
+                    .item 
+                        i.grey.thumbs.up.outline.icon
+                        |#{total_votes} votes
+                    .item #{comment_count} comments
+   
+   
+template(name='subreddit_post_card_small')
+    .four.wide.column
+        // .ui.stackable.equal.width.compact.grid
+        //     .row
+        if embed
+            span.rounded.full
+                |!{embed}
+            div
+        else if is_image
+            .column
+                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                    img.ui.fluid.rounded.zoomer.image.toggle_view(src=data.url)
+        else if watson.metadata.image.length
+            .column
+                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                    img.ui.rounded.inline.zoomer.image.toggle_view(src=watson.metadata.image)
+        else if data.thumbnail.length
+            .column
+                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                    img.ui.rounded.inline.zoomer.image.zoomer(src=data.thumbnail)    
+        // else if data.thumbnail.length
+        //     .column
+        //         a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+        //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
+        // .column
+        a.ui.inline.small.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            strong #{data.ups}:
+            |!{data.title} 
+            // span.inline.content
+   
+   
+template(name='subreddit_doc_item')                  
+    .ui.ite.seg
+        unless skv_is 'view_detail' true
+            // .ui.stackable.equal.width.compact.grid
+            //     .row
+            if embed
+                span.rounded.full
+                    |!{embed}
+                div
+            else if is_image
+                .column
+                    a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                        img.ui.fluid.rounded.image.toggle_view(src=data.url)
+            else if watson.metadata.image.length
+                .column
+                    a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                        img.ui.rounded.inline.image.toggle_view(src=watson.metadata.image)
+            else if data.thumbnail.length
+                .column
+                    a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                        img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
+            // else if data.thumbnail.length
+            //     .column
+            //         a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
+            // .column
+            a.ui.inline.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                strong #{data.ups}:
+                |!{data.title} 
+                // span.inline.content
+            if watson.analyzed_text
+                // .spacer
+                a.f11.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                    |{{trunc watson.analyzed_text}}...
+            .ui.label 
+                i.clock.icon
+                |{{ufrom data.created}}
+                small ({{long_date data.created}})
+            .ui.label(title='domain') #{data.domain}
+            // each tags
+            //     +flat_sub_tag_selector
+            if in_dev
+                +print_this
+            // if watson
+            //     +doc_emotion_small
+
+            // if skv_is 'view_detail' true
+            // a.ui.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            //     strong #{data.ups}:
+            //     |!{data.title} 
+            // span.inline.content
+                    
+            a.say.goto_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class) !{data.body}
+            a.say(href="/r/#{subreddit}/post/#{_id}" class=post_header_class) !{data.html}
+            // .spacer
+            // if parsed_selftext_html
+            //     .ui.segment
+            //         |!{parsed_selftext_html}
+            // if data.selftext
+            //     // .ui.segment
+            //     .ui.basic.segment.say
+            //         |{{#markdown}} {{data.selftext}} {{/markdown}}
+            // else if data.body
+            //     div
+            //     .ui.segment.say
+            //         |{{nl2br data.body}}
+            // if data.body_html
+            //     div
+            //     a.pointer.say(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            //         |!{data.body_html}
+            
+            each tags
+                +flat_sub_tag_selector
+            if watson
+                +doc_emotion_small
+            a.ui.inline.header(href="/ruser/#{data.author}")
+                |#{data.author}
+    
+
+
+template(name='sub_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.compact.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong #{name}
+        // if in_dev
+        //     small #{count}
+        
+template(name='sub_unselect_tag')
+    a.unselect_sub_tag.ui.black.compact.button(href='#')
+        if term
+            if term.watson.metadata.image
+                img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
+        strong #{this}
+
+        
+        
+template(name='flat_sub_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.tertiary.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong #{this}
+        // if in_dev
+        //     small #{count}
+
+

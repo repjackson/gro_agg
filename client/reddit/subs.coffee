@@ -1,10 +1,10 @@
 @selected_comment_tags = new ReactiveArray []
 @selected_sub_tags = new ReactiveArray []
 
-Router.route '/reddit', (->
+Router.route '/subs', (->
     @layout 'layout'
-    @render 'reddit'
-    ), name:'reddit'
+    @render 'subs'
+    ), name:'subs'
 
 
 Router.route '/r/:subreddit/users', (->
@@ -97,7 +97,7 @@ Template.related_questions.helpers
 
 
 
-Template.reddit.onCreated ->
+Template.subs.onCreated ->
     Session.setDefault('subreddit_query',null)
     Session.setDefault('sort_key','data.created')
     @autorun -> Meteor.subscribe('subreddits',
@@ -114,7 +114,7 @@ Template.reddit.onCreated ->
         selected_sub_tags.array()
         Session.get('toggle')
 
-Template.reddit.events
+Template.subs.events
     'click .goto_sub': (e,t)->
         Meteor.call 'get_sub_latest', @data.display_name, ->
         Meteor.call 'get_sub_info', @data.display_name, ->
@@ -133,7 +133,7 @@ Template.reddit.events
     'click .search_subs': ->
         Meteor.call 'search_subreddits', 'news', ->
              
-Template.reddit.helpers
+Template.subs.helpers
     subreddit_docs: ->
         Docs.find(
             model:'subreddit'

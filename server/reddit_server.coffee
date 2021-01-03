@@ -860,3 +860,93 @@ Meteor.methods
         if sub
             Docs.update sub._id,
                 $inc:dao_views:1
+                
+                
+                
+Meteor.publish 'reddit_docs', (
+    selected_reddit_tags
+    selected_subreddit_tags
+    selected_subreddit_domains
+    sort_key
+    )->
+    self = @
+    match = {
+        model:'rpost'
+    }
+    if sort_key
+        sk = sort_key
+    else
+        sk = 'data.created'
+    # if view_bounties
+    #     match.bounty = true
+    # if view_unanswered
+    #     match.is_answered = false
+    if selected_reddit_tags.length > 0 then match.tags = $all:selected_reddit_tags
+    if selected_subreddit_tags.length > 0 then match.subreddit = $all:selected_subreddit_tags
+    if selected_subreddit_domains.length > 0 then match.domain = $all:selected_subreddit_domains
+    # console.log sk
+    Docs.find match,
+        limit:20
+        sort: "#{sk}":-1
+    
+           
+Meteor.publish 'reddit_tags', (
+    selected_reddit_tags
+    # selected_subreddit_domain
+    # view_bounties
+    # view_unanswered
+    # query=''
+    )->
+    # @unblock()
+    self = @
+    match = {
+        model:'rpost'
+        # subreddit:subreddit
+    }
+    # if view_bounties
+    #     match.bounty = true
+    # if view_unanswered
+    #     match.is_answered = false
+    if selected_reddit_tags.length > 0 then match.tags = $all:selected_reddit_tags
+    # if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
+    # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
+    doc_count = Docs.find(match).count()
+    # console.log 'doc_count', doc_count
+    subreddit_tag_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "tags": 1 }
+        { $unwind: "$tags" }
+        { $group: _id: "$tags", count: $sum: 1 }
+        { $match: _id: $nin: selected_reddit_tags }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:42 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    subreddit_tag_cloud.forEach (tag, i) ->
+        # console.log tag
+        self.added 'results', Random.id(),
+            name: tag.name
+            count: tag.count
+            model:'subreddit_tag'
+    
+    
+    # subreddit_domain_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "data.domain": 1 }
+    #     # { $unwind: "$domain" }
+    #     { $group: _id: "$data.domain", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_domains }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:7 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # subreddit_domain_cloud.forEach (domain, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: domain.name
+    #         count: domain.count
+    #         model:'subreddit_domain_tag'
+  
+    self.ready()
+                

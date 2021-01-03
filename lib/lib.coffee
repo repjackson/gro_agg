@@ -49,6 +49,9 @@ Docs.helpers
     five_tags: ->
         if @tags
             @tags[..5]
+    ten_tags: ->
+        if @tags
+            @tags[..10]
     three_tags: ->
         if @tags
             @tags[..3]
