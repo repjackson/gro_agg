@@ -1,20 +1,21 @@
 template(name='rusers')
     .ui.stackable.padded.grid
         .four.wide.column.scrolling
-            .ui.header 
+            .ui.inline.header 
                 i.reddit.icon
                 |reddit users
-            .ui.header 
-                i.tag.icon
-                |tags
-            if selected_tags
-                #clear_tags.ui.grey.icon.compact.circular.button
-                    i.remove.icon
-                each selected_tags
-                    .unselect_tag.ui.grey.compact.circular.button
+            // i.tag.large.icon
+            .ui.small.fluid.icon.input
+                i.search.icon
+                input.search_tags(type='text')
+            if selected_ruser_tags
+                // #clear_tags.ui.grey.icon.compact.circular.button
+                //     i.remove.icon
+                each selected_ruser_tags
+                    .unselect_ruser_tag.ui.black.compact.circular.button
                         strong !{this}
-            each all_tags
-                .ui.compact.circular.basic.button.select_tag(class=cloud_tag_class title=count) !{this.name}
+            each all_ruser_tags
+                .ui.compact.circular.basic.small.button.select_ruser_tag(class=cloud_tag_class title=count) !{this.name}
                     // small #{this.count}
             .ui.small.header sort by
             +ruser_karma_sort_button l='total' i='yin yang' c=''
@@ -88,8 +89,8 @@ template(name='ruser_small')
                 // .ui.circular.compact.basic.button.set_location
                 //     i.grey.marker.icon
                 //     |!{location}
-                each five_tags
-                    .ui.small.tertiary.disabled.button #{this}
+                each seven_tags
+                    .ui.small.tertiary.button.add_tag #{this}
                 if user_top_emotion
                     .ui.inline.header #{user_top_emotion}
                 +ruser_top_emotion_small

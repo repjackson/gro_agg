@@ -106,7 +106,7 @@ Template.ruser_karma_sort_button.helpers
 
 
 Template.rusers.helpers
-    all_tags: -> results.find(model:'ruser_tag')
+    all_ruser_tags: -> results.find(model:'ruser_tag')
     selected_ruser_tags: -> selected_ruser_tags.array()
     # all_site: ->
     #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
@@ -127,26 +127,42 @@ Template.rusers.helpers
 
 
         
+Template.ruser_small.events
+    'click .add_tag': -> 
+        selected_ruser_tags.push @valueOf()
 Template.rusers.events
-    'click .select_tag': -> 
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+    'click .select_ruser_tag': -> 
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         selected_ruser_tags.push @name
-    'click .unselect_tag': -> selected_ruser_tags.remove @valueOf()
+    'click .unselect_ruser_tag': -> selected_ruser_tags.remove @valueOf()
     'click #clear_tags': -> selected_ruser_tags.clear()
 
 
     'click .clear_username': (e,t)-> 
-        window.speechSynthesis.speak new SpeechSynthesisUtterance "clear username"
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance "clear username"
         Session.set('searching_username',null)
 
+    'keyup .search_tags': (e,t)->
+        # search = $('.search_site').val().toLowerCase().trim()
+        # Session.set('location_query',search)
+        if e.which is 13
+            search = $('.search_tags').val().trim()
+            if search.length > 0
+                # window.speechSynthesis.cancel()
+                # window.speechSynthesis.speak new SpeechSynthesisUtterance search
+                selected_ruser_tags.push search
+                $('.search_tags').val('')
+
+                # Meteor.call 'search_stack', Router.current().params.site, search, ->
+                #     Session.set('thinking',false)
     'keyup .search_location': (e,t)->
         # search = $('.search_site').val().toLowerCase().trim()
         search = $('.search_location').val().trim()
         Session.set('location_query',search)
         if e.which is 13
             if search.length > 0
-                window.speechSynthesis.cancel()
-                window.speechSynthesis.speak new SpeechSynthesisUtterance search
+                # window.speechSynthesis.cancel()
+                # window.speechSynthesis.speak new SpeechSynthesisUtterance search
                 selected_tags.push search
                 $('.search_site').val('')
 
