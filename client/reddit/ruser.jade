@@ -189,7 +189,7 @@ template(name='ruser_comment')
         .pointer.say(class=post_header_class)
             |{{#markdown}} {{data.body}} {{/markdown}}
         each tags 
-            +flat_sub_tag_selector
+            +flat_sub_ruser_tag_selector
             // .ui.tiny.basic.label #/{this}
         a.author.say(href="/r/#{data.subreddit}") #{data.subreddit}
         if in_dev
