@@ -9,17 +9,17 @@ template(name='reddit_page')
                     .ui.label #{data.ups}
                     |!{data.title} #{data.link_title}
                 | {{ufrom data.created}}
-                // .ui.basic.button.get_post permalink #{permalink}
-                // div
-                // +skve k='view_section' v='main' l='main' i='content'
-                // +skve k='view_section' v='comments' l='comments' i='comment'
-                // +skve k='view_section' v='watson' l='watson' i='dna'
-                // if tone
-                //     +skve k='view_section' v='tone' l='tone' i='smile grey'
-                // +skve k='view_section' v='tags' l='tags' i='tags'
-                // +skve k='view_section' v='related' l='related' i='fork'
-                // +skve k='view_section' v='preview' l='preview' i='content'
-                // // if skv_is 'view_section' 'main'
+                .ui.basic.button.get_post permalink #{permalink}
+                div
+                +skve k='view_section' v='main' l='main' i='content'
+                +skve k='view_section' v='comments' l='comments' i='comment'
+                +skve k='view_section' v='watson' l='watson' i='dna'
+                if tone
+                    +skve k='view_section' v='tone' l='tone' i='smile grey'
+                +skve k='view_section' v='tags' l='tags' i='tags'
+                +skve k='view_section' v='related' l='related' i='fork'
+                +skve k='view_section' v='preview' l='preview' i='content'
+                // if skv_is 'view_section' 'main'
                 .scrolling
                     // if skv_is 'view_section' 'main'
                     if data.is_reddit_media_domain
@@ -63,18 +63,18 @@ template(name='reddit_page')
                     //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
                     // .rounded
                     //     |!{embed}
-                    // if skv_is 'view_section' 'watson'
-                    //     +watson_view
-                    //     +watson_full
-                    // if skv_is 'view_section' 'related'
-                    //     +post_related
-                    //     +related_questions
-                    // if skv_is 'view_section' 'tone'
-                    //     +tone
-                    //     // +skve k='view_section' v='money' l='money' i='money'
-                    //     // if skv_is 'view_section'
-                    // if skv_is 'view_section' 'preview'
-                    //     iframe(width="100%" height="800" src=data.url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
+                    if skv_is 'view_section' 'watson'
+                        +watson_view
+                        +watson_full
+                    if skv_is 'view_section' 'related'
+                        +post_related
+                        +related_questions
+                    if skv_is 'view_section' 'tone'
+                        +tone
+                        // +skve k='view_section' v='money' l='money' i='money'
+                        // if skv_is 'view_section'
+                    if skv_is 'view_section' 'preview'
+                        iframe(width="100%" height="800" src=data.url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
                     // +convert
                     // .spacer
                     // if skv_is 'view_section' 'tags'
@@ -90,12 +90,12 @@ template(name='reddit_page')
                     if data.thumbnail
                         img.ui.fluid.rounded.image.pointer.call_thumbnail.zoomer(src=data.thumbnail)
                 // .ui.header #{data.domain}
-                a.ui.basic.fluid.button(href="https://www.reddit.com#{data.permalink}" target="_window") 
+                a.ui.basic.button(href="https://www.reddit.com#{data.permalink}" target="_window") 
                     i.external.grey.icon
                     |r/#{data.subreddit}
                 .spacer
-                // a.ui.fluid.basic.button(href="https://www.reddit.com/u/#{author}" target='_window')
-                a.ui.fluid.basic.button.goto_ruser(href="/ruser/#{data.author}")
+                // a.ui.basic.button(href="https://www.reddit.com/u/#{author}" target='_window')
+                a.ui.basic.button.goto_ruser(href="/ruser/#{data.author}")
                     i.user.outline.icon
                     |#{data.author}
                 +call_watson id=_id key='data.url' durl=data.url mode='url'
