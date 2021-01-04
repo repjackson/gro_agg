@@ -3,6 +3,9 @@
 @selected_reddit_domain = new ReactiveArray []
 
 
+Template.nav.helpers
+    reddit_loading: -> Session.get('reddit_loading')
+
 Router.route '/reddit', (->
     @layout 'layout'
     @render 'reddit'
@@ -27,8 +30,7 @@ Template.reddit.onCreated ->
         selected_reddit_tags.array()
         selected_reddit_domain.array()
 
-    @autorun => Meteor.subscribe 'reddit_result_tags',
-        Router.current().params.subreddit
+    @autorun => Meteor.subscribe 'reddit_tags',
         selected_reddit_tags.array()
         selected_reddit_domain.array()
         Session.get('toggle')
@@ -78,25 +80,27 @@ Template.reddit.events
     'click .set_grid': (e,t)-> Session.set('reddit_view_layout', 'grid')
     'click .set_list': (e,t)-> Session.set('reddit_view_layout', 'list')
 
-    'keyup .search_subreddit': (e,t)->
-        val = $('.search_subreddit').val()
-        Session.set('reddit_doc_query', val)
+    'keyup .search_reddit': (e,t)->
+        val = $('.search_reddit').val()
+        Session.set('reddit_query', val)
         if e.which is 13 
             selected_reddit_tags.push val
             # window.speechSynthesis.speak new SpeechSynthesisUtterance val
 
-            $('.search_subreddit').val('')
-            Session.set('loading',true)
-            Meteor.call 'search_subreddit', Router.current().params.subreddit, val, ->
-                Session.set('loading',false)
-                Session.set('reddit_doc_query', null)
+            $('.search_reddit').val('')
+            Session.set('reddit_loading',true)
+            Meteor.call 'search_reddit', val, ->
+                Session.set('reddit_loading',false)
+                Session.set('reddit_query', null)
             
 Template.reddit.helpers
+    reddit_query: -> Session.get('reddit_query')
+
     domain_selector_class: ->
         if @name in selected_reddit_domain.array() then 'blue' else 'basic'
     sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
-    reddit_result_tags: -> results.find(model:'reddit_result_tag')
+    reddit_result_tags: -> results.find(model:'reddit_tag')
     reddit_domain_tags: -> results.find(model:'reddit_domain_tag')
 
     selected_reddit_tags: -> selected_reddit_tags.array()
@@ -160,9 +164,9 @@ Template.reddit_tag_selector.events
         
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-        Session.set('loading',true)
-        Meteor.call 'search_subreddit', Router.current().params.subreddit, @name, ->
-            Session.set('loading',false)
+        Session.set('reddit_loading',true)
+        Meteor.call 'search_reddit', @name, ->
+            Session.set('reddit_loading',false)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))
         , 5000)
@@ -184,7 +188,7 @@ Template.reddit_unselect_tag.helpers
 Template.reddit_unselect_tag.events
     'click .unselect_reddit_tag': -> 
         Session.set('skip',0)
-        console.log @
+        # console.log @
         selected_reddit_tags.remove @valueOf()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
     

@@ -2,24 +2,21 @@ template(name='reddit')
     // unless current_subreddit
     //     .ui.basic.center.aligned.segment
     //         i.massive.yin.yang.loading.link.grey.icon.get_info.shadowed2
-    .ui.stackable.grid(style="background-image:url(#{data.banner_img}); margin-top:0px;, background-size:cover;, background-repeat: no-repeat; min-width: 100%; ")
-        .eleven.wide.column.seg
+    .ui.stackable.grid
+        .eleven.wide.column
             // img(src=data.banner_img)
             // img(src=banner_background_image)
-            a.ui.basic.compact.icon.button(href="/reddit")
-                i.large.chevron.left.grey.icon
-                // img.ui.mini.inline.image(src=icon_img)
             img.get_info.shadowed.ui.inline.image(src=logo_url )
             .ui.inline.header.get_info #{data.display_name}
             if selected_reddit_tags
                 // if many_tags
                 //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                 //         i.remove.icon
-                each selected_tags
-                    +unselect_tag
+                each selected_reddit_tags
+                    +reddit_unselect_tag
             .ui.icon.input
                 i.search.icon
-                input.search_reddit(type='text')
+                input.search_reddit(type='text' value=reddit_query)
             each reddit_result_tags
                 // .ui.label #{this}
                 +reddit_tag_selector
@@ -150,34 +147,34 @@ template(name='reddit')
                 div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
             
             .ui.list.mobile.hidden
-                .item.seg.say !{data.public_description}
-                .item.seg.say 
-                    |{{#markdown}} !{data.description} {{/markdown}}
-                .item 
-                    i.grey.lightning.icon
-                    |#{active_user_count} activeusers
-                .item 
-                    i.grey.users.icon
-                    |#{subscribers} subscribers
+                // .item.seg.say !{data.public_description}
+                // .item.seg.say 
+                //     |{{#markdown}} !{data.description} {{/markdown}}
                 // .item 
-                //     strong #{audience}
-                a.item(href=url target="_window")
-                    |#{url}
-                    i.external.icon
-                .item
-                    |#{advertiser_category} ad category
-                .item #{dao_views} dao views    
-                .item created {{ufrom created_utc}}
-                .item state: #{reddit_state}
-                // .item #{high_resolution_icon_url} high_resolution_icon_url
-                // .item #{favicon_url} favicon_url
-                // .item #{api_reddit_parameter} api
-                .item #{reddit_type} reddit_type
-                .item main emotion: #{main_emotion}
-                .item 
-                    i.grey.thumbs.up.outline.icon
-                    |#{total_votes} votes
-                .item #{comment_count} comments
+                //     i.grey.lightning.icon
+                //     |#{active_user_count} activeusers
+                // .item 
+                //     i.grey.users.icon
+                //     |#{subscribers} subscribers
+                // // .item 
+                // //     strong #{audience}
+                // a.item(href=url target="_window")
+                //     |#{url}
+                //     i.external.icon
+                // .item
+                //     |#{advertiser_category} ad category
+                // .item #{dao_views} dao views    
+                // .item created {{ufrom created_utc}}
+                // .item state: #{reddit_state}
+                // // .item #{high_resolution_icon_url} high_resolution_icon_url
+                // // .item #{favicon_url} favicon_url
+                // // .item #{api_reddit_parameter} api
+                // .item #{reddit_type} reddit_type
+                // .item main emotion: #{main_emotion}
+                // .item 
+                //     i.grey.thumbs.up.outline.icon
+                //     |#{total_votes} votes
+                // .item #{comment_count} comments
 
    
 template(name='reddit_post_card_small')
@@ -212,6 +209,8 @@ template(name='reddit_post_card_small')
         a.ui.basic.label(href="/r/#{subreddit}" class=post_header_class)
             |!{subreddit} 
             // span.inline.content
+        |{{ufrom data.created_utc}}
+            
         +print_this
    
 template(name='reddit_doc_item')                  
@@ -296,7 +295,7 @@ template(name='reddit_doc_item')
 
 template(name='reddit_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.basic.compact.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.compact.tertiary.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    

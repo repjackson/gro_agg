@@ -7,9 +7,12 @@ template(name='nav')
                 i.large.user.outline.icon
             a.icon.zoomer.teal.item.clear_tags.goto_stack(href='/stack' class="{{isActivePath '/stack'}}" title='stack exchange')
                 i.large.stack.exchange.icon
-            a.icon.zoomer.item.clear_tags.goto_reddit(href='/reddit' class="{{isActiveRoute regex='reddit'}}" title='reddit')
-                i.large.reddit.icon
-            a.icon.zoomer.item.clear_tags.goto_subreddit(href='/subs' class="{{isActiveRoute regex='subs'}}" title='subreddit')
+            a.icon.zoomer.item.clear_tags.goto_reddit(href='/reddit' class="{{isActiveRoute 'reddit'}}" title='reddit')
+                if reddit_loading
+                    i.large.loading.reddit.icon
+                else
+                    i.large.reddit.icon
+            a.icon.zoomer.item.clear_tags.goto_subreddit(href='/subs' class="{{isActiveRoute regex='sub'}}" title='subreddit')
                 i.large.clone.icon
             a.icon.zoomer.item.goto_rusers(href='/rusers' class="{{isActivePath regex='rusers'}}" title='rusers')
                 i.large.user.outline.icon

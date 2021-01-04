@@ -3,7 +3,7 @@ rp = require('request-promise');
 
 
 Meteor.methods
-    search_reddit: (query, subreddit)->
+    search_reddit: (query)->
         @unblock()
         # res = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # if subreddit 
@@ -920,7 +920,7 @@ Meteor.publish 'reddit_tags', (
         { $match: _id: $nin: selected_reddit_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:42 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     subreddit_tag_cloud.forEach (tag, i) ->
@@ -928,7 +928,7 @@ Meteor.publish 'reddit_tags', (
         self.added 'results', Random.id(),
             name: tag.name
             count: tag.count
-            model:'subreddit_tag'
+            model:'reddit_tag'
     
     
     # subreddit_domain_cloud = Docs.aggregate [

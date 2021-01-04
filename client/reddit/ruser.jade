@@ -57,7 +57,7 @@ template(name='ruser')
                         // .ui.label #{this}
                         // +ruser_post_selector
                         .ui.basic.small.label(title=count) #{name}
-                    .medscroll
+                    .scrolling
                         each ruser_posts
                             +ruser_post
                 .six.wide.column
@@ -68,7 +68,7 @@ template(name='ruser')
                         // .ui.label #{this}
                         // +ruser_post_selector
                         .ui.small.basic.label(title=count) #{name}
-                    .medscroll
+                    .scrolling
                         each rcomments
                             +ruser_comment
                             .ui.divider
@@ -174,10 +174,10 @@ template(name='ruser_comment')
             +doc_emotion_small
         .pointer.say(class=post_header_class)
             |{{#markdown}} {{data.body}} {{/markdown}}
-        .actions
-            each tags 
-                +flat_sub_tag_selector
-                // .ui.tiny.basic.label #/{this}
-            a.author.say(href="/r/#{data.subreddit}") #{data.subreddit}
-            if in_dev
-                +print_this
+        each tags 
+            +flat_sub_tag_selector
+            // .ui.tiny.basic.label #/{this}
+        a.author.say(href="/r/#{data.subreddit}") #{data.subreddit}
+        if in_dev
+            +print_this
+        // .actions
