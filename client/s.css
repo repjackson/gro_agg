@@ -56,9 +56,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/*.full {*/
+/*  max-width: inherit !important;*/
+/*  width: inherit !important;*/
+/*}*/
 .full {
-  max-width: inherit !important;
-  width: inherit !important;
+  max-width: 100% !important;
+  width: 100% !important;
 }
 
 .shadowed {
@@ -285,9 +289,6 @@ input
 
 
 
-.full {
-    height: 100% !important;
-}
 .centered {
     text-align: center !important;
 }

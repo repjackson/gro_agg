@@ -2,17 +2,17 @@ template(name='subs')
     .ui.stackable.padded.grid
         .row
             .four.wide.column
-                .smallscroll
-                    if selected_sub_tags
-                        // if many_tags
-                        //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
-                        //         i.remove.icon
-                        each selected_sub_tags
-                            +sub_unselect_tag
-                    each subreddit_tags
-                        // .ui.label #{this}
-                        +sub_tag_selector
-                        // .ui.large.label(title=count) #{name}
+                // .smallscroll
+                if selected_sub_tags
+                    // if many_tags
+                    //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                    //         i.remove.icon
+                    each selected_sub_tags
+                        +sub_unselect_tag
+                each subreddit_tags
+                    // .ui.label #{this}
+                    +sub_tag_selector
+                    // .ui.large.label(title=count) #{name}
             .twelve.wide.column
                 .ui.inline.header #{sub_count}
                 .ui.inline.header

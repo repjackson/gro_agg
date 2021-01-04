@@ -228,3 +228,18 @@ Template.flat_sub_tag_selector.events
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))
         , 3000)
+Template.flat_sub_ruser_tag_selector.events
+    'click .select_flat_tag': -> 
+        # results.update
+        # window.speechSynthesis.cancel()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+        selected_subreddit_tags.push @valueOf()
+        console.log Template.parentData()
+        Router.go "/r/#{@subreddit}/"
+        $('.search_subreddit').val('')
+        Session.set('loading',true)
+        Meteor.call 'search_subreddit', @subreddit, @valueOf(), ->
+            Session.set('loading',false)
+        Meteor.setTimeout( ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 3000)
