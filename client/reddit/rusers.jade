@@ -65,7 +65,7 @@ template(name='rusers')
 template(name='ruser_small')
     .four.wide.column
         a.select_user(href="/ruser/#{username}")
-            img.ui.circular.image.zoomer(src=data.snoovatar_img)
+            img.ui.circular.small.image.zoomer(src=data.snoovatar_img)
         .content
             a.ui.zoomer.header.select_user(href="/ruser/#{username}" class=post_header_class)
                 |!{username}

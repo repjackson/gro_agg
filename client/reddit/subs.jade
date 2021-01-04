@@ -2,17 +2,17 @@ template(name='subs')
     .ui.stackable.padded.grid
         .row
             .four.wide.column
-                // +cloud filter='subreddit'
-                if selected_sub_tags
-                    // if many_tags
-                    //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
-                    //         i.remove.icon
-                    each selected_sub_tags
-                        +sub_unselect_tag
-                each subreddit_tags
-                    // .ui.label #{this}
-                    +sub_tag_selector
-                    // .ui.large.label(title=count) #{name}
+                .smallscroll
+                    if selected_sub_tags
+                        // if many_tags
+                        //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                        //         i.remove.icon
+                        each selected_sub_tags
+                            +sub_unselect_tag
+                    each subreddit_tags
+                        // .ui.label #{this}
+                        +sub_tag_selector
+                        // .ui.large.label(title=count) #{name}
             .twelve.wide.column
                 .ui.inline.header #{sub_count}
                 .ui.inline.header
@@ -23,6 +23,8 @@ template(name='subs')
                 .ui.icon.input
                     i.search.icon
                     input.search_subreddits(type='text')
+                +skve k='view_sub_detail' v=true l='detail' i='chevron up'
+                +skve k='view_sub_detail' v=false l='simple' i='chevron down'
                 +skve k='sort_subs' v='subscribers' l='subscribers' i='users'
                 +skve k='sort_subs' v='name' l='name' i='title'             
                 .scrolling
@@ -36,8 +38,9 @@ template(name='subs')
 template(name='subreddit_doc')
     .ui.grid.rounded(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat; min-width: 100%; ")
         // a.ui.tiny.image.goto_sub(href="/r/#{data.display_name}")
-        .four.wide.column.goto_sub.seg
-            img.ui.rounded.zoomer.image(src=data.icon_img)
+        if skv_is 'view_sub_detail' true
+            .four.wide.column.goto_sub.seg
+                img.ui.rounded.zoomer.image(src=data.icon_img)
         .twelve.wide.column.seg
             a.ui.header.goto_sub(href="/r/#{data.display_name}")
                 img.ui.rounded.zoomer.image(src=data.header_img)
@@ -45,20 +48,21 @@ template(name='subreddit_doc')
                 small !{data.display_name}
             a.ui.small.grey.header.goto_sub(href="/r/#{data.display_name}")
                 | !{data.header_title}
-            // span.description !{data.public_description_html}
-            span.descriptionl.goto_sub !{data.public_description}
-            |created {{ufrom data.created}}
-            span.say
-                // i.money.icon
-                |#{data.advertiser_category}
-            .ui.label(title='active users')
-                i.users.icon
-                |#{data.accounts_active}
-            .ui.label(title='subscribers')
-                i.edit.icon
-                |#{data.subscribers}
-            each tags
-                .ui.basic.small.label.goto_sub #{this}
-            if in_dev
-                +print_this
-                +remove_button
+            if skv_is 'view_sub_detail' true
+                // span.description !{data.public_description_html}
+                span.descriptionl.goto_sub !{data.public_description}
+                |created {{ufrom data.created}}
+                span.say
+                    // i.money.icon
+                    |#{data.advertiser_category}
+                .ui.label(title='active users')
+                    i.users.icon
+                    |#{data.accounts_active}
+                .ui.label(title='subscribers')
+                    i.edit.icon
+                    |#{data.subscribers}
+                each tags
+                    .ui.basic.small.label.goto_sub #{this}
+                if in_dev
+                    +print_this
+                    +remove_button
