@@ -579,7 +579,29 @@ Meteor.methods
                         Docs.insert item
                 )
                 
-                
+        
+    tagify_time_rpost: (doc_id)->
+        doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
+    
+        # doc._app = 'dao'
+    
+        date = moment(timestamp).format('Do')
+        weekdaynum = moment(timestamp).isoWeekday()
+        weekday = moment().isoWeekday(weekdaynum).format('dddd')
+    
+        hour = moment(timestamp).format('h')
+        minute = moment(timestamp).format('m')
+        ap = moment(timestamp).format('a')
+        month = moment(timestamp).format('MMMM')
+        year = moment(timestamp).format('YYYY')
+    
+        # doc.points = 0
+        # date_array = [ap, "hour #{hour}", "min #{minute}", weekday, month, date, year]
+        date_array = [ap, weekday, month, date, year]
+        if _
+            date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
+            doc._timestamp_tags = date_array
+
                         
 
 Meteor.publish 'subreddit_by_param', (subreddit)->
@@ -913,7 +935,7 @@ Meteor.publish 'subreddit_result_tags', (
     self.ready()
 
     
-Meteor.publish 'subreddit_tags', (
+Meteor.publish 'subs_tags', (
     selected_subreddit_tags
     # selected_subreddit_domain
     # view_bounties
@@ -935,7 +957,7 @@ Meteor.publish 'subreddit_tags', (
     # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
-    subreddit_tag_cloud = Docs.aggregate [
+    sus_tag_cloud = Docs.aggregate [
         { $match: match }
         { $project: "tags": 1 }
         { $unwind: "$tags" }
@@ -946,12 +968,12 @@ Meteor.publish 'subreddit_tags', (
         { $limit:42 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
-    subreddit_tag_cloud.forEach (tag, i) ->
+    sus_tag_cloud.forEach (tag, i) ->
         # console.log tag
         self.added 'results', Random.id(),
             name: tag.name
             count: tag.count
-            model:'subreddit_tag'
+            model:'subs_tag'
     
     
     # subreddit_domain_cloud = Docs.aggregate [

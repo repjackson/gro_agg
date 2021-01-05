@@ -1,4 +1,4 @@
-@selected_subreddit_tags = new ReactiveArray []
+@selected_sub_tags = new ReactiveArray []
 @selected_subreddit_domain = new ReactiveArray []
 
 
@@ -23,19 +23,19 @@ Template.subreddit.onCreated ->
     @autorun => Meteor.subscribe 'subreddit_by_param', Router.current().params.subreddit
     @autorun => Meteor.subscribe 'sub_docs_by_name', 
         Router.current().params.subreddit
-        selected_subreddit_tags.array()
+        selected_sub_tags.array()
         selected_subreddit_domain.array()
         Session.get('sort_key')
         Session.get('sort_direction')
   
     @autorun => Meteor.subscribe 'sub_doc_count', 
         Router.current().params.subreddit
-        selected_subreddit_tags.array()
+        selected_sub_tags.array()
         selected_subreddit_domain.array()
 
     @autorun => Meteor.subscribe 'subreddit_result_tags',
         Router.current().params.subreddit
-        selected_subreddit_tags.array()
+        selected_sub_tags.array()
         selected_subreddit_domain.array()
         Session.get('toggle')
     Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
@@ -43,7 +43,7 @@ Template.subreddit.onCreated ->
     Meteor.call 'log_subreddit_view', Router.current().params.subreddit, ->
     @autorun => Meteor.subscribe 'agg_sentiment_subreddit',
         Router.current().params.subreddit
-        selected_subreddit_tags.array()
+        selected_sub_tags.array()
         ()->Session.set('ready',true)
 
 Template.subreddit_doc_item.events
@@ -88,7 +88,7 @@ Template.subreddit.events
         val = $('.search_subreddit').val()
         Session.set('sub_doc_query', val)
         if e.which is 13 
-            selected_subreddit_tags.push val
+            selected_sub_tags.push val
             # window.speechSynthesis.speak new SpeechSynthesisUtterance val
 
             $('.search_subreddit').val('')
@@ -105,7 +105,7 @@ Template.subreddit.helpers
     subreddit_result_tags: -> results.find(model:'subreddit_result_tag')
     subreddit_domain_tags: -> results.find(model:'subreddit_domain_tag')
 
-    selected_sub_tags: -> selected_subreddit_tags.array()
+    selected_sub_tags: -> selected_sub_tags.array()
     
     subreddit_doc: ->
         Docs.findOne
@@ -152,7 +152,7 @@ Template.sub_tag_selector.helpers
             
             
 Template.sub_tag_selector.events
-    'click .select_tag': -> 
+    'click .select_sub_tag': -> 
         # results.update
         # console.log @
         # window.speechSynthesis.cancel()
@@ -161,14 +161,14 @@ Template.sub_tag_selector.events
         #     selected_emotions.push @name
         # else
         # if @model is 'subreddit_tag'
-        selected_subreddit_tags.push @name
+        selected_sub_tags.push @name
         $('.search_subreddit').val('')
         
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-        Session.set('loading',true)
-        Meteor.call 'search_subreddit', Router.current().params.subreddit, @name, ->
-            Session.set('loading',false)
+        Session.set('subs_loading',true)
+        Meteor.call 'search_subs', @name, ->
+            Session.set('subs_loading',false)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))
         , 5000)
@@ -191,7 +191,7 @@ Template.sub_unselect_tag.events
     'click .unselect_sub_tag': -> 
         Session.set('skip',0)
         console.log @
-        selected_subreddit_tags.remove @valueOf()
+        selected_sub_tags.remove @valueOf()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
     
 
@@ -219,7 +219,7 @@ Template.flat_sub_tag_selector.events
         # results.update
         # window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-        selected_subreddit_tags.push @valueOf()
+        selected_sub_tags.push @valueOf()
         Router.go "/r/#{Router.current().params.subreddit}/"
         $('.search_subreddit').val('')
         Session.set('loading',true)
@@ -233,7 +233,7 @@ Template.flat_sub_ruser_tag_selector.events
         # results.update
         # window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-        selected_subreddit_tags.push @valueOf()
+        selected_sub_tags.push @valueOf()
         parent = Template.parentData()
         Router.go "/r/#{parent.subreddit}/"
         $('.search_subreddit').val('')

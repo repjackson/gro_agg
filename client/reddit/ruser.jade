@@ -133,8 +133,8 @@ template(name='ruser_post')
             |#{data.ups}:
             |!{data.link_title} !{data.title}
         a.ui.label(href="/r/#{subreddit}") #{subreddit}
-        each five_tags 
-            .ui.small.basic.label #{this}
+        each tags 
+            +flat_sub_ruser_tag_selector
         +doc_emotion_small        
         // +skve k='view_preview' v='preview' l=' ' i='caret down'
         // if skv_is 'view_preview' 'preview'
@@ -159,9 +159,9 @@ template(name='ruser_doc_item')
             strong #{data.score}:
             |!{data.link_title} !{data.title}
         .description
-            if skv_is 'view_detail' true
-                each tags 
-                    .ui.tiny.basic.tertiary.button #{this}
+            // if skv_is 'view_detail' true
+            each tags 
+                +flat_sub_ruser_tag_selector
             +doc_emotion_small    
             span(title="#{view_count} views")
                 i.grey.eye.icon

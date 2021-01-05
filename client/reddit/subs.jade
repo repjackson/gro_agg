@@ -3,15 +3,15 @@ template(name='subs')
         .row
             .four.wide.column
                 // .smallscroll
-                if selected_sub_tags
+                if selected_subs_tags
                     // if many_tags
                     //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                     //         i.remove.icon
-                    each selected_sub_tags
-                        +sub_unselect_tag
-                each subreddit_tags
+                    each selected_subs_tags
+                        +subs_unselect_tag
+                each subs_tags
                     // .ui.label #{this}
-                    +sub_tag_selector
+                    +subs_tag_selector
                     // .ui.large.label(title=count) #{name}
             .twelve.wide.column
                 .ui.inline.header #{sub_count}
@@ -22,7 +22,7 @@ template(name='subs')
                 //     |#{subreddit_docs.count} subs
                 .ui.icon.input
                     i.search.icon
-                    input.search_subreddits(type='text')
+                    input.search_subs(type='text')
                 +skve k='view_sub_detail' v=true l='detail' i='chevron up'
                 +skve k='view_sub_detail' v=false l='simple' i='chevron down'
                 +skve k='sort_subs' v='subscribers' l='subscribers' i='users'
@@ -72,3 +72,31 @@ template(name='subreddit_doc')
                 if in_dev
                     +print_this
                     +remove_button
+
+
+template(name='subs_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.compact.tertiary.button.zoomer.select_subs_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong #{name}
+        // if in_dev
+        //     small #{count}
+        
+template(name='subs_unselect_tag')
+    a.unselect_subs_tag.ui.black.compact.button(href='#')
+        if term
+            if term.watson.metadata.image
+                img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
+        strong #{this}
+        
+template(name='flat_subs_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.tertiary.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong #{this}
+        // if in_dev
+        //     small #{count}
