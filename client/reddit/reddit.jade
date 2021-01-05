@@ -45,15 +45,16 @@ template(name='reddit')
             //     .ui.compact.basic.tertiary.button.view_unanswered
             //         i.question.icon
             //         | unanswered
-            // i.big.fire.link.icon
+            .ui.icon.button.show_hot(class=hot_class)
+                i.large.fire.icon
+            .ui.icon.button.show_best(class=best_class)
+                i.large.certificate.icon
+            .ui.icon.compact.large.basic.small.button.show_newest(class=sort_created_class)
+                i.large.clock.icon
             .ui.compact.basic.small.tertiary.button.limit_1
                 |1
             .ui.compact.basic.small.tertiary.button.limit_10
                 |10
-            .ui.icon.compact.large.basic.small.button.sort_created(class=sort_created_class)
-                i.clock.icon
-            .ui.icon.compact.large.basic.small.button.sort_ups(class=sort_ups_class)
-                i.thumbs.up.icon
             if skv_is 'view_detail' true
                 .ui.black.compact.button.toggle_detail
                     i.list.large.icon

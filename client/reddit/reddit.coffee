@@ -65,9 +65,25 @@ Template.reddit.events
     'click .sort_up': (e,t)-> Session.set('sort_direction',1)
     'click .limit_10': (e,t)-> Session.set('limit',10)
     'click .limit_1': (e,t)-> Session.set('limit',1)
+   
+    'click .show_newest': (e,t)-> 
+        Meteor.call 'reddit_new', ->
+        Session.set('reddit_view_mode','newest')
+        Session.set('sort_key', 'data.created')
+    'click .show_hot': (e,t)-> 
+        Meteor.call 'reddit_best', ->
+        Session.set('reddit_view_mode','hot')
+        Session.set('sort_key', 'data.ups')
+    'click .show_best': (e,t)->
+        Meteor.call 'reddit_best', ->
+        Session.set('sort_key', 'data.ups')
+        Session.set('reddit_view_mode','best')
+        
+    # 'click .sort_created': -> 
+    #     Session.set('sort_key', 'data.created')
+    # 'click .sort_ups': -> 
+    #     Session.set('sort_key', 'data.ups')
 
-    'click .sort_created': -> Session.set('sort_key', 'data.created')
-    'click .sort_ups': -> Session.set('sort_key', 'data.ups')
     'click .download': ->
         Meteor.call 'get_reddit_info', Router.current().params.subreddit, ->
     
@@ -102,6 +118,17 @@ Template.reddit.helpers
     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
     reddit_result_tags: -> results.find(model:'reddit_tag')
     reddit_domain_tags: -> results.find(model:'reddit_domain_tag')
+
+    hot_class: ->
+        if Session.equals('reddit_view_mode','hot')
+            'black'
+        else 
+            'basic'
+    best_class: ->
+        if Session.equals('reddit_view_mode','best')
+            'black'
+        else 
+            'basic'
 
     selected_reddit_tags: -> selected_reddit_tags.array()
     

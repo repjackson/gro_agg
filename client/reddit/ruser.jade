@@ -62,6 +62,7 @@ template(name='ruser')
                         // .ui.label #{this}
                         // +ruser_post_selector
                         .ui.basic.small.label(title=count) #{name}
+                        |&nbsp;
                     .scrolling
                         each ruser_posts
                             +ruser_post
@@ -129,8 +130,8 @@ template(name='ruser_post')
                 img.ui.rounded.inline.zoomer.image.zoomer(src=data.thumbnail)    
 
         a.ui.small.inline.header(href="/r/#{subreddit}/post/#{_id}")
-            |#{data.ups}
-            |#{data.link_title} #{data.title}
+            |#{data.ups}:
+            |!{data.link_title} !{data.title}
         a.ui.label(href="/r/#{subreddit}") #{subreddit}
         each five_tags 
             .ui.small.basic.label #{this}
@@ -156,7 +157,7 @@ template(name='ruser_doc_item')
                 img.ui.rounded.inline.small.image.zoomer(src=data.thumbnail)    
         a.ui.header.zoomer.say_title(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
             strong #{data.score}:
-            |!{data.link_title} #{data.title}
+            |!{data.link_title} !{data.title}
         .description
             if skv_is 'view_detail' true
                 each tags 

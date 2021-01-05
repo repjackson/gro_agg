@@ -26,7 +26,13 @@ template(name='subs')
                 +skve k='view_sub_detail' v=true l='detail' i='chevron up'
                 +skve k='view_sub_detail' v=false l='simple' i='chevron down'
                 +skve k='sort_subs' v='subscribers' l='subscribers' i='users'
-                +skve k='sort_subs' v='name' l='name' i='title'             
+                +skve k='sort_subs' v='name' l='name' i='title'
+                if can_skip_left
+                    .ui.icon.button.skip_left
+                        i.chevron.left.icon
+                if can_skip_right
+                    .ui.icon.button.skip_right
+                        i.chevron.right.icon 
                 .scrolling
                     unless subreddit_docs.count
                         .ui.center.aligned.basic.segment
