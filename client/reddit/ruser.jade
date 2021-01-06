@@ -61,7 +61,7 @@ template(name='ruser')
                     each ruser_post_tag_results
                         // .ui.label #{this}
                         // +ruser_post_selector
-                        .ui.basic.small.label(title=count) #{name}
+                        .ui.basic.small.link.label.select_ruser_post_tag(title=count) #{name}
                         |&nbsp;
                     .scrolling
                         each ruser_posts

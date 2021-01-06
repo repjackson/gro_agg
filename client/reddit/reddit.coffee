@@ -1,6 +1,7 @@
 @selected_reddit_tags = new ReactiveArray []
 @selected_subreddit_tags = new ReactiveArray []
 @selected_reddit_domain = new ReactiveArray []
+@selected_reddit_time_tags = new ReactiveArray []
 
 
 Template.nav.helpers
@@ -33,6 +34,7 @@ Template.reddit.onCreated ->
     @autorun => Meteor.subscribe 'reddit_tags',
         selected_reddit_tags.array()
         selected_reddit_domain.array()
+        selected_reddit_time_tags.array()
         Session.get('toggle')
     Meteor.call 'get_reddit_latest', Router.current().params.subreddit, ->
 
@@ -57,6 +59,8 @@ Template.reddit_post_card_small.onRendered ->
     # console.log @
     unless @data.watson
         Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
+    unless @time_tags
+        Meteor.call 'tagify_time_rpost',@data._id,=>
 
 Template.reddit_page.onCreated ->
     @autorun -> Meteor.subscribe('doc', Router.current().params.doc_id)
@@ -137,6 +141,7 @@ Template.reddit.helpers
     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
     reddit_result_tags: -> results.find(model:'reddit_tag')
     reddit_domain_tags: -> results.find(model:'reddit_domain_tag')
+    reddit_time_tags: -> results.find(model:'reddit_time_tag')
 
     hot_class: ->
         if Session.equals('reddit_view_mode','hot')

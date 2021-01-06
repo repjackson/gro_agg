@@ -217,7 +217,7 @@ Template.registerHelper 'embed', ()->
 
 
 Template.registerHelper 'is_image', ()->
-    if @data.domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
+    if @data.domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','giphy.com']
         true
     else 
         false

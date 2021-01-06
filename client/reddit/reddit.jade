@@ -81,7 +81,7 @@ template(name='reddit')
             .scrolling
                 if reddit_docs
                     if skv_is 'reddit_view_layout' 'grid'
-                        .ui.grid 
+                        .ui.centered.four.stackable.cards 
                             each reddit_docs
                                 +reddit_post_card_small
                     else if skv_is 'reddit_view_layout' 'list'
@@ -98,6 +98,12 @@ template(name='reddit')
             
             each reddit_domain_tags
                 .ui.compact.basic.button.select_domain(class=domain_selector_class)
+                    |#{name} 
+                    small #{count}
+            // .ui.inline.header.pull_latest #{display_name}
+            i.clock.icon            
+            each reddit_time_tags
+                .ui.compact.basic.button.select_time_tag(class=domain_selector_class)
                     |#{name} 
                     small #{count}
             // .ui.inline.header.pull_latest #{display_name}
@@ -179,7 +185,7 @@ template(name='reddit')
 
    
 template(name='reddit_post_card_small')
-    .four.wide.column
+    .ui.card
         // .ui.stackable.equal.width.compact.grid
         //     .row
         if embed
@@ -187,32 +193,33 @@ template(name='reddit_post_card_small')
                 |!{embed}
             div
         else if is_image
-            .column
-                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    img.ui.fluid.rounded.zoomer.image.toggle_view(src=data.url)
+            // |image
+            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                img.ui.fluid.zoomer.image.toggle_view(src=data.url)
         else if watson.metadata.image.length
-            .column
-                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    img.ui.rounded.inline.zoomer.image.toggle_view(src=watson.metadata.image)
+            // |metadata
+            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                img.ui.inline.zoomer.image.toggle_view(src=watson.metadata.image)
         else if data.thumbnail.length
-            .column
-                a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                    img.ui.rounded.inline.zoomer.image.zoomer(src=data.thumbnail)    
+            |thumbnail
+            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                img.ui.inline.zoomer.image.zoomer(src=data.thumbnail)    
         // else if data.thumbnail.length
         //     .column
         //         a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
         //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
         // .column
-        a.ui.inline.small.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-            strong #{data.ups}:
-            |!{data.title} 
-            // span.inline.content
-        a.ui.basic.label(href="/r/#{subreddit}" class=post_header_class)
-            |!{subreddit} 
-            // span.inline.content
-        |{{ufrom data.created_utc}}
-            
-        +print_this
+        .content
+            a.ui.inline.small.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                strong #{data.ups}:
+                |!{data.title} 
+                // span.inline.content
+            a.ui.basic.label(href="/r/#{subreddit}" class=post_header_class)
+                |!{subreddit} 
+                // span.inline.content
+            |{{ufrom data.created_utc}}
+                
+            +print_this
    
 template(name='reddit_doc_item')                  
     .ui.ite.seg

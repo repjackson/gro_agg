@@ -45,8 +45,8 @@ Meteor.methods
                             model:'reddit'
                             url:data.url
                         if existing
-                            if Meteor.isDevelopment
-                                console.log 'new search doc', reddit_post.title
+                            # if Meteor.isDevelopment
+                            #     console.log 'new search doc', reddit_post.title
                             # if typeof(existing.tags) is 'string'
                             #     Doc.update
                             #         $unset: tags: 1
@@ -55,8 +55,8 @@ Meteor.methods
 
                             Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
                         unless existing
-                            if Meteor.isDevelopment
-                                console.log 'new search doc', reddit_post.title
+                            # if Meteor.isDevelopment
+                            #     console.log 'new search doc', reddit_post.title
                             new_reddit_post_id = Docs.insert reddit_post
                             # Meteor.users.update Meteor.userId(),
                             #     $inc:points:1
@@ -105,8 +105,8 @@ Meteor.methods
                             model:'reddit'
                             url:data.url
                         if existing
-                            if Meteor.isDevelopment
-                                console.log 'existing best doc', existing.url
+                            # if Meteor.isDevelopment
+                            #     console.log 'existing best doc', existing.url
                             # if typeof(existing.tags) is 'string'
                             #     Doc.update
                             #         $unset: tags: 1
@@ -115,8 +115,8 @@ Meteor.methods
                             Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
                         unless existing
                             new_reddit_post_id = Docs.insert reddit_post
-                            if Meteor.isDevelopment
-                                console.log 'new best doc', reddit_post.title
+                            # if Meteor.isDevelopment
+                            #     console.log 'new best doc', reddit_post.title
                             # Meteor.users.update Meteor.userId(),
                             #     $inc:points:1
                             Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
@@ -164,8 +164,8 @@ Meteor.methods
                             model:'reddit'
                             url:data.url
                         if existing
-                            if Meteor.isDevelopment
-                                console.log 'existing new doc', existing._id
+                            # if Meteor.isDevelopment
+                            #     console.log 'existing new doc', existing._id
                             # if typeof(existing.tags) is 'string'
                             #     Doc.update
                             #         $unset: tags: 1
@@ -174,8 +174,8 @@ Meteor.methods
                             Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
                         unless existing
                             new_reddit_post_id = Docs.insert reddit_post
-                            if Meteor.isDevelopment
-                                console.log 'new new doc', reddit_post.title
+                            # if Meteor.isDevelopment
+                            #     console.log 'new new doc', reddit_post.title
         
                             # Meteor.users.update Meteor.userId(),
                             #     $inc:points:1
@@ -581,19 +581,25 @@ Meteor.methods
                 
         
     tagify_time_rpost: (doc_id)->
-        doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
+        doc = Docs.findOne doc_id
+        
+        # moment.unix(doc.data.created).fromNow()
+        
+        # timestamp = Date.now()
+
+        doc._timestamp_long = moment.unix(doc.data.created).format("dddd, MMMM Do YYYY, h:mm:ss a")
     
         # doc._app = 'dao'
     
-        date = moment(timestamp).format('Do')
-        weekdaynum = moment(timestamp).isoWeekday()
+        date = moment.unix(doc.data.created).format('Do')
+        weekdaynum = moment.unix(doc.data.created).isoWeekday()
         weekday = moment().isoWeekday(weekdaynum).format('dddd')
     
-        hour = moment(timestamp).format('h')
-        minute = moment(timestamp).format('m')
-        ap = moment(timestamp).format('a')
-        month = moment(timestamp).format('MMMM')
-        year = moment(timestamp).format('YYYY')
+        hour = moment.unix(doc.data.created).format('h')
+        minute = moment.unix(doc.data.created).format('m')
+        ap = moment.unix(doc.data.created).format('a')
+        month = moment.unix(doc.data.created).format('MMMM')
+        year = moment.unix(doc.data.created).format('YYYY')
     
         # doc.points = 0
         # date_array = [ap, "hour #{hour}", "min #{minute}", weekday, month, date, year]
@@ -601,7 +607,9 @@ Meteor.methods
         if _
             date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
             doc._timestamp_tags = date_array
-
+            # console.log date_array
+            Docs.update doc_id, 
+                $set:time_tags:date_array
                         
 
 Meteor.publish 'subreddit_by_param', (subreddit)->
@@ -778,8 +786,8 @@ Meteor.publish 'rpost_comment_tags', (
     # if selected_tags.length > 0 then match.tags = $all:selected_tags
     # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
     doc_count = Docs.find(match).count()
-    console.log 'doc_count', doc_count
-    console.log 'match', match
+    # console.log 'doc_count', doc_count
+    # console.log 'match', match
     rpost_comment_cloud = Docs.aggregate [
         { $match: match }
         { $project: "tags": 1 }
@@ -792,7 +800,7 @@ Meteor.publish 'rpost_comment_tags', (
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     rpost_comment_cloud.forEach (tag, i) ->
-        console.log tag
+        # console.log tag
         self.added 'results', Random.id(),
             name: tag.name
             count: tag.count
@@ -1036,7 +1044,8 @@ Meteor.publish 'reddit_docs', (
            
 Meteor.publish 'reddit_tags', (
     selected_reddit_tags
-    # selected_subreddit_domain
+    selected_subreddit_domain
+    selected_reddit_time_tags
     # view_bounties
     # view_unanswered
     # query=''
@@ -1052,7 +1061,8 @@ Meteor.publish 'reddit_tags', (
     # if view_unanswered
     #     match.is_answered = false
     if selected_reddit_tags.length > 0 then match.tags = $all:selected_reddit_tags
-    # if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
+    if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
+    if selected_reddit_time_tags.length > 0 then match.domain = $all:selected_reddit_time_tags
     # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
@@ -1075,22 +1085,39 @@ Meteor.publish 'reddit_tags', (
             model:'reddit_tag'
     
     
-    # subreddit_domain_cloud = Docs.aggregate [
-    #     { $match: match }
-    #     { $project: "data.domain": 1 }
-    #     # { $unwind: "$domain" }
-    #     { $group: _id: "$data.domain", count: $sum: 1 }
-    #     # { $match: _id: $nin: selected_domains }
-    #     { $sort: count: -1, _id: 1 }
-    #     { $match: count: $lt: doc_count }
-    #     { $limit:7 }
-    #     { $project: _id: 0, name: '$_id', count: 1 }
-    # ]
-    # subreddit_domain_cloud.forEach (domain, i) ->
-    #     self.added 'results', Random.id(),
-    #         name: domain.name
-    #         count: domain.count
-    #         model:'subreddit_domain_tag'
+    reddit_domain_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "data.domain": 1 }
+        # { $unwind: "$domain" }
+        { $group: _id: "$data.domain", count: $sum: 1 }
+        # { $match: _id: $nin: selected_domains }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    reddit_domain_cloud.forEach (domain, i) ->
+        self.added 'results', Random.id(),
+            name: domain.name
+            count: domain.count
+            model:'reddit_domain_tag'
+    
+    reddit_time_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "time_tags": 1 }
+        { $unwind: "$time_tags" }
+        { $group: _id: "$time_tags", count: $sum: 1 }
+        { $match: _id: $nin: selected_reddit_time_tags }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    reddit_time_cloud.forEach (time_tag, i) ->
+        self.added 'results', Random.id(),
+            name: time_tag.name
+            count: time_tag.count
+            model:'reddit_time_tag'
   
     self.ready()
                 
