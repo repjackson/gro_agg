@@ -58,10 +58,17 @@ template(name='ruser')
                     .ui.inline.header 
                         i.edit.icon
                         |posts
+                    each selected_ruser_post_tags
+                        a.ui.label.unselect_ruser_post_tag #{this}
                     each ruser_post_tag_results
-                        // .ui.label #{this}
-                        // +ruser_post_selector
-                        .ui.basic.small.link.label.select_ruser_post_tag(title=count) #{name}
+                        a.ui.basic.small.link.label.select_ruser_post_tag(title=count) #{name}
+                        |&nbsp;
+                    div 
+                    i.large.clock.icon
+                    each selected_ruser_post_time_tags
+                        a.ui.label #{this}
+                    each ruser_post_time_tag_results
+                        a.ui.basic.small.link.label.select_ruser_post_time_tag(title=count) #{name}
                         |&nbsp;
                     .scrolling
                         each ruser_posts

@@ -1,4 +1,6 @@
 if Meteor.isClient
+    selected_ruser_post_tags = new ReactiveArray()
+    selected_ruser_post_time_tags = new ReactiveArray()
     Router.route '/ruser/:username', (->
         @layout 'layout'
         @render 'ruser'
@@ -7,22 +9,30 @@ if Meteor.isClient
    
     Template.ruser.onCreated ->
         @autorun => Meteor.subscribe 'ruser_doc', Router.current().params.username
-        @autorun => Meteor.subscribe 'rposts', Router.current().params.username, 42
+        @autorun => Meteor.subscribe 'rposts', 
+            Router.current().params.username, 
+            selected_ruser_post_tags.array()
+            selected_ruser_post_time_tags.array()
+            42
         @autorun => Meteor.subscribe 'ruser_comments', Router.current().params.username
         @autorun => Meteor.subscribe 'ruser_result_tags',
             'rpost'
             Router.current().params.username
-            selected_subreddit_tags.array()
+            selected_ruser_post_tags.array()
+            selected_ruser_post_time_tags.array()
             # selected_subreddit_domain.array()
             Session.get('toggle')
         @autorun => Meteor.subscribe 'ruser_result_tags',
             'rcomment'
             Router.current().params.username
-            selected_subreddit_tags.array()
+            selected_ruser_post_tags.array()
+            selected_ruser_post_time_tags.array()
             # selected_subreddit_domain.array()
             Session.get('toggle')
 
     Template.ruser.onRendered ->
+        selected_ruser_post_tags.clear()
+        selected_ruser_post_time_tags.clear()
         Meteor.call 'get_user_comments', Router.current().params.username, ->
         Meteor.setTimeout =>
             Meteor.call 'get_user_info', Router.current().params.username, ->
@@ -52,9 +62,17 @@ if Meteor.isClient
             Meteor.call 'tagify_time_rpost', @data._id,->
 
     Template.ruser.helpers
+        selected_ruser_post_tags: -> selected_ruser_post_tags.array()
+        selected_ruser_post_time_tags: -> selected_ruser_post_time_tags.array()
         ruser_post_tag_results: -> results.find(model:'rpost_result_tag')
         ruser_comment_tag_results: -> results.find(model:'rcomment_result_tag')
     Template.ruser.events
+        'click .select_ruser_post_tag': -> selected_ruser_post_tags.push @name
+        'click .unselect_ruser_post_tag': -> selected_ruser_post_tags.remove @valueOf()
+    
+        'click .select_ruser_post_time_tag': -> selected_ruser_post_time_tags.push @name
+        'click .unselect_ruser_post_time_tag': -> selected_ruser_post_time_tags.remove @valueOf()
+    
         'click .get_user_info': ->
             Meteor.call 'get_user_info', Router.current().params.username, ->
         'click .search_tag': -> 
@@ -83,15 +101,29 @@ if Meteor.isServer
             model:'ruser'
             username:username
     
-    Meteor.publish 'rposts', (username, limit=42)->
-        Docs.find {
+    Meteor.publish 'rposts', (
+        username, 
+        selected_ruser_post_tags
+        selected_ruser_post_time_tags
+        limit=42
+        )->
+
+        match = {
             model:'rpost'
             author:username
-        },{
+        }
+        
+        if selected_ruser_post_tags.length > 0 then match.tags = $all:selected_ruser_post_tags
+        if selected_ruser_post_time_tags.length > 0 then match.time_tags = $all:selected_ruser_post_time_tags
+            
+            
+        Docs.find match,{
             limit:limit
             sort:
                 _timestamp:-1
         }  
+        
+        
     Meteor.publish 'ruser_comments', (username, limit=42)->
         Docs.find
             model:'rcomment'
