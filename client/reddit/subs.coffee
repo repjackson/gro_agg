@@ -74,16 +74,21 @@ Template.related_questions.helpers
 
 
 Template.subs.onCreated ->
+    
+    Session.setDefault('subreddit_skip',0)
     Session.setDefault('subreddit_query',null)
     Session.setDefault('sort_key','data.created')
     @autorun -> Meteor.subscribe('subreddits',
         Session.get('subreddit_query')
         selected_subs_tags.array()
-        Session.get('sort_subs')
+        Session.get('subreddit_sort')
+        Session.get('subreddit_skip')
+        Session.get('subreddit_sort_direction')
     )
     @autorun -> Meteor.subscribe('sub_count',
         Session.get('subreddit_query')
         selected_subs_tags.array()
+        Session.get('subreddit_skip')
         Session.get('sort_subs')
     )
     @autorun => Meteor.subscribe 'subs_tags',
@@ -91,11 +96,13 @@ Template.subs.onCreated ->
         Session.get('toggle')
 
 Template.subs.events
+    'click .skip_right': -> Session.set('subreddit_skip', Session.get('subreddit_skip')+1)
     'click .goto_sub': (e,t)->
         Meteor.call 'get_sub_latest', @data.display_name, ->
         Meteor.call 'get_sub_info', @data.display_name, ->
         Meteor.call 'calc_sub_tags', @data.display_name, ->
         Session.set('view_section', 'main')
+  
     'click .pull_latest': ->
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
     'keyup .search_subs': (e,t)->

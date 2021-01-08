@@ -78,6 +78,10 @@ template(name='reddit')
             else
                 .ui.icon.compact.circular.large.button.set_list(class=list_class)
                     i.list.large.icon
+            .ui.icon.button.skip_left
+                i.chevron.left.icon
+            .ui.icon.button.skip_right
+                i.chevron.right.icon
             .scrolling
                 if reddit_docs
                     if skv_is 'reddit_view_layout' 'grid'

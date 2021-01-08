@@ -656,6 +656,7 @@ Meteor.publish 'subreddits', (
     query=''
     selected_tags
     sort_key='data.subscribers'
+    skip=0
     sort_direction=-1
     )->
     match = {model:'subreddit'}
@@ -663,8 +664,9 @@ Meteor.publish 'subreddits', (
     if query.length > 0
         match["data.display_name"] = {$regex:"#{query}", $options:'i'}
     Docs.find match,
-        limit:100
+        limit:20
         sort: "#{sort_key}":sort_direction
+        skip:skip*20
         
 
 Meteor.publish 'sub_count', (
@@ -687,6 +689,7 @@ Meteor.publish 'sub_docs_by_name', (
     selected_subreddit_tags
     selected_subreddit_domains
     selected_subreddit_time_tags
+    selected_subreddit_authors
     sort_key
     )->
     self = @
@@ -705,6 +708,7 @@ Meteor.publish 'sub_docs_by_name', (
     if selected_subreddit_tags.length > 0 then match.tags = $all:selected_subreddit_tags
     if selected_subreddit_domains.length > 0 then match.domain = $all:selected_subreddit_domains
     if selected_subreddit_time_tags.length > 0 then match.time_tags = $all:selected_subreddit_time_tags
+    if selected_subreddit_authors.length > 0 then match.authors = $all:selected_subreddit_authors
     # console.log sk
     Docs.find match,
         limit:20
@@ -969,7 +973,8 @@ Meteor.publish 'subreddit_result_tags', (
     
 Meteor.publish 'subs_tags', (
     selected_subreddit_tags
-    # selected_subreddit_domain
+    selected_subreddit_domain
+    selected_subreddit_authors
     # view_bounties
     # view_unanswered
     # query=''
@@ -985,7 +990,7 @@ Meteor.publish 'subs_tags', (
     # if view_unanswered
     #     match.is_answered = false
     if selected_subreddit_tags.length > 0 then match.tags = $all:selected_subreddit_tags
-    # if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
+    if selected_subreddit_authors.length > 0 then match.author = $all:selected_subreddit_authors
     # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
@@ -1008,22 +1013,22 @@ Meteor.publish 'subs_tags', (
             model:'subs_tag'
     
     
-    # subreddit_domain_cloud = Docs.aggregate [
-    #     { $match: match }
-    #     { $project: "data.domain": 1 }
-    #     # { $unwind: "$domain" }
-    #     { $group: _id: "$data.domain", count: $sum: 1 }
-    #     # { $match: _id: $nin: selected_domains }
-    #     { $sort: count: -1, _id: 1 }
-    #     { $match: count: $lt: doc_count }
-    #     { $limit:7 }
-    #     { $project: _id: 0, name: '$_id', count: 1 }
-    # ]
-    # subreddit_domain_cloud.forEach (domain, i) ->
-    #     self.added 'results', Random.id(),
-    #         name: domain.name
-    #         count: domain.count
-    #         model:'subreddit_domain_tag'
+    subreddit_author_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "author": 1 }
+        # { $unwind: "$author" }
+        { $group: _id: "$author", count: $sum: 1 }
+        # { $match: _id: $nin: selected_authors }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:7 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    subreddit_author_cloud.forEach (author, i) ->
+        self.added 'results', Random.id(),
+            name: author.name
+            count: author.count
+            model:'subreddit_author_tag'
   
     self.ready()
 
@@ -1044,7 +1049,10 @@ Meteor.publish 'reddit_docs', (
     selected_subreddit_tags
     selected_subreddit_domains
     selected_reddit_subreddits
+    selected_reddit_authors
     sort_key
+    sort_direction
+    skip=0
     )->
     self = @
     match = {
@@ -1062,10 +1070,12 @@ Meteor.publish 'reddit_docs', (
     if selected_subreddit_tags.length > 0 then match.subreddit = $all:selected_subreddit_tags
     if selected_subreddit_domains.length > 0 then match.domain = $all:selected_subreddit_domains
     if selected_reddit_subreddits.length > 0 then match.subreddit = $all:selected_reddit_subreddits
-    # console.log sk
+    if selected_reddit_authors.length > 0 then match.author = $all:selected_reddit_authors
+    console.log 'skip', skip
     Docs.find match,
         limit:20
         sort: "#{sk}":-1
+        skip:skip*20
     
            
 Meteor.publish 'reddit_tags', (
@@ -1073,6 +1083,7 @@ Meteor.publish 'reddit_tags', (
     selected_subreddit_domain
     selected_reddit_time_tags
     selected_reddit_subreddits
+    selected_reddit_authors
     # view_bounties
     # view_unanswered
     # query=''
@@ -1091,6 +1102,7 @@ Meteor.publish 'reddit_tags', (
     if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
     if selected_reddit_time_tags.length > 0 then match.domain = $all:selected_reddit_time_tags
     if selected_reddit_subreddits.length > 0 then match.subreddit = $all:selected_reddit_subreddits
+    if selected_reddit_authors.length > 0 then match.author = $all:selected_reddit_authors
     # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
@@ -1121,7 +1133,7 @@ Meteor.publish 'reddit_tags', (
         # { $match: _id: $nin: selected_domains }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:7 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     reddit_domain_cloud.forEach (domain, i) ->
@@ -1139,7 +1151,7 @@ Meteor.publish 'reddit_tags', (
         # { $match: _id: $nin: selected_subreddits }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:7 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     reddit_subreddits_cloud.forEach (subreddit, i) ->
@@ -1158,7 +1170,7 @@ Meteor.publish 'reddit_tags', (
         { $match: _id: $nin: selected_reddit_time_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:7 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     reddit_time_cloud.forEach (time_tag, i) ->

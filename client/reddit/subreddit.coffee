@@ -1,6 +1,7 @@
 @selected_sub_tags = new ReactiveArray []
 @selected_subreddit_domain = new ReactiveArray []
 @selected_subreddit_time_tags = new ReactiveArray []
+@selected_subreddit_authors = new ReactiveArray []
 
 
 Router.route '/r/:subreddit', (->
@@ -27,6 +28,7 @@ Template.subreddit.onCreated ->
         selected_sub_tags.array()
         selected_subreddit_domain.array()
         selected_subreddit_time_tags.array()
+        selected_subreddit_authors.array()
         Session.get('sort_key')
         Session.get('sort_direction')
   
@@ -35,12 +37,14 @@ Template.subreddit.onCreated ->
         selected_sub_tags.array()
         selected_subreddit_domain.array()
         selected_subreddit_time_tags.array()
+        selected_subreddit_authors.array()
 
     @autorun => Meteor.subscribe 'subreddit_result_tags',
         Router.current().params.subreddit
         selected_sub_tags.array()
         selected_subreddit_domain.array()
         selected_subreddit_time_tags.array()
+        selected_subreddit_authors.array()
         Session.get('toggle')
     Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
 

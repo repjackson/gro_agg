@@ -3,6 +3,7 @@
 @selected_subreddit_tags = new ReactiveArray []
 @selected_reddit_domain = new ReactiveArray []
 @selected_reddit_time_tags = new ReactiveArray []
+@selected_reddit_authors = new ReactiveArray []
 
 
 Template.nav.helpers
@@ -14,6 +15,7 @@ Router.route '/reddit', (->
     ), name:'reddit'
 
 Template.reddit.onCreated ->
+    Session.setDefault('reddit_skip_value', 0)
     Session.setDefault('reddit_view_layout', 'grid')
     Session.setDefault('sort_key', 'data.created')
     Session.setDefault('sort_direction', -1)
@@ -25,8 +27,10 @@ Template.reddit.onCreated ->
         selected_subreddit_domain.array()
         selected_reddit_time_tags.array()
         selected_reddit_subreddits.array()
+        selected_reddit_authors.array()
         Session.get('sort_key')
         Session.get('sort_direction')
+        Session.get('reddit_skip_value')
   
     @autorun => Meteor.subscribe 'reddit_doc_count', 
         Router.current().params.subreddit
@@ -40,6 +44,7 @@ Template.reddit.onCreated ->
         selected_reddit_domain.array()
         selected_reddit_time_tags.array()
         selected_reddit_subreddits.array()
+        selected_reddit_authors.array()
         Session.get('toggle')
     Meteor.call 'get_reddit_latest', Router.current().params.subreddit, ->
 
@@ -123,6 +128,7 @@ Template.reddit.events
         Meteor.call 'get_reddit_info', Router.current().params.subreddit, ->
     'click .set_grid': (e,t)-> Session.set('reddit_view_layout', 'grid')
     'click .set_list': (e,t)-> Session.set('reddit_view_layout', 'list')
+    'click .skip_right': (e,t)-> Session.set('reddit_skip_value', Session.get('reddit_skip_value')+1)
 
     'click .select_reddit_time_tag': ->
         selected_reddit_time_tags.push @name
@@ -152,6 +158,8 @@ Template.reddit.helpers
     reddit_time_tags: -> results.find(model:'reddit_time_tag')
     reddit_subreddits: -> results.find(model:'reddit_subreddit')
 
+    skip_value: -> Session.get('reddit_skip_value')
+    
     hot_class: ->
         if Session.equals('reddit_view_mode','hot')
             'black'
