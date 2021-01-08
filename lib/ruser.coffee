@@ -40,10 +40,16 @@ if Meteor.isClient
         unless @data.watson
             # console.log 'calling watson on comment'
             Meteor.call 'call_watson', @data._id,'data.body','comment',->
+        unless @data.time_tags
+            # console.log 'calling watson on comment'
+            Meteor.call 'tagify_time_rpost', @data._id,->
     Template.ruser_post.onRendered ->
         unless @data.watson
             # console.log 'calling watson on comment'
             Meteor.call 'call_watson', @data._id,'data.body','comment',->
+        unless @data.time_tags
+            # console.log 'calling watson on comment'
+            Meteor.call 'tagify_time_rpost', @data._id,->
 
     Template.ruser.helpers
         ruser_post_tag_results: -> results.find(model:'rpost_result_tag')

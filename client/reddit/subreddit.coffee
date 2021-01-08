@@ -1,5 +1,6 @@
 @selected_sub_tags = new ReactiveArray []
 @selected_subreddit_domain = new ReactiveArray []
+@selected_subreddit_time_tags = new ReactiveArray []
 
 
 Router.route '/r/:subreddit', (->
@@ -25,6 +26,7 @@ Template.subreddit.onCreated ->
         Router.current().params.subreddit
         selected_sub_tags.array()
         selected_subreddit_domain.array()
+        selected_subreddit_time_tags.array()
         Session.get('sort_key')
         Session.get('sort_direction')
   
@@ -32,11 +34,13 @@ Template.subreddit.onCreated ->
         Router.current().params.subreddit
         selected_sub_tags.array()
         selected_subreddit_domain.array()
+        selected_subreddit_time_tags.array()
 
     @autorun => Meteor.subscribe 'subreddit_result_tags',
         Router.current().params.subreddit
         selected_sub_tags.array()
         selected_subreddit_domain.array()
+        selected_subreddit_time_tags.array()
         Session.get('toggle')
     Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
 
@@ -61,6 +65,8 @@ Template.subreddit_post_card_small.onRendered ->
     # console.log @
     unless @data.watson
         Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
+    unless @data.time_tags
+        Meteor.call 'tagify_time_rpost',@data._id,=>
 
 
 Template.subreddit.events
@@ -104,6 +110,7 @@ Template.subreddit.helpers
     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
     subreddit_result_tags: -> results.find(model:'subreddit_result_tag')
     subreddit_domain_tags: -> results.find(model:'subreddit_domain_tag')
+    subreddit_time_tags: -> results.find(model:'subreddit_time_tag')
 
     selected_sub_tags: -> selected_sub_tags.array()
     

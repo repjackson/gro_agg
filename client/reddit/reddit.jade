@@ -94,19 +94,23 @@ template(name='reddit')
             img.ui.inline.image(src=data.header_img)
             .ui.inline.header.pull_latest #{data.title}
             +alpha
+            .ui.inline.small.header 
+                i.reddit.icon
+                |subreddits
+            each reddit_subreddits
+                .ui.compact.basic.button.select_subreddit(class=subreddit_selector_class)
+                    |#{name} 
+                    small #{count}
             .ui.inline.small.header domains
-            
             each reddit_domain_tags
                 .ui.compact.basic.button.select_domain(class=domain_selector_class)
                     |#{name} 
                     small #{count}
-            // .ui.inline.header.pull_latest #{display_name}
             i.clock.icon            
             each reddit_time_tags
                 .ui.compact.basic.button.select_time_tag(class=domain_selector_class)
                     |#{name} 
                     small #{count}
-            // .ui.inline.header.pull_latest #{display_name}
             if in_dev
                 +print_this
                 // div

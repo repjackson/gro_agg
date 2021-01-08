@@ -130,15 +130,21 @@ template(name='ruser_post')
                 img.ui.rounded.inline.zoomer.image.zoomer(src=data.thumbnail)    
 
         a.ui.small.inline.header(href="/r/#{subreddit}/post/#{_id}")
-            |#{data.ups}:
+            // |#{data.ups}:
             |!{data.link_title} !{data.title}
         a.ui.label(href="/r/#{subreddit}") #{subreddit}
         each tags 
             +flat_sub_ruser_tag_selector
         +doc_emotion_small        
-        // +skve k='view_preview' v='preview' l=' ' i='caret down'
-        // if skv_is 'view_preview' 'preview'
         |#{data.body}
+        | #{data.ups}
+        i.thumbs.up.outline.grey.icon
+        | #{data.num_comments}
+        i.comment.outline.grey.icon
+        i.clock.icon
+        each time_tags 
+            .ui.small.basic.label #{this}
+
         .ui.label {{ufrom data.created}}
         if in_dev
             +print_this
@@ -195,4 +201,7 @@ template(name='ruser_comment')
         a.author.say(href="/r/#{data.subreddit}") #{data.subreddit}
         if in_dev
             +print_this
+        i.clock.icon
+        each time_tags 
+            .ui.small.label #{this}
         // .actions

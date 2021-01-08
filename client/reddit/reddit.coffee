@@ -1,4 +1,5 @@
 @selected_reddit_tags = new ReactiveArray []
+@selected_reddit_subreddits = new ReactiveArray []
 @selected_subreddit_tags = new ReactiveArray []
 @selected_reddit_domain = new ReactiveArray []
 @selected_reddit_time_tags = new ReactiveArray []
@@ -22,7 +23,8 @@ Template.reddit.onCreated ->
     @autorun => Meteor.subscribe 'reddit_docs', 
         selected_reddit_tags.array()
         selected_subreddit_domain.array()
-        selected_reddit_domain.array()
+        selected_reddit_time_tags.array()
+        selected_reddit_subreddits.array()
         Session.get('sort_key')
         Session.get('sort_direction')
   
@@ -30,11 +32,14 @@ Template.reddit.onCreated ->
         Router.current().params.subreddit
         selected_reddit_tags.array()
         selected_reddit_domain.array()
+        selected_reddit_time_tags.array()
+        selected_reddit_subreddits.array()
 
     @autorun => Meteor.subscribe 'reddit_tags',
         selected_reddit_tags.array()
         selected_reddit_domain.array()
         selected_reddit_time_tags.array()
+        selected_reddit_subreddits.array()
         Session.get('toggle')
     Meteor.call 'get_reddit_latest', Router.current().params.subreddit, ->
 
@@ -119,6 +124,9 @@ Template.reddit.events
     'click .set_grid': (e,t)-> Session.set('reddit_view_layout', 'grid')
     'click .set_list': (e,t)-> Session.set('reddit_view_layout', 'list')
 
+    'click .select_reddit_time_tag': ->
+        selected_reddit_time_tags.push @name
+
     'keyup .search_reddit': (e,t)->
         val = $('.search_reddit').val()
         Session.set('reddit_query', val)
@@ -142,6 +150,7 @@ Template.reddit.helpers
     reddit_result_tags: -> results.find(model:'reddit_tag')
     reddit_domain_tags: -> results.find(model:'reddit_domain_tag')
     reddit_time_tags: -> results.find(model:'reddit_time_tag')
+    reddit_subreddits: -> results.find(model:'reddit_subreddit')
 
     hot_class: ->
         if Session.equals('reddit_view_mode','hot')

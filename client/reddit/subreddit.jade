@@ -98,10 +98,16 @@ template(name='subreddit')
                 img.ui.inline.image(src=data.header_img)
                 .ui.inline.header.pull_latest #{data.title}
                 +alpha
+                div
                 .ui.inline.small.header domains
-                
+
                 each subreddit_domain_tags
                     .ui.compact.basic.button.select_domain(class=domain_selector_class)
+                        |#{name} 
+                        small #{count}
+                i.clock.large.icon            
+                each subreddit_time_tags
+                    .ui.compact.basic.button.select_time_tag(class=domain_selector_class)
                         |#{name} 
                         small #{count}
                 // .ui.inline.header.pull_latest #{display_name}
@@ -205,8 +211,14 @@ template(name='subreddit_post_card_small')
         //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
         .content
             a.ui.small.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                strong #{data.ups}:
                 |!{data.title} 
+            | #{data.ups}
+            i.thumbs.up.outline.grey.icon
+            | #{data.num_comments}
+            i.comment.outline.grey.icon
+            i.clock.icon
+            each time_tags
+                .ui.tiny.label #{this}
             a.ui.label(href="/ruser/#{data.author}")
                 |#{data.author}
                 // span.inline.content
