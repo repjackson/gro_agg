@@ -203,7 +203,7 @@ Template.registerHelper 'today', -> moment(Date.now()).format("dddd, MMMM Do a")
 Template.registerHelper 'int', (input)-> input.toFixed(0)
 Template.registerHelper 'made_when', ()-> moment(@_timestamp).fromNow()
 Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
-Template.registerHelper 'trump_date', (input)-> moment(input).format("dd, MMM Do h:mm a")
+Template.registerHelper 'trump_date', (input)-> moment(input).format("dd, MMM Do YYYY, h:mm a")
 Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
 
 Template.registerHelper 'current_month', ()-> moment(Date.now()).format("MMMM")

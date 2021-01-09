@@ -23,8 +23,6 @@ Template.trump.onCreated ->
     @autorun => Meteor.subscribe 'trump_docs', 
         selected_trump_tags.array()
         selected_trump_time_tags.array()
-        selected_trump_subtrumps.array()
-        selected_trump_authors.array()
         Session.get('trump_sort_key')
         Session.get('trump_sort_direction')
         Session.get('trump_skip_value')
@@ -53,71 +51,76 @@ Template.trump_card.onRendered ->
     unless @data.watson
         Meteor.call 'call_watson',@data._id,'','trump','',=>
     unless @time_tags
-        Meteor.call 'tagify_time_trump',@data._id,=>
+        Meteor.call 'tagify_trump',@data._id,=>
+Template.trump_card.events
+    'click .set_time_tag': ->
+        selected_trump_time_tags.push @valueOf()
 
 Template.trump.events
     'click .sort_down': (e,t)-> Session.set('trump_sort_direction',-1)
-    'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
-    'click .sort_up': (e,t)-> Session.set('sort_direction',1)
+    # 'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
+    'click .sort_up': (e,t)-> Session.set('trump_sort_direction',1)
     'click .limit_10': (e,t)-> Session.set('limit',10)
     'click .limit_1': (e,t)-> Session.set('limit',1)
    
-    'click .selected_trump_domain': ->
-        selected_trump_domains.push @name
-    'click .selected_trump_domain': ->
-        selected_trump_domains.remove @valueOf()
+    # 'click .selected_trump_domain': ->
+    #     selected_trump_domains.push @name
+    # 'click .selected_trump_domain': ->
+    #     selected_trump_domains.remove @valueOf()
    
-    'click .selected_trump_author': ->
-        selected_trump_authors.push @name
-    'click .selected_trump_author': ->
-        selected_trump_authors.remove @valueOf()
+    # 'click .selected_trump_author': ->
+    #     selected_trump_authors.push @name
+    # 'click .selected_trump_author': ->
+    #     selected_trump_authors.remove @valueOf()
    
-    'click .selected_trump_time_tag': ->
+    # 'click .selected_trump_time_tag': ->
+    #     selected_trump_time_tags.push @name
+    'click .unselect_trump_time_tag': ->
+        selected_trump_time_tags.remove @valueOf()
+   
+    # 'click .select_trump_tag': ->
+    #     selected_trump_tags.push @valueOf()
+    'click .select_trump_time_tag': ->
+        Session.set('trump_skip_value',0)
         selected_trump_time_tags.push @name
-    'click .selected_trump_time_tag': ->
-        selected_trump_time_tags.remove @valueOf()
-   
-    'click .select_trump_tag': ->
-        selected_trump_tags.push @valueOf()
-    'click .selected_trump_time_tag': ->
-        selected_trump_time_tags.remove @valueOf()
+    # 'click .selected_trump_time_tag': ->
+    #     selected_trump_time_tags.remove @valueOf()
    
     'click .sort_date': (e,t)-> 
         Session.set('trump_sort_key', 'date')
     'click .sort_favorite': (e,t)-> 
-        Session.set('trump_sort_key', 'favorite')
-    'click .show_retweet': (e,t)->
-        Session.set('trump_sort_key','retweet')
+        Session.set('trump_sort_key', 'favorites')
+    'click .sort_retweet': (e,t)->
+        Session.set('trump_sort_key','retweets')
         
-    # 'click .sort_created': -> 
-    #     Session.set('sort_key', 'data.created')
-    # 'click .sort_ups': -> 
-    #     Session.set('sort_key', 'data.ups')
 
-    'click .set_grid': (e,t)-> Session.set('trump_view_layout', 'grid')
-    'click .set_list': (e,t)-> Session.set('trump_view_layout', 'list')
     'click .skip_left': (e,t)-> Session.set('trump_skip_value', Session.get('trump_skip_value')-1)
     'click .skip_right': (e,t)-> Session.set('trump_skip_value', Session.get('trump_skip_value')+1)
 
-    'click .select_trump_time_tag': ->
-        selected_trump_time_tags.push @name
 
     'keyup .search_trump': (e,t)->
         val = $('.search_trump').val()
+
         Session.set('trump_query', val)
         if e.which is 13 
+            Session.set('trump_skip_value',0)
             selected_trump_tags.push val
             # window.speechSynthesis.speak new SpeechSynthesisUtterance val
 
             $('.search_trump').val('')
+    'keyup .skip_number': (e,t)->
+        if e.which is 13 
+            val = parseInt($('.skip_number').val())
+            Session.set('trump_skip_value', val)
             
 Template.trump.helpers
     trump_query: -> Session.get('trump_query')
 
     domain_selector_class: ->
         if @name in selected_trump_domain.array() then 'blue' else 'basic'
-    sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
-    sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
+    sort_date_class: -> if Session.equals('trump_sort_key','date') then 'active' else 'tertiary'
+    sort_fav_class: -> if Session.equals('trump_sort_key','favorites') then 'active' else 'tertiary'
+  
     trump_result_tags: -> results.find(model:'trump_tag')
     trump_domain_tags: -> results.find(model:'trump_domain_tag')
     trump_time_tags: -> results.find(model:'trump_time_tag')
@@ -126,17 +129,24 @@ Template.trump.helpers
     skip_value: -> Session.get('trump_skip_value')
     
     retweet_class: ->
-        if Session.equals('trump_view_key','retweet')
+        if Session.equals('trump_view_key','retweets')
             'black'
         else 
             'basic'
-    best_class: ->
-        if Session.equals('trump_view_key','fav')
+    fav_class: ->
+        if Session.equals('trump_view_key','favorites')
+            'black'
+        else 
+            'basic'
+
+    date_class: ->
+        if Session.equals('trump_view_key','date')
             'black'
         else 
             'basic'
 
     selected_trump_tags: -> selected_trump_tags.array()
+    selected_trump_time_tags: -> selected_trump_time_tags.array()
     
     # trump_doc: ->
     #     Docs.findOne
@@ -147,7 +157,7 @@ Template.trump.helpers
             model:'trump'
             # subtrump:Router.current().params.subtrump
         },
-            sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+            sort:"#{Session.get('trump_sort_key')}":parseInt(Session.get('trump_sort_direction'))
             limit:20)
     emotion_avg: -> results.findOne(model:'emotion_avg')
 
@@ -194,15 +204,16 @@ Template.trump_tag_selector.events
         # if @model is 'trump_tag'
         selected_trump_tags.push @name
         $('.search_subtrump').val('')
-        
+        Session.set('trump_skip_value',0)
+
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-        Session.set('trump_loading',true)
-        Meteor.call 'search_trump', @name, ->
-            Session.set('trump_loading',false)
-        Meteor.setTimeout( ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 5000)
+        # Session.set('trump_loading',true)
+        # Meteor.call 'search_trump', @name, ->
+        #     Session.set('trump_loading',false)
+        # Meteor.setTimeout( ->
+        #     Session.set('toggle',!Session.get('toggle'))
+        # , 5000)
         
         
         

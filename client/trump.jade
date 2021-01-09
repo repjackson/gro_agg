@@ -5,8 +5,6 @@ template(name='trump')
     .ui.stackable.grid
         .sixteen.wide.column
             .ui.inline.header trump tweets
-            img.get_info.shadowed.ui.inline.image(src=logo_url )
-            .ui.inline.header.get_info #{data.display_name}
             if selected_trump_tags
                 // if many_tags
                 //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
@@ -22,33 +20,17 @@ template(name='trump')
                 // .ui.large.label(title=count) #{name}
             div
             .ui.inline.header #{post_count}
-            if skv_is 'sort_direction' 1
+            if skv_is 'trump_sort_direction' 1
                 .ui.icon.compact.basic.tertiary.button.sort_down
                     i.caret.down.icon
             else
                 .ui.icon.compact.basic.tertiary.button.sort_up
                     i.caret.up.icon
-            // if skv_is 'view_bounties' 1
-            //     .ui.compact.black.button.unview_bounties
-            //         i.hand.holding.heart.icon
-            //         | bounties
-            // else
-            //     .ui.compact.basic.tertiary.button.view_bounties
-            //         i.hand.holding.heart.icon
-            //         | bounties
-            // if skv_is 'view_unanswered' 1
-            //     .ui.compact.black.button.unview_unanswered
-            //         i.checkmark.icon
-            //         | unanswered
-            // else
-            //     .ui.compact.basic.tertiary.button.view_unanswered
-            //         i.question.icon
-            //         | unanswered
-            .ui.icon.button.show_retweet(class=retweet_class)
+            .ui.icon.button.sort_retweet(class=retweet_class)
                 i.large.refresh.icon
             .ui.icon.button.sort_favorite(class=fav_class)
                 i.large.favorite.icon
-            .ui.icon.compact.large.basic.small.button.sort_date(class=sort_date_class)
+            .ui.icon.compact.large.basic.small.button.sort_date(class=date_class)
                 i.large.clock.icon
             // .ui.compact.basic.small.tertiary.button.limit_1
             //     |1
@@ -59,6 +41,21 @@ template(name='trump')
             .ui.icon.button.skip_right
                 i.chevron.right.icon
             |#{skip_value}
+            .ui.small.input(title='skip number')
+                input.skip_number(type='number')
+            // img.ui.inline.image(src=data.header_img)
+            // .ui.inline.header.pull_latest #{data.title}
+            // +alpha
+            .ui.inline.small.header 
+                i.clock.icon
+                |time tags
+            each selected_trump_time_tags
+                .ui.black.button.unselect_trump_time_tag #{this}
+            each trump_time_tags
+                .ui.compact.basic.button.select_trump_time_tag(class=subtrump_selector_class)
+                    |#{name} 
+                    small #{count}
+            div
             .scrollin
                 if trump_docs
                     .ui.four.stackable.cards 
@@ -67,18 +64,7 @@ template(name='trump')
                 else
                     .ui.basic.center.aligned.segment
                         i.big.loading.yin.yang.icon
-        // .four.wide.column.scrolling.seg
-        //     img.ui.inline.image(src=data.header_img)
-        //     .ui.inline.header.pull_latest #{data.title}
-        //     +alpha
-        //     .ui.inline.small.header 
-        //         i.clock.icon
-        //         |time tags
-        //     each trump_subtrumps
-        //         .ui.compact.basic.button.select_subtrump(class=subtrump_selector_class)
-        //             |#{name} 
-        //             small #{count}
-        //     div
+        // .four.wide.column
         //     .ui.inline.small.header domains
         //     each selected_trump_domains
         //         .ui.button.unselect_trump_domain #{this}
@@ -191,6 +177,8 @@ template(name='trump_card')
             each tags
                 +flat_trump_tag_selector
                 // a.ui.label.select_trump_tag #{this}
+            each time_tags
+                .ui.small.basic.label.set_time_tag #{this}
             if in_dev
                 +print_this
             +doc_emotion
