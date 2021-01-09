@@ -1,7 +1,7 @@
 Meteor.methods 
     trump:->
         imported = JSON.parse(Assets.getText("trump.json"));
-        for tweet in imported[..1000]
+        for tweet in imported[6000..8000]
             # console.log tweet
             found = 
                 Docs.findOne 
@@ -28,8 +28,7 @@ Meteor.publish 'trump_count', (
             
 Meteor.publish 'trump_docs', (
     selected_trump_tags
-    selected_subtrump_tags
-    selected_subtrump_domains
+    selected_trump_time_tags
     selected_trump_subtrumps
     selected_trump_authors
     sort_key
@@ -49,15 +48,45 @@ Meteor.publish 'trump_docs', (
     # if view_unanswered
     #     match.is_answered = false
     if selected_trump_tags.length > 0 then match.tags = $all:selected_trump_tags
-    if selected_subtrump_tags.length > 0 then match.subtrump = $all:selected_subtrump_tags
-    if selected_subtrump_domains.length > 0 then match.domain = $all:selected_subtrump_domains
-    if selected_trump_subtrumps.length > 0 then match.subtrump = $all:selected_trump_subtrumps
+    # if selected_subtrump_tags.length > 0 then match.subtrump = $all:selected_subtrump_tags
+    # if selected_subtrump_domains.length > 0 then match.domain = $all:selected_subtrump_domains
+    # if selected_trump_subtrumps.length > 0 then match.subtrump = $all:selected_trump_subtrumps
     # if selected_trump_authors.length > 0 then match.author = $all:selected_trump_authors
     console.log 'skip', skip
     Docs.find match,
         limit:20
         sort: "#{sk}":-1
         skip:skip*20
+    
+    
+Meteor.methods    
+    tagify_trump: (doc_id)->
+        doc = Docs.findOne doc_id
+        # moment(doc.date).fromNow()
+        # timestamp = Date.now()
+
+        doc._timestamp_long = moment.unix(doc.date).format("dddd, MMMM Do YYYY, h:mm:ss a")
+        # doc._app = 'dao'
+    
+        date = moment(doc.date).format('Do')
+        weekdaynum = moment(doc.date).isoWeekday()
+        weekday = moment().isoWeekday(weekdaynum).format('dddd')
+    
+        hour = moment(doc.date).format('h')
+        minute = moment(doc.date).format('m')
+        ap = moment(doc.date).format('a')
+        month = moment(doc.date).format('MMMM')
+        year = moment(doc.date).format('YYYY')
+    
+        # doc.points = 0
+        # date_array = [ap, "hour #{hour}", "min #{minute}", weekday, month, date, year]
+        date_array = [ap, weekday, month, date, year]
+        if _
+            date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
+            doc._timestamp_tags = date_array
+            console.log 'trump', date_array
+            Docs.update doc_id, 
+                $set:time_tags:date_array
     
            
 Meteor.publish 'trump_tags', (
@@ -81,10 +110,10 @@ Meteor.publish 'trump_tags', (
     # if view_unanswered
     #     match.is_answered = false
     if selected_trump_tags.length > 0 then match.tags = $all:selected_trump_tags
-    if selected_subtrump_domain.length > 0 then match.domain = $all:selected_subtrump_domain
-    if selected_trump_time_tags.length > 0 then match.domain = $all:selected_trump_time_tags
-    if selected_trump_subtrumps.length > 0 then match.subtrump = $all:selected_trump_subtrumps
-    if selected_trump_authors.length > 0 then match.author = $all:selected_trump_authors
+    # if selected_subtrump_domain.length > 0 then match.domain = $all:selected_subtrump_domain
+    # if selected_trump_time_tags.length > 0 then match.domain = $all:selected_trump_time_tags
+    # if selected_trump_subtrumps.length > 0 then match.subtrump = $all:selected_trump_subtrumps
+    # if selected_trump_authors.length > 0 then match.author = $all:selected_trump_authors
     # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count

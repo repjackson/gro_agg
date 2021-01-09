@@ -4,8 +4,7 @@ template(name='trump')
     //         i.massive.yin.yang.loading.link.grey.icon.get_info.shadowed2
     .ui.stackable.grid
         .sixteen.wide.column
-            // img(src=data.banner_img)
-            // img(src=banner_background_image)
+            .ui.inline.header trump tweets
             img.get_info.shadowed.ui.inline.image(src=logo_url )
             .ui.inline.header.get_info #{data.display_name}
             if selected_trump_tags
@@ -45,21 +44,22 @@ template(name='trump')
             //     .ui.compact.basic.tertiary.button.view_unanswered
             //         i.question.icon
             //         | unanswered
-            .ui.icon.button.show_hot(class=hot_class)
-                i.large.fire.icon
-            .ui.icon.button.show_best(class=best_class)
-                i.large.certificate.icon
-            .ui.icon.compact.large.basic.small.button.show_newest(class=sort_created_class)
+            .ui.icon.button.show_retweet(class=retweet_class)
+                i.large.refresh.icon
+            .ui.icon.button.sort_favorite(class=fav_class)
+                i.large.favorite.icon
+            .ui.icon.compact.large.basic.small.button.sort_date(class=sort_date_class)
                 i.large.clock.icon
-            .ui.compact.basic.small.tertiary.button.limit_1
-                |1
-            .ui.compact.basic.small.tertiary.button.limit_10
-                |10
+            // .ui.compact.basic.small.tertiary.button.limit_1
+            //     |1
+            // .ui.compact.basic.small.tertiary.button.limit_10
+            //     |10
             .ui.icon.button.skip_left
                 i.chevron.left.icon
             .ui.icon.button.skip_right
                 i.chevron.right.icon
-            .scrolling
+            |#{skip_value}
+            .scrollin
                 if trump_docs
                     .ui.four.stackable.cards 
                         each trump_docs
@@ -173,29 +173,32 @@ template(name='trump_card')
     .ui.card
         .content
             .ui.small.header(class=post_header_class) !{text}
-            .item isRetweet: #{isRetweet}
-            .item 
-                |#{isDeleted}
+            .ui.basic.label isRetweet: #{isRetweet}
+            .ui.basic.label(title='is deleted')
                 i.remove.icon
-            .item device: #{device}
-            .item 
+                |#{isDeleted}
+            .ui.basic.label device: #{device}
+            .ui.basic.label
                 |#{favorites}
                 i.heart.icon
-            .item 
+            .ui.basic.label
                 |#{retweets}
                 i.refresh.icon
-            .item date: #{date}
+            .ui.basic.label date: {{from_now date}} {{trump_date date}}
             
-            .item isFlagged": #{isFlagged}
-            if isFlagged
-                i.large.exclamation.triangle.icon            
+            .ui.basic.label
+                |isFlagged: #{isFlagged}
             each tags
-                .ui.label #{this}
-            +print_this
+                +flat_trump_tag_selector
+                // a.ui.label.select_trump_tag #{this}
+            if in_dev
+                +print_this
+            +doc_emotion
+   
    
 template(name='trump_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.basic.compact.tertiary.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.compact.tertiary.small.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    

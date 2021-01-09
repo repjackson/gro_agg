@@ -16,7 +16,7 @@ Template.trump.onCreated ->
     Session.setDefault('trump_skip_value', 0)
     Session.setDefault('trump_view_layout', 'grid')
     Session.setDefault('sort_key', 'data.created')
-    Session.setDefault('sort_direction', -1)
+    Session.setDefault('trump_sort_direction', -1)
     # Session.setDefault('location_query', null)
     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     # @autorun => Meteor.subscribe 'subrzeddit_user_count', Router.current().params.subtrump
@@ -25,8 +25,8 @@ Template.trump.onCreated ->
         selected_trump_time_tags.array()
         selected_trump_subtrumps.array()
         selected_trump_authors.array()
-        Session.get('sort_key')
-        Session.get('sort_direction')
+        Session.get('trump_sort_key')
+        Session.get('trump_sort_direction')
         Session.get('trump_skip_value')
   
     @autorun => Meteor.subscribe 'trump_count', 
@@ -35,7 +35,6 @@ Template.trump.onCreated ->
 
     @autorun => Meteor.subscribe 'trump_tags',
         selected_trump_tags.array()
-        selected_trump_domain.array()
         selected_trump_time_tags.array()
         selected_trump_subtrumps.array()
         selected_trump_authors.array()
@@ -57,7 +56,7 @@ Template.trump_card.onRendered ->
         Meteor.call 'tagify_time_trump',@data._id,=>
 
 Template.trump.events
-    'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
+    'click .sort_down': (e,t)-> Session.set('trump_sort_direction',-1)
     'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
     'click .sort_up': (e,t)-> Session.set('sort_direction',1)
     'click .limit_10': (e,t)-> Session.set('limit',10)
@@ -78,35 +77,26 @@ Template.trump.events
     'click .selected_trump_time_tag': ->
         selected_trump_time_tags.remove @valueOf()
    
-    'click .show_newest': (e,t)-> 
-        Meteor.call 'trump_new', ->
-        Session.set('trump_view_mode','newest')
-        Session.set('sort_key', 'data.created')
-    'click .show_hot': (e,t)-> 
-        Meteor.call 'trump_best', ->
-        Session.set('trump_view_mode','hot')
-        Session.set('sort_key', 'data.ups')
-    'click .show_best': (e,t)->
-        Meteor.call 'trump_best', ->
-        Session.set('sort_key', 'data.ups')
-        Session.set('trump_view_mode','best')
+    'click .select_trump_tag': ->
+        selected_trump_tags.push @valueOf()
+    'click .selected_trump_time_tag': ->
+        selected_trump_time_tags.remove @valueOf()
+   
+    'click .sort_date': (e,t)-> 
+        Session.set('trump_sort_key', 'date')
+    'click .sort_favorite': (e,t)-> 
+        Session.set('trump_sort_key', 'favorite')
+    'click .show_retweet': (e,t)->
+        Session.set('trump_sort_key','retweet')
         
     # 'click .sort_created': -> 
     #     Session.set('sort_key', 'data.created')
     # 'click .sort_ups': -> 
     #     Session.set('sort_key', 'data.ups')
 
-    'click .download': ->
-        Meteor.call 'get_trump_info', Router.current().params.subtrump, ->
-    
-    'click .pull_latest': ->
-        # console.log 'latest'
-        Meteor.call 'get_trump_latest', Router.current().params.subtrump, ->
-    'click .get_info': ->
-        # console.log 'dl'
-        Meteor.call 'get_trump_info', Router.current().params.subtrump, ->
     'click .set_grid': (e,t)-> Session.set('trump_view_layout', 'grid')
     'click .set_list': (e,t)-> Session.set('trump_view_layout', 'list')
+    'click .skip_left': (e,t)-> Session.set('trump_skip_value', Session.get('trump_skip_value')-1)
     'click .skip_right': (e,t)-> Session.set('trump_skip_value', Session.get('trump_skip_value')+1)
 
     'click .select_trump_time_tag': ->
@@ -120,10 +110,6 @@ Template.trump.events
             # window.speechSynthesis.speak new SpeechSynthesisUtterance val
 
             $('.search_trump').val('')
-            Session.set('trump_loading',true)
-            Meteor.call 'search_trump', val, ->
-                Session.set('trump_loading',false)
-                Session.set('trump_query', null)
             
 Template.trump.helpers
     trump_query: -> Session.get('trump_query')
@@ -139,13 +125,13 @@ Template.trump.helpers
 
     skip_value: -> Session.get('trump_skip_value')
     
-    hot_class: ->
-        if Session.equals('trump_view_mode','hot')
+    retweet_class: ->
+        if Session.equals('trump_view_key','retweet')
             'black'
         else 
             'basic'
     best_class: ->
-        if Session.equals('trump_view_mode','best')
+        if Session.equals('trump_view_key','fav')
             'black'
         else 
             'basic'
@@ -265,11 +251,10 @@ Template.flat_trump_tag_selector.events
         # window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         selected_trump_tags.push @valueOf()
-        Router.go "/r/#{Router.current().params.subtrump}/"
-        $('.search_subtrump').val('')
-        Session.set('loading',true)
-        Meteor.call 'search_subtrump', Router.current().params.subtrump, @valueOf(), ->
-            Session.set('loading',false)
-        Meteor.setTimeout( ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 3000)
+        $('.search_trump').val('')
+        # Session.set('trump_loading',true)
+        # Meteor.call 'search_subtrump', Router.current().params.subtrump, @valueOf(), ->
+        #     Session.set('loading',false)
+        # Meteor.setTimeout( ->
+        #     Session.set('toggle',!Session.get('toggle'))
+        # , 3000)

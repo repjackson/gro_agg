@@ -72,12 +72,6 @@ Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 #     if parent
 #         parent["#{@key}"]
 
-Template.registerHelper 'i_have_points', () ->
-    if Meteor.user().username is 'one'
-        true
-    else
-        Meteor.user().points > 0
-
 
 Template.registerHelper 'doc_comments', () ->
     Docs.find
@@ -87,28 +81,10 @@ Template.registerHelper 'doc_comments', () ->
 Template.registerHelper 'is_logging_out', () -> Session.get('logging_out')
 
 
-Template.registerHelper 'is_admin', () ->
-    # Meteor.users.findOne username:Router.current().params.username
-    if Meteor.user() and Meteor.user().roles
-        if 'admin' in Meteor.user().roles then true else false
-
-Template.registerHelper 'is_dev', () ->
-    # Meteor.users.findOne username:Router.current().params.username
-    if Meteor.user() and Meteor.user().roles
-        if 'dev' in Meteor.user().roles then true else false
-
 
 Template.registerHelper 'is_author', () ->
     # if @_author_id and Meteor.userId()
     @_author_id is Meteor.userId()
-
-
-Template.registerHelper 'can_edit', () ->
-    # if @_author_id and Meteor.userId()
-    # @_author_id is Meteor.userId()
-    # if Meteor.user().roles
-    if Meteor.user()
-        if Meteor.user().roles and 'dev' in Meteor.user().roles or @_author_id is Meteor.userId() then true else false
 
 
 
@@ -227,6 +203,7 @@ Template.registerHelper 'today', -> moment(Date.now()).format("dddd, MMMM Do a")
 Template.registerHelper 'int', (input)-> input.toFixed(0)
 Template.registerHelper 'made_when', ()-> moment(@_timestamp).fromNow()
 Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
+Template.registerHelper 'trump_date', (input)-> moment(input).format("dd, MMM Do h:mm a")
 Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
 
 Template.registerHelper 'current_month', ()-> moment(Date.now()).format("MMMM")

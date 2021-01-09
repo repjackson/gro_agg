@@ -1,7 +1,7 @@
 template(name='nav')
     .ui.fluid.attached.borderless.inverted.six.item.menu.topnav
         // a.icon.item.toggle_leftbar
-        //     i.large.bars.icon
+        //     i.bars.icon
         if connected
             a.icon.zoomer.item.goto_people(href='/trump' class="{{isActivePath regex='trump'}}" title='trump')
                 i.large.radiation.icon
@@ -22,10 +22,10 @@ template(name='nav')
                 a.icon.zoomer.item.goto_rusers(href='/users' class="{{isActivePath regex='rusers'}}" title='rusers')
                     i.large.users.icon
             // a.icon.zoomer.item.silence(href='#')
-            //     i.large.volume.mute.icon
+            //     i.volume.mute.icon
         unless connected
             .spacer
-            i.yin.yang.loading.big.icon
+            i.large.yin.yang.loading.big.icon
             +status    
 
             
