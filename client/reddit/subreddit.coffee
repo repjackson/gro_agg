@@ -13,8 +13,32 @@ Router.route '/r/:subreddit/post/:doc_id', (->
     @layout 'layout'
     @render 'reddit_page'
     ), name:'reddit_page'
-    
 
+
+Template.subreddit_best.onCreated ->
+    @autorun => Meteor.subscribe 'subreddit_best', Router.current().params.subreddit
+Template.subreddit_newest.onCreated ->
+    @autorun => Meteor.subscribe 'subreddit_best', Router.current().params.subreddit
+
+Template.subreddit_best.helpers
+    sub_best_docs: ->
+        Docs.find {
+            model:'rpost'
+            subreddit:Router.current().params.subreddit
+        }, 
+            sort:"data.ups":-1
+            limit:7
+   
+Template.subreddit_newest.helpers
+    sub_newest_docs: ->
+        Docs.find {
+            model:'rpost'
+            subreddit:Router.current().params.subreddit
+        }, 
+            sort:"data.created":-1
+            limit:7
+            
+            
 Template.subreddit.onCreated ->
     Session.setDefault('subreddit_view_layout', 'grid')
     Session.setDefault('sort_key', 'data.created')

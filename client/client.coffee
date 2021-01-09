@@ -17,8 +17,8 @@ Template.body.events
     # 'click .say_body': ->
     #     window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
-    'click .say': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
+    # 'click .say': ->
+    #     window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
 # Template.say.events
 #     'click .quiet': (e,t)->
@@ -279,32 +279,31 @@ Template.registerHelper 'current_q', ()->
 
 
 
-Template.registerHelper 'session_is', (key)-> Session.get(key)
+# Template.registerHelper 'session_is', (key)-> Session.get(key)
 
-Template.registerHelper 'long_time', (input)-> moment(input).format("h:mm a")
-Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM Do h:mm a")
-Template.registerHelper 'home_long_date', (input)-> moment(input).format("dd MMM D h:mma")
-Template.registerHelper 'short_date', (input)-> moment(input).format("dddd, MMMM Do")
-Template.registerHelper 'med_date', (input)-> moment(input).format("MMM D 'YY")
-# Template.registerHelper 'medium_date', (input)-> moment(input).format("MMMM Do YYYY")
-Template.registerHelper 'medium_date', (input)-> moment(input).format("dddd, MMMM Do")
-Template.registerHelper 'today', -> moment(Date.now()).format("dddd, MMMM Do a")
-Template.registerHelper 'int', (input)-> input.toFixed(0)
-Template.registerHelper '_when', ()-> moment(@_timestamp).fromNow()
-Template.registerHelper '_when_long', ()-> moment(@_timestamp).format("dddd, MMMM Do h:mm a")
+# Template.registerHelper 'long_time', (input)-> moment(input).format("h:mm a")
+# # Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM Do h:mm a")
+# # Template.registerHelper 'home_long_date', (input)-> moment(input).format("dd MMM D h:mma")
+# Template.registerHelper 'short_date', (input)-> moment(input).format("dddd, MMMM Do")
+# Template.registerHelper 'med_date', (input)-> moment(input).format("MMM D 'YY")
+# # Template.registerHelper 'medium_date', (input)-> moment(input).format("MMMM Do YYYY")
+# Template.registerHelper 'medium_date', (input)-> moment(input).format("dddd, MMMM Do")
+# Template.registerHelper 'today', -> moment(Date.now()).format("dddd, MMMM Do a")
+# Template.registerHelper 'int', (input)-> input.toFixed(0)
+# Template.registerHelper '_when', ()-> moment(@_timestamp).fromNow()
+# Template.registerHelper '_when_long', ()-> moment(@_timestamp).format("dddd, MMMM Do h:mm a")
 
-Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
-Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()
+# Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
 
-Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
+# Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
 
-Template.registerHelper 'current_month', ()-> moment(Date.now()).format("MMMM")
-Template.registerHelper 'current_day', ()-> moment(Date.now()).format("DD")
+# Template.registerHelper 'current_month', ()-> moment(Date.now()).format("MMMM")
+# Template.registerHelper 'current_day', ()-> moment(Date.now()).format("DD")
 
 
-Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
+# Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
 
-Template.registerHelper 'thinking_class', ()->
-    if Session.get('thinking') then 'disabled' else ''
+# Template.registerHelper 'thinking_class', ()->
+#     if Session.get('thinking') then 'disabled' else ''
 
-Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
+# Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment

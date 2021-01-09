@@ -9,10 +9,11 @@ template(name='subs')
                     //         i.remove.icon
                     each selected_subs_tags
                         +subs_unselect_tag
-                each subs_tags
-                    // .ui.label #{this}
-                    +subs_tag_selector
-                    // .ui.large.label(title=count) #{name}
+                .medscroll
+                    each subs_tags
+                        // .ui.label #{this}
+                        +subs_tag_selector
+                        // .ui.large.label(title=count) #{name}
             .twelve.wide.column
                 .ui.inline.header #{sub_count}
                 .ui.inline.header

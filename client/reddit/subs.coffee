@@ -1,5 +1,7 @@
 @selected_comment_tags = new ReactiveArray []
 @selected_subs_tags = new ReactiveArray []
+@selected_subreddit_authors = new ReactiveArray []
+@selected_subreddit_domain = new ReactiveArray []
 
 Router.route '/subs', (->
     @layout 'layout'
@@ -74,7 +76,6 @@ Template.related_questions.helpers
 
 
 Template.subs.onCreated ->
-    
     Session.setDefault('subreddit_skip',0)
     Session.setDefault('subreddit_query',null)
     Session.setDefault('sort_key','data.created')
@@ -93,6 +94,8 @@ Template.subs.onCreated ->
     )
     @autorun => Meteor.subscribe 'subs_tags',
         selected_subs_tags.array()
+        selected_subreddit_domain.array()
+        selected_subreddit_authors.array()
         Session.get('toggle')
 
 Template.subs.events

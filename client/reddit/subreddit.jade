@@ -99,13 +99,17 @@ template(name='subreddit')
                 .ui.inline.header.pull_latest #{data.title}
                 +alpha
                 div
-                .ui.inline.small.header domains
-
+                .ui.inline.small.header
+                    i.globe.icon
+                    |domains
                 each subreddit_domain_tags
                     .ui.compact.basic.button.select_domain(class=domain_selector_class)
                         |#{name} 
                         small #{count}
-                i.clock.large.icon            
+                div
+                .ui.inline.header
+                    i.clock.large.icon    
+                    |time tags
                 each subreddit_time_tags
                     .ui.compact.basic.button.select_time_tag(class=domain_selector_class)
                         |#{name} 
@@ -114,6 +118,8 @@ template(name='subreddit')
                 if in_dev
                     +print_this
                     // div
+                +subreddit_best
+                +subreddit_newest
                 with emotion_avg
                     // .ui.list
                     //     .item {{ to_percent avg_sent_score}}% sentiment
@@ -156,37 +162,63 @@ template(name='subreddit')
                     span.say.ui.red.text(class="{{calculated_size avg_anger_score}}") {{ to_percent avg_anger_score }}% anger 
                         |&nbsp;
                     div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
-                
-                .ui.list.mobile.hidden
-                    .item.seg.say !{data.public_description}
-                    .item.seg.say 
-                        |{{#markdown}} !{data.description} {{/markdown}}
-                    .item 
-                        i.grey.lightning.icon
-                        |#{active_user_count} activeusers
-                    .item 
-                        i.grey.users.icon
-                        |#{subscribers} subscribers
-                    // .item 
-                    //     strong #{audience}
-                    a.item(href=url target="_window")
-                        |#{url}
-                        i.external.icon
-                    .item
-                        |#{advertiser_category} ad category
-                    .item #{dao_views} dao views    
-                    .item created {{ufrom created_utc}}
-                    .item state: #{subreddit_state}
-                    // .item #{high_resolution_icon_url} high_resolution_icon_url
-                    // .item #{favicon_url} favicon_url
-                    // .item #{api_subreddit_parameter} api
-                    .item #{subreddit_type} subreddit_type
-                    .item main emotion: #{main_emotion}
-                    .item 
-                        i.grey.thumbs.up.outline.icon
-                        |#{total_votes} votes
-                    .item #{comment_count} comments
-   
+                .smallscroll
+                    .ui.list.mobile.hidden
+                        .item.seg.say !{data.public_description}
+                        .item.seg.say 
+                            |{{#markdown}} !{data.description} {{/markdown}}
+                        .item 
+                            i.grey.lightning.icon
+                            |#{active_user_count} activeusers
+                        .item 
+                            i.grey.users.icon
+                            |#{subscribers} subscribers
+                        // .item 
+                        //     strong #{audience}
+                        a.item(href=url target="_window")
+                            |#{url}
+                            i.external.icon
+                        .item
+                            |#{advertiser_category} ad category
+                        .item #{dao_views} dao views    
+                        .item created {{ufrom created_utc}}
+                        .item state: #{subreddit_state}
+                        // .item #{high_resolution_icon_url} high_resolution_icon_url
+                        // .item #{favicon_url} favicon_url
+                        // .item #{api_subreddit_parameter} api
+                        .item #{subreddit_type} subreddit_type
+                        .item main emotion: #{main_emotion}
+                        .item 
+                            i.grey.thumbs.up.outline.icon
+                            |#{total_votes} votes
+                        .item #{comment_count} comments
+       
+template(name='subreddit_best')
+    .ui.small.header 
+        i.thumbs.up.icon
+        |best
+    .ui.link.selection.list 
+        each sub_best_docs
+            a.item(href="/r/#{subreddit}/post/#{_id}") #{data.ups}: #{data.title}
+                |{{ufrom data.created}}
+                |#{data.num_comments}
+                i.grey.chat.outline.icon
+                // +print_this
+       
+       
+template(name='subreddit_newest')
+    .ui.small.header 
+        i.clock.icon
+        |newest
+    .ui.link.selection.list 
+        each sub_newest_docs
+            a.item(href="/r/#{subreddit}/post/#{_id}") #{data.ups}: #{data.title}
+                |{{ufrom data.created}}
+                |#{data.num_comments}
+                i.grey.chat.outline.icon
+                // +print_this
+       
+       
    
 template(name='subreddit_post_card_small')
     .ui.card
@@ -224,6 +256,11 @@ template(name='subreddit_post_card_small')
                 // span.inline.content
                 // span.inline.content
             +print_this
+            // .ui.label 
+            i.clock.icon
+            |{{ufrom data.created}}
+            small ({{long_date data.created}})
+            
    
 template(name='subreddit_doc_item')                  
     .ui.ite.seg

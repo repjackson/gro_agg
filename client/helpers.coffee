@@ -144,6 +144,7 @@ Template.registerHelper 'field_value', () ->
     if parent
         parent["#{@key}"]
 
+Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()
 
 
 Template.registerHelper 'lowered', (input)-> input.toLowerCase()
@@ -216,8 +217,8 @@ Template.registerHelper 'is_loading', -> Session.get 'loading'
 Template.registerHelper 'long_time', (input)-> 
         console.log 'long time', input
         moment(input).format("h:mm a")
-Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM Do h:mm a")
-Template.registerHelper 'home_long_date', (input)-> moment(input).format("dd, MMM Do h:mm a")
+Template.registerHelper 'long_date', (input)-> moment.unix(input).format("dddd, MMMM Do h:mm a")
+Template.registerHelper 'home_long_date', (input)-> moment.unix(input).format("dd, MMM Do h:mm a")
 Template.registerHelper 'short_date', (input)-> moment(input).format("dddd, MMMM Do")
 Template.registerHelper 'med_date', (input)-> moment(input).format("MMM D 'YY")
 # Template.registerHelper 'medium_date', (input)-> moment(input).format("MMMM Do YYYY")
