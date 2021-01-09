@@ -1,0 +1,216 @@
+template(name='trump')
+    // unless current_subtrump
+    //     .ui.basic.center.aligned.segment
+    //         i.massive.yin.yang.loading.link.grey.icon.get_info.shadowed2
+    .ui.stackable.grid
+        .eleven.wide.column
+            // img(src=data.banner_img)
+            // img(src=banner_background_image)
+            img.get_info.shadowed.ui.inline.image(src=logo_url )
+            .ui.inline.header.get_info #{data.display_name}
+            if selected_trump_tags
+                // if many_tags
+                //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                //         i.remove.icon
+                each selected_trump_tags
+                    +trump_unselect_tag
+            .ui.icon.input
+                i.search.icon
+                input.search_trump(type='text' value=trump_query)
+            each trump_result_tags
+                // .ui.label #{this}
+                +trump_tag_selector
+                // .ui.large.label(title=count) #{name}
+            div
+            .ui.inline.header #{post_count}
+            if skv_is 'sort_direction' 1
+                .ui.icon.compact.basic.tertiary.button.sort_down
+                    i.caret.down.icon
+            else
+                .ui.icon.compact.basic.tertiary.button.sort_up
+                    i.caret.up.icon
+            // if skv_is 'view_bounties' 1
+            //     .ui.compact.black.button.unview_bounties
+            //         i.hand.holding.heart.icon
+            //         | bounties
+            // else
+            //     .ui.compact.basic.tertiary.button.view_bounties
+            //         i.hand.holding.heart.icon
+            //         | bounties
+            // if skv_is 'view_unanswered' 1
+            //     .ui.compact.black.button.unview_unanswered
+            //         i.checkmark.icon
+            //         | unanswered
+            // else
+            //     .ui.compact.basic.tertiary.button.view_unanswered
+            //         i.question.icon
+            //         | unanswered
+            .ui.icon.button.show_hot(class=hot_class)
+                i.large.fire.icon
+            .ui.icon.button.show_best(class=best_class)
+                i.large.certificate.icon
+            .ui.icon.compact.large.basic.small.button.show_newest(class=sort_created_class)
+                i.large.clock.icon
+            .ui.compact.basic.small.tertiary.button.limit_1
+                |1
+            .ui.compact.basic.small.tertiary.button.limit_10
+                |10
+            .ui.icon.button.skip_left
+                i.chevron.left.icon
+            .ui.icon.button.skip_right
+                i.chevron.right.icon
+            .scrolling
+                if trump_docs
+                    .ui.four.stackable.cards 
+                        each trump_docs
+                            +trump_card
+                else
+                    .ui.basic.center.aligned.segment
+                        i.big.loading.yin.yang.icon
+        .five.wide.column.scrolling.seg
+            img.ui.inline.image(src=data.header_img)
+            .ui.inline.header.pull_latest #{data.title}
+            +alpha
+            .ui.inline.small.header 
+                i.trump.icon
+                |subtrumps
+            each trump_subtrumps
+                .ui.compact.basic.button.select_subtrump(class=subtrump_selector_class)
+                    |#{name} 
+                    small #{count}
+            div
+            .ui.inline.small.header domains
+            each selected_trump_domains
+                .ui.button.unselect_trump_domain #{this}
+            each trump_domain_tags
+                .ui.compact.basic.button.select_domain(class=domain_selector_class)
+                    |#{name} 
+                    small #{count}
+            div
+            i.clock.icon            
+            each trump_time_tags
+                .ui.compact.basic.button.select_time_tag(class=domain_selector_class)
+                    |#{name} 
+                    small #{count}
+            if in_dev
+                +print_this
+                // div
+            with emotion_avg
+                // .ui.list
+                //     .item {{ to_percent avg_sent_score}}% sentiment
+                //     .item {{ to_percent avg_joy_score}}% joy
+                //     .item {{ to_percent avg_anger_score}}% anger
+                //     .item {{ to_percent avg_sadness_score}}% sad
+                //     .item {{ to_percent avg_disgust_score}}% disgust
+                //     .item {{ to_percent avg_fear_score}}% fear
+                // if is_positive
+                //     span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% positive
+                //         |&nbsp;
+                //     div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+                // else
+                //     span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  negative
+                //         |&nbsp;
+                //     div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+                span.say.ui.green.text(class="{{calculated_size avg_sent_score}}") {{ to_percent avg_sent_score }}% sentiment 
+                    |&nbsp;
+                div.rounded(style="height:5px;width:{{to_percent avg_sent_score}}%;background-color:green" title="{{to_percent avg_sent_score}}% joy")
+                span.say.ui.green.text(class="{{calculated_size avg_joy_score}}") {{ to_percent avg_joy_score }}% joy 
+                    |&nbsp;
+                div.rounded(style="height:5px;width:{{to_percent avg_joy_score}}%;background-color:green" title="{{to_percent avg_joy_score}}% joy")
+                //- if above_50 'avg_sadness_score'
+                    //- .spacer
+                span.say.ui.blue.text(class="{{calculated_size avg_sadness_score}}") {{ to_percent avg_sadness_score}}% sad 
+                    |&nbsp;
+                div.rounded(style="height:5px;width:{{to_percent avg_sadness_score}}%;background-color:blue" title="{{to_percent avg_sadness_score}}% sad")
+                //- if above_50 'avg_fear_score'
+                    //- .spacer
+                span.say.ui.grey.text(class="{{calculated_size avg_fear_score}}") {{ to_percent avg_fear_score }}% fear 
+                    |&nbsp;
+                div.rounded(style="height:5px;width:{{to_percent avg_fear_score}}%;background-color:grey" title="{{to_percent avg_fear_score}}% fear")
+                //- if above_50 'avg_disgust_score'
+                    //- .spacer
+                span.say.ui.orange.text(class="{{calculated_size avg_disgust_score}}") {{ to_percent avg_disgust_score }}% disgust 
+                    |&nbsp;
+                div.rounded(style="height:5px;width:{{to_percent avg_disgust_score}}%;background-color:orange" title="{{to_percent avg_disgust_score}}% disgust")
+                //- if above_50 'avg_anger_score'
+                    //- .spacer
+                span.say.ui.red.text(class="{{calculated_size avg_anger_score}}") {{ to_percent avg_anger_score }}% anger 
+                    |&nbsp;
+                div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
+            
+            // .ui.list.mobile.hidden
+                // .item.seg.say !{data.public_description}
+                // .item.seg.say 
+                //     |{{#markdown}} !{data.description} {{/markdown}}
+                // .item 
+                //     i.grey.lightning.icon
+                //     |#{active_user_count} activeusers
+                // .item 
+                //     i.grey.users.icon
+                //     |#{subscribers} subscribers
+                // // .item 
+                // //     strong #{audience}
+                // a.item(href=url target="_window")
+                //     |#{url}
+                //     i.external.icon
+                // .item
+                //     |#{advertiser_category} ad category
+                // .item #{dao_views} dao views    
+                // .item created {{ufrom created_utc}}
+                // .item state: #{trump_state}
+                // // .item #{high_resolution_icon_url} high_resolution_icon_url
+                // // .item #{favicon_url} favicon_url
+                // // .item #{api_trump_parameter} api
+                // .item #{trump_type} trump_type
+                // .item main emotion: #{main_emotion}
+                // .item 
+                //     i.grey.thumbs.up.outline.icon
+                //     |#{total_votes} votes
+                // .item #{comment_count} comments
+
+   
+template(name='trump_card')
+    .ui.card
+        .content
+            .ui.list 
+                .item #{text}
+                .item isRetweet: #{isRetweet}
+                .item isDeleted": #{isDeleted}
+                .item device: #{device}
+                .item favorites: #{favorites}
+                .item retweets": #{retweets}
+                .item date: #{date}
+                .item isFlagged": #{isFlagged}
+                
+            +print_this
+   
+template(name='trump_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.compact.tertiary.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong #{name}
+        // if in_dev
+        //     small #{count}
+        
+template(name='trump_unselect_tag')
+    a.unselect_trump_tag.ui.black.compact.button(href='#')
+        if term
+            if term.watson.metadata.image
+                img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
+        strong #{this}
+
+        
+        
+template(name='flat_trump_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.tertiary.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong #{this}
+        // if in_dev
+        //     small #{count}
+
+

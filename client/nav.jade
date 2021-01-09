@@ -1,8 +1,10 @@
 template(name='nav')
-    .ui.fluid.attached.borderless.inverted.five.item.menu.topnav
+    .ui.fluid.attached.borderless.inverted.six.item.menu.topnav
         // a.icon.item.toggle_leftbar
         //     i.large.bars.icon
         if connected
+            a.icon.zoomer.item.goto_people(href='/trump' class="{{isActivePath regex='trump'}}" title='trump')
+                i.large.radiation.icon
             a.icon.zoomer.item.goto_people(href='/susers' class="{{isActivePath regex='susers'}}" title='susers')
                 i.large.user.outline.icon
             a.icon.zoomer.teal.item.clear_tags.goto_stack(href='/stack' class="{{isActivePath '/stack'}}" title='stack exchange')

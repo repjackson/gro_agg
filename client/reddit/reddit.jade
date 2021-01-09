@@ -105,11 +105,15 @@ template(name='reddit')
                 .ui.compact.basic.button.select_subreddit(class=subreddit_selector_class)
                     |#{name} 
                     small #{count}
+            div
             .ui.inline.small.header domains
+            each selected_reddit_domains
+                .ui.button.unselect_reddit_domain #{this}
             each reddit_domain_tags
                 .ui.compact.basic.button.select_domain(class=domain_selector_class)
                     |#{name} 
                     small #{count}
+            div
             i.clock.icon            
             each reddit_time_tags
                 .ui.compact.basic.button.select_time_tag(class=domain_selector_class)
@@ -161,7 +165,7 @@ template(name='reddit')
                     |&nbsp;
                 div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
             
-            .ui.list.mobile.hidden
+            // .ui.list.mobile.hidden
                 // .item.seg.say !{data.public_description}
                 // .item.seg.say 
                 //     |{{#markdown}} !{data.description} {{/markdown}}

@@ -99,6 +99,21 @@ Template.reddit.events
     'click .limit_10': (e,t)-> Session.set('limit',10)
     'click .limit_1': (e,t)-> Session.set('limit',1)
    
+    'click .selected_reddit_domain': ->
+        selected_reddit_domains.push @name
+    'click .selected_reddit_domain': ->
+        selected_reddit_domains.remove @valueOf()
+   
+    'click .selected_reddit_author': ->
+        selected_reddit_authors.push @name
+    'click .selected_reddit_author': ->
+        selected_reddit_authors.remove @valueOf()
+   
+    'click .selected_reddit_time_tag': ->
+        selected_reddit_time_tags.push @name
+    'click .selected_reddit_time_tag': ->
+        selected_reddit_time_tags.remove @valueOf()
+   
     'click .show_newest': (e,t)-> 
         Meteor.call 'reddit_new', ->
         Session.set('reddit_view_mode','newest')
