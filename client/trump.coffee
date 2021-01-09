@@ -29,12 +29,9 @@ Template.trump.onCreated ->
         Session.get('sort_direction')
         Session.get('trump_skip_value')
   
-    @autorun => Meteor.subscribe 'trump_doc_count', 
-        Router.current().params.subtrump
+    @autorun => Meteor.subscribe 'trump_count', 
         selected_trump_tags.array()
-        selected_trump_domain.array()
         selected_trump_time_tags.array()
-        selected_trump_subtrumps.array()
 
     @autorun => Meteor.subscribe 'trump_tags',
         selected_trump_tags.array()
@@ -55,7 +52,7 @@ Template.trump.onCreated ->
 Template.trump_card.onRendered ->
     # console.log @
     unless @data.watson
-        Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
+        Meteor.call 'call_watson',@data._id,'','trump','',=>
     unless @time_tags
         Meteor.call 'tagify_time_trump',@data._id,=>
 
@@ -172,7 +169,7 @@ Template.trump.helpers
     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
     emotion_avg: -> results.findOne(model:'emotion_avg')
 
-    post_count: -> Counts.get('trump_doc_counter')
+    post_count: -> Counts.get('trump_counter')
 
 
             

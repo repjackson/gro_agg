@@ -197,6 +197,11 @@ Meteor.methods
                     params.returnAnalyzedText = true
                     params.clean = true
                     params.features.metadata = {}
+                when 'trump'
+                    params.text = doc.text
+                    params.returnAnalyzedText = false
+                    params.clean = false
+                    # params.features.metadata = {}
 
         # console.log params
 

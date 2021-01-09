@@ -1,7 +1,7 @@
 Meteor.methods 
     trump:->
         imported = JSON.parse(Assets.getText("trump.json"));
-        for tweet in imported[..100]
+        for tweet in imported[..1000]
             # console.log tweet
             found = 
                 Docs.findOne 
@@ -15,7 +15,17 @@ Meteor.methods
             
                 Docs.insert ob
             
-                    
+Meteor.publish 'trump_count', (
+    selected_tags
+    selected_trump_time_tags
+    )->
+        
+    match = {model:'trump'}
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if selected_trump_time_tags.length > 0 then match.time_tags = $all:selected_trump_time_tags
+    Counts.publish this, 'trump_counter', Docs.find(match)
+    return undefined
+            
 Meteor.publish 'trump_docs', (
     selected_trump_tags
     selected_subtrump_tags
@@ -86,7 +96,7 @@ Meteor.publish 'trump_tags', (
         { $match: _id: $nin: selected_trump_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:20 }
+        { $limit:42 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     trump_tag_cloud.forEach (tag, i) ->
