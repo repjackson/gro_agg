@@ -1,10 +1,14 @@
 template(name='nav')
     .ui.fluid.attached.borderless.inverted.menu.topnav
-        // a.icon.item.toggle_leftbar
-        //     i.bars.icon
+        a.icon.item.toggle_leftbar
+            i.bars.icon
+        a.icon.zoomer.item(href='/' class="{{isActivePath regex=''}}" title='trump')
+            i.large.yin.yang.icon
+        a.icon.zoomer.item(href='/tribes' class="{{isActivePath regex='tribes'}}" title='trump')
+            i.large.fire.icon
+        a.icon.zoomer.item(href='/trump' class="{{isActivePath regex='trump'}}" title='trump')
+            i.large.radiation.icon
         if connected
-            a.icon.zoomer.item.goto_people(href='/trump' class="{{isActivePath regex='trump'}}" title='trump')
-                i.large.radiation.icon
             a.icon.zoomer.item.goto_people(href='/susers' class="{{isActivePath regex='susers'}}" title='susers')
                 i.large.user.outline.icon
             a.icon.zoomer.teal.item.clear_tags.goto_stack(href='/stack' class="{{isActivePath '/stack'}}" title='stack exchange')
@@ -71,8 +75,8 @@ template(name='nav')
                     // i.large.chevron.right.icon
                     |login
                     // +icon name='login-rounded-right'
-            // a.icon.large.item.toggle_rightbar.select_term
-            //     i.ellipsis.vertical.large.icon
+            a.icon.large.item.toggle_rightbar.select_term
+                i.ellipsis.vertical.large.icon
 
 template(name='topbar')
     .ui.fluid.large.attached.segment
