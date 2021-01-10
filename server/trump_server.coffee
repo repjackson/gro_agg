@@ -82,7 +82,7 @@ Meteor.methods
         if _
             date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
             doc._timestamp_tags = date_array
-            console.log 'trump', date_array
+            # console.log 'trump', date_array
             Docs.update doc_id, 
                 $set:time_tags:date_array
     

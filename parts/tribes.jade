@@ -1,0 +1,111 @@
+template(name='tribes')
+    .ui.padded.stackable.grid
+        .sixteen.wide.column
+            .ui.cards
+                each tribes 
+                    +tribe_card
+                    
+                    
+template(name='tribe_item')
+    a.card(href="/tribe/#{name}/view")
+        if image
+            a(href="/tribe/#{name}/view")
+                img.ui.image(src="{{c.url image height=500 width=500 gravity='face' crop='fill'}}")
+        .content
+            a.ui.header(href="/tribe/#{_id}/view") #{title}
+        
+template(name='tribe_card')
+    .ui.card
+        if image_id
+            a.image(href="/tribe/#{name}")
+                img.ui.image.zoom(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        .content
+            a.ui.header(href="/tribe/#{name}") #{title}
+            if private
+                i.large.lock.icon(title='private')
+            each tags
+                .ui.circular.basic.label #{this}
+            i.chess.king.icon
+            |#{tribe_leader_ids.length} leaders
+            i.chess.queen.icon
+            |#{tribe_member_ids.length} members
+        
+                    
+                    
+template(name='tribe_membership')
+    .ui.items
+        each members
+            +tribe_member_item
+    if is_admin 
+        .ui.input
+            input(type='text')
+    // if current_doc.private
+    //     unless is_member
+    //         .ui.big.button.request
+    //             |request membership
+    //     else
+    //         .ui.large.button.switch
+    //             |switch to
+    // else
+    if is_member
+        // .ui.large.button.switch
+        //     |switch to
+        .ui.divider
+        .ui.large.button.leave
+            |- leave
+    else
+        .ui.big.button.join 
+            |+ join
+                    
+                    
+template(name='tribe_member_item')     
+    .item
+        a.ui.tiny.image
+            img.ui.rounded.image(src="{{c.url profile_image_id height=300 width=300 gravity='face' crop='fill'}}")
+        .content
+            a.header(href="/user/#{username}") #{username}
+            .description
+                |#{stats.points} points
+                .ui.basic.button.tip
+                    |tip
+                .ui.label
+                    |#{stats.tips_received_count} tips received
+                .ui.label
+                    |#{stats.tips_given_count} tips given
+                // .ui.label
+                //     |#{stats.tip_points} total points
+                    
+template(name='tribe_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row 
+                .six.wide.column
+                    a.ui.green.circular.button(href="/tribe/#{name}" title='save')
+                        i.checkmark.big.icon
+                        |save
+                    .ui.small.inline.header 
+                        i.pencil.icon
+                        |edit tribe
+                    .ui.inline.header #{title} 
+                        small (#{name})
+                    .ui.icon.button.delete_item(title='delete tribe')
+                        i.large.remove.icon
+                    +multi_user_edit key='leader_ids' label='tribe leaders' direct=true
+                    +multi_user_edit key='member_ids' label='tribe members' direct=true
+                    +image_edit key='image_id' label='image' direct=true
+                .ten.wide.column
+                    +text_edit key='title' label='title' direct=true
+                    // +icon_edit key='icon' label='icon' direct=true
+                    +html_edit key='description' label='description' direct=true
+                    div 
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +print_this
+                    +boolean_edit key='private' label='private' direct=true
+                    .ui.header enabled features
+                    each enabled_features
+                        .ui.active.button.disable_feature
+                            |#{title}
+                    .ui.header disabled features
+                    each disabled_features
+                        .ui.basic.circular.button.enable_feature
+                            |#{title}
