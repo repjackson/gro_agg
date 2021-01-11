@@ -51,16 +51,20 @@ template(name='ruser')
                     each tags
                         .ui.compact.basic.button.search_tag #{this}
                 .six.wide.column
-                    .ui.header.call_related related users
-                    each related_users
-                        .ui.small.header #{username}
-                        each tags 
-                            .ui.basic.label #{this}
-                    each related_ruser_ids
-                        .ui.small.header #{this}
-                    // if selected_ruser_post_tags
-                    //     each selected_ruser_post_tags
-                    //         +ruser_post_unselect_tag
+                    .ui.header.call_related 
+                        i.fork.icon
+                        |related users
+                    .smallscroll
+                        each related_users
+                            a.ui.fluid.card(href="/ruser/#{username}")
+                                .content
+                                    a.ui.small.header
+                                        |#{username}
+                                    each tags 
+                                        .ui.basic.small.label #{this}
+                    if selected_ruser_time_tags
+                        each selected_ruser_time_tags
+                            +ruser_post_unselect_time_tag
                     // .ui.icon.input
                     //     i.search.icon
                     //     input.search_ruser_postreddit(type='text')
@@ -80,8 +84,12 @@ template(name='ruser')
                     each ruser_post_time_tag_results
                         a.ui.basic.small.link.label.select_ruser_post_time_tag(title=count) #{name}
                         |&nbsp;
+                    .ui.circular.icon.button.rpost_skip_right
+                        i.chevron.right.icon
+                    .ui.circular.icon.button.rpost_skip_left
+                        i.chevron.left.icon
                     .scrolling
-                        each ruser_posts
+                        each ruser_rposts
                             +ruser_post
                 .six.wide.column
                     .ui.inline.header.get_user_comments

@@ -102,12 +102,15 @@ Template.registerHelper 'ruser_doc', ()->
         model:'ruser'
         username:Router.current().params.username
 
-Template.registerHelper 'ruser_posts', ()->
-    Docs.find(
-        model:'rpost'
-        # user_id:parseInt(Router.current().params.username)
-        # subreddit:Router.current().params.subreddit
-    ,sort:"data.ups":-1)
+# Template.registerHelper 'ruser_posts', (session_ruser_post_skip=0)->
+#     Docs.find(
+#         model:'rpost'
+#         # user_id:parseInt(Router.current().params.username)
+#         # subreddit:Router.current().params.subreddit
+#     ,
+#         sort:"data.ups":-1
+#         skip:session_ruser_post_skip
+#     )
 
 Template.registerHelper 'rcomments', ()->
     Docs.find

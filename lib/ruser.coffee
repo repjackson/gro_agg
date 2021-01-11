@@ -8,12 +8,13 @@ if Meteor.isClient
 
    
     Template.ruser.onCreated ->
+        Session.setDefault('session_ruser_post_skip',0)
         @autorun => Meteor.subscribe 'ruser_doc', Router.current().params.username
         @autorun => Meteor.subscribe 'rposts', 
             Router.current().params.username, 
             selected_ruser_post_tags.array()
             selected_ruser_post_time_tags.array()
-            42
+            Session.get('rpost_skip_right')
         @autorun => Meteor.subscribe 'ruser_related', Router.current().params.username
         @autorun => Meteor.subscribe 'ruser_comments', Router.current().params.username
         @autorun => Meteor.subscribe 'ruser_result_tags',
@@ -67,6 +68,17 @@ if Meteor.isClient
         selected_ruser_post_time_tags: -> selected_ruser_post_time_tags.array()
         ruser_post_tag_results: -> results.find(model:'rpost_result_tag')
         ruser_comment_tag_results: -> results.find(model:'rcomment_result_tag')
+        ruser_rposts: ->
+            Docs.find(
+                model:'rpost'
+                # user_id:parseInt(Router.current().params.username)
+                # subreddit:Router.current().params.subreddit
+            ,
+                sort:"data.ups":-1
+                limit:10
+                skip:Session.get('session_ruser_post_skip')
+            )
+
         related_users: ->
             current_ruser = Docs.findOne({model:'ruser',username:Router.current().params.username})
             Docs.find({_id:$in:current_ruser.related_ruser_ids}).fetch()
@@ -95,6 +107,8 @@ if Meteor.isClient
 
         'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
         'click .toggle_question_detail': (e,t)-> Session.set('view_question_detail',!Session.get('view_question_detail'))
+        'click .rpost_skip_left': (e,t)-> Session.set('rpost_skip_right',Session.get('view_question_detail')-1)
+        'click .rpost_skip_right': (e,t)-> Session.set('rpost_skip_right',Session.get('view_question_detail')+1)
 
         'click .search': ->
             window.speechSynthesis.speak new SpeechSynthesisUtterance "import #{Router.current().params.username}"
@@ -139,7 +153,7 @@ if Meteor.isServer
         username, 
         selected_ruser_post_tags
         selected_ruser_post_time_tags
-        limit=42
+        skip
         )->
 
         match = {
@@ -152,9 +166,10 @@ if Meteor.isServer
             
             
         Docs.find match,{
-            limit:limit
+            limit:10
+            skip:parseInt(skip)
             sort:
-                _timestamp:-1
+                "data.ups":-1
         }  
         
         
