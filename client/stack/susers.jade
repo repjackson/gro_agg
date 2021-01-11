@@ -3,13 +3,13 @@ template(name='susers')
         .four.wide.column.scrolling
             i.tag.large.icon(title='tags')
             if selected_tags
-                #clear_tags.ui.grey.icon.compact.circular.button
+                #clear_tags.ui.grey.icon.compact.button
                     i.remove.icon
                 each selected_tags
-                    .unselect_tag.ui.grey.compact.circular.button
+                    .unselect_tag.ui.grey.compact.button
                         strong !{this}
             each all_tags
-                .ui.compact.circular.basic.button.select_tag(class=cloud_tag_class title=count) !{this.name}
+                .ui.compact.basic.button.select_tag(class=cloud_tag_class title=count) !{this.name}
                     // small #{this.count}
             unless all_tags.count
                 .ui.basic.center.aligned.segment
@@ -23,10 +23,10 @@ template(name='susers')
                 i.stack.exchange.icon
                 |site
             if selected_user_site
-                .unselect_site.ui.grey.compact.circular.button
+                .unselect_site.ui.grey.compact.button
                     strong !{selected_user_site}
             each all_sites
-                .ui.compact.basic.circular.button.select_site(class=cloud_site_class) 
+                .ui.compact.basic.button.select_site(class=cloud_site_class) 
                     |!{this.name}
                     // small #{count}
             unless all_sites.count
@@ -43,7 +43,7 @@ template(name='susers')
                 i.marker.icon
                 |location
             if selected_user_location
-                .unselect_location.ui.grey.compact.circular.button
+                .unselect_location.ui.grey.compact.button
                     strong !{selected_user_location}
             unless all_locations.count
                 .ui.basic.center.aligned.segment
@@ -55,7 +55,7 @@ template(name='susers')
                             .line
             each all_locations
                 +tag_selector
-                // .ui.compact.basic.circular.button.select_location(class=cloud_location_class) !{this.name}
+                // .ui.compact.basic.button.select_location(class=cloud_location_class) !{this.name}
                 //     small #{this.count}
         .twelve.wide.column.scrolling
             .ui.left.icon.input(class="{{#if current_username_query}} focus {{/if}}")
@@ -85,11 +85,11 @@ template(name='susers')
                 each users
                     .three.wide.column
                         a.select_user(href="/s/#{site}/u/#{user_id}")
-                            img.ui.circular.image.zoomer(src=profile_image)
+                            img.ui.image.zoomer(src=profile_image)
                         .content
                             a.ui.zoomer.header.select_user(href="/s/#{site}/u/#{user_id}" class=post_header_class)
                                 |!{display_name}
-                                .ui.basic.circular.label {{ commafy reputation }}
+                                .ui.basic.label {{ commafy reputation }}
                                 .ui.basic.label(class=sentiment_class) {{to_percent sentiment_avg}}% #{doc_sentiment_label}
                             .description
                                 if site_rank
@@ -100,9 +100,9 @@ template(name='susers')
                                     i.grey.clock.icon
                                     | {{ufrom last_access_date}}
                                 .ui.label(title='accept rate') #{accept_rate}%
-                                .ui.circular.compact.basic.button.set_site
+                                .ui.compact.basic.button.set_site
                                     |#{site}
-                                .ui.circular.compact.basic.button.set_location
+                                .ui.compact.basic.button.set_location
                                     i.grey.marker.icon
                                     |!{location}
                                 each five_tags

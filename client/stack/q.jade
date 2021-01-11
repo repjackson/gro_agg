@@ -5,13 +5,13 @@ template(name='q')
         .ui.stackable.padded.grid.top
             .row
                 .twelve.wide.column
-                    a.ui.basic.circular.compact.icon.button.say_title(href="/s/#{site}" title="back to #{site}") 
+                    a.ui.basic.compact.icon.button.say_title(href="/s/#{site}" title="back to #{site}") 
                         i.chevron.left.large.grey.icon
                         // if watson.metadata.image
                         //     img.ui.tiny.inline.image(src=watson.metadata.image)    
                         // | #{site}
                     #qhead.ui.inline.header.say.get_question(class=post_header_class)
-                        .ui.basic.circular.big.label #{score}
+                        .ui.basic.big.label #{score}
                         if is_answered
                             i.green.checkmark.icon
                         |!{title}
@@ -63,7 +63,7 @@ template(name='q')
                                 +watson_full
                         // +comments
                 .four.wide.column.scrollin
-                    a.ui.fluid.basic.circular.compact.tertiary.button.say(href="/s/#{current_q.site}") 
+                    a.ui.fluid.basic.compact.tertiary.button.say(href="/s/#{current_q.site}") 
                         i.chevron.left.icon
                         if watson.metadata.image
                             img.ui.tiny.inline.image(src=watson.metadata.image)    
@@ -88,8 +88,8 @@ template(name='q')
                         
                     each tags 
                         +flat_tag_selector
-                        // .ui.basic.pointer.circular.tertiary.button.add_stack_tag.say.zoomer #{this}
-                    a.ui.circular.icon.button(href=link target='_window' title=link)
+                        // .ui.basic.pointer.tertiary.button.add_stack_tag.say.zoomer #{this}
+                    a.ui.icon.button(href=link target='_window' title=link)
                         // |#{link}
                         i.external.large.icon
                     .ui.list
@@ -115,8 +115,8 @@ template(name='q')
                         +print_this
                     +doc_sentiment
                     +watson_full
-                    // i.big.refresh.circular.link.icon.get_question
-                    // i.big.exclamation.circular.link.icon.get_answers
+                    // i.big.refresh.link.icon.get_question
+                    // i.big.exclamation.link.icon.get_answers
                     // +skve k='stack_section' v='main' l='content' i='content' 
                     unless watson
                         .ui.big.fluid.button.call_watson
@@ -169,7 +169,7 @@ template(name='c_item')
             // +remove_button
             // .ui.divider
         unless watson
-            .ui.small.circular.basic.icon.button.call(title='analyze')
+            .ui.small.basic.icon.button.call(title='analyze')
                 i.dna.icon
         each tags
             +flat_tag_selector
@@ -180,7 +180,7 @@ template(name='answer_item')
     .ui.basic.segment(class=answer_class id=_id)
         // div(id=_id)
         // a(href="#qhead")
-        //     i.circular.chevron.up.icon
+        //     i.chevron.up.icon
         // .ui.divider
         .ui.horizontal.list
             if last_activity_date
@@ -212,7 +212,7 @@ template(name='answer_item')
                 if accept_rate
                     small #{accept_rate}%
         unless watson
-            .ui.small.circular.basic.icon.button.call(title='analyze')
+            .ui.small.basic.icon.button.call(title='analyze')
                 i.dna.icon
         each tags
             +flat_tag_selector

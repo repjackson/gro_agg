@@ -24,7 +24,7 @@ template(name='tribe_card')
             if private
                 i.large.lock.icon(title='private')
             each tags
-                .ui.circular.basic.label #{this}
+                .ui.basic.label #{this}
             i.chess.king.icon
             |#{tribe_leader_ids.length} leaders
             i.chess.queen.icon
@@ -80,7 +80,7 @@ template(name='tribe_edit')
         .ui.stackable.padded.grid
             .row 
                 .six.wide.column
-                    a.ui.green.circular.button(href="/tribe/#{name}" title='save')
+                    a.ui.green.button(href="/tribe/#{name}" title='save')
                         i.checkmark.big.icon
                         |save
                     .ui.small.inline.header 
@@ -107,5 +107,5 @@ template(name='tribe_edit')
                             |#{title}
                     .ui.header disabled features
                     each disabled_features
-                        .ui.basic.circular.button.enable_feature
+                        .ui.basic.button.enable_feature
                             |#{title}

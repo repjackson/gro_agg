@@ -7,17 +7,17 @@ template(name='suser_layout')
         .ui.hidden.divider
         .ui.center.aligned.basic.segment.search
             i.massive.grey.loading.yin.yang.link.icon
-        // .ui.massive.fluid.circular.button.f17.zoomer.pointer.search 
+        // .ui.massive.fluid.button.f17.zoomer.pointer.search 
         //     i.download.icon
             // |download user info
     with stackuser_doc
         .ui.stackable.padded.grid
             .row
                 .three.wide.column
-                    a.ui.basic.icon.circular.large.button.say_questions(href="/s/#{site}")
+                    a.ui.basic.icon.large.button.say_questions(href="/s/#{site}")
                         i.question.large.icon
                         // |questions
-                    a.ui.basic.icon.circular.large.button.say_users(href="/s/#{site}/users")
+                    a.ui.basic.icon.large.button.say_users(href="/s/#{site}/users")
                         i.users.large.icon
                         // |users
                     .ui.inline.header.say   
@@ -46,7 +46,7 @@ template(name='suser_layout')
                         |!{location}
                     a(href="/s/#{site}/u/#{user_id}")
                         img.ui.rounded.inline.image.pointer.zoomer.boop(src=profile_image)
-                    a.ui.large.compact.circular.basic.icon.button(href=link target='_window' title="#{site} profile")
+                    a.ui.large.compact.basic.icon.button(href=link target='_window' title="#{site} profile")
                         i.stack.exchange.icon
                         i.external.icon
                     .ui.vertical.fluid.stackable.rounded.menu
@@ -190,7 +190,7 @@ template(name='suser_dash')
                     |#{suser_q.count}
                     i.question.icon
                 if skv_is 'view_qtags' true
-                    .ui.circular.black.zoomer.button.tog_qtags.agg
+                    .ui.black.zoomer.button.tog_qtags.agg
                         i.tag.icon
                         |#{user_tag_agg.length}
                 unless skv_is 'view_qtags' true
@@ -202,10 +202,10 @@ template(name='suser_dash')
                         .ui.tertiary.small.button #{title}
                             small #{count}
                 if skv_is 'view_detail' true
-                    .ui.black.circular.compact.icon.button.toggle_detail(title='view detail')
+                    .ui.black.compact.icon.button.toggle_detail(title='view detail')
                         i.list.icon
                 else
-                    .ui.compact.circular.basic.icon.button.toggle_detail(title='view list')
+                    .ui.compact.basic.icon.button.toggle_detail(title='view list')
                         i.list.icon
                 div
                 .scrolling
@@ -315,7 +315,7 @@ template(name='suser_c_item')
         // +remove_button
         // .ui.divider
     unless watson
-        .ui.small.circular.basic.icon.button.call(title='analyze')
+        .ui.small.basic.icon.button.call(title='analyze')
             i.dna.icon
     each tags
         +flat_tag_selector
@@ -334,7 +334,7 @@ template(name='suser_a_item')
         +remove_button
         // .ui.divider
     unless watson
-        .ui.small.circular.basic.icon.button.call(title='analyze')
+        .ui.small.basic.icon.button.call(title='analyze')
             i.dna.icon
     each tags
         +flat_tag_selector
@@ -352,7 +352,7 @@ template(name='suser_q_item')
         .description
             if skv_is 'view_detail' true
                 each tags 
-                    .ui.tiny.basic.circular.tertiary.button.say #{this}
+                    .ui.tiny.basic.tertiary.button.say #{this}
             +doc_emotion_small    
             span.say(title="#{view_count} views")
                 i.grey.eye.icon

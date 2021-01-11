@@ -8,6 +8,10 @@ Router.route '/rusers', (->
 
 # Template.term_image.onCreated ->
 Template.rusers.onCreated ->
+    Session.setDefault('rusers_skip_value', 0)
+    @autorun => Meteor.subscribe 'rusers_count', 
+        selected_ruser_tags.array() 
+
     Session.setDefault('selected_user_location',null)
     Session.setDefault('searching_location',null)
     @autorun -> Meteor.subscribe 'selected_rusers', 
@@ -16,6 +20,8 @@ Template.rusers.onCreated ->
         Session.get('limit')
         Session.get('rusers_sort_key')
         Session.get('sort_direction')
+        Session.get('rusers_skip_value')
+        
     @autorun -> Meteor.subscribe('ruser_tags',
         selected_ruser_tags.array()
         Session.get('username_query')
@@ -24,6 +30,9 @@ Template.rusers.onCreated ->
     )
 
 Template.rusers.events
+    'click .skip_right': (e,t)-> Session.set('rusers_skip_value', Session.get('rusers_skip_value')+1)
+    'click .skip_left': (e,t)-> Session.set('rusers_skip_value', Session.get('rusers_skip_value')-1)
+
     'click .select_user': ->
         window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
@@ -33,6 +42,10 @@ Template.rusers.events
 
 
 Template.rusers.helpers
+    ruser_count: -> Counts.get('rusers_counter')
+
+    all_ruser_tags: -> results.find(model:'ruser_tag')
+    selected_ruser_tags: -> selected_ruser_tags.array()
     current_username_query: -> Session.get('searching_username')
     users: ->
         match = {model:'ruser'}
@@ -41,18 +54,6 @@ Template.rusers.helpers
         if selected_ruser_tags.array().length > 0 then match.tags = $all: selected_ruser_tags.array()
         Docs.find match,
             sort:points:-1
-        # if Meteor.user()
-        #     if 'admin' in Meteor.user().roles
-        #         Meteor.users.find()
-        #     else
-        #         Meteor.users.find(
-        #             # site:$in:['l1']
-        #             site:$in:['member']
-        #         )
-        # else
-        #     Meteor.users.find(
-        #         site:$in:['member']
-        #     )
 
 
 Template.ruser_karma_sort_button.events
@@ -105,25 +106,6 @@ Template.ruser_karma_sort_button.helpers
 
 
 
-Template.rusers.helpers
-    all_ruser_tags: -> results.find(model:'ruser_tag')
-    selected_ruser_tags: -> selected_ruser_tags.array()
-    # all_site: ->
-    #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
-    #     if 0 < user_count < 3 then site.find { count: $lt: user_count } else sites.find()
-    
-    # all_sites: ->
-    #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
-    #     if 0 < user_count < 3 then User_sites.find { count: $lt: user_count } else User_sites.find()
-    # selected_user_sites: ->
-    #     # model = 'event'
-    #     selected_user_sites.array()
-    # all_sites: ->
-    #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
-    #     if 0 < user_count < 3 then site_results.find { count: $lt: user_count } else site_results.find()
-    # selected_user_sites: ->
-    #     # model = 'event'
-    #     selected_user_sites.array()
 
 
         
@@ -134,6 +116,7 @@ Template.rusers.events
     'click .select_ruser_tag': -> 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         selected_ruser_tags.push @name
+        Session.set('rusers_skip_value',0)
     'click .unselect_ruser_tag': -> selected_ruser_tags.remove @valueOf()
     'click #clear_tags': -> selected_ruser_tags.clear()
 
@@ -151,6 +134,7 @@ Template.rusers.events
                 # window.speechSynthesis.speak new SpeechSynthesisUtterance search
                 selected_ruser_tags.push search
                 $('.search_tags').val('')
+                Session.set('rusers_skip_value',0)
 
                 # Meteor.call 'search_stack', Router.current().params.site, search, ->
                 #     Session.set('thinking',false)

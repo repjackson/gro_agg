@@ -123,6 +123,14 @@ Meteor.publish 'model_docs', (model)->
     Docs.find match
 
 
+Meteor.publish 'me', ()->
+    if Meteor.user()
+        Meteor.users.find Meteor.userId()
+    else
+        []
+
+
+
 Meteor.publish 'tag_results', (
     # doc_id
     selected_tags

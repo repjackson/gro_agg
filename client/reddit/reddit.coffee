@@ -20,7 +20,6 @@ Template.reddit.onCreated ->
     Session.setDefault('sort_key', 'data.created')
     Session.setDefault('sort_direction', -1)
     # Session.setDefault('location_query', null)
-    @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     # @autorun => Meteor.subscribe 'subrzeddit_user_count', Router.current().params.subreddit
     @autorun => Meteor.subscribe 'reddit_docs', 
         selected_reddit_tags.array()

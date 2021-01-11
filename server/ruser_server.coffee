@@ -387,6 +387,7 @@ Meteor.publish 'selected_rusers', (
     limit=1
     sort_key
     sort_direction=-1
+    skip
     )->
     console.log sort_key
     sort_key_final = switch sort_key
@@ -407,7 +408,7 @@ Meteor.publish 'selected_rusers', (
         limit:20
         sort:
             "#{sort_key_final}":sort_direction
-
+        skip:skip*20
 
 
 Meteor.publish 'ruser_tags', (
@@ -589,3 +590,15 @@ Meteor.publish 'ruser_result_tags', (
   
   
     self.ready()
+
+
+
+Meteor.publish 'rusers_count', (
+    rusers_selected_tags
+    )->
+    match = {model:'ruser'}
+    
+    if rusers_selected_tags.length > 0 then match.tags = $all:rusers_selected_tags
+
+    Counts.publish this, 'rusers_counter', Docs.find(match)
+    return undefined

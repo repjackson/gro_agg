@@ -406,9 +406,9 @@ template(name='pdf_edit')
         .field
             if field_value
                 label Uploaded PDF
-                a.ui.circular.button(href="{{c.url field_value gravity='face' crop='fit'}}")
+                a.ui.button(href="{{c.url field_value gravity='face' crop='fit'}}")
                     |Download PDF
-                #remove_photo.ui.icon.circular.button
+                #remove_photo.ui.icon.button
                     i.remove.red.icon
             else
                 //- if icon
@@ -873,7 +873,7 @@ template(name='child_view')
         //     .ui.divider
 template(name='boolean_edit')
     //- div
-    .ui.circular.button.toggle_boolean(class="#{boolean_toggle_class} #{classes}" title=tooltip)
+    .ui.button.toggle_boolean(class="#{boolean_toggle_class} #{classes}" title=tooltip)
         if field_value
             i.green.checkmark.icon
         else
@@ -1037,7 +1037,7 @@ template(name='single_user_edit')
             .ui.inline.header
                 img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                 |#{name}
-            i.pull_user.remove.link.circular.icon
+            i.pull_user.remove.link.icon
 
 
 template(name='single_user_view')
@@ -1091,7 +1091,7 @@ template(name='multi_user_edit')
             .ui.inline.header
                 img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                 |#{name}
-            i.pull_user.remove.link.circular.icon
+            i.pull_user.remove.link.icon
 
 template(name='multi_doc_input')
     //- .ui.form

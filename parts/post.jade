@@ -21,7 +21,7 @@ template(name='post_view')
         .ui.stackable.padded.grid
             .row 
                 .three.wide.column
-                    a.ui.fluid.large.circular.basic.button(href="/tribe/#{tribe}")
+                    a.ui.fluid.large.basic.button(href="/tribe/#{tribe}")
                         i.chevron.left.icon
                         |#{tribe}
                     .ui.large.inline.header #{title}
@@ -30,7 +30,7 @@ template(name='post_view')
                     
                     if can_edit
                         a.edit_post(href="/p/#{_id}/edit" title='edit')
-                            i.big.circular.link.pencil.icon
+                            i.big.link.pencil.icon
                     .ui.small.header created #{when} 
                     .ui.segment
                         .ui.inline.small.header author
@@ -67,13 +67,13 @@ template(name='post_edit')
         .ui.stackable.padded.grid
             .row
                 .eight.wide.column
-                    a.ui.green.big.circular.button(href="/p/#{_id}" title='save')
+                    a.ui.green.big.button(href="/p/#{_id}" title='save')
                         i.checkmark.big.icon
                         |save
                     .ui.inline.header 
                         +icolor name='news' cl='ui image inline pointer'
                         |edit post
-                    i.large.link.circular.red.remove.icon.delete_post
+                    i.large.link.red.remove.icon.delete_post
                     +print_this
                     .ui.header 
                         small author

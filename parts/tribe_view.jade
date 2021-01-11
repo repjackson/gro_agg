@@ -6,7 +6,7 @@ template(name='tribe_view')
         .ui.stackable.grid
             .row 
                 .twelve.wide.column
-                    a.ui.circular.basic.icon.button(href="/tribes" title='tribes')
+                    a.ui.basic.icon.button(href="/tribes" title='tribes')
                         i.chevron.left.icon
                         i.big.fire.icon
                         // |tribes
@@ -14,7 +14,7 @@ template(name='tribe_view')
                         img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}")
                         |#{title}
                     if is_admin 
-                        a.ui.circular.icon.button(href="/tribe/#{_id}/edit" title='edit tribe instance')
+                        a.ui.icon.button(href="/tribe/#{_id}/edit" title='edit tribe instance')
                             i.pencil.large.icon
                     +tribe_posts
                 .four.wide.column
@@ -38,43 +38,43 @@ template(name='tribe_view')
 
 template(name='tribe_posts')
     if currentUser
-        .ui.circular.icon.basic.button.create_post
+        .ui.icon.basic.button.create_post
             i.plus.green.large.icon
     i.tags.icon
     if selected_tribe_tags
-        // #clear_tags.ui.black.circular.icon.compact.button
+        // #clear_tags.ui.black.icon.compact.button
         //     i.remove.icon
         each selected_tribe_tags
-            .unselect_tag.ui.black.circular.compact.button
+            .unselect_tag.ui.black.compact.button
                 strong #{this}
     each all_tags
         // +tribe_selector
-        .ui.compact.circular.small.basic.tertiary.button.say.select_tag(class=cloud_tag_class) 
+        .ui.compact.small.basic.tertiary.button.say.select_tag(class=cloud_tag_class) 
             strong #{this.name}
     // div
     i.large.marker.icon
     if selected_tribe_location_tags
-        // #clear_location_tags.ui.black.circular.icon.compact.button
+        // #clear_location_tags.ui.black.icon.compact.button
         //     i.remove.icon
         each selected_tribe_location_tags
-            .unselect_location_tag.ui.black.circular.compact.button
+            .unselect_location_tag.ui.black.compact.button
                 strong #{this}
     each all_location_tags
         // +tribe_selector
-        .ui.compact.circular.small.basic.tertiary.button.say.select_location_tag(class=cloud_tag_class) 
+        .ui.compact.small.basic.tertiary.button.say.select_location_tag(class=cloud_tag_class) 
             +tribe_selector
             strong #{this.name}
     // div
     i.large.clock.icon
     if selected_tribe_time_tags
-        // #clear_time_tags.ui.black.circular.icon.compact.button
+        // #clear_time_tags.ui.black.icon.compact.button
         //     i.remove.icon
         each selected_tribe_time_tags
-            .unselect_time_tag.ui.black.circular.compact.button
+            .unselect_time_tag.ui.black.compact.button
                 strong #{this}
     each all_time_tags
         // +tribe_selector
-        .ui.compact.circular.small.basic.tertiary.button.say.select_time_tag(class=cloud_tag_class) 
+        .ui.compact.small.basic.tertiary.button.say.select_time_tag(class=cloud_tag_class) 
             // if term
             //     if term.watson.metadata.image
             //         img.ui.avatar.image.zoomer(src=term.watson.metadata.image)
@@ -83,13 +83,13 @@ template(name='tribe_posts')
     // div
     i.large.users.icon
     if selected_tribe_people_tags
-        // #clear_people_tags.ui.black.circular.icon.compact.button
+        // #clear_people_tags.ui.black.icon.compact.button
         //     i.remove.icon
         each selected_tribe_people_tags
-            .unselect_people_tag.ui.black.circular.compact.button
+            .unselect_people_tag.ui.black.compact.button
                 strong #{this}
     each all_people_tags
-        .ui.compact.circular.small.basic.tertiary.button.say.select_people_tag(class=cloud_tag_class) 
+        .ui.compact.small.basic.tertiary.button.say.select_people_tag(class=cloud_tag_class) 
             strong #{this.name}
     div
     .ui.inline.header #{q_count}
@@ -133,9 +133,9 @@ template(name='tribe_posts')
     //         i.minus.large.icon
     //         // |simple
     //     // i.line.chart.icon
-    .ui.icon.compact.circular.large.button.set_grid(class=grid_class) 
+    .ui.icon.compact.large.button.set_grid(class=grid_class) 
         i.th.large.icon
-    .ui.icon.compact.circular.large.button.set_list(class=list_class)
+    .ui.icon.compact.large.button.set_list(class=list_class)
         i.list.large.icon
             
     .scrolling

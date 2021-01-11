@@ -1,11 +1,11 @@
 template(name='nav')
     .ui.fluid.attached.borderless.inverted.menu.topnav
-        a.icon.item.toggle_leftbar
-            i.bars.icon
-        a.icon.zoomer.item(href='/' class="{{isActivePath regex=''}}" title='trump')
-            i.large.yin.yang.icon
-        a.icon.zoomer.item(href='/tribes' class="{{isActivePath regex='tribes'}}" title='trump')
-            i.large.fire.icon
+        // a.icon.item.toggle_leftbar
+        //     i.bars.icon
+        // a.icon.zoomer.item(href='/' class="{{isActivePath regex=''}}" title='dao')
+        //     i.large.yin.yang.icon
+        // a.icon.zoomer.item(href='/tribes' class="{{isActivePath regex='tribes'}}" title='trump')
+        //     i.large.fire.icon
         a.icon.zoomer.item(href='/trump' class="{{isActivePath regex='trump'}}" title='trump')
             i.large.radiation.icon
         if connected
@@ -20,8 +20,10 @@ template(name='nav')
                     i.large.reddit.icon
             a.icon.zoomer.item.clear_tags.goto_subreddit(href='/subs' class="{{isActiveRoute regex='sub'}}" title='subreddit')
                 i.large.clone.icon
-            a.icon.zoomer.item.goto_rusers(href='/rusers' class="{{isActivePath regex='rusers'}}" title='rusers')
-                i.large.user.outline.icon
+            a.icon.zoomer.brown.item.goto_rusers(href='/rusers' class="{{isActivePath regex='rusers'}}" title='rusers')
+                i.large.icons
+                    i.reddit.icon
+                    i.corner.user.green.icon
             if is_admin
                 a.icon.zoomer.item.goto_rusers(href='/users' class="{{isActivePath regex='rusers'}}" title='rusers')
                     i.large.users.icon
@@ -66,6 +68,8 @@ template(name='nav')
                         else
                             i.large.user.large.icon
                     strong.mobile.hidden #{currentUser.name}
+                a.icon.large.item.toggle_rightbar.select_term
+                    i.ellipsis.vertical.large.icon
             else
                 a.item(href="/register" title='register')
                     // i.large.plus.icon
@@ -75,8 +79,6 @@ template(name='nav')
                     // i.large.chevron.right.icon
                     |login
                     // +icon name='login-rounded-right'
-            a.icon.large.item.toggle_rightbar.select_term
-                i.ellipsis.vertical.large.icon
 
 template(name='topbar')
     .ui.fluid.large.attached.segment
@@ -90,7 +92,7 @@ template(name='topbar')
 template(name='recent_alert')        
     .item.alert
         .right.floated.content
-            i.circular.eye.link.large.icon.mark_read(title='mark read')
+            i.eye.link.large.icon.mark_read(title='mark read')
         img.ui.avatar.image(src="{{c.url author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
         .content
             .header

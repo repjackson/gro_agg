@@ -5,8 +5,8 @@ template(name='user_dashboard')
         .row
             .sixteen.wide.column
                 .ui.inline.header #{points}pts
-                .ui.big.basic.circular.label {{to_percent one_ratio}}% one ratio
-                .ui.large.basic.circular.label #{flow_volume} volume
+                .ui.big.basic.label {{to_percent one_ratio}}% one ratio
+                .ui.large.basic.label #{flow_volume} volume
                 //- .ui.compact.icon.button.refresh_user_stats(title='refresh stats')
                 //-     i.refresh.icon
                 if online 
@@ -32,7 +32,7 @@ template(name='user_dashboard')
                     small(title='rank') ##{global_credit_count_rank}
                 i.tags.icon(title='credit tags')
                 each credit_tags
-                    .ui.small.basic.circular.label #{title}
+                    .ui.small.basic.label #{title}
                         // small #{count}
                 .medscroll.ui.segments
                     each user_credits
@@ -46,7 +46,7 @@ template(name='user_dashboard')
                     small(title='rank') ##{global_debit_count_rank}
                 i.tags.icon(title='credit tags')
                 each debit_tags
-                    .ui.small.basic.circular.label #{title} 
+                    .ui.small.basic.label #{title} 
                         // small #{count}
     
                 div

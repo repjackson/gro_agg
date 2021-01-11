@@ -5,7 +5,7 @@ template(name='su')
         .ui.stackable.grid
             .row
                 .four.wide.column
-                    // a.ui.circular.icon.button(href='/')
+                    // a.ui.icon.button(href='/')
                     //     i.large.home.icon
                     // img.ui.inline.image.shadowed(src=high_resolution_icon_url)
                     img.shadowed(src=logo_url )
@@ -25,18 +25,18 @@ template(name='su')
                     //         .item site_url: #{site_url}
                     // a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
                     //     i.large.link.twitter.icon
-                    a.ui.large.basic.icon.circular.button(href=site_url)
+                    a.ui.large.basic.icon.button(href=site_url)
                         // |#{site_url}
                         i.external.icon
                     if in_dev
                         +print_this
-                    a.ui.large.circular.basic.icon.button.say_title(href="/s/#{api_site_parameter}" title='site questions')
+                    a.ui.large.basic.icon.button.say_title(href="/s/#{api_site_parameter}" title='site questions')
                         i.question.large.icon
                         // |questions
-                    // a.ui.large.disabled.circular.basic.button.say(href="/s/#{api_site_parameter}/tags")
+                    // a.ui.large.disabled.basic.button.say(href="/s/#{api_site_parameter}/tags")
                     //     i.tag.icon
                     //     |tags
-                    // a.ui.large.disabled.circular.basic.button.say_title(href="/s/#{api_site_parameter}/badges" title="hi there")
+                    // a.ui.large.disabled.basic.button.say_title(href="/s/#{api_site_parameter}/badges" title="hi there")
                     //     i.certificate.icon
                     //     |badges
                     .ui.list.mobile.hidden
@@ -79,10 +79,10 @@ template(name='su')
                         // small #{count}
                         // .ui.large.label(title=count) #{name} 
                     if skv_is 'sort_direction' 1
-                        .ui.icon.compact.circular.button.sort_down
+                        .ui.icon.compact.button.sort_down
                             i.caret.down.icon
                     else
-                        .ui.icon.compact.circular.button.sort_up
+                        .ui.icon.compact.button.sort_up
                             i.caret.up.icon
                     .ui.inline.small.header 
                         |#{stackusers.count} / #{user_count}
@@ -102,7 +102,7 @@ template(name='stackuser_item')
             |!{about_me}
             strong(title="#{site} rank") ##{site_rank} 
             strong(title='global rank') ##{global_rank}
-            .ui.compact.circular.basic.button.description.set_location.say_location.zoomer
+            .ui.compact.basic.button.description.set_location.say_location.zoomer
                 +term_image                                            
                 |!{location}
             .ui.basic.label
