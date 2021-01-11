@@ -51,6 +51,13 @@ template(name='ruser')
                     each tags
                         .ui.compact.basic.button.search_tag #{this}
                 .six.wide.column
+                    .ui.header.call_related related users
+                    each related_users
+                        .ui.small.header #{username}
+                        each tags 
+                            .ui.basic.label #{this}
+                    each related_ruser_ids
+                        .ui.small.header #{this}
                     // if selected_ruser_post_tags
                     //     each selected_ruser_post_tags
                     //         +ruser_post_unselect_tag

@@ -14,6 +14,7 @@ if Meteor.isClient
             selected_ruser_post_tags.array()
             selected_ruser_post_time_tags.array()
             42
+        @autorun => Meteor.subscribe 'ruser_related', Router.current().params.username
         @autorun => Meteor.subscribe 'ruser_comments', Router.current().params.username
         @autorun => Meteor.subscribe 'ruser_result_tags',
             'rpost'
@@ -66,6 +67,9 @@ if Meteor.isClient
         selected_ruser_post_time_tags: -> selected_ruser_post_time_tags.array()
         ruser_post_tag_results: -> results.find(model:'rpost_result_tag')
         ruser_comment_tag_results: -> results.find(model:'rcomment_result_tag')
+        related_users: ->
+            current_ruser = Docs.findOne({model:'ruser',username:Router.current().params.username})
+            Docs.find({_id:$in:current_ruser.related_ruser_ids}).fetch()
     Template.ruser.events
         'click .select_ruser_post_tag': -> selected_ruser_post_tags.push @name
         'click .unselect_ruser_post_tag': -> selected_ruser_post_tags.remove @valueOf()
@@ -80,6 +84,9 @@ if Meteor.isClient
             selected_ruser_tags.clear()
             selected_ruser_tags.push @valueOf()
             Router.go "/rusers"
+
+        'click .call_related': ->
+            Meteor.call 'call_ruser_related', Router.current().params.username, ->
 
         'click .get_user_posts': ->
             Meteor.call 'get_user_posts', Router.current().params.username, ->
@@ -96,6 +103,33 @@ if Meteor.isClient
 
     
 if Meteor.isServer
+    Meteor.methods
+        call_ruser_related: (username)->
+            ruser = 
+                Docs.findOne 
+                    model:'ruser'
+                    username:username
+            # console.log ruser
+            cur = Docs.find({
+                model:'ruser'
+                tags:$in:ruser.tags
+            },
+                limit:10
+                fields:
+                    _id:1
+            )
+            related_ruser_ids = cur.fetch()
+            values = _.values(related_ruser_ids)
+            console.log values
+            flat = []
+            for value in values
+                flat.push value._id
+            console.log flat
+            Docs.update ruser._id,
+                $set:
+                    related_ruser_ids:flat
+            
+            
     Meteor.publish 'ruser_doc', (username)->
         Docs.find 
             model:'ruser'
@@ -124,6 +158,11 @@ if Meteor.isServer
         }  
         
         
+    Meteor.publish 'ruser_related', (username)->
+        current_ruser = Docs.findOne({model:'ruser',username:username})
+        Docs.find({_id:$in:current_ruser.related_ruser_ids})
+
+    
     Meteor.publish 'ruser_comments', (username, limit=42)->
         Docs.find
             model:'rcomment'

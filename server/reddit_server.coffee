@@ -550,7 +550,7 @@ Meteor.methods
                         Docs.insert item
                 )
                 
-    search_subreddit: (subreddit,search)->
+    search_sub: (subreddit,search)->
         @unblock()
         console.log 'searching ', subreddit, 'for ', search
         HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&raw_json=1&nsfw=1", (err,res)->

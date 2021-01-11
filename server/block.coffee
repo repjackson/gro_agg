@@ -26,10 +26,10 @@
 
 @blocklist = [
     'main articles'
+    '2000 singles'
     '2003 singles'
     '2008 singles'
     '2008 albums'
-    '2000 singles'
     'view entire discussion'
     'sign up'
     'trademark'
@@ -188,6 +188,10 @@
     '2008 albums'
     '2009 albums'
     '2010 albums'
+    '1991 singles'
+    '1992 singles'
+    '1993 singles'
+    '1994 singles'
     '1995 singles'
     '1996 singles'
     '1997 singles'

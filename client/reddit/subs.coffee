@@ -77,17 +77,17 @@ Template.related_questions.helpers
 
 Template.subs.onCreated ->
     Session.setDefault('subreddit_skip',0)
-    Session.setDefault('subreddit_query',null)
+    Session.setDefault('subs_query',null)
     Session.setDefault('sort_key','data.created')
     @autorun -> Meteor.subscribe('subreddits',
-        Session.get('subreddit_query')
+        Session.get('subs_query')
         selected_subs_tags.array()
         Session.get('subreddit_sort')
         Session.get('subreddit_skip')
         Session.get('subreddit_sort_direction')
     )
     @autorun -> Meteor.subscribe('sub_count',
-        Session.get('subreddit_query')
+        Session.get('subs_query')
         selected_subs_tags.array()
         Session.get('subreddit_skip')
         Session.get('sort_subs')
@@ -115,7 +115,7 @@ Template.subs.events
             Meteor.call 'search_subs', val, ->
             $('.search_subs').val('')
             selected_subs_tags.push val 
-            # Session.set('subreddit_query', null)
+            # Session.set('subs_query', null)
     # 'click .search_subs': ->
     #     Meteor.call 'search_subreddits', 'news', ->
              
@@ -193,7 +193,7 @@ Template.subs_unselect_tag.events
     'click .unselect_subs_tag': -> 
         Session.set('skip',0)
         console.log @
-        selected_subreddit_tags.remove @valueOf()
+        selected_subs_tags.remove @valueOf()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
     
 
@@ -221,7 +221,7 @@ Template.flat_subs_tag_selector.events
         # results.update
         # window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-        selected_subreddit_tags.push @valueOf()
+        selected_subs_tags.push @valueOf()
         Router.go "/r/#{Router.current().params.subreddit}/"
         $('.search_subreddit').val('')
         Session.set('loading',true)

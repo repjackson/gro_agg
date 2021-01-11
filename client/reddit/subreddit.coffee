@@ -118,16 +118,16 @@ Template.subreddit.events
     'click .set_grid': (e,t)-> Session.set('subreddit_view_layout', 'grid')
     'click .set_list': (e,t)-> Session.set('subreddit_view_layout', 'list')
 
-    'keyup .search_subreddit': (e,t)->
-        val = $('.search_subreddit').val()
+    'keyup .search_sub': (e,t)->
+        val = $('.search_sub').val()
         Session.set('sub_doc_query', val)
         if e.which is 13 
             selected_sub_tags.push val
             # window.speechSynthesis.speak new SpeechSynthesisUtterance val
 
-            $('.search_subreddit').val('')
+            $('.search_sub').val('')
             Session.set('loading',true)
-            Meteor.call 'search_subreddit', Router.current().params.subreddit, val, ->
+            Meteor.call 'search_sub', Router.current().params.subreddit, val, ->
                 Session.set('loading',false)
                 Session.set('sub_doc_query', null)
             
@@ -197,7 +197,7 @@ Template.sub_tag_selector.events
         # else
         # if @model is 'subreddit_tag'
         selected_sub_tags.push @name
-        $('.search_subreddit').val('')
+        $('.search_sub').val('')
         
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
@@ -256,9 +256,9 @@ Template.flat_sub_tag_selector.events
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         selected_sub_tags.push @valueOf()
         Router.go "/r/#{Router.current().params.subreddit}/"
-        $('.search_subreddit').val('')
+        $('.search_sub').val('')
         Session.set('loading',true)
-        Meteor.call 'search_subreddit', Router.current().params.subreddit, @valueOf(), ->
+        Meteor.call 'search_sub', Router.current().params.subreddit, @valueOf(), ->
             Session.set('loading',false)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))
@@ -271,9 +271,9 @@ Template.flat_sub_ruser_tag_selector.events
         selected_sub_tags.push @valueOf()
         parent = Template.parentData()
         Router.go "/r/#{parent.subreddit}/"
-        $('.search_subreddit').val('')
+        $('.search_sub').val('')
         Session.set('loading',true)
-        Meteor.call 'search_subreddit', parent.subreddit, @valueOf(), ->
+        Meteor.call 'search_sub', parent.subreddit, @valueOf(), ->
             Session.set('loading',false)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))

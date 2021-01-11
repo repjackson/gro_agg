@@ -9,7 +9,7 @@ template(name='nav')
         a.icon.zoomer.item(href='/trump' class="{{isActivePath regex='trump'}}" title='trump')
             i.large.radiation.icon
         if connected
-            a.icon.zoomer.item.goto_people(href='/susers' class="{{isActivePath regex='susers'}}" title='susers')
+            a.icon.zoomer.item.goto_people(href='/susers' class="{{isActivePath regex='susers'}}" title='stack exchange users')
                 i.large.user.outline.icon
             a.icon.zoomer.teal.item.clear_tags.goto_stack(href='/stack' class="{{isActivePath '/stack'}}" title='stack exchange')
                 i.large.stack.exchange.icon
@@ -18,15 +18,15 @@ template(name='nav')
                     i.large.loading.reddit.icon
                 else
                     i.large.reddit.icon
-            a.icon.zoomer.item.clear_tags.goto_subreddit(href='/subs' class="{{isActiveRoute regex='sub'}}" title='subreddit')
+            a.icon.zoomer.item.clear_tags.goto_subreddit(href='/subs' class="{{isActiveRoute regex='sub'}}" title='subreddits')
                 i.large.clone.icon
-            a.icon.zoomer.brown.item.goto_rusers(href='/rusers' class="{{isActivePath regex='rusers'}}" title='rusers')
+            a.icon.zoomer.brown.item.goto_rusers(href='/rusers' class="{{isActivePath regex='rusers'}}" title='reddit users')
                 i.large.icons
                     i.reddit.icon
                     i.corner.user.green.icon
-            if is_admin
-                a.icon.zoomer.item.goto_rusers(href='/users' class="{{isActivePath regex='rusers'}}" title='rusers')
-                    i.large.users.icon
+            // if is_admin
+            //     a.icon.zoomer.item.goto_rusers(href='/users' class="{{isActivePath regex='rusers'}}" title='rusers')
+            //         i.large.users.icon
             // a.icon.zoomer.item.silence(href='#')
             //     i.volume.mute.icon
         unless connected
