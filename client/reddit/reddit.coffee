@@ -13,6 +13,10 @@ Router.route '/reddit', (->
     @layout 'layout'
     @render 'reddit'
     ), name:'reddit'
+Router.route '/info', (->
+    @layout 'layout'
+    @render 'info'
+    ), name:'info'
 
 Template.reddit.onCreated ->
     Session.setDefault('reddit_skip_value', 0)
