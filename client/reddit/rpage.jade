@@ -10,7 +10,7 @@ template(name='reddit_page')
                     |!{data.title} #{data.link_title}
                 | {{ufrom data.created}}
                 .ui.basic.button.get_post permalink #{permalink}
-                div
+                // div
                 +skve k='view_section' v='main' l='main' i='content'
                 // +skve k='view_section' v='comments' l='comments' i='comment'
                 +skve k='view_section' v='watson' l='emotion' i='dna'
@@ -95,7 +95,7 @@ template(name='reddit_page')
                     |r/#{data.subreddit}
                 .spacer
                 // a.ui.basic.button(href="https://www.reddit.com/u/#{author}" target='_window')
-                a.ui.basic.button.goto_ruser(href="/ruser/#{data.author}")
+                a.ui.big.fluid.button.goto_ruser(href="/ruser/#{data.author}")
                     i.user.outline.icon
                     |#{data.author}
                 +call_watson id=_id key='data.url' durl=data.url mode='url'

@@ -40,7 +40,8 @@ if Meteor.isClient
             Meteor.call 'get_user_info', Router.current().params.username, ->
                 Meteor.call 'get_user_posts', Router.current().params.username, ->
                     Meteor.call 'ruser_omega', Router.current().params.username, ->
-                        Meteor.call 'rank_ruser', Router.current().params.username, ->
+                        Meteor.call 'call_ruser_related', Router.current().params.username, ->
+                            Meteor.call 'rank_ruser', Router.current().params.username, ->
         , 2000
 
     Template.ruser_doc_item.onRendered ->
