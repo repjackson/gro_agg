@@ -8,6 +8,12 @@ Router.route '/subs', (->
     @render 'subs'
     ), name:'subs'
 
+Router.route '/groups', (->
+    @layout 'layout'
+    @render 'groups'
+    ), name:'groups'
+
+
 
 
 Template.rcomments_tab.onCreated ->
