@@ -1,7 +1,7 @@
 template(name='subs')
     .ui.stackable.padded.grid
         .row
-            .four.wide.column
+            .sixteen.wide.column
                 // .smallscroll
                 if selected_subs_tags
                     // if many_tags
@@ -14,7 +14,7 @@ template(name='subs')
                         // .ui.label #{this}
                         +subs_tag_selector
                         // .ui.large.label(title=count) #{name}
-            .twelve.wide.column
+            .sixteen.wide.column
                 .ui.inline.header #{sub_count}
                 .ui.inline.header
                     i.reddit.icon

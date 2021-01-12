@@ -55,7 +55,21 @@ Template.trump_card.onRendered ->
 Template.trump_card.events
     'click .set_time_tag': ->
         selected_trump_time_tags.push @valueOf()
-
+    'click .vote_up': ->
+        Docs.update @_id,
+            $inc:points:1
+    'click .vote_down': ->
+        Docs.update @_id,
+            $inc:points:-1
+    'keyup .tag_tweet': (e,t)->
+        if e.which is 13 
+            val = $('.tag_tweet').val()
+            Docs.update @_id,
+                $addToSet:
+                    tags:val
+                    public_tags:val
+            $('.tag_tweet').val('')
+            # Session.set('trump_skip_value', val)
 Template.trump.events
     'click .sort_down': (e,t)-> Session.set('trump_sort_direction',-1)
     # 'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))

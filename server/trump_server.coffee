@@ -123,7 +123,7 @@ Meteor.publish 'trump_tags', (
         { $match: _id: $nin: selected_trump_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:42 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     trump_tag_cloud.forEach (tag, i) ->
