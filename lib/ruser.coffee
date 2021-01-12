@@ -178,7 +178,7 @@ if Meteor.isServer
         Docs.find({_id:$in:current_ruser.related_ruser_ids})
 
     
-    Meteor.publish 'ruser_comments', (username, limit=42)->
+    Meteor.publish 'ruser_comments', (username, limit=20)->
         Docs.find
             model:'rcomment'
             author:username

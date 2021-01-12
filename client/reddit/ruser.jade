@@ -56,8 +56,9 @@ template(name='ruser')
                         |related users
                     .smallscroll
                         each related_users
-                            a.ui.fluid.card(href="/ruser/#{username}")
+                            a.ui.horizontal.card(href="/ruser/#{username}")
                                 .content
+                                    img.ui.small.image(src=data.snoovatar_img)
                                     a.ui.small.header
                                         |#{username}
                                     each tags 
@@ -230,3 +231,14 @@ template(name='ruser_comment')
         each time_tags 
             .ui.small.label #{this}
         // .actions
+        
+template(name='flat_sub_ruser_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.tertiary.compact.tiny.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong #{this}
+        // if in_dev
+        //     small #{count}
+        
