@@ -63,7 +63,8 @@ Template.trump_card.events
             $inc:points:-1
     'keyup .tag_tweet': (e,t)->
         if e.which is 13 
-            val = $('.tag_tweet').val()
+            val = $(e.currentTarget).closest('.tag_tweet').val()
+            console.log val
             Docs.update @_id,
                 $addToSet:
                     tags:val
