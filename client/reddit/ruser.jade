@@ -50,11 +50,11 @@ template(name='ruser')
                         |top tags
                     each tags
                         .ui.compact.basic.button.search_tag #{this}
-                .six.wide.column
+                .four.wide.column
                     .ui.header.call_related 
                         i.fork.icon
                         |related users
-                    .smallscroll
+                    .scrolling
                         each related_users
                             a.ui.horizontal.card(href="/ruser/#{username}")
                                 .content
@@ -70,6 +70,7 @@ template(name='ruser')
                     //     i.search.icon
                     //     input.search_ruser_postreddit(type='text')
                 
+                .four.wide.column
                     .ui.inline.header 
                         i.edit.icon
                         |posts
@@ -92,7 +93,7 @@ template(name='ruser')
                     .scrolling
                         each ruser_rposts
                             +ruser_post
-                .six.wide.column
+                .four.wide.column
                     .ui.inline.header.get_user_comments
                         i.chat.outline.icon
                         |comments

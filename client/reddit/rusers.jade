@@ -60,7 +60,8 @@ template(name='rusers')
                                 .line
                 each users
                     +ruser_small
-                    
+        +susers        
+            
 template(name='ruser_small')
     .four.wide.column
         a.select_user(href="/ruser/#{username}")
