@@ -7,7 +7,7 @@
 if Meteor.isClient
     Router.route '/', (->
         @layout 'layout'
-        @render 'reddit'
+        @render 'trump'
         ), name:'home'
 # if Meteor.isClient
 #     # console.log $
@@ -25,7 +25,7 @@ if Meteor.isClient
 
 Router.configure
     layoutTemplate: 'layout'
-    notFoundTemplate: 'not_found'
+    notFoundTemplate: 'trump'
     loadingTemplate: 'splash'
     trackPageView: false
 
