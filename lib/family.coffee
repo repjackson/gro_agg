@@ -36,17 +36,116 @@ if Meteor.isClient
         selected_result_tags: -> selected_family_tags.array()
     
         family_result_tags: -> results.find(model:'family_tag')
+        family_time_tags: -> results.find(model:'family_time_tag')
     
         tribe_posts: ->
             Docs.find 
                 model:'post'
                 tribe:'jpfam'
+    Template.family_tag_selector.onCreated ->
+        @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
+    Template.family_tag_selector.helpers
+        selector_class: ()->
+            term = 
+                Docs.findOne 
+                    title:@name.toLowerCase()
+            if term
+                if term.max_emotion_name
+                    switch term.max_emotion_name
+                        when 'joy' then " basic green"
+                        when "anger" then " basic red"
+                        when "sadness" then " basic blue"
+                        when "disgust" then " basic orange"
+                        when "fear" then " basic grey"
+                        else "basic grey"
+        term: ->
+            Docs.findOne 
+                title:@name.toLowerCase()
+                
+                
+    Template.family_tag_selector.events
+        'click .select_tag': -> 
+            # results.update
+            # console.log @
+            # window.speechSynthesis.cancel()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            # if @model is 'family_emotion'
+            #     selected_emotions.push @name
+            # else
+            # if @model is 'family_tag'
+            selected_family_tags.push @name
+            $('.search_subfamily').val('')
+            Session.set('family_skip_value',0)
+    
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+            # Session.set('family_loading',true)
+            # Meteor.call 'search_family', @name, ->
+            #     Session.set('family_loading',false)
+            # Meteor.setTimeout( ->
+            #     Session.set('toggle',!Session.get('toggle'))
+            # , 5000)
+            
+            
+            
+    
+    Template.family_unselect_tag.onCreated ->
+        
+        @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
+        
+    Template.family_unselect_tag.helpers
+        term: ->
+            found = 
+                Docs.findOne 
+                    # model:'wikipedia'
+                    title:@valueOf().toLowerCase()
+            found
+    Template.family_unselect_tag.events
+        'click .unselect_family_tag': -> 
+            Session.set('skip',0)
+            # console.log @
+            selected_family_tags.remove @valueOf()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+        
+    
+    Template.flat_family_tag_selector.onCreated ->
+        @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
+    Template.flat_family_tag_selector.helpers
+        selector_class: ()->
+            term = 
+                Docs.findOne 
+                    title:@valueOf().toLowerCase()
+            if term
+                if term.max_emotion_name
+                    switch term.max_emotion_name
+                        when 'joy' then " basic green"
+                        when "anger" then " basic red"
+                        when "sadness" then " basic blue"
+                        when "disgust" then " basic orange"
+                        when "fear" then " basic grey"
+                        else "basic grey"
+        term: ->
+            Docs.findOne 
+                title:@valueOf().toLowerCase()
+    Template.flat_family_tag_selector.events
+        'click .select_flat_tag': -> 
+            # results.update
+            # window.speechSynthesis.cancel()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+            selected_family_tags.push @valueOf()
+            $('.search_family').val('')
+            # Session.set('family_loading',true)
+            # Meteor.call 'search_subfamily', Router.current().params.subfamily, @valueOf(), ->
+            #     Session.set('loading',false)
+            # Meteor.setTimeout( ->
+            #     Session.set('toggle',!Session.get('toggle'))
+            # , 3000)
 
 if Meteor.isServer 
-    Meteor.publish 'fam_posts', ->
-        Docs.find 
-            model:'post'
-            tribe:'jpfam'
+    # Meteor.publish 'fam_posts', ->
+    #     Docs.find 
+    #         model:'post'
+    #         tribe:'jpfam'
             
     Meteor.publish 'family_count', (
         selected_tags

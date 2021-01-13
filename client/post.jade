@@ -38,11 +38,6 @@ template(name='post_view')
                         a.edit_post(href="/m/post/#{_id}/edit" title='edit')
                             i.big.circular.link.pencil.icon
                     .ui.small.header created #{when} 
-                    .ui.segment
-                        .ui.inline.small.header author
-                        a.ui.header(href="/user/#{_author.username}") 
-                            img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                            |#{_author.username}
                     .ui.small.grey.header 
                         i.line.chart.icon
                         |stats
@@ -50,7 +45,8 @@ template(name='post_view')
                     .ui.list
                         .item #{_views} views
                         |viewed by
-                        each _viewer_usernames
+                        +array_edit key='viewed_usernames' label='sign viewer log' direct=true
+                        each viewed_usernames
                             .ui.label #{this}
                     +array_view key='tags' label='tags' direct=true
                     +array_view key='location_tags' direct=true
@@ -118,7 +114,8 @@ template(name='post_tips')
             each tippers
                 .title
                     img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
-                    |#{username} #{total_tip_amount}
+                    // |#{username} #{total_tip_amount}
+                    |#{total_tip_amount}
                     i.dropdown.icon
                 .content
                     .ui.list

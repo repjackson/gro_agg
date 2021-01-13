@@ -2,29 +2,178 @@ template(name='family')
     .ui.stackable.padded.grid
         .four.wide.column
             .ui.header family
-            .ui.header photos
             .ui.header posts
             .ui.input
                 input.add_fam_post(type='text' placeholder='add')
             .ui.header polls
             .ui.input
                 input(type='text' placeholder='add')
-            each selected_result_tags
-                .ui.button #{this}
             .ui.segment
                 a.ui.header(href="/r/news")
                     i.globe.icon
                     |world news
+                a.ui.header(href="/r/politics")
+                    i.newspaper.icon
+                    |politics
         .twelve.wide.column
+            // .ui.header photos
+            if selected_family_tags
+                // if many_tags
+                //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                //         i.remove.icon
+                each selected_family_tags
+                    +family_unselect_tag
+            .ui.icon.input
+                i.search.icon
+                input.search_family(type='text' value=family_query)
+            each family_result_tags
+                // .ui.label #{this}
+                +family_tag_selector
+                // .ui.large.label(title=count) #{name}
             .ui.cards.scrolling
                 each tribe_posts
-                    .ui.card
-                        a(href="/post/#{_id}/view") #{title}
-                            img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-                        .content
-                            a.ui.header(href="/post/#{_id}/view") #{title}
-                            each tags
-                                .ui.label #{this}
-                            +print_this
-                
+                    +family_card
+    // unless current_subfamily
+    //     .ui.basic.center.aligned.segment
+    //         i.massive.yin.yang.loading.link.grey.icon.get_info.shadowed2
+    .ui.stackable.grid
+        .twelve.wide.column
+            .ui.inline.header #{post_count}
+            if skv_is 'family_sort_direction' 1
+                .ui.icon.compact.basic.tertiary.button.sort_down
+                    i.caret.down.icon
+            else
+                .ui.icon.compact.basic.tertiary.button.sort_up
+                    i.caret.up.icon
+            .ui.icon.button.sort_retweet(class=retweet_class)
+                i.large.refresh.icon
+            .ui.icon.button.sort_favorite(class=fav_class)
+                i.large.favorite.icon
+            .ui.icon.compact.large.basic.small.button.sort_date(class=date_class)
+                i.large.clock.icon
+            // .ui.compact.basic.small.tertiary.button.limit_1
+            //     |1
+            // .ui.compact.basic.small.tertiary.button.limit_10
+            //     |10
+            .ui.icon.circular.basic.button.skip_left
+                i.chevron.left.icon
+            .ui.icon.circular.basic.button.skip_right
+                i.chevron.right.icon
+            |#{skip_value}
+            .ui.small.input(title='skip number')
+                input.skip_number(type='number')
+            // img.ui.inline.image(src=data.header_img)
+            // .ui.inline.header.pull_latest #{data.title}
+            // +alpha
+            div
+            .scrolling
+                if family_docs
+                    .ui.four.stackable.cards 
+                        each family_docs
+                            +family_card
+                else
+                    .ui.basic.center.aligned.segment
+                        i.big.loading.yin.yang.icon
+        .four.wide.column
+            .ui.inline.small.header 
+                i.users.icon
+                |people
+            div
+            .ui.inline.small.header 
+                i.marker.icon
+                |locations
+            div
+            .ui.inline.small.header 
+                i.hashtag.icon
+                |hashtags
+            div
+            .ui.inline.small.header 
+                i.users.icon
+                |people
+            // .ui.inline.small.header 
+            //     i.users.icon
+            //     |people
+            each selected_family_People
+                .ui.button.unselect_family_People #{this}
+            each family_People_tags
+                .ui.compact.basic.button.select_domain(class=domain_selector_class)
+                    |#{name} 
+                    small #{count}
+            div
+            .ui.inline.small.header 
+                i.clock.icon
+                |time tags
+            each selected_family_time_tags
+                .ui.black.button.unselect_family_time_tag #{this}
+            each family_time_tags
+                .ui.compact.basic.button.select_family_time_tag(class=subfamily_selector_class)
+                    |#{name} 
+                    small #{count}
+            if in_dev
+                +print_this
+
+   
+template(name='family_card')
+    .ui.card
+        .content
+            .ui.card
+            a(href="/post/#{_id}/view") #{title}
+                img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+            .content
+                a.ui.header(href="/post/#{_id}/view") #{title}
+                if in_dev
+                    +print_this
+    
+            .ui.small.header(class=post_header_class) !{text}
+            // +array_view key='tags' label='tags' direct=true
+            +array_view key='location_tags' direct=true
+            +array_view key='time_tags' direct=true
+            +array_view key='people_tags' direct=true
+            each tags
+                +flat_family_tag_selector
+                // a.ui.label.select_family_tag #{this}
+            each family_time_tags
+                .ui.small.basic.label.set_time_tag #{this}
+            if in_dev
+                +print_this
+            // +doc_emotion
+            .ui.circular.basic.icon.button.vote_up
+                i.thumbs.up.icon
+            |#{points}
+            .ui.circular.basic.icon.button.vote_down
+                i.thumbs.down.icon
+            .ui.fluid.icon.input
+                i.plus.icon
+                input.tag_tweet(type='text' placeholder='tag')
+   
+template(name='family_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.compact.tertiary.small.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong #{name}
+        // if in_dev
+        //     small #{count}
+        
+template(name='family_unselect_tag')
+    a.unselect_family_tag.ui.black.compact.button(href='#')
+        if term
+            if term.watson.metadata.image
+                img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
+        strong #{this}
+
+        
+        
+template(name='flat_family_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.tertiary.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong #{this}
+        // if in_dev
+        //     small #{count}
+
+
                 

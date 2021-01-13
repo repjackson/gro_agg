@@ -8,9 +8,12 @@
 
 
 Router.route '/trump', (->
-    @layout 'layout'
-    @render 'trump'
-    ), name:'trump'
+    @redirect "/r/trumptweets"
+    )
+    # @layout 'layout'
+    # @render 'trump'
+    # ), name:'trump'
+    
 
 Template.trump.onCreated ->
     Session.setDefault('trump_skip_value', 0)
