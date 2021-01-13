@@ -1,2 +1,17 @@
 template(name='family')
-    .ui.header family
+    .ui.grid
+        .four.wide.column
+            .ui.header family
+        .twelve.wide.column
+            .ui.header photos
+            .ui.header posts
+            .ui.input
+                input(type='text' placeholder='add')
+            .ui.header polls
+            .ui.input
+                input(type='text' placeholder='add')
+            // +tribe_posts 
+            each tribe_posts
+                .ui.header #{title}
+                
+                
