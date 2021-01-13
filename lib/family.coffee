@@ -25,15 +25,22 @@ if Meteor.isClient
             selected_family_location_tags.array()
 
     Template.family.events
-        'keyup .add_fam_post': (e,t)->
-            if e.which is 13
-                val = $('.add_fam_post').val()
+        'click .add_fam_post': (e,t)->
+            # if e.which is 13
+                # val = $('.add_fam_post').val()
+            new_id = 
                 Docs.insert 
                     model:'post'
                     tribe:'jpfam'
-                    title:val
-                $('.add_fam_post').val('')
-                
+                    # title:val
+            Router.go "/post/#{new_id}/edit"        
+                    
+            # $('.add_fam_post').val('')
+        'keyup .search_family_tag': (e,t)->
+             if e.which is 13
+                val = t.$('.search_family_tag').val().trim()
+                selected_family_tags.push val   
+                t.$('.search_family_tag').val()
                 
     Template.family.helpers
         selected_family_tags: -> selected_family_tags.array()
@@ -46,9 +53,10 @@ if Meteor.isClient
         family_location_tags: -> results.find(model:'family_location_tag')
     
         tribe_posts: ->
-            Docs.find 
+            Docs.find({
                 model:'post'
                 tribe:'jpfam'
+            },{sort:_timestamp:-1})
     Template.family_tag_selector.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
     Template.family_tag_selector.helpers
@@ -183,7 +191,7 @@ if Meteor.isServer
         if sort_key
             sk = sort_key
         else
-            sk = 'date'
+            sk = '_timestamp'
         # if view_bounties
         #     match.bounty = true
         # if view_unanswered

@@ -62,7 +62,7 @@ template(name='post_edit')
         .ui.stackable.padded.grid
             .row
                 .eight.wide.column
-                    a.ui.green.big.circular.button(href="/m/post/#{_id}/view" title='save')
+                    a.ui.green.big.circular.button(href="/post/#{_id}/view" title='save')
                         i.checkmark.big.icon
                         |save
                     .ui.inline.header 
@@ -70,17 +70,17 @@ template(name='post_edit')
                         |edit post
                     i.large.link.circular.red.remove.icon.delete_post
                     +print_this
-                    .ui.header 
-                        small author
-                        |#{_author.username}
-                    if is_admin
-                        +single_user_edit key='_author_id' label='author' direct=true
+                    // .ui.header 
+                    //     small author
+                    //     |#{_author.username}
+                    // if is_admin
+                    //     +single_user_edit key='_author_id' label='author' direct=true
                     +image_edit key='image_id' label='image' direct=true
                     div 
-                    +text_edit key='tribe' icon='fire' direct=true
+                    // +text_edit key='tribe' icon='fire' direct=true
                     +boolean_edit key='published' icon='visible' direct=true
-                    if is_admin 
-                        +text_edit key='model' label='model' direct=true
+                    // if is_admin 
+                    //     +text_edit key='model' label='model' direct=true
                     // unless published
                     //     a.ui.fluid.green.button.submit(href="/save")
                     //         i.checkmark.icon
@@ -92,7 +92,7 @@ template(name='post_edit')
                     //     |audience
                 .eight.wide.column
                     +text_edit key='title' label='title' direct=true
-                    +html_edit key='content' label='content' direct=true
+                    // +tea_edit key='content' label='content' direct=true
                     +array_edit key='tags' label='tags' i='tags' direct=true
                     +array_edit key='location_tags' label='location tags' i='marker' direct=true
                     +array_edit key='people_tags' label='people tags' i='users' direct=true

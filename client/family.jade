@@ -1,19 +1,20 @@
 template(name='family')
     .ui.stackable.padded.grid
-        .six.wide.column
-            .ui.header family
+        .five.wide.column
+            // .ui.header my 
             // .ui.header posts
-            .ui.icon.button.add
+            .ui.icon.button.add_fam_post
                 i.plus.icon
-            .ui.input
-                input.add_fam_post(type='text' placeholder='add')
-            .ui.segment
-                a.ui.header(href="/r/news")
-                    i.globe.icon
-                    |world news
-                a.ui.header(href="/r/politics")
-                    i.newspaper.icon
-                    |politics
+            // .ui.input
+            //     input.add_fam_post(type='text' placeholder='add')
+            // .ui.segment
+            //     a.ui.header(href="/r/news")
+            //         i.globe.icon
+            //         |world news
+            //     div
+            //     a.ui.header(href="/r/politics")
+            //         i.newspaper.icon
+            //         |politics
             if selected_family_tags
                 // if many_tags
                 //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
@@ -22,7 +23,7 @@ template(name='family')
                     +family_unselect_tag
             .ui.icon.input
                 i.search.icon
-                input.search_family(type='text' value=family_query)
+                input.search_family_tag(type='text' value=family_query)
             each family_result_tags
                 // .ui.label #{this}
                 +family_tag_selector
@@ -45,10 +46,6 @@ template(name='family')
                 .ui.compact.basic.button.select_time_tag(class=domain_selector_class)
                     |#{name} 
                     small #{count}
-            // div
-            // .ui.inline.small.header 
-            //     i.hashtag.icon
-            //     |hashtags
             div
             .ui.inline.small.header 
                 i.users.icon
@@ -62,7 +59,7 @@ template(name='family')
                 .ui.compact.basic.button.select_domain(class=domain_selector_class)
                     |#{name} 
                     small #{count}
-        .ten.wide.column
+        .eleven.wide.column
             .ui.inline.header #{post_count}
             if skv_is 'family_sort_direction' 1
                 .ui.icon.compact.basic.tertiary.button.sort_down
