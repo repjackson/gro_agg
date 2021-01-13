@@ -35,39 +35,6 @@ Template.body.events
 # Meteor.startup ->
 #     if Meteor.isDevelopment
 #         window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
-Template.nav.events
-    # 'click .goto_stack': -> window.speechSynthesis.speak new SpeechSynthesisUtterance 'stack'
-    'click .goto_reddit': ->
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance 'reddit'
-    'click .goto_people': ->
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance 'people'
-    'click .goto_dao': ->
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
-    'click .goto_ea': ->
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance 'environment'
-    'click .clear_tags': -> 
-        selected_tags.clear()
-    'click .silence': ->
-        window.speechSynthesis.cancel()
-        $('body').toast(
-            showIcon: 'volume mute big'
-            message: 'muted'
-            # showProgress: 'bottom'
-            class: 'info'
-            displayTime: 'auto',
-            position: "bottom center"
-        )
-
-    'click .home2': -> 
-        Session.set('site_name_filter',null)
-        selected_tags.clear()
-        window.speechSynthesis.cancel()
-
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @innerHTML()
-
-   
-# Deps.autorun ()->
-#     document.title = Session.get('doc_title')
         
 Template.registerHelper 'is_positive', () ->
     console.log @doc_sentiment_score

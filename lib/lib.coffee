@@ -6,8 +6,9 @@
 
 if Meteor.isClient
     Router.route '/', (->
-        @redirect "/r/trumptweets"
-    )    
+        @layout 'layout'
+        @render 'family'
+    ), name:'root'
 if Meteor.isClient
     Router.route '/family', (->
         @layout 'layout'
