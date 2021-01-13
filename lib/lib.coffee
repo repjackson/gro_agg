@@ -6,9 +6,13 @@
 
 if Meteor.isClient
     Router.route '/', (->
+        @redirect "/r/trumptweets"
+    )    
+if Meteor.isClient
+    Router.route '/family', (->
         @layout 'layout'
-        @render 'trump'
-        ), name:'home'
+        @render 'family'
+    ), name:'family'
 # if Meteor.isClient
 #     # console.log $
 #     $.cloudinary.config
