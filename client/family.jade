@@ -2,12 +2,11 @@ template(name='family')
     .ui.stackable.padded.grid
         .four.wide.column
             .ui.header family
-            .ui.header posts
+            // .ui.header posts
+            .ui.icon.button.add
+                i.plus.icon
             .ui.input
                 input.add_fam_post(type='text' placeholder='add')
-            .ui.header polls
-            .ui.input
-                input(type='text' placeholder='add')
             .ui.segment
                 a.ui.header(href="/r/news")
                     i.globe.icon
@@ -15,8 +14,6 @@ template(name='family')
                 a.ui.header(href="/r/politics")
                     i.newspaper.icon
                     |politics
-        .twelve.wide.column
-            // .ui.header photos
             if selected_family_tags
                 // if many_tags
                 //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
@@ -30,51 +27,6 @@ template(name='family')
                 // .ui.label #{this}
                 +family_tag_selector
                 // .ui.large.label(title=count) #{name}
-            .ui.cards.scrolling
-                each tribe_posts
-                    +family_card
-    // unless current_subfamily
-    //     .ui.basic.center.aligned.segment
-    //         i.massive.yin.yang.loading.link.grey.icon.get_info.shadowed2
-    .ui.stackable.grid
-        .twelve.wide.column
-            .ui.inline.header #{post_count}
-            if skv_is 'family_sort_direction' 1
-                .ui.icon.compact.basic.tertiary.button.sort_down
-                    i.caret.down.icon
-            else
-                .ui.icon.compact.basic.tertiary.button.sort_up
-                    i.caret.up.icon
-            .ui.icon.button.sort_retweet(class=retweet_class)
-                i.large.refresh.icon
-            .ui.icon.button.sort_favorite(class=fav_class)
-                i.large.favorite.icon
-            .ui.icon.compact.large.basic.small.button.sort_date(class=date_class)
-                i.large.clock.icon
-            // .ui.compact.basic.small.tertiary.button.limit_1
-            //     |1
-            // .ui.compact.basic.small.tertiary.button.limit_10
-            //     |10
-            .ui.icon.circular.basic.button.skip_left
-                i.chevron.left.icon
-            .ui.icon.circular.basic.button.skip_right
-                i.chevron.right.icon
-            |#{skip_value}
-            .ui.small.input(title='skip number')
-                input.skip_number(type='number')
-            // img.ui.inline.image(src=data.header_img)
-            // .ui.inline.header.pull_latest #{data.title}
-            // +alpha
-            div
-            .scrolling
-                if family_docs
-                    .ui.four.stackable.cards 
-                        each family_docs
-                            +family_card
-                else
-                    .ui.basic.center.aligned.segment
-                        i.big.loading.yin.yang.icon
-        .four.wide.column
             .ui.inline.small.header 
                 i.users.icon
                 |people
@@ -82,6 +34,10 @@ template(name='family')
             .ui.inline.small.header 
                 i.marker.icon
                 |locations
+            each family_location_tags
+                .ui.compact.basic.button.select_location(class=domain_selector_class)
+                    |#{name} 
+                    small #{count}
             div
             .ui.inline.small.header 
                 i.hashtag.icon
@@ -99,31 +55,56 @@ template(name='family')
                 .ui.compact.basic.button.select_domain(class=domain_selector_class)
                     |#{name} 
                     small #{count}
-            div
-            .ui.inline.small.header 
+        .twelve.wide.column
+            .ui.inline.header #{post_count}
+            if skv_is 'family_sort_direction' 1
+                .ui.icon.compact.basic.tertiary.button.sort_down
+                    i.caret.down.icon
+            else
+                .ui.icon.compact.basic.tertiary.button.sort_up
+                    i.caret.up.icon
+            .ui.icon.button.sort_retweet(class=retweet_class)
+                i.refresh.icon
+            .ui.icon.button.sort_favorite(class=fav_class)
+                i.favorite.icon
+            .ui.icon.compact.basic.small.button.sort_date(class=date_class)
                 i.clock.icon
-                |time tags
-            each selected_family_time_tags
-                .ui.black.button.unselect_family_time_tag #{this}
-            each family_time_tags
-                .ui.compact.basic.button.select_family_time_tag(class=subfamily_selector_class)
-                    |#{name} 
-                    small #{count}
-            if in_dev
-                +print_this
+            // .ui.compact.basic.small.tertiary.button.limit_1
+            //     |1
+            // .ui.compact.basic.small.tertiary.button.limit_10
+            //     |10
+            .ui.icon.circular.basic.button.skip_left
+                i.chevron.left.icon
+            .ui.icon.circular.basic.button.skip_right
+                i.chevron.right.icon
+            |#{skip_value}
+            .ui.small.input(title='skip number')
+                input.skip_number(type='number')
+            // img.ui.inline.image(src=data.header_img)
+            // .ui.inline.header.pull_latest #{data.title}
+            // +alpha
+            // div
+            // .scrolling
+            //     if family_docs
+            //         .ui.four.stackable.cards 
+            //             each family_docs
+            //                 +family_card
+            //     else
+            //         .ui.basic.center.aligned.segment
+            //             i.big.loading.yin.yang.icon
+        
+            // .ui.header photos
+            .ui.three.stackable.cards.scrolling
+                each tribe_posts
+                    +family_card
 
    
 template(name='family_card')
     .ui.card
+        a(href="/post/#{_id}/view")
+            img.ui.image(src="{{c.url image_id }}" class=currentUser.invert_class)
         .content
-            .ui.card
-            a(href="/post/#{_id}/view") #{title}
-                img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-            .content
-                a.ui.header(href="/post/#{_id}/view") #{title}
-                if in_dev
-                    +print_this
-    
+            a.ui.header(href="/post/#{_id}/view") #{title}
             .ui.small.header(class=post_header_class) !{text}
             // +array_view key='tags' label='tags' direct=true
             +array_view key='location_tags' direct=true

@@ -14,7 +14,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'family_tags',
             selected_family_tags.array()
             selected_family_time_tags.array()
-            # selected_family_subfamilys.array()
+            # selected_family_location.array()
             # selected_family_authors.array()
             Session.get('toggle')
         @autorun => Meteor.subscribe 'family_count', 
@@ -33,10 +33,14 @@ if Meteor.isClient
                 
                 
     Template.family.helpers
-        selected_result_tags: -> selected_family_tags.array()
+        selected_family_tags: -> selected_family_tags.array()
+        selected_time_tags_tags: -> selected_family_time_tags.array()
+        selected_location_tags_tags: -> selected_family_location_tags.array()
+        selected_people_tags_tags: -> selected_people_tags.array()
     
         family_result_tags: -> results.find(model:'family_tag')
         family_time_tags: -> results.find(model:'family_time_tag')
+        family_location_tags: -> results.find(model:'family_location_tag')
     
         tribe_posts: ->
             Docs.find 
@@ -181,7 +185,7 @@ if Meteor.isServer
         if selected_family_tags.length > 0 then match.tags = $all:selected_family_tags
         if selected_family_time_tags.length > 0 then match.time_tags = $all:selected_family_time_tags
         # if selected_subfamily_domains.length > 0 then match.domain = $all:selected_subfamily_domains
-        # if selected_family_subfamilys.length > 0 then match.subfamily = $all:selected_family_subfamilys
+        # if selected_family_location.length > 0 then match.subfamily = $all:selected_family_location
         # if selected_family_authors.length > 0 then match.author = $all:selected_family_authors
         console.log 'skip', skip
         Docs.find match,
@@ -191,39 +195,39 @@ if Meteor.isServer
         
         
     Meteor.methods    
-        tagify_family: (doc_id)->
-            doc = Docs.findOne doc_id
-            # moment(doc.date).fromNow()
-            # timestamp = Date.now()
+        # tagify_family: (doc_id)->
+        #     doc = Docs.findOne doc_id
+        #     # moment(doc.date).fromNow()
+        #     # timestamp = Date.now()
     
-            doc._timestamp_long = moment(doc.date).format("dddd, MMMM Do YYYY, h:mm:ss a")
-            # doc._app = 'dao'
+        #     doc._timestamp_long = moment(doc._timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
+        #     # doc._app = 'dao'
         
-            date = moment(doc.date).format('Do')
-            weekdaynum = moment(doc.date).isoWeekday()
-            weekday = moment().isoWeekday(weekdaynum).format('dddd')
+        #     date = moment(doc.date).format('Do')
+        #     weekdaynum = moment(doc.date).isoWeekday()
+        #     weekday = moment().isoWeekday(weekdaynum).format('dddd')
         
-            hour = moment(doc.date).format('h')
-            minute = moment(doc.date).format('m')
-            ap = moment(doc.date).format('a')
-            month = moment(doc.date).format('MMMM')
-            year = moment(doc.date).format('YYYY')
+        #     hour = moment(doc.date).format('h')
+        #     minute = moment(doc.date).format('m')
+        #     ap = moment(doc.date).format('a')
+        #     month = moment(doc.date).format('MMMM')
+        #     year = moment(doc.date).format('YYYY')
         
-            # doc.points = 0
-            # date_array = [ap, "hour #{hour}", "min #{minute}", weekday, month, date, year]
-            date_array = [ap, weekday, month, date, year]
-            if _
-                date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
-                doc._timestamp_tags = date_array
-                # console.log 'family', date_array
-                Docs.update doc_id, 
-                    $set:time_tags:date_array
+        #     # doc.points = 0
+        #     # date_array = [ap, "hour #{hour}", "min #{minute}", weekday, month, date, year]
+        #     date_array = [ap, weekday, month, date, year]
+        #     if _
+        #         date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
+        #         doc._timestamp_tags = date_array
+        #         # console.log 'family', date_array
+        #         Docs.update doc_id, 
+        #             $set:addedtime_tags:date_array
         
                
     Meteor.publish 'family_tags', (
         selected_family_tags
         selected_family_time_tags
-        # selected_family_subfamilys
+        # selected_family_location
         # selected_family_authors
         # view_bounties
         # view_unanswered
@@ -243,7 +247,7 @@ if Meteor.isServer
         if selected_family_tags.length > 0 then match.tags = $all:selected_family_tags
         # if selected_subfamily_domain.length > 0 then match.domain = $all:selected_subfamily_domain
         if selected_family_time_tags.length > 0 then match.time_tags = $all:selected_family_time_tags
-        # if selected_family_subfamilys.length > 0 then match.subfamily = $all:selected_family_subfamilys
+        # if selected_family_location.length > 0 then match.subfamily = $all:selected_family_location
         # if selected_family_authors.length > 0 then match.author = $all:selected_family_authors
         # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
         doc_count = Docs.find(match).count()
@@ -285,22 +289,22 @@ if Meteor.isServer
         #         model:'family_domain_tag'
         
         
-        # family_subfamilys_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "data.subfamily": 1 }
-        #     # { $unwind: "$subfamily" }
-        #     { $group: _id: "$data.subfamily", count: $sum: 1 }
-        #     # { $match: _id: $nin: selected_subfamilys }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $match: count: $lt: doc_count }
-        #     { $limit:20 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ]
-        # family_subfamilys_cloud.forEach (subfamily, i) ->
-        #     self.added 'results', Random.id(),
-        #         name: subfamily.name
-        #         count: subfamily.count
-        #         model:'family_subfamily'
+        family_location_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "location_tags": 1 }
+            { $unwind: "$location_tags" }
+            { $group: _id: "$location_tags", count: $sum: 1 }
+            # { $match: _id: $nin: selected_location }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:20 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        family_location_cloud.forEach (location, i) ->
+            self.added 'results', Random.id(),
+                name: location.name
+                count: location.count
+                model:'family_location'
         
         
         
