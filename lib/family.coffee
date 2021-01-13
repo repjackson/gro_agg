@@ -25,6 +25,17 @@ if Meteor.isClient
             selected_family_location_tags.array()
 
     Template.family.events
+        'click .unselect_time_tag': ->
+            selected_family_time_tags.remove @valueOf()
+        'click .select_time_tag': ->
+            selected_family_time_tags.push @name
+            
+        'click .unselect_location_tag': ->
+            selected_family_location_tags.remove @valueOf()
+        'click .select_location_tag': ->
+            selected_family_location_tags.push @name
+            
+            
         'click .add_fam_post': (e,t)->
             # if e.which is 13
                 # val = $('.add_fam_post').val()
@@ -44,9 +55,9 @@ if Meteor.isClient
                 
     Template.family.helpers
         selected_family_tags: -> selected_family_tags.array()
-        selected_time_tags_tags: -> selected_family_time_tags.array()
-        selected_location_tags_tags: -> selected_family_location_tags.array()
-        selected_people_tags_tags: -> selected_people_tags.array()
+        selected_time_tags: -> selected_family_time_tags.array()
+        selected_location_tags: -> selected_family_location_tags.array()
+        selected_people_tags: -> selected_people_tags.array()
     
         family_result_tags: -> results.find(model:'family_tag')
         family_time_tags: -> results.find(model:'family_time_tag')
