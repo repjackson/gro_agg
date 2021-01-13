@@ -1,6 +1,6 @@
 template(name='family')
     .ui.stackable.padded.grid
-        .four.wide.column
+        .six.wide.column
             .ui.header family
             // .ui.header posts
             .ui.icon.button.add
@@ -35,13 +35,20 @@ template(name='family')
                 i.marker.icon
                 |locations
             each family_location_tags
-                .ui.compact.basic.button.select_location(class=domain_selector_class)
+                .ui.compact.basic.button.select_location_tag(class=domain_selector_class)
                     |#{name} 
                     small #{count}
-            div
             .ui.inline.small.header 
-                i.hashtag.icon
-                |hashtags
+                i.marker.icon
+                |time tags
+            each family_time_tags
+                .ui.compact.basic.button.select_time_tag(class=domain_selector_class)
+                    |#{name} 
+                    small #{count}
+            // div
+            // .ui.inline.small.header 
+            //     i.hashtag.icon
+            //     |hashtags
             div
             .ui.inline.small.header 
                 i.users.icon
@@ -55,7 +62,7 @@ template(name='family')
                 .ui.compact.basic.button.select_domain(class=domain_selector_class)
                     |#{name} 
                     small #{count}
-        .twelve.wide.column
+        .ten.wide.column
             .ui.inline.header #{post_count}
             if skv_is 'family_sort_direction' 1
                 .ui.icon.compact.basic.tertiary.button.sort_down

@@ -1,6 +1,7 @@
 if Meteor.isClient
     @selected_family_tags = new ReactiveArray []
     @selected_family_time_tags = new ReactiveArray []
+    @selected_family_location_tags = new ReactiveArray []
     
 
     Template.family.onCreated ->
@@ -8,18 +9,20 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'family_docs', 
             selected_family_tags.array()
             selected_family_time_tags.array()
+            selected_family_location_tags.array()
             Session.get('family_sort_key')
             Session.get('family_sort_direction')
             Session.get('family_skip_value')
         @autorun => Meteor.subscribe 'family_tags',
             selected_family_tags.array()
             selected_family_time_tags.array()
-            # selected_family_location.array()
+            selected_family_location_tags.array()
             # selected_family_authors.array()
             Session.get('toggle')
         @autorun => Meteor.subscribe 'family_count', 
             selected_family_tags.array()
             selected_family_time_tags.array()
+            selected_family_location_tags.array()
 
     Template.family.events
         'keyup .add_fam_post': (e,t)->
@@ -154,17 +157,20 @@ if Meteor.isServer
     Meteor.publish 'family_count', (
         selected_tags
         selected_family_time_tags
+        selected_family_location_tags
         )->
             
         match = {model:'family'}
         if selected_tags.length > 0 then match.tags = $all:selected_tags
         if selected_family_time_tags.length > 0 then match.time_tags = $all:selected_family_time_tags
+        if selected_family_location_tags.length > 0 then match.location_tags = $all:selected_family_location_tags
         Counts.publish this, 'family_counter', Docs.find(match)
         return undefined
                 
     Meteor.publish 'family_docs', (
         selected_family_tags
         selected_family_time_tags
+        selected_family_location_tags
         sort_key
         sort_direction
         skip=0
@@ -184,8 +190,8 @@ if Meteor.isServer
         #     match.is_answered = false
         if selected_family_tags.length > 0 then match.tags = $all:selected_family_tags
         if selected_family_time_tags.length > 0 then match.time_tags = $all:selected_family_time_tags
+        if selected_family_location_tags.length > 0 then match.location_tags = $all:selected_family_location_tags
         # if selected_subfamily_domains.length > 0 then match.domain = $all:selected_subfamily_domains
-        # if selected_family_location.length > 0 then match.subfamily = $all:selected_family_location
         # if selected_family_authors.length > 0 then match.author = $all:selected_family_authors
         console.log 'skip', skip
         Docs.find match,
@@ -227,7 +233,7 @@ if Meteor.isServer
     Meteor.publish 'family_tags', (
         selected_family_tags
         selected_family_time_tags
-        # selected_family_location
+        selected_family_location_tags
         # selected_family_authors
         # view_bounties
         # view_unanswered
@@ -247,6 +253,7 @@ if Meteor.isServer
         if selected_family_tags.length > 0 then match.tags = $all:selected_family_tags
         # if selected_subfamily_domain.length > 0 then match.domain = $all:selected_subfamily_domain
         if selected_family_time_tags.length > 0 then match.time_tags = $all:selected_family_time_tags
+        if selected_family_location_tags.length > 0 then match.location_tags = $all:selected_family_location_tags
         # if selected_family_location.length > 0 then match.subfamily = $all:selected_family_location
         # if selected_family_authors.length > 0 then match.author = $all:selected_family_authors
         # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
@@ -304,7 +311,7 @@ if Meteor.isServer
             self.added 'results', Random.id(),
                 name: location.name
                 count: location.count
-                model:'family_location'
+                model:'family_location_tag'
         
         
         
