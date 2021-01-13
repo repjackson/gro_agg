@@ -1,19 +1,30 @@
 template(name='family')
-    .ui.grid
+    .ui.stackable.padded.grid
         .four.wide.column
             .ui.header family
-        .twelve.wide.column
             .ui.header photos
             .ui.header posts
             .ui.input
-                input(type='text' placeholder='add')
+                input.add_fam_post(type='text' placeholder='add')
             .ui.header polls
             .ui.input
                 input(type='text' placeholder='add')
-            // +tribe_posts 
-            each tribe_posts
-                img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-
-                a.ui.header(href="/p/#{_id}") #{title}
+            each selected_result_tags
+                .ui.button #{this}
+            .ui.segment
+                a.ui.header(href="/r/news")
+                    i.globe.icon
+                    |world news
+        .twelve.wide.column
+            .ui.cards.scrolling
+                each tribe_posts
+                    .ui.card
+                        a(href="/post/#{_id}/view") #{title}
+                            img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                        .content
+                            a.ui.header(href="/post/#{_id}/view") #{title}
+                            each tags
+                                .ui.label #{this}
+                            +print_this
                 
                 
