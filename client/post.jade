@@ -44,18 +44,14 @@ template(name='post_view')
                     // +boolean_view key='published' direct=true
                     .ui.list
                         .item #{_views} views
-                        // |viewed by
-                        // +array_edit key='viewed_usernames' label='sign viewer log' direct=true
-                        // each viewed_usernames
-                        //     .ui.label #{this}
                     +array_edit key='tags' label='tags' direct=true
                     +array_edit key='location_tags' direct=true
                     +array_edit key='time_tags' direct=true
                     +array_edit key='people_tags' direct=true
                     //- +array_view key='location_tags' label='location_tags' direct=true
-                    +voting_full
-                    +comments
-                    +post_tips
+                    // +voting_full
+                    // +comments
+                    // +post_tips
 
 template(name='post_edit')
     with current_doc
@@ -92,8 +88,8 @@ template(name='post_edit')
                     // .ui.header
                     //     |audience
                 .six.wide.column
-                    // +text_edit key='title' label='title' direct=true
-                    // +tea_edit key='content' label='content' direct=true
+                    +text_edit key='title' label='title' direct=true
+                    +textarea_edit key='content' label='content' direct=true
                     +array_edit key='tags' label='tags' i='tags' direct=true
                     +array_edit key='location_tags' label='location tags' i='marker' direct=true
                     +array_edit key='people_tags' label='people tags' i='users' direct=true

@@ -214,9 +214,9 @@ if Meteor.isServer
         # if selected_family_authors.length > 0 then match.author = $all:selected_family_authors
         console.log 'skip', skip
         Docs.find match,
-            limit:20
+            limit:33
             sort: "#{sk}":-1
-            skip:skip*20
+            skip:skip*33
         
         
     Meteor.methods    
@@ -286,7 +286,7 @@ if Meteor.isServer
             { $match: _id: $nin: selected_family_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:20 }
+            { $limit:33 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         family_tag_cloud.forEach (tag, i) ->

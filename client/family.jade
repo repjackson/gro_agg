@@ -38,9 +38,10 @@ template(name='family')
             each family_location_tags
                 .ui.compact.basic.button.select_location_tag(class=domain_selector_class)
                     |#{name} 
-                    small #{count}
-            .ui.inline.small.header 
-                i.marker.icon
+                    // small #{count}
+            div
+            .ui.small.inline.header 
+                i.clock.icon
                 |time tags
             each selected_time_tags
                 .ui.button.unselect_time_tag
@@ -48,7 +49,7 @@ template(name='family')
             each family_time_tags
                 .ui.compact.basic.button.select_time_tag(class=domain_selector_class)
                     |#{name} 
-                    small #{count}
+                    // small #{count}
             // each selected_family_People
             //     .ui.button.unselect_family_People #{this}
             // each family_People_tags
