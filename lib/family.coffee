@@ -51,7 +51,7 @@ if Meteor.isClient
              if e.which is 13
                 val = t.$('.search_family_tag').val().trim()
                 selected_family_tags.push val   
-                t.$('.search_family_tag').val()
+                t.$('.search_family_tag').val('')
                 
     Template.family.helpers
         selected_family_tags: -> selected_family_tags.array()
