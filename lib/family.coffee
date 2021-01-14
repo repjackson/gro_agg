@@ -286,7 +286,7 @@ if Meteor.isServer
             { $match: _id: $nin: selected_family_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:33 }
+            { $limit:25 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         family_tag_cloud.forEach (tag, i) ->

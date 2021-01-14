@@ -108,9 +108,9 @@ template(name='family_card')
             a.ui.header(href="/post/#{_id}/view") #{title}
             .ui.small.header(class=post_header_class) !{text}
             // +array_view key='tags' label='tags' direct=true
-            +array_view key='location_tags' direct=true
-            +array_view key='time_tags' direct=true
-            +array_view key='people_tags' direct=true
+            // +array_view key='location_tags' direct=true
+            // +array_view key='time_tags' direct=true
+            // +array_view key='people_tags' direct=true
             each tags
                 +flat_family_tag_selector
                 // a.ui.label.select_family_tag #{this}
