@@ -29,12 +29,14 @@ if Meteor.isClient
             selected_family_time_tags.remove @valueOf()
         'click .select_time_tag': ->
             selected_family_time_tags.push @name
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             
         'click .unselect_location_tag': ->
             selected_family_location_tags.remove @valueOf()
         'click .select_location_tag': ->
             selected_family_location_tags.push @name
-            
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+
             
         'click .add_fam_post': (e,t)->
             # if e.which is 13
@@ -214,9 +216,9 @@ if Meteor.isServer
         # if selected_family_authors.length > 0 then match.author = $all:selected_family_authors
         console.log 'skip', skip
         Docs.find match,
-            limit:33
+            limit:20
             sort: "#{sk}":-1
-            skip:skip*33
+            skip:skip*20
         
         
     Meteor.methods    
