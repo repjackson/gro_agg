@@ -30,7 +30,7 @@ if Meteor.isServer
 
 Router.configure
     layoutTemplate: 'layout'
-    notFoundTemplate: 'trump'
+    notFoundTemplate: 'family'
     loadingTemplate: 'splash'
     trackPageView: false
 

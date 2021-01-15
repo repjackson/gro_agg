@@ -335,7 +335,7 @@ input
 
 .card {
     /* background: black !important; */
-    /*border-radius: 10px !important; */
+    border-radius: 10px !important; 
 }
 
 a.goto_article {
@@ -343,7 +343,7 @@ a.goto_article {
 }
 
 .ui.button:not(.circular) { 
-    /*border-radius: 7px !important; */
+    border-radius: 7px !important; 
     /*border-radius: 10px !important;*/
 }
 .ui.button {
@@ -685,19 +685,19 @@ input {
   margin:0px !important;
 }
 .button:active{
-  /*border-radius: 7px !important;  */
-  /* transition: all .15s !important; */
-  /*transform: translate(0, 1px) !important; */
+  border-radius: 7px !important;  
+   transition: all .15s !important; 
+  transform: translate(0, 1px) !important; 
   /*zoom:105% !important;*/
   /*-webkit-transform: translate(0, 1px) !important;*/
 } 
 
 
 .button,.card,.image,.item,.header,.label,p,img,.say,.pointer{
-    /*animation: fadein .15s !important;*/
-    /*-webkit-transition: opacity ..35s ease-in !important;*/
-    /* -webkit-transition: opacity ..35s ease-out; */
-    /*animation: fadeout ..35s; */
+    animation: fadein .15s !important;
+    -webkit-transition: opacity .35s ease-in !important;
+    -webkit-transition: opacity .35s ease-out; 
+    animation: fadeout .35s; 
 }
 
 
@@ -730,8 +730,8 @@ input {
   /*font-family: 'Montserrat', sans-serif !important; */
   /*font-family: 'Roboto', sans-serif !important; */
   /*font-family: 'Ubuntu+Mono', sans-serif !important; */
-  font-family: 'Lato', sans-serif !important; 
-  /*font-family: 'Ubuntu', sans-serif !important;*/
+  /*font-family: 'Lato', sans-serif !important; */
+  font-family: 'Ubuntu', sans-serif !important;
 }
 
 @keyframes fadein {

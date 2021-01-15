@@ -95,22 +95,23 @@ template(name='family')
             //             i.big.loading.yin.yang.icon
         
             // .ui.header photos
-            .ui.four.stackable.cards.scrolling
+            .ui.stackable.four.column.grid.scrolling
                 each tribe_posts
                     +family_card
 
    
 template(name='family_card')
-    .ui.card
+    .ui.column
         a(href="/post/#{_id}/view")
-            img.ui.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+            img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
         .content
-            a.ui.header(href="/post/#{_id}/view") #{title}
-            .ui.small.header(class=post_header_class) !{text}
+            a.ui.small.header(href="/post/#{_id}/view") #{title}
+            // .f12(class=post_header_class) !{text}??
             // +array_view key='tags' label='tags' direct=true
             // +array_view key='location_tags' direct=true
             // +array_view key='time_tags' direct=true
             // +array_view key='people_tags' direct=true
+            |#{content}            
             each tags
                 +flat_family_tag_selector
                 // a.ui.label.select_family_tag #{this}
@@ -153,7 +154,7 @@ template(name='flat_family_tag_selector')
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
-        strong #{this}
+        | #{this}
         // if in_dev
         //     small #{count}
 
