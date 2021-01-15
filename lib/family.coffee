@@ -49,7 +49,7 @@ if Meteor.isClient
             # $('.add_fam_post').val('')
         'keyup .search_family_tag': (e,t)->
              if e.which is 13
-                val = t.$('.search_family_tag').val().trim()
+                val = t.$('.search_family_tag').val().trim().toLowerCase()
                 selected_family_tags.push val   
                 t.$('.search_family_tag').val('')
                 
@@ -323,7 +323,7 @@ if Meteor.isServer
             # { $match: _id: $nin: selected_location }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:20 }
+            { $limit:25 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         family_location_cloud.forEach (location, i) ->
@@ -342,7 +342,7 @@ if Meteor.isServer
             { $match: _id: $nin: selected_family_time_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:20 }
+            { $limit:25 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         family_time_cloud.forEach (time_tag, i) ->

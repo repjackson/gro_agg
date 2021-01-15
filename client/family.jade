@@ -3,7 +3,7 @@ template(name='family')
         .four.wide.column
             // .ui.header my 
             // .ui.header posts
-            .ui.icon.button.add_fam_post
+            .ui.icon.circular.basic.button.add_fam_post
                 i.plus.icon
             // .ui.input
             //     input.add_fam_post(type='text' placeholder='add')
@@ -36,7 +36,7 @@ template(name='family')
                 .ui.button.unselect_location_tag
                     |#{this}
             each family_location_tags
-                .ui.compact.basic.button.select_location_tag(class=domain_selector_class)
+                .ui.compact.basic.tertiary.button.select_location_tag(class=domain_selector_class)
                     |#{name} 
                     // small #{count}
             div
@@ -47,7 +47,7 @@ template(name='family')
                 .ui.button.unselect_time_tag
                     |#{this}
             each family_time_tags
-                .ui.compact.basic.button.select_time_tag(class=domain_selector_class)
+                .ui.compact.basic.tertiary.button.select_time_tag(class=domain_selector_class)
                     |#{name} 
                     // small #{count}
             // .ui.inline.header #{post_count}

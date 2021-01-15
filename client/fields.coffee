@@ -251,19 +251,11 @@ Template.image_edit.events
 Template.array_edit.events
     'keyup .new_element': (e,t)->
         if e.which is 13
-            element_val = t.$('.new_element').val().trim()
-            if @direct
-                parent = Template.parentData()
-            else
-                parent = Template.parentData(5)
+            element_val = t.$('.new_element').val().trim().toLowerCase()
+            parent = Template.parentData()
             doc = Docs.findOne parent._id
-            user = Meteor.users.findOne parent._id
-            if doc
-                Docs.update parent._id,
-                    $addToSet:"#{@key}":element_val
-            else if user
-                Meteor.users.update parent._id,
-                    $addToSet:"#{@key}":element_val
+            Docs.update doc._id,
+                $addToSet:"#{@key}":element_val
             t.$('.new_element').val('')
 
     'click .remove_element': (e,t)->
