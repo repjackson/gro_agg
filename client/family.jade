@@ -31,9 +31,9 @@ template(name='family')
             div
             .ui.inline.small.header 
                 i.marker.icon
-                |locations
+                |where
             each selected_location_tags
-                .ui.button.unselect_location_tag
+                .ui.circular.large.black.button.unselect_location_tag
                     |#{this}
             each family_location_tags
                 .ui.compact.basic.tertiary.button.select_location_tag(class=domain_selector_class)
@@ -42,9 +42,9 @@ template(name='family')
             div
             .ui.small.inline.header 
                 i.clock.icon
-                |time tags
+                |when
             each selected_time_tags
-                .ui.button.unselect_time_tag
+                .ui.circular.large.black.button.unselect_time_tag
                     |#{this}
             each family_time_tags
                 .ui.compact.basic.tertiary.button.select_time_tag(class=domain_selector_class)
@@ -111,7 +111,7 @@ template(name='family_card')
             // +array_view key='location_tags' direct=true
             // +array_view key='time_tags' direct=true
             // +array_view key='people_tags' direct=true
-            |#{content}            
+            |!{content}            
             each tags
                 +flat_family_tag_selector
                 // a.ui.label.select_family_tag #{this}
@@ -140,7 +140,7 @@ template(name='family_tag_selector')
         //     small #{count}
         
 template(name='family_unselect_tag')
-    a.unselect_family_tag.ui.black.compact.button(href='#')
+    a.unselect_family_tag.ui.black.large.compact.button(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    

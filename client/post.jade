@@ -59,63 +59,22 @@ template(name='post_edit')
         .ui.stackable.padded.grid
             .row
                 .ten.wide.column
-                    a.ui.green.big.button(href="/post/#{_id}/view" title='save')
+                    a.ui.big.button(href="/post/#{_id}/view" title='save')
                         i.checkmark.big.icon
                         |save
                     .ui.inline.header
                         i.pencil.icon
-                        // +icolor name='news' cl='ui image inline pointer'
                         |edit post
-                    i.large.link.red.remove.icon.delete_post
+                    i.large.link.remove.icon.delete_post
                     +print_this
-                    // .ui.header 
-                    //     small author
-                    //     |#{_author.username}
-                    // if is_admin
-                    //     +single_user_edit key='_author_id' label='author' direct=true
                     +image_edit key='image_id' label='image' direct=true
                     div 
-                    // +text_edit key='tribe' icon='fire' direct=true
-                    // +boolean_edit key='published' icon='visible' direct=true
-                    // if is_admin 
-                    //     +text_edit key='model' label='model' direct=true
-                    // unless published
-                    //     a.ui.fluid.green.button.submit(href="/save")
-                    //         i.checkmark.icon
-                    //         |publish
-                    // else
-                    //     .ui.basic.button.unpublish 
-                    //         |unpublish
-                    // .ui.header
-                    //     |audience
                 .six.wide.column
                     +text_edit key='title' label='title' direct=true
                     +html_edit key='content' label='content' direct=true
                     +array_edit key='tags' label='tags' i='tags' direct=true
+                    each tags
+                        +flat_family_tag_selector
                     +array_edit key='location_tags' label='location tags' i='marker' direct=true
-                    +array_edit key='people_tags' label='people tags' i='users' direct=true
                     +array_edit key='time_tags' label='time tags' i='clock' direct=true
-
-template(name='user_item')
-
-template(name='post_tips')
-    .ui.dividing.header 
-        i.coins.icon
-        // |#{tip_count} tips totaling #{tip_total}p
-        |#{tip_count} tips
-    // |tips cost 11p, give the author 10p
-    .ui.green.fluid.button.tip
-        i.donate.icon
-        |tip
-    .ui.link.selection.list
-        // .ui.styled.fluid.accordion 
-        each tippers
-            .title
-                img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
-                // |#{username} #{total_tip_amount}
-                |#{total_tip_amount}
-                i.dropdown.icon
-            .content
-                .ui.list
-                    each tipper_tips
-                        .item 10 #{when} 
+                    +array_edit key='people_tags' label='people tags' i='users' direct=true
