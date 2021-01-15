@@ -334,9 +334,9 @@ template(name='image_edit')
                     img.ui.large.centered.rounded.image(src="{{c.url field_value height=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                 a#remove_photo.ui.right.corner.link.label
                     i.remove.link.icon
-                .ui.button.call_cloud_visual
-                    i.dna.icon
-                    |autotag
+                // .ui.button.call_cloud_visual
+                //     i.dna.icon
+                //     |autotag
             else
                 input(type='file' name='upload_image' accept='image/*' )
             
