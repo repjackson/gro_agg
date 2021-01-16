@@ -103,15 +103,15 @@ template(name='family')
 template(name='family_card')
     .ui.column
         a(href="/p/#{_id}")
-            img.ui.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+            img.ui.image.say_title(src="{{c.url image_id }}" class=currentUser.invert_class)
         .content
-            a.ui.small.header(href="/p/#{_id}") #{title}
+            a.ui.small.header.say_title(href="/p/#{_id}") #{title}
             // .f12(class=post_header_class) !{text}??
             // +array_view key='tags' label='tags' direct=true
             // +array_view key='location_tags' direct=true
             // +array_view key='time_tags' direct=true
             // +array_view key='people_tags' direct=true
-            a(href="/p/#{_id}") #{title}
+            a(href="/p/#{_id}")
                 |!{content}            
             each tags
                 +flat_family_tag_selector
@@ -167,9 +167,9 @@ template(name='post_view')
                 .thirteen.wide.column.scrolling
                     a(href="/")
                         img.ui.fluid.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                .three.wide.column
                     .ui.basic.segment
                         |!{content}
-                .three.wide.column
                     a.ui.circular.icon.large.basic.button(href="/")
                         i.chevron.left.icon
                         i.big.yin.yang.icon
@@ -194,7 +194,8 @@ template(name='post_edit')
                         |edit post
                     i.large.link.remove.icon.delete_post
                     +print_this
-                    +image_edit key='image_id' label='image' direct=true
+                    div.scrolling
+                        +image_edit key='image_id' label='image' direct=true
                     div 
                 .six.wide.column
                     +text_edit key='title' label='title' direct=true

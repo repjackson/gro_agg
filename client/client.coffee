@@ -11,11 +11,9 @@ Template.body.events
     'click .set_main': -> Session.set('view_section','main')
     # 'click a': ->
         
-    # 'click .say_title': ->
-    #     window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         
-    # 'click .say_body': ->
-    #     window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
+    'click .say_body': ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
     # 'click .say': ->
     #     window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText

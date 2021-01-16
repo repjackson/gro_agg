@@ -24,6 +24,13 @@ if Meteor.isClient
             selected_family_time_tags.array()
             selected_family_location_tags.array()
 
+    Template.family_card.events
+        'click .say_title': ->
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @title
+        'click .select_time_tag': ->
+            selected_family_time_tags.push @name
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+
     Template.family.events
         'click .unselect_time_tag': ->
             selected_family_time_tags.remove @valueOf()
@@ -52,6 +59,9 @@ if Meteor.isClient
         'keyup .search_family_tag': (e,t)->
              if e.which is 13
                 val = t.$('.search_family_tag').val().trim().toLowerCase()
+                
+                window.speechSynthesis.speak new SpeechSynthesisUtterance val
+
                 selected_family_tags.push val   
                 t.$('.search_family_tag').val('')
                 
@@ -96,7 +106,7 @@ if Meteor.isClient
             # results.update
             # console.log @
             # window.speechSynthesis.cancel()
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             # if @model is 'family_emotion'
             #     selected_emotions.push @name
             # else
@@ -159,15 +169,9 @@ if Meteor.isClient
         'click .select_flat_tag': -> 
             # results.update
             # window.speechSynthesis.cancel()
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
             selected_family_tags.push @valueOf()
             $('.search_family').val('')
-            # Session.set('family_loading',true)
-            # Meteor.call 'search_subfamily', Router.current().params.subfamily, @valueOf(), ->
-            #     Session.set('loading',false)
-            # Meteor.setTimeout( ->
-            #     Session.set('toggle',!Session.get('toggle'))
-            # , 3000)
 
 if Meteor.isServer 
     # Meteor.publish 'fam_posts', ->
