@@ -46,7 +46,7 @@ if Meteor.isClient
                     model:'post'
                     tribe:'jpfam'
                     # title:val
-            Router.go "/post/#{new_id}/edit"        
+            Router.go "/p/#{new_id}/edit"        
                     
             # $('.add_fam_post').val('')
         'keyup .search_family_tag': (e,t)->
