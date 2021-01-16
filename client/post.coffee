@@ -1,21 +1,16 @@
 if Meteor.isClient
-    Template.registerHelper 'claimer', () ->
-        Meteor.users.findOne @claimed_user_id
-    Template.registerHelper 'completer', () ->
-        Meteor.users.findOne @completed_by_user_id
-    
-    Router.route '/post/:doc_id/edit', (->
+    Router.route '/p/:doc_id/edit', (->
         @layout 'layout'
         @render 'post_edit'
         ), name:'post_edit'
+    Router.route '/p/:doc_id', (->
+        @layout 'layout'
+        @render 'post_view'
+        ), name:'post_view_small'
     Router.route '/post/:doc_id/view', (->
         @layout 'layout'
         @render 'post_view'
         ), name:'post_view'
-    Router.route '/posts/', (->
-        @layout 'layout'
-        @render 'posts'
-        ), name:'posts'
 
     Template.post_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
@@ -28,18 +23,6 @@ if Meteor.isClient
     #     @layout 'layout'
     #     @render 'posts'
     #     ), name:'posts'
-
-    Template.post_card.onCreated ->
-        @autorun => Meteor.subscribe 'doc_comments', @data._id
-
-
-    Template.post_card.events
-        'click .view_post': ->
-            Router.go "/m/post/#{@_id}/view"
-    Template.post_item.events
-        'click .view_post': ->
-            Router.go "/m/post/#{@_id}/view"
-
 
     Template.post_edit.events
         'click .delete_post': ->

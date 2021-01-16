@@ -779,9 +779,16 @@ template(name='array_edit')
         //- +clear_value                
     if field_value
         each field_value
-            .ui.large.basic.circular.label
-                i.delete.icon.remove_element
-                |#{this}
+            if in_dev
+                .ui.large.basic.circular.label
+                    i.delete.icon.remove_element
+                    |#{this}
+                .ui.compact.basic.circular.button.pick_tag
+                    |#{this}
+            else
+                .ui.compact.basic.circular.button.pick_tag
+                    |#{this}
+            
                 
 template(name='array_view')
     if field_value

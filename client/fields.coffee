@@ -249,6 +249,10 @@ Template.image_edit.events
 
 
 Template.array_edit.events
+    'click .pick_tag': (e,t)->
+        console.log @
+        selected_family_tags.push @valueOf()
+        Router.go "/"
     'keyup .new_element': (e,t)->
         if e.which is 13
             element_val = t.$('.new_element').val().trim().toLowerCase()
