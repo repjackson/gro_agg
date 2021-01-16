@@ -27,6 +27,15 @@ if Meteor.isClient
     Template.family_card.events
         'click .say_title': ->
             window.speechSynthesis.speak new SpeechSynthesisUtterance @title
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @tags
+        'click .select_time_tag': ->
+            selected_family_time_tags.push @name
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+    Template.post_view.events
+        'click .say_title': ->
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @title
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @content
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @tags
         'click .select_time_tag': ->
             selected_family_time_tags.push @name
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name

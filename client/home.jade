@@ -168,12 +168,12 @@ template(name='post_view')
                     a(href="/")
                         img.ui.fluid.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                 .three.wide.column
-                    .ui.basic.segment
+                    .ui.basic.segment.say_content
                         |!{content}
                     a.ui.circular.icon.large.basic.button(href="/")
                         i.chevron.left.icon
                         i.big.yin.yang.icon
-                    .ui.inline.header #{title}
+                    .ui.inline.header.say_title #{title}
                     .ui.list
                         .item #{_views} views
                     +array_edit key='tags' label='tags' direct=true
