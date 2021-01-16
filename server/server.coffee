@@ -5,6 +5,50 @@ Docs.allow
     remove: (userId, doc) -> true
 
 
+# Meteor.publish 'model_count', (
+#     model
+#     )->
+#     match = {model:model}
+    
+#     Counts.publish this, 'model_counter', Docs.find(match)
+#     return undefined
+
+Meteor.publish 'wikis', (
+    w_query
+    selected_tags
+    )->
+    Docs.find({
+        model:'wikipedia'
+    },{ 
+        limit:10
+    })
+    
+    
+
+Meteor.publish 'current_doc', (doc_id)->
+    console.log 'pulling doc'
+    Docs.find doc_id
+
+
+
+
+Meteor.publish 'doc', (doc_id)->
+    found_doc = Docs.findOne doc_id
+    if found_doc
+        Docs.find doc_id
+    else
+        Meteor.users.find doc_id
+
+Meteor.publish 'model_docs', (model)->
+    # console.log 'pulling doc'
+    match = {model:model}
+    # if Meteor.user()
+    #     unless Meteor.user().roles and 'admin' in Meteor.user().roles
+    #         match.app = 'stand'
+    # else
+        # match.app = 'stand'
+    Docs.find match
+
 
 Meteor.publish 'doc_by_title', (title)->
     Docs.find

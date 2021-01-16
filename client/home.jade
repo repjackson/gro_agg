@@ -164,22 +164,23 @@ template(name='post_view')
     with current_doc
         .ui.stackable.grid
             .row 
-                .thirteen.wide.column.scrolling
-                    a(href="/")
-                        img.ui.fluid.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                 .three.wide.column
                     .ui.basic.segment.say_content
+                        a.ui.circular.icon.large.basic.button(href="/")
+                            i.chevron.left.icon
+                            i.big.yin.yang.icon
+                        .ui.inline.header.say_title #{title}
+                        .ui.list
+                            .item #{_views} views
+                        +array_edit key='tags' label='tags' direct=true
+                        +array_edit key='location_tags' label='where' direct=true
+                        +array_edit key='time_tags' label='when' direct=true
+                        +array_edit key='people_tags' label='who' direct=true
+                .thirteen.wide.column.scrolling
+                    .ui.basic.segment.say_content
                         |!{content}
-                    a.ui.circular.icon.large.basic.button(href="/")
-                        i.chevron.left.icon
-                        i.big.yin.yang.icon
-                    .ui.inline.header.say_title #{title}
-                    .ui.list
-                        .item #{_views} views
-                    +array_edit key='tags' label='tags' direct=true
-                    +array_edit key='location_tags' direct=true
-                    +array_edit key='time_tags' direct=true
-                    +array_edit key='people_tags' direct=true
+                    a(href="/")
+                        img.ui.fluid.image(src="{{c.url image_id }}" class=currentUser.invert_class)
 
 template(name='post_edit')
     with current_doc
