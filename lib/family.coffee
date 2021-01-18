@@ -83,7 +83,7 @@ if Meteor.isClient
         family_result_tags: -> results.find(model:'family_tag')
         family_time_tags: -> results.find(model:'family_time_tag')
         family_location_tags: -> results.find(model:'family_location_tag')
-    
+        counter: -> Counts.get 'family_counter'
         tribe_posts: ->
             Docs.find({
                 model:'post'
@@ -194,7 +194,7 @@ if Meteor.isServer
         selected_family_location_tags
         )->
             
-        match = {model:'family'}
+        match = {model:'post', tribe:'jpfam'}
         if selected_tags.length > 0 then match.tags = $all:selected_tags
         if selected_family_time_tags.length > 0 then match.time_tags = $all:selected_family_time_tags
         if selected_family_location_tags.length > 0 then match.location_tags = $all:selected_family_location_tags

@@ -1,20 +1,11 @@
 template(name='family')
     .ui.stackable.grid
         .four.wide.column
-            // .ui.header my 
-            // .ui.header posts
             .ui.icon.circular.basic.button.add_fam_post
                 i.plus.icon
+            .ui.inline.header #{counter}
             // .ui.input
             //     input.add_fam_post(type='text' placeholder='add')
-            // .ui.segment
-            //     a.ui.header(href="/r/news")
-            //         i.globe.icon
-            //         |world news
-            //     div
-            //     a.ui.header(href="/r/politics")
-            //         i.newspaper.icon
-            //         |politics
             if selected_family_tags
                 // if many_tags
                 //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
