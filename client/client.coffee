@@ -98,22 +98,10 @@ Template.registerHelper 'user_id_in', (key)->
         false
 
     
-Template.registerHelper 'stackuser_doc', (input) ->
-    Docs.findOne 
-        model:'stackuser'
-        site:Router.current().params.site
-        user_id:parseInt(Router.current().params.user_id)
 
 Template.registerHelper 'trunc', (input) ->
     input[0..350]
         
-Template.registerHelper 'post_header_class', (metric) ->
-    if @max_emotion_name
-        if @max_emotion_name is 'joy' then 'ui green text'
-        else if @max_emotion_name is 'anger' then 'red'
-        else if @max_emotion_name is 'sadness' then 'blue'
-        else if @max_emotion_name is 'disgust' then 'orange'
-    
 Template.registerHelper 'calculated_size', (metric) ->
     # whole = parseInt(@["#{metric}"]*10)
     whole = parseInt(metric*10)
@@ -135,21 +123,6 @@ Template.registerHelper 'connection', () -> Meteor.status()
 Template.registerHelper 'connected', () -> Meteor.status().connected
     
     
-Template.registerHelper 'tone_size', () ->
-    if @weight
-        if @weight is -5 then 'f6'
-        else if @weight is -4 then 'f7'
-        else if @weight is -3 then 'f8'
-        else if @weight is -2 then 'f9'
-        else if @weight is -1 then 'f10'
-        else if @weight is 0 then 'f12'
-        else if @weight is 1 then 'f12'
-        else if @weight is 2 then 'f13'
-        else if @weight is 3 then 'f14'
-        else if @weight is 4 then 'f15'
-        else if @weight is 5 then 'f16'
-    else
-        'f11'
   
 Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
@@ -183,16 +156,6 @@ Template.registerHelper 'embed', ()->
         #         parsed_selftext_html:dom.value
 
 
-
-Template.registerHelper 'is_image', ()->
-    if @data.domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','giphy.com']
-        true
-    else 
-        false
-Template.registerHelper 'is_youtube', ()->
-    @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
-Template.registerHelper 'is_twitter', ()->
-    @data.domain in ['twitter.com','mobile.twitter.com','vimeo.com']
 
 
 Template.registerHelper 'lowered', (input)-> input.toLowerCase()
@@ -229,49 +192,6 @@ Template.registerHelper 'current_subreddit', ()->
     if found
         found
     
-Template.registerHelper 'current_tribe', ()->
-    found = Docs.findOne 
-        model:'tribe'
-        name:Router.current().params.name
-    if found
-        found
     
 Template.registerHelper 'current_doc', ()->
     Docs.findOne Router.current().params.doc_id
-Template.registerHelper 'current_q', ()->
-    Docs.findOne 
-        question_id:parseInt(Router.current().params.qid)
-        model:'stack_question'
-        site:Router.current().params.site
-
-
-
-
-# Template.registerHelper 'session_is', (key)-> Session.get(key)
-
-# Template.registerHelper 'long_time', (input)-> moment(input).format("h:mm a")
-# # Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM Do h:mm a")
-# # Template.registerHelper 'home_long_date', (input)-> moment(input).format("dd MMM D h:mma")
-# Template.registerHelper 'short_date', (input)-> moment(input).format("dddd, MMMM Do")
-# Template.registerHelper 'med_date', (input)-> moment(input).format("MMM D 'YY")
-# # Template.registerHelper 'medium_date', (input)-> moment(input).format("MMMM Do YYYY")
-# Template.registerHelper 'medium_date', (input)-> moment(input).format("dddd, MMMM Do")
-# Template.registerHelper 'today', -> moment(Date.now()).format("dddd, MMMM Do a")
-# Template.registerHelper 'int', (input)-> input.toFixed(0)
-# Template.registerHelper '_when', ()-> moment(@_timestamp).fromNow()
-# Template.registerHelper '_when_long', ()-> moment(@_timestamp).format("dddd, MMMM Do h:mm a")
-
-# Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
-
-# Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
-
-# Template.registerHelper 'current_month', ()-> moment(Date.now()).format("MMMM")
-# Template.registerHelper 'current_day', ()-> moment(Date.now()).format("DD")
-
-
-# Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
-
-# Template.registerHelper 'thinking_class', ()->
-#     if Session.get('thinking') then 'disabled' else ''
-
-# Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment

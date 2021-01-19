@@ -156,7 +156,7 @@ if Meteor.isClient
         
     
     Template.flat_family_tag_selector.onCreated ->
-        @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
+        # @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
     Template.flat_family_tag_selector.helpers
         selector_class: ()->
             term = 
