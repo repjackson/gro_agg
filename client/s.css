@@ -333,7 +333,7 @@ input
 
 
 .rounded {
-  /*border-radius: 7px !important; */
+  border-radius: 7px !important; 
   /*padding: 10px !important; */
 }
 
@@ -403,16 +403,16 @@ a.goto_article {
 
 }
 a:active {
-  transform: scale(.95) !important;
+  transform: scale(97) !important;
 }
 a.segment:active {
-  transform: scale(.95) !important;
+  transform: scale(97) !important;
 }
 img:active {
-  transform: scale(.95) !important;
+  transform: scale(97) !important;
 }
 .ui.image:active {
-  transform: scale(.95) !important;
+  transform: scale(97) !important;
 }
 .zoomer:hover {
     transition: all .15s ease !important; 

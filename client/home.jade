@@ -20,9 +20,8 @@ template(name='family')
                 +family_tag_selector
                 // .ui.large.label(title=count) #{name}
             div
-            .ui.inline.small.header 
-                i.marker.icon
-                |where
+            i.marker.big.grey.icon
+                // |where
             each selected_location_tags
                 .ui.circular.large.black.button.unselect_location_tag
                     |#{this}
@@ -31,9 +30,8 @@ template(name='family')
                     |#{name} 
                     // small #{count}
             div
-            .ui.small.inline.header 
-                i.clock.icon
-                |when
+            i.clock.big.grey.icon
+                // |when
             each selected_time_tags
                 .ui.circular.large.black.button.unselect_time_tag
                     |#{this}
@@ -94,7 +92,7 @@ template(name='family')
 template(name='family_card')
     .ui.column
         a(href="/p/#{_id}")
-            img.ui.image.say_title(src="{{c.url image_id }}" class=currentUser.invert_class)
+            img.ui.rounded.image.say_title(src="{{c.url image_id }}" class=currentUser.invert_class)
         .content
             a.ui.small.header.say_title(href="/p/#{_id}") #{title}
             // .f12(class=post_header_class) !{text}??
@@ -155,6 +153,8 @@ template(name='post_view')
                         +array_edit key='tags' label='tags' direct=true
                         +array_edit key='location_tags' label='where' direct=true
                         +array_edit key='time_tags' label='when' direct=true
+                        +youtube_view key='youtube_id' label='youtube id' direct=true
+
                         +array_edit key='people_tags' label='who' direct=true
                 .thirteen.wide.column.scrolling
                     .ui.basic.segment.say_content
@@ -174,9 +174,9 @@ template(name='post_edit')
                         i.pencil.icon
                         |edit post
                     i.large.link.remove.icon.delete_post
-                    +print_this
                     div.scrolling
                         +image_edit key='image_id' label='image' direct=true
+                        +youtube_edit key='youtube_id' label='youtube id' direct=true
                     div 
                 .six.wide.column
                     +text_edit key='title' label='title' direct=true

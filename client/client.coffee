@@ -77,11 +77,6 @@ Template.registerHelper 'ruser_doc', ()->
 #         skip:session_ruser_post_skip
 #     )
 
-Template.registerHelper 'rcomments', ()->
-    Docs.find
-        model:'rcomment'
-        # user_id:parseInt(Router.current().params.username)
-        # subreddit:Router.current().params.subreddit
 
 Template.registerHelper 'editing_mode', ()->
     # Meteor.user().edit_mode and 
