@@ -15,10 +15,9 @@ Meteor.methods
         console.log 'removing doc', doc_id
         Docs.update doc_id, 
             $inc:_views:1
-        if Meteor.userId()
-            Docs.update doc_id, 
-                $addToSet:
-                    _viewer_usernames:Meteor.user().username
+        Docs.update doc_id, 
+            $addToSet:
+                _viewer_usernames:Meteor.user().username
             
     remove_doc: (doc_id)->
         console.log 'removing doc', doc_id

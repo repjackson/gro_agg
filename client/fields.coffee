@@ -17,12 +17,8 @@ Template.youtube_edit.events
             parent = Template.parentData(5)
         val = t.$('.youtube_id').val()
         doc = Docs.findOne parent._id
-        user = Meteor.users.findOne parent._id
         if doc
             Docs.update parent._id,
-                $set:"#{@key}":val
-        else if user
-            Meteor.users.update parent._id,
                 $set:"#{@key}":val
 
 
@@ -171,12 +167,8 @@ Template.icon_edit.events
         else
             parent = Template.parentData(5)
         doc = Docs.findOne parent._id
-        user = Meteor.users.findOne parent._id
         if doc
             Docs.update parent._id,
-                $set:"#{@key}":val
-        else if user
-            Meteor.users.update parent._id,
                 $set:"#{@key}":val
 
 
@@ -195,12 +187,8 @@ Template.image_edit.events
                     console.error 'Error uploading', err
                 else
                     doc = Docs.findOne parent._id
-                    user = Meteor.users.findOne parent._id
                     if doc
                         Docs.update parent._id,
-                            $set:"#{@key}":res.public_id
-                    else if user
-                        Meteor.users.update parent._id,
                             $set:"#{@key}":res.public_id
 
     'click .call_cloud_visual': (e,t)->
@@ -235,12 +223,8 @@ Template.image_edit.events
             # Docs.update parent._id,
             #     $unset:"#{@key}":1
             doc = Docs.findOne parent._id
-            user = Meteor.users.findOne parent._id
             if doc
                 Docs.update parent._id,
-                    $unset:"#{@key}":1
-            else if user
-                Meteor.users.update parent._id,
                     $unset:"#{@key}":1
 
 
@@ -274,9 +258,6 @@ Template.array_edit.events
         user = Meteor.users.findOne parent._id
         if doc
             Docs.update parent._id,
-                $pull:"#{field.key}":element
-        else if user
-            Meteor.users.update parent._id,
                 $pull:"#{field.key}":element
 
         t.$('.new_element').focus()
