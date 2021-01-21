@@ -27,68 +27,10 @@ if Meteor.isClient
 
     Template.post_edit.events
         'click .delete_post': ->
-            Swal.fire({
-                title: "delete post?"
-                text: "cannot be undone"
-                icon: 'question'
-                confirmButtonText: 'delete'
-                confirmButtonColor: 'red'
-                showCancelButton: true
-                cancelButtonText: 'cancel'
-                reverseButtons: true
-            }).then((result)=>
-                if result.value
-                    Docs.remove @_id
-                    Swal.fire(
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'post removed',
-                        showConfirmButton: false,
-                        timer: 1500
-                    )
-                    Router.go "/m/post"
-            )
+            if confirm 'delete?'
+                Docs.remove @_id
+                Router.go "/"
 
         'click .publish': ->
-            Swal.fire({
-                title: "publish post?"
-                text: "point bounty will be held from your account"
-                icon: 'question'
-                confirmButtonText: 'publish'
-                confirmButtonColor: 'green'
-                showCancelButton: true
-                cancelButtonText: 'cancel'
-                reverseButtons: true
-            }).then((result)=>
-                if result.value
-                    Meteor.call 'publish_post', @_id, =>
-                        Swal.fire(
-                            position: 'bottom-end',
-                            icon: 'success',
-                            title: 'post published',
-                            showConfirmButton: false,
-                            timer: 1000
-                        )
-            )
-
-        'click .unpublish': ->
-            Swal.fire({
-                title: "unpublish post?"
-                text: "point bounty will be returned to your account"
-                icon: 'question'
-                confirmButtonText: 'unpublish'
-                confirmButtonColor: 'orange'
-                showCancelButton: true
-                cancelButtonText: 'cancel'
-                reverseButtons: true
-            }).then((result)=>
-                if result.value
-                    Meteor.call 'unpublish_post', @_id, =>
-                        Swal.fire(
-                            position: 'bottom-end',
-                            icon: 'success',
-                            title: 'post unpublished',
-                            showConfirmButton: false,
-                            timer: 1000
-                        )
-            )
+            if confirm 'publish post?'
+                Meteor.call 'publish_post', @_id, =>
