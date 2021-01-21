@@ -24,6 +24,9 @@ if Meteor.isClient
             selected_family_time_tags.array()
             selected_family_location_tags.array()
 
+    Template.family_card.onCreated ->
+        @autorun => Meteor.subscribe 'comments', @data._id, 
+        
     Template.family_card.events
         'click .say_title': ->
             window.speechSynthesis.speak new SpeechSynthesisUtterance @title
@@ -73,6 +76,30 @@ if Meteor.isClient
 
                 selected_family_tags.push val   
                 t.$('.search_family_tag').val('')
+                
+    Template.family_card.events
+        'keyup .add_comment': (e,t)->
+             if e.which is 13
+                val = t.$('.add_comment').val().trim()
+                # window.speechSynthesis.speak new SpeechSynthesisUtterance val
+                Docs.insert 
+                    model:'comment'
+                    parent_id:@_id
+                    body:val
+                # selected_family_tags.push val   
+                t.$('.add_comment').val('')
+                
+    Template.post_view.events
+        'keyup .add_comment': (e,t)->
+             if e.which is 13
+                val = t.$('.add_comment').val().trim()
+                Docs.insert 
+                    model:'comment'
+                    parent_id:@_id
+                    body:val
+                # window.speechSynthesis.speak new SpeechSynthesisUtterance val
+                # selected_family_tags.push val   
+                t.$('.add_comment').val('')
                 
     Template.family.helpers
         selected_family_tags: -> selected_family_tags.array()
@@ -188,6 +215,10 @@ if Meteor.isServer
     #         model:'post'
     #         tribe:'jpfam'
             
+    Meteor.publish 'comments', (doc_id)->
+        Docs.find
+            model:'comment'
+            parent_id:doc_id
     Meteor.publish 'family_count', (
         selected_tags
         selected_family_time_tags

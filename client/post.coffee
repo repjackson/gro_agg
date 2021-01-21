@@ -16,6 +16,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     Template.post_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'comments', Router.current().params.doc_id
 
     Template.post_view.onRendered ->
         Meteor.call 'log_view', Router.current().params.doc_id, ->

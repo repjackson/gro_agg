@@ -77,21 +77,6 @@ Template.registerHelper 'ruser_doc', ()->
 #         skip:session_ruser_post_skip
 #     )
 
-
-Template.registerHelper 'editing_mode', ()->
-    # Meteor.user().edit_mode and 
-    if Meteor.user().edit_mode
-        if Router.current().params.username is Meteor.user().username
-            true
-Template.registerHelper 'user_id_in', (key)->
-    if Meteor.user()
-        if Meteor.userId() in @["#{key}"]
-            true
-        else
-            false
-    else
-        false
-
     
 
 Template.registerHelper 'trunc', (input) ->
@@ -179,14 +164,13 @@ Template.registerHelper 'fixed0', (number)-> if number then number.toFixed().toL
 Template.registerHelper 'fixed', (number)-> if number then number.toFixed(2)
 Template.registerHelper 'to_percent', (number)-> (number*100).toFixed()
 
-Template.registerHelper 'current_subreddit', ()->
-    found = Docs.findOne 
-        model:'subreddit'
-        "data.display_name":Router.current().params.subreddit
-    # console.log 'found', found
-    if found
-        found
     
     
 Template.registerHelper 'current_doc', ()->
     Docs.findOne Router.current().params.doc_id
+    
+    
+Template.registerHelper 'comments', ()->
+    Docs.find
+        model:'comment'
+        parent_id:@_id
