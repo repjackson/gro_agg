@@ -109,8 +109,8 @@ template(name='family_card')
                 // a.ui.label.select_family_tag #{this}
             each family_time_tags
                 .ui.small.basic.label.set_time_tag #{this}
-            .ui.fluid.icon.input
-                i.chat.icon
+            .ui.fluid.icon.transparent.input
+                i.chat.outline.icon
                 input.add_comment(type='text')
             each comments
                 .ui.small.header #{body}
@@ -126,9 +126,9 @@ template(name='family_tag_selector')
         
 template(name='family_unselect_tag')
     a.unselect_family_tag.ui.black.large.compact.inverted.button(href='#')
-        if term
-            if term.watson.metadata.image
-                img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
+        // if term
+        //     if term.watson.metadata.image
+        //         img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
         strong #{this}
 
         
@@ -150,22 +150,21 @@ template(name='post_view')
             .row 
                 .three.wide.column
                     .ui.basic.segment.say_content
-                        a.ui.circular.icon.large.basic.button(href="/")
-                            i.chevron.left.icon
+                        a(href="/")
                             i.big.yin.yang.icon
                         .ui.inline.header.say_title #{title}
-                        .ui.list
-                            .item #{_views} views
-                        +array_edit key='tags' label='tags' direct=true
-                        +array_edit key='location_tags' label='where' direct=true
-                        +array_edit key='time_tags' label='when' direct=true
+                        | #{_views} 
+                        i.grey.eye.icon
+                        +array_edit key='tags' i='tags' direct=true
+                        +array_edit key='location_tags' i='marker' direct=true
+                        +array_edit key='time_tags' i='clock' direct=true
 
-                        +array_edit key='people_tags' label='who' direct=true
+                        +array_edit key='people_tags' i='user' direct=true
                 .thirteen.wide.column.scrolling
                     +youtube_view key='youtube_id' label='youtube id' direct=true
                     .ui.basic.segment.say_content
                         |!{content}
-                    .ui.fluid.icon.input
+                    .ui.fluid.icon.transparent.input
                         i.chat.icon
                         input.add_comment(type='text')
                     each comments
@@ -179,12 +178,12 @@ template(name='post_edit')
         .ui.stackable.padded.grid
             .row
                 .ten.wide.column
-                    a.ui.big.button(href="/p/#{_id}" title='save')
+                    a.ui.icon.large.button(href="/p/#{_id}" title='save')
                         i.checkmark.big.icon
-                        |save
+                        // |save
                     .ui.inline.header
                         i.pencil.icon
-                        |edit post
+                        // |edit post
                     i.large.link.remove.icon.delete_post
                     div.scrolling
                         +image_edit key='image_id' label='image' direct=true
@@ -202,17 +201,18 @@ template(name='post_edit')
                 
 template(name='array_edit')
     .spacer
-    if i
-        i.grey.icon(class=i)
-        // +icon name=icon cl='ui avatar image'
-    .ui.inline.header
-        if title
-            |#{title}
-        else if label
-            |#{label}
-        else if key
-            |#{key}
-    .ui.input
+    // if i
+    //     i.grey.icon(class=i)
+    //     // +icon name=icon cl='ui avatar image'
+    // .ui.inline.header
+    //     if title
+    //         |#{title}
+    //     else if label
+    //         |#{label}
+    //     else if key
+    //         |#{key}
+    .ui.icon.input
+        i.icon(class=i)
         input.new_element(type='text' placeholder='+' autocomplete="off")
         //- +clear_value                
     if field_value
