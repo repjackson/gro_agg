@@ -62,17 +62,17 @@ Meteor.publish 'model_docs', (model)->
     Docs.find match
 
 
-Meteor.publish 'doc_by_title', (title)->
-    Docs.find
-        title:title
-        model:'wikipedia'
+# Meteor.publish 'doc_by_title', (title)->
+#     Docs.find
+#         title:title
+#         model:'wikipedia'
 
-Meteor.publish 'doc_by_title_small', (title)->
-    Docs.find({
-        title:title
-        model:'wikipedia'
-    }, {
-        fields:
-            title:1
-            "watson.metadata.image":1
-    })
+# Meteor.publish 'doc_by_title_small', (title)->
+#     Docs.find({
+#         title:title
+#         model:'wikipedia'
+#     }, {
+#         fields:
+#             title:1
+#             "watson.metadata.image":1
+#     })

@@ -39,13 +39,15 @@ template(name='family')
                 .ui.compact.basic.tertiary.button.select_time_tag(class=domain_selector_class)
                     |#{name} 
                     // small #{count}
-            // .ui.inline.header #{post_count}
-            // each selected_family_People
-            //     .ui.button.unselect_family_People #{this}
-            // each family_People_tags
-            //     .ui.compact.basic.button.select_domain(class=domain_selector_class)
-            //         |#{name} 
-            //         small #{count}
+            .ui.inline.header(href='dao views') #{stats.home_views}
+                i.eye.grey.icon
+            each selected_family_People
+                .ui.button.unselect_family_People #{this}
+            each family_People_tags
+                .ui.compact.basic.button.select_domain(class=domain_selector_class)
+                    |#{name} 
+                    small #{count}
+            .ui.inline.header #{post_count}
         .twelve.wide.column
             // if skv_is 'family_sort_direction' 1
             //     .ui.icon.compact.basic.tertiary.button.sort_down

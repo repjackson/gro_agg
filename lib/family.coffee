@@ -4,8 +4,10 @@ if Meteor.isClient
     @selected_family_location_tags = new ReactiveArray []
     
 
+    Template.family.onRendered ->
+        Meteor.call 'log_global_view'
     Template.family.onCreated ->
-        @autorun => Meteor.subscribe 'fam_posts'
+        @autorun => Meteor.subscribe 'stats'
         @autorun => Meteor.subscribe 'family_docs', 
             selected_family_tags.array()
             selected_family_time_tags.array()
@@ -102,6 +104,9 @@ if Meteor.isClient
                 t.$('.add_comment').val('')
                 
     Template.family.helpers
+        stats: ->
+            Docs.findOne
+                model:'stats'
         selected_family_tags: -> selected_family_tags.array()
         selected_time_tags: -> selected_family_time_tags.array()
         selected_location_tags: -> selected_family_location_tags.array()
@@ -215,6 +220,22 @@ if Meteor.isServer
     #         model:'post'
     #         tribe:'jpfam'
             
+    Meteor.methods
+        log_global_view: ->
+            found = 
+                Docs.findOne 
+                    model:'stats'
+            if found 
+                Docs.update found._id, 
+                    $inc:home_views:1
+            else
+                Docs.insert 
+                    model:'stats'
+                    home_views:1
+                
+    Meteor.publish 'stats', (doc_id)->
+        Docs.find
+            model:'stats'
     Meteor.publish 'comments', (doc_id)->
         Docs.find
             model:'comment'
