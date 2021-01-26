@@ -14,6 +14,11 @@ template(name='school')
                 each courses
                     .ui.card
                         .content
-                            a.ui.header(href="/course/#{_id}/view") #{title}
-                
+                            a.ui.header(href="/course/#{_id}") #{title}
+                            .ui.basic.label 
+                                i.clock.icon
+                                |#{section}
+                            .ui.basic.label 
+                                i.user.icon
+                                |#{professor}
                 

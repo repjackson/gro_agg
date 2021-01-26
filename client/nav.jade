@@ -3,23 +3,23 @@ template(name='nav')
     .ui.fluid.borderless.attached.menu.topnav.hscroll
         a.icon.item.toggle_sidebar
             i.large.bars.icon
-        a.item(href="/" class="{{isActivePath '/'}}")
-            i.yin.yang.icon
+        a.header.item(href="/" class="{{isActivePath '/'}}")
+            i.yin.yang.large.icon
             // img.ui.mini.compact.image(src="{{c.url 'avanti_logo' height=200 width=200 gravity='face' crop='fill'}}")
             span.mobile.hidden dao
         a.item.mobile.hidden(href="/users" class="{{isActivePath '/users'}}" title='users')
             // em(data-emoji='users')
-            i.users.icon
+            i.large.users.icon
             // |&nbsp;
             | people
         a.item(href="/school" class="{{isActivePath '/school'}}" title='school')
             // em(data-emoji='users')
-            i.university.icon
+            i.large.university.icon
             // |&nbsp;
             | school
         a.item.mobile.hidden(href="/food" class="{{isActivePath '/food'}}" title='food')
             // em(data-emoji='food')
-            i.food.icon
+            i.large.food.icon
             // |&nbsp;
             | food
         a.item.mobile.hidden(href="/finance" class="{{isActivePath '/finance'}}" title='finance')
@@ -31,8 +31,9 @@ template(name='nav')
             |&nbsp;
             | events
         a.item.mobile.hidden(href="/events" class="{{isActivePath '/events'}}" title='events')
-            em(data-emoji='tasks')
-            |&nbsp;
+            // em(data-emoji='task')
+            i.large.tasks.icon
+            // |&nbsp;
             | todo
         a.item.mobile.hidden.set_post(href="/m/post" class="{{isActivePath '/m/post'}}" title='feed')
             em(data-emoji='newspaper')
