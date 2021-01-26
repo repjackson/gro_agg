@@ -8,6 +8,9 @@ body {
   /*background: rgba(0,0,0,.1) !important; */
   /*scroll-behavior: smooth;*/
   /*margin-top: 5em;*/
+  -webkit-font-smoothing: antialiased; 
+  -moz-osx-font-smoothing: grayscale;
+
   background: rgba(200,200,200,1) !important;
   /*filter: invert(1) !important; */
   /*overscroll-behavior: none; */

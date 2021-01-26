@@ -18,8 +18,9 @@ template(name='nav')
             // |&nbsp;
             | school
         a.item.mobile.hidden(href="/food" class="{{isActivePath '/food'}}" title='food')
-            em(data-emoji='food')
-            |&nbsp;
+            // em(data-emoji='food')
+            i.food.icon
+            // |&nbsp;
             | food
         a.item.mobile.hidden(href="/finance" class="{{isActivePath '/finance'}}" title='finance')
             em(data-emoji='dollar')
@@ -37,10 +38,10 @@ template(name='nav')
             em(data-emoji='newspaper')
             |&nbsp;
             | news
-        a.item.mobile.hidden.set_photo(href="/m/photo" class="{{isActivePath '/m/photo'}}" title='photos')
-            em(data-emoji='photo')
-            |&nbsp;
-            | photos
+        // a.item.mobile.hidden.set_photo(href="/m/photo" class="{{isActivePath '/m/photo'}}" title='photos')
+        //     em(data-emoji='photo')
+        //     |&nbsp;
+        //     | photos
         // if is_admin
         //     a.icon.item.mobile.hidden(href="/m/model" class="{{isActivePath regex='model'}}" title='admin')
         //         i.database.large.icon
@@ -162,7 +163,7 @@ template(name='right_sidebar')
 
 
 template(name='left_sidebar')
-    .ui.left.sidebar.vertical.large.borderless.menu
+    .ui.left.sidebar.vertical.borderless.menu
         // a.item.toggle_sidebar(href="/" class="{{isActiveRoute '/'}}")
         //     img.ui.avatar.compact.image(src="{{c.url 'one_logo' height=200 width=200 gravity='face' crop='fill'}}")
         //     |One

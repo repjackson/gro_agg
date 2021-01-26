@@ -216,16 +216,16 @@ template(name='dao_edit')
                 
 template(name='array_edit')
     .spacer
-    // if i
-    //     i.grey.icon(class=i)
-    //     // +icon name=icon cl='ui avatar image'
-    // .ui.inline.header
-    //     if title
-    //         |#{title}
-    //     else if label
-    //         |#{label}
-    //     else if key
-    //         |#{key}
+    if i
+        i.grey.icon(class=i)
+        // +icon name=icon cl='ui avatar image'
+    .ui.inline.header
+        if title
+            |#{title}
+        else if label
+            |#{label}
+        else if key
+            |#{key}
     .ui.icon.input
         i.icon(class=i)
         input.new_element(type='text' placeholder='+' autocomplete="off")
