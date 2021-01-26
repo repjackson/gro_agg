@@ -10,11 +10,46 @@ template(name='finance')
                 i.minus.icon
                 |expenses
             i.plus.circular.link.icon.add_expense
+            .ui.list
+                each expenses
+                    if editing_expense
+                        .ui.segment
+                            i.large.pencil.icon
+                            +number_edit key='amount' direct=true
+                            +text_edit key='note' direct=true
+                            +date_edit key='date' direct=true
+                            +text_edit key='source' direct=true
+                            i.green.circular.link.checkmark.icon.save_expense
+                    else
+                        +number_view key='amount' direct=true
+                        +text_view key='note' direct=true
+                        +date_view key='date' direct=true
+                        +text_view key='source' direct=true
+                        i.link.pencil.icon.edit_expense
+                    .item #{amount}
+            
             div
             .ui.inline.header 
                 i.plus.icon
                 |income
             i.plus.circular.link.icon.add_income
+            .ui.list
+                each income
+                    if editing_income
+                        .ui.segment
+                            i.large.pencil.icon
+                            +number_edit key='amount' direct=true
+                            +text_edit key='note' direct=true
+                            +date_edit key='date' direct=true
+                            +text_edit key='source' direct=true
+                            i.green.circular.link.checkmark.icon.save_income
+                    else
+                        +number_view key='amount' direct=true
+                        +text_view key='note' direct=true
+                        +date_view key='date' direct=true
+                        +text_view key='source' direct=true
+                        i.link.pencil.icon.edit_income
+                    .item #{amount}
             .ui.header 
                 |total
                 |#{finance_total}

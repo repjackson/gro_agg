@@ -33,10 +33,34 @@ if Meteor.isClient
         income: ->
             Docs.find
                 model:'income'
+        
+        editing_expense: -> Session.equals('editing_expense', @_id)
+        editing_income: -> Session.equals('editing_income', @_id)
+        
+        
     Template.finance.events
         'click .recalc_finance_stats': ->
             Meteor.call 'calc_finance_stats', ->
                 
+        'click .save_expense': ->
+            Session.set('editing_expense',null)
+        'click .save_income': ->
+            Session.set('editing_income',null)
+        'click .edit_expense': ->
+            Session.set('editing_expense',@_id)
+        'click .edit_income': ->
+            Session.set('editing_income',@_id)
+        'click .add_expense': ->
+            new_id = 
+                Docs.insert 
+                    model:'expense'
+            Session.set('editing_expense',new_id)
+
+        'click .add_income': ->
+            new_id = 
+                Docs.insert 
+                    model:'income'
+            Session.set('editing_income',new_id)
 
     Template.expense_stats.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'finance_stat'
