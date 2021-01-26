@@ -1,0 +1,126 @@
+template(name='staff')
+    .ui.padded.stackable.grid.header-wrapper
+        .row
+            .ui.four.wide.column
+                .ui.header 
+                    +i name='dashboard'
+                    |staff dashboard
+            .ui.four.wide.column
+                .ui.header 
+                    +i name='birthday'
+                    |legal age to drink
+            .ui.four.wide.column
+                .ui.header 
+                    +i name='clock'
+                    |todays date
+        .four.column.row
+            .column
+                +working_staff
+            .column
+                +staff_events
+            .column
+                .ui.segment
+                    .ui.header 
+                        +i name='megaphone'
+                        |alerts
+        .four.column.row
+            .column
+                +staff_tasks
+            .column
+                +staff_beer
+            .column
+                +staff_food_trucks
+            .column
+                .ui.segment
+                    .ui.header 
+                        +i name='star'
+                        |brewery of the month
+        .row
+            .sixteen.wide.column
+                +view_chats
+
+
+template(name='staff_events')
+    .ui.segment
+        .ui.header 
+            +i name='calendar'
+            |events today
+        .ui.selected.link.list
+            each todays_events
+                +doc_list_item
+
+
+
+template(name='staff_food_trucks')
+    .ui.segment
+        .ui.header 
+            +i name='truck'
+            |food trucks
+        .ui.selected.link.list
+            each todays_food_trucks
+                +doc_list_item
+
+
+
+
+template(name='staff_beer')
+    .ui.segment
+        a.ui.header(href='/drinks')
+            +i name='calendar'
+            |beer
+        .ui.small.header 
+            +ismall name='cancel-2--v2'
+            |tapped kegs
+        .ui.selected.link.list
+            each tapped_kegs
+                +drink_item
+        .ui.small.header 
+            +ismall name='christmas-gift--v3'
+            |new kegs
+        .ui.selected.link.list
+            each new_kegs
+                +drink_item
+            
+            
+            
+template(name='doc_list_item')
+    a.item(href="/m/#{model}/#{_id}/view")
+        img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
+        |#{title}
+        
+        
+template(name='drink_item')
+    a.item(href="/drink/#{_id}/view")
+        img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
+        |#{title}
+        
+        
+
+
+template(name='staff_tasks')
+    .ui.segment
+        //- a.ui.header(href='/tasks') 
+        a.ui.header(href='/m/task') 
+            +i name='tasks'
+            |tasks
+        +add_model_button model='task'
+        each tasks
+            .ui.small.header #{title}
+
+
+template(name='working_staff')
+    .ui.segment
+        .ui.header 
+            +i name='manager'
+            |staff working today
+        .ui.header 
+            +i name='clock-checked'
+            |checked in staff
+        .ui.items
+            each checked_in_staff
+                .item
+                    img.ui.avatar.image(src="{{c.url image_id width=1000 height=1000 gravity='face' crop='crop'}}")
+                    .ui.small.grey.inline.header #{username}
+                    .content
+                        each roles
+                            .ui.small.basic.label #{this}

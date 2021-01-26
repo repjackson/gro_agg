@@ -1,0 +1,68 @@
+template(name='admin')
+    //- +models
+    +user_table
+
+
+
+template(name='user_table')
+    #add_staff.ui.basic.button
+        i.plus.icon
+        |add staff
+    table.ui.sortable.striped.table
+        thead
+            tr
+                th image
+                th profile
+                th roles
+                th actions
+        tbody
+            each users
+                tr
+                    td 
+                        img.ui.small.image(src="{{c.url image_id width=1000 height=1000 gravity='face' crop='crop'}}")
+                    td 
+                        a.ui.header(href="/user/#{username}")
+                            |#{first_name} #{last_name}
+                        .ui.small.header @#{username}
+                        each emails
+                            |#{address}
+                    td 
+                        +multi_doc_edit key='roles' ref_model='role' direct=true
+                        //- +user_role_toggle role='admin'
+                        //- +user_role_toggle role='staff'
+                        //- +user_role_toggle role='resident'
+                        //- +user_role_toggle role='owner'
+                        //- +user_role_toggle role='guest'
+                    td
+                        a.ui.icon.large.basic.button(href="/user/#{username}/edit")
+                            i.pencil.icon
+                        a.ui.icon.large.basic.button(href="/user/#{username}/")
+                            i.chevron.right.icon
+                        
+
+template(name='user_role_toggle')
+    if is_in_role
+        .remove_role.ui.grey.button #{role}
+    else
+        .add_role.ui.basic.button #{role}
+
+
+template(name='add_user')
+    .ui.stackable.padded.grid
+        .centered.row
+            .eight.wide.column
+                h1.ui.center.aligned.header
+                    +i name='manager'
+                    | staff
+                .ui.big.form
+                    .field
+                        input#first_name(type='text' placeholder='first name' autocomplete='off')
+                    .field
+                        input#last_name(type='text' placeholder='last name' autocomplete='off')
+                    //- .field
+                    //-     |Username
+                    //-     input#username(type='text')
+                if permission
+                    .ui.fluid.green.big.button.create_staff
+                        |create user
+        

@@ -4,11 +4,10 @@
 # @Tag_results = new Meteor.Collection 'tag_results'
 
 
-if Meteor.isClient
-    Router.route '/', (->
-        @layout 'layout'
-        @render 'family'
-    ), name:'root'
+    # Router.route '/', (->
+    #     @layout 'layout'
+    #     @render 'family'
+    # ), name:'root'
 if Meteor.isClient
     # console.log $
     $.cloudinary.config
@@ -25,7 +24,7 @@ if Meteor.isServer
 
 Router.configure
     layoutTemplate: 'layout'
-    notFoundTemplate: 'family'
+    notFoundTemplate: 'not_found'
     loadingTemplate: 'splash'
     trackPageView: false
 
