@@ -1,5 +1,5 @@
 if Meteor.isClient
-    Router.route '/course/:doc_id/view', (->
+    Router.route '/course/:doc_id', (->
         @layout 'course_view_layout'
         @render 'course_home'
         ), name:'course_home'
@@ -23,6 +23,26 @@ if Meteor.isClient
         @layout 'course_view_layout'
         @render 'course_groups'
         ), name:'course_groups'
+    Router.route '/course/:doc_id/quizzes', (->
+        @layout 'course_view_layout'
+        @render 'course_quizzes'
+        ), name:'course_quizzes'
+    Router.route '/course/:doc_id/surveys', (->
+        @layout 'course_view_layout'
+        @render 'course_surveys'
+        ), name:'course_surveys'
+    Router.route '/course/:doc_id/classlist', (->
+        @layout 'course_view_layout'
+        @render 'course_classlist'
+        ), name:'course_classlist'
+    Router.route '/course/:doc_id/grades', (->
+        @layout 'course_view_layout'
+        @render 'course_grades'
+        ), name:'course_grades'
+    Router.route '/course/:doc_id/locker', (->
+        @layout 'course_view_layout'
+        @render 'course_locker'
+        ), name:'course_locker'
     Template.course_view_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'shop_from_course_id', Router.current().params.doc_id

@@ -11,12 +11,39 @@ template(name='course_card')
                 
             
 template(name='course_home')
-    .ui.header hi
+    .ui.header
+        i.home.icon
+        |home
+    .ui.segment
+        .ui.header updates
+    .ui.segment
+        .ui.header announcements
+template(name='course_classlist')
+    .ui.header
+        i.users.icon
+        |classlist
+            
+template(name='course_quizzes')
+    .ui.header 
+        i.question.icon
+        |quizzes
+template(name='course_surveys')
+    .ui.header 
+        i.question.icon
+        |surveys
+template(name='course_grades')
+    .ui.header 
+        i.tasks.icon
+        |grades
+template(name='course_locker')
+    .ui.header
+        i.inbox.icon
+        |locker
             
 template(name='course_content')
     .ui.header
         i.content.icon
-        |calendar
+        |content
 template(name='course_calendar')
     .ui.header
         i.calendar.icon
@@ -46,45 +73,47 @@ template(name='course_view_layout')
                 .four.wide.column
                     a.ui.circular.icon.button(href="/school")
                         i.university.icon
-                    .ui.center.aligned.inline.header 
+                    a.ui.center.aligned.inline.header(href="/course/#{_id}")
                         if image
                             img.ui.avatar.image(src="{{c.url image width=400 height=400 crop='fill'}}")
                         |#{title}
                     .ui.fluid.vertical.menu
-                        .ui.item
-                            .header course materials
-                            .menu
-                                a.item(href="/course/#{_id}/content")
-                                    i.content.icon
-                                    |content
-                                a.item(href="/course/#{_id}/calendar")
-                                    i.calendar.icon
-                                    |calendar
-                        .item 
-                            a.header
-                                i.clock.icon
-                                |activities
-                            .menu
-                                a.item(href="/course/#{_id}/assignments")
-                                    i.content.icon
-                                    |assignments
-                                a.item(href="/course/#{_id}/discussions")
-                                    i.calendar.icon
-                                    |discussions
-                                a.item(href="/course/#{_id}/groups")
-                                    i.users.icon
-                                    |groups
-                        .item 
-                            .header 
-                                i.tasks.icon
-                                |progress
-                            .menu
-                                a.item(href="/course/#{_id}/content")
-                                    i.content.icon
-                                    |content
-                                a.item(href="/course/#{_id}/calendar")
-                                    i.calendar.icon
-                                    |calendar
+                        a.item(href="/course/#{_id}/content" class="{{isActiveRoute 'course_content'}}")
+                            i.content.icon
+                            |content
+                        a.item(href="/course/#{_id}/calendar" class="{{isActiveRoute 'course_calendar'}}")
+                            i.calendar.icon
+                            |calendar
+                        a.item(href="/course/#{_id}/classlist" class="{{isActiveRoute 'course_classlist'}}")
+                            i.users.icon
+                            |class list
+                        a.item(href="/course/#{_id}/locker" class="{{isActiveRoute 'course_locker'}}")
+                            i.inbox.icon
+                            |locker
+                        a.item(href="/course/#{_id}/assignments" class="{{isActiveRoute 'course_assignments'}}")
+                            i.content.icon
+                            |assignments
+                        a.item(href="/course/#{_id}/discussions" class="{{isActiveRoute 'course_discussions'}}")
+                            i.calendar.icon
+                            |discussions
+                        a.item(href="/course/#{_id}/groups" class="{{isActiveRoute 'course_groups'}}")
+                            i.users.icon
+                            |groups
+                        a.item(href="/course/#{_id}/quizzes" class="{{isActiveRoute 'course_quizzes'}}")
+                            i.question.icon
+                            |quizzes
+                        a.item(href="/course/#{_id}/surveys" class="{{isActiveRoute 'course_surveys'}}")
+                            i.question.icon
+                            |surveys
+                        a.item(href="/course/#{_id}/grades")
+                            i.tasks.icon
+                            |grades
+                        a.item(href="/course/#{_id}/progress" class="{{isActiveRoute 'course_progress'}}")
+                            i.tasks.icon
+                            |class progress
+                        a.item(href="/course/#{_id}/competencies" class="{{isActiveRoute 'course_competencies'}}")
+                            i.checkmark.icon
+                            |competencies
                     if can_edit
                         a.edit_course(href="/course/#{_id}/edit")
                             i.big.blue.pencil.circular.link.icon

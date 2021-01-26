@@ -225,8 +225,11 @@ html.ios body {
 .topnav.menu > .item {
   /*border-radius: 20px !important;*/
 }
-/*.topnav > .item.active {*/
-/*  background: lightgrey !important;*/
+.item.active {
+  background: black !important;
+  color:white !important;
+  /*filter: invert(1) !important; */
+}  
   
 /*}*/
 .topnav.menu {
