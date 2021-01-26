@@ -7,10 +7,16 @@ template(name='nav')
             i.yin.yang.icon
             // img.ui.mini.compact.image(src="{{c.url 'avanti_logo' height=200 width=200 gravity='face' crop='fill'}}")
             span.mobile.hidden dao
-        a.item.set_member.mobile.hidden(href="/users" class="{{isActivePath '/users'}}" title='users')
-            em(data-emoji='users')
-            |&nbsp;
+        a.item.mobile.hidden(href="/users" class="{{isActivePath '/users'}}" title='users')
+            // em(data-emoji='users')
+            i.users.icon
+            // |&nbsp;
             | people
+        a.item(href="/school" class="{{isActivePath '/school'}}" title='school')
+            // em(data-emoji='users')
+            i.university.icon
+            // |&nbsp;
+            | school
         a.item.mobile.hidden(href="/food" class="{{isActivePath '/food'}}" title='food')
             em(data-emoji='food')
             |&nbsp;

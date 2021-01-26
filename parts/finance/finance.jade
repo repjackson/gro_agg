@@ -26,7 +26,6 @@ template(name='finance')
                         +date_view key='date' direct=true
                         +text_view key='source' direct=true
                         i.link.pencil.icon.edit_expense
-                    .item #{amount}
             
             div
             .ui.inline.header 
@@ -49,7 +48,6 @@ template(name='finance')
                         +date_view key='date' direct=true
                         +text_view key='source' direct=true
                         i.link.pencil.icon.edit_income
-                    .item #{amount}
             .ui.header 
                 |total
                 |#{finance_total}

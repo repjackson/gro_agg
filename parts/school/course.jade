@@ -1,0 +1,79 @@
+template(name='course_card')
+    a.ui.card(href="/course/#{_id}/view")
+        img.ui.image(src="{{c.url image height=400 width=400 gravity='face' crop='fill'}}")
+        .content
+            .header #{title} $#{price}
+            each tags
+                .ui.small.label #{this}
+            each ingredient_tags
+                .ui.small.label #{this}
+            |#{points}
+                
+            
+            
+template(name='course_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row 
+                .four.wide.column
+                    a.ui.circular.icon.button(href="/school")
+                        i.university.icon
+                    a(href="/m/course" title='courses')
+                        +i name='food' cl='ui inline image pointer'
+                    .ui.center.aligned.inline.header 
+                        img.ui.avatar.image(src="{{c.url image width=400 height=400 crop='fill'}}")
+                        |#{title}
+                    if can_edit
+                        a.edit_course(href="/course/#{_id}/edit")
+                            i.big.blue.pencil.circular.link.icon
+                    .ui.header $#{price}
+                    if in_dev
+                        +print_this
+                    +voting_full
+                    +single_doc_view key='shop_id' ref_model='shop' label='shop' direct=true        
+                    if vegan
+                        +icolorlg name='vegan-symbol' cl='ui inline image pointer' title='vegan'
+                    if vegetarian
+                        +icolorlg name='vegetarian-mark' cl='ui inline image pointer' title='vegetarian'
+                    +array_view key='tags' label='tags' icon='tags' direct=true
+                    +array_view key='ingredient_tags' label='ingredients' icon='food' direct=true
+                    each courses
+                        a.ui.header(href="/menu/#{_id}/view") #{title}
+                    +comments
+                    .f11 #{description}
+                .twelve.wide.column
+                    +image_view key='image' label='image' direct=true
+ 
+
+
+template(name='course_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row 
+                .five.wide.column
+                    a.ui.green.circular.icon.button(href="/course/#{_id}/view" title='save')
+                        i.checkmark.big.icon
+                    .ui.inline.header 
+                        i.pencil.icon
+                        small edit course
+                        |#{title}
+                    i.link.big.remove.icon.delete_item(title='delete menu item')
+                    +text_edit key='title' icon='header' direct=true
+                    +text_edit key='professor' icon='user' direct=true
+                    +text_edit key='section' icon='clone' direct=true
+                    +link_edit key='link' icon='link' direct=true
+                    +image_edit key='image' label='image' direct=true
+                    // +text_edit key='location' label='location' icon='marker' direct=true
+                    // +icon_edit key='icon' label='icon' direct=true
+                    div 
+                .six.wide.column
+                    +textarea_edit key='description' label='description' direct=true
+                    +array_edit key='tags' label='tags' direct=true
+                    +array_edit key='ingredient_tags' label='ingredients' direct=true
+                .five.wide.column
+                    +number_edit key='price' direct=true
+                    +boolean_edit key='published' direct=true
+                    +boolean_edit key='vegan' direct=true
+                    +boolean_edit key='vegetarian' direct=true
+                    // +single_doc_edit key='shop_id' ref_model='shop' label='shop' direct=true        
+                
