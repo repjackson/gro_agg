@@ -270,6 +270,26 @@ Template.textarea_edit.events
                 $set:"#{@key}":textarea_val
 
 
+Template.raw_edit.events
+    # 'click .toggle_edit': (e,t)->
+    #     t.editing.set !t.editing.get()
+
+    'blur .edit_textarea': (e,t)->
+        textarea_val = t.$('.edit_textarea').val()
+        if @direct
+            parent = Template.parentData()
+        else
+            parent = Template.parentData(5)
+
+        doc = Docs.findOne parent._id
+        if doc
+            Docs.update parent._id,
+                $set:"#{@key}":textarea_val
+        else if user
+            Meteor.users.update parent._id,
+                $set:"#{@key}":textarea_val
+
+
 
 Template.text_edit.events
     'blur .edit_text': (e,t)->

@@ -296,6 +296,44 @@ template(name='textarea_view')
         //- .spacer       
         .f11 {{nl2br field_value}}
 
+template(name='raw_edit')
+    .ui.large.form
+        .ui.small.inline.header raw
+        .field
+            label 
+                if icon
+                    // i.icon(class=field_value)
+                    +icon name=icon cl='ui avatar image'
+                if title
+                    |#{title}
+                else if label
+                    |#{label}
+                //- else if key
+                //-     |#{key}
+                //- else
+                //-     |#{this}
+            textarea.edit_textarea(rows='7') #{field_value}
+            
+            
+template(name='raw_view')
+    .ui.large.form
+        .ui.small.inline.header raw
+        .field
+            label 
+                if icon
+                    // i.icon(class=field_value)
+                    +icon name=icon cl='ui avatar image'
+                if title
+                    |#{title}
+                else if label
+                    |#{label}
+                //- else if key
+                //-     |#{key}
+                //- else
+                //-     |#{this}
+            textarea.edit_textarea(rows='7') !{field_value}
+
+        
 template(name='textarea_edit')
     .ui.large.form
         .field

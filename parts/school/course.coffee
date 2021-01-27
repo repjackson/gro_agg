@@ -49,7 +49,7 @@ if Meteor.isClient
         ), name:'course_locker'
     Template.course_view_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'shop_from_course_id', Router.current().params.doc_id
+        # @autorun => Meteor.subscribe 'shop_from_course_id', Router.current().params.doc_id
    
    
     Router.route '/course/:doc_id/edit', (->
@@ -62,6 +62,16 @@ if Meteor.isClient
     Template.course_edit.onRendered ->
 
 
+
+    Template.course_home.onCreated ->
+        @autorun => Meteor.subscribe 'course_posts', Router.current().params.doc_id
+
+    Template.course_home.helpers
+        course_posts: ->
+            Docs.find 
+                model:'post'
+                course_id:Router.current().params.doc_id
+            
     Template.course_home.events
         'click .add_post': ->
             new_id = 
@@ -85,9 +95,9 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'shop_from_course_id', (course_id)->
-        course = Docs.findOne course_id
-        console.log 'course', course
+    Meteor.publish 'course_posts', (course_id)->
+        # course = Docs.findOne course_id
+        # console.log 'course', course
         Docs.find
-            # model:'shop'
-            _id:course.shop_id
+            model:'post'
+            course_id: course_id

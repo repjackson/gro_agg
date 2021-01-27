@@ -17,11 +17,23 @@ template(name='course_home')
     .ui.segment
         .ui.header updates
     .ui.segment
-        .ui.header announcements
-        .ui.icon.button.add_post
+        .ui.inline.header
+            i.scroll.icon
+            |announcements
+        .ui.circular.basic.icon.button.add_post
             i.plus.icon
-        each course_posts
-            .ui.header #{title}
+        .ui.link.selection.list.scrolling
+            each course_posts
+                a.item(href="/course/#{course_id}/post/#{_id}") 
+                    .content 
+                        .header #{title}
+                        .smallscroll
+                            |!{content}
+                            if raw
+                                |!{raw}
+                    
+                        each tags
+                            .ui.small.basic.label #{this}
             
 template(name='course_classlist')
     .ui.header

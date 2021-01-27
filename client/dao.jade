@@ -4,7 +4,6 @@ template(name='home')
             a.ui.button(href="/finance")
                 i.money.icon
                 |money
-        .sixteen.wide.column
             a.ui.button(href="/school")
                 i.university.icon
                 |school
@@ -118,11 +117,11 @@ template(name='dao_card')
                 |!{content}         
             +youtube_view key='youtube_id' label='youtube id' direct=true
                 
-            // each tags
-            //     +flat_dao_tag_selector
-            //     // a.ui.label.select_dao_tag #{this}
-            // each dao_time_tags
-            //     .ui.small.basic.label.set_time_tag #{this}
+            each tags
+                +flat_dao_tag_selector
+                // a.ui.label.select_dao_tag #{this}
+            each dao_time_tags
+                .ui.small.basic.label.set_time_tag #{this}
             .ui.fluid.icon.transparent.input
                 i.chat.outline.icon
                 input.add_comment(type='text')
@@ -235,8 +234,8 @@ template(name='array_edit')
                 .ui.large.basic.circular.label
                     i.delete.icon.remove_element
                     |#{this}
-                .ui.compact.basic.circular.button.pick_tag
-                    |#{this}
+                // .ui.compact.basic.circular.button.pick_tag
+                //     |#{this}
             else
                 .ui.compact.basic.circular.button.pick_tag
                     |#{this}
