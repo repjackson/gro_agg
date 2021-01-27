@@ -1,15 +1,4 @@
 if Meteor.isClient
-    Template.registerHelper 'claimer', () ->
-        Meteor.users.findOne @claimed_user_id
-    Template.registerHelper 'completer', () ->
-        Meteor.users.findOne @completed_by_user_id
-    
-    
-    # Router.route '/posts', (->
-    #     @layout 'layout'
-    #     @render 'posts'
-    #     ), name:'posts'
-
     Template.post_card.onCreated ->
         @autorun => Meteor.subscribe 'doc_comments', @data._id
 

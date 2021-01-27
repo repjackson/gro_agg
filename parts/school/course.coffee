@@ -35,6 +35,10 @@ if Meteor.isClient
         @layout 'course_view_layout'
         @render 'course_classlist'
         ), name:'course_classlist'
+    Router.route '/course/:doc_id/progress', (->
+        @layout 'course_view_layout'
+        @render 'course_progress'
+        ), name:'course_progress'
     Router.route '/course/:doc_id/grades', (->
         @layout 'course_view_layout'
         @render 'course_grades'
@@ -58,6 +62,15 @@ if Meteor.isClient
     Template.course_edit.onRendered ->
 
 
+    Template.course_home.events
+        'click .add_post': ->
+            new_id = 
+                Docs.insert 
+                    model:'post'
+                    course_id:Router.current().params.doc_id
+            Router.go "/course/#{Router.current().params.doc_id}/post/#{new_id}/edit"
+            
+            
     Template.course_edit.events
         'click .delete_item': ->
             if confirm 'delete item?'

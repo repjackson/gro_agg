@@ -8,7 +8,7 @@ template(name='home')
             a.ui.button(href="/school")
                 i.university.icon
                 |school
-    // +dao
+    +dao
     
     
 template(name='dao')
@@ -31,7 +31,6 @@ template(name='dao')
             each dao_result_tags
                 // .ui.label #{this}
                 +dao_tag_selector
-                // .ui.large.label(title=count) #{name}
             div
             i.marker.big.grey.icon
                 // |where
@@ -51,15 +50,15 @@ template(name='dao')
             each dao_time_tags
                 .ui.compact.basic.tertiary.button.select_time_tag(class=domain_selector_class)
                     |#{name} 
-                    // small #{count}
+                    small #{count}
             .ui.inline.header(href='dao views') #{stats.home_views}
                 i.eye.grey.icon
-            each selected_dao_People
-                .ui.button.unselect_dao_People #{this}
-            each dao_People_tags
-                .ui.compact.basic.button.select_domain(class=domain_selector_class)
-                    |#{name} 
-                    small #{count}
+            // each selected_dao_People
+            //     .ui.button.unselect_dao_People #{this}
+            // each dao_People_tags
+            //     .ui.compact.basic.button.select_domain(class=domain_selector_class)
+            //         |#{name} 
+            //         small #{count}
             .ui.inline.header #{post_count}
         .twelve.wide.column
             // if skv_is 'dao_sort_direction' 1
@@ -119,11 +118,11 @@ template(name='dao_card')
                 |!{content}         
             +youtube_view key='youtube_id' label='youtube id' direct=true
                 
-            each tags
-                +flat_dao_tag_selector
-                // a.ui.label.select_dao_tag #{this}
-            each dao_time_tags
-                .ui.small.basic.label.set_time_tag #{this}
+            // each tags
+            //     +flat_dao_tag_selector
+            //     // a.ui.label.select_dao_tag #{this}
+            // each dao_time_tags
+            //     .ui.small.basic.label.set_time_tag #{this}
             .ui.fluid.icon.transparent.input
                 i.chat.outline.icon
                 input.add_comment(type='text')

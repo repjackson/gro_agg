@@ -169,7 +169,6 @@ if Meteor.isClient
             
     
     Template.dao_unselect_tag.onCreated ->
-        
         @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
         
     Template.dao_unselect_tag.helpers
@@ -286,7 +285,7 @@ if Meteor.isServer
             skip:skip*20
         
         
-    Meteor.methods    
+    # Meteor.methods    
         # tagify_dao: (doc_id)->
         #     doc = Docs.findOne doc_id
         #     # moment(doc.date).fromNow()

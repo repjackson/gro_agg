@@ -18,10 +18,20 @@ template(name='course_home')
         .ui.header updates
     .ui.segment
         .ui.header announcements
+        .ui.icon.button.add_post
+            i.plus.icon
+        each course_posts
+            .ui.header #{title}
+            
 template(name='course_classlist')
     .ui.header
         i.users.icon
         |classlist
+            
+template(name='course_progress')
+    .ui.header
+        i.tasks.icon
+        |progress
             
 template(name='course_quizzes')
     .ui.header 
