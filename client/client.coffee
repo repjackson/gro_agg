@@ -149,9 +149,6 @@ Template.registerHelper 'to_percent', (number)-> (number*100).toFixed()
 
     
     
-Template.registerHelper 'current_doc', ()->
-    Docs.findOne Router.current().params.doc_id
-    
     
 Template.registerHelper 'comments', ()->
     Docs.find

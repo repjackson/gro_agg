@@ -58,29 +58,6 @@ Meteor.methods
     
     
 
-Meteor.publish 'current_doc', (doc_id)->
-    console.log 'pulling doc'
-    Docs.find doc_id
-
-
-
-
-Meteor.publish 'doc', (doc_id)->
-    found_doc = Docs.findOne doc_id
-    if found_doc
-        Docs.find doc_id
-
-Meteor.publish 'model_docs', (model)->
-    # console.log 'pulling doc'
-    match = {model:model}
-    # if Meteor.user()
-    #     unless Meteor.user().roles and 'admin' in Meteor.user().roles
-    #         match.app = 'stand'
-    # else
-        # match.app = 'stand'
-    Docs.find match
-
-
 # Meteor.publish 'doc_by_title', (title)->
 #     Docs.find
 #         title:title

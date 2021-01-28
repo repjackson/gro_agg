@@ -14,14 +14,25 @@ template(name='course_home')
     .ui.header
         i.home.icon
         |home
-    .ui.segment
-        .ui.header updates
+    // .ui.segment
+    //     .ui.header updates
     .ui.segment
         .ui.inline.header
-            i.scroll.icon
-            |announcements
+            i.scroll.grey.icon
+            |#{course_posts.count} posts
         .ui.circular.basic.icon.button.add_post
             i.plus.icon
+        if selected_course_tags
+            each selected_course_tags
+                a.unselect_course_tag.ui.black.large.compact.inverted.button(href='#')
+                    strong #{this}
+        .ui.icon.input
+            i.search.icon
+            input.search_course_tag(type='text' value=course_query)
+        each course_result_tags
+            .ui.basic.compact.small.button.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                strong #{name}
+            
         .ui.link.selection.list.scrolling
             each course_posts
                 a.item(href="/course/#{course_id}/post/#{_id}") 
@@ -31,7 +42,6 @@ template(name='course_home')
                             |!{content}
                             if raw
                                 |!{raw}
-                    
                         each tags
                             .ui.small.basic.label #{this}
             
@@ -92,7 +102,7 @@ template(name='course_view_layout')
     with current_doc
         .ui.stackable.padded.grid
             .row 
-                .four.wide.column
+                .three.wide.column
                     a.ui.circular.icon.button(href="/school")
                         i.university.icon
                     a.ui.center.aligned.inline.header(href="/course/#{_id}")
@@ -155,7 +165,7 @@ template(name='course_view_layout')
                     +comments
                     .f11 #{description}
                     +image_view key='image' label='image' direct=true
-                .twelve.wide.column
+                .thirteen.wide.column
                     +yield
 
 
