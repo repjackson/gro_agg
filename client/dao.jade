@@ -1,9 +1,6 @@
 template(name='home')
     .ui.stackable.grid
         .sixteen.wide.column
-            a.ui.button(href="/finance")
-                i.money.icon
-                |money
             a.ui.button(href="/school")
                 i.university.icon
                 |school
@@ -157,7 +154,7 @@ template(name='flat_dao_tag_selector')
         //     small #{count}
 
 
-template(name='dao_view')
+template(name='post_view')
     with current_doc
         .ui.stackable.grid
             .row 
@@ -186,7 +183,7 @@ template(name='dao_view')
                     a(href="/")
                         img.ui.fluid.image(src="{{c.url image_id }}" class=currentUser.invert_class)
 
-template(name='dao_edit')
+template(name='post_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row

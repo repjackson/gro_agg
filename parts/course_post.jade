@@ -40,6 +40,8 @@ template(name='course_post_view')
                 .thirteen.wide.column
                     // a.ui.header(href="/user/#{target.username}")
                     //     |#{target.username}
+                    if youtube_id
+                        +youtube_view key='youtube_id' label='youtube id' direct=true
                     if raw 
                         |!{raw}
                     .scrolling
@@ -54,33 +56,26 @@ template(name='course_post_view')
 template(name='course_post_edit')
     with current_doc
         .ui.stackable.padded.grid
-            .centered.middle.aligned.row 
-                .four.wide.center.aligned.column
-                    a.ui.icon.green.big.circular.button(href="/course/#{course_id}/post/#{_id}" title='save')
-                        i.checkmark.big.icon
-                .eight.wide.center.aligned.column
-                    .ui.header 
-                        +icolor name='news' cl='ui image inline pointer'
-                        |edit course post
-                .four.wide.center.aligned.column
-                    i.large.link.circular.red.remove.icon.delete_course_post
             .row
                 .four.wide.column.scrolling
-                    .ui.header 
-                        small author
-                        |#{_author.username}
-                    if is_admin
-                        +single_user_edit key='_author_id' label='author' direct=true
+                    a.ui.icon.green.big.circular.button(href="/course/#{course_id}/post/#{_id}" title='save')
+                        i.checkmark.big.icon
+                    .ui.inline.header 
+                        i.pencil.icon
+                        |edit course post
+                    i.large.link.circular.red.remove.icon.delete_course_post
                     +image_edit key='image_id' label='image' direct=true
                     div 
                     +array_edit key='tags' label='tags' direct=true
                     +link_edit key='link' label='link' direct=true
+
                     // +boolean_edit key='published' icon='visible' direct=true
                     if is_admin 
                         +text_edit key='model' label='model' direct=true
                     +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                 .twelve.wide.column.scrolling
+                    +youtube_edit key='youtube_id' label='youtube id' direct=true
                     +text_edit key='title' label='title' direct=true
                     +html_edit key='content' label='content' direct=true
                     +raw_edit key='raw' label='raw' direct=true

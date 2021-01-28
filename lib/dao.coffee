@@ -36,14 +36,6 @@ if Meteor.isClient
         'click .select_time_tag': ->
             selected_dao_time_tags.push @name
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-    Template.post_view.events
-        'click .say_title': ->
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @title
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance @content
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @tags
-        'click .select_time_tag': ->
-            selected_dao_time_tags.push @name
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
 
     Template.dao.events
         'click .unselect_time_tag': ->
@@ -88,18 +80,6 @@ if Meteor.isClient
                     model:'comment'
                     parent_id:@_id
                     body:val
-                # selected_dao_tags.push val   
-                t.$('.add_comment').val('')
-                
-    Template.post_view.events
-        'keyup .add_comment': (e,t)->
-             if e.which is 13
-                val = t.$('.add_comment').val().trim()
-                Docs.insert 
-                    model:'comment'
-                    parent_id:@_id
-                    body:val
-                # window.speechSynthesis.speak new SpeechSynthesisUtterance val
                 # selected_dao_tags.push val   
                 t.$('.add_comment').val('')
                 
