@@ -21,7 +21,7 @@ template(name='course_post_view')
         .ui.stackable.padded.grid
             .middle.aligned.row 
                 .sixteen.wide.column
-                    a.ui.circular.button(href="/course/#{course_id}")
+                    a.ui.circular.basic.button(href="/course/#{course_id}")
                         i.chevron.left.icon
                         i.chalkboard.big.icon
                     .ui.large.inline.header #{title}
@@ -77,11 +77,11 @@ template(name='course_post_edit')
                 .eight.wide.center.aligned.column
                     .ui.header 
                         +icolor name='news' cl='ui image inline pointer'
-                        |edit course_post
+                        |edit course post
                 .four.wide.center.aligned.column
                     i.large.link.circular.red.remove.icon.delete_course_post
             .row
-                .four.wide.column
+                .four.wide.column.scrolling
                     .ui.header 
                         small author
                         |#{_author.username}
@@ -96,7 +96,7 @@ template(name='course_post_edit')
                         +text_edit key='model' label='model' direct=true
                     +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                .twelve.wide.column
+                .twelve.wide.column.scrolling
                     +text_edit key='title' label='title' direct=true
                     +html_edit key='content' label='content' direct=true
                     +raw_edit key='raw' label='raw' direct=true

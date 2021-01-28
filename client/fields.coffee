@@ -39,7 +39,8 @@ Template.color_edit.events
 
 Template.html_edit.onRendered ->
     @editor = SUNEDITOR.create((document.getElementById('sample') || 'sample'),{
-        # codeMirror: CodeMirror
+    # 	"tabDisable": false
+        "minHeight": "600px"
         buttonList: [
             [
                 'undo' 
@@ -76,8 +77,8 @@ Template.html_edit.onRendered ->
                 'link'
             ]
         ]
-        
         lang: SUNEDITOR_LANG['en']
+        # codeMirror: CodeMirror
     });
 
 Template.html_edit.events

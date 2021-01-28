@@ -36,7 +36,8 @@ head
 
 template(name='layout')
     // +status
-    +nav
+    if is_admin
+        +nav
     .ui.bottom.attached.pushable.segment
         // +top_sidebar
         +left_sidebar

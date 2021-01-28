@@ -11,20 +11,15 @@ template(name='course_card')
                 
             
 template(name='course_home')
-    .ui.header
-        i.home.icon
-        |home
-    // .ui.segment
-    //     .ui.header updates
     .ui.segment
         .ui.inline.header
-            i.scroll.grey.icon
+            i.home.grey.icon
             |#{course_posts.count} posts
         .ui.circular.basic.icon.button.add_post
             i.plus.icon
         if selected_course_tags
             each selected_course_tags
-                a.unselect_course_tag.ui.black.large.compact.inverted.button(href='#')
+                a.unselect_course_tag.ui.active.large.compact.button(href='#')
                     strong #{this}
         .ui.icon.input
             i.search.icon
@@ -36,7 +31,7 @@ template(name='course_home')
         i.large.clock.icon
         if selected_time_tags
             each selected_time_tags
-                a.unselect_time_tag.ui.black.large.compact.inverted.button(href='#')
+                a.unselect_time_tag.ui.active.large.compact.button(href='#')
                     strong #{this}
         each course_time_tags
             .ui.basic.compact.small.button.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
@@ -46,7 +41,7 @@ template(name='course_home')
         i.large.marker.icon
         if selected_location_tags
             each selected_location_tags
-                a.unselect_location_tag.ui.black.large.compact.inverted.button(href='#')
+                a.unselect_location_tag.ui.active.large.compact.button(href='#')
                     strong #{this}
         each course_location_tags
             .ui.basic.compact.small.button.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
@@ -117,54 +112,55 @@ template(name='course_assignments')
         |assignments
             
 template(name='course_view_layout')
-    +nav
+    if is_admin
+        +nav
     with current_doc
         .ui.stackable.padded.grid
             .row 
-                .three.wide.column
+                .three.wide.column.scrolling
                     a.ui.circular.icon.button(href="/school")
                         i.university.icon
                     a.ui.center.aligned.inline.header(href="/course/#{_id}")
                         if image
                             img.ui.avatar.image(src="{{c.url image width=400 height=400 crop='fill'}}")
                         |#{title}
-                    .ui.fluid.vertical.menu
-                        a.item(href="/course/#{_id}/content" class="{{isActiveRoute 'course_content'}}")
-                            i.content.icon
-                            |content
-                        a.item(href="/course/#{_id}/calendar" class="{{isActiveRoute 'course_calendar'}}")
-                            i.calendar.icon
-                            |calendar
-                        a.item(href="/course/#{_id}/classlist" class="{{isActiveRoute 'course_classlist'}}")
-                            i.users.icon
-                            |class list
-                        a.item(href="/course/#{_id}/locker" class="{{isActiveRoute 'course_locker'}}")
-                            i.inbox.icon
-                            |locker
-                        a.item(href="/course/#{_id}/assignments" class="{{isActiveRoute 'course_assignments'}}")
-                            i.content.icon
-                            |assignments
-                        a.item(href="/course/#{_id}/discussions" class="{{isActiveRoute 'course_discussions'}}")
-                            i.calendar.icon
-                            |discussions
-                        a.item(href="/course/#{_id}/groups" class="{{isActiveRoute 'course_groups'}}")
-                            i.users.icon
-                            |groups
-                        a.item(href="/course/#{_id}/quizzes" class="{{isActiveRoute 'course_quizzes'}}")
-                            i.question.icon
-                            |quizzes
-                        a.item(href="/course/#{_id}/surveys" class="{{isActiveRoute 'course_surveys'}}")
-                            i.question.icon
-                            |surveys
-                        a.item(href="/course/#{_id}/grades")
-                            i.tasks.icon
-                            |grades
-                        a.item(href="/course/#{_id}/progress" class="{{isActiveRoute 'course_progress'}}")
-                            i.tasks.icon
-                            |class progress
-                        a.item(href="/course/#{_id}/competencies" class="{{isActiveRoute 'course_competencies'}}")
-                            i.checkmark.icon
-                            |competencies
+                    // .ui.fluid.vertical.small.menu
+                    //     a.disabled.grey.item(href="/course/#{_id}/content" class="{{isActiveRoute 'course_content'}}")
+                    //         i.content.icon
+                    //         |content
+                    //     a.disabled.grey.item(href="/course/#{_id}/calendar" class="{{isActiveRoute 'course_calendar'}}")
+                    //         i.calendar.icon
+                    //         |calendar
+                    //     a.disabled.grey.item(href="/course/#{_id}/classlist" class="{{isActiveRoute 'course_classlist'}}")
+                    //         i.users.icon
+                    //         |class list
+                    //     a.disabled.grey.item(href="/course/#{_id}/locker" class="{{isActiveRoute 'course_locker'}}")
+                    //         i.inbox.icon
+                    //         |locker
+                    //     a.disabled.grey.item(href="/course/#{_id}/assignments" class="{{isActiveRoute 'course_assignments'}}")
+                    //         i.content.icon
+                    //         |assignments
+                    //     a.disabled.grey.item(href="/course/#{_id}/discussions" class="{{isActiveRoute 'course_discussions'}}")
+                    //         i.calendar.icon
+                    //         |discussions
+                    //     a.disabled.grey.item(href="/course/#{_id}/groups" class="{{isActiveRoute 'course_groups'}}")
+                    //         i.users.icon
+                    //         |groups
+                    //     a.disabled.grey.item(href="/course/#{_id}/quizzes" class="{{isActiveRoute 'course_quizzes'}}")
+                    //         i.question.icon
+                    //         |quizzes
+                    //     a.disabled.item(href="/course/#{_id}/surveys" class="{{isActiveRoute 'course_surveys'}}")
+                    //         i.question.icon
+                    //         |surveys
+                    //     a.disabled.item(href="/course/#{_id}/grades")
+                    //         i.tasks.icon
+                    //         |grades
+                    //     a.disabled.item(href="/course/#{_id}/progress" class="{{isActiveRoute 'course_progress'}}")
+                    //         i.tasks.icon
+                    //         |class progress
+                    //     a.disabled.item(href="/course/#{_id}/competencies" class="{{isActiveRoute 'course_competencies'}}")
+                    //         i.checkmark.icon
+                    //         |competencies
                     if can_edit
                         a.edit_course(href="/course/#{_id}/edit")
                             i.big.blue.pencil.circular.link.icon
@@ -174,16 +170,16 @@ template(name='course_view_layout')
                     .ui.header(title='section')
                         i.calendar.icon
                         |#{section}
-                    a.ui.header(href=link title='link')
-                        i.link.icon
-                        |link
+                    // a.ui.header(href=link title='link')
+                    //     i.link.icon
+                    //     |link
                     if in_dev
                         +print_this
-                    +voting_full
-                    +array_view key='tags' label='tags' icon='tags' direct=true
-                    +comments
+                    // +voting_full
+                    // +array_view key='tags' label='tags' icon='tags' direct=true
+                    // +comments
                     .f11 #{description}
-                    +image_view key='image' label='image' direct=true
+                    // +image_view key='image' label='image' direct=true
                 .thirteen.wide.column
                     +yield
 

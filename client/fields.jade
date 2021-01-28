@@ -497,6 +497,34 @@ template(name='datetime_view')
         |#{this}
     strong &nbsp; #{field_value}
 
+template(name='array_edit')
+    .spacer
+    if i
+        i.grey.icon(class=i)
+        // +icon name=icon cl='ui avatar image'
+    .ui.inline.header
+        |#{field_value.length}
+        if title
+            |#{title}
+        else if label
+            |#{label}
+        else if key
+            |#{key}
+    .ui.icon.input
+        i.icon(class=i)
+        input.new_element(type='text' placeholder='+' autocomplete="off")
+        //- +clear_value                
+    if field_value
+        each field_value
+            if in_dev
+                .ui.large.basic.circular.label
+                    i.delete.icon.remove_element
+                    |#{this}
+                // .ui.compact.basic.circular.button.pick_tag
+                //     |#{this}
+            else
+                .ui.compact.basic.circular.button.pick_tag
+                    |#{this}
 
 // template(name='array_edit')
 //     .spacer
