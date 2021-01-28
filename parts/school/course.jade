@@ -13,7 +13,6 @@ template(name='course_card')
 template(name='course_home')
     .ui.segment
         .ui.inline.header
-            i.home.grey.icon
             |#{course_posts.count} posts
         .ui.circular.basic.icon.button.add_post
             i.plus.icon
@@ -200,7 +199,7 @@ template(name='course_edit')
                     +text_edit key='professor' icon='user' direct=true
                     +text_edit key='section' icon='clone' direct=true
                     +link_edit key='link' icon='link' direct=true
-                    +image_edit key='image' label='image' direct=true
+                    // +image_edit key='image' label='image' direct=true
                     // +text_edit key='location' label='location' icon='marker' direct=true
                     // +icon_edit key='icon' label='icon' direct=true
                     div 
