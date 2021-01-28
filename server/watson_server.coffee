@@ -115,11 +115,11 @@ Meteor.methods
         )
 
     call_watson: (doc_id, key, mode) ->
-        # console.log 'calling watson'
+        console.log 'calling watson'
         self = @
-        # console.log doc_id
-        # console.log key
-        # console.log mode
+        console.log doc_id
+        console.log key
+        console.log mode
         doc = Docs.findOne doc_id
         # console.log 'calling watson on', doc.title
         # if doc.skip_watson is false
@@ -151,7 +151,8 @@ Meteor.methods
         switch mode
             when 'html'
                 # parameters.html = doc["#{key}"]
-                parameters.html = doc.body
+                # parameters.html = doc.body
+                parameters.html = doc.content
             when 'text'
                 parameters.text = doc["#{key}"]
             when 'url'
@@ -178,7 +179,7 @@ Meteor.methods
                 # console.log 'watson error for', parameters.url
                 # console.log err
                 if err.code is 400
-                    console.log 'crawl rejected by server'
+                    console.log 'crawl rejected by server', err
                 unless err.code is 403
                     Docs.update doc_id,
                         $set:skip_watson:false

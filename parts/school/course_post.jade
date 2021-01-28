@@ -53,7 +53,8 @@ template(name='course_post_view')
                     +voting_full
                     +link_edit key='link' label='link' direct=true
 
-                    +array_view key='time_tags' label='time tags' direct=true
+                    +array_view key='time_tags' label='time tags' icon='clock' direct=true
+                    +array_view key='location_tags' label='location tags' icon='marker' direct=true
                 .thirteen.wide.column
                     // a.ui.header(href="/user/#{target.username}")
                     //     |#{target.username}
@@ -65,12 +66,6 @@ template(name='course_post_view')
                     .spacer
                     .spacer
                     +comments
-                // .four.wide.column
-                
-
-                    //- .ui.fluid.green.button.submit
-                    //-     i.checkmark.icon
-                    //-     |submit
 
 template(name='course_post_edit')
     with current_doc
@@ -99,7 +94,8 @@ template(name='course_post_edit')
                     // +boolean_edit key='published' icon='visible' direct=true
                     if is_admin 
                         +text_edit key='model' label='model' direct=true
-                    +array_edit key='time_tags' label='time tags' direct=true
+                    +array_edit key='time_tags' label='time tags' icon='clock' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                 .twelve.wide.column
                     +text_edit key='title' label='title' direct=true
                     +html_edit key='content' label='content' direct=true

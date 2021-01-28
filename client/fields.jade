@@ -83,18 +83,15 @@ template(name='html_edit')
                     |#{key}
                 else
                     |#{this}
-    // .froala-container
-    //     +froalaReactive getFEContext
     .ui.fluid.form
         .field.testsun
             textarea#sample.sun-editor-editable
                 |#{field_value}
-    //- if is_dev
-    //- +call_watson mode='html' key=key
+    +call_watson mode='html' key='content'
     //- div
     //- //- +tone mode='html'
-    //- if watson
-    //-     +watson_view
+    if watson
+        +watson_view
 
 
 

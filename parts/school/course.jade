@@ -32,6 +32,25 @@ template(name='course_home')
         each course_result_tags
             .ui.basic.compact.small.button.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                 strong #{name}
+        div
+        i.large.clock.icon
+        if selected_time_tags
+            each selected_time_tags
+                a.unselect_time_tag.ui.black.large.compact.inverted.button(href='#')
+                    strong #{this}
+        each course_time_tags
+            .ui.basic.compact.small.button.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                strong #{name}
+            
+        div
+        i.large.marker.icon
+        if selected_location_tags
+            each selected_location_tags
+                a.unselect_location_tag.ui.black.large.compact.inverted.button(href='#')
+                    strong #{this}
+        each course_location_tags
+            .ui.basic.compact.small.button.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                strong #{name}
             
         .ui.link.selection.list.scrolling
             each course_posts
