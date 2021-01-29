@@ -15,8 +15,6 @@ template(name='group_home')
         .ui.stackable.padded.grid
             .row 
                 .sixteen.wide.center.aligned.column
-                    a.ui.circular.icon.basic.button(href="/")
-                        i.home.icon
                     a.ui.center.aligned.inline.header(href="/group/#{_id}")
                         if image
                             img.ui.avatar.image(src="{{c.url image width=400 height=400 crop='fill'}}")
@@ -25,10 +23,8 @@ template(name='group_home')
                         a.edit_group(href="/group/#{_id}/edit")
                             i.big.blue.pencil.circular.link.icon
                     .ui.inline.header(href='professor')
-                        i.user.icon
                         |#{professor}
                     .ui.inline.header(title='section')
-                        i.calendar.icon
                         |#{section}
                     // a.ui.header(href=link title='link')
                     //     i.link.icon
@@ -44,7 +40,6 @@ template(name='group_home')
                         |#{group_posts.count} posts
                     .ui.circular.basic.icon.button.add_post
                         i.plus.icon
-                .sixteen.wide.center.aligned.column
                     if selected_group_tags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
@@ -57,7 +52,6 @@ template(name='group_home')
                     each group_result_tags
                         // .ui.label #{this}
                         +group_tag_selector
-                    div
                     i.large.clock.icon
                     if selected_time_tags
                         each selected_time_tags
@@ -66,8 +60,6 @@ template(name='group_home')
                     each group_time_tags
                         .ui.basic.compact.small.button.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                             strong #{name}
-                        
-                    div
                     i.large.marker.icon
                     if selected_location_tags
                         each selected_location_tags
@@ -78,22 +70,22 @@ template(name='group_home')
                             strong #{name}
                         
                 .sixteen.wide.column
-                    .scrolling
+                    .ui.stackable.three.column.dividing.grid.scrolling
                         each group_posts
-                            a.ui.fluid.link.card(href="/group/#{course_id}/post/#{_id}") 
-                                .content 
-                                    .header #{title}
+                            .column.zoomer
+                                .content.medscroll
+                                    a.header(href="/group/#{course_id}/post/#{_id}") #{title}
                                     if youtube_id
                                         +youtube_view key='youtube_id' label='youtube id' direct=true
         
-                                    .smallscrol
+                                    a(href="/group/#{course_id}/post/#{_id}")
                                         |!{content}
                                         if raw
                                             |!{raw}
                                     each tags
                                         +flat_group_tag_selector
                                         // .ui.small.basic.label #{this}
-
+                                .ui.divider
 
 template(name='group_edit')
     with current_doc
@@ -126,7 +118,7 @@ template(name='group_edit')
                 
 template(name='group_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.basic.compact.circular.button.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.large.tertiary.button.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -135,7 +127,7 @@ template(name='group_tag_selector')
         //     small #{count}
         
 template(name='group_unselect_tag')
-    a.unselect_group_tag.ui.black.large.compact.inverted.button(href='#')
+    a.unselect_group_tag.ui.large.active.compact.button(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    

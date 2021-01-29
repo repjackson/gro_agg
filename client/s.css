@@ -408,6 +408,9 @@ a.goto_article {
     transition: all .15s ease !important; 
 
 }
+.zoomer:active {
+  transform: scale(.97) !important;
+}
 a:active {
   transform: scale(.97) !important;
 }

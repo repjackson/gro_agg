@@ -37,9 +37,9 @@ template(name='group_post_view')
                     div 
                     .spacer
                     .spacer
-                    +comments
-                    if watson
-                        +watson_view
+                    // +comments
+                    // if watson
+                    //     +watson_view
 
 template(name='group_post_edit')
     with current_doc
@@ -56,8 +56,6 @@ template(name='group_post_edit')
                     div 
                     +array_edit key='tags' label='tags' direct=true
                     +link_edit key='link' label='link' direct=true
-
-                    // +boolean_edit key='published' icon='visible' direct=true
                     if is_admin 
                         +text_edit key='model' label='model' direct=true
                     +array_edit key='time_tags' label='time tags' icon='clock' direct=true
