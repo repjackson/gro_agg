@@ -35,7 +35,4 @@ ecmascript@0.15.0
 http@1.4.2
 tmeasday:publish-counts
 multiply:iron-router-progress
-markdown
 lepozepo:cloudinary
-zimme:active-route
-flowkey:hotkeys

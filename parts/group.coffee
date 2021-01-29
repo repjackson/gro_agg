@@ -1,74 +1,74 @@
 if Meteor.isClient
-    Router.route '/course/:doc_id', (->
+    Router.route '/group/:doc_id', (->
         @layout 'layout'
-        @render 'course_home'
-        ), name:'course_home'
+        @render 'group_home'
+        ), name:'group_home'
 
-    @selected_course_tags = new ReactiveArray []
-    @selected_course_time_tags = new ReactiveArray []
-    @selected_course_location_tags = new ReactiveArray []
+    @selected_group_tags = new ReactiveArray []
+    @selected_group_time_tags = new ReactiveArray []
+    @selected_group_location_tags = new ReactiveArray []
 
 
         
-    Template.course_home.onCreated ->
+    Template.group_home.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        # @autorun => Meteor.subscribe 'shop_from_course_id', Router.current().params.doc_id
+        # @autorun => Meteor.subscribe 'shop_from_group_id', Router.current().params.doc_id
    
    
-    Router.route '/course/:doc_id/edit', (->
+    Router.route '/group/:doc_id/edit', (->
         @layout 'layout'
-        @render 'course_edit'
-        ), name:'course_edit'
+        @render 'group_edit'
+        ), name:'group_edit'
 
-    Template.course_edit.onCreated ->
+    Template.group_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.course_edit.onRendered ->
+    Template.group_edit.onRendered ->
 
 
 
-    Template.course_home.onCreated ->
-        @autorun => Meteor.subscribe 'course_tags',
+    Template.group_home.onCreated ->
+        @autorun => Meteor.subscribe 'group_tags',
             Router.current().params.doc_id
-            selected_course_tags.array()
-            selected_course_time_tags.array()
-            selected_course_location_tags.array()
-            # selected_course_authors.array()
+            selected_group_tags.array()
+            selected_group_time_tags.array()
+            selected_group_location_tags.array()
+            # selected_group_authors.array()
             Session.get('toggle')
-        @autorun => Meteor.subscribe 'course_count', 
+        @autorun => Meteor.subscribe 'group_count', 
             Router.current().params.doc_id
-            selected_course_tags.array()
-            selected_course_time_tags.array()
-            selected_course_location_tags.array()
+            selected_group_tags.array()
+            selected_group_time_tags.array()
+            selected_group_location_tags.array()
         
-        @autorun => Meteor.subscribe 'course_posts', 
+        @autorun => Meteor.subscribe 'group_posts', 
             Router.current().params.doc_id
-            selected_course_tags.array()
-            selected_course_time_tags.array()
-            selected_course_location_tags.array()
-            Session.get('course_sort_key')
-            Session.get('course_sort_direction')
-            Session.get('course_skip_value')
+            selected_group_tags.array()
+            selected_group_time_tags.array()
+            selected_group_location_tags.array()
+            Session.get('group_sort_key')
+            Session.get('group_sort_direction')
+            Session.get('group_skip_value')
 
-    Template.course_home.helpers
-        course_posts: ->
+    Template.group_home.helpers
+        group_posts: ->
             Docs.find 
                 model:'post'
-                course_id:Router.current().params.doc_id
-        selected_course_tags: -> selected_course_tags.array()
-        selected_time_tags: -> selected_course_time_tags.array()
-        selected_location_tags: -> selected_course_location_tags.array()
+                group_id:Router.current().params.doc_id
+        selected_group_tags: -> selected_group_tags.array()
+        selected_time_tags: -> selected_group_time_tags.array()
+        selected_location_tags: -> selected_group_location_tags.array()
         selected_people_tags: -> selected_people_tags.array()
-        counter: -> Counts.get 'course_counter'
-        course_result_tags: -> results.find(model:'course_tag')
-        course_time_tags: -> results.find(model:'course_time_tag')
-        course_location_tags: -> results.find(model:'course_location_tag')
+        counter: -> Counts.get 'group_counter'
+        group_result_tags: -> results.find(model:'group_tag')
+        group_time_tags: -> results.find(model:'group_time_tag')
+        group_location_tags: -> results.find(model:'group_location_tag')
 
             
-    Template.course_home.events
-        # 'click .unselect_course_tag': -> 
+    Template.group_home.events
+        # 'click .unselect_group_tag': -> 
         #     Session.set('skip',0)
         #     # console.log @
-        #     selected_course_tags.remove @valueOf()
+        #     selected_group_tags.remove @valueOf()
         #     # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
     
         # 'click .select_tag': -> 
@@ -76,35 +76,35 @@ if Meteor.isClient
         #     # console.log @
         #     # window.speechSynthesis.cancel()
         #     window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        #     # if @model is 'course_emotion'
+        #     # if @model is 'group_emotion'
         #     #     selected_emotions.push @name
         #     # else
-        #     # if @model is 'course_tag'
-        #     selected_course_tags.push @name
-        #     $('.search_subcourse').val('')
-        #     Session.set('course_skip_value',0)
+        #     # if @model is 'group_tag'
+        #     selected_group_tags.push @name
+        #     $('.search_subgroup').val('')
+        #     Session.set('group_skip_value',0)
     
         'click .unselect_time_tag': ->
-            selected_course_time_tags.remove @valueOf()
+            selected_group_time_tags.remove @valueOf()
         'click .select_time_tag': ->
-            selected_course_time_tags.push @name
+            selected_group_time_tags.push @name
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             
         'click .unselect_location_tag': ->
-            selected_course_location_tags.remove @valueOf()
+            selected_group_location_tags.remove @valueOf()
         'click .select_location_tag': ->
-            selected_course_location_tags.push @name
+            selected_group_location_tags.push @name
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
     
         'click .add_post': ->
             new_id = 
                 Docs.insert 
                     model:'post'
-                    course_id:Router.current().params.doc_id
-            Router.go "/course/#{Router.current().params.doc_id}/post/#{new_id}/edit"
+                    group_id:Router.current().params.doc_id
+            Router.go "/group/#{Router.current().params.doc_id}/post/#{new_id}/edit"
             
             
-    Template.course_edit.events
+    Template.group_edit.events
         'click .delete_item': ->
             if confirm 'delete item?'
                 Docs.remove @_id
@@ -117,9 +117,9 @@ if Meteor.isClient
         #             Router.go "/menu/#{@_id}/view"
 
 
-    Template.course_tag_selector.onCreated ->
+    Template.group_tag_selector.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
-    Template.course_tag_selector.helpers
+    Template.group_tag_selector.helpers
         selector_class: ()->
             term = 
                 Docs.findOne 
@@ -140,25 +140,25 @@ if Meteor.isClient
             # console.log res
             res
                 
-    Template.course_tag_selector.events
+    Template.group_tag_selector.events
         'click .select_tag': -> 
             # results.update
             # console.log @
             # window.speechSynthesis.cancel()
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-            # if @model is 'course_emotion'
+            # if @model is 'group_emotion'
             #     selected_emotions.push @name
             # else
-            # if @model is 'course_tag'
-            selected_course_tags.push @name
-            $('.search_subcourse').val('')
-            Session.set('course_skip_value',0)
+            # if @model is 'group_tag'
+            selected_group_tags.push @name
+            $('.search_subgroup').val('')
+            Session.set('group_skip_value',0)
     
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-            # Session.set('course_loading',true)
-            # Meteor.call 'search_course', @name, ->
-            #     Session.set('course_loading',false)
+            # Session.set('group_loading',true)
+            # Meteor.call 'search_group', @name, ->
+            #     Session.set('group_loading',false)
             # Meteor.setTimeout( ->
             #     Session.set('toggle',!Session.get('toggle'))
             # , 5000)
@@ -166,27 +166,27 @@ if Meteor.isClient
             
             
     
-    Template.course_unselect_tag.onCreated ->
+    Template.group_unselect_tag.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
         
-    Template.course_unselect_tag.helpers
+    Template.group_unselect_tag.helpers
         term: ->
             found = 
                 Docs.findOne 
                     # model:'wikipedia'
                     title:@valueOf().toLowerCase()
             found
-    Template.course_unselect_tag.events
-        'click .unselect_course_tag': -> 
+    Template.group_unselect_tag.events
+        'click .unselect_group_tag': -> 
             Session.set('skip',0)
             # console.log @
-            selected_course_tags.remove @valueOf()
+            selected_group_tags.remove @valueOf()
             # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
         
     
-    Template.flat_course_tag_selector.onCreated ->
+    Template.flat_group_tag_selector.onCreated ->
         # @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
-    Template.flat_course_tag_selector.helpers
+    Template.flat_group_tag_selector.helpers
         selector_class: ()->
             term = 
                 Docs.findOne 
@@ -203,37 +203,37 @@ if Meteor.isClient
         term: ->
             Docs.findOne 
                 title:@valueOf().toLowerCase()
-    Template.flat_course_tag_selector.events
+    Template.flat_group_tag_selector.events
         'click .select_flat_tag': -> 
             # results.update
             # window.speechSynthesis.cancel()
             window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-            selected_course_tags.push @valueOf()
-            $('.search_course').val('')
+            selected_group_tags.push @valueOf()
+            $('.search_group').val('')
 
 
 
 
 if Meteor.isServer
-    Meteor.publish 'course_count', (
-        course_id
+    Meteor.publish 'group_count', (
+        group_id
         selected_tags
-        selected_course_time_tags
-        selected_course_location_tags
+        selected_group_time_tags
+        selected_group_location_tags
         )->
             
-        match = {model:'post', course_id:course_id}
+        match = {model:'post', group_id:group_id}
         if selected_tags.length > 0 then match.tags = $all:selected_tags
-        if selected_course_time_tags.length > 0 then match.time_tags = $all:selected_course_time_tags
-        if selected_course_location_tags.length > 0 then match.location_tags = $all:selected_course_location_tags
-        Counts.publish this, 'course_counter', Docs.find(match)
+        if selected_group_time_tags.length > 0 then match.time_tags = $all:selected_group_time_tags
+        if selected_group_location_tags.length > 0 then match.location_tags = $all:selected_group_location_tags
+        Counts.publish this, 'group_counter', Docs.find(match)
         return undefined
                 
-    Meteor.publish 'course_posts', (
-        course_id
-        selected_course_tags
-        selected_course_time_tags
-        selected_course_location_tags
+    Meteor.publish 'group_posts', (
+        group_id
+        selected_group_tags
+        selected_group_time_tags
+        selected_group_location_tags
         sort_key
         sort_direction
         skip=0
@@ -241,7 +241,7 @@ if Meteor.isServer
         self = @
         match = {
             model:'post'
-            course_id: course_id
+            group_id: group_id
         }
         if sort_key
             sk = sort_key
@@ -251,11 +251,11 @@ if Meteor.isServer
         #     match.bounty = true
         # if view_unanswered
         #     match.is_answered = false
-        if selected_course_tags.length > 0 then match.tags = $all:selected_course_tags
-        if selected_course_time_tags.length > 0 then match.time_tags = $all:selected_course_time_tags
-        if selected_course_location_tags.length > 0 then match.location_tags = $all:selected_course_location_tags
-        # if selected_subcourse_domains.length > 0 then match.domain = $all:selected_subcourse_domains
-        # if selected_course_authors.length > 0 then match.author = $all:selected_course_authors
+        if selected_group_tags.length > 0 then match.tags = $all:selected_group_tags
+        if selected_group_time_tags.length > 0 then match.time_tags = $all:selected_group_time_tags
+        if selected_group_location_tags.length > 0 then match.location_tags = $all:selected_group_location_tags
+        # if selected_subgroup_domains.length > 0 then match.domain = $all:selected_subgroup_domains
+        # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
         console.log 'skip', skip
         Docs.find match,
             limit:20
@@ -264,13 +264,13 @@ if Meteor.isServer
         
         
     # Meteor.methods    
-        # tagify_course: (doc_id)->
+        # tagify_group: (doc_id)->
         #     doc = Docs.findOne doc_id
         #     # moment(doc.date).fromNow()
         #     # timestamp = Date.now()
     
         #     doc._timestamp_long = moment(doc._timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
-        #     # doc._app = 'course'
+        #     # doc._app = 'group'
         
         #     date = moment(doc.date).format('Do')
         #     weekdaynum = moment(doc.date).isoWeekday()
@@ -288,17 +288,17 @@ if Meteor.isServer
         #     if _
         #         date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
         #         doc._timestamp_tags = date_array
-        #         # console.log 'course', date_array
+        #         # console.log 'group', date_array
         #         Docs.update doc_id, 
         #             $set:addedtime_tags:date_array
         
                
-    Meteor.publish 'course_tags', (
-        course_id
-        selected_course_tags
-        selected_course_time_tags
-        selected_course_location_tags
-        # selected_course_authors
+    Meteor.publish 'group_tags', (
+        group_id
+        selected_group_tags
+        selected_group_time_tags
+        selected_group_location_tags
+        # selected_group_authors
         # view_bounties
         # view_unanswered
         # query=''
@@ -307,42 +307,42 @@ if Meteor.isServer
         self = @
         match = {
             model:'post'
-            course_id:course_id
-            # subcourse:subcourse
+            group_id:group_id
+            # subgroup:subgroup
         }
         # if view_bounties
         #     match.bounty = true
         # if view_unanswered
         #     match.is_answered = false
-        if selected_course_tags.length > 0 then match.tags = $all:selected_course_tags
-        # if selected_subcourse_domain.length > 0 then match.domain = $all:selected_subcourse_domain
-        if selected_course_time_tags.length > 0 then match.time_tags = $all:selected_course_time_tags
-        if selected_course_location_tags.length > 0 then match.location_tags = $all:selected_course_location_tags
-        # if selected_course_location.length > 0 then match.subcourse = $all:selected_course_location
-        # if selected_course_authors.length > 0 then match.author = $all:selected_course_authors
+        if selected_group_tags.length > 0 then match.tags = $all:selected_group_tags
+        # if selected_subgroup_domain.length > 0 then match.domain = $all:selected_subgroup_domain
+        if selected_group_time_tags.length > 0 then match.time_tags = $all:selected_group_time_tags
+        if selected_group_location_tags.length > 0 then match.location_tags = $all:selected_group_location_tags
+        # if selected_group_location.length > 0 then match.subgroup = $all:selected_group_location
+        # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
         # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
         doc_count = Docs.find(match).count()
         # console.log 'doc_count', doc_count
-        course_tag_cloud = Docs.aggregate [
+        group_tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_course_tags }
+            { $match: _id: $nin: selected_group_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit:33 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
-        course_tag_cloud.forEach (tag, i) ->
+        group_tag_cloud.forEach (tag, i) ->
             # console.log tag
             self.added 'results', Random.id(),
                 name: tag.name
                 count: tag.count
-                model:'course_tag'
+                model:'group_tag'
         
         
-        # course_domain_cloud = Docs.aggregate [
+        # group_domain_cloud = Docs.aggregate [
         #     { $match: match }
         #     { $project: "data.domain": 1 }
         #     # { $unwind: "$domain" }
@@ -353,14 +353,14 @@ if Meteor.isServer
         #     { $limit:10 }
         #     { $project: _id: 0, name: '$_id', count: 1 }
         # ]
-        # course_domain_cloud.forEach (domain, i) ->
+        # group_domain_cloud.forEach (domain, i) ->
         #     self.added 'results', Random.id(),
         #         name: domain.name
         #         count: domain.count
-        #         model:'course_domain_tag'
+        #         model:'group_domain_tag'
         
         
-        course_location_cloud = Docs.aggregate [
+        group_location_cloud = Docs.aggregate [
             { $match: match }
             { $project: "location_tags": 1 }
             { $unwind: "$location_tags" }
@@ -371,30 +371,30 @@ if Meteor.isServer
             { $limit:25 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
-        course_location_cloud.forEach (location, i) ->
+        group_location_cloud.forEach (location, i) ->
             self.added 'results', Random.id(),
                 name: location.name
                 count: location.count
-                model:'course_location_tag'
+                model:'group_location_tag'
         
         
         
-        course_time_cloud = Docs.aggregate [
+        group_time_cloud = Docs.aggregate [
             { $match: match }
             { $project: "time_tags": 1 }
             { $unwind: "$time_tags" }
             { $group: _id: "$time_tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_course_time_tags }
+            { $match: _id: $nin: selected_group_time_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit:25 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
-        course_time_cloud.forEach (time_tag, i) ->
+        group_time_cloud.forEach (time_tag, i) ->
             self.added 'results', Random.id(),
                 name: time_tag.name
                 count: time_tag.count
-                model:'course_time_tag'
+                model:'group_time_tag'
       
         self.ready()
             

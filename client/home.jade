@@ -1,39 +1,35 @@
 template(name='home')
     .ui.stackable.grid
         .sixteen.wide.column
-            a.ui.button(href="/school")
-                i.university.icon
-                |school
-    +dao
-    
-    
-template(name='dao')
+            a.ui.button(href="/groups")
+                i.users.icon
+                |groups
     .ui.stackable.grid
-        .four.wide.column
+        .six.wide.column
             .ui.icon.circular.basic.button.add_fam_post
                 i.plus.icon
             .ui.inline.header #{counter}
             // .ui.input
             //     input.add_fam_post(type='text' placeholder='add')
-            if selected_dao_tags
+            if selected_home_tags
                 // if many_tags
                 //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                 //         i.remove.icon
-                each selected_dao_tags
-                    +dao_unselect_tag
+                each selected_home_tags
+                    +home_unselect_tag
             .ui.icon.input
                 i.search.icon
-                input.search_dao_tag(type='text' value=dao_query)
-            each dao_result_tags
+                input.search_home_tag(type='text' value=home_query)
+            each home_result_tags
                 // .ui.label #{this}
-                +dao_tag_selector
+                +home_tag_selector
             div
             i.marker.big.grey.icon
                 // |where
             each selected_location_tags
                 .ui.circular.large.black.button.unselect_location_tag
                     |#{this}
-            each dao_location_tags
+            each home_location_tags
                 .ui.compact.basic.tertiary.button.select_location_tag(class=domain_selector_class)
                     |#{name} 
                     // small #{count}
@@ -43,21 +39,36 @@ template(name='dao')
             each selected_time_tags
                 .ui.circular.large.black.button.unselect_time_tag
                     |#{this}
-            each dao_time_tags
+            each home_time_tags
                 .ui.compact.basic.tertiary.button.select_time_tag(class=domain_selector_class)
                     |#{name} 
                     small #{count}
-            .ui.inline.header(href='dao views') #{stats.home_views}
+            .ui.inline.header(href='home views') #{stats.home_views}
                 i.eye.grey.icon
-            // each selected_dao_People
-            //     .ui.button.unselect_dao_People #{this}
-            // each dao_People_tags
+            // each selected_home_People
+            //     .ui.button.unselect_home_People #{this}
+            // each home_People_tags
             //     .ui.compact.basic.button.select_domain(class=domain_selector_class)
             //         |#{name} 
             //         small #{count}
             .ui.inline.header #{post_count}
-        .twelve.wide.column
-            // if skv_is 'dao_sort_direction' 1
+            .ui.header 
+                i.users.icon
+                |groups
+            .ui.cards
+                each groups
+                    .ui.card
+                        .content
+                            a.ui.header(href="/group/#{_id}") #{title}
+                            .ui.basic.label 
+                                i.clock.icon
+                                |#{section}
+                            .ui.basic.label 
+                                i.user.icon
+                                |#{professor}
+            
+        .ten.wide.column
+            // if skv_is 'home_sort_direction' 1
             //     .ui.icon.compact.basic.tertiary.button.sort_down
             //         i.caret.down.icon
             // else
@@ -85,21 +96,21 @@ template(name='dao')
             // +alpha
             // div
             // .scrolling
-            //     if dao_docs
+            //     if home_docs
             //         .ui.four.stackable.cards 
-            //             each dao_docs
-            //                 +dao_card
+            //             each home_docs
+            //                 +home_card
             //     else
             //         .ui.basic.center.aligned.segment
             //             i.big.loading.yin.yang.icon
         
             // .ui.header photos
-            .ui.stackable.four.column.grid.scrolling
+            .ui.stackable.three.column.grid.scrolling
                 each tribe_posts
-                    +dao_card
+                    +home_card
 
    
-template(name='dao_card')
+template(name='home_card')
     .ui.column
         a(href="/p/#{_id}")
             img.ui.rounded.image.say_title(src="{{c.url image_id }}" class=currentUser.invert_class)
@@ -115,16 +126,16 @@ template(name='dao_card')
             +youtube_view key='youtube_id' label='youtube id' direct=true
                 
             each tags
-                +flat_dao_tag_selector
-                // a.ui.label.select_dao_tag #{this}
-            each dao_time_tags
+                +flat_home_tag_selector
+                // a.ui.label.select_home_tag #{this}
+            each home_time_tags
                 .ui.small.basic.label.set_time_tag #{this}
             .ui.fluid.icon.transparent.input
                 i.chat.outline.icon
                 input.add_comment(type='text')
             each comments
                 .ui.small.header #{body}
-template(name='dao_tag_selector')
+template(name='home_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
     .ui.basic.compact.tertiary.small.button.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         // if term
@@ -134,8 +145,8 @@ template(name='dao_tag_selector')
         // if in_dev
         //     small #{count}
         
-template(name='dao_unselect_tag')
-    a.unselect_dao_tag.ui.black.large.compact.inverted.button(href='#')
+template(name='home_unselect_tag')
+    a.unselect_home_tag.ui.black.large.compact.inverted.button(href='#')
         // if term
         //     if term.watson.metadata.image
         //         img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -143,7 +154,7 @@ template(name='dao_unselect_tag')
 
         
         
-template(name='flat_dao_tag_selector')
+template(name='flat_home_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
     .ui.basic.tertiary.compact.tiny.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         // if term
@@ -204,9 +215,10 @@ template(name='post_edit')
                     +html_edit key='content' label='content' direct=true
                     +array_edit key='tags' label='tags' i='tags' direct=true
                     each tags
-                        +flat_dao_tag_selector
+                        +flat_home_tag_selector
                     +array_edit key='location_tags' label='location tags' i='marker' direct=true
                     +array_edit key='time_tags' label='time tags' i='clock' direct=true
                     +array_edit key='people_tags' label='people tags' i='users' direct=true
                 
+template(name='groups')
                 

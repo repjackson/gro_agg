@@ -1,5 +1,5 @@
-template(name='course_card')
-    a.ui.card(href="/course/#{_id}/view")
+template(name='group_card')
+    a.ui.card(href="/group/#{_id}/view")
         img.ui.image(src="{{c.url image height=400 width=400 gravity='face' crop='fill'}}")
         .content
             .header #{title} $#{price}
@@ -10,56 +10,56 @@ template(name='course_card')
             |#{points}
                 
             
-template(name='course_home')
+template(name='group_home')
     with current_doc
         .ui.stackable.padded.grid
             .row 
                 .sixteen.wide.column.scrolling
                     a.ui.circular.icon.button(href="/school")
                         i.university.icon
-                    a.ui.center.aligned.inline.header(href="/course/#{_id}")
+                    a.ui.center.aligned.inline.header(href="/group/#{_id}")
                         if image
                             img.ui.avatar.image(src="{{c.url image width=400 height=400 crop='fill'}}")
                         |#{title}
                     // .ui.fluid.vertical.small.menu
-                    //     a.disabled.grey.item(href="/course/#{_id}/content" class="{{isActiveRoute 'course_content'}}")
+                    //     a.disabled.grey.item(href="/group/#{_id}/content" class="{{isActiveRoute 'group_content'}}")
                     //         i.content.icon
                     //         |content
-                    //     a.disabled.grey.item(href="/course/#{_id}/calendar" class="{{isActiveRoute 'course_calendar'}}")
+                    //     a.disabled.grey.item(href="/group/#{_id}/calendar" class="{{isActiveRoute 'group_calendar'}}")
                     //         i.calendar.icon
                     //         |calendar
-                    //     a.disabled.grey.item(href="/course/#{_id}/classlist" class="{{isActiveRoute 'course_classlist'}}")
+                    //     a.disabled.grey.item(href="/group/#{_id}/classlist" class="{{isActiveRoute 'group_classlist'}}")
                     //         i.users.icon
                     //         |class list
-                    //     a.disabled.grey.item(href="/course/#{_id}/locker" class="{{isActiveRoute 'course_locker'}}")
+                    //     a.disabled.grey.item(href="/group/#{_id}/locker" class="{{isActiveRoute 'group_locker'}}")
                     //         i.inbox.icon
                     //         |locker
-                    //     a.disabled.grey.item(href="/course/#{_id}/assignments" class="{{isActiveRoute 'course_assignments'}}")
+                    //     a.disabled.grey.item(href="/group/#{_id}/assignments" class="{{isActiveRoute 'group_assignments'}}")
                     //         i.content.icon
                     //         |assignments
-                    //     a.disabled.grey.item(href="/course/#{_id}/discussions" class="{{isActiveRoute 'course_discussions'}}")
+                    //     a.disabled.grey.item(href="/group/#{_id}/discussions" class="{{isActiveRoute 'group_discussions'}}")
                     //         i.calendar.icon
                     //         |discussions
-                    //     a.disabled.grey.item(href="/course/#{_id}/groups" class="{{isActiveRoute 'course_groups'}}")
+                    //     a.disabled.grey.item(href="/group/#{_id}/groups" class="{{isActiveRoute 'group_groups'}}")
                     //         i.users.icon
                     //         |groups
-                    //     a.disabled.grey.item(href="/course/#{_id}/quizzes" class="{{isActiveRoute 'course_quizzes'}}")
+                    //     a.disabled.grey.item(href="/group/#{_id}/quizzes" class="{{isActiveRoute 'group_quizzes'}}")
                     //         i.question.icon
                     //         |quizzes
-                    //     a.disabled.item(href="/course/#{_id}/surveys" class="{{isActiveRoute 'course_surveys'}}")
+                    //     a.disabled.item(href="/group/#{_id}/surveys" class="{{isActiveRoute 'group_surveys'}}")
                     //         i.question.icon
                     //         |surveys
-                    //     a.disabled.item(href="/course/#{_id}/grades")
+                    //     a.disabled.item(href="/group/#{_id}/grades")
                     //         i.tasks.icon
                     //         |grades
-                    //     a.disabled.item(href="/course/#{_id}/progress" class="{{isActiveRoute 'course_progress'}}")
+                    //     a.disabled.item(href="/group/#{_id}/progress" class="{{isActiveRoute 'group_progress'}}")
                     //         i.tasks.icon
                     //         |class progress
-                    //     a.disabled.item(href="/course/#{_id}/competencies" class="{{isActiveRoute 'course_competencies'}}")
+                    //     a.disabled.item(href="/group/#{_id}/competencies" class="{{isActiveRoute 'group_competencies'}}")
                     //         i.checkmark.icon
                     //         |competencies
                     if can_edit
-                        a.edit_course(href="/course/#{_id}/edit")
+                        a.edit_group(href="/group/#{_id}/edit")
                             i.big.blue.pencil.circular.link.icon
                     .ui.inline.header(href='professor')
                         i.user.icon
@@ -78,29 +78,29 @@ template(name='course_home')
                     // .f11 #{description}
                     // +image_view key='image' label='image' direct=true
                     .ui.inline.header
-                        |#{course_posts.count} posts
+                        |#{group_posts.count} posts
                     .ui.circular.basic.icon.button.add_post
                         i.plus.icon
                 .sixteen.wide.column
-                    if selected_course_tags
+                    if selected_group_tags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                         //         i.remove.icon
-                        each selected_course_tags
-                            +course_unselect_tag
+                        each selected_group_tags
+                            +group_unselect_tag
                     .ui.icon.input
                         i.search.icon
-                        input.search_course_tag(type='text' value=course_query)
-                    each course_result_tags
+                        input.search_group_tag(type='text' value=group_query)
+                    each group_result_tags
                         // .ui.label #{this}
-                        +course_tag_selector
+                        +group_tag_selector
                     div
                     i.large.clock.icon
                     if selected_time_tags
                         each selected_time_tags
                             a.unselect_time_tag.ui.active.large.compact.button(href='#')
                                 strong #{this}
-                    each course_time_tags
+                    each group_time_tags
                         .ui.basic.compact.small.button.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                             strong #{name}
                         
@@ -110,13 +110,13 @@ template(name='course_home')
                         each selected_location_tags
                             a.unselect_location_tag.ui.active.large.compact.button(href='#')
                                 strong #{this}
-                    each course_location_tags
+                    each group_location_tags
                         .ui.basic.compact.small.button.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                             strong #{name}
                         
                     .scrolling
-                        each course_posts
-                            a.ui.fluid.card(href="/course/#{course_id}/post/#{_id}") 
+                        each group_posts
+                            a.ui.fluid.link.card(href="/group/#{group_id}/post/#{_id}") 
                                 .content 
                                     .header #{title}
                                     if youtube_id
@@ -130,16 +130,16 @@ template(name='course_home')
                                         .ui.small.basic.label #{this}
 
 
-template(name='course_edit')
+template(name='group_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row 
                 .five.wide.column
-                    a.ui.green.circular.icon.button(href="/course/#{_id}" title='save')
+                    a.ui.green.circular.icon.button(href="/group/#{_id}" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
                         i.pencil.icon
-                        small edit course
+                        small edit group
                         |#{title}
                     i.link.big.remove.icon.delete_item(title='delete menu item')
                     +text_edit key='title' icon='header' direct=true
@@ -159,7 +159,7 @@ template(name='course_edit')
                 
                 
                 
-template(name='course_tag_selector')
+template(name='group_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
     .ui.basic.compact.circular.button.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
@@ -169,8 +169,8 @@ template(name='course_tag_selector')
         // if in_dev
         //     small #{count}
         
-template(name='course_unselect_tag')
-    a.unselect_course_tag.ui.black.large.compact.inverted.button(href='#')
+template(name='group_unselect_tag')
+    a.unselect_group_tag.ui.black.large.compact.inverted.button(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -178,7 +178,7 @@ template(name='course_unselect_tag')
 
         
         
-template(name='flat_course_tag_selector')
+template(name='flat_group_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
     .ui.basic.compact.tiny.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term

@@ -118,6 +118,10 @@ Template.registerHelper 'embed', ()->
         #     $set:
         #         parsed_selftext_html:dom.value
 
+Router.route '/', (->
+    @layout 'layout'
+    @render 'home'
+    ), name:'home'
 
 
 
