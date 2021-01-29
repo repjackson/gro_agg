@@ -140,12 +140,12 @@ Meteor.methods
                     sentiment: true
                     limit: 20
                 concepts: {}
-                # categories:
-                #     explanation:true
+                categories:
+                    explanation:true
                 emotion: {}
                 metadata: {}
-                # relations: {}
-                # semantic_roles: {}
+                relations: {}
+                semantic_roles: {}
                 sentiment: {}
 
         switch mode
@@ -218,22 +218,22 @@ Meteor.methods
                 disgust_percent = emotions.disgust
                 # console.log 'main_emotion', max_emotion_name
                 # console.log 'max_emotion_percent', max_emotion_percent
-                if mode is 'url'
-                    Docs.update { _id: doc_id },
-                        $set:
-                            body:response.analyzed_text
-                            watson: response
-                            max_emotion_name:max_emotion_name
-                            max_emotion_percent:max_emotion_percent
-                            sadness_percent: sadness_percent
-                            joy_percent: joy_percent
-                            fear_percent: fear_percent
-                            anger_percent: anger_percent
-                            disgust_percent: disgust_percent
-                            watson_concepts: concept_array
-                            watson_keywords: keyword_array
-                            doc_sentiment_score: response.sentiment.document.score
-                            doc_sentiment_label: response.sentiment.document.label
+                # if mode is 'url'
+                Docs.update { _id: doc_id },
+                    $set:
+                        body:response.analyzed_text
+                        watson: response
+                        max_emotion_name:max_emotion_name
+                        max_emotion_percent:max_emotion_percent
+                        sadness_percent: sadness_percent
+                        joy_percent: joy_percent
+                        fear_percent: fear_percent
+                        anger_percent: anger_percent
+                        disgust_percent: disgust_percent
+                        watson_concepts: concept_array
+                        watson_keywords: keyword_array
+                        doc_sentiment_score: response.sentiment.document.score
+                        doc_sentiment_label: response.sentiment.document.label
 
 
 
@@ -283,7 +283,7 @@ Meteor.methods
                 #     Meteor.call 'call_tone', doc_id, 'body', 'text', ->
 
                 # Meteor.call 'log_doc_terms', doc_id, ->
-                Meteor.call 'clear_blocklist_doc', doc_id, ->
+                # Meteor.call 'clear_blocklist_doc', doc_id, ->
                 # if Meteor.isDevelopment
                 #     console.log 'all tags', final_doc.tags
                     # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'

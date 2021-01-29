@@ -3,50 +3,6 @@ if Meteor.isClient
         @layout 'course_view_layout'
         @render 'course_home'
         ), name:'course_home'
-    Router.route '/course/:doc_id/content', (->
-        @layout 'course_view_layout'
-        @render 'course_content'
-        ), name:'course_content'
-    Router.route '/course/:doc_id/calendar', (->
-        @layout 'course_view_layout'
-        @render 'course_calendar'
-        ), name:'course_calendar'
-    Router.route '/course/:doc_id/assignments', (->
-        @layout 'course_view_layout'
-        @render 'course_assignments'
-        ), name:'course_assignments'
-    Router.route '/course/:doc_id/discussions', (->
-        @layout 'course_view_layout'
-        @render 'course_discussions'
-        ), name:'course_discussions'
-    Router.route '/course/:doc_id/groups', (->
-        @layout 'course_view_layout'
-        @render 'course_groups'
-        ), name:'course_groups'
-    Router.route '/course/:doc_id/quizzes', (->
-        @layout 'course_view_layout'
-        @render 'course_quizzes'
-        ), name:'course_quizzes'
-    Router.route '/course/:doc_id/surveys', (->
-        @layout 'course_view_layout'
-        @render 'course_surveys'
-        ), name:'course_surveys'
-    Router.route '/course/:doc_id/classlist', (->
-        @layout 'course_view_layout'
-        @render 'course_classlist'
-        ), name:'course_classlist'
-    Router.route '/course/:doc_id/progress', (->
-        @layout 'course_view_layout'
-        @render 'course_progress'
-        ), name:'course_progress'
-    Router.route '/course/:doc_id/grades', (->
-        @layout 'course_view_layout'
-        @render 'course_grades'
-        ), name:'course_grades'
-    Router.route '/course/:doc_id/locker', (->
-        @layout 'course_view_layout'
-        @render 'course_locker'
-        ), name:'course_locker'
 
     @selected_course_tags = new ReactiveArray []
     @selected_course_time_tags = new ReactiveArray []
@@ -278,7 +234,7 @@ if Meteor.isServer
             { $match: _id: $nin: selected_course_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:25 }
+            { $limit:42 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         course_tag_cloud.forEach (tag, i) ->

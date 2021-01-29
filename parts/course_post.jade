@@ -1,8 +1,8 @@
 template(name='course_post_view')
     with current_doc
         .ui.stackable.padded.grid
-            .middle.aligned.row 
-                .sixteen.wide.column
+            .row 
+                .three.wide.column
                     a.ui.circular.basic.button(href="/course/#{course_id}")
                         i.chevron.left.icon
                         i.chalkboard.big.icon
@@ -13,9 +13,6 @@ template(name='course_post_view')
                     if can_edit
                         a.edit_course_post(href="/course/#{course_id}/post/#{_id}/edit" title='edit')
                             i.large.circular.link.pencil.icon
-
-            .row 
-                .three.wide.column
                     img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     // .ui.segment
                     //     .ui.header 
