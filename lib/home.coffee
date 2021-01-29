@@ -6,8 +6,10 @@ if Meteor.isClient
 
     Template.home.onRendered ->
         Meteor.call 'log_global_view'
+
     Template.home.onCreated ->
-        @autorun => Meteor.subscribe 'stats'
+        @autorun => Meteor.subscribe 'model_docs', 'course'
+        # @autorun => Meteor.subscribe 'stats'
         @autorun => Meteor.subscribe 'home_docs', 
             selected_home_tags.array()
             selected_home_time_tags.array()
@@ -65,9 +67,7 @@ if Meteor.isClient
         'keyup .search_home_tag': (e,t)->
              if e.which is 13
                 val = t.$('.search_home_tag').val().trim().toLowerCase()
-                
                 window.speechSynthesis.speak new SpeechSynthesisUtterance val
-
                 selected_home_tags.push val   
                 t.$('.search_home_tag').val('')
                 
@@ -96,10 +96,14 @@ if Meteor.isClient
         home_time_tags: -> results.find(model:'home_time_tag')
         home_location_tags: -> results.find(model:'home_location_tag')
         counter: -> Counts.get 'home_counter'
+        groups: ->
+            Docs.find({
+                model:'course'
+            },{sort:_timestamp:-1})
         tribe_posts: ->
             Docs.find({
                 model:'post'
-                tribe:'jpfam'
+                # tribe:'jpfam'
             },{sort:_timestamp:-1})
     Template.home_tag_selector.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())

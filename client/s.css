@@ -409,16 +409,16 @@ a.goto_article {
 
 }
 a:active {
-  transform: scale(97) !important;
+  transform: scale(.97) !important;
 }
 a.segment:active {
-  transform: scale(97) !important;
+  transform: scale(.97) !important;
 }
 img:active {
-  transform: scale(97) !important;
+  transform: scale(.97) !important;
 }
 .ui.image:active {
-  transform: scale(97) !important;
+  transform: scale(.97) !important;
 }
 .zoomer:hover {
     transition: all .15s ease !important; 

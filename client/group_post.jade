@@ -46,7 +46,7 @@ template(name='group_post_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.column.scrolling
+                .four.wide.column
                     a.ui.icon.green.big.circular.button(href="/group/#{group_id}/post/#{_id}" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
@@ -63,7 +63,7 @@ template(name='group_post_edit')
                         +text_edit key='model' label='model' direct=true
                     +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                .twelve.wide.column.scrolling
+                .twelve.wide.column
                     +youtube_edit key='youtube_id' label='youtube id' direct=true
                     +text_edit key='title' label='title' direct=true
                     +html_edit key='content' label='content' direct=true

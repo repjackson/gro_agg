@@ -3,6 +3,10 @@ if Meteor.isClient
         @layout 'layout'
         @render 'group_home'
         ), name:'group_home'
+    Router.route '/course/:doc_id', (->
+        @layout 'layout'
+        @render 'group_home'
+        ), name:'course_home'
 
     @selected_group_tags = new ReactiveArray []
     @selected_group_time_tags = new ReactiveArray []
@@ -53,7 +57,7 @@ if Meteor.isClient
         group_posts: ->
             Docs.find 
                 model:'post'
-                group_id:Router.current().params.doc_id
+                course_id:Router.current().params.doc_id
         selected_group_tags: -> selected_group_tags.array()
         selected_time_tags: -> selected_group_time_tags.array()
         selected_location_tags: -> selected_group_location_tags.array()
@@ -100,8 +104,14 @@ if Meteor.isClient
             new_id = 
                 Docs.insert 
                     model:'post'
-                    group_id:Router.current().params.doc_id
+                    course_id:Router.current().params.doc_id
             Router.go "/group/#{Router.current().params.doc_id}/post/#{new_id}/edit"
+        'keyup .search_group_tag': (e,t)->
+             if e.which is 13
+                val = t.$('.search_group_tag').val().trim().toLowerCase()
+                window.speechSynthesis.speak new SpeechSynthesisUtterance val
+                selected_group_tags.push val   
+                t.$('.search_group_tag').val('')
             
             
     Template.group_edit.events
@@ -241,7 +251,7 @@ if Meteor.isServer
         self = @
         match = {
             model:'post'
-            group_id: group_id
+            course_id: group_id
         }
         if sort_key
             sk = sort_key
@@ -307,7 +317,7 @@ if Meteor.isServer
         self = @
         match = {
             model:'post'
-            group_id:group_id
+            course_id:group_id
             # subgroup:subgroup
         }
         # if view_bounties
