@@ -14,7 +14,7 @@ Meteor.methods
     log_view: (doc_id)->
         console.log 'logging view', doc_id
         Docs.update doc_id, 
-            $inc:_views:1
+            $inc:views:1
             
     remove_doc: (doc_id)->
         console.log 'removing doc', doc_id
