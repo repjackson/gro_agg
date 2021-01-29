@@ -221,7 +221,7 @@ Meteor.methods
                 # if mode is 'url'
                 Docs.update { _id: doc_id },
                     $set:
-                        body:response.analyzed_text
+                        # body:response.analyzed_text
                         watson: response
                         max_emotion_name:max_emotion_name
                         max_emotion_percent:max_emotion_percent

@@ -11,112 +11,10 @@ template(name='course_card')
                 
             
 template(name='course_home')
-    .ui.segment
-        .ui.inline.header
-            |#{course_posts.count} posts
-        .ui.circular.basic.icon.button.add_post
-            i.plus.icon
-        if selected_course_tags
-            each selected_course_tags
-                a.unselect_course_tag.ui.active.large.compact.button(href='#')
-                    strong #{this}
-        .ui.icon.input
-            i.search.icon
-            input.search_course_tag(type='text' value=course_query)
-        each course_result_tags
-            .ui.basic.compact.small.button.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
-                strong #{name}
-        div
-        i.large.clock.icon
-        if selected_time_tags
-            each selected_time_tags
-                a.unselect_time_tag.ui.active.large.compact.button(href='#')
-                    strong #{this}
-        each course_time_tags
-            .ui.basic.compact.small.button.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
-                strong #{name}
-            
-        div
-        i.large.marker.icon
-        if selected_location_tags
-            each selected_location_tags
-                a.unselect_location_tag.ui.active.large.compact.button(href='#')
-                    strong #{this}
-        each course_location_tags
-            .ui.basic.compact.small.button.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
-                strong #{name}
-            
-        .ui.link.selection.list.scrolling
-            each course_posts
-                a.item(href="/course/#{course_id}/post/#{_id}") 
-                    .content 
-                        .header #{title}
-                        .smallscroll
-                            |!{content}
-                            if raw
-                                |!{raw}
-                        each tags
-                            .ui.small.basic.label #{this}
-            
-template(name='course_classlist')
-    .ui.header
-        i.users.icon
-        |classlist
-            
-template(name='course_progress')
-    .ui.header
-        i.tasks.icon
-        |progress
-            
-template(name='course_quizzes')
-    .ui.header 
-        i.question.icon
-        |quizzes
-template(name='course_surveys')
-    .ui.header 
-        i.question.icon
-        |surveys
-template(name='course_grades')
-    .ui.header 
-        i.tasks.icon
-        |grades
-template(name='course_locker')
-    .ui.header
-        i.inbox.icon
-        |locker
-            
-template(name='course_content')
-    .ui.header
-        i.content.icon
-        |content
-template(name='course_calendar')
-    .ui.header
-        i.calendar.icon
-        |calendar
-            
-template(name='course_groups')
-    .ui.header
-        i.users.icon
-        |groups
-            
-template(name='course_discussions')
-    .ui.header
-        i.chat.icon
-        |discussions
-
-
-template(name='course_assignments')
-    .ui.header
-        i.chat.icon
-        |assignments
-            
-template(name='course_view_layout')
-    if is_admin
-        +nav
     with current_doc
         .ui.stackable.padded.grid
             .row 
-                .three.wide.column.scrolling
+                .sixteen.wide.column.scrolling
                     a.ui.circular.icon.button(href="/school")
                         i.university.icon
                     a.ui.center.aligned.inline.header(href="/course/#{_id}")
@@ -163,10 +61,10 @@ template(name='course_view_layout')
                     if can_edit
                         a.edit_course(href="/course/#{_id}/edit")
                             i.big.blue.pencil.circular.link.icon
-                    .ui.header(href='professor')
+                    .ui.inline.header(href='professor')
                         i.user.icon
                         |#{professor}
-                    .ui.header(title='section')
+                    .ui.inline.header(title='section')
                         i.calendar.icon
                         |#{section}
                     // a.ui.header(href=link title='link')
@@ -177,10 +75,59 @@ template(name='course_view_layout')
                     // +voting_full
                     // +array_view key='tags' label='tags' icon='tags' direct=true
                     // +comments
-                    .f11 #{description}
+                    // .f11 #{description}
                     // +image_view key='image' label='image' direct=true
-                .thirteen.wide.column
-                    +yield
+                    .ui.inline.header
+                        |#{course_posts.count} posts
+                    .ui.circular.basic.icon.button.add_post
+                        i.plus.icon
+                .sixteen.wide.column
+                    if selected_course_tags
+                        // if many_tags
+                        //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                        //         i.remove.icon
+                        each selected_course_tags
+                            +course_unselect_tag
+                    .ui.icon.input
+                        i.search.icon
+                        input.search_course_tag(type='text' value=course_query)
+                    each course_result_tags
+                        // .ui.label #{this}
+                        +course_tag_selector
+                    div
+                    i.large.clock.icon
+                    if selected_time_tags
+                        each selected_time_tags
+                            a.unselect_time_tag.ui.active.large.compact.button(href='#')
+                                strong #{this}
+                    each course_time_tags
+                        .ui.basic.compact.small.button.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                            strong #{name}
+                        
+                    div
+                    i.large.marker.icon
+                    if selected_location_tags
+                        each selected_location_tags
+                            a.unselect_location_tag.ui.active.large.compact.button(href='#')
+                                strong #{this}
+                    each course_location_tags
+                        .ui.basic.compact.small.button.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                            strong #{name}
+                        
+                    .scrolling
+                        each course_posts
+                            a.ui.fluid.card(href="/course/#{course_id}/post/#{_id}") 
+                                .content 
+                                    .header #{title}
+                                    if youtube_id
+                                        +youtube_view key='youtube_id' label='youtube id' direct=true
+        
+                                    .smallscrol
+                                        |!{content}
+                                        if raw
+                                            |!{raw}
+                                    each tags
+                                        .ui.small.basic.label #{this}
 
 
 template(name='course_edit')
@@ -209,4 +156,36 @@ template(name='course_edit')
                     +array_edit key='ingredient_tags' label='ingredients' direct=true
                 .five.wide.column
                     +boolean_edit key='published' direct=true
+                
+                
+                
+template(name='course_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.compact.circular.button.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong #{name}
+        // if in_dev
+        //     small #{count}
+        
+template(name='course_unselect_tag')
+    a.unselect_course_tag.ui.black.large.compact.inverted.button(href='#')
+        if term
+            if term.watson.metadata.image
+                img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
+        strong #{this}
+
+        
+        
+template(name='flat_course_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.compact.tiny.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        | #{this}
+        // if in_dev
+        //     small #{count}
+
                 

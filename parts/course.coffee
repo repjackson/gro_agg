@@ -1,6 +1,6 @@
 if Meteor.isClient
     Router.route '/course/:doc_id', (->
-        @layout 'course_view_layout'
+        @layout 'layout'
         @render 'course_home'
         ), name:'course_home'
 
@@ -10,7 +10,7 @@ if Meteor.isClient
 
 
         
-    Template.course_view_layout.onCreated ->
+    Template.course_home.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'shop_from_course_id', Router.current().params.doc_id
    
@@ -65,24 +65,24 @@ if Meteor.isClient
 
             
     Template.course_home.events
-        'click .unselect_course_tag': -> 
-            Session.set('skip',0)
-            # console.log @
-            selected_course_tags.remove @valueOf()
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+        # 'click .unselect_course_tag': -> 
+        #     Session.set('skip',0)
+        #     # console.log @
+        #     selected_course_tags.remove @valueOf()
+        #     # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
     
-        'click .select_tag': -> 
-            # results.update
-            # console.log @
-            # window.speechSynthesis.cancel()
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-            # if @model is 'course_emotion'
-            #     selected_emotions.push @name
-            # else
-            # if @model is 'course_tag'
-            selected_course_tags.push @name
-            $('.search_subcourse').val('')
-            Session.set('course_skip_value',0)
+        # 'click .select_tag': -> 
+        #     # results.update
+        #     # console.log @
+        #     # window.speechSynthesis.cancel()
+        #     window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        #     # if @model is 'course_emotion'
+        #     #     selected_emotions.push @name
+        #     # else
+        #     # if @model is 'course_tag'
+        #     selected_course_tags.push @name
+        #     $('.search_subcourse').val('')
+        #     Session.set('course_skip_value',0)
     
         'click .unselect_time_tag': ->
             selected_course_time_tags.remove @valueOf()
@@ -109,12 +109,109 @@ if Meteor.isClient
             if confirm 'delete item?'
                 Docs.remove @_id
 
-        'click .publish': ->
-            Docs.update Router.current().params.doc_id,
-                $set:published:true
-            if confirm 'confirm?'
-                Meteor.call 'publish_menu', @_id, =>
-                    Router.go "/menu/#{@_id}/view"
+        # 'click .publish': ->
+        #     Docs.update Router.current().params.doc_id,
+        #         $set:published:true
+        #     if confirm 'confirm?'
+        #         Meteor.call 'publish_menu', @_id, =>
+        #             Router.go "/menu/#{@_id}/view"
+
+
+    Template.course_tag_selector.onCreated ->
+        @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
+    Template.course_tag_selector.helpers
+        selector_class: ()->
+            term = 
+                Docs.findOne 
+                    title:@name.toLowerCase()
+            if term
+                if term.max_emotion_name
+                    switch term.max_emotion_name
+                        when 'joy' then " basic green"
+                        when "anger" then " basic red"
+                        when "sadness" then " basic blue"
+                        when "disgust" then " basic orange"
+                        when "fear" then " basic grey"
+                        else "basic grey"
+        term: ->
+            res = 
+                Docs.findOne 
+                    title:@name.toLowerCase()
+            # console.log res
+            res
+                
+    Template.course_tag_selector.events
+        'click .select_tag': -> 
+            # results.update
+            # console.log @
+            # window.speechSynthesis.cancel()
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            # if @model is 'course_emotion'
+            #     selected_emotions.push @name
+            # else
+            # if @model is 'course_tag'
+            selected_course_tags.push @name
+            $('.search_subcourse').val('')
+            Session.set('course_skip_value',0)
+    
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+            # Session.set('course_loading',true)
+            # Meteor.call 'search_course', @name, ->
+            #     Session.set('course_loading',false)
+            # Meteor.setTimeout( ->
+            #     Session.set('toggle',!Session.get('toggle'))
+            # , 5000)
+            
+            
+            
+    
+    Template.course_unselect_tag.onCreated ->
+        @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
+        
+    Template.course_unselect_tag.helpers
+        term: ->
+            found = 
+                Docs.findOne 
+                    # model:'wikipedia'
+                    title:@valueOf().toLowerCase()
+            found
+    Template.course_unselect_tag.events
+        'click .unselect_course_tag': -> 
+            Session.set('skip',0)
+            # console.log @
+            selected_course_tags.remove @valueOf()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+        
+    
+    Template.flat_course_tag_selector.onCreated ->
+        # @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
+    Template.flat_course_tag_selector.helpers
+        selector_class: ()->
+            term = 
+                Docs.findOne 
+                    title:@valueOf().toLowerCase()
+            if term
+                if term.max_emotion_name
+                    switch term.max_emotion_name
+                        when 'joy' then " basic green"
+                        when "anger" then " basic red"
+                        when "sadness" then " basic blue"
+                        when "disgust" then " basic orange"
+                        when "fear" then " basic grey"
+                        else "basic grey"
+        term: ->
+            Docs.findOne 
+                title:@valueOf().toLowerCase()
+    Template.flat_course_tag_selector.events
+        'click .select_flat_tag': -> 
+            # results.update
+            # window.speechSynthesis.cancel()
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+            selected_course_tags.push @valueOf()
+            $('.search_course').val('')
+
+
 
 
 if Meteor.isServer
@@ -234,7 +331,7 @@ if Meteor.isServer
             { $match: _id: $nin: selected_course_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:42 }
+            { $limit:33 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         course_tag_cloud.forEach (tag, i) ->
