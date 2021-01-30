@@ -52,7 +52,7 @@ template(name='group_home')
                     each group_result_tags
                         // .ui.label #{this}
                         +group_tag_selector
-                    i.large.clock.icon
+                    i.big.clock.icon
                     if selected_time_tags
                         each selected_time_tags
                             a.unselect_time_tag.ui.active.large.compact.button(href='#')
@@ -60,7 +60,7 @@ template(name='group_home')
                     each group_time_tags
                         .ui.basic.compact.small.button.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                             strong #{name}
-                    i.large.marker.icon
+                    i.big.marker.icon
                     if selected_location_tags
                         each selected_location_tags
                             a.unselect_location_tag.ui.active.large.compact.button(href='#')
@@ -68,9 +68,9 @@ template(name='group_home')
                     each group_location_tags
                         .ui.basic.compact.small.button.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                             strong #{name}
-                        
+                    .ui.hidden.divider
                 .sixteen.wide.column
-                    .ui.stackable.three.column.dividing.grid.scrolling
+                    .ui.stackable.three.column.dividing.grid
                         each group_posts
                             .column.zoomer
                                 .content.medscroll

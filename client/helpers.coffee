@@ -7,68 +7,6 @@ Template.registerHelper 'in_role', (role)->
     else
         false
 
-Template.registerHelper 'dish_shop', () ->
-    Docs.findOne 
-        _id:@shop_id
-    
-Template.registerHelper 'drink_ref', () ->
-    Docs.findOne 
-        model:'drink'
-        _id:@drink_id
-    
-Template.registerHelper 'current_tribe', () ->
-    if Meteor.user()
-        Docs.findOne 
-            _id:Meteor.user().current_tribe_id
-    
-Template.registerHelper 'enabled_features', () ->
-    # console.log @
-    Docs.find
-        model:'feature'
-        _id:@enabled_feature_ids
-    
-    
-Template.registerHelper 'is_in_admin', () ->
-    Meteor.user() and Meteor.userId() in ['vwCi2GTJgvBJN5F6c','EYGz4bDSAdWF3W4wi']
-Template.registerHelper 'is_this_user', () ->
-    Meteor.userId() is @_id
-Template.registerHelper 'is_in_levels', (level) ->
-    Meteor.user() and Meteor.user().levels and level in Meteor.user().levels
-Template.registerHelper 'current_user', () ->
-    Meteor.users.findOne username:Router.current().params.username
-
-Template.registerHelper 'user_from_id', (user_id) ->
-    # console.log @
-    Meteor.users.findOne _id:user_id
-
-Template.registerHelper 'is_current_user', () ->
-    if Meteor.user()
-        Meteor.user().username is Router.current().params.username
-
-
-Template.registerHelper 'user_class', () ->
-    if @online then 'user_online'
-
-Template.registerHelper 'recipient', () ->
-    Meteor.users.findOne @recipient_id
-Template.registerHelper 'target', () ->
-    Meteor.users.findOne @target_user_id
-Template.registerHelper 'to', () ->
-    Meteor.users.findOne @to_user_id
-    
-Template.registerHelper 'shift_leader', () ->
-    Meteor.users.findOne @leader_user_id
-Template.registerHelper 'product', () ->
-    Docs.findOne @product_id
-Template.registerHelper 'upvote_class', () ->
-    if Meteor.userId()
-        if @upvoter_ids and Meteor.userId() in @upvoter_ids then 'green' else 'outline'
-    else ''
-Template.registerHelper 'downvote_class', () ->
-    if Meteor.userId()
-        if @downvoter_ids and Meteor.userId() in @downvoter_ids then 'red' else 'outline'
-    else ''
-
 Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 
@@ -81,45 +19,11 @@ Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 #     if parent
 #         parent["#{@key}"]
 
-Template.registerHelper 'i_have_points', () ->
-    if Meteor.user().username is 'one'
-        true
-    else
-        Meteor.user().points > 0
-
 
 Template.registerHelper 'doc_comments', () ->
     Docs.find
         model:'comment'
         parent_id:@_id
-
-Template.registerHelper 'is_logging_out', () -> Session.get('logging_out')
-
-
-Template.registerHelper 'is_admin', () ->
-    # Meteor.users.findOne username:Router.current().params.username
-    if Meteor.user() and Meteor.user().roles
-        if 'admin' in Meteor.user().roles then true else false
-
-Template.registerHelper 'is_dev', () ->
-    # Meteor.users.findOne username:Router.current().params.username
-    if Meteor.user() and Meteor.user().roles
-        if 'dev' in Meteor.user().roles then true else false
-
-
-Template.registerHelper 'is_author', () ->
-    # if @_author_id and Meteor.userId()
-    @_author_id is Meteor.userId()
-
-
-Template.registerHelper 'can_edit', () ->
-    # if @_author_id and Meteor.userId()
-    # @_author_id is Meteor.userId()
-    # if Meteor.user().roles
-    if Meteor.user()
-        if Meteor.user().roles and 'dev' in Meteor.user().roles or @_author_id is Meteor.userId() then true else false
-
-
 
 Template.registerHelper 'current_doc', () ->
     found_doc_by_id = Docs.findOne Router.current().params.doc_id
