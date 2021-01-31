@@ -37,7 +37,7 @@ template(name='group_home')
                     // .f11 #{description}
                     // +image_view key='image' label='image' direct=true
                     .ui.inline.header
-                        |#{group_posts.count} posts
+                        |#{counter} posts
                     .ui.circular.basic.icon.button.add_post
                         i.plus.icon
                     if selected_group_tags

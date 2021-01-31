@@ -232,7 +232,7 @@ if Meteor.isServer
         selected_group_location_tags
         )->
             
-        match = {model:'post', group_id:group_id}
+        match = {model:'post', course_id:group_id}
         if selected_tags.length > 0 then match.tags = $all:selected_tags
         if selected_group_time_tags.length > 0 then match.time_tags = $all:selected_group_time_tags
         if selected_group_location_tags.length > 0 then match.location_tags = $all:selected_group_location_tags
