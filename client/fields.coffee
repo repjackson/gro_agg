@@ -40,7 +40,7 @@ Template.color_edit.events
 Template.html_edit.onRendered ->
     @editor = SUNEDITOR.create((document.getElementById('sample') || 'sample'),{
     # 	"tabDisable": false
-        "minHeight": "600px"
+        "minHeight": "400px"
         buttonList: [
             [
                 'undo' 

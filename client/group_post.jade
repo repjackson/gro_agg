@@ -17,16 +17,12 @@ template(name='group_post_view')
                         .item #{views} views
                     each viewers
                         .ui.label #{username
-                    if is_admin
-                        +array_edit key='tags' label='tags' direct=true
-                    else     
-                        +array_view key='tags' label='tags' direct=true
-                    
+                    +array_edit key='tags' label='tags' direct=true
                     // +voting_full
-                    +link_edit key='link' label='link' direct=true
+                    +link_view key='link' label='link' direct=true
 
-                    +array_view key='time_tags' label='time tags' icon='clock' direct=true
-                    +array_view key='location_tags' label='location tags' icon='marker' direct=true
+                    +array_edit key='time_tags' label='time tags' icon='clock' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                 .nine.wide.column
                     if youtube_id
                         +youtube_view key='youtube_id' label='youtube id' direct=true
