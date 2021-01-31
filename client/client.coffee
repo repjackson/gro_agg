@@ -176,10 +176,6 @@ Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 #         parent["#{@key}"]
 
 
-Template.registerHelper 'doc_comments', () ->
-    Docs.find
-        model:'comment'
-        parent_id:@_id
 
 Template.registerHelper 'is_logging_out', () -> Session.get('logging_out')
 

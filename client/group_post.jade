@@ -2,8 +2,8 @@ template(name='group_post_view')
     with current_doc
         .ui.stackable.padded.grid
             .row 
-                .three.wide.column
-                    a.ui.circular.basic.large.icon.button(href="/group/#{course_id}")
+                .four.wide.column
+                    a.ui.circular.large.icon.button(href="/group/#{course_id}")
                         i.chevron.left.icon
                     .ui.large.inline.header #{title}
                     // div
@@ -27,7 +27,7 @@ template(name='group_post_view')
 
                     +array_view key='time_tags' label='time tags' icon='clock' direct=true
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
-                .thirteen.wide.column
+                .nine.wide.column
                     if youtube_id
                         +youtube_view key='youtube_id' label='youtube id' direct=true
                     if raw 
@@ -37,9 +37,10 @@ template(name='group_post_view')
                     div 
                     .spacer
                     .spacer
-                    // +comments
-                    // if watson
-                    //     +watson_view
+                .three.wide.column
+                    +comments
+                    if watson
+                        +watson_view
 
 template(name='group_post_edit')
     with current_doc

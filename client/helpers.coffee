@@ -20,11 +20,6 @@ Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 #         parent["#{@key}"]
 
 
-Template.registerHelper 'doc_comments', () ->
-    Docs.find
-        model:'comment'
-        parent_id:@_id
-
 Template.registerHelper 'current_doc', () ->
     found_doc_by_id = Docs.findOne Router.current().params.doc_id
     found_doc_by_slug = Docs.findOne Router.current().params.doc_slug
