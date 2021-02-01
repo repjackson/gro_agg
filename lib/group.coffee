@@ -1,46 +1,46 @@
 if Meteor.isClient
     Router.route '/:group', (->
         @layout 'layout'
-        @render 'group_home'
-        ), name:'group_home'
+        @render 'group'
+        ), name:'group'
 
-    @selected_group_tags = new ReactiveArray []
-    @selected_group_time_tags = new ReactiveArray []
-    @selected_group_location_tags = new ReactiveArray []
+    @selected_tags = new ReactiveArray []
+    @selected_time_tags = new ReactiveArray []
+    @selected_location_tags = new ReactiveArray []
 
 
         
    
-    Template.group_home.onCreated ->
-        if Router.current().params.doc_id
-            @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.group.onCreated ->
+        if Router.current().params.group
+            @autorun => Meteor.subscribe 'doc', Router.current().params.group
         if Router.current().params.group
             @autorun => Meteor.subscribe 'doc_from_group', Router.current().params.group
-        # @autorun => Meteor.subscribe 'shop_from_group', Router.current().params.doc_id
+        # @autorun => Meteor.subscribe 'shop_from_group', Router.current().params.group
         @autorun => Meteor.subscribe 'group_tags',
-            Router.current().params.doc_id
-            selected_group_tags.array()
-            selected_group_time_tags.array()
-            selected_group_location_tags.array()
+            Router.current().params.group
+            selected_tags.array()
+            selected_time_tags.array()
+            selected_location_tags.array()
             # selected_group_authors.array()
             Session.get('toggle')
         @autorun => Meteor.subscribe 'group_count', 
-            Router.current().params.doc_id
-            selected_group_tags.array()
-            selected_group_time_tags.array()
-            selected_group_location_tags.array()
+            Router.current().params.group
+            selected_tags.array()
+            selected_time_tags.array()
+            selected_location_tags.array()
         
         @autorun => Meteor.subscribe 'group_posts', 
-            Router.current().params.doc_id
-            selected_group_tags.array()
-            selected_group_time_tags.array()
-            selected_group_location_tags.array()
+            Router.current().params.group
+            selected_tags.array()
+            selected_time_tags.array()
+            selected_location_tags.array()
             Session.get('group_sort_key')
             Session.get('group_sort_direction')
             Session.get('group_skip_value')
 
-    Template.group_home.helpers
-        group_posts: ->
+    Template.group.helpers
+        posts: ->
             if Router.current().params.group is 'all'
                 Docs.find 
                     model:'post'
@@ -53,32 +53,23 @@ if Meteor.isClient
         # group_posts: ->
         #     Docs.find 
         #         model:'post'
-        #         course_id:Router.current().params.doc_id
-        selected_group_tags: -> selected_group_tags.array()
-        selected_time_tags: -> selected_group_time_tags.array()
-        selected_location_tags: -> selected_group_location_tags.array()
+        #         course_id:Router.current().params.group
+        selected_tags: -> selected_tags.array()
+        selected_time_tags: -> selected_time_tags.array()
+        selected_location_tags: -> selected_location_tags.array()
         selected_people_tags: -> selected_people_tags.array()
-        counter: -> Counts.get 'group_counter'
-        group_result_tags: -> results.find(model:'group_tag')
-        group_time_tags: -> results.find(model:'group_time_tag')
-        group_location_tags: -> results.find(model:'group_location_tag')
+        counter: -> Counts.get 'counter'
+        result_tags: -> results.find(model:'group_tag')
+        time_tags: -> results.find(model:'time_tag')
+        location_tags: -> results.find(model:'location_tag')
         current_group: ->
             Router.current().params.group
-        group_doc: ->
-            Docs.findOne    
-                model:'group'
-                group:Router.current().params.group
             
-    Template.group_home.events
-        'click .create_group': ->
-            Docs.insert    
-                model:'group'
-                group:Router.current().params.group
-            
+    Template.group.events
         # 'click .unselect_group_tag': -> 
         #     Session.set('skip',0)
         #     # console.log @
-        #     selected_group_tags.remove @valueOf()
+        #     selected_tags.remove @valueOf()
         #     # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
     
         # 'click .select_tag': -> 
@@ -90,39 +81,39 @@ if Meteor.isClient
         #     #     selected_emotions.push @name
         #     # else
         #     # if @model is 'group_tag'
-        #     selected_group_tags.push @name
+        #     selected_tags.push @name
         #     $('.search_subgroup').val('')
         #     Session.set('group_skip_value',0)
     
         'click .unselect_time_tag': ->
-            selected_group_time_tags.remove @valueOf()
+            selected_time_tags.remove @valueOf()
         'click .select_time_tag': ->
-            selected_group_time_tags.push @name
+            selected_time_tags.push @name
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             
         'click .unselect_location_tag': ->
-            selected_group_location_tags.remove @valueOf()
+            selected_location_tags.remove @valueOf()
         'click .select_location_tag': ->
-            selected_group_location_tags.push @name
+            selected_location_tags.push @name
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
     
         'click .add_post': ->
             new_id = 
                 Docs.insert 
                     model:'post'
-                    course_id:Router.current().params.doc_id
-            Router.go "/group/#{Router.current().params.doc_id}/post/#{new_id}/edit"
+                    course_id:Router.current().params.group
+            Router.go "/group/#{Router.current().params.group}/post/#{new_id}/edit"
         'keyup .search_group_tag': (e,t)->
              if e.which is 13
                 val = t.$('.search_group_tag').val().trim().toLowerCase()
                 window.speechSynthesis.speak new SpeechSynthesisUtterance val
-                selected_group_tags.push val   
+                selected_tags.push val   
                 t.$('.search_group_tag').val('')
             
             
-    Template.group_tag_selector.onCreated ->
+    Template.tag_selector.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
-    Template.group_tag_selector.helpers
+    Template.tag_selector.helpers
         selector_class: ()->
             term = 
                 Docs.findOne 
@@ -143,7 +134,7 @@ if Meteor.isClient
             # console.log res
             res
                 
-    Template.group_tag_selector.events
+    Template.tag_selector.events
         'click .select_tag': -> 
             # results.update
             # console.log @
@@ -153,7 +144,7 @@ if Meteor.isClient
             #     selected_emotions.push @name
             # else
             # if @model is 'group_tag'
-            selected_group_tags.push @name
+            selected_tags.push @name
             $('.search_subgroup').val('')
             Session.set('group_skip_value',0)
     
@@ -169,27 +160,27 @@ if Meteor.isClient
             
             
     
-    Template.group_unselect_tag.onCreated ->
+    Template.unselect_tag.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
         
-    Template.group_unselect_tag.helpers
+    Template.unselect_tag.helpers
         term: ->
             found = 
                 Docs.findOne 
                     # model:'wikipedia'
                     title:@valueOf().toLowerCase()
             found
-    Template.group_unselect_tag.events
-        'click .unselect_group_tag': -> 
+    Template.unselect_tag.events
+        'click .unselect_tag': -> 
             Session.set('skip',0)
             # console.log @
-            selected_group_tags.remove @valueOf()
+            selected_tags.remove @valueOf()
             # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
         
     
-    Template.flat_group_tag_selector.onCreated ->
+    Template.flat_tag_selector.onCreated ->
         # @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
-    Template.flat_group_tag_selector.helpers
+    Template.flat_tag_selector.helpers
         selector_class: ()->
             term = 
                 Docs.findOne 
@@ -206,27 +197,23 @@ if Meteor.isClient
         term: ->
             Docs.findOne 
                 title:@valueOf().toLowerCase()
-    Template.flat_group_tag_selector.events
+    Template.flat_tag_selector.events
         'click .select_flat_tag': -> 
             # results.update
             # window.speechSynthesis.cancel()
             window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-            selected_group_tags.push @valueOf()
+            selected_tags.push @valueOf()
             $('.search_group').val('')
 
 
 
 
 if Meteor.isServer
-    Meteor.publish 'doc_from_group', (group)->
-        Docs.find
-            model:'group'
-            group:group
     Meteor.publish 'group_count', (
         group
         selected_tags
-        selected_group_time_tags
-        selected_group_location_tags
+        selected_time_tags
+        selected_location_tags
         )->
         match = {model:'post'}
         if group is 'all'
@@ -235,16 +222,16 @@ if Meteor.isServer
             match.group = group
             
         if selected_tags.length > 0 then match.tags = $all:selected_tags
-        if selected_group_time_tags.length > 0 then match.time_tags = $all:selected_group_time_tags
-        if selected_group_location_tags.length > 0 then match.location_tags = $all:selected_group_location_tags
-        Counts.publish this, 'group_counter', Docs.find(match)
+        if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
+        if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
+        Counts.publish this, 'counter', Docs.find(match)
         return undefined
                 
     Meteor.publish 'group_posts', (
         group
-        selected_group_tags
-        selected_group_time_tags
-        selected_group_location_tags
+        selected_tags
+        selected_time_tags
+        selected_location_tags
         sort_key
         sort_direction
         skip=0
@@ -267,9 +254,9 @@ if Meteor.isServer
         #     match.bounty = true
         # if view_unanswered
         #     match.is_answered = false
-        if selected_group_tags.length > 0 then match.tags = $all:selected_group_tags
-        if selected_group_time_tags.length > 0 then match.time_tags = $all:selected_group_time_tags
-        if selected_group_location_tags.length > 0 then match.location_tags = $all:selected_group_location_tags
+        if selected_tags.length > 0 then match.tags = $all:selected_tags
+        if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
+        if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
         # if selected_subgroup_domains.length > 0 then match.domain = $all:selected_subgroup_domains
         # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
         console.log 'skip', skip
@@ -280,8 +267,8 @@ if Meteor.isServer
         
         
     # Meteor.methods    
-        # tagify_group: (doc_id)->
-        #     doc = Docs.findOne doc_id
+        # tagify_group: (group)->
+        #     doc = Docs.findOne group
         #     # moment(doc.date).fromNow()
         #     # timestamp = Date.now()
     
@@ -305,15 +292,15 @@ if Meteor.isServer
         #         date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
         #         doc._timestamp_tags = date_array
         #         # console.log 'group', date_array
-        #         Docs.update doc_id, 
+        #         Docs.update group, 
         #             $set:addedtime_tags:date_array
         
                
     Meteor.publish 'group_tags', (
         group
-        selected_group_tags
-        selected_group_time_tags
-        selected_group_location_tags
+        selected_tags
+        selected_time_tags
+        selected_location_tags
         # selected_group_authors
         # view_bounties
         # view_unanswered
@@ -335,10 +322,10 @@ if Meteor.isServer
         #     match.bounty = true
         # if view_unanswered
         #     match.is_answered = false
-        if selected_group_tags.length > 0 then match.tags = $all:selected_group_tags
+        if selected_tags.length > 0 then match.tags = $all:selected_tags
         # if selected_subgroup_domain.length > 0 then match.domain = $all:selected_subgroup_domain
-        if selected_group_time_tags.length > 0 then match.time_tags = $all:selected_group_time_tags
-        if selected_group_location_tags.length > 0 then match.location_tags = $all:selected_group_location_tags
+        if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
+        if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
         # if selected_group_location.length > 0 then match.subgroup = $all:selected_group_location
         # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
         # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
@@ -349,7 +336,7 @@ if Meteor.isServer
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_group_tags }
+            { $match: _id: $nin: selected_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit:25 }
@@ -396,7 +383,7 @@ if Meteor.isServer
             self.added 'results', Random.id(),
                 name: location.name
                 count: location.count
-                model:'group_location_tag'
+                model:'location_tag'
         
         
         
@@ -405,7 +392,7 @@ if Meteor.isServer
             { $project: "time_tags": 1 }
             { $unwind: "$time_tags" }
             { $group: _id: "$time_tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_group_time_tags }
+            { $match: _id: $nin: selected_time_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit:25 }
@@ -415,7 +402,7 @@ if Meteor.isServer
             self.added 'results', Random.id(),
                 name: time_tag.name
                 count: time_tag.count
-                model:'group_time_tag'
+                model:'time_tag'
       
         self.ready()
             
