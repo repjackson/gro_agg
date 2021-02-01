@@ -36,7 +36,8 @@ head
 
 template(name='front')
     .ui.basic.center.aligned.segment
-        i.massive.grey.yin.yang.icon
+        a(href="/discrete")
+            i.massive.grey.yin.yang.icon
 
 template(name='layout')
     // +status
@@ -54,5 +55,6 @@ template(name='layout')
     //     #main_area.pusher(class=currentUser.invert_class)
 
 template(name='not_found')
-    .ui.basic.center.aligned.padded.segment
-        .ui.center.aligned.header page not found
+    .ui.basic.center.aligned.segment
+        a(href="/discrete")
+            i.massive.yin.yang.link.icon

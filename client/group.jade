@@ -1,9 +1,9 @@
 template(name='group')
     .ui.stackable.padded.grid
         .row 
-            .sixteen.wide.center.aligned.column
-                .ui.center.aligned.inline.header    
-                    |#{current_slug}
+            .sixteen.wide.column
+                .ui.inline.header    
+                    |#{current_group}
                 // a.ui.header(href=link title='link')
                 //     i.link.icon
                 //     |link
@@ -35,7 +35,7 @@ template(name='group')
                     each selected_time_tags
                         a.unselect_time_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
-                each group_time_tags
+                each time_tags
                     .ui.basic.compact.small.button.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                         strong #{name}
                 i.big.marker.icon
@@ -43,7 +43,7 @@ template(name='group')
                     each selected_location_tags
                         a.unselect_location_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
-                each group_location_tags
+                each location_tags
                     .ui.basic.compact.small.button.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                         strong #{name}
                 .ui.hidden.divider
@@ -52,14 +52,14 @@ template(name='group')
                     each posts
                         .column.medscroll
                             .content
-                                a.header(href="/#{current_group}/#{_id}") #{title}
+                                a.header(href="/#{current_group}/p/#{_id}") #{title}
                                 img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
 
                                 if youtube_id
                                     +youtube_view key='youtube_id' label='youtube id' direct=true
                                 if in_dev
                                     +text_edit key='group' label='slug' direct=true
-                                a(href="/#{current_group}/#{_id}")
+                                a(href="/#{current_group}/p/#{_id}")
                                     |!{content}
                                     if raw
                                         |!{raw}
@@ -111,7 +111,7 @@ template(name='post_view')
                     // .ui.inline.grey.header {{from_now start_datetime}}
                     
                     if can_edit
-                        a.edit_group_post(href="/#{group}/#{_id}/edit" title='edit')
+                        a.edit_group_post(href="/#{group}/p/#{_id}/edit" title='edit')
                             i.large.circular.link.pencil.icon
                     | #{views} views
                     +array_edit key='tags' label='tags' direct=true
@@ -141,7 +141,7 @@ template(name='post_edit')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    a.ui.icon.green.big.circular.button(href="/#{group}/#{_id}" title='save')
+                    a.ui.icon.green.big.circular.button(href="/#{group}/p/#{_id}" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
                         i.pencil.icon
