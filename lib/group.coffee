@@ -101,8 +101,8 @@ if Meteor.isClient
             new_id = 
                 Docs.insert 
                     model:'post'
-                    course_id:Router.current().params.group
-            Router.go "/group/#{Router.current().params.group}/post/#{new_id}/edit"
+                    group:Router.current().params.group
+            Router.go "/#{Router.current().params.group}/#{new_id}/edit"
         'keyup .search_group_tag': (e,t)->
              if e.which is 13
                 val = t.$('.search_group_tag').val().trim().toLowerCase()
@@ -205,10 +205,51 @@ if Meteor.isClient
             selected_tags.push @valueOf()
             $('.search_group').val('')
 
+if Meteor.isClient
+    Router.route '/:group/:doc_id/edit', (->
+        @layout 'layout'
+        @render 'post_edit'
+        ), name:'post_edit'
+    Router.route '/:group/:doc_id', (->
+        @layout 'layout'
+        @render 'post_view'
+        ), name:'post_view'
+
+    Template.post_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
+    Template.post_view.onCreated ->
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'comments', Router.current().params.doc_id
+
+    Template.post_view.onRendered ->
+        Meteor.call 'log_view', Router.current().params.doc_id, ->
+    # Router.route '/posts', (->
+    #     @layout 'layout'
+    #     @render 'posts'
+    #     ), name:'posts'
+
+    Template.post_edit.helpers
+        doc_by_id: ->
+            Docs.findOne Router.current().params.doc_id
+    Template.post_view.helpers
+        doc_by_id: ->
+            Docs.findOne Router.current().params.doc_id
+    Template.post_edit.events
+        'click .delete_post': ->
+            if confirm 'delete?'
+                Docs.remove @_id
+                Router.go "/"
+
+        'click .publish': ->
+            if confirm 'publish post?'
+                Meteor.call 'publish_post', @_id, =>
 
 
 
 if Meteor.isServer
+    Meteor.publish 'doc_by_id', (doc_id)->
+        Docs.find doc_id
+        
     Meteor.publish 'group_count', (
         group
         selected_tags

@@ -353,7 +353,7 @@ a.goto_article {
 }
 
 .ui.button:not(.circular) { 
-    border-radius: 7px !important; 
+    border-radius: 10px !important; 
     /*border-radius: 10px !important;*/
 }
 .ui.button {
@@ -455,7 +455,7 @@ img:active {
     transform: scale(2) !important;
     /*transform: rotate(20deg) !important;*/
     z-index:1000 !important;
-    border-radius: 7px !important;
+    border-radius: 10px !important;
     /*animation: fadein .35s !important;*/
     /*-webkit-transition: opacity .15s ease-in !important;*/
     /* -webkit-transition: opacity .15s ease-out; */
@@ -613,12 +613,12 @@ a.title, #title {
 
 .label {
   margin:1px !important;
-  /*border-radius: 7px !important; */
+  /*border-radius: 10px !important; */
 }
 
 input {
-    /*margin: 7px !important;*/
-    border-radius: 7px !important; 
+    /*margin: 10px !important;*/
+    border-radius: 10px !important; 
 }
 
 ::-webkit-scrollbar {
@@ -698,7 +698,7 @@ input {
   margin:0px !important;
 }
 .button:active{
-  border-radius: 7px !important;  
+  border-radius: 10px !important;  
    transition: all .15s !important; 
   transform: translate(0, 1px) !important; 
   /*zoom:105% !important;*/
