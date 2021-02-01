@@ -1,16 +1,8 @@
 if Meteor.isClient
-    Router.route '/group/:doc_id', (->
+    Router.route '/:group', (->
         @layout 'layout'
         @render 'group_home'
         ), name:'group_home'
-    Router.route '/:slug', (->
-        @layout 'layout'
-        @render 'group_home'
-        ), name:'slug_home'
-    Router.route '/course/:doc_id', (->
-        @layout 'layout'
-        @render 'group_home'
-        ), name:'course_home'
 
     @selected_group_tags = new ReactiveArray []
     @selected_group_time_tags = new ReactiveArray []
@@ -19,24 +11,12 @@ if Meteor.isClient
 
         
    
-   
-    Router.route '/group/:doc_id/edit', (->
-        @layout 'layout'
-        @render 'group_edit'
-        ), name:'group_edit'
-
-    Template.group_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.group_edit.onRendered ->
-
-
-
     Template.group_home.onCreated ->
         if Router.current().params.doc_id
             @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        if Router.current().params.slug
-            @autorun => Meteor.subscribe 'doc_from_slug', Router.current().params.slug
-        # @autorun => Meteor.subscribe 'shop_from_group_slug', Router.current().params.doc_id
+        if Router.current().params.group
+            @autorun => Meteor.subscribe 'doc_from_group', Router.current().params.group
+        # @autorun => Meteor.subscribe 'shop_from_group', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'group_tags',
             Router.current().params.doc_id
             selected_group_tags.array()
@@ -61,14 +41,14 @@ if Meteor.isClient
 
     Template.group_home.helpers
         group_posts: ->
-            if Router.current().params.slug is 'all'
+            if Router.current().params.group is 'all'
                 Docs.find 
                     model:'post'
-                    group_slug:$exists:false
+                    group:$exists:false
             else
                 Docs.find 
                     model:'post'
-                    group_slug:Router.current().params.slug
+                    group:Router.current().params.group
                     
         # group_posts: ->
         #     Docs.find 
@@ -82,18 +62,18 @@ if Meteor.isClient
         group_result_tags: -> results.find(model:'group_tag')
         group_time_tags: -> results.find(model:'group_time_tag')
         group_location_tags: -> results.find(model:'group_location_tag')
-        current_slug: ->
-            Router.current().params.slug
+        current_group: ->
+            Router.current().params.group
         group_doc: ->
             Docs.findOne    
                 model:'group'
-                slug:Router.current().params.slug
+                group:Router.current().params.group
             
     Template.group_home.events
         'click .create_group': ->
             Docs.insert    
                 model:'group'
-                slug:Router.current().params.slug
+                group:Router.current().params.group
             
         # 'click .unselect_group_tag': -> 
         #     Session.set('skip',0)
@@ -140,19 +120,6 @@ if Meteor.isClient
                 t.$('.search_group_tag').val('')
             
             
-    Template.group_edit.events
-        'click .delete_item': ->
-            if confirm 'delete item?'
-                Docs.remove @_id
-
-        # 'click .publish': ->
-        #     Docs.update Router.current().params.doc_id,
-        #         $set:published:true
-        #     if confirm 'confirm?'
-        #         Meteor.call 'publish_menu', @_id, =>
-        #             Router.go "/menu/#{@_id}/view"
-
-
     Template.group_tag_selector.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
     Template.group_tag_selector.helpers
@@ -251,21 +218,21 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'doc_from_slug', (slug)->
+    Meteor.publish 'doc_from_group', (group)->
         Docs.find
             model:'group'
-            slug:slug
+            group:group
     Meteor.publish 'group_count', (
-        group_slug
+        group
         selected_tags
         selected_group_time_tags
         selected_group_location_tags
         )->
         match = {model:'post'}
-        if group_slug is 'all'
-            match.group_slug = $exists:false
+        if group is 'all'
+            match.group = $exists:false
         else
-            match.group_slug = group_slug
+            match.group = group
             
         if selected_tags.length > 0 then match.tags = $all:selected_tags
         if selected_group_time_tags.length > 0 then match.time_tags = $all:selected_group_time_tags
@@ -274,7 +241,7 @@ if Meteor.isServer
         return undefined
                 
     Meteor.publish 'group_posts', (
-        group_slug
+        group
         selected_group_tags
         selected_group_time_tags
         selected_group_location_tags
@@ -285,12 +252,12 @@ if Meteor.isServer
         self = @
         match = {
             model:'post'
-            # group_slug: group_slug
+            # group: group
         }
-        if group_slug is 'all'
-            match.group_slug = $exists:false
+        if group is 'all'
+            match.group = $exists:false
         else
-            match.group_slug = group_slug
+            match.group = group
 
         if sort_key
             sk = sort_key
@@ -343,7 +310,7 @@ if Meteor.isServer
         
                
     Meteor.publish 'group_tags', (
-        group_slug
+        group
         selected_group_tags
         selected_group_time_tags
         selected_group_location_tags
@@ -356,13 +323,13 @@ if Meteor.isServer
         self = @
         match = {
             model:'post'
-            # group_slug:group_slug
+            # group:group
             # subgroup:subgroup
         }
-        if group_slug is 'all'
-            match.group_slug = $exists:false
+        if group is 'all'
+            match.group = $exists:false
         else
-            match.group_slug = group_slug
+            match.group = group
 
         # if view_bounties
         #     match.bounty = true

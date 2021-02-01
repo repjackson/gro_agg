@@ -181,11 +181,6 @@ Template.registerHelper 'is_logging_out', () -> Session.get('logging_out')
 
 
 
-Template.registerHelper 'is_author', () ->
-    # if @_author_id and Meteor.userId()
-    @_author_id is Meteor.userId()
-
-
 
 Template.registerHelper 'current_doc', () ->
     found_doc_by_id = Docs.findOne Router.current().params.doc_id
