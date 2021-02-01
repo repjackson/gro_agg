@@ -11,11 +11,18 @@ template(name='group_card')
                 
             
 template(name='group_home')
+    if group_doc
+        with group_doc
+            .ui.header #{slug}
+    else 
+        .ui.header no #{current_slug} group found
+        .ui.big.button.create_group
+            |create #{current_slug}
     with current_doc
         .ui.stackable.padded.grid
             .row 
                 .sixteen.wide.center.aligned.column
-                    a.ui.center.aligned.inline.header(href="/group/#{_id}")
+                    .ui.center.aligned.inline.header
                         if image
                             img.ui.avatar.image(src="{{c.url image width=400 height=400 crop='fill'}}")
                         |#{title}

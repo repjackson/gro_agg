@@ -120,7 +120,7 @@ Template.registerHelper 'embed', ()->
 
 Router.route '/', (->
     @layout 'layout'
-    @render 'home'
+    @render 'front'
     ), name:'home'
 
 
@@ -189,7 +189,9 @@ Template.registerHelper 'is_author', () ->
 
 Template.registerHelper 'current_doc', () ->
     found_doc_by_id = Docs.findOne Router.current().params.doc_id
-    found_doc_by_slug = Docs.findOne Router.current().params.doc_slug
+    found_doc_by_slug = 
+        Docs.findOne 
+            slug:Router.current().params.slug
     if found_doc_by_id
         found_doc_by_id
     else if found_doc_by_slug

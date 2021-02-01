@@ -3,6 +3,10 @@ if Meteor.isClient
         @layout 'layout'
         @render 'group_home'
         ), name:'group_home'
+    Router.route '/:slug', (->
+        @layout 'layout'
+        @render 'group_home'
+        ), name:'slug_home'
     Router.route '/course/:doc_id', (->
         @layout 'layout'
         @render 'group_home'
@@ -14,9 +18,6 @@ if Meteor.isClient
 
 
         
-    Template.group_home.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        # @autorun => Meteor.subscribe 'shop_from_group_id', Router.current().params.doc_id
    
    
     Router.route '/group/:doc_id/edit', (->
@@ -31,6 +32,11 @@ if Meteor.isClient
 
 
     Template.group_home.onCreated ->
+        if Router.current().params.doc_id
+            @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        if Router.current().params.slug
+            @autorun => Meteor.subscribe 'doc_from_slug', Router.current().params.slug
+        # @autorun => Meteor.subscribe 'shop_from_group_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'group_tags',
             Router.current().params.doc_id
             selected_group_tags.array()
@@ -55,9 +61,18 @@ if Meteor.isClient
 
     Template.group_home.helpers
         group_posts: ->
-            Docs.find 
-                model:'post'
-                course_id:Router.current().params.doc_id
+            if Router.current().params.doc_id
+                Docs.find 
+                    model:'post'
+                    course_id:Router.current().params.doc_id
+            if Router.current().params.slug
+                Docs.find 
+                    model:'post'
+                    group_slug:Router.current().params.slug
+        # group_posts: ->
+        #     Docs.find 
+        #         model:'post'
+        #         course_id:Router.current().params.doc_id
         selected_group_tags: -> selected_group_tags.array()
         selected_time_tags: -> selected_group_time_tags.array()
         selected_location_tags: -> selected_group_location_tags.array()
@@ -66,9 +81,19 @@ if Meteor.isClient
         group_result_tags: -> results.find(model:'group_tag')
         group_time_tags: -> results.find(model:'group_time_tag')
         group_location_tags: -> results.find(model:'group_location_tag')
-
+        current_slug: ->
+            Router.current().params.slug
+        group_doc: ->
+            Docs.findOne    
+                model:'group'
+                slug:Router.current().params.slug
             
     Template.group_home.events
+        'click .create_group': ->
+            Docs.insert    
+                model:'group'
+                slug:Router.current().params.slug
+            
         # 'click .unselect_group_tag': -> 
         #     Session.set('skip',0)
         #     # console.log @
@@ -225,6 +250,10 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.publish 'doc_from_slug', (slug)->
+        Docs.find
+            model:'group'
+            slug:slug
     Meteor.publish 'group_count', (
         group_id
         selected_tags
