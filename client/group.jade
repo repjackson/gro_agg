@@ -11,18 +11,16 @@ template(name='group_card')
                 
             
 template(name='group_home')
-    if group_doc
-        with group_doc
-            .ui.header #{slug}
-    else 
+    unless group_doc 
         .ui.header no #{current_slug} group found
         .ui.big.button.create_group
             |create #{current_slug}
     with current_doc
         .ui.stackable.padded.grid
             .row 
-                .sixteen.wide.center.aligned.column
-                    .ui.center.aligned.inline.header
+                .sixteen.wide.column
+                    .ui.center.aligned.inline.header    
+                        |#{slug}
                         if image
                             img.ui.avatar.image(src="{{c.url image width=400 height=400 crop='fill'}}")
                         |#{title}
@@ -92,6 +90,7 @@ template(name='group_home')
                                     each tags
                                         +flat_group_tag_selector
                                         // .ui.small.basic.label #{this}
+                                    +text_edit key='group_slug' label='slug' direct=true
                                 .ui.divider
 
 template(name='group_edit')

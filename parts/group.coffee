@@ -36,7 +36,7 @@ if Meteor.isClient
             @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         if Router.current().params.slug
             @autorun => Meteor.subscribe 'doc_from_slug', Router.current().params.slug
-        # @autorun => Meteor.subscribe 'shop_from_group_id', Router.current().params.doc_id
+        # @autorun => Meteor.subscribe 'shop_from_group_slug', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'group_tags',
             Router.current().params.doc_id
             selected_group_tags.array()
@@ -61,14 +61,15 @@ if Meteor.isClient
 
     Template.group_home.helpers
         group_posts: ->
-            if Router.current().params.doc_id
+            if Router.current().params.slug is 'all'
                 Docs.find 
                     model:'post'
-                    course_id:Router.current().params.doc_id
-            if Router.current().params.slug
+                    group_slug:$exists:false
+            else
                 Docs.find 
                     model:'post'
                     group_slug:Router.current().params.slug
+                    
         # group_posts: ->
         #     Docs.find 
         #         model:'post'
@@ -255,13 +256,17 @@ if Meteor.isServer
             model:'group'
             slug:slug
     Meteor.publish 'group_count', (
-        group_id
+        group_slug
         selected_tags
         selected_group_time_tags
         selected_group_location_tags
         )->
+        match = {model:'post'}
+        if group_slug is 'all'
+            match.group_slug = $exists:false
+        else
+            match.group_slug = group_slug
             
-        match = {model:'post', course_id:group_id}
         if selected_tags.length > 0 then match.tags = $all:selected_tags
         if selected_group_time_tags.length > 0 then match.time_tags = $all:selected_group_time_tags
         if selected_group_location_tags.length > 0 then match.location_tags = $all:selected_group_location_tags
@@ -269,7 +274,7 @@ if Meteor.isServer
         return undefined
                 
     Meteor.publish 'group_posts', (
-        group_id
+        group_slug
         selected_group_tags
         selected_group_time_tags
         selected_group_location_tags
@@ -280,8 +285,13 @@ if Meteor.isServer
         self = @
         match = {
             model:'post'
-            course_id: group_id
+            # group_slug: group_slug
         }
+        if group_slug is 'all'
+            match.group_slug = $exists:false
+        else
+            match.group_slug = group_slug
+
         if sort_key
             sk = sort_key
         else
@@ -333,7 +343,7 @@ if Meteor.isServer
         
                
     Meteor.publish 'group_tags', (
-        group_id
+        group_slug
         selected_group_tags
         selected_group_time_tags
         selected_group_location_tags
@@ -346,9 +356,14 @@ if Meteor.isServer
         self = @
         match = {
             model:'post'
-            course_id:group_id
+            # group_slug:group_slug
             # subgroup:subgroup
         }
+        if group_slug is 'all'
+            match.group_slug = $exists:false
+        else
+            match.group_slug = group_slug
+
         # if view_bounties
         #     match.bounty = true
         # if view_unanswered
