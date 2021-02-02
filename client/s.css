@@ -439,7 +439,8 @@ img:active {
 /*    transform: scale(1.2) !important;*/
 /*}*/
 .grid {
-  margin-left:10px;
+  margin-left:0px !important;
+  margin-right:0px !important;
 }
 
 .superzoom {
