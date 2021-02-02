@@ -264,9 +264,9 @@ template(name='image_edit')
 
 template(name='image_link_edit')
     .ui.fluid.input
-        .ui.smoothed.label image link
+        .ui.label image link
         i.image.icon
-        input.edit_image_link(type='link' value=field_value placeholder='image link'  autocomplete="off")
+        input.image_link_val(type='link' value=field_value placeholder='image link'  autocomplete="off")
     if field_value
         img.ui.fluid.image(src=field_value)
     // +call_visual

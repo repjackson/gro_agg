@@ -152,6 +152,18 @@ Template.icon_edit.events
             Docs.update parent._id,
                 $set:"#{@key}":val
 
+Template.image_link_edit.events
+    'blur .image_link_val': (e,t)->
+        val = t.$('.image_link_val').val()
+        if @direct
+            parent = Template.parentData()
+        else
+            parent = Template.parentData(5)
+        doc = Docs.findOne parent._id
+        if doc
+            Docs.update parent._id,
+                $set:"#{@key}":val
+
 
 Template.image_edit.events
     "change input[name='upload_image']": (e) ->

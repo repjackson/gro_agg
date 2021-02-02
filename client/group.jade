@@ -13,7 +13,7 @@ template(name='group')
                 // +array_view key='tags' label='tags' icon='tags' direct=true
                 // +comments
                 // .f11 #{description}
-                // +image_view key='image' label='image' direct=true
+                // +image_link_view key='image' label='image' direct=true
                 .ui.inline.header
                     |#{counter} posts
                 .ui.circular.basic.icon.button.add_post
@@ -53,8 +53,12 @@ template(name='group')
                         .column.medscroll
                             .content
                                 a.header(href="/#{current_group}/p/#{_id}") #{title}
-                                img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-
+                                if image_id
+                                    a(href="/#{current_group}/p/#{_id}")
+                                        img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                                if image_link
+                                    a(href="/#{current_group}/p/#{_id}")
+                                        +image_link_view key='image_link' direct=true
                                 if youtube_id
                                     +youtube_view key='youtube_id' label='youtube id' direct=true
                                 if in_dev
@@ -121,7 +125,12 @@ template(name='post_view')
                     +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                 .nine.wide.column
-                    img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                    if image_link
+                        a(href="/#{group}")
+                            +image_link_view key='image_link' direct=true
+                    if image_id
+                        a(href="/#{group}")
+                            img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     if youtube_id
                         +youtube_view key='youtube_id' label='youtube id' direct=true
                     if raw 
@@ -157,5 +166,6 @@ template(name='post_edit')
                 .twelve.wide.column
                     +text_edit key='title' label='title' direct=true
                     +html_edit key='content' label='content' direct=true
+                    +image_link_edit key='image_link' direct=true
                     +youtube_edit key='youtube_id' label='youtube id' direct=true
         
