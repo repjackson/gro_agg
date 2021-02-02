@@ -2,6 +2,8 @@ template(name='group')
     .ui.stackable.grid
         .row 
             .sixteen.wide.center.aligned.column
+                .ui.inline.small.header    
+                    |#{counter}
                 .ui.inline.header    
                     |#{current_group}
                 // a.ui.header(href=link title='link')
@@ -14,8 +16,6 @@ template(name='group')
                 // +comments
                 // .f11 #{description}
                 // +image_link_view key='image' label='image' direct=true
-                .ui.inline.header
-                    |#{counter} posts
                 .ui.basic.icon.button.add_post
                     i.plus.icon
                 if selected_tags
@@ -50,12 +50,12 @@ template(name='group')
             .sixteen.wide.column
                 .ui.stackable.four.column.centered.grid
                     each posts
-                        .column.medscroll
+                        .center.aligned.column.medscroll
                             .content
-                                a.header(href="/#{current_group}/p/#{_id}") #{title}
+                                a.header.zoomer(href="/#{current_group}/p/#{_id}") #{title}
                                 if image_id
                                     a(href="/#{current_group}/p/#{_id}")
-                                        img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                                        img.ui.fluid.rounded.zoomer.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                                 if image_link
                                     a(href="/#{current_group}/p/#{_id}")
                                         +image_link_view key='image_link' direct=true
