@@ -105,26 +105,27 @@ template(name='flat_tag_selector')
 
 template(name='post_view')
     with doc_by_id
-        .ui.stackable.padded.grid
+        .ui.stackable.grid
             .row 
                 .four.wide.column
-                    a.ui.circular.large.icon.button(href="/#{group}")
-                        i.chevron.left.icon
-                    .ui.large.inline.header #{title}
-                    // div
-                    // .ui.inline.grey.header {{from_now start_datetime}}
-                    
-                    if can_edit
-                        a.edit_group_post(href="/#{group}/p/#{_id}/edit" title='edit')
-                            i.large.circular.link.pencil.icon
-                    | #{views} views
-                    +array_edit key='tags' label='tags' direct=true
-                    // +voting_full
-                    +link_view key='link' label='link' direct=true
-
-                    +array_edit key='time_tags' label='time tags' icon='clock' direct=true
-                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                .nine.wide.column
+                    .ui.basic.segment
+                        a.ui.circular.large.icon.button(href="/#{group}")
+                            i.chevron.left.icon
+                        .ui.large.inline.header #{title}
+                        // div
+                        // .ui.inline.grey.header {{from_now start_datetime}}
+                        
+                        if can_edit
+                            a.edit_group_post(href="/#{group}/p/#{_id}/edit" title='edit')
+                                i.large.circular.link.pencil.icon
+                        | #{views} views
+                        +array_edit key='tags' label='tags' direct=true
+                        // +voting_full
+                        +link_view key='link' label='link' direct=true
+    
+                        +array_edit key='time_tags' label='time tags' icon='clock' direct=true
+                        +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                .twelve.wide.column
                     if image_link
                         a(href="/#{group}")
                             +image_link_view key='image_link' direct=true
@@ -140,7 +141,6 @@ template(name='post_view')
                     div 
                     .spacer
                     .spacer
-                .three.wide.column
                     +comments
                     if watson
                         +watson_view
