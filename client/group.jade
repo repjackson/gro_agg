@@ -125,7 +125,7 @@ template(name='post_view')
     
                         +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                         +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                .twelve.wide.column
+                .twelve.wide.column.scrolling
                     if image_link
                         a(href="/#{group}")
                             +image_link_view key='image_link' direct=true
