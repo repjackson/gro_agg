@@ -269,6 +269,13 @@ Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 
 Template.registerHelper 'is_logging_out', () -> Session.get('logging_out')
 
+Template.registerHelper 'is_image', ()->
+    if @data.domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
+        true
+    else 
+        false
+Template.registerHelper 'is_youtube', ()->
+    @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
 
 
 

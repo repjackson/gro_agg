@@ -687,8 +687,9 @@ Meteor.publish 'sub_count', (
 Meteor.publish 'sub_docs_by_name', (
     subreddit
     selected_subreddit_tags
-    selected_subreddit_domains
+    selected_subreddit_domain
     selected_subreddit_time_tags
+    selected_subreddit_authors
     sort_key
     )->
     self = @
@@ -705,12 +706,13 @@ Meteor.publish 'sub_docs_by_name', (
     # if view_unanswered
     #     match.is_answered = false
     if selected_subreddit_tags.length > 0 then match.tags = $all:selected_subreddit_tags
-    if selected_subreddit_domains.length > 0 then match.domain = $all:selected_subreddit_domains
+    if selected_subreddit_domain.length > 0 then match.data.domain = $all:selected_subreddit_domain
     if selected_subreddit_time_tags.length > 0 then match.time_tags = $all:selected_subreddit_time_tags
-    # console.log match
+    if selected_subreddit_authors.length > 0 then match.author = $all:selected_subreddit_authors
+    console.log match
     Docs.find match,
         limit:20
-        sort: "#{sk}":-1
+        # sort: "#{sk}":-1
     
     
 Meteor.publish 'agg_sentiment_subreddit', (
@@ -754,14 +756,16 @@ Meteor.publish 'agg_sentiment_subreddit', (
 Meteor.publish 'sub_doc_count', (
     subreddit
     selected_tags
-    selected_subreddit_domains
+    selected_subreddit_domain
     selected_subreddit_time_tags
+    selected_subreddit_authors
+
     )->
         
     match = {model:'rpost'}
     match.subreddit = subreddit
     if selected_tags.length > 0 then match.tags = $all:selected_tags
-    if selected_subreddit_domains.length > 0 then match.domain = $all:selected_subreddit_domains
+    if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
     if selected_subreddit_time_tags.length > 0 then match.time_tags = $all:selected_subreddit_time_tags
     Counts.publish this, 'sub_doc_counter', Docs.find(match)
     return undefined
@@ -819,6 +823,7 @@ Meteor.publish 'subreddit_result_tags', (
     selected_subreddit_tags
     selected_subreddit_domain
     selected_subreddit_time_tags
+    selected_subreddit_authors
     # view_bounties
     # view_unanswered
     # query=''
@@ -836,6 +841,8 @@ Meteor.publish 'subreddit_result_tags', (
     if selected_subreddit_tags.length > 0 then match.tags = $all:selected_subreddit_tags
     if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
     if selected_subreddit_time_tags.length > 0 then match.time_tags = $all:selected_subreddit_time_tags
+    if selected_subreddit_authors.length > 0 then match.authors = $all:selected_subreddit_authors
+
     # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
@@ -1044,7 +1051,7 @@ Meteor.methods
 Meteor.publish 'reddit_docs', (
     selected_reddit_tags
     selected_subreddit_tags
-    selected_subreddit_domains
+    selected_subreddit_domain
     selected_reddit_subreddits
     sort_key
     )->
@@ -1090,8 +1097,8 @@ Meteor.publish 'reddit_tags', (
     # if view_unanswered
     #     match.is_answered = false
     if selected_reddit_tags.length > 0 then match.tags = $all:selected_reddit_tags
-    if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
-    if selected_reddit_time_tags.length > 0 then match.domain = $all:selected_reddit_time_tags
+    if selected_subreddit_domain.length > 0 then match.data.domain = $all:selected_subreddit_domain
+    if selected_reddit_time_tags.length > 0 then match.time_tags = $all:selected_reddit_time_tags
     if selected_reddit_subreddits.length > 0 then match.subreddit = $all:selected_reddit_subreddits
     # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
     doc_count = Docs.find(match).count()

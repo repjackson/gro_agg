@@ -1,6 +1,7 @@
 @selected_sub_tags = new ReactiveArray []
 @selected_subreddit_domain = new ReactiveArray []
 @selected_subreddit_time_tags = new ReactiveArray []
+@selected_subreddit_authors = new ReactiveArray []
 
 
 Router.route '/r/:subreddit', (->
@@ -27,6 +28,7 @@ Template.subreddit.onCreated ->
         selected_sub_tags.array()
         selected_subreddit_domain.array()
         selected_subreddit_time_tags.array()
+        selected_subreddit_authors.array()
         Session.get('sort_key')
         Session.get('sort_direction')
   
@@ -35,12 +37,14 @@ Template.subreddit.onCreated ->
         selected_sub_tags.array()
         selected_subreddit_domain.array()
         selected_subreddit_time_tags.array()
+        selected_subreddit_authors.array()
 
     @autorun => Meteor.subscribe 'subreddit_result_tags',
         Router.current().params.subreddit
         selected_sub_tags.array()
         selected_subreddit_domain.array()
         selected_subreddit_time_tags.array()
+        selected_subreddit_authors.array()
         Session.get('toggle')
     Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
 
@@ -81,6 +85,26 @@ Template.subreddit.events
     'click .download': ->
         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
     
+    'click .unselect_time_tag': ->
+        selected_subreddit_time_tags.remove @valueOf()
+    'click .select_time_tag': ->
+        selected_subreddit_time_tags.push @name
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+    
+    'click .unselect_domain': ->
+        selected_subreddit_domain.remove @valueOf()
+    'click .select_domain': ->
+        selected_subreddit_domain.push @name
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+    
+    'click .unselect_author': ->
+        selected_authors.remove @valueOf()
+    'click .select_authors': ->
+        selected_authorss.push @name
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+    
+    
+    
     'click .pull_latest': ->
         # console.log 'latest'
         Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
@@ -108,11 +132,16 @@ Template.subreddit.helpers
         if @name in selected_subreddit_domain.array() then 'blue' else ''
     sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
+    
     subreddit_result_tags: -> results.find(model:'subreddit_result_tag')
     subreddit_domain_tags: -> results.find(model:'subreddit_domain_tag')
     subreddit_time_tags: -> results.find(model:'subreddit_time_tag')
+    subreddit_authors: -> results.find(model:'subreddit_author')
 
     selected_sub_tags: -> selected_sub_tags.array()
+    selected_subreddit_domain: -> selected_subreddit_domain.array()
+    selected_subreddit_time_tags: -> selected_subreddit_time_tags.array()
+    selected_authors: -> selected_subreddit_authors.array()
     
     subreddit_doc: ->
         Docs.findOne

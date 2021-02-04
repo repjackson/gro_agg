@@ -85,7 +85,7 @@ template(name='subreddit')
                 .scrolling
                     if sub_docs
                         if skv_is 'subreddit_view_layout' 'grid'
-                            .ui.stackable.four.column.grid 
+                            .ui.stackable.three.column.grid 
                                 each sub_docs
                                     +subreddit_post_card_small
                         else if skv_is 'subreddit_view_layout' 'list'
@@ -100,15 +100,31 @@ template(name='subreddit')
                 // +alpha
                 div
                 .ui.inline.small.header domains
-
+                if selected_subreddit_domain
+                    each selected_subreddit_domain
+                        .ui.active.button.unselect_domain
+                            |#{this}
                 each subreddit_domain_tags
-                    .ui.compact.button.select_domain(class=domain_selector_class)
+                    .ui.compact.basic.circular.button.select_domain(class=domain_selector_class)
                         |#{name} 
                         small #{count}
                 div
                 i.clock.large.icon            
+                if selected_subreddit_time_tags
+                    each selected_subreddit_time_tags
+                        .ui.active.button.unselect_time_tag
+                            |#{this}
                 each subreddit_time_tags
-                    .ui.compact.button.select_time_tag(class=domain_selector_class)
+                    .ui.compact.basic.circular.button.select_time_tag(class=domain_selector_class)
+                        |#{name} 
+                        small #{count}
+                i.user.large.icon            
+                if selected_authors
+                    each selected_authors
+                        .ui.active.basic.circular.button.unselect_author
+                            |#{this}
+                each subreddit_authors
+                    .ui.compact.basic.circular.button.select_author(class=domain_selector_class)
                         |#{name} 
                         small #{count}
                 // .ui.inline.header.pull_latest #{display_name}
@@ -219,12 +235,12 @@ template(name='subreddit_post_card_small')
             i.comment.outline.grey.icon
             i.clock.icon
             each time_tags
-                .ui.tiny.label #{this}
+                .ui.tiny.basic.circular.label #{this}
             a.ui.label(href="/user/#{data.author}")
                 |#{data.author}
                 // span.inline.content
                 // span.inline.content
-            +print_this
+            // +print_this
    
 template(name='subreddit_doc_item')                  
     .ui.ite.seg
@@ -308,7 +324,7 @@ template(name='subreddit_doc_item')
 
 template(name='sub_tag_selector')
     // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.compact.button.zoomer.select_sub_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.compact.basic.circular.button.zoomer.select_sub_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -317,7 +333,7 @@ template(name='sub_tag_selector')
         //     small #{count}
         
 template(name='sub_unselect_tag')
-    a.unselect_sub_tag.ui.active.compact.button(href='#')
+    a.unselect_sub_tag.ui.active.compact.basic.circular.button(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -327,7 +343,7 @@ template(name='sub_unselect_tag')
         
 template(name='flat_sub_tag_selector')
     // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.compact.basic.circular.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
