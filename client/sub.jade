@@ -55,30 +55,30 @@ template(name='subreddit')
                 //     |1
                 // .ui.compact.small.button.limit_10
                 //     |10
-                .ui.icon.compact.large.small.button.sort_created(class=sort_created_class)
+                .ui.icon.compact.small.button.sort_created(class=sort_created_class)
                     i.clock.icon
-                .ui.icon.compact.large.small.button.sort_ups(class=sort_ups_class)
+                .ui.icon.compact.small.button.sort_ups(class=sort_ups_class)
                     i.thumbs.up.icon
                 if skv_is 'view_detail' true
-                    .ui.black.compact.button.toggle_detail
-                        i.list.large.icon
+                    .ui.black.compact.icon.button.toggle_detail
+                        i.list.icon
                         // |detail
                 else
-                    .ui.compact.button.toggle_detail
-                        i.minus.large.icon
+                    .ui.compact.icon.button.toggle_detail
+                        i.minus.icon
                         // |simple
                     // i.line.chart.icon
                 if skv_is 'subreddit_view_layout' 'grid'
-                    .ui.compact.button.set_grid(class=grid_class) 
+                    .ui.compact.icon.button.set_grid(class=grid_class) 
                         i.th.icon
-                        |grid
+                        // |grid
                 else
                     .ui.icon.compact.button.set_grid(class=grid_class) 
-                        i.th.large.icon
+                        i.th.icon
                 if skv_is 'subreddit_view_layout' 'list'
-                    .ui.compact.large.button.set_list(class=list_class)
+                    .ui.compact.icon.button.set_list(class=list_class)
                         i.list.large.icon
-                        |list
+                        // |list
                 else
                     .ui.icon.compact.button.set_list(class=list_class)
                         i.list.large.icon
@@ -220,7 +220,7 @@ template(name='subreddit_post_card_small')
             i.clock.icon
             each time_tags
                 .ui.tiny.label #{this}
-            a.ui.label(href="/ruser/#{data.author}")
+            a.ui.label(href="/user/#{data.author}")
                 |#{data.author}
                 // span.inline.content
                 // span.inline.content
@@ -299,9 +299,9 @@ template(name='subreddit_doc_item')
             
             each tags
                 +flat_sub_tag_selector
-            if watson
-                +doc_emotion_small
-            a.ui.inline.header(href="/ruser/#{data.author}")
+            // if watson
+            //     +doc_emotion_small
+            a.ui.inline.header(href="/user/#{data.author}")
                 |#{data.author}
     
 
