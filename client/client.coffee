@@ -246,6 +246,10 @@ Template.registerHelper 'comments', ()->
         parent_id:@_id
         
 
+Template.registerHelper 'ruser_doc', () ->
+    Docs.findOne 
+        model:'ruser'
+
 Template.registerHelper 'user_class', () ->
     if @online then 'user_online'
 

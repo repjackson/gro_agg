@@ -22,6 +22,10 @@ template(name='reddit_page')
                 // if skv_is 'view_section' 'main'
                 .scrolling
                     // if skv_is 'view_section' 'main'
+                    if is_image
+                        a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                            img.ui.fluid.zoomer.rounded.image.toggle_view(src=data.url)
+                    
                     if data.is_reddit_media_domain
                         img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
                     else if watson.metadata.image
