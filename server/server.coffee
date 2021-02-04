@@ -13,6 +13,10 @@ Docs.allow
 #     Counts.publish this, 'model_counter', Docs.find(match)
 #     return undefined
 
+Meteor.publish 'doc_by_id', (doc_id)->
+    Docs.find doc_id
+        
+
 Meteor.publish 'wikis', (
     w_query
     selected_tags

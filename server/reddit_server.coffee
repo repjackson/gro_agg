@@ -240,33 +240,34 @@ Meteor.methods
         
         
     get_sub_info: (subreddit)->
-        @unblock()
+        # @unblock()
         # console.log 'getting info', subreddit
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
         url = "https://www.reddit.com/r/#{subreddit}/about.json?&raw_json=1"
         HTTP.get url,(err,res)=>
-            # console.log res.data.data
-            if res.data.data
-                existing = Docs.findOne 
-                    model:'subreddit'
-                    "data.display_name":subreddit
-                if existing
-                    # console.log 'existing', existing
-                    # if Meteor.isDevelopment
-                    # if typeof(existing.tags) is 'string'
-                    #     Doc.update
-                    #         $unset: tags: 1
-                    Docs.update existing._id,
-                        $set: data:res.data.data
-                unless existing
-                    # console.log 'new sub', subreddit
-                    sub = {}
-                    sub.model = 'subreddit'
-                    sub.name = subreddit
-                    sub.data = res.data.data
-                    new_reddit_post_id = Docs.insert sub
+            console.log 'hi'
+            # if res.data.data
+            existing = Docs.findOne 
+                model:'subreddit'
+                name:subreddit
+                # "data.display_name":subreddit
+            if existing
+                console.log 'existing', existing
+                # if Meteor.isDevelopment
+                # if typeof(existing.tags) is 'string'
+                #     Doc.update
+                #         $unset: tags: 1
+                Docs.update existing._id,
+                    $set: data:res.data.data
+            unless existing
+                console.log 'new sub', subreddit
+                sub = {}
+                sub.model = 'subreddit'
+                sub.name = subreddit
+                sub.data = res.data.data
+                new_reddit_post_id = Docs.insert sub
     
     get_sub_latest: (subreddit)->
         @unblock()
@@ -551,7 +552,7 @@ Meteor.methods
                 )
                 
     search_subreddit: (subreddit,search)->
-        @unblock()
+        # @unblock()
         console.log 'searching ', subreddit, 'for ', search
         HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&raw_json=1&nsfw=1", (err,res)->
             if res.data.data.dist > 1
@@ -566,8 +567,8 @@ Meteor.methods
                         # console.log found, 'found and updating', subreddit
                         Docs.update found._id, 
                             $addToSet: tags: search
-                            # $set:
-                            #     subreddit:item.data.subreddit
+                            $set:
+                                subreddit:item.data.subreddit
                     unless found
                         # console.log found, 'not found'
                         item.model = 'rpost'
@@ -610,9 +611,10 @@ Meteor.methods
                         
 
 Meteor.publish 'subreddit_by_param', (subreddit)->
+    # console.log 'sub look', subreddit
     Docs.find
         model:'subreddit'
-        "data.display_name":subreddit
+        name:subreddit
         
 Meteor.publish 'related_posts', (post_id)->
     post = Docs.findOne post_id
@@ -705,7 +707,7 @@ Meteor.publish 'sub_docs_by_name', (
     if selected_subreddit_tags.length > 0 then match.tags = $all:selected_subreddit_tags
     if selected_subreddit_domains.length > 0 then match.domain = $all:selected_subreddit_domains
     if selected_subreddit_time_tags.length > 0 then match.time_tags = $all:selected_subreddit_time_tags
-    # console.log sk
+    console.log match
     Docs.find match,
         limit:20
         sort: "#{sk}":-1

@@ -247,9 +247,6 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'doc_by_id', (doc_id)->
-        Docs.find doc_id
-        
     Meteor.publish 'group_count', (
         group
         selected_tags

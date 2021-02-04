@@ -85,7 +85,7 @@ Template.subreddit.events
         # console.log 'latest'
         Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
     'click .get_info': ->
-        # console.log 'dl'
+        console.log 'dl'
         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
     'click .set_grid': (e,t)-> Session.set('subreddit_view_layout', 'grid')
     'click .set_list': (e,t)-> Session.set('subreddit_view_layout', 'list')
@@ -105,7 +105,7 @@ Template.subreddit.events
             
 Template.subreddit.helpers
     domain_selector_class: ->
-        if @name in selected_subreddit_domain.array() then 'blue' else 'basic'
+        if @name in selected_subreddit_domain.array() then 'blue' else ''
     sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
     subreddit_result_tags: -> results.find(model:'subreddit_result_tag')
@@ -117,7 +117,8 @@ Template.subreddit.helpers
     subreddit_doc: ->
         Docs.findOne
             model:'subreddit'
-            "data.display_name":Router.current().params.subreddit
+            # "data.display_name":Router.current().params.subreddit
+            name:Router.current().params.subreddit
     sub_docs: ->
         Docs.find({
             model:'rpost'
@@ -137,7 +138,8 @@ Template.subreddit.helpers
     current_subreddit: ->
         Docs.findOne 
             model:'subreddit'
-            "data.display_name":Router.current().params.subreddit
+            # "data.display_name":Router.current().params.subreddit
+            name:Router.current().params.subreddit
 
 
 Template.sub_tag_selector.onCreated ->
@@ -150,12 +152,12 @@ Template.sub_tag_selector.helpers
         if term
             if term.max_emotion_name
                 switch term.max_emotion_name
-                    when 'joy' then " basic green"
-                    when "anger" then " basic red"
-                    when "sadness" then " basic blue"
-                    when "disgust" then " basic orange"
-                    when "fear" then " basic grey"
-                    else "basic grey"
+                    when 'joy' then "  green"
+                    when "anger" then "  red"
+                    when "sadness" then "  blue"
+                    when "disgust" then "  orange"
+                    when "fear" then "  grey"
+                    else " grey"
     term: ->
         Docs.findOne 
             title:@name.toLowerCase()
@@ -215,12 +217,12 @@ Template.flat_sub_tag_selector.helpers
         if term
             if term.max_emotion_name
                 switch term.max_emotion_name
-                    when 'joy' then " basic green"
-                    when "anger" then " basic red"
-                    when "sadness" then " basic blue"
-                    when "disgust" then " basic orange"
-                    when "fear" then " basic grey"
-                    else "basic grey"
+                    when 'joy' then "  green"
+                    when "anger" then "  red"
+                    when "sadness" then "  blue"
+                    when "disgust" then "  orange"
+                    when "fear" then "  grey"
+                    else " grey"
     term: ->
         Docs.findOne 
             title:@valueOf().toLowerCase()
