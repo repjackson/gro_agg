@@ -1,6 +1,6 @@
 template(name='subreddit')
     unless current_subreddit
-        .ui.center.aligned.segment
+        .ui.center.aligned.basic.segment
             i.massive.yin.yang.link.grey.icon.get_info.shadowed2
     with current_subreddit
         .ui.stackable.grid(style="background-image:url(#{data.banner_img}); margin-top:0px;, background-size:cover;, background-repeat: no-repeat; min-width: 100%; ")
@@ -51,10 +51,10 @@ template(name='subreddit')
                 //         i.question.icon
                 //         | unanswered
                 // i.big.fire.link.icon
-                .ui.compact.small.button.limit_1
-                    |1
-                .ui.compact.small.button.limit_10
-                    |10
+                // .ui.compact.small.button.limit_1
+                //     |1
+                // .ui.compact.small.button.limit_10
+                //     |10
                 .ui.icon.compact.large.small.button.sort_created(class=sort_created_class)
                     i.clock.icon
                 .ui.icon.compact.large.small.button.sort_ups(class=sort_ups_class)
@@ -62,25 +62,25 @@ template(name='subreddit')
                 if skv_is 'view_detail' true
                     .ui.black.compact.button.toggle_detail
                         i.list.large.icon
-                        |detail
+                        // |detail
                 else
                     .ui.compact.button.toggle_detail
                         i.minus.large.icon
-                        |simple
+                        // |simple
                     // i.line.chart.icon
                 if skv_is 'subreddit_view_layout' 'grid'
-                    .ui.compact.large.button.set_grid(class=grid_class) 
-                        i.th.large.icon
+                    .ui.compact.button.set_grid(class=grid_class) 
+                        i.th.icon
                         |grid
                 else
-                    .ui.icon.compact.large.button.set_grid(class=grid_class) 
+                    .ui.icon.compact.button.set_grid(class=grid_class) 
                         i.th.large.icon
                 if skv_is 'subreddit_view_layout' 'list'
                     .ui.compact.large.button.set_list(class=list_class)
                         i.list.large.icon
                         |list
                 else
-                    .ui.icon.compact.large.button.set_list(class=list_class)
+                    .ui.icon.compact.button.set_list(class=list_class)
                         i.list.large.icon
                 .scrolling
                     if sub_docs
@@ -199,13 +199,13 @@ template(name='subreddit_post_card_small')
             div
         else if is_image
             a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.fluid.zoomer.image.toggle_view(src=data.url)
+                img.ui.fluid.zoomer.rounded.image.toggle_view(src=data.url)
         else if watson.metadata.image.length
             a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.inline.zoomer.image.toggle_view(src=watson.metadata.image)
+                img.ui.fluid.zoomer.rounded.image.toggle_view(src=watson.metadata.image)
         else if data.thumbnail.length
             a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.inline.zoomer.image.zoomer(src=data.thumbnail)    
+                img.ui.fluid.zoomer.rounded.image.zoomer(src=data.thumbnail)    
         // else if data.thumbnail.length
         //     .column
         //         a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
