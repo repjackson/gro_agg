@@ -99,7 +99,7 @@ template(name='subreddit')
                 .ui.inline.header.pull_latest #{data.title}
                 // +alpha
                 div
-                .ui.inline.small.header domains
+                i.big.globe.icon
                 if selected_subreddit_domain
                     each selected_subreddit_domain
                         .ui.active.button.unselect_domain
@@ -109,7 +109,7 @@ template(name='subreddit')
                         |#{name} 
                         small #{count}
                 div
-                i.clock.large.icon            
+                i.clock.big.icon            
                 if selected_subreddit_time_tags
                     each selected_subreddit_time_tags
                         .ui.active.button.unselect_time_tag
@@ -118,9 +118,10 @@ template(name='subreddit')
                     .ui.compact.basic.circular.button.select_time_tag(class=domain_selector_class)
                         |#{name} 
                         small #{count}
-                i.user.large.icon            
-                if selected_authors
-                    each selected_authors
+                div
+                i.user.big.icon            
+                if selected_subreddit_authors
+                    each selected_subreddit_authors
                         .ui.active.basic.circular.button.unselect_author
                             |#{this}
                 each subreddit_authors
@@ -219,15 +220,15 @@ template(name='subreddit_post_card_small')
         else if watson.metadata.image.length
             a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                 img.ui.fluid.zoomer.rounded.image.toggle_view(src=watson.metadata.image)
-        else if data.thumbnail.length
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.fluid.zoomer.rounded.image.zoomer(src=data.thumbnail)    
-        // else if data.thumbnail.length
+        // else if data.thumbnail
+        //     a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+        //         img.ui.fluid.zoomer.rounded.image.zoomer(src=data.thumbnail)    
+        // // else if data.thumbnail.length
         //     .column
         //         a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
         //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
         .content
-            a.ui.small.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.ui.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                 |!{data.title} 
             | #{data.ups}
             i.thumbs.up.outline.grey.icon

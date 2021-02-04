@@ -883,6 +883,24 @@ Meteor.publish 'subreddit_result_tags', (
             model:'subreddit_domain_tag'
   
   
+    subreddit_author_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "author": 1 }
+        # { $unwind: "$author" }
+        { $group: _id: "$author", count: $sum: 1 }
+        # { $match: _id: $nin: selected_authors }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:10 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    subreddit_author_cloud.forEach (author, i) ->
+        self.added 'results', Random.id(),
+            name: author.name
+            count: author.count
+            model:'subreddit_author_tag'
+  
+  
     
     subreddit_time_tag_cloud = Docs.aggregate [
         { $match: match }

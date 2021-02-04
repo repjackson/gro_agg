@@ -98,9 +98,9 @@ Template.subreddit.events
         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
     
     'click .unselect_author': ->
-        selected_authors.remove @valueOf()
-    'click .select_authors': ->
-        selected_authorss.push @name
+        selected_subreddit_authors.remove @valueOf()
+    'click .select_author': ->
+        selected_subreddit_authors.push @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
     
     
@@ -136,12 +136,12 @@ Template.subreddit.helpers
     subreddit_result_tags: -> results.find(model:'subreddit_result_tag')
     subreddit_domain_tags: -> results.find(model:'subreddit_domain_tag')
     subreddit_time_tags: -> results.find(model:'subreddit_time_tag')
-    subreddit_authors: -> results.find(model:'subreddit_author')
+    subreddit_authors: -> results.find(model:'subreddit_author_tag')
 
     selected_sub_tags: -> selected_sub_tags.array()
     selected_subreddit_domain: -> selected_subreddit_domain.array()
     selected_subreddit_time_tags: -> selected_subreddit_time_tags.array()
-    selected_authors: -> selected_subreddit_authors.array()
+    selected_subreddit_authors: -> selected_subreddit_authors.array()
     
     subreddit_doc: ->
         Docs.findOne
