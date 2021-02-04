@@ -27,21 +27,6 @@ Meteor.publish 'wikis', (
         limit:10
     })
     
-Meteor.methods
-    flatten: =>
-        match = {
-            model:'reddit'
-            flattened:$ne:true
-        }
-        todo = Docs.find(match,{limit:100})
-        for doc in todo.fetch()
-            new_tags = _.flatten(doc.tags)
-            Docs.update doc._id,
-                $set:
-                    flattened:true
-                    tags:new_tags
-    
-    
 
 Meteor.publish 'doc_by_title', (title)->
     Docs.find

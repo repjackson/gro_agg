@@ -29,10 +29,10 @@ template(name='subreddit')
                 div
                 .ui.inline.header #{post_count}
                 if skv_is 'sort_direction' 1
-                    .ui.icon.compact.button.sort_down
+                    .ui.icon.compact.basic.circular.button.sort_down
                         i.caret.down.icon
                 else
-                    .ui.icon.compact.button.sort_up
+                    .ui.icon.compact.basic.circular.button.sort_up
                         i.caret.up.icon
                 // if skv_is 'view_bounties' 1
                 //     .ui.compact.black.button.unview_bounties
@@ -55,32 +55,32 @@ template(name='subreddit')
                 //     |1
                 // .ui.compact.small.button.limit_10
                 //     |10
-                .ui.icon.compact.small.button.sort_created(class=sort_created_class)
+                .ui.icon.compact.small.circular.basic.button.sort_created(class=sort_created_class)
                     i.clock.icon
-                .ui.icon.compact.small.button.sort_ups(class=sort_ups_class)
+                .ui.icon.compact.small.circular.basic.button.sort_ups(class=sort_ups_class)
                     i.thumbs.up.icon
                 if skv_is 'view_detail' true
-                    .ui.black.compact.icon.button.toggle_detail
+                    .ui.black.compact.icon.circular.basic.button.toggle_detail
                         i.list.icon
                         // |detail
                 else
-                    .ui.compact.icon.button.toggle_detail
+                    .ui.compact.icon.circular.basic.button.toggle_detail
                         i.minus.icon
                         // |simple
                     // i.line.chart.icon
                 if skv_is 'subreddit_view_layout' 'grid'
-                    .ui.compact.icon.button.set_grid(class=grid_class) 
+                    .ui.compact.icon.circular.basic.button.set_grid(class=grid_class) 
                         i.th.icon
                         // |grid
                 else
-                    .ui.icon.compact.button.set_grid(class=grid_class) 
+                    .ui.icon.compact.circular.basic.button.set_grid(class=grid_class) 
                         i.th.icon
                 if skv_is 'subreddit_view_layout' 'list'
-                    .ui.compact.icon.button.set_list(class=list_class)
+                    .ui.compact.icon.circular.basic.button.set_list(class=list_class)
                         i.list.large.icon
                         // |list
                 else
-                    .ui.icon.compact.button.set_list(class=list_class)
+                    .ui.icon.compact.circular.basic.button.set_list(class=list_class)
                         i.list.large.icon
                 .scrolling
                     if sub_docs
@@ -99,7 +99,7 @@ template(name='subreddit')
                 .ui.inline.header.pull_latest #{data.title}
                 // +alpha
                 div
-                i.big.globe.icon
+                i.big.globe.grey.icon
                 if selected_subreddit_domain
                     each selected_subreddit_domain
                         .ui.active.button.unselect_domain
@@ -107,9 +107,9 @@ template(name='subreddit')
                 each subreddit_domain_tags
                     .ui.compact.basic.circular.button.select_domain(class=domain_selector_class)
                         |#{name} 
-                        small #{count}
+                        // small #{count}
                 div
-                i.clock.big.icon            
+                i.clock.big.grey.icon            
                 if selected_subreddit_time_tags
                     each selected_subreddit_time_tags
                         .ui.active.button.unselect_time_tag
@@ -117,9 +117,9 @@ template(name='subreddit')
                 each subreddit_time_tags
                     .ui.compact.basic.circular.button.select_time_tag(class=domain_selector_class)
                         |#{name} 
-                        small #{count}
+                        // small #{count}
                 div
-                i.user.big.icon            
+                i.user.big.grey.icon            
                 if selected_subreddit_authors
                     each selected_subreddit_authors
                         .ui.active.basic.circular.button.unselect_author
@@ -127,7 +127,7 @@ template(name='subreddit')
                 each subreddit_authors
                     .ui.compact.basic.circular.button.select_author(class=domain_selector_class)
                         |#{name} 
-                        small #{count}
+                        // small #{count}
                 // .ui.inline.header.pull_latest #{display_name}
                 if in_dev
                     +print_this
@@ -207,7 +207,7 @@ template(name='subreddit')
    
    
 template(name='subreddit_post_card_small')
-    .column
+    .center.aligned.column
         // .ui.stackable.equal.width.compact.grid
         //     .row
         if embed
@@ -220,15 +220,15 @@ template(name='subreddit_post_card_small')
         else if watson.metadata.image.length
             a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                 img.ui.fluid.zoomer.rounded.image.toggle_view(src=watson.metadata.image)
-        // else if data.thumbnail
-        //     a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-        //         img.ui.fluid.zoomer.rounded.image.zoomer(src=data.thumbnail)    
+        else if data.thumbnail_width
+            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                img.ui.fluid.zoomer.rounded.image.zoomer(src=data.thumbnail)    
         // // else if data.thumbnail.length
         //     .column
         //         a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
         //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
         .content
-            a.ui.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.ui.center.aligned.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                 |!{data.title} 
             | #{data.ups}
             i.thumbs.up.outline.grey.icon
@@ -237,11 +237,14 @@ template(name='subreddit_post_card_small')
             i.clock.icon
             each time_tags
                 .ui.tiny.basic.circular.label #{this}
-            a.ui.label(href="/user/#{data.author}")
+            a.ui.basic.label(href="/user/#{data.author}")
                 |#{data.author}
+            +doc_emotion_small        
+                
                 // span.inline.content
                 // span.inline.content
-            // +print_this
+            if in_dev
+                +print_this
    
 template(name='subreddit_doc_item')                  
     .ui.ite.seg

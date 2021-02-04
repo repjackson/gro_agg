@@ -270,6 +270,10 @@ Template.registerHelper 'is_image', ()->
         true
     else 
         false
+Template.registerHelper 'has_thumbnail', ()->
+    console.log @data.thumbnail
+    @data.thumbnail.length > 0
+
 Template.registerHelper 'is_youtube', ()->
     @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
 

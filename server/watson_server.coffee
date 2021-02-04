@@ -128,17 +128,17 @@ Meteor.methods
         # console.log 'analyzing', doc.title, 'tags', doc.tags
         parameters =
             concepts:
-                limit:20
+                limit:10
             features:
                 entities:
                     emotion: true
                     sentiment: true
                     mentions: false
-                    limit: 20
+                    limit: 10
                 keywords:
                     emotion: true
                     sentiment: true
-                    limit: 20
+                    limit: 10
                 concepts: {}
                 categories:
                     explanation:true
@@ -283,7 +283,7 @@ Meteor.methods
                 #     Meteor.call 'call_tone', doc_id, 'body', 'text', ->
 
                 # Meteor.call 'log_doc_terms', doc_id, ->
-                # Meteor.call 'clear_blocklist_doc', doc_id, ->
+                Meteor.call 'clear_blocklist_doc', doc_id, ->
                 # if Meteor.isDevelopment
                 #     console.log 'all tags', final_doc.tags
                     # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
