@@ -49,7 +49,33 @@ if Meteor.isClient
             # $(e.currentTarget).closest('.button').transition('pulse',200)
             Meteor.call 'downvote', @, ->
 #
-#
+#    Template.skve.events
+        'click .set_session_v': ->
+            # if Session.equals(@k,@v)
+            #     Session.set(@k, null)
+            # else
+            Session.set(@k, @v)
+
+    Template.skve.helpers
+        calculated_class: ->
+            res = ''
+            if @classes
+                res += @classes
+            if Session.get(@k)
+                if Session.equals(@k,@v)
+                    res += ' large compact black'
+                else
+                    # res += ' compact displaynone'
+                    res += ' compact basic '
+                res
+            else
+                'basic '
+        selected: -> Session.equals(@k,@v)
+
+
+
+
+
 #
     Template.call_watson.events
         'click .autotag': ->

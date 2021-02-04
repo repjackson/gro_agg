@@ -156,9 +156,6 @@ Template.registerHelper 'fixed', (number)->
     # console.log number
     number.toFixed(2)
     # (number*100).toFixed()
-Template.registerHelper 'to_percent', (number)->
-    # console.log number
-    (number*100).toFixed()
 
 Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
@@ -239,7 +236,6 @@ Template.registerHelper 'nl2br', (text)->
 
 Template.registerHelper 'fixed0', (number)-> if number then number.toFixed().toLocaleString()
 Template.registerHelper 'fixed', (number)-> if number then number.toFixed(2)
-Template.registerHelper 'to_percent', (number)-> (number*100).toFixed()
 
     
     
@@ -342,10 +338,10 @@ Template.registerHelper 'nl2br', (text)->
 
 
 Template.registerHelper 'dev', -> Meteor.isDevelopment
-Template.registerHelper 'fixed', (number)->
-    # console.log number
-    number.toFixed(2)
-    # (number*100).toFixed()
+# Template.registerHelper 'fixed', (number)->
+#     # console.log number
+#     number.toFixed(2)
+#     # (number*100).toFixed()
 Template.registerHelper 'to_percent', (number)->
     # console.log number
     (number*100).toFixed()

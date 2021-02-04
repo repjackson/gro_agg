@@ -21,11 +21,11 @@ Template.small_sentiment.helpers
 
 
 Template.doc_emotion.helpers
-    sadness_percent: -> (@sadness*100).toFixed()            
-    joy_percent: -> (@joy*100).toFixed()   
-    disgust_percent: -> (@disgust*100).toFixed()         
-    anger_percent: -> (@anger*100).toFixed()
-    fear_percent: -> (@fear*100).toFixed()
+    # sadness_percent: -> (@sadness*100).toFixed()            
+    # joy_percent: -> (@joy*100).toFixed()   
+    # disgust_percent: -> (@disgust*100).toFixed()         
+    # anger_percent: -> (@anger*100).toFixed()
+    # fear_percent: -> (@fear*100).toFixed()
 
 
     sentiment_score_percent: -> 
@@ -65,9 +65,9 @@ Template.keywords.onRendered ->
 #     'click #call_visual': ->
 #         Meteor.call 'call_visual', Router.current().params.doc_id, ->
 
-Template.tone.events
-    'click #call_tone': ->
-        Meteor.call 'call_tone', Router.current().params.doc_id, ->
+# Template.tone.events
+#     'click #call_tone': ->
+#         Meteor.call 'call_tone', Router.current().params.doc_id, ->
 
 
 

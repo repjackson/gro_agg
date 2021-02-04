@@ -150,14 +150,14 @@ Meteor.methods
 
         switch mode
             when 'html'
-                # parameters.html = doc["#{key}"]
+                parameters.html = doc["#{key}"]
                 # parameters.html = doc.body
-                parameters.html = doc.content
+                # parameters.html = doc.content
             when 'text'
                 parameters.text = doc["#{key}"]
             when 'url'
                 # parameters.url = doc["#{key}"]
-                parameters.url = doc.url
+                parameters.url = doc.data.url
                 parameters.returnAnalyzedText = true
                 parameters.clean = true
             when 'video'

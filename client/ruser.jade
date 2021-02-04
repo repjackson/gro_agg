@@ -135,8 +135,8 @@ template(name='ruser_post')
         a.ui.label(href="/r/#{subreddit}") #{subreddit}
         each tags 
             +flat_sub_ruser_tag_selector
-        // +doc_emotion_small        
-        |#{data.body}
+        +doc_emotion_small        
+        |!{data.body}
         | #{data.ups}
         i.thumbs.up.outline.grey.icon
         | #{data.num_comments}
@@ -192,7 +192,7 @@ template(name='ruser_comment')
         .ui.small.inline.header {{data.score}}
         span.metadata 
             span.date {{ufrom data.created}}
-            // +doc_emotion_small
+            +doc_emotion_small
         .pointer.say(class=post_header_class)
             |{{#markdown}} {{data.body}} {{/markdown}}
         each tags 
