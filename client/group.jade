@@ -16,7 +16,7 @@ template(name='group')
                 // +comments
                 // .f11 #{description}
                 // +image_link_view key='image' label='image' direct=true
-                .ui.basic.icon.button.add_post
+                .ui.icon.button.add_post
                     i.plus.icon
                 if selected_tags
                     // if many_tags
@@ -36,7 +36,7 @@ template(name='group')
                         a.unselect_time_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
                 each time_tags
-                    .ui.basic.compact.small.button.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                    .ui.compact.small.button.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                         strong #{name}
                 i.big.marker.grey.icon(title='where tags')
                 if selected_location_tags
@@ -44,7 +44,7 @@ template(name='group')
                         a.unselect_location_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
                 each location_tags
-                    .ui.basic.compact.small.button.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                    .ui.compact.small.button.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                         strong #{name}
                 .ui.hidden.divider
             .sixteen.wide.column
@@ -69,14 +69,14 @@ template(name='group')
                                         |!{raw}
                                 each tags
                                     +flat_tag_selector
-                                    // .ui.small.basic.label #{this}
+                                    // .ui.small.label #{this}
                             // .ui.divider
 
                 
                 
 template(name='tag_selector')
-    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.compact.basic.button.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.compact.button.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -94,8 +94,8 @@ template(name='unselect_tag')
         
         
 template(name='flat_tag_selector')
-    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.basic.compact.tiny.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.compact.tiny.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -108,7 +108,7 @@ template(name='post_view')
         .ui.stackable.grid
             .row 
                 .four.wide.column
-                    .ui.basic.segmen
+                    .ui.segmen
                         a.ui.large.icon.button(href="/#{group}")
                             i.chevron.left.icon
                         .ui.large.inline.header #{title}
