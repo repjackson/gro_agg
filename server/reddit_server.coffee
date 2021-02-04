@@ -254,7 +254,7 @@ Meteor.methods
                 name:subreddit
                 # "data.display_name":subreddit
             if existing
-                console.log 'existing', existing
+                # console.log 'existing', existing
                 # if Meteor.isDevelopment
                 # if typeof(existing.tags) is 'string'
                 #     Doc.update
@@ -262,7 +262,7 @@ Meteor.methods
                 Docs.update existing._id,
                     $set: data:res.data.data
             unless existing
-                console.log 'new sub', subreddit
+                # console.log 'new sub', subreddit
                 sub = {}
                 sub.model = 'subreddit'
                 sub.name = subreddit
@@ -554,7 +554,7 @@ Meteor.methods
     search_subreddit: (subreddit,search)->
         # @unblock()
         console.log 'searching ', subreddit, 'for ', search
-        HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&raw_json=1&nsfw=1", (err,res)->
+        HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&include_over_18=on&raw_json=1&nsfw=1", (err,res)->
             if res.data.data.dist > 1
                 _.each(res.data.data.children[0..100], (item)=>
                     # console.log item.data.id
@@ -707,7 +707,7 @@ Meteor.publish 'sub_docs_by_name', (
     if selected_subreddit_tags.length > 0 then match.tags = $all:selected_subreddit_tags
     if selected_subreddit_domains.length > 0 then match.domain = $all:selected_subreddit_domains
     if selected_subreddit_time_tags.length > 0 then match.time_tags = $all:selected_subreddit_time_tags
-    console.log match
+    # console.log match
     Docs.find match,
         limit:20
         sort: "#{sk}":-1
