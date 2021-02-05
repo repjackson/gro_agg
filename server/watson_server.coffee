@@ -126,7 +126,7 @@ Meteor.methods
         #     console.log 'skipping flagged doc', doc.title
         # else
         # console.log 'analyzing', doc.title, 'tags', doc.tags
-        parameters =
+        params =
             concepts:
                 limit:10
             features:
@@ -143,47 +143,69 @@ Meteor.methods
                 categories:
                     explanation:true
                 emotion: {}
-                metadata: {}
+                # metadata: {}
                 relations: {}
                 semantic_roles: {}
                 sentiment: {}
+        if doc.data and doc.data.domain and doc.data.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
+            params.url = "https://www.reddit.com#{doc.data.permalink}"
+            params.returnAnalyzedText = false
+            params.clean = false
+        else 
+            switch mode
+                when 'html'
+                    params.html = doc["#{key}"]
+                    params.returnAnalyzedText = true
+                    # params.html = doc.data.description
+                    params.features.metadata = {}
+                when 'text'
+                    params.text = doc["#{key}"]
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                when 'comment'
+                    params.text = doc.data.body
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                    # params.features.metadata = {}
+                when 'url'
+                    # params.url = doc["#{key}"]
+                    params.url = durl
+                    # console.log 'calling url', params.url, doc["#{key}"], key
+                    # console.log 'calling url', params.url, doc[key], durl
+                    # params.url = doc.data.link_url
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                    params.features.metadata = {}
+                when 'stack'
+                    # params.url = doc["#{key}"]
+                    params.url = doc.link
+                    params.returnAnalyzedText = true
+                    params.features.metadata = {}
+                    params.clean = true
+                when 'video'
+                    params.url = "https://www.reddit.com#{doc.data.permalink}"
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                    params.features.metadata = {}
+                when 'image'
+                    params.url = "https://www.reddit.com#{doc.data.permalink}"
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                    params.features.metadata = {}
 
-        switch mode
-            when 'html'
-                parameters.html = doc["#{key}"]
-                # parameters.html = doc.body
-                # parameters.html = doc.content
-            when 'text'
-                parameters.text = doc["#{key}"]
-            when 'url'
-                # parameters.url = doc["#{key}"]
-                parameters.url = doc.data.url
-                parameters.returnAnalyzedText = true
-                parameters.clean = true
-            when 'video'
-                parameters.url = "https://www.reddit.com#{doc.permalink}"
-                parameters.returnAnalyzedText = false
-                parameters.clean = false
-                # console.log 'calling video'
-            when 'image'
-                parameters.url = "https://www.reddit.com#{doc.permalink}"
-                parameters.returnAnalyzedText = false
-                parameters.clean = false
-                # console.log 'calling image'
-
-        # console.log 'parameters', parameters
+        # console.log 'params', params
 
 
-        natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>
+        natural_language_understanding.analyze params, Meteor.bindEnvironment((err, response)=>
             if err
-                # console.log 'watson error for', parameters.url
+                # console.log 'watson error for', params.url
                 # console.log err
                 if err.code is 400
                     console.log 'crawl rejected by server', err
                 unless err.code is 403
                     Docs.update doc_id,
                         $set:skip_watson:false
-                    # console.log 'not html, flaggged doc for future skip', parameters.url
+                    # console.log 'not html, flaggged doc for future skip', params.url
                 else
                     console.log '403 error api key'
             else
@@ -221,7 +243,7 @@ Meteor.methods
                 # if mode is 'url'
                 Docs.update { _id: doc_id },
                     $set:
-                        # body:response.analyzed_text
+                        analyzed_text:response.analyzed_text
                         watson: response
                         max_emotion_name:max_emotion_name
                         max_emotion_percent:max_emotion_percent
