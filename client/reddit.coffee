@@ -69,6 +69,7 @@ Router.route '/reddit', (->
 
 Template.reddit_page.onCreated ->
     @autorun -> Meteor.subscribe('doc_by_id', Router.current().params.doc_id)
+    @autorun -> Meteor.subscribe('rpost_comments', Router.current().params.subreddit, Router.current().params.doc_id)
 Template.reddit_page.onRendered ->
     Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
 

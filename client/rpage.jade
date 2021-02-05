@@ -68,6 +68,7 @@ template(name='reddit_page')
                     // .rounded
                     //     |!{embed}
                     // if skv_is 'view_section' 'watson'
+                    +rcomments_tab
                     +watson_view
                     // +watson_full
                     // if skv_is 'view_section' 'related'
@@ -83,7 +84,6 @@ template(name='reddit_page')
                     // .spacer
                     // if skv_is 'view_section' 'tags'
                     // if skv_is 'view_section' 'comments'
-                    +rcomments_tab
             .four.wide.column
                 a.ui.basic.fluid.button(href=data.url target="_window" title=data.url) 
                     i.external.icon

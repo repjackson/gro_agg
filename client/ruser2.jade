@@ -56,7 +56,7 @@ template(name='ruser')
                         |related users
                     .scrolling
                         each related_users
-                            a.ui.horizontal.card(href="/ruser/#{username}")
+                            a.ui.horizontal.card(href="/user/#{username}")
                                 .content
                                     img.ui.small.image(src=data.snoovatar_img)
                                     a.ui.small.header
@@ -86,10 +86,10 @@ template(name='ruser')
                     each ruser_post_time_tag_results
                         a.ui.basic.small.link.label.select_ruser_post_time_tag(title=count) #{name}
                         |&nbsp;
-                    .ui.circular.icon.button.rpost_skip_right
-                        i.chevron.right.icon
-                    .ui.circular.icon.button.rpost_skip_left
-                        i.chevron.left.icon
+                    // .ui.circular.icon.button.rpost_skip_right
+                    //     i.chevron.right.icon
+                    // .ui.circular.icon.button.rpost_skip_left
+                    //     i.chevron.left.icon
                     .scrolling
                         each ruser_rposts
                             +ruser_post

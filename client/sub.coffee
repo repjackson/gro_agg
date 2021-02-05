@@ -115,7 +115,7 @@ Template.subreddit.events
     'click .set_list': (e,t)-> Session.set('subreddit_view_layout', 'list')
 
     'keyup .search_subreddit': (e,t)->
-        val = $('.search_subreddit').val()
+        val = $('.search_subreddit').val().toLowerCase().trim()
         Session.set('sub_doc_query', val)
         if e.which is 13 
             selected_sub_tags.push val

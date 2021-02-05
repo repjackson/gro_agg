@@ -178,7 +178,7 @@ template(name='subreddit')
                 .ui.list.mobile.hidden
                     .item.seg.say !{data.public_description}
                     .item.seg.say 
-                        |{{#markdown}} !{data.description} {{/markdown}}
+                        |{{#markdown}} !{data.public_description} {{/markdown}}
                     .item 
                         i.grey.lightning.icon
                         |#{active_user_count} activeusers

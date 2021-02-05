@@ -60,7 +60,13 @@ Template.registerHelper 'selected_emotions', () -> selected_emotions.array()
     
 Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 
-    
+Template.registerHelper 'rcomments', (doc_id)->
+    post = Docs.findOne Router.current().params.doc_id
+    console.log 'comments for ', post
+    Docs.find
+        model:'rcomment'
+        parent_id:"t3_#{post.reddit_id}"
+
     
 Template.registerHelper 'trunc', (input) ->
     input[0..350]
