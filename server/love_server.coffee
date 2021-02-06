@@ -1,23 +1,36 @@
 Meteor.publish 'love_count', (
-    selected_tags
-    selected_authors
-    selected_location_tags
-    selected_time_tags
+    picked_tags
+    picked_authors
+    picked_location_tags
+    picked_time_tags
+    picked_l
+    picked_o
+    picked_v
+    picked_e
     )->
     match = {model:'love'}
         
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
-    if selected_authors.length > 0 then match.author_tags = $all:selected_authors
-    if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
-    if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    if picked_authors.length > 0 then match.author_tags = $all:picked_authors
+    if picked_location_tags.length > 0 then match.location_tags = $all:picked_location_tags
+    if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
+    if picked_l.length > 0 then match.l_value = $all:picked_l
+    if picked_o.length > 0 then match.o_value = $all:picked_o
+    if picked_v.length > 0 then match.v_value = $all:picked_v
+    if picked_e.length > 0 then match.e_value = $all:picked_e
+
     Counts.publish this, 'counter', Docs.find(match)
     return undefined
             
 Meteor.publish 'expressions', (
-    selected_tags
-    selected_authors
-    selected_location_tags
-    selected_time_tags
+    picked_tags
+    picked_time_tags
+    picked_location_tags
+    picked_authors
+    picked_l
+    picked_o
+    picked_v
+    picked_e
     sort_key
     sort_direction
     skip=0
@@ -30,12 +43,17 @@ Meteor.publish 'expressions', (
         sk = sort_key
     else
         sk = '_timestamp'
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
-    # if selected_authors.length > 0 then match.author_tags = $all:selected_authors
-    if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
-    if selected_authors.length > 0 then match.author = $all:selected_authors
-    if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
-    # console.log 'skip', skip
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    # if picked_authors.length > 0 then match.author_tags = $all:picked_authors
+    if picked_location_tags.length > 0 then match.location_tags = $all:picked_location_tags
+    if picked_authors.length > 0 then match.author = $all:picked_authors
+    if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
+    if picked_l.length > 0 then match.l_value = $all:picked_l
+    if picked_o.length > 0 then match.o_value = $all:picked_o
+    if picked_v.length > 0 then match.v_value = $all:picked_v
+    if picked_e.length > 0 then match.e_value = $all:picked_e
+
+    
     Docs.find match,
         limit:100
         sort:_timestamp:-1
@@ -74,14 +92,14 @@ Meteor.publish 'expressions', (
     
            
 Meteor.publish 'love_tags', (
-    selected_tags
-    selected_authors
-    selected_location_tags
-    selected_time_tags
-    selected_l
-    selected_o
-    selected_v
-    selected_e
+    picked_tags
+    picked_authors
+    picked_location_tags
+    picked_time_tags
+    picked_l
+    picked_o
+    picked_v
+    picked_e
     # query=''
     )->
     # @unblock()
@@ -92,10 +110,14 @@ Meteor.publish 'love_tags', (
         # sublove:sublove
     }
 
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
-    if selected_authors.length > 0 then match.author_tags = $all:selected_authors
-    if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
-    if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    if picked_authors.length > 0 then match.author_tags = $all:picked_authors
+    if picked_location_tags.length > 0 then match.location_tags = $all:picked_location_tags
+    if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
+    if picked_l.length > 0 then match.l_value = $all:picked_l
+    if picked_o.length > 0 then match.o_value = $all:picked_o
+    if picked_v.length > 0 then match.v_value = $all:picked_v
+    if picked_e.length > 0 then match.e_value = $all:picked_e
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
     love_tag_cloud = Docs.aggregate [
@@ -103,7 +125,7 @@ Meteor.publish 'love_tags', (
         { $project: "tags": 1 }
         { $unwind: "$tags" }
         { $group: _id: "$tags", count: $sum: 1 }
-        { $match: _id: $nin: selected_tags }
+        { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:25 }
@@ -122,7 +144,7 @@ Meteor.publish 'love_tags', (
     #     { $project: "data.domain": 1 }
     #     # { $unwind: "$domain" }
     #     { $group: _id: "$data.domain", count: $sum: 1 }
-    #     # { $match: _id: $nin: selected_domains }
+    #     # { $match: _id: $nin: picked_domains }
     #     { $sort: count: -1, _id: 1 }
     #     { $match: count: $lt: doc_count }
     #     { $limit:10 }
@@ -140,7 +162,7 @@ Meteor.publish 'love_tags', (
         { $project: "location_tags": 1 }
         { $unwind: "$location_tags" }
         { $group: _id: "$location_tags", count: $sum: 1 }
-        # { $match: _id: $nin: selected_location }
+        # { $match: _id: $nin: picked_location }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:25 }
@@ -159,7 +181,7 @@ Meteor.publish 'love_tags', (
         { $project: "author_tags": 1 }
         { $unwind: "$author_tags" }
         { $group: _id: "$author_tags", count: $sum: 1 }
-        { $match: _id: $nin: selected_authors }
+        { $match: _id: $nin: picked_authors }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:25 }
@@ -176,7 +198,7 @@ Meteor.publish 'love_tags', (
         { $match: match }
         { $project: "l_value": 1 }
         { $group: _id: "$l_value", count: $sum: 1 }
-        { $match: _id: $nin: selected_l }
+        { $match: _id: $nin: picked_l }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:25 }
@@ -192,7 +214,7 @@ Meteor.publish 'love_tags', (
         { $match: match }
         { $project: "o_value": 1 }
         { $group: _id: "$o_value", count: $sum: 1 }
-        { $match: _id: $nin: selected_l }
+        { $match: _id: $nin: picked_l }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:25 }
@@ -208,7 +230,7 @@ Meteor.publish 'love_tags', (
         { $match: match }
         { $project: "v_value": 1 }
         { $group: _id: "$v_value", count: $sum: 1 }
-        { $match: _id: $nin: selected_l }
+        { $match: _id: $nin: picked_l }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:25 }
@@ -224,7 +246,7 @@ Meteor.publish 'love_tags', (
         { $match: match }
         { $project: "e_value": 1 }
         { $group: _id: "$e_value", count: $sum: 1 }
-        { $match: _id: $nin: selected_l }
+        { $match: _id: $nin: picked_l }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:25 }

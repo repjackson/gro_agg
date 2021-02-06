@@ -52,19 +52,36 @@ template(name='love')
             each love_result_tags
                 // .ui.label #{this}
                 +love_tag_selector
-            .ui.inline.big.header L
-            each l_results
-                .ui.label #{name}
-            .ui.inline.big.header O
-            each o_results
-                .ui.label #{name}
-            .ui.inline.big.header v
-            each v_results
-                .ui.label #{name}
-            .ui.inline.big.header E
-            each e_results
-                .ui.label #{name}
-                // +love_tag_selector
+            .ui.stackable.four.column.grid
+                .column
+                    .ui.inline.big.header l
+                    each picked_l
+                        a.unpick_l.ui.active.large.compact.button(href='#')
+                            strong #{this}
+                    each l_results
+                        .ui.basic.circular.label.pick_l #{name}
+                .column
+                    .ui.inline.big.header o
+                    each picked_o
+                        a.unpick_o.ui.active.large.compact.button(href='#')
+                            strong #{this}
+                    each o_results
+                        .ui.basic.circular.label.pick_o #{name}
+                .column
+                    .ui.inline.big.header v
+                    each picked_v
+                        a.unpick_v.ui.active.large.compact.button(href='#')
+                            strong #{this}
+                    each v_results
+                        .ui.basic.circular.label.pick_v #{name}
+                .column
+                    .ui.inline.big.header e
+                    each picked_e
+                        a.unpick_e.ui.active.large.compact.button(href='#')
+                            strong #{this}
+                    each e_results
+                        .ui.basic.circular.label.pick_e #{name}
+                        // +love_tag_selector
             i.big.clock.grey.icon(title='when tags')
             if selected_love_author_tags
                 each selected_love_author_tags

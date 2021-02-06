@@ -1,11 +1,11 @@
-@selected_love_tags = new ReactiveArray []
-@selected_love_time_tags = new ReactiveArray []
-@selected_love_location_tags = new ReactiveArray []
-@selected_love_authors = new ReactiveArray []
-@selected_l = new ReactiveArray []
-@selected_o = new ReactiveArray []
-@selected_v = new ReactiveArray []
-@selected_e = new ReactiveArray []
+@picked_tags = new ReactiveArray []
+@picked_time_tags = new ReactiveArray []
+@picked_location_tags = new ReactiveArray []
+@picked_authors = new ReactiveArray []
+@picked_l = new ReactiveArray []
+@picked_o = new ReactiveArray []
+@picked_v = new ReactiveArray []
+@picked_e = new ReactiveArray []
 
 
 Template.love.onCreated ->
@@ -14,33 +14,33 @@ Template.love.onCreated ->
     Session.setDefault('sort_direction', -1)
     # Session.setDefault('location_query', null)
     @autorun => Meteor.subscribe 'love_tags',
-        selected_love_tags.array()
-        selected_time_tags.array()
-        selected_love_location_tags.array()
-        selected_love_authors.array()
-        selected_l.array()
-        selected_o.array()
-        selected_v.array()
-        selected_e.array()
+        picked_tags.array()
+        picked_time_tags.array()
+        picked_location_tags.array()
+        picked_authors.array()
+        picked_l.array()
+        picked_o.array()
+        picked_v.array()
+        picked_e.array()
     @autorun => Meteor.subscribe 'love_count', 
-        selected_love_tags.array()
-        selected_time_tags.array()
-        selected_love_location_tags.array()
-        selected_love_authors.array()
-        selected_l.array()
-        selected_o.array()
-        selected_v.array()
-        selected_e.array()
+        picked_tags.array()
+        picked_time_tags.array()
+        picked_location_tags.array()
+        picked_authors.array()
+        picked_l.array()
+        picked_o.array()
+        picked_v.array()
+        picked_e.array()
     
     @autorun => Meteor.subscribe 'expressions', 
-        selected_love_tags.array()
-        selected_time_tags.array()
-        selected_love_location_tags.array()
-        selected_love_authors.array()
-        selected_l.array()
-        selected_o.array()
-        selected_v.array()
-        selected_e.array()
+        picked_tags.array()
+        picked_time_tags.array()
+        picked_location_tags.array()
+        picked_authors.array()
+        picked_l.array()
+        picked_o.array()
+        picked_v.array()
+        picked_e.array()
         Session.get('love_sort_key')
         Session.get('love_sort_direction')
         Session.get('love_skip_value')
@@ -55,10 +55,14 @@ Template.love.helpers
             model:'love'
         }, sort: _timestamp:-1
        
-    selected_love_tags: -> selected_love_tags.array()
-    # selected_time_tags: -> selected_time_tags.array()
-    selected_love_location_tags: -> selected_love_location_tags.array()
-    selected_love_authors: -> selected_love_authors.array()
+    picked_love_tags: -> picked_love_tags.array()
+    picked_l: -> picked_l.array()
+    picked_o: -> picked_o.array()
+    picked_v: -> picked_v.array()
+    picked_e: -> picked_e.array()
+    # picked_time_tags: -> picked_time_tags.array()
+    picked_love_location_tags: -> picked_love_location_tags.array()
+    picked_love_authors: -> picked_love_authors.array()
     counter: -> Counts.get 'counter'
     love_result_tags: -> results.find(model:'love_tag')
     love_author_tags: -> results.find(model:'love_author_tag')
@@ -85,22 +89,34 @@ Template.love.events
             
             
     'click .unselect_time_tag': ->
-        selected_time_tags.remove @valueOf()
+        picked_time_tags.remove @valueOf()
     'click .select_time_tag': ->
-        selected_time_tags.push @name
+        picked_time_tags.push @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         
     'click .unselect_location_tag': ->
-        selected_love_location_tags.remove @valueOf()
+        picked_love_location_tags.remove @valueOf()
     'click .select_location_tag': ->
-        selected_love_location_tags.push @name
+        picked_love_location_tags.push @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+
+    'click .pick_l': -> picked_l.push @name
+    'click .unpick_l': -> picked_l.remove @valueOf()
+
+    'click .pick_o': -> picked_o.push @name
+    'click .unpick_o': -> picked_o.remove @valueOf()
+
+    'click .pick_v': -> picked_v.push @name
+    'click .unpick_v': -> picked_v.remove @valueOf()
+
+    'click .pick_e': -> picked_e.push @name
+    'click .unpick_e': -> picked_e.remove @valueOf()
 
     'keyup .search_love_tag': (e,t)->
          if e.which is 13
             val = t.$('.search_love_tag').val().trim().toLowerCase()
             window.speechSynthesis.speak new SpeechSynthesisUtterance val
-            selected_love_tags.push val   
+            picked_love_tags.push val   
             t.$('.search_love_tag').val('')
             
             
@@ -155,15 +171,15 @@ Template.love.events
             # window.speechSynthesis.cancel()
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             # if @model is 'love_emotion'
-            #     selected_emotions.push @name
+            #     picked_emotions.push @name
             # else
             # if @model is 'love_tag'
-            selected_love_tags.push @name
+            picked_love_tags.push @name
             $('.search_sublove').val('')
             Session.set('love_skip_value',0)
     
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
             # Session.set('love_loading',true)
             # Meteor.call 'search_love', @name, ->
             #     Session.set('love_loading',false)
@@ -188,8 +204,8 @@ Template.love.events
         'click .unselect_tag': -> 
             Session.set('skip',0)
             # console.log @
-            selected_love_tags.remove @valueOf()
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+            picked_love_tags.remove @valueOf()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         
     
     Template.love_flat_tag_selector.onCreated ->
@@ -216,7 +232,7 @@ Template.love.events
             # results.update
             # window.speechSynthesis.cancel()
             window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-            selected_love_tags.push @valueOf()
+            picked_love_tags.push @valueOf()
             $('.search_love').val('')
 
                 
