@@ -23,13 +23,17 @@ template(name='love')
             .ui.small.header 
                 |#{expressions.count}
                 |expressions
-            .ui.large.list
+            .ui.stackable.four.column.grid
                 each expressions
-                    .item
+                    .column
                         .content 
                             .header #{l_value} #{o_value} #{v_value} #{e_value}
-                            i.thumbs.up.circular.link.outline.icon
-                            i.thumbs.down.circular.link.outline.icon
+                            i.thumbs.up.circular.link.outline.icon.upvote
+                            i.thumbs.down.circular.link.outline.icon.downvote
                             |#{points}
+                            |#{when}
+                            .ui.small.icon.input
+                                i.grey.tag.icon
+                                input.add_tag(type='text' placeholder='+')
                             each tags
                                 .ui.small.basic.circular.label #{this}

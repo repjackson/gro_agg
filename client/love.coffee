@@ -22,11 +22,23 @@ Template.love.helpers
         
         
 Template.love.events
+    'click .upvote': ->
+        Docs.update @_id,
+            $inc:points:1
+    'click .downvote': ->
+        Docs.update @_id,
+            $inc:points:-1
+    'keyup .add_tag': (e,t)->
+        if e.which is 13
+            new_tag = $(e.currentTarget).closest('.add_tag').val().toLowerCase().trim()
+            Docs.update @_id,
+                $addToSet: tags:new_tag
+            $(e.currentTarget).closest('.add_tag').val('')
     'click .submit': ->
-        l = $('.add_l').val()
-        o = $('.add_o').val()
-        v = $('.add_v').val()
-        e = $('.add_e').val()
+        l = $('.add_l').val().toLowerCase().trim()
+        o = $('.add_o').val().toLowerCase().trim()
+        v = $('.add_v').val().toLowerCase().trim()
+        e = $('.add_e').val().toLowerCase().trim()
         console.log l,o,v,e
         if confirm 'submit expression?'
             $('.add_l').val('')
