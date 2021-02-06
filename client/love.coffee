@@ -5,14 +5,38 @@
 
 
 Template.love.onCreated ->
-    Session.setDefault('subreddit_view_layout', 'grid')
+    # Session.setDefault('subreddit_view_layout', 'grid')
     Session.setDefault('sort_key', 'data.created')
     Session.setDefault('sort_direction', -1)
     # Session.setDefault('location_query', null)
     @autorun => Meteor.subscribe 'love',
-#     @autorun => Meteor.subscribe 'sub_docs_by_name', 
-#         Router.current().params.subreddit
-#         selected_s
+    @autorun => Meteor.subscribe 'group_tags',
+        Router.current().params.group
+        selected_tags.array()
+        selected_time_tags.array()
+        selected_location_tags.array()
+        # selected_group_authors.array()
+        Session.get('toggle')
+    @autorun => Meteor.subscribe 'group_count', 
+        Router.current().params.group
+        selected_tags.array()
+        selected_time_tags.array()
+        selected_location_tags.array()
+    
+    @autorun => Meteor.subscribe 'group_posts', 
+        Router.current().params.group
+        selected_tags.array()
+        selected_time_tags.array()
+        selected_location_tags.array()
+        Session.get('group_sort_key')
+        Session.get('group_sort_direction')
+        Session.get('group_skip_value')
+
+
+
+@selected_love_tags = new ReactiveArray []
+@selected_love_time_tags = new ReactiveArray []
+@selected_love_location_tags = new ReactiveArray []
 
 
 Template.love.helpers

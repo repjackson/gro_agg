@@ -4,35 +4,63 @@ template(name='love')
             .ui.header 
                 i.heart.icon
                 |love
-            .ui.input
-                input.add_l(type='text' placeholder='fill in L')
-            .ui.input
-                input.add_o(type='text' placeholder='fill in O')
-            .ui.input
-                input.add_v(type='text' placeholder='fill in V')
-            .ui.input
-                input.add_e(type='text' placeholder='fill in E')
+            .ui.labeled.input
+                .ui.big.basic.label L
+                input.add_l(type='text' placeholder='...')
+            .ui.labeled.input
+                .ui.big.basic.label O
+                input.add_o(type='text' placeholder='...')
+            .ui.labeled.input
+                .ui.big.basic.label V
+                input.add_v(type='text' placeholder='...')
+            .ui.labeled.input
+                .ui.big.basic.label E
+                input.add_e(type='text' placeholder='...')
             if can_submit
                 .ui.button.submit
                     |submit
             else
-                .ui.green.basic.button.submit
-                    i.send.icon
+                .ui.basic.button.submit
+                    i.send.green.icon
                     |submit
         .sixteen.wide.center.aligned.column
-            .ui.small.header 
+            .ui.inline.header 
                 |#{expressions.count}
                 |expressions
+            i.large.clock.icon
+            i.large.thumbs.up.icon
+            if selected_tags
+                // if many_tags
+                //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                //         i.remove.icon
+                each selected_tags
+                    +unselect_tag
+            .ui.icon.input
+                i.search.icon
+                input.search_group_tag(type='text' value=group_query)
+            each result_tags
+                // .ui.label #{this}
+                +tag_selector
+            i.big.clock.grey.icon(title='when tags')
+            if selected_time_tags
+                each selected_time_tags
+                    a.unselect_time_tag.ui.active.large.compact.button(href='#')
+                        strong #{this}
+            each time_tags
+                .ui.compact.small.button.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                    strong #{name}
+            
+            .ui.hidden.divider
             .ui.stackable.four.column.grid
                 each expressions
                     .column
                         .content 
-                            .header #{l_value} #{o_value} #{v_value} #{e_value}
-                            i.thumbs.up.circular.link.outline.icon.upvote
-                            i.thumbs.down.circular.link.outline.icon.downvote
+                            .ui.header #{l_value} #{o_value} #{v_value} #{e_value}
+                            i.thumbs.up.link.outline.icon.upvote
                             |#{points}
+                            i.thumbs.down.link.outline.icon.downvote
                             |#{when}
-                            .ui.small.icon.input
+                            .ui.tiny.icon.input
                                 i.grey.tag.icon
                                 input.add_tag(type='text' placeholder='+')
                             each tags
