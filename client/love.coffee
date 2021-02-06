@@ -63,11 +63,11 @@ Template.love.helpers
 
     picked_locations: -> picked_locations.array()
     picked_authors: -> picked_authors.array()
-    picked_time: -> picked_times.array()
+    picked_times: -> picked_times.array()
     counter: -> Counts.get 'counter'
     
     result_tags: -> results.find(model:'love_tag')
-    author_results: -> results.find(model:'author_tag')
+    author_results: -> results.find(model:'author')
     location_results: -> results.find(model:'location_tag')
     time_results: -> results.find(model:'time_tag')
     l_results: -> results.find(model:'l_tag')

@@ -44,7 +44,7 @@ Meteor.publish 'expressions', (
     else
         sk = '_timestamp'
     if picked_tags.length > 0 then match.tags = $all:picked_tags
-    # if picked_authors.length > 0 then match.author_tags = $all:picked_authors
+    # if picked_authors.length > 0 then match.authors = $all:picked_authors
     if picked_location_tags.length > 0 then match.location = $all:picked_location_tags
     if picked_authors.length > 0 then match.author = $all:picked_authors
     if picked_time_tags.length > 0 then match._timestamp_tags = $all:picked_time_tags
@@ -88,7 +88,7 @@ Meteor.publish 'expressions', (
     #         doc._authorstamp_tags = date_array
     #         # console.log 'love', date_array
     #         Docs.update love, 
-    #             $set:addedauthor_tags:date_array
+    #             $set:addedauthors:date_array
     
            
 Meteor.publish 'love_tags', (
@@ -111,7 +111,7 @@ Meteor.publish 'love_tags', (
     }
 
     if picked_tags.length > 0 then match.tags = $all:picked_tags
-    if picked_authors.length > 0 then match.author_tags = $all:picked_authors
+    if picked_authors.length > 0 then match.authors = $all:picked_authors
     if picked_location_tags.length > 0 then match.location = $all:picked_location_tags
     if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
     if picked_l.length > 0 then match.l_value = $all:picked_l
@@ -156,6 +156,26 @@ Meteor.publish 'love_tags', (
             model:'location_tag'
     
     
+    time_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "_timestamp_tags": 1 }
+        { $unwind: "$_timestamp_tags" }
+        { $group: _id: "$_timestamp_tags", count: $sum: 1 }
+        # { $match: _id: $nin: picked_time }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:25 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    console.log match
+    time_cloud.forEach (time, i) ->
+        console.log 'time', time
+        self.added 'results', Random.id(),
+            name: time.name
+            count: time.count
+            model:'time_tag'
+    
+    
     
     author_cloud = Docs.aggregate [
         { $match: match }
@@ -168,11 +188,11 @@ Meteor.publish 'love_tags', (
         { $limit:25 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
-    author_cloud.forEach (author_tag, i) ->
+    author_cloud.forEach (author, i) ->
         self.added 'results', Random.id(),
-            name: author_tag.name
-            count: author_tag.count
-            model:'author_tag'
+            name: author.name
+            count: author.count
+            model:'author'
     
     
     l_cloud = Docs.aggregate [
