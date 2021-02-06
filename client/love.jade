@@ -52,6 +52,19 @@ template(name='love')
             each love_result_tags
                 // .ui.label #{this}
                 +love_tag_selector
+            .ui.inline.big.header L
+            each l_results
+                .ui.label #{name}
+            .ui.inline.big.header O
+            each o_results
+                .ui.label #{name}
+            .ui.inline.big.header v
+            each v_results
+                .ui.label #{name}
+            .ui.inline.big.header E
+            each e_results
+                .ui.label #{name}
+                // +love_tag_selector
             i.big.clock.grey.icon(title='when tags')
             if selected_love_author_tags
                 each selected_love_author_tags
@@ -62,7 +75,7 @@ template(name='love')
                     strong #{name}
             
             .ui.hidden.divider
-            .ui.stackable.four.column.centered.grid
+            .ui.stackable.four.column.centered.grid.scrolling
                 each expressions
                     .center.aligned.column
                         .content 
@@ -83,7 +96,7 @@ template(name='love')
                                 
 template(name='love_tag_selector')
     // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.compact.basic.circular.button.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.compact.basic.circular.tertiary.button.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.inline.image.superzoom(src=term.watson.metadata.image )    

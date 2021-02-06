@@ -1,3 +1,13 @@
+@selected_love_tags = new ReactiveArray []
+@selected_love_time_tags = new ReactiveArray []
+@selected_love_location_tags = new ReactiveArray []
+@selected_love_authors = new ReactiveArray []
+@selected_l = new ReactiveArray []
+@selected_o = new ReactiveArray []
+@selected_v = new ReactiveArray []
+@selected_e = new ReactiveArray []
+
+
 Template.love.onCreated ->
     # Session.setDefault('subreddit_view_layout', 'grid')
     Session.setDefault('sort_key', 'data.created')
@@ -7,41 +17,56 @@ Template.love.onCreated ->
         selected_love_tags.array()
         selected_time_tags.array()
         selected_love_location_tags.array()
-        # selected_love_authors.array()
+        selected_love_authors.array()
+        selected_l.array()
+        selected_o.array()
+        selected_v.array()
+        selected_e.array()
     @autorun => Meteor.subscribe 'love_count', 
         selected_love_tags.array()
         selected_time_tags.array()
         selected_love_location_tags.array()
+        selected_love_authors.array()
+        selected_l.array()
+        selected_o.array()
+        selected_v.array()
+        selected_e.array()
     
     @autorun => Meteor.subscribe 'expressions', 
         selected_love_tags.array()
         selected_time_tags.array()
         selected_love_location_tags.array()
+        selected_love_authors.array()
+        selected_l.array()
+        selected_o.array()
+        selected_v.array()
+        selected_e.array()
         Session.get('love_sort_key')
         Session.get('love_sort_direction')
         Session.get('love_skip_value')
 
 
 
-@selected_love_tags = new ReactiveArray []
-@selected_love_time_tags = new ReactiveArray []
-@selected_love_location_tags = new ReactiveArray []
 
 
 Template.love.helpers
     expressions: ->
-        Docs.find
+        Docs.find {
             model:'love'
-       
+        }, sort: _timestamp:-1
        
     selected_love_tags: -> selected_love_tags.array()
     # selected_time_tags: -> selected_time_tags.array()
     selected_love_location_tags: -> selected_love_location_tags.array()
-    selected_love_author_tags: -> selected_love_author_tags.array()
+    selected_love_authors: -> selected_love_authors.array()
     counter: -> Counts.get 'counter'
     love_result_tags: -> results.find(model:'love_tag')
     love_author_tags: -> results.find(model:'love_author_tag')
     love_location_tags: -> results.find(model:'love_location_tag')
+    l_results: -> results.find(model:'l_tag')
+    o_results: -> results.find(model:'o_tag')
+    v_results: -> results.find(model:'v_tag')
+    e_results: -> results.find(model:'e_tag')
         
         
 Template.love.events
