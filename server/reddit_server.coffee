@@ -604,7 +604,7 @@ Meteor.methods
         date_array = [ap, weekday, month, date, year]
         if _
             date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
-            doc._timestamp_tags = date_array
+            doc.timestamp_tags = date_array
             # console.log date_array
             Docs.update doc_id, 
                 $set:time_tags:date_array

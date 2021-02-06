@@ -97,6 +97,10 @@ Template.love.events
         picked_times.push @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         
+    'click .pick_flat_time': ->
+        picked_times.push @valueOf()
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        
     'click .unpick_location': ->
         picked_locations.remove @valueOf()
     'click .pick_location': ->
@@ -152,9 +156,9 @@ Template.love.events
                 author:author
                 
             
-    Template.love_tag_picker.onCreated ->
+    Template.tag_picker.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
-    Template.love_tag_picker.helpers
+    Template.tag_picker.helpers
         picker_class: ()->
             term = 
                 Docs.findOne 
@@ -175,7 +179,7 @@ Template.love.events
             # console.log res
             res
                 
-    Template.love_tag_picker.events
+    Template.tag_picker.events
         'click .pick_tag': -> 
             # results.update
             # console.log @
@@ -201,17 +205,17 @@ Template.love.events
             
             
     
-    Template.love_unpick_tag.onCreated ->
+    Template.unpick_tag.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
         
-    Template.love_unpick_tag.helpers
+    Template.unpick_tag.helpers
         term: ->
             found = 
                 Docs.findOne 
                     # model:'wikipedia'
                     title:@valueOf().toLowerCase()
             found
-    Template.love_unpick_tag.events
+    Template.unpick_tag.events
         'click .unpick_tag': -> 
             Session.set('skip',0)
             # console.log @
@@ -219,9 +223,9 @@ Template.love.events
             # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         
     
-    Template.love_flat_tag_picker.onCreated ->
+    Template.flat_tag_picker.onCreated ->
         # @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
-    Template.love_flat_tag_picker.helpers
+    Template.flat_tag_picker.helpers
         picker_class: ()->
             term = 
                 Docs.findOne 
@@ -238,7 +242,7 @@ Template.love.events
         term: ->
             Docs.findOne 
                 title:@valueOf().toLowerCase()
-    Template.love_flat_tag_picker.events
+    Template.flat_tag_picker.events
         'click .pick_flat_tag': -> 
             # results.update
             # window.speechSynthesis.cancel()

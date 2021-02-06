@@ -41,71 +41,72 @@ template(name='love')
             // i.large.thumbs.up.icon
             if picked_tags
                 // if many_tags
-                //     a#clear_tags.ui.black.inverted.invert.icon.compact.button.pick_term
+                //     a#clear_tags.ui.white.inverted.invert.icon.compact.button.pick_term
                 //         i.remove.icon
                 each picked_tags
-                    +love_unpick_tag
+                    +unpick_tag
             .ui.icon.input
                 i.search.icon
                 input.search_group_tag(type='text' value=group_query)
             each result_tags
                 // .ui.label #{this}
-                +love_tag_picker
+                +tag_picker
             .ui.stackable.four.column.grid
                 .column
                     .ui.inline.big.header l
                     each picked_l
-                        a.unpick_l.ui.black.inverted.circular.large.compact.button(href='#')
+                        a.unpick_l.ui.white.inverted.circular.large.compact.button(href='#')
                             strong #{this}
                     each l_results
-                        .ui.basic.circular.tiny.compact.button.pick_l #{name}
+                        if name
+                            .ui.basic.circular.tiny.compact.button.pick_l #{name}
                 .column
                     .ui.inline.big.header o
                     each picked_o
-                        a.unpick_o.ui.black.inverted.circular.large.compact.button(href='#')
+                        a.unpick_o.ui.white.inverted.circular.large.compact.button(href='#')
                             strong #{this}
                     each o_results
-                        .ui.basic.circular.tiny.compact.button.pick_o #{name}
+                        if name
+                            .ui.basic.circular.tiny.compact.button.pick_o #{name}
                 .column
                     .ui.inline.big.header v
                     each picked_v
-                        a.unpick_v.ui.black.inverted.circular.large.compact.button(href='#')
+                        a.unpick_v.ui.white.inverted.circular.large.compact.button(href='#')
                             strong #{this}
                     each v_results
-                        .ui.basic.circular.tiny.compact.button.pick_v #{name}
+                        if name
+                            .ui.basic.circular.tiny.compact.button.pick_v #{name}
                 .column
                     .ui.inline.big.header e
                     each picked_e
-                        a.unpick_e.ui.black.inverted.circular.large.compact.button(href='#')
+                        a.unpick_e.ui.white.inverted.circular.large.compact.button(href='#')
                             strong #{this}
                     each e_results
-                        .ui.basic.circular.tiny.compact.button.pick_e #{name}
-                        // +love_tag_picker
+                        if name
+                            .ui.basic.circular.tiny.compact.button.pick_e #{name}
                 .column
                     i.big.marker.icon
                     each picked_locations
-                        a.unpick_location.ui.black.inverted.circular.large.compact.button(href='#')
+                        a.unpick_location.ui.white.inverted.circular.large.compact.button(href='#')
                             strong #{this}
                     each location_results
-                        .ui.basic.circular.tiny.compact.button.pick_location #{name}
-                        // +love_tag_picker
+                        if name
+                            .ui.basic.circular.tiny.compact.button.pick_location #{name}
                 .column
                     i.big.user.icon
                     each picked_authors
-                        a.unpick_author.ui.black.inverted.circular.large.compact.button(href='#')
+                        a.unpick_author.ui.white.inverted.circular.large.compact.button(href='#')
                             strong #{this}
                     each author_results
-                        .ui.basic.circular.tiny.compact.button.pick_author #{name}
-                        // +love_tag_picker
+                        if name
+                            .ui.basic.circular.tiny.compact.button.pick_author #{name}
                 .column
                     i.clock.big.icon
                     each picked_times
-                        a.unpick_time.ui.black.inverted.circular.large.compact.button(href='#')
+                        a.unpick_time.ui.large.white.circular.large.compact.button(href='#')
                             strong #{this}
                     each time_results
                         .ui.basic.circular.tiny.compact.button.pick_time #{name}
-                        // +love_tag_picker
-            
             .ui.hidden.divider
             .ui.stackable.four.column.centered.grid.scrolling
                 each expressions
@@ -120,14 +121,17 @@ template(name='love')
                                 i.grey.tag.icon
                                 input.add_tag(type='text' placeholder='+')
                             each tags
-                                .ui.small.basic.circular.label #{this}
+                                +flat_tag_picker
+                                // .ui.small.basic.circular.compact.button.pick_flat_tag #{this}
+                            each timestamp_tags
+                                .ui.small.basic.circular.compact.button.pick_flat_time #{this}
                             |#{location}
                             |#{author}
                                 
                                 
                                 
                                 
-template(name='love_tag_picker')
+template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
     .ui.compact.basic.circular.tertiary.button.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
@@ -137,8 +141,8 @@ template(name='love_tag_picker')
         // if in_dev
         //     small #{count}
         
-template(name='love_unpick_tag')
-    a.unpick_tag.ui.large.black.inverted.circular.compact.button(href='#')
+template(name='unpick_tag')
+    a.unpick_tag.ui.large.white.inverted.circular.compact.button(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -146,12 +150,12 @@ template(name='love_unpick_tag')
 
         
         
-template(name='love_flat_tag_picker')
+template(name='flat_tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    .ui.compact.tiny.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
-        if term
-            if term.watson.metadata.image
-                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+    .ui.compact.tiny.basic.circular.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+        // if term
+        //     if term.watson.metadata.image
+        //         img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
         | #{this}
         // if in_dev
         //     small #{count}

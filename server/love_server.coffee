@@ -1,8 +1,8 @@
 Meteor.publish 'love_count', (
     picked_tags
     picked_authors
-    picked_location_tags
-    picked_time_tags
+    picked_locations
+    picked_times
     picked_l
     picked_o
     picked_v
@@ -12,8 +12,8 @@ Meteor.publish 'love_count', (
         
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     if picked_authors.length > 0 then match.author = $all:picked_authors
-    if picked_location_tags.length > 0 then match.location = $all:picked_location_tags
-    if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
+    if picked_locations.length > 0 then match.location = $all:picked_locations
+    if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     if picked_l.length > 0 then match.l_value = $all:picked_l
     if picked_o.length > 0 then match.o_value = $all:picked_o
     if picked_v.length > 0 then match.v_value = $all:picked_v
@@ -24,8 +24,8 @@ Meteor.publish 'love_count', (
             
 Meteor.publish 'expressions', (
     picked_tags
-    picked_time_tags
-    picked_location_tags
+    picked_times
+    picked_locations
     picked_authors
     picked_l
     picked_o
@@ -44,16 +44,15 @@ Meteor.publish 'expressions', (
     else
         sk = '_timestamp'
     if picked_tags.length > 0 then match.tags = $all:picked_tags
-    # if picked_authors.length > 0 then match.authors = $all:picked_authors
-    if picked_location_tags.length > 0 then match.location = $all:picked_location_tags
+    if picked_locations.length > 0 then match.location = $all:picked_locations
     if picked_authors.length > 0 then match.author = $all:picked_authors
-    if picked_time_tags.length > 0 then match._timestamp_tags = $all:picked_time_tags
+    if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     if picked_l.length > 0 then match.l_value = $all:picked_l
     if picked_o.length > 0 then match.o_value = $all:picked_o
     if picked_v.length > 0 then match.v_value = $all:picked_v
     if picked_e.length > 0 then match.e_value = $all:picked_e
 
-    
+    console.log 'match',match
     Docs.find match,
         limit:100
         sort:_timestamp:-1
@@ -93,9 +92,9 @@ Meteor.publish 'expressions', (
            
 Meteor.publish 'love_tags', (
     picked_tags
+    picked_times
+    picked_locations
     picked_authors
-    picked_location_tags
-    picked_time_tags
     picked_l
     picked_o
     picked_v
@@ -111,9 +110,9 @@ Meteor.publish 'love_tags', (
     }
 
     if picked_tags.length > 0 then match.tags = $all:picked_tags
-    if picked_authors.length > 0 then match.authors = $all:picked_authors
-    if picked_location_tags.length > 0 then match.location = $all:picked_location_tags
-    if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
+    if picked_authors.length > 0 then match.author = $all:picked_authors
+    if picked_locations.length > 0 then match.location = $all:picked_locations
+    if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     if picked_l.length > 0 then match.l_value = $all:picked_l
     if picked_o.length > 0 then match.o_value = $all:picked_o
     if picked_v.length > 0 then match.v_value = $all:picked_v
@@ -141,7 +140,7 @@ Meteor.publish 'love_tags', (
     location_cloud = Docs.aggregate [
         { $match: match }
         { $project: "location": 1 }
-        { $unwind: "$location" }
+        # { $unwind: "$location" }
         { $group: _id: "$location", count: $sum: 1 }
         # { $match: _id: $nin: picked_location }
         { $sort: count: -1, _id: 1 }
@@ -158,9 +157,9 @@ Meteor.publish 'love_tags', (
     
     time_cloud = Docs.aggregate [
         { $match: match }
-        { $project: "_timestamp_tags": 1 }
-        { $unwind: "$_timestamp_tags" }
-        { $group: _id: "$_timestamp_tags", count: $sum: 1 }
+        { $project: "timestamp_tags": 1 }
+        { $unwind: "$timestamp_tags" }
+        { $group: _id: "$timestamp_tags", count: $sum: 1 }
         # { $match: _id: $nin: picked_time }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
@@ -180,7 +179,7 @@ Meteor.publish 'love_tags', (
     author_cloud = Docs.aggregate [
         { $match: match }
         { $project: "author": 1 }
-        { $unwind: "$author" }
+        # { $unwind: "$author" }
         { $group: _id: "$author", count: $sum: 1 }
         { $match: _id: $nin: picked_authors }
         { $sort: count: -1, _id: 1 }

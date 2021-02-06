@@ -53,7 +53,7 @@ Docs.before.insert (userId, doc)->
     date_array = [ap, weekday, month, date, year]
     if _
         date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
-        doc._timestamp_tags = date_array
+        doc.timestamp_tags = date_array
     return
 
 
