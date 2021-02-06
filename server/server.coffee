@@ -16,6 +16,10 @@ Docs.allow
 Meteor.publish 'doc_by_id', (doc_id)->
     Docs.find doc_id
         
+Meteor.publish 'love', (doc_id)->
+    Docs.find
+        model:'love'
+        
 
 Meteor.publish 'wikis', (
     w_query

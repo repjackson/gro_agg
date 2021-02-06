@@ -1,0 +1,28 @@
+template(name='love')
+    .ui.padded.grid
+        .sixteen.wide.column
+            .ui.header love
+            .ui.input
+                input.add_l(type='text' placeholder='fill in L')
+            .ui.input
+                input.add_o(type='text' placeholder='fill in O')
+            .ui.input
+                input.add_v(type='text' placeholder='fill in V')
+            .ui.input
+                input.add_e(type='text' placeholder='fill in E')
+            if can_submit
+                .ui.button.submit
+                    |submit
+            else
+                .ui.button.submit
+                    |submit
+        .sixteen.wide.column
+            .ui.large.list
+                each expressions
+                    .item
+                        .content 
+                            .header #{l_value} #{o_value} #{v_value} #{e_value}
+                            i.thumbs.up.circular.link.icon
+                            i.thumbs.down.circular.link.icon
+                            each tags
+                                .ui.small.basic.circular.label #{this}
