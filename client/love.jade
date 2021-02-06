@@ -1,7 +1,9 @@
 template(name='love')
     .ui.padded.grid
-        .sixteen.wide.column
-            .ui.header love
+        .sixteen.wide.center.aligned.column
+            .ui.header 
+                i.heart.icon
+                |love
             .ui.input
                 input.add_l(type='text' placeholder='fill in L')
             .ui.input
@@ -14,15 +16,20 @@ template(name='love')
                 .ui.button.submit
                     |submit
             else
-                .ui.button.submit
+                .ui.green.basic.button.submit
+                    i.send.icon
                     |submit
-        .sixteen.wide.column
+        .sixteen.wide.center.aligned.column
+            .ui.small.header 
+                |#{expressions.count}
+                |expressions
             .ui.large.list
                 each expressions
                     .item
                         .content 
                             .header #{l_value} #{o_value} #{v_value} #{e_value}
-                            i.thumbs.up.circular.link.icon
-                            i.thumbs.down.circular.link.icon
+                            i.thumbs.up.circular.link.outline.icon
+                            i.thumbs.down.circular.link.outline.icon
+                            |#{points}
                             each tags
                                 .ui.small.basic.circular.label #{this}

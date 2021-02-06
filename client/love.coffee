@@ -28,9 +28,15 @@ Template.love.events
         v = $('.add_v').val()
         e = $('.add_e').val()
         console.log l,o,v,e
-        Docs.insert 
-            model:'love'
-            l_value:l
-            o_value:o
-            v_value:v
-            e_value:e
+        if confirm 'submit expression?'
+            $('.add_l').val('')
+            $('.add_o').val('')
+            $('.add_v').val('')
+            $('.add_e').val('')
+            
+            Docs.insert 
+                model:'love'
+                l_value:l
+                o_value:o
+                v_value:v
+                e_value:e
