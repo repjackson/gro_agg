@@ -234,6 +234,7 @@
     'gif'
     'content of this sub'
     'view discussions'
+    "reddit's community"
     'content'
     'community moderation bot'
     'votes'

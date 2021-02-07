@@ -168,8 +168,8 @@ Meteor.methods
                     params.clean = true
                     # params.features.metadata = {}
                 when 'url'
-                    # params.url = doc["#{key}"]
-                    params.url = durl
+                    params.url = doc["#{key}"]
+                    # params.url = durl
                     # console.log 'calling url', params.url, doc["#{key}"], key
                     # console.log 'calling url', params.url, doc[key], durl
                     # params.url = doc.data.link_url

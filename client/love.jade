@@ -51,8 +51,8 @@ template(name='love')
             each result_tags
                 // .ui.label #{this}
                 +tag_picker
-            .ui.stackable.four.column.grid
-                .column
+            .ui.stackable.four.column.centered.grid
+                .center.aligned.column
                     if l_results.count
                         .ui.inline.big.header l
                     each picked_l
@@ -61,7 +61,7 @@ template(name='love')
                     each l_results
                         if name
                             .ui.basic.circular.tiny.compact.button.pick_l #{name}
-                .column
+                .center.aligned.column
                     if o_results.count
                         .ui.inline.big.header o
                     each picked_o
@@ -70,7 +70,7 @@ template(name='love')
                     each o_results
                         if name
                             .ui.basic.circular.tiny.compact.button.pick_o #{name}
-                .column
+                .center.aligned.column
                     if v_results.count
                         .ui.inline.big.header v
                     each picked_v
@@ -79,7 +79,7 @@ template(name='love')
                     each v_results
                         if name
                             .ui.basic.circular.tiny.compact.button.pick_v #{name}
-                .column
+                .center.aligned.column
                     if e_results.count
                         .ui.inline.big.header e
                     each picked_e
@@ -88,7 +88,7 @@ template(name='love')
                     each e_results
                         if name
                             .ui.basic.circular.tiny.compact.button.pick_e #{name}
-                .column
+                .center.aligned.column
                     if location_results.count
                         i.big.marker.icon
                     each picked_locations
@@ -97,7 +97,7 @@ template(name='love')
                     each location_results
                         if name
                             .ui.basic.circular.tiny.compact.button.pick_location #{name}
-                .column
+                .center.aligned.column
                     if author_results.count
                         i.big.user.icon
                     each picked_authors
@@ -106,7 +106,7 @@ template(name='love')
                     each author_results
                         if name
                             .ui.basic.circular.tiny.compact.button.pick_author #{name}
-                .column
+                .center.aligned.column
                     if time_results.count
                         i.clock.big.icon
                     each picked_times
