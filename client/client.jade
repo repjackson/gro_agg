@@ -42,6 +42,7 @@ template(name='front')
 
 template(name='layout')
     // +status
+    +nav
     .ui.bottom.attached.pushable.segment
         // +top_sidebar
         // +left_sidebar
@@ -52,6 +53,18 @@ template(name='layout')
     
     // .ui.bottom.attached.pushable.segment
     //     #main_area.pusher(class=currentUser.invert_class)
+
+template(name='nav')
+    .ui.fluid.attached.large.borderless.menu
+        a.item(href="/") 
+            i.heart.icon
+            |home
+        a.item(href="/tarot") 
+            i.star.icon
+            |tarot
+        .item 
+            i.shop.icon
+            |shop
 
 template(name='not_found')
     .ui.basic.center.aligned.segment

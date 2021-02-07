@@ -76,7 +76,7 @@ template(name='group')
                 
 template(name='tag_selector')
     // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.compact.button.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.compact.circular.basic.button.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.inline.image.superzoom(src=term.watson.metadata.image )    
