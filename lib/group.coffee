@@ -206,11 +206,11 @@ if Meteor.isClient
             $('.search_group').val('')
 
 if Meteor.isClient
-    Router.route '/:group/p/:doc_id/edit', (->
+    Router.route '/g/:group/p/:doc_id/edit', (->
         @layout 'layout'
         @render 'post_edit'
         ), name:'post_edit'
-    Router.route '/:group/p/:doc_id', (->
+    Router.route '/g/:group/p/:doc_id', (->
         @layout 'layout'
         @render 'post_view'
         ), name:'post_view'
