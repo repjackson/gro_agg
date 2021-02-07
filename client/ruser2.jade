@@ -38,7 +38,7 @@ template(name='ruser')
                             i.large.mail.icon(title='verified email')
                     // i.info.icon.get_user_info
                     img.ui.rounded.inline.image.pointer.zoomer(src=profile_image)
-                    a.ui.compact.basic.icon.button(href="http://www.reddit.com/user/#{username}" target='_window' title="#{site} profile")
+                    a.ui.compact.basic.icon.button(href="http://www.reddit.com/u/#{username}" target='_window' title="#{site} profile")
                         i.reddit.icon
                         i.external.icon
                     if in_dev
@@ -56,7 +56,7 @@ template(name='ruser')
                         |related users
                     .scrolling
                         each related_users
-                            a.ui.horizontal.card(href="/user/#{username}")
+                            a.ui.horizontal.card(href="/u/#{username}")
                                 .content
                                     img.ui.small.image(src=data.snoovatar_img)
                                     a.ui.small.header

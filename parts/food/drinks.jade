@@ -1,0 +1,213 @@
+template(name='drink_categories')
+    .ui.padded.stackable.grid.header-wrapper
+        //- .ui.hidden.divider
+        //- .row
+        //-     .four.wide.column
+        //-         h1.ui.massive.inline.header 
+        //-             +i name='cocktail'
+        //-             |drinks
+        //-         .ui.icon.large.button.new_drink
+        //-             i.green.plus.icon
+        //-         +cloud filter='drink'
+        //-     .twelve.wide.column
+        //-         .ui.centered.three.cards
+        //-             each drink_items
+        //-                 +drink_card_template
+        .ui.padded.stackable.grid
+            each drink_categories
+                .four.wide.column
+                    .ui.segment
+                        .ui.header
+                            +i name=icon
+                            | #{title}
+                        i.thumbs.up.icon
+                        |#{upvoters.length}
+                        div
+                        i.thumbs.down.icon
+                        |#{downvoters.length}
+                        
+                        
+template(name='drink_category')
+    with current_doc
+        .ui.padded.stackable.grid.header-wrapper
+            .row
+                .twelve.wide.column
+                    h1.ui.header
+                        +i name=icon
+                        |#{title}
+            .row
+                .four.wide.column
+                    if can_edit
+                        a.ui.icon.button(href="/drink/#{_id}/edit" title='edit')
+                            +i name='settings'
+                    +array_view key='tags' icon='tags' direct=true
+                    +array_view key='location_tags' label='location tags' icon='marker' direct=true
+                    +array_view key='date_tags' label='date tags' icon='drinks' direct=true
+                    div
+                    +voting
+                    +comments
+                .twelve.wide.column
+                    +youtube_view key='youtube_id' label='youtube id' direct=true
+                    +html_view key='description' direct=true
+
+
+                        
+template(name='drink_card_template')
+    .ui.card
+        .image.drink_card.pointer
+            img.ui.image(src="{{c.url image_id width=400 height=400 crop='fill'}}")
+        .content
+            .header.pointer.drink_card #{title}
+        .content
+            |location #{location}
+            each tags
+                .ui.basic.label #{this}
+        .content
+            div
+            |#{orders_today} orders today
+            div
+            |#{orders_total} orders total
+        .content
+            .ui.fluid.green.button.order_now
+                |order now        
+                
+template(name='drink_view')
+    with current_doc
+        .ui.padded.stackable.grid.header-wrapper
+            .row
+                .six.wide.column
+                    h1.ui.inline.header #{title}
+                    if can_edit
+                        a.ui.small.icon.button(href="/drink/#{_id}/edit" title='edit')
+                            i.pencil.icon
+                            //- |edit
+                    +image_view key='image_id' label='image' direct=true
+                    +array_view key='tags' icon='tags' direct=true
+                    +array_view key='location_tags' label='location tags' icon='marker' direct=true
+                    +array_view key='ingredients' label='ingredients' icon='ingredients' direct=true
+                    div
+                    +comments
+                .ten.wide.column
+                    .ui.segment
+                        .ui.inline.header 
+                            +i name='event-accepted'
+                            |checkins
+                        unless checking_in
+                            .ui.icon.large.basic.circular.button.checkin_drink(title='checkin drink')
+                                i.plus.icon
+                        if checking_in
+                            .ui.fluid.action.input
+                                input.adding_checkin(type='text' placeholder='details')
+                                .ui.icon.green.button
+                                    i.send.icon
+                            .ui.icon.large.basic.icon.button.cancel_checkin
+                                i.cancel.icon
+                        .ui.list
+                            each checkins
+                                .item #{body} #{when}
+                                    +author_info
+                    +beer_info
+                    +beer_company
+                    .ui.segment
+                        .ui.header 
+                            +i name='clock'
+                            |recent orders
+                    .ui.segment
+                        .ui.header 
+                            +i name='user-shield'
+                            |staff actions
+                        +boolean_edit key='tapped' label='tapped' icon='no-alcohol' direct=true
+                        +boolean_edit key='new' label='new' icon='new' direct=true
+                    .ui.segment
+                        .ui.header 
+                            +i name='ball-point-pen'
+                            |reviews
+                        .ui.button add review
+                    .ui.segment
+                        +voting_full
+
+template(name='drink_edit')
+    with current_doc
+        .ui.padded.stackable.grid.header-wrapper
+            .column.row
+                .four.wide.column
+                    .ui.inline.header #{title}
+                    a.ui.large.basic.icon.button(href="/drink/#{_id}/view")
+                        i.big.green.checkmark.icon
+                    .ui.basic.icon.button.delete_drink_item
+                        i.red.remove.icon
+                    +text_edit key='title' icon='header' direct=true
+                    +array_edit key='tags' icon='tags' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                    div
+                    +float_edit key='abv' label='abv' icon='test-tube' direct=true
+                    div
+                    +number_edit key='ibu' label='ibu' icon='volume' direct=true
+                    div
+                    +number_edit key='flight_price' label='flight price' icon='money' direct=true
+                    div
+                    +number_edit key='glass_price' label='glass price' icon='money' direct=true
+                    +array_edit key='ingredients' label='ingredients' icon='ingredients' direct=true
+                .eight.wide.column
+                    +image_edit key='image_id' label='image' direct=true
+                    +html_edit key='description' direct=true
+                .four.wide.column
+                    +boolean_edit key='tapped' label='tapped' icon='no-alcohol' direct=true
+                    +boolean_edit key='new' label='new' icon='new' direct=true
+                    +category_selector
+
+
+template(name='category_selector')
+    .ui.header drink category
+    each drink_categories
+        .ui.large.button.select_category(class=category_class)
+            +i name=icon
+            div
+            |#{title}
+
+template(name='category_view')
+    .ui.header category
+    each drink_categories
+        .ui.large.button.select_category(class=category_class)
+            +i name=icon
+            div
+            |#{title}
+
+template(name='beer_info')
+    .ui.segment
+        .ui.header 
+            +i name='info'
+            |info
+        +html_view key='description' direct=true
+        +category_view
+        .ui.statistic
+            .value #{abv}
+            .label abv
+        .ui.statistic
+            .value $#{glass_price}
+            .label glass price
+        .ui.statistic
+            .value $#{flight_price}
+            .label flight price
+        .ui.statistic
+            .value #{ibu}
+            .label ibu
+        with type_doc
+            .ui.header #{title}
+        with company_doc
+            .ui.header #{title}
+
+
+
+template(name='beer_company')
+    .ui.segment
+        .ui.header
+            +i name='business'
+            |company
+        .ui.header
+            +i name='contact'
+            |contact info
+        with beer_company
+            .ui.small.header #{name}
+            .ui.small.header #{contact_name}
+            .ui.small.header #{contact_number}

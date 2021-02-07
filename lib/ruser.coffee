@@ -5,10 +5,6 @@ if Meteor.isClient
         @layout 'layout'
         @render 'ruser'
         ), name:'ruser'
-    Router.route '/u/:username', (->
-        @layout 'layout'
-        @render 'ruser'
-        ), name:'ruser_small'
 
    
     Template.ruser.onCreated ->

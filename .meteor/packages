@@ -16,6 +16,7 @@ manuel:reactivearray
 meteorhacks:aggregate
 mobile-experience@1.1.0
 
+accounts-password
 blaze-html-templates
 shell-server@0.5.0
 momentjs:moment
@@ -32,6 +33,7 @@ babrahams:temple
 dburles:collection-helpers
 francocatena:status
 ecmascript@0.15.0
+zimme:active-route
 http@1.4.2
 tmeasday:publish-counts
 multiply:iron-router-progress

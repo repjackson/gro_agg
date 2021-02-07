@@ -99,7 +99,7 @@ template(name='reddit_page')
                     |r/#{data.subreddit}
                 .spacer
                 // a.ui.basic.button(href="https://www.reddit.com/u/#{author}" target='_window')
-                a.ui.basic.button.goto_ruser(href="/user/#{data.author}")
+                a.ui.basic.button.goto_ruser(href="/u/#{data.author}")
                     i.user.outline.icon
                     |#{data.author}
                 +call_watson id=_id key='data.url' durl=data.url mode='url'
@@ -144,7 +144,7 @@ template(name='rcomment')
     .ui.grid.call_watson_comment
         .sixteen.wide.column
             .ui.small.inline.header {{data.score}}
-            a.author.say(href="/user/#{data.author}") #{data.author}
+            a.author.say(href="/u/#{data.author}") #{data.author}
             span.metadata 
                 span.date {{ufrom data.created}}
                 +doc_emotion_small
@@ -159,7 +159,7 @@ template(name='rcomment')
                 each data.replies.data.children
                     .one.wide.column
                     .fifteen.wide.column
-                        a.author(href="/user/#{data.author}") #{data.author}
+                        a.author(href="/u/#{data.author}") #{data.author}
                         .pointer.content.say
                             |{{#markdown}} {{data.body}} {{/markdown}}
                             // .text.say #{data.score} #{data.body}

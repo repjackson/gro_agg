@@ -96,9 +96,9 @@ template(name='subreddit')
                             i.big.loading.yin.yang.icon
             .four.wide.column.scrolling.seg
                 // img.ui.inline.image(src=data.header_img)
-                .ui.inline.header.pull_latest #{data.title}
+                // .ui.inline.header.pull_latest #{data.title}
                 // +alpha
-                div
+                // div
                 i.big.globe.grey.icon
                 if selected_subreddit_domain
                     each selected_subreddit_domain
@@ -175,35 +175,35 @@ template(name='subreddit')
                         |&nbsp;
                     div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
                 
-                .ui.list.mobile.hidden
-                    .item.seg.say !{data.public_description}
-                    .item.seg.say 
-                        |{{#markdown}} !{data.public_description} {{/markdown}}
-                    .item 
-                        i.grey.lightning.icon
-                        |#{active_user_count} activeusers
-                    .item 
-                        i.grey.users.icon
-                        |#{subscribers} subscribers
-                    // .item 
-                    //     strong #{audience}
-                    a.item(href=url target="_window")
-                        |#{url}
-                        i.external.icon
-                    .item
-                        |#{advertiser_category} ad category
-                    .item #{dao_views} dao views    
-                    .item created {{ufrom created_utc}}
-                    .item state: #{subreddit_state}
-                    // .item #{high_resolution_icon_url} high_resolution_icon_url
-                    // .item #{favicon_url} favicon_url
-                    // .item #{api_subreddit_parameter} api
-                    .item #{subreddit_type} subreddit_type
-                    .item main emotion: #{main_emotion}
-                    .item 
-                        i.grey.thumbs.up.outline.icon
-                        |#{total_votes} votes
-                    .item #{comment_count} comments
+                // .ui.list.mobile.hidden
+                //     .item.seg.say !{data.public_description}
+                //     .item.seg.say 
+                //         |{{#markdown}} !{data.public_description} {{/markdown}}
+                //     .item 
+                //         i.grey.lightning.icon
+                //         |#{active_user_count} activeusers
+                //     .item 
+                //         i.grey.users.icon
+                //         |#{subscribers} subscribers
+                //     // .item 
+                //     //     strong #{audience}
+                //     a.item(href=url target="_window")
+                //         |#{url}
+                //         i.external.icon
+                //     .item
+                //         |#{advertiser_category} ad category
+                //     .item #{dao_views} dao views    
+                //     .item created {{ufrom created_utc}}
+                //     .item state: #{subreddit_state}
+                //     // .item #{high_resolution_icon_url} high_resolution_icon_url
+                //     // .item #{favicon_url} favicon_url
+                //     // .item #{api_subreddit_parameter} api
+                //     .item #{subreddit_type} subreddit_type
+                //     .item main emotion: #{main_emotion}
+                //     .item 
+                //         i.grey.thumbs.up.outline.icon
+                //         |#{total_votes} votes
+                //     .item #{comment_count} comments
    
    
 template(name='subreddit_post_card_small')
@@ -237,7 +237,7 @@ template(name='subreddit_post_card_small')
             i.clock.icon
             each time_tags
                 .ui.tiny.basic.circular.label #{this}
-            a.ui.basic.label(href="/user/#{data.author}")
+            a.ui.basic.label(href="/u/#{data.author}")
                 |#{data.author}
             +doc_emotion_small        
                 
@@ -321,7 +321,7 @@ template(name='subreddit_doc_item')
                 +flat_sub_tag_selector
             // if watson
             //     +doc_emotion_small
-            a.ui.inline.header(href="/user/#{data.author}")
+            a.ui.inline.header(href="/u/#{data.author}")
                 |#{data.author}
     
 

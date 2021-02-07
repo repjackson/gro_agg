@@ -707,7 +707,7 @@ input {
 } 
 
 
-.button,.card,.image,.item,.header,.label,p,img,.say,.pointer{
+.button,.card,.image,.header,.label,p,img,.say,.pointer{
     animation: fadein .15s !important;
     -webkit-transition: opacity .35s ease-in !important;
     -webkit-transition: opacity .35s ease-out; 

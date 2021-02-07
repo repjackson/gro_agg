@@ -342,7 +342,7 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "https://www.reddit.com/user/#{username}.json"
+        url = "https://www.reddit.com/u/#{username}.json"
         HTTP.get url,(err,res)=>
             # console.log res
             if res.data.data.dist > 0
@@ -370,7 +370,7 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "https://www.reddit.com/user/#{username}/comments.json"
+        url = "https://www.reddit.com/u/#{username}/comments.json"
         HTTP.get url,(err,res)=>
             # console.log res
             if res.data.data.dist > 0
@@ -423,8 +423,8 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "https://www.reddit.com/user/#{username}/about.json"
-        # url = "https://www.reddit.com/user/hernannadal/about.json"
+        url = "https://www.reddit.com/u/#{username}/about.json"
+        # url = "https://www.reddit.com/u/hernannadal/about.json"
         options = {
             url: url
             headers: 

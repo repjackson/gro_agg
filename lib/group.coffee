@@ -1,5 +1,5 @@
 if Meteor.isClient
-    Router.route '/:group', (->
+    Router.route '/g/:group', (->
         @layout 'layout'
         @render 'group'
         ), name:'group'
