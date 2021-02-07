@@ -145,6 +145,8 @@ Template.love.events
             $('.add_o').val('')
             $('.add_v').val('')
             $('.add_e').val('')
+            $('.add_location').val('')
+            $('.add_author').val('')
             
             Docs.insert 
                 model:'love'

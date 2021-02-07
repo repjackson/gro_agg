@@ -119,7 +119,11 @@ template(name='love')
                 each expressions
                     .center.aligned.column
                         .content 
-                            .ui.header #{l_value} #{o_value} #{v_value} #{e_value}
+                            .ui.tertiary.large.button #{l_value}
+                            .ui.tertiary.large.button #{o_value}
+                            .ui.tertiary.large.button #{v_value}
+                            .ui.tertiary.large.button #{e_value}
+                            div
                             i.thumbs.up.link.outline.icon.upvote
                             |#{points}
                             i.thumbs.down.link.outline.icon.downvote
