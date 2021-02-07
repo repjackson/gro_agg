@@ -8,7 +8,7 @@ template(name='nav')
         a.icon.item(href="/tarot" class="{{isActivePath '/tarot'}}") 
             i.moon.large.icon
             // |tarot
-        a.icon.item(href="/r/recipes" class="{{isActivePath '/r/recipes'}}") 
+        a.icon.item(href="/food_nav" class="{{isActivePath '/food_nav'}}") 
             i.food.large.icon
             // |food
         a.icon.item(href="/r/love" class="{{isActivePath '/r/love'}}") 
@@ -93,6 +93,21 @@ template(name='tarot')
             a.ui.big.header(href='/r/tarot')
                 i.reddit.icon
                 |Tarot Subreddit
+            
+template(name='food_nav')
+    .ui.three.column.padded.grid
+        .column
+            a.ui.big.header(href='/g/recipes')
+                i.yin.yang.icon
+                |Dao Food Group
+        .column
+            a.ui.big.header(href='/r/recipes')
+                i.reddit.icon
+                |Recipe Subreddit
+        .column
+            a.ui.big.disabled.header(href='/s/recipes')
+                i.reddit.icon
+                |Cooking StackExchange Site
             
 template(name='right_sidebar')
     .ui.right.sidebar.vertical.borderless.inverted.menu

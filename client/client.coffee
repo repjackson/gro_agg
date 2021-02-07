@@ -222,6 +222,11 @@ Router.route '/tarot', (->
     @render 'tarot'
     ), name:'tarot'
 
+Router.route '/food_nav', (->
+    @layout 'layout'
+    @render 'food_nav'
+    ), name:'food_nav'
+
 
 
 Template.registerHelper 'lowered', (input)-> input.toLowerCase()
