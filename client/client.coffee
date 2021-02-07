@@ -217,6 +217,12 @@ Router.route '/', (->
     ), name:'home'
 
 
+Router.route '/tarot', (->
+    @layout 'layout'
+    @render 'tarot'
+    ), name:'tarot'
+
+
 
 Template.registerHelper 'lowered', (input)-> input.toLowerCase()
 Template.registerHelper 'money_format', (input)-> (input/100).toFixed(2)

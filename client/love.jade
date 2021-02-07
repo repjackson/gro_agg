@@ -41,7 +41,7 @@ template(name='love')
             // i.large.thumbs.up.icon
             if picked_tags
                 // if many_tags
-                //     a#clear_tags.ui.white.inverted.invert.icon.compact.button.pick_term
+                //     a#clear_tags.ui.black.invert.icon.compact.button.pick_term
                 //         i.remove.icon
                 each picked_tags
                     +unpick_tag
@@ -56,7 +56,7 @@ template(name='love')
                     if l_results.count
                         .ui.inline.big.header l
                     each picked_l
-                        a.unpick_l.ui.white.inverted.circular.large.compact.button(href='#')
+                        a.unpick_l.ui.black.circular.large.compact.button(href='#')
                             strong #{this}
                     each l_results
                         if name
@@ -65,7 +65,7 @@ template(name='love')
                     if o_results.count
                         .ui.inline.big.header o
                     each picked_o
-                        a.unpick_o.ui.white.inverted.circular.large.compact.button(href='#')
+                        a.unpick_o.ui.black.circular.large.compact.button(href='#')
                             strong #{this}
                     each o_results
                         if name
@@ -74,7 +74,7 @@ template(name='love')
                     if v_results.count
                         .ui.inline.big.header v
                     each picked_v
-                        a.unpick_v.ui.white.inverted.circular.large.compact.button(href='#')
+                        a.unpick_v.ui.black.circular.large.compact.button(href='#')
                             strong #{this}
                     each v_results
                         if name
@@ -83,7 +83,7 @@ template(name='love')
                     if e_results.count
                         .ui.inline.big.header e
                     each picked_e
-                        a.unpick_e.ui.white.inverted.circular.large.compact.button(href='#')
+                        a.unpick_e.ui.black.circular.large.compact.button(href='#')
                             strong #{this}
                     each e_results
                         if name
@@ -92,7 +92,7 @@ template(name='love')
                     if location_results.count
                         i.big.marker.icon
                     each picked_locations
-                        a.unpick_location.ui.white.inverted.circular.large.compact.button(href='#')
+                        a.unpick_location.ui.black.circular.large.compact.button(href='#')
                             strong #{this}
                     each location_results
                         if name
@@ -101,7 +101,7 @@ template(name='love')
                     if author_results.count
                         i.big.user.icon
                     each picked_authors
-                        a.unpick_author.ui.white.inverted.circular.large.compact.button(href='#')
+                        a.unpick_author.ui.black.circular.large.compact.button(href='#')
                             strong #{this}
                     each author_results
                         if name
@@ -110,7 +110,7 @@ template(name='love')
                     if time_results.count
                         i.clock.big.icon
                     each picked_times
-                        a.unpick_time.ui.large.white.circular.large.compact.button(href='#')
+                        a.unpick_time.ui.large.circular.large.compact.button(href='#')
                             strong #{this}
                     each time_results
                         .ui.basic.circular.tiny.compact.button.pick_time #{name}
@@ -153,7 +153,7 @@ template(name='tag_picker')
         //     small #{count}
         
 template(name='unpick_tag')
-    a.unpick_tag.ui.large.white.inverted.circular.compact.button(href='#')
+    a.unpick_tag.ui.large.black.circular.compact.button(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    

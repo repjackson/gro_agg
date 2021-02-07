@@ -13,44 +13,6 @@ Docs.allow
 #     Counts.publish this, 'model_counter', Docs.find(match)
 #     return undefined
 
-Meteor.publish 'doc_by_id', (doc_id)->
-    Docs.find doc_id
-        
-Meteor.publish 'love', (doc_id)->
-    Docs.find
-        model:'love'
-        
-
-Meteor.publish 'wikis', (
-    w_query
-    selected_tags
-    )->
-    Docs.find({
-        model:'wikipedia'
-    },{ 
-        limit:10
-    })
-    
-
-Meteor.publish 'doc_by_title', (title)->
-    Docs.find
-        title:title
-        model:'wikipedia'
-
-Meteor.publish 'doc_by_title_small', (title)->
-    Docs.find({
-        title:title
-        model:'wikipedia'
-    }, {
-        fields:
-            title:1
-            "watson.metadata.image":1
-    })
-
-Meteor.publish 'comments', (doc_id)->
-    Docs.find
-        model:'comment'
-        parent_id:doc_id
 
 Meteor.methods
     # hi: ->
