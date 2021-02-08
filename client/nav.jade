@@ -33,6 +33,8 @@ template(name='nav')
         if is_dev 
             .icon.item
                 i.large.code.icon
+        a.mobile.hidden.item(href="/u/#{currentUser.username}/points" class="{{isActiveRoute 'user_credits'}}")
+            |#{currentUser.points}p
         a.large.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_dashboard'}}")
             if currentUser.profile_image_id
                 if is_admin
@@ -42,8 +44,6 @@ template(name='nav')
             else 
                 i.large.user.large.icon
             strong.mobile.hidden #{currentUser.name}
-        a.mobile.hidden.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_credits'}}")
-            |#{currentUser.points}p
         a.icon.large.item.toggle_rightbar.select_term
             i.ellipsis.vertical.large.icon
         // else
