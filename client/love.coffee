@@ -7,7 +7,19 @@
 @picked_v = new ReactiveArray []
 @picked_e = new ReactiveArray []
 
+Router.route '/love/:doc_id/view', (->
+    @layout 'layout'
+    @render 'love_view'
+    ), name:'love_view'
 
+Template.love_view.onCreated ->
+    @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+Template.love_view.helpers
+    doc_by_id: ->
+        Docs.findOne Router.current().params.doc_id
+
+
+    
 Template.love.onCreated ->
     # Session.setDefault('subreddit_view_layout', 'grid')
     Session.setDefault('sort_key', 'data.created')

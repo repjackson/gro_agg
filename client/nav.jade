@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.fluid.attached.large.borderless.ten.item.inverted.menu.hscroll
+    .ui.fluid.attached.large.borderless.eleven.item.inverted.menu.hscroll
         a.icon.item.toggle_sidebar
             i.large.bars.icon
         a.icon.item(href="/" class="{{isActiveRoute 'home'}}") 
@@ -33,10 +33,7 @@ template(name='nav')
         if is_dev 
             .icon.item
                 i.large.code.icon
-        // if currentUser
-        // a.large.item.toggle_rightbar(class="{{isActiveRoute 'user_dashboard'}}")
         a.large.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_dashboard'}}")
-            //- i.large.user.large.icon
             if currentUser.profile_image_id
                 if is_admin
                     i.large.shield.icon(title='admin mode on')
@@ -45,8 +42,8 @@ template(name='nav')
             else 
                 i.large.user.large.icon
             strong.mobile.hidden #{currentUser.name}
-        // a.mobile.hidden.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_credits'}}")
-        //     |#{currentUser.points}p
+        a.mobile.hidden.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_credits'}}")
+            |#{currentUser.points}p
         a.icon.large.item.toggle_rightbar.select_term
             i.ellipsis.vertical.large.icon
         // else
