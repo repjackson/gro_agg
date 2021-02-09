@@ -11,7 +11,7 @@ template(name='user_dashboard')
                 .medscroll.ui.segments
                     each user_checkins
                         +user_checkin_segment
-        .two.column.row
+        .three.column.row
             .column
                 a.ui.inline.header(href="/u/#{username}/credits")
                     i.chevron.down.large.icon
@@ -42,6 +42,8 @@ template(name='user_dashboard')
                 .medscroll.ui.segments
                     each user_debits
                         +user_debit_segment
+            .column
+                +user_bookmarks_widget
             .column
                 a.ui.inline.spaced.header(href="/u/#{username}/requests")
                     i.concierge.bell.icon
@@ -77,6 +79,18 @@ template(name='user_dashboard')
                                 |#{description}
                                 |{{med_date date}}
                                 |{{long_time time}}
+
+
+template(name='user_bookmarks_widget')
+    a.ui.header(href="/u/#{username}/bookmarks")
+        i.bookmark.icon(title='bookmark tags')
+        |bookmarks
+    each bookmark_tags
+        .ui.small.basic.circular.label #{title} 
+    div
+    .medscroll.ui.segments
+        each user_bookmark_docs
+            .ui.header #{title}
 
 
 

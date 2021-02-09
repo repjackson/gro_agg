@@ -376,9 +376,9 @@ a.goto_article {
     /*animation: fadein .35s !important;*/
     /*animation: fadeout .35s; */
     /*transition: all .15s ease !important; */
-    /*cursor: crosshair !important;*/
+    cursor: help !important;
     /*color: black !important; */
-    transform: scale(1.01) !important;
+    /*transform: scale(1.01) !important;*/
 }
 .raise:hover {
     /*transform: scale(1.1) !important;*/

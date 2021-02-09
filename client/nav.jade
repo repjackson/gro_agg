@@ -14,8 +14,11 @@ template(name='nav')
         a.icon.item(href="/r/love" class="{{isActivePath '/r/love'}}") 
             i.university.large.icon
             // |bank
-        .icon.item 
-            i.shop.large.icon
+        a.icon.item(href="/users" class="{{isActivePath '/users'}}") 
+            i.users.large.icon
+            // |bank
+        // .icon.item 
+        //     i.shop.large.icon
             // |shop
         // .right.menu
         if unread_count
@@ -46,15 +49,15 @@ template(name='nav')
             strong.mobile.hidden #{currentUser.name}
         a.icon.large.item.toggle_rightbar.select_term
             i.ellipsis.vertical.large.icon
-        // else
-        //     // a.item(href="/register" title='register')
-        //     //     // |login
-        //     //     +icon name='plus'
-        //     //     // i.large.chevron.right.icon
-        //     a.item(href="/login" title='login')
-        //         // |login
-        //         +icon name='login-rounded-right'
-        //         // i.large.chevron.right.icon
+        unless currentUser
+            a.item(href="/register" title='register')
+                |register
+                +icon name='plus'
+                // i.large.chevron.right.icon
+            a.item(href="/login" title='login')
+                |login
+                +icon name='login-rounded-right'
+                // i.large.chevron.right.icon
     if session_is 'viewing_alerts'
         +topbar
 
