@@ -1,5 +1,5 @@
 Template.registerHelper 'is_positive', () ->
-    console.log @doc_sentiment_score
+    # console.log @doc_sentiment_score
     if @doc_sentiment_score
         @doc_sentiment_score > 0
     
@@ -26,7 +26,7 @@ Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 
 Template.registerHelper 'rcomments', (doc_id)->
     post = Docs.findOne Router.current().params.doc_id
-    console.log 'comments for ', post
+    # console.log 'comments for ', post
     Docs.find
         model:'rcomment'
         parent_id:"t3_#{post.reddit_id}"

@@ -16,7 +16,7 @@ template(name='group')
                 // +comments
                 // .f11 #{description}
                 // +image_link_view key='image' label='image' direct=true
-                .ui.icon.button.add_post
+                .ui.icon.circular.basic.button.add_post
                     i.plus.icon
                 if selected_tags
                     // if many_tags
@@ -27,9 +27,13 @@ template(name='group')
                 .ui.icon.input
                     i.search.icon
                     input.search_group_tag(type='text' value=group_query)
-                each result_tags
                     // .ui.label #{this}
-                    +tag_selector
+                if result_tags.count
+                    each result_tags
+                        +tag_selector
+                else
+                    i.big.grey.loading.yin.yang.icon
+                    
                 i.big.clock.grey.icon(title='when tags')
                 if selected_time_tags
                     each selected_time_tags
@@ -49,28 +53,32 @@ template(name='group')
                 .ui.hidden.divider
             .sixteen.wide.column
                 .ui.stackable.four.column.centered.grid
-                    each posts
-                        .center.aligned.column.medscroll
-                            .content
-                                a.header.zoomer(href="/g/#{current_group}/p/#{_id}") #{title}
-                                if image_id
+                    if posts.count
+                        each posts
+                            .center.aligned.column.medscroll
+                                .content
+                                    a.header.zoomer(href="/g/#{current_group}/p/#{_id}") #{title}
+                                    if image_id
+                                        a(href="/g/#{current_group}/p/#{_id}")
+                                            img.ui.fluid.rounded.zoomer.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                                    if image_link
+                                        a(href="/g/#{current_group}/p/#{_id}")
+                                            +image_link_view key='image_link' direct=true
+                                    if youtube_id
+                                        +youtube_view key='youtube_id' label='youtube id' direct=true
+                                    if in_dev
+                                        +text_edit key='group' label='slug' direct=true
                                     a(href="/g/#{current_group}/p/#{_id}")
-                                        img.ui.fluid.rounded.zoomer.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-                                if image_link
-                                    a(href="/g/#{current_group}/p/#{_id}")
-                                        +image_link_view key='image_link' direct=true
-                                if youtube_id
-                                    +youtube_view key='youtube_id' label='youtube id' direct=true
-                                if in_dev
-                                    +text_edit key='group' label='slug' direct=true
-                                a(href="/g/#{current_group}/p/#{_id}")
-                                    |!{content}
-                                    if raw
-                                        |!{raw}
-                                each tags
-                                    +flat_tag_selector
-                                    // .ui.small.label #{this}
-                            // .ui.divider
+                                        |!{content}
+                                        if raw
+                                            |!{raw}
+                                    each tags
+                                        +flat_tag_selector
+                                        // .ui.small.label #{this}
+                                // .ui.divider
+                    else
+                        i.big.grey.loading.yin.yang.icon
+
 
                 
                 

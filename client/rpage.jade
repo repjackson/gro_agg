@@ -26,7 +26,7 @@ template(name='reddit_page')
                         a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                             img.ui.fluid.zoomer.rounded.image.toggle_view(src=data.url)
                     
-                    if data.is_reddit_media_domain
+                    else if data.is_reddit_media_domain
                         img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
                     else if watson.metadata.image
                         img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
