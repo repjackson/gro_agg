@@ -77,6 +77,8 @@ if Meteor.isClient
     Template.login.helpers
         username: -> Session.get 'username'
         logging_in: -> Session.equals 'enter_mode', 'login'
+        input_login_class: ->
+            if Meteor.loggingIn() then 'loading disabled' else ''
         enter_class: ->
             if Session.get('username').length
                 if Session.get 'enter_mode', 'login'

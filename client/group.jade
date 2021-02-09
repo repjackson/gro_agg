@@ -74,6 +74,8 @@ template(name='group')
                                             |!{raw}
                                     each tags
                                         +flat_tag_selector
+                                    if is_admin 
+                                        +remove_button
                                         // .ui.small.label #{this}
                                 // .ui.divider
                     else
