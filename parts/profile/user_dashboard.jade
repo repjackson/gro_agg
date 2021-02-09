@@ -64,7 +64,7 @@ template(name='user_dashboard')
                             if image_id
                                 img.ui.image(src="{{c.url image_id height=100 width=200}}" class=currentUser.invert_class)
                             .content.zoom.pointer
-                                a.header(href="/request/#{_id}/view")
+                                a.header(href="/m/request/#{_id}/view")
                                     |#{point_bounty}pts: #{title}
                                 // |!{description}
                                 |status: #{status}

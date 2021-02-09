@@ -613,18 +613,16 @@ Template.single_user_edit.events
         #     $set: assignment_timestamp:Date.now()
 
     'click .pull_user': ->
-        # console.log Template.parentData(1)
-        # console.log Template.parentData(2)
-        # console.log Template.parentData(3)
-        # console.log Template.parentData(4)
-        # console.log Template.parentData(5)
-        # console.log Template.parentData(6)
-        # console.log Template.parentData(7)
         if confirm "remove #{@username}?"
             parent = Template.parentData(1)
             field = Template.currentData()
-            Docs.update parent._id,
-                $unset:"#{field.key}":1
+            doc = Docs.findOne parent._id
+            if doc
+                Docs.update parent._id,
+                    $unset:"#{field.key}":1
+            else
+                Meteor.users.update parent._id,
+                    $unset:"#{field.key}":1
 
         #     page_doc = Docs.findOne Router.current().params.doc_id
             # Meteor.call 'unassign_user', page_doc._id, @

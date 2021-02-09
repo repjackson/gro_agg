@@ -121,7 +121,7 @@ Template.nav.events
             Docs.insert
                 model:'gift'
                 recipient_id: @_id
-        Router.go "/debit/#{new_gift_id}/edit"
+        Router.go "/m/debit/#{new_gift_id}/edit"
 
     'click .add_request': ->
         # user = Meteor.users.findOne(username:@username)
@@ -129,7 +129,7 @@ Template.nav.events
             Docs.insert
                 model:'request'
                 recipient_id: @_id
-        Router.go "/request/#{new_id}/edit"
+        Router.go "/m/request/#{new_id}/edit"
 
 
     'click .view_profile': ->

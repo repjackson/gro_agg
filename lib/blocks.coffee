@@ -31,7 +31,7 @@ if Meteor.isClient
                 t.$('.add_comment').val('')
 
         'click .remove_comment': ->
-            if confirm 'Confirm remove comment'
+            if confirm 'confirm remove comment'
                 Docs.remove @_id
 
     Template.voting.events

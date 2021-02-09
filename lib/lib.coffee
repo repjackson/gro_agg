@@ -197,7 +197,7 @@ Meteor.methods
                         credit:.02
                         upvotes:1
                         downvotes:-1
-                        points:1
+                        points:2
             else if doc.upvoter_ids and Meteor.userId() in doc.upvoter_ids
                 Docs.update doc._id,
                     $pull: 
