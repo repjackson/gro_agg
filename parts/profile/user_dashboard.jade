@@ -3,6 +3,8 @@ template(name='user_dashboard')
         .three.column.row
             .column
                 .ui.header social graph
+                +single_user_view key='referrer' label='refered by' direct=true
+
                 each child_users
                     .ui.small.header #{username}
             .column

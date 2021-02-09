@@ -9,11 +9,12 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_credits', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_debits', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_checkins', Router.current().params.username
-        @autorun -> Meteor.subscribe 'model_docs', 'drink'
+        @autorun -> Meteor.subscribe 'user_child_referrals', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_requests', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_completed_requests', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_event_tickets', Router.current().params.username
         @autorun -> Meteor.subscribe 'model_docs', 'event'
+        @autorun -> Meteor.subscribe 'all_users'
         
     Template.user_dashboard.events
         'click .user_credit_segment': ->
@@ -82,6 +83,16 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.publish 'user_child_referrals', (username)->
+        user = Meteor.users.findOne username:username
+        Meteor.users.find({
+            referrer:user._id
+            # _author_id:user._id
+        },{
+            limit:20
+            sort: _timestamp:-1
+        })
+        
     Meteor.publish 'user_debits', (username)->
         user = Meteor.users.findOne username:username
         Docs.find({

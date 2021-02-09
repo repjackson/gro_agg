@@ -3,10 +3,6 @@ template(name='user_about')
         i.info.icon
         |user info
     with current_user
-        // a.ui.compact.button(href="{{c.url genekeys_profile }}" target="_window")
-        //     +icon name='dna-helix' cl='ui mini image'
-            
-        //     |view gene keys profile
         .ui.four.column.stackable.grid
             .column
                 .ui.small.header What do you hope to receive?
@@ -32,11 +28,8 @@ template(name='user_about')
                     |#{this}
                 // +user_info_tag
         div
-        // .ui.header 
-        //     i.line.chart.icon
-        //     |levels
-        // each levels
-        //     .ui.basic.label #{this}
+        +link_view key='website' label='website' icon='link' direct=true
+
         div
         .ui.header 
             |city:

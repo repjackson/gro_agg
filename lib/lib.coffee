@@ -78,6 +78,38 @@ Docs.helpers
         if @tags
             @tags[..3]
 
+    _author: -> Meteor.users.findOne @_author_id
+    _buyer: -> Meteor.users.findOne @buyer_id
+    recipient: ->
+        Meteor.users.findOne @recipient_id
+    
+    is_visible: -> @published in [0,1]
+    is_published: -> @published is 1
+    is_anonymous: -> @published is 0
+    is_private: -> @published is -1
+    is_read: ->
+        @read_ids and Meteor.userId() in @read_ids
+
+    enabled_features: () ->
+        Docs.find
+            model:'feature'
+            _id:$in:@enabled_feature_ids
+
+
+    upvoters: ->
+        if @upvoter_ids
+            upvoters = []
+            for upvoter_id in @upvoter_ids
+                upvoter = Meteor.users.findOne upvoter_id
+                upvoters.push upvoter
+            upvoters
+    downvoters: ->
+        if @downvoter_ids
+            downvoters = []
+            for downvoter_id in @downvoter_ids
+                downvoter = Meteor.users.findOne downvoter_id
+                downvoters.push downvoter
+            downvoters
 
 
 Meteor.users.helpers

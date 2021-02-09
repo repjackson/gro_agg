@@ -57,12 +57,6 @@ template(name='profile_layout')
                             if currentUser
                                 // div
                                 +user_friend_button 
-                        a.ui.icon.button(href="/u/#{username}/dashboard" class="{{isActiveRoute 'user_dashboard'}}")
-                            i.dashboard.large.icon
-                            // |dashboard
-                        if is_current_user
-                            a.ui.icon.button(href="/u/#{username}/edit/membership" class="{{isActiveRoute 'user_finance'}}")
-                                i.money.large.icon
                         unless is_current_user
                             .ui.basic.circular.button.tip(title='send tip')
                                 i.large.dollar.green.icon
@@ -84,8 +78,6 @@ template(name='profile_layout')
                         a.ui.basic.circular.button(href="/u/#{username}/messages" class="{{isActiveRoute 'user_messages'}}" title="#{user.username} messages")
                             i.chat.large.blue.icon
                             | message
-        
-        
                     .twelve.wide.column
                         a.ui.basic.circular.button.select_term.profile_nav_item(href="/u/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
                             i.large.dashboard.icon
