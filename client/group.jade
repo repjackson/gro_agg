@@ -55,9 +55,9 @@ template(name='group')
                 .ui.stackable.four.column.centered.grid
                     if posts.count
                         each posts
-                            .center.aligned.column.medscroll
+                            .column.medscroll
                                 .content
-                                    a.header.zoomer(href="/g/#{current_group}/p/#{_id}") #{title}
+                                    a.ui.header.zoomer(href="/g/#{current_group}/p/#{_id}") #{title}
                                     if image_id
                                         a(href="/g/#{current_group}/p/#{_id}")
                                             img.ui.fluid.rounded.zoomer.image(src="{{c.url image_id }}" class=currentUser.invert_class)
@@ -66,7 +66,7 @@ template(name='group')
                                             +image_link_view key='image_link' direct=true
                                     if youtube_id
                                         +youtube_view key='youtube_id' label='youtube id' direct=true
-                                    if in_dev
+                                    if is_admin
                                         +text_edit key='group' label='slug' direct=true
                                     a(href="/g/#{current_group}/p/#{_id}")
                                         |!{content}
@@ -79,7 +79,7 @@ template(name='group')
                                         // .ui.small.label #{this}
                                 // .ui.divider
                     else
-                        i.big.grey.loading.yin.yang.icon
+                        i.massive.grey.loading.yin.yang.icon
 
 
                 
@@ -105,7 +105,7 @@ template(name='unselect_tag')
         
 template(name='flat_tag_selector')
     // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.compact.tiny.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.compact.tiny.basic.circular.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    

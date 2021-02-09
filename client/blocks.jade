@@ -96,12 +96,16 @@ template(name='comments')
     .ui.comments
         each doc_comments
             .comment
+                a.avatar
+                    img.ui.avatar.image(src="{{c.url _author.profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
                 .content
+                    a.author(href="/u/#{_author.username}")
+                        |#{_author.name}
                     .metadata
                         span.date #{when}
                     .text
                         | !{body}
-                    span.meta
+                    span.actions
                         if can_edit
                             +remove_icon
                         else
@@ -317,7 +321,7 @@ template(name='role_editor')
         .ui.basic.button #{this}
 
 template(name='author_info')
-    with author
+    with _author
         a.ui.compact.basic.button(href="/u/#{username}")
             if profile_image_id
                 img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
