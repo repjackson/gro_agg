@@ -2,6 +2,10 @@ template(name='user_dashboard')
     .ui.stackable.grid
         .row
             .column
+                .ui.header social graph
+                each child_users
+                    .ui.small.header #{username}
+            .column
                 a.ui.inline.header(href="/u/#{username}/credits")
                     i.checkmark.large.icon
                     |#{user_checkins.count}

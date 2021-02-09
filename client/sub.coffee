@@ -208,8 +208,10 @@ Template.sub_tag_selector.events
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
         Session.set('subs_loading',true)
-        Meteor.call 'search_subs', @name, ->
-            Session.set('subs_loading',false)
+        Meteor.call 'search_subreddit', Router.current().params.subreddit, @name, ->
+            Session.set('loading',false)
+            Session.set('sub_doc_query', null)
+            
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))
         , 5000)

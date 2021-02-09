@@ -242,7 +242,8 @@ template(name='subreddit_post_card_small')
                 .ui.tiny.basic.circular.label #{this}
             a.ui.basic.label(href="/u/#{data.author}")
                 |#{data.author}
-            +doc_emotion_small        
+            if watson
+                +doc_emotion_small        
                 
                 // span.inline.content
                 // span.inline.content
