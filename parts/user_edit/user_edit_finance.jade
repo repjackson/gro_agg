@@ -153,3 +153,10 @@ template(name='user_edit_finance')
                             i.shield.icon
                             |admin 
                         +number_edit key='credit' label='edit credit' direct=true
+        .ui.header
+            +icolor name='money'
+            | finance
+        .ui.header 
+        .ui.header settings
+        +number_edit key='daily_income_goal' label='desired daily income'
+            

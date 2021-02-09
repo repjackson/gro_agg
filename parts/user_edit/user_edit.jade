@@ -168,3 +168,13 @@ template(name='username_edit')
     .ui.icon.fluid.input
         input.new_username(type='text' placeholder='new username...')
         i.play.link.icon.change_username
+
+
+template(name='user_edit_food')
+    .ui.header
+        +icolor name='food'
+        | food
+    .ui.header allergens
+    +array_edit key='allergens' label='allergens' direct=true
+    .ui.header dislikes
+    +array_edit key='food_dislikes' label='food dislikes' direct=true

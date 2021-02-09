@@ -242,10 +242,10 @@ Meteor.methods
 
 
 
-    lookup_user: (first_name_query, role_filter)->
+    lookup_user: (username_query, role_filter)->
         if role_filter
             Meteor.users.find({
-                first_name: {$regex:"#{first_name_query}", $options: 'i'}
+                first_name: {$regex:"#{username_query}", $options: 'i'}
                 roles:$in:[role_filter]
                 },{
                     limit:10
@@ -258,7 +258,7 @@ Meteor.methods
                     }).fetch()
         else
             Meteor.users.find({
-                first_name: {$regex:"#{first_name_query}", $options: 'i'}
+                username: {$regex:"#{username_query}", $options: 'i'}
                 },{
                     fields:
                         _id:1

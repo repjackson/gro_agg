@@ -6,9 +6,9 @@ if Meteor.isClient
 
 
     Template.user_edit_membership.onCreated ->
-        @autorun => Meteor.subscribe 'user_edit_membership', Router.current().params.username
+        # @autorun => Meteor.subscribe 'user_edit_membership', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'picture'
-        @autorun => Meteor.subscribe 'model_docs', 'transaction'
+        # @autorun => Meteor.subscribe 'model_docs', 'transaction'
 
     Template.user_edit_membership.events
         'keyup .new_picture': (e,t)->
@@ -122,5 +122,5 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'user_edit_membership', (username)->
-        Docs.find
-            model:'picture'
+        # Docs.find
+        #     model:'picture'

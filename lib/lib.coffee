@@ -1,8 +1,8 @@
 @Docs = new Meteor.Collection 'docs'
 @results = new Meteor.Collection 'results'
 @Tags = new Meteor.Collection 'tags'
-@User_tags = new Meteor.Collection 'user_tags'
-@Level_results = new Meteor.Collection 'level_results'
+# @User_tags = new Meteor.Collection 'user_tags'
+# @Level_results = new Meteor.Collection 'level_results'
 # @Tag_results = new Meteor.Collection 'tag_results'
 
 
