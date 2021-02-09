@@ -52,7 +52,7 @@ Meteor.publish 'expressions', (
     if picked_v.length > 0 then match.v_value = $all:picked_v
     if picked_e.length > 0 then match.e_value = $all:picked_e
 
-    console.log 'match',match
+    # console.log 'match',match
     Docs.find match,
         limit:100
         sort:_timestamp:-1

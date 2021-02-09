@@ -516,15 +516,15 @@ template(name='array_edit')
         //- +clear_value                
     if field_value
         each field_value
-            // if in_dev
-            //     .ui.large.circular.label
-            //         i.delete.icon.remove_element
-            //         |#{this}
-            //     // .ui.compact.circular.button.pick_tag
-            //     //     |#{this}
-            // else
-            .ui.compact.circular.button.pick_tag
-                |#{this}
+            if currentUser
+                .ui.large.circular.label.touch_element
+                    i.delete.icon.remove_element
+                    |#{this}
+                // .ui.compact.circular.button.pick_tag
+                //     |#{this}
+            else
+                .ui.compact.circular.button.pick_tag
+                    |#{this}
 
 // template(name='array_edit')
 //     .spacer
@@ -749,6 +749,42 @@ template(name='float_edit')
     //- +clear_value  
     .ui.input            
         input.edit_float(type='number' class=cl min=min step=step value=field_value placeholder=placeholder autocomplete="off")
+            
+            
+template(name='phone_edit')
+    .ui.inline.header 
+        i.phone.icon
+        if title
+            |#{title}
+        else if label
+            |#{label}
+        else if key
+            |#{key}
+        else
+            |#{this}
+    .ui.fluid.input
+        //- +clear_value                
+        input.edit_phone(type='tel' value=field_value placeholder=placeholder autocomplete="off")
+
+template(name='phone_view')
+    if field_value
+        unless header
+            div
+            //- if icon
+            //-     +i name=icon cl='ui avatar image'          
+            .ui.inline.grey.header
+                if title
+                    |#{title}
+                else if label
+                    |#{label}
+                else if key
+                    |#{key}
+                else
+                    |#{this}
+        strong &nbsp; #{field_value}
+
+            
+            
             
 template(name='float_view')
     if field_value

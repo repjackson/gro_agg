@@ -226,24 +226,37 @@ Template.image_edit.events
 
 
 Template.array_edit.events
+    # 'click .touch_element': (e,t)->
+    #     $(e.currentTarget).closest('.touch_element').transition('slide left')
+        
     'click .pick_tag': (e,t)->
-        console.log @
+        # console.log @
         selected_tags.clear()
         selected_tags.push @valueOf()
         Router.go "/#{Router.current().params.group}"
+
     'keyup .new_element': (e,t)->
         if e.which is 13
-            element_val = t.$('.new_element').val().trim().toLowerCase()
+            element_val = t.$('.new_element').val().trim()
             if element_val.length>0
-                parent = Template.parentData()
-                window.speechSynthesis.speak new SpeechSynthesisUtterance element_val
-
+                if @direct
+                    parent = Template.parentData()
+                else
+                    parent = Template.parentData(5)
                 doc = Docs.findOne parent._id
-                Docs.update doc._id,
-                    $addToSet:"#{@key}":element_val
+                user = Meteor.users.findOne parent._id
+                if doc
+                    Docs.update parent._id,
+                        $addToSet:"#{@key}":element_val
+                else if user
+                    Meteor.users.update parent._id,
+                        $addToSet:"#{@key}":element_val
+                window.speechSynthesis.speak new SpeechSynthesisUtterance element_val
                 t.$('.new_element').val('')
 
     'click .remove_element': (e,t)->
+        $(e.currentTarget).closest('.touch_element').transition('slide left', 1000)
+
         element = @valueOf()
         field = Template.currentData()
         if field.direct
@@ -252,13 +265,16 @@ Template.array_edit.events
             parent = Template.parentData(5)
 
         doc = Docs.findOne parent._id
+        user = Meteor.users.findOne parent._id
         if doc
             Docs.update parent._id,
+                $pull:"#{field.key}":element
+        else if user
+            Meteor.users.update parent._id,
                 $pull:"#{field.key}":element
 
         t.$('.new_element').focus()
         t.$('.new_element').val(element)
-
 
 # Template.textarea.onCreated ->
 #     @editing = new ReactiveVar false

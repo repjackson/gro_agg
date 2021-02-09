@@ -17,10 +17,6 @@ Meteor.publish 'wikis', (
     })
     
 
-Meteor.publish 'me', ()->
-    if Meteor.userId()
-        Meteor.users.find Meteor.userId()
-
 
 Meteor.publish 'doc_by_title', (title)->
     Docs.find
