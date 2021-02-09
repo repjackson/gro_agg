@@ -27,7 +27,10 @@ template(name='login')
                         strong #{username}
                         |&nbsp;
                         i.sign.in.alternate.icon
-                // .ui.center.aligned.basic.segment    
-                //     a.ui.basic.button(href='/forgot_password')
-                //         i.refresh.icon
-                //         |forgot password
+                .ui.center.aligned.basic.segment    
+                    a.ui.basic.button(href='/register')
+                        i.plus.icon
+                        |register
+                    a.ui.basic.button(href='/forgot_password')
+                        i.refresh.icon
+                        |forgot password

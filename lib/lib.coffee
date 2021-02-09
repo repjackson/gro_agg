@@ -37,9 +37,9 @@ Docs.before.insert (userId, doc)->
     doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
 # 
     doc._app = 'dao'
-    # if Meteor.user()
-    #     doc._author_id = Meteor.userId()
-    #     doc._author_username = Meteor.user().username
+    if Meteor.user()
+        doc._author_id = Meteor.userId()
+        doc._author_username = Meteor.user().username
     date = moment(timestamp).format('Do')
     weekdaynum = moment(timestamp).isoWeekday()
     weekday = moment().isoWeekday(weekdaynum).format('dddd')

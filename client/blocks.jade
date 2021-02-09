@@ -14,6 +14,19 @@ template(name='skve')
             else 
                 span #{v}
 
+template(name='comments_view_small')            
+    if doc_comments.count
+        .meta
+            each doc_comments 
+                i.grey.chat.outline.icon
+                img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=user_class)
+                |#{body}
+                div
+
+
+
+
+
 template(name='ismall')
     img(src="https://img.icons8.com/color/24/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/cotton/24/000000/#{name}.png" class=classes title=title)

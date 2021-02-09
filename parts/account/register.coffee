@@ -111,16 +111,16 @@ if Meteor.isClient
 
             # Session.get('username')
 
-        email: -> Session.get 'email'
+        # email: -> Session.get 'email'
         username: -> Session.get 'username'
         # first_name: -> Session.get 'first_name'
         # last_name: -> Session.get 'last_name'
         registering: -> Session.equals 'enter_mode', 'register'
         enter_class: -> if Meteor.loggingIn() then 'loading disabled' else ''
-        email_valid: ->
-            Session.equals 'email_status', 'valid'
-        email_invalid: ->
-            Session.equals 'email_status', 'invalid'
+        # email_valid: ->
+        #     Session.equals 'email_status', 'valid'
+        # email_invalid: ->
+        #     Session.equals 'email_status', 'invalid'
 
 if Meteor.isServer
     Meteor.methods

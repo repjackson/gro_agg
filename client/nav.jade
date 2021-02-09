@@ -21,18 +21,17 @@ template(name='nav')
         //     i.shop.large.icon
             // |shop
         // .right.menu
-        if unread_count
-            a.item.alerts.select_term(href="#" class=alert_toggle_class)
-                i.large.bell.icon
-                if unread_count
-                    |#{unread_count}
-        else
-            a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
-                i.large.outline.bell.icon
-        a.icon.item(href="/chat" title='chat') 
-            i.chat.large.outline.icon
-        // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
-        //     i.chat.large.icon
+        if currentUser
+            if unread_count
+                a.item.alerts.select_term(href="#" class=alert_toggle_class)
+                    i.large.bell.icon
+                    if unread_count
+                        |#{unread_count}
+            else
+                a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+                    i.large.outline.bell.icon
+            a.icon.item(href="/chat" title='chat') 
+                i.chat.large.outline.icon
         if is_dev 
             .icon.item
                 i.large.code.icon

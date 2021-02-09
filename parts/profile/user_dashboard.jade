@@ -2,11 +2,13 @@ template(name='user_dashboard')
     .ui.stackable.grid
         .three.column.row
             .column
-                .ui.header social graph
-                +single_user_view key='referrer' label='refered by' direct=true
-
-                each child_users
-                    .ui.small.header #{username}
+                .ui.header 
+                    i.fork.icon
+                    |social graph
+                +single_user_view key='referrer' label='referred by' direct=true
+                .ui.small.header referred
+                each user_referred
+                    +user_item
             .column
                 a.ui.inline.header(href="/u/#{username}/credits")
                     i.checkmark.large.icon

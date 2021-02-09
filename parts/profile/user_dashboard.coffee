@@ -29,6 +29,10 @@ if Meteor.isClient
             
             
     Template.user_dashboard.helpers
+        user_referred: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            Meteor.users.find 
+                referrer:current_user._id
         user_checkins: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find {
