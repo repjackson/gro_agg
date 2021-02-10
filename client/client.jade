@@ -19,7 +19,7 @@ head
     script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
     script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/en.js")
 
-    script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
+    // script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
 
 
 
@@ -45,8 +45,8 @@ template(name='layout')
     // +nav
     .ui.bottom.attached.pushable.segment
         // +top_sidebar
-        +left_sidebar
-        +right_sidebar
+        // +left_sidebar
+        // +right_sidebar
                 
         #main_area.global_container.pusher
             +yield
@@ -58,5 +58,5 @@ template(name='layout')
 template(name='not_found')
     .ui.basic.center.aligned.segment
         .ui.header page not found
-        a(href="/discrete")
+        a(href="/love")
             i.massive.yin.yang.link.icon

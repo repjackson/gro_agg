@@ -3,6 +3,10 @@ if Meteor.isClient
         @layout 'layout'
         @render 'group'
         ), name:'group'
+    Router.route '/:group', (->
+        @layout 'layout'
+        @render 'group'
+        ), name:'group_short'
 
     @selected_tags = new ReactiveArray []
     @selected_time_tags = new ReactiveArray []
