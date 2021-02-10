@@ -58,10 +58,6 @@ Docs.before.insert (userId, doc)->
 
 Docs.helpers
     when: -> moment(@_timestamp).fromNow()
-    site_doc: ->
-        Docs.findOne 
-            model:'stack_site'
-            name:@site
     seven_tags: ->
         if @tags
             @tags[..7]
@@ -74,3 +70,56 @@ Docs.helpers
     three_tags: ->
         if @tags
             @tags[..3]
+
+
+if Meteor.isClient
+    Template.print_this.events
+        'click .print_this': ->
+            console.log @
+    Template.comments.onCreated ->
+        @autorun => Meteor.subscribe 'children', 'comment', Router.current().params.doc_id
+    Template.comments.helpers
+        doc_comments: ->
+            if Router.current().params.doc_id
+                parent = Docs.findOne Router.current().params.doc_id
+            else
+                parent = Docs.findOne Template.parentData()._id
+            Docs.find
+                model:'comment'
+                parent_id:parent._id
+                    
+    Template.comments.events
+        'keyup .add_comment': (e,t)->
+            if e.which is 13
+                if Router.current().params.doc_id
+                    parent = Docs.findOne Router.current().params.doc_id
+                else
+                    parent = Docs.findOne Template.parentData()._id
+                # parent = Docs.findOne Router.current().params.doc_id
+                comment = t.$('.add_comment').val()
+                Docs.insert
+                    parent_id: parent._id
+                    model:'comment'
+                    parent_model:parent.model
+                    body:comment
+                t.$('.add_comment').val('')
+
+        'click .remove_comment': ->
+            if confirm 'confirm remove comment'
+                Docs.remove @_id
+
+#
+    Template.call_watson.events
+        'click .autotag': ->
+            doc = Docs.findOne Router.current().params.doc_id
+            console.log doc
+            console.log @
+    
+            Meteor.call 'call_watson', doc._id, @key, @mode
+#
+
+    Template.remove_button.events
+        'click .remove_doc': (e,t)->
+            if confirm "remove #{@model}?"
+                Docs.remove @_id
+                # , 1000
