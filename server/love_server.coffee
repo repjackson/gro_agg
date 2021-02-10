@@ -166,9 +166,9 @@ Meteor.publish 'love_tags', (
         { $limit:25 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
-    console.log match
+    # console.log match
     time_cloud.forEach (time, i) ->
-        console.log 'time', time
+        # console.log 'time', time
         self.added 'results', Random.id(),
             name: time.name
             count: time.count

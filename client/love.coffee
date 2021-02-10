@@ -125,16 +125,41 @@ Template.love.events
         picked_authors.push @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
 
-    'click .pick_l': -> picked_l.push @name
+    'click .pick_l': -> 
+        if @name
+            picked_l.push @name
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        else 
+            picked_l.push @l_value
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @l_value
+            
     'click .unpick_l': -> picked_l.remove @valueOf()
 
-    'click .pick_o': -> picked_o.push @name
+    'click .pick_o': -> 
+        if @name
+            picked_o.push @name
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        else 
+            picked_o.push @o_value
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @o_value
     'click .unpick_o': -> picked_o.remove @valueOf()
 
-    'click .pick_v': -> picked_v.push @name
+    'click .pick_v': -> 
+        if @name
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            picked_v.push @name
+        else
+            picked_v.push @v_value
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @v_value
     'click .unpick_v': -> picked_v.remove @valueOf()
 
-    'click .pick_e': -> picked_e.push @name
+    'click .pick_e': -> 
+        if @name
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            picked_e.push @name
+        else
+            picked_e.push @e_value
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @e_value
     'click .unpick_e': -> picked_e.remove @valueOf()
 
     'keyup .search_love_tag': (e,t)->

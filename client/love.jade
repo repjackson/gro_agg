@@ -119,28 +119,30 @@ template(name='love')
                 each expressions
                     .center.aligned.column
                         .content 
-                            .ui.tertiary.large.button #{l_value}
-                            .ui.tertiary.large.button #{o_value}
-                            .ui.tertiary.large.button #{v_value}
-                            .ui.tertiary.large.button #{e_value}
+                            .ui.tertiary.large.button.pick_l #{l_value}
+                            .ui.tertiary.large.button.pick_o #{o_value}
+                            .ui.tertiary.large.button.pick_v #{v_value}
+                            .ui.tertiary.large.button.pick_e #{e_value}
                             div
-                            // i.thumbs.up.link.outline.icon.upvote
-                            // |#{points}
-                            // i.thumbs.down.link.outline.icon.downvote
+                            i.thumbs.up.link.outline.icon.upvote
+                            |#{points}
+                            i.thumbs.down.link.outline.icon.downvote
                             |#{when}
-                            .ui.tiny.icon.input
-                                i.grey.tag.icon
-                                input.add_tag(type='text' placeholder='+')
-                            each tags
-                                +flat_tag_picker
+                            // .ui.tiny.icon.input
+                            //     i.grey.tag.icon
+                            //     input.add_tag(type='text' placeholder='+')
+                            // each tags
+                            //     +flat_tag_picker
                                 // .ui.small.compact.button.pick_flat_tag #{this}
-                            each timestamp_tags
-                                .ui.small.compact.button.pick_flat_time #{this}
-                            i.grey.marker.icon
-                            |#{location}
-                            i.grey.user.outline.icon
-                            |#{author}
-                            a.ui.icon.button(href="/love/#{_id}/view")
+                            // each timestamp_tags
+                            //     .ui.small.compact.button.pick_flat_time #{this}
+                            if location
+                                i.grey.marker.icon
+                                |#{location}
+                            if author
+                                i.grey.user.outline.icon
+                                |#{author}
+                            a.ui.icon.compact.circular.button(href="/love/#{_id}/view")
                                 i.chevron.right.icon
                                 
                                 
