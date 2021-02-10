@@ -102,7 +102,7 @@ if Meteor.isClient
                 Docs.insert 
                     model:'post'
                     group:Router.current().params.group
-            Router.go "/#{Router.current().params.group}/p/#{new_id}/edit"
+            Router.go "/g/#{Router.current().params.group}/p/#{new_id}/edit"
         'keyup .search_group_tag': (e,t)->
              if e.which is 13
                 val = t.$('.search_group_tag').val().trim().toLowerCase()
