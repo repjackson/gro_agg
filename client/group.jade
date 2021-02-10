@@ -119,16 +119,20 @@ template(name='post_view')
             .row 
                 .four.wide.column
                     .ui.segmen
-                        a.ui.large.icon.button(href="/#{group}")
+                        a.ui.large.circular.button(href="/#{group}")
                             i.chevron.left.icon
-                        .ui.large.inline.header #{title}
+                            |#{group}
+                        .ui.inline.header #{title}
                         // div
                         // .ui.inline.grey.header {{from_now start_datetime}}
                         
                         if can_edit
                             a.edit_group_post(href="/#{group}/p/#{_id}/edit" title='edit')
                                 i.large.link.pencil.icon
-                        | #{views} views
+                        div
+                        span(title='views')
+                            | #{views}
+                            i.grey.eye.icon
                         +array_edit key='tags' label='tags' direct=true
                         // +voting_full
                         +link_view key='link' label='link' direct=true

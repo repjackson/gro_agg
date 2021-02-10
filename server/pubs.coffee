@@ -39,33 +39,6 @@ Meteor.publish 'comments', (doc_id)->
         parent_id:doc_id
 
 
-Meteor.publish 'user_from_username', (username)->
-    # console.log 'pulling doc'
-    Meteor.users.find
-        username:username
-        
-Meteor.publish 'user_model_docs', (model,username)->
-    # console.log 'pulling doc'
-    user = Meteor.users.findOne username:username
-    Docs.find
-        model:model
-        _author_id:user._id
-
-Meteor.publish 'recipient_from_gift_id', (gift_id)->
-    # console.log 'pulling doc'
-    gift = Docs.findOne gift_id
-    Meteor.users.find
-        _id:gift.target_id
-
-Meteor.publish 'author_from_doc_id', (doc_id)->
-    # console.log 'pulling doc'
-    doc = Docs.findOne doc_id
-    Meteor.users.find
-        _id:doc._author_id
-
-Meteor.publish 'user_from_id', (user_id)->
-    Meteor.users.find
-        _id:user_id
 
 Meteor.publish 'doc_comments', (doc_id)->
     Docs.find
@@ -73,77 +46,17 @@ Meteor.publish 'doc_comments', (doc_id)->
         parent_id:doc_id
 
 
-Meteor.publish 'children', (model, parent_id)->
-    match = {}
-    Docs.find
-        model:model
-        parent_id:parent_id
 
 Meteor.publish 'current_doc', (doc_id)->
     console.log 'pulling doc'
     Docs.find doc_id
 
 
-
-Meteor.publish 'my_received_messages', ->
-    Docs.find 
-        model:'message'
-        recipient_id:Meteor.userId()
-Meteor.publish 'my_sent_messages', ->
-    Docs.find 
-        model:'message'
-        _author_id:Meteor.userId()
-
-Meteor.publish 'alerts', ->
-    Docs.find
-        model:'alert'
-        to_user_id:Meteor.userId()
-        read:$ne:true
-
-
-Meteor.publish 'model_docs', (model)->
-    # console.log 'pulling doc'
-    match = {model:model}
-    # if Meteor.user()
-    #     unless Meteor.user().roles and 'admin' in Meteor.user().roles
-    #         match.app = 'stand'
-    # else
-        # match.app = 'stand'
-    Docs.find match
-
-Meteor.publish 'latest_debits', ()->
-    # console.log 'pulling doc'
-    match = {model:'debit'}
-    # if Meteor.user()
-    #     unless Meteor.user().roles and 'admin' in Meteor.user().roles
-    #         match.app = 'stand'
-    # else
-        # match.app = 'stand'
-    Docs.find match,
-        sort:_timestamp:-1
-        limit:25
-
-
-Meteor.publish 'all_users', ()->
-    Meteor.users.find()
-
-
-
 Meteor.publish 'doc', (doc_id)->
     found_doc = Docs.findOne doc_id
     if found_doc
         Docs.find doc_id
-    else
-        Meteor.users.find doc_id
 
-
-
-
-Meteor.publish 'me', ()->
-    if Meteor.user()
-        Meteor.users.find Meteor.userId()
-    else
-        []
 
 
 Meteor.publish 'tag_results', (

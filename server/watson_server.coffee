@@ -75,44 +75,6 @@ Meteor.methods
             )
         # else return
 
-    # call_visual: (doc_id, field)->
-    #     self = @
-    #     doc = Docs.findOne doc_id
-    #     # link = doc["#{field}"]
-    #     # visual_recognition.classify(classify_params)
-    #     #   .then(response => {
-    #     #     const classifiedImages = response.result;
-    #     #     console.log(JSON.stringify(classifiedImages, null, 2));
-    #     #   })
-    #     #   .catch(err => {
-    #     #     console.log('error:', err);
-    #     #   });
-    #     if doc.watson
-    #         if doc.watson.metadata.image
-    #             params =
-    #                 url:doc.watson.metadata.image
-    #     else
-    #         params =
-    #             url:doc.thumbnail
-    #             # url:doc.url
-    #         # images_file: images_file
-    #         # classifier_ids: classifier_ids
-    #     visual_recognition.classify params, Meteor.bindEnvironment((err, response)->
-    #         if err
-    #             console.log err
-    #         else
-    #             visual_tags = []
-    #             for tag in response.result.images[0].classifiers[0].classes
-    #                 visual_tags.push tag.class.toLowerCase()
-    #             # console.log(JSON.stringify(response, null, 2))
-    #             # console.log visual_tags
-    #             Docs.update { _id: doc_id},
-    #                 $set:
-    #                     visual_classes: response.result.images[0].classifiers[0].classes
-    #                     visual_tags:visual_tags
-    #                 $addToSet:
-    #                     tags:$each:visual_tags
-    #     )
 
     call_watson: (doc_id, key, mode) ->
         console.log 'calling watson'
@@ -144,54 +106,43 @@ Meteor.methods
                     explanation:true
                 emotion: {}
                 # metadata: {}
-                relations: {}
-                semantic_roles: {}
+                # relations: {}
+                # semantic_roles: {}
                 sentiment: {}
-        if doc.data and doc.data.domain and doc.data.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
-            params.url = "https://www.reddit.com#{doc.data.permalink}"
-            params.returnAnalyzedText = false
-            params.clean = false
-        else 
-            switch mode
-                when 'html'
-                    params.html = doc["#{key}"]
-                    params.returnAnalyzedText = true
-                    # params.html = doc.data.description
-                    params.features.metadata = {}
-                when 'text'
-                    params.text = doc["#{key}"]
-                    params.returnAnalyzedText = true
-                    params.clean = true
-                when 'comment'
-                    params.text = doc.data.body
-                    params.returnAnalyzedText = true
-                    params.clean = true
-                    # params.features.metadata = {}
-                when 'url'
-                    params.url = doc["#{key}"]
-                    # params.url = durl
-                    # console.log 'calling url', params.url, doc["#{key}"], key
-                    # console.log 'calling url', params.url, doc[key], durl
-                    # params.url = doc.data.link_url
-                    params.returnAnalyzedText = true
-                    params.clean = true
-                    params.features.metadata = {}
-                when 'stack'
-                    # params.url = doc["#{key}"]
-                    params.url = doc.link
-                    params.returnAnalyzedText = true
-                    params.features.metadata = {}
-                    params.clean = true
-                when 'video'
-                    params.url = "https://www.reddit.com#{doc.data.permalink}"
-                    params.returnAnalyzedText = true
-                    params.clean = true
-                    params.features.metadata = {}
-                when 'image'
-                    params.url = "https://www.reddit.com#{doc.data.permalink}"
-                    params.returnAnalyzedText = true
-                    params.clean = true
-                    params.features.metadata = {}
+        switch mode
+            when 'html'
+                params.html = doc["#{key}"]
+                params.returnAnalyzedText = true
+                # params.html = doc.data.description
+                params.features.metadata = {}
+            when 'text'
+                params.text = doc["#{key}"]
+                params.returnAnalyzedText = true
+                params.clean = true
+            when 'comment'
+                params.text = doc.data.body
+                params.returnAnalyzedText = true
+                params.clean = true
+                # params.features.metadata = {}
+            when 'url'
+                params.url = doc["#{key}"]
+                # params.url = durl
+                # console.log 'calling url', params.url, doc["#{key}"], key
+                # console.log 'calling url', params.url, doc[key], durl
+                # params.url = doc.data.link_url
+                params.returnAnalyzedText = true
+                params.clean = true
+                params.features.metadata = {}
+            when 'video'
+                params.url = "https://www.reddit.com#{doc.data.permalink}"
+                params.returnAnalyzedText = true
+                params.clean = true
+                params.features.metadata = {}
+            when 'image'
+                params.url = "https://www.reddit.com#{doc.data.permalink}"
+                params.returnAnalyzedText = true
+                params.clean = true
+                params.features.metadata = {}
 
         # console.log 'params', params
 
@@ -305,7 +256,7 @@ Meteor.methods
                 #     Meteor.call 'call_tone', doc_id, 'body', 'text', ->
 
                 # Meteor.call 'log_doc_terms', doc_id, ->
-                Meteor.call 'clear_blocklist_doc', doc_id, ->
+                # Meteor.call 'clear_blocklist_doc', doc_id, ->
                 # if Meteor.isDevelopment
                 #     console.log 'all tags', final_doc.tags
                     # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
