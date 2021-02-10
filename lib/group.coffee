@@ -303,7 +303,7 @@ if Meteor.isServer
         # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
         console.log 'skip', skip
         Docs.find match,
-            limit:10
+            limit: 42
             sort: "#{sk}":-1
             # skip:skip*20
         
