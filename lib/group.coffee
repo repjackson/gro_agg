@@ -106,7 +106,7 @@ if Meteor.isClient
                 Docs.insert 
                     model:'post'
                     group:Router.current().params.group
-            Router.go "/g/#{Router.current().params.group}/p/#{new_id}/edit"
+            Router.go "/#{Router.current().params.group}/p/#{new_id}/edit"
         'keyup .search_group_tag': (e,t)->
              if e.which is 13
                 val = t.$('.search_group_tag').val().trim().toLowerCase()
@@ -210,11 +210,11 @@ if Meteor.isClient
             $('.search_group').val('')
 
 if Meteor.isClient
-    Router.route '/g/:group/p/:doc_id/edit', (->
+    Router.route '/:group/p/:doc_id/edit', (->
         @layout 'layout'
         @render 'post_edit'
         ), name:'post_edit'
-    Router.route '/g/:group/p/:doc_id', (->
+    Router.route '/:group/p/:doc_id', (->
         @layout 'layout'
         @render 'post_view'
         ), name:'post_view'
