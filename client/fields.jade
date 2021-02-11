@@ -487,7 +487,7 @@ template(name='array_edit')
         //- +clear_value                
     if field_value
         each field_value
-            if currentUser
+            if in_dev
                 .ui.large.circular.label.touch_element
                     i.delete.icon.remove_element
                     |#{this}

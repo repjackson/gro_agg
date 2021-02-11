@@ -12,7 +12,7 @@ if Meteor.isClient
     @selected_time_tags = new ReactiveArray []
     @selected_location_tags = new ReactiveArray []
     @selected_Person_tags = new ReactiveArray []
-    @selected_Location_tags = new ReactiveArray []
+    @selected_Locations = new ReactiveArray []
     @selected_Organization_tags = new ReactiveArray []
 
 
@@ -30,7 +30,7 @@ if Meteor.isClient
             selected_time_tags.array()
             selected_location_tags.array()
             selected_Person_tags.array()
-            selected_Location_tags.array()
+            selected_Locations.array()
             selected_Organization_tags.array()
             # selected_group_authors.array()
             Session.get('toggle')
@@ -40,7 +40,7 @@ if Meteor.isClient
             selected_time_tags.array()
             selected_location_tags.array()
             selected_Person_tags.array()
-            selected_Location_tags.array()
+            selected_Locations.array()
             selected_Organization_tags.array()
         
         @autorun => Meteor.subscribe 'group_posts', 
@@ -49,7 +49,7 @@ if Meteor.isClient
             selected_time_tags.array()
             selected_location_tags.array()
             selected_Person_tags.array()
-            selected_Location_tags.array()
+            selected_Locations.array()
             selected_Organization_tags.array()
             Session.get('group_sort_key')
             Session.get('group_sort_direction')
@@ -75,11 +75,17 @@ if Meteor.isClient
         selected_location_tags: -> selected_location_tags.array()
         selected_people_tags: -> selected_people_tags.array()
         counter: -> Counts.get 'counter'
+      
         result_tags: -> results.find(model:'group_tag')
+        organizations: -> results.find(model:'Organization')
+        companies: -> results.find(model:'Company')
+        healthconditions: -> results.find(model:'HealthCondition')
+        persons: -> results.find(model:'Person')
         time_tags: -> results.find(model:'time_tag')
         location_tags: -> results.find(model:'location_tag')
-        current_group: ->
-            Router.current().params.group
+        locations: -> results.find(model:'Location')
+       
+        current_group: -> Router.current().params.group
             
     Template.group.events
         # 'click .unselect_group_tag': -> 
@@ -101,6 +107,12 @@ if Meteor.isClient
         #     $('.search_subgroup').val('')
         #     Session.set('group_skip_value',0)
     
+        'click .unselect_Location': ->
+            selected_Locations.remove @valueOf()
+        'click .pick_Location': ->
+            selected_Locations.push @name
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            
         'click .unselect_time_tag': ->
             selected_time_tags.remove @valueOf()
         'click .select_time_tag': ->
@@ -254,7 +266,7 @@ if Meteor.isClient
         'click .delete_post': ->
             if confirm 'delete?'
                 Docs.remove @_id
-                Router.go "/"
+                Router.go "/#{@group}"
 
         'click .publish': ->
             if confirm 'publish post?'
@@ -286,6 +298,9 @@ if Meteor.isServer
         selected_tags
         selected_time_tags
         selected_location_tags
+        selected_Person_tags
+        selected_Location_tags
+        selected_Organization_tags
         sort_key
         sort_direction
         skip=0
@@ -311,8 +326,9 @@ if Meteor.isServer
         if selected_tags.length > 0 then match.tags = $all:selected_tags
         if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
         if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
-        # if selected_subgroup_domains.length > 0 then match.domain = $all:selected_subgroup_domains
-        # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
+        if selected_Person_tags.length > 0 then match.Person = $all:selected_Person_tags
+        if selected_Location_tags.length > 0 then match.Location = $all:selected_Location_tags
+        if selected_Organization_tags.length > 0 then match.Organization = $all:selected_Organization_tags
         console.log 'skip', skip
         Docs.find match,
             limit: 42
@@ -356,10 +372,9 @@ if Meteor.isServer
         selected_tags
         selected_time_tags
         selected_location_tags
-        # selected_group_authors
-        # view_bounties
-        # view_unanswered
-        # query=''
+        selected_Person_tags
+        selected_Location_tags
+        selected_Organization_tags
         )->
         # @unblock()
         self = @
@@ -381,9 +396,9 @@ if Meteor.isServer
         # if selected_subgroup_domain.length > 0 then match.domain = $all:selected_subgroup_domain
         if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
         if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
-        # if selected_group_location.length > 0 then match.subgroup = $all:selected_group_location
-        # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
-        # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
+        if selected_Person_tags.length > 0 then match.Person = $all:selected_Person_tags
+        if selected_Location_tags.length > 0 then match.Location = $all:selected_Location_tags
+        if selected_Organization_tags.length > 0 then match.Organization = $all:selected_Organization_tags
         doc_count = Docs.find(match).count()
         # console.log 'doc_count', doc_count
         group_tag_cloud = Docs.aggregate [
@@ -458,6 +473,91 @@ if Meteor.isServer
                 name: time_tag.name
                 count: time_tag.count
                 model:'time_tag'
+      
+        group_Location_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "Location": 1 }
+            { $unwind: "$Location" }
+            { $group: _id: "$Location", count: $sum: 1 }
+            { $match: _id: $nin: selected_time_tags }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:25 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        group_Location_cloud.forEach (Location, i) ->
+            self.added 'results', Random.id(),
+                name: Location.name
+                count: Location.count
+                model:'Location'
+      
+        group_Person_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "Person": 1 }
+            { $unwind: "$Person" }
+            { $group: _id: "$Person", count: $sum: 1 }
+            { $match: _id: $nin: selected_time_tags }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:25 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        group_Person_cloud.forEach (Person, i) ->
+            self.added 'results', Random.id(),
+                name: Person.name
+                count: Person.count
+                model:'Person'
+      
+        group_Organization_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "Organization": 1 }
+            { $unwind: "$Organization" }
+            { $group: _id: "$Organization", count: $sum: 1 }
+            { $match: _id: $nin: selected_time_tags }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:25 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        group_Organization_cloud.forEach (Organization, i) ->
+            self.added 'results', Random.id(),
+                name: Organization.name
+                count: Organization.count
+                model:'Organization'
+      
+        group_HealthCondition_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "HealthCondition": 1 }
+            { $unwind: "$HealthCondition" }
+            { $group: _id: "$HealthCondition", count: $sum: 1 }
+            { $match: _id: $nin: selected_time_tags }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:25 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        group_HealthCondition_cloud.forEach (HealthCondition, i) ->
+            self.added 'results', Random.id(),
+                name: HealthCondition.name
+                count: HealthCondition.count
+                model:'HealthCondition'
+      
+        # group_HealthCondition_cloud = Docs.aggregate [
+        #     { $match: match }
+        #     { $project: "HealthCondition": 1 }
+        #     { $unwind: "$HealthCondition" }
+        #     { $group: _id: "$HealthCondition", count: $sum: 1 }
+        #     { $match: _id: $nin: selected_time_tags }
+        #     { $sort: count: -1, _id: 1 }
+        #     { $match: count: $lt: doc_count }
+        #     { $limit:25 }
+        #     { $project: _id: 0, name: '$_id', count: 1 }
+        # ]
+        # group_HealthCondition_cloud.forEach (time_tag, i) ->
+        #     self.added 'results', Random.id(),
+        #         name: HealthCondition.name
+        #         count: HealthCondition.count
+        #         model:'HealthCondition'
       
         self.ready()
             

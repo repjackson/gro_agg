@@ -339,7 +339,7 @@ input
 
 
 .rounded {
-  border-radius: 15px !important; 
+  border-radius: 10px !important; 
   /*padding: 10px !important; */
 }
 
@@ -485,7 +485,7 @@ a.title, #title {
     /*border-radius: 10px !important;*/
 }
 
-img, .rounded, .embed {
+img, .rounded, .embed, iframe {
   filter: invert(1) !important; 
 }
 .left.floated{
@@ -682,8 +682,8 @@ input {
     /*z-index:1001;*/
     /*margin-top: 1em; */
     /*padding-top: .5em; */
-    /*padding: .4em;*/
-    padding-left: 1em;
+    padding: 1em;
+    /*padding-left: 1em;*/
 }
 .forty {
     max-height:38vh !important;

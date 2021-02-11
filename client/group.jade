@@ -1,7 +1,8 @@
 template(name='group')
+    +subreddit
     .ui.stackable.grid
         .row 
-            .sixteen.wide.center.aligned.column
+            .sixteen.wide.column
                 .ui.inline.small.header    
                     |#{counter}
                 .ui.inline.header    
@@ -33,25 +34,8 @@ template(name='group')
                         +tag_selector
                 else
                     i.big.grey.loading.yin.yang.icon
-                    
-                i.big.clock.grey.icon(title='when tags')
-                if selected_time_tags
-                    each selected_time_tags
-                        a.unselect_time_tag.ui.active.large.compact.button(href='#')
-                            strong #{this}
-                each time_tags
-                    .ui.compact.small.button.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
-                        strong #{name}
-                i.big.marker.grey.icon(title='where tags')
-                if selected_location_tags
-                    each selected_location_tags
-                        a.unselect_location_tag.ui.active.large.compact.button(href='#')
-                            strong #{this}
-                each location_tags
-                    .ui.compact.small.button.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
-                        strong #{name}
+            .twelve.wide.column.scrolling
                 .ui.hidden.divider
-            .sixteen.wide.column
                 .ui.stackable.four.column.centered.grid
                     if posts.count
                         each posts
@@ -76,11 +60,58 @@ template(name='group')
                                         +flat_tag_selector
                                     if is_admin 
                                         +remove_button
+                                    a.ui.circular.icon.button(href="/#{group}/p/#{_id}")
+                                        i.right.chevron.icon
                                         // .ui.small.label #{this}
                                 // .ui.divider
                     else
                         i.massive.grey.loading.yin.yang.icon
-
+            .four.wide.column.scrolling
+                i.big.clock.grey.icon(title='when tags')
+                if selected_time_tags
+                    each selected_time_tags
+                        a.unselect_time_tag.ui.active.large.compact.button(href='#')
+                            strong #{this}
+                each time_tags
+                    .ui.compact.small.button.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                        strong #{name}
+                div
+                i.big.marker.grey.icon(title='where tags')
+                if selected_location_tags
+                    each selected_location_tags
+                        a.unselect_location_tag.ui.active.large.compact.button(href='#')
+                            strong #{this}
+                each location_tags
+                    .ui.compact.small.button.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                        strong #{name}
+                if Locations
+                    .ui.header
+                        i.marker.icon
+                        |locations
+                    each locations
+                        .ui.link.label.pick_Location #{name}
+                if HealthConditions
+                    .ui.grey.header 
+                        i.doctor.icon
+                        |health conditions
+                    each HealthConditions
+                        .ui.link.label.select_healthcondition #{name}
+                if Persons
+                    .ui.header 
+                        i.user.icon
+                        |people
+                    each Persons
+                        .ui.label.select_person #{name}
+                if Organizations
+                    .ui.header 
+                        i.building.icon
+                        |organizations
+                    each Organizations
+                        .ui.label.select_organization #{name}
+                if Companies
+                    .ui.header company
+                    each companies
+                        .ui.label.select_company #{name}
 
                 
                 
@@ -95,7 +126,7 @@ template(name='tag_selector')
         //     small #{count}
         
 template(name='unselect_tag')
-    a.unselect_tag.ui.large.active.compact.button(href='#')
+    a.unselect_tag.ui.large.active.circular.compact.button(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -126,9 +157,9 @@ template(name='post_view')
                         // div
                         // .ui.inline.grey.header {{from_now start_datetime}}
                         
-                        if can_edit
+                        if in_dev
                             a.edit_group_post(href="/#{group}/p/#{_id}/edit" title='edit')
-                                i.large.link.pencil.icon
+                                i.large.link.pencil.circular.icon
                         div
                         span(title='views')
                             | #{views}
@@ -139,7 +170,7 @@ template(name='post_view')
     
                         +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                         +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                .eight.wide.column.scrolling
+                .twelve.wide.column.scrolling
                     if image_link
                         a(href="/#{group}")
                             +image_link_view key='image_link' direct=true
@@ -156,22 +187,22 @@ template(name='post_view')
                     .spacer
                     .spacer
                     +comments
-                .four.wide.column.scrolling
                     if watson
                         +watson_view
                         +watson_full
+                // .twelve.wide.column.scrolling
 
 template(name='post_edit')
     with doc_by_id
         .ui.stackable.padded.grid
             .row
                 .four.wide.column.scrolling
-                    a.ui.icon.green.big.button(href="/#{group}/p/#{_id}" title='save')
+                    a.ui.icon.red.circular.big.button(href="/#{group}/p/#{_id}" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
                         i.pencil.icon
                         |edit group post
-                    i.large.link.red.remove.icon.delete_group_post
+                    i.large.link.red.remove.icon.delete_post
                     +image_edit key='image_id' label='image' direct=true
                     div 
                     +array_edit key='tags' label='tags' direct=true

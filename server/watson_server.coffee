@@ -109,42 +109,52 @@ Meteor.methods
                 # relations: {}
                 # semantic_roles: {}
                 sentiment: {}
-        switch mode
-            when 'html'
-                params.html = doc["#{key}"]
-                params.returnAnalyzedText = true
-                # params.html = doc.data.description
-                params.features.metadata = {}
-            when 'text'
-                params.text = doc["#{key}"]
-                params.returnAnalyzedText = true
-                params.clean = true
-            when 'comment'
-                params.text = doc.data.body
-                params.returnAnalyzedText = true
-                params.clean = true
-                # params.features.metadata = {}
-            when 'url'
-                params.url = doc["#{key}"]
-                # params.url = durl
-                # console.log 'calling url', params.url, doc["#{key}"], key
-                # console.log 'calling url', params.url, doc[key], durl
-                # params.url = doc.data.link_url
-                params.returnAnalyzedText = true
-                params.clean = true
-                params.features.metadata = {}
-            when 'video'
-                params.url = "https://www.reddit.com#{doc.data.permalink}"
-                params.returnAnalyzedText = true
-                params.clean = true
-                params.features.metadata = {}
-            when 'image'
-                params.url = "https://www.reddit.com#{doc.data.permalink}"
-                params.returnAnalyzedText = true
-                params.clean = true
-                params.features.metadata = {}
-
-        # console.log 'params', params
+        if doc.data and doc.data.domain and doc.data.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
+            params.url = "https://www.reddit.com#{doc.data.permalink}"
+            params.returnAnalyzedText = false
+            params.clean = false
+        else                 
+            switch mode
+                when 'html'
+                    params.html = doc["#{key}"]
+                    params.returnAnalyzedText = true
+                    # params.html = doc.data.description
+                    params.features.metadata = {}
+                when 'text'
+                    params.text = doc["#{key}"]
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                when 'comment'
+                    params.text = doc.data.body
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                    # params.features.metadata = {}
+                when 'url'
+                    params.url = doc["#{key}"]
+                    # params.url = durl
+                    # console.log 'calling url', params.url, doc["#{key}"], key
+                    # console.log 'calling url', params.url, doc[key], durl
+                    # params.url = doc.data.link_url
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                    params.features.metadata = {}
+                when 'stack'
+                    # params.url = doc["#{key}"]
+                    params.url = doc.link
+                    params.returnAnalyzedText = true
+                    params.features.metadata = {}
+                    params.clean = true
+                when 'video'
+                    params.url = "https://www.reddit.com#{doc.data.permalink}"
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                    params.features.metadata = {}
+                when 'image'
+                    params.url = "https://www.reddit.com#{doc.data.permalink}"
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                    params.features.metadata = {}
+            # console.log 'params', params
 
 
         natural_language_understanding.analyze params, Meteor.bindEnvironment((err, response)=>
@@ -256,7 +266,7 @@ Meteor.methods
                 #     Meteor.call 'call_tone', doc_id, 'body', 'text', ->
 
                 # Meteor.call 'log_doc_terms', doc_id, ->
-                # Meteor.call 'clear_blocklist_doc', doc_id, ->
+                Meteor.call 'clear_blocklist_doc', doc_id, ->
                 # if Meteor.isDevelopment
                 #     console.log 'all tags', final_doc.tags
                     # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
