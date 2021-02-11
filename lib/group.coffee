@@ -61,10 +61,6 @@ if Meteor.isClient
                 model: $in: ['post','rpost']
                 group:Router.current().params.group
                     
-        # group_posts: ->
-        #     Docs.find 
-        #         model:'post'
-        #         course_id:Router.current().params.group
         selected_tags: -> selected_tags.array()
         selected_time_tags: -> selected_time_tags.array()
         selected_location_tags: -> selected_location_tags.array()
@@ -126,12 +122,12 @@ if Meteor.isClient
                     model:'post'
                     group:Router.current().params.group
             Router.go "/#{Router.current().params.group}/p/#{new_id}/edit"
-        'keyup .search_group_tag': (e,t)->
+        'keyup .search_tag': (e,t)->
              if e.which is 13
-                val = t.$('.search_group_tag').val().trim().toLowerCase()
+                val = t.$('.search_tag').val().trim().toLowerCase()
                 window.speechSynthesis.speak new SpeechSynthesisUtterance val
                 selected_tags.push val   
-                t.$('.search_group_tag').val('')
+                t.$('.search_tag').val('')
             
             
     Template.tag_selector.onCreated ->

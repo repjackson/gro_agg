@@ -485,7 +485,7 @@ a.title, #title {
     /*border-radius: 10px !important;*/
 }
 
-img, .rounded, .embed, iframe {
+img, .rounded, .embed, iframe, .text {
   filter: invert(1) !important; 
 }
 .left.floated{

@@ -16,7 +16,7 @@ Router.route '/r/:group/post/:doc_id', (->
     
 
 Template.group.onCreated ->
-    Session.setDefault('group_view_layout', 'grid')
+    Session.setDefault('view_layout', 'grid')
     Session.setDefault('sort_key', 'data.created')
     Session.setDefault('sort_direction', -1)
     # Session.setDefault('location_query', null)
@@ -54,18 +54,18 @@ Template.group.onCreated ->
         selected_sub_tags.array()
         ()->Session.set('ready',true)
 
-Template.group_doc_item.events
+Template.doc_item.events
     'click .view_post': (e,t)-> 
         Session.set('view_section','main')
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
         # Router.go "/group/#{@group}/post/#{@_id}"
 
-Template.group_doc_item.onRendered ->
+Template.doc_item.onRendered ->
     # console.log @
     unless @data.watson
         Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
 
-Template.group_post_card_small.onRendered ->
+Template.post_card_small.onRendered ->
     # console.log @
     unless @data.watson
         Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
@@ -111,8 +111,8 @@ Template.group.events
     'click .get_info': ->
         console.log 'dl'
         Meteor.call 'get_sub_info', Router.current().params.group, ->
-    'click .set_grid': (e,t)-> Session.set('group_view_layout', 'grid')
-    'click .set_list': (e,t)-> Session.set('group_view_layout', 'list')
+    'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
+    'click .set_list': (e,t)-> Session.set('view_layout', 'list')
 
     'keyup .search_group': (e,t)->
         val = $('.search_group').val().toLowerCase().trim()
@@ -220,7 +220,6 @@ Template.sub_tag_selector.events
         
 
 Template.sub_unselect_tag.onCreated ->
-    
     @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
     
 Template.sub_unselect_tag.helpers
