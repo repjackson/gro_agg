@@ -13,6 +13,7 @@ if Meteor.isClient
     @selected_location_tags = new ReactiveArray []
     @selected_Person_tags = new ReactiveArray []
     @selected_Location_tags = new ReactiveArray []
+    @selected_Organization_tags = new ReactiveArray []
 
 
         
@@ -47,7 +48,6 @@ if Meteor.isClient
             selected_tags.array()
             selected_time_tags.array()
             selected_location_tags.array()
-            selected_organization_tags.array()
             selected_Person_tags.array()
             selected_Location_tags.array()
             selected_Organization_tags.array()
@@ -316,7 +316,8 @@ if Meteor.isServer
         console.log 'skip', skip
         Docs.find match,
             limit: 42
-            sort: "#{sk}":-1
+            sort: _timestamp:-1
+            # sort: "#{sk}":-1
             # skip:skip*20
         
         
