@@ -76,7 +76,7 @@ if Meteor.isClient
         selected_people_tags: -> selected_people_tags.array()
         counter: -> Counts.get 'counter'
       
-        result_tags: -> results.find(model:'group_tag')
+        result_tags: -> results.find(model:'tag')
         organizations: -> results.find(model:'Organization')
         companies: -> results.find(model:'Company')
         healthconditions: -> results.find(model:'HealthCondition')
@@ -417,7 +417,7 @@ if Meteor.isServer
             self.added 'results', Random.id(),
                 name: tag.name
                 count: tag.count
-                model:'group_tag'
+                model:'tag'
         
         
         # group_domain_cloud = Docs.aggregate [

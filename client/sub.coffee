@@ -4,10 +4,10 @@
 @selected_subreddit_authors = new ReactiveArray []
 
 
-Router.route '/r/:subreddit', (->
-    @layout 'layout'
-    @render 'subreddit'
-    ), name:'subreddit'
+# Router.route '/r/:subreddit', (->
+#     @layout 'layout'
+#     @render 'subreddit'
+#     ), name:'subreddit'
 
 Router.route '/r/:subreddit/post/:doc_id', (->
     @layout 'layout'
@@ -15,7 +15,7 @@ Router.route '/r/:subreddit/post/:doc_id', (->
     ), name:'reddit_page'
     
 
-Template.subreddit.onCreated ->
+Template.group.onCreated ->
     Session.setDefault('subreddit_view_layout', 'grid')
     Session.setDefault('sort_key', 'data.created')
     Session.setDefault('sort_direction', -1)
@@ -54,18 +54,18 @@ Template.subreddit.onCreated ->
         selected_sub_tags.array()
         ()->Session.set('ready',true)
 
-Template.subreddit_doc_item.events
+Template.group_doc_item.events
     'click .view_post': (e,t)-> 
         Session.set('view_section','main')
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
         # Router.go "/subreddit/#{@subreddit}/post/#{@_id}"
 
-Template.subreddit_doc_item.onRendered ->
+Template.group_doc_item.onRendered ->
     # console.log @
     unless @data.watson
         Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
 
-Template.subreddit_post_card_small.onRendered ->
+Template.group_post_card_small.onRendered ->
     # console.log @
     unless @data.watson
         Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
@@ -73,7 +73,7 @@ Template.subreddit_post_card_small.onRendered ->
         Meteor.call 'tagify_time_rpost',@data._id,=>
 
 
-Template.subreddit.events
+Template.group.events
     'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
     'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
     'click .sort_up': (e,t)-> Session.set('sort_direction',1)
@@ -127,13 +127,13 @@ Template.subreddit.events
                 Session.set('loading',false)
                 Session.set('sub_doc_query', null)
             
-Template.subreddit.helpers
+Template.group.helpers
     domain_selector_class: ->
         if @name in selected_subreddit_domain.array() then 'blue' else ''
     sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
     
-    subreddit_result_tags: -> results.find(model:'subreddit_result_tag')
+    subreddit_result_tags: -> results.find(model:'tag')
     subreddit_domain_tags: -> results.find(model:'subreddit_domain_tag')
     subreddit_time_tags: -> results.find(model:'subreddit_time_tag')
     subreddit_authors: -> results.find(model:'subreddit_author_tag')

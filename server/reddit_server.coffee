@@ -712,7 +712,7 @@ Meteor.publish 'sub_docs_by_name', (
     if selected_subreddit_domain.length > 0 then match.data.domain = $all:selected_subreddit_domain
     if selected_subreddit_time_tags.length > 0 then match.time_tags = $all:selected_subreddit_time_tags
     if selected_subreddit_authors.length > 0 then match.author = $all:selected_subreddit_authors
-    console.log match
+    # console.log match
     Docs.find match,
         limit:20
         # sort: "#{sk}":-1
@@ -1140,7 +1140,7 @@ Meteor.publish 'reddit_tags', (
         self.added 'results', Random.id(),
             name: tag.name
             count: tag.count
-            model:'reddit_tag'
+            model:'tag'
     
     
     reddit_domain_cloud = Docs.aggregate [
