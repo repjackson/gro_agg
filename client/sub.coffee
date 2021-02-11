@@ -1,55 +1,55 @@
 @selected_sub_tags = new ReactiveArray []
-@selected_subreddit_domain = new ReactiveArray []
-@selected_subreddit_time_tags = new ReactiveArray []
-@selected_subreddit_authors = new ReactiveArray []
+@selected_group_domain = new ReactiveArray []
+@selected_group_time_tags = new ReactiveArray []
+@selected_group_authors = new ReactiveArray []
 
 
-# Router.route '/r/:subreddit', (->
+# Router.route '/r/:group', (->
 #     @layout 'layout'
-#     @render 'subreddit'
-#     ), name:'subreddit'
+#     @render 'group'
+#     ), name:'group'
 
-Router.route '/r/:subreddit/post/:doc_id', (->
+Router.route '/r/:group/post/:doc_id', (->
     @layout 'layout'
     @render 'reddit_page'
     ), name:'reddit_page'
     
 
 Template.group.onCreated ->
-    Session.setDefault('subreddit_view_layout', 'grid')
+    Session.setDefault('group_view_layout', 'grid')
     Session.setDefault('sort_key', 'data.created')
     Session.setDefault('sort_direction', -1)
     # Session.setDefault('location_query', null)
     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     # @autorun => Meteor.subscribe 'subrzeddit_user_count', Router.current().params.group
-    @autorun => Meteor.subscribe 'subreddit_by_param', Router.current().params.group
+    @autorun => Meteor.subscribe 'group_by_param', Router.current().params.group
     @autorun => Meteor.subscribe 'sub_docs_by_name', 
         Router.current().params.group
         selected_sub_tags.array()
-        selected_subreddit_domain.array()
-        selected_subreddit_time_tags.array()
-        selected_subreddit_authors.array()
+        selected_group_domain.array()
+        selected_group_time_tags.array()
+        selected_group_authors.array()
         Session.get('sort_key')
         Session.get('sort_direction')
   
     @autorun => Meteor.subscribe 'sub_doc_count', 
         Router.current().params.group
         selected_sub_tags.array()
-        selected_subreddit_domain.array()
-        selected_subreddit_time_tags.array()
-        selected_subreddit_authors.array()
+        selected_group_domain.array()
+        selected_group_time_tags.array()
+        selected_group_authors.array()
 
-    @autorun => Meteor.subscribe 'subreddit_result_tags',
+    @autorun => Meteor.subscribe 'group_result_tags',
         Router.current().params.group
         selected_sub_tags.array()
-        selected_subreddit_domain.array()
-        selected_subreddit_time_tags.array()
-        selected_subreddit_authors.array()
+        selected_group_domain.array()
+        selected_group_time_tags.array()
+        selected_group_authors.array()
         Session.get('toggle')
     Meteor.call 'get_sub_latest', Router.current().params.group, ->
 
-    Meteor.call 'log_subreddit_view', Router.current().params.group, ->
-    @autorun => Meteor.subscribe 'agg_sentiment_subreddit',
+    Meteor.call 'log_group_view', Router.current().params.group, ->
+    @autorun => Meteor.subscribe 'agg_sentiment_group',
         Router.current().params.group
         selected_sub_tags.array()
         ()->Session.set('ready',true)
@@ -58,7 +58,7 @@ Template.group_doc_item.events
     'click .view_post': (e,t)-> 
         Session.set('view_section','main')
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
-        # Router.go "/subreddit/#{@subreddit}/post/#{@_id}"
+        # Router.go "/group/#{@group}/post/#{@_id}"
 
 Template.group_doc_item.onRendered ->
     # console.log @
@@ -86,21 +86,21 @@ Template.group.events
         Meteor.call 'get_sub_info', Router.current().params.group, ->
     
     'click .unselect_time_tag': ->
-        selected_subreddit_time_tags.remove @valueOf()
+        selected_group_time_tags.remove @valueOf()
     'click .select_time_tag': ->
-        selected_subreddit_time_tags.push @name
+        selected_group_time_tags.push @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
     
     'click .unselect_domain': ->
-        selected_subreddit_domain.remove @valueOf()
+        selected_group_domain.remove @valueOf()
     'click .select_domain': ->
-        selected_subreddit_domain.push @name
+        selected_group_domain.push @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
     
     'click .unselect_author': ->
-        selected_subreddit_authors.remove @valueOf()
+        selected_group_authors.remove @valueOf()
     'click .select_author': ->
-        selected_subreddit_authors.push @name
+        selected_group_authors.push @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
     
     
@@ -111,47 +111,47 @@ Template.group.events
     'click .get_info': ->
         console.log 'dl'
         Meteor.call 'get_sub_info', Router.current().params.group, ->
-    'click .set_grid': (e,t)-> Session.set('subreddit_view_layout', 'grid')
-    'click .set_list': (e,t)-> Session.set('subreddit_view_layout', 'list')
+    'click .set_grid': (e,t)-> Session.set('group_view_layout', 'grid')
+    'click .set_list': (e,t)-> Session.set('group_view_layout', 'list')
 
-    'keyup .search_subreddit': (e,t)->
-        val = $('.search_subreddit').val().toLowerCase().trim()
+    'keyup .search_group': (e,t)->
+        val = $('.search_group').val().toLowerCase().trim()
         Session.set('sub_doc_query', val)
         if e.which is 13 
             selected_sub_tags.push val
             # window.speechSynthesis.speak new SpeechSynthesisUtterance val
 
-            $('.search_subreddit').val('')
+            $('.search_group').val('')
             Session.set('loading',true)
-            Meteor.call 'search_subreddit', Router.current().params.group, val, ->
+            Meteor.call 'search_group', Router.current().params.group, val, ->
                 Session.set('loading',false)
                 Session.set('sub_doc_query', null)
             
 Template.group.helpers
     domain_selector_class: ->
-        if @name in selected_subreddit_domain.array() then 'blue' else ''
+        if @name in selected_group_domain.array() then 'blue' else ''
     sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
     
-    subreddit_result_tags: -> results.find(model:'tag')
-    subreddit_domain_tags: -> results.find(model:'subreddit_domain_tag')
-    subreddit_time_tags: -> results.find(model:'subreddit_time_tag')
-    subreddit_authors: -> results.find(model:'subreddit_author_tag')
+    group_result_tags: -> results.find(model:'tag')
+    group_domain_tags: -> results.find(model:'group_domain_tag')
+    group_time_tags: -> results.find(model:'group_time_tag')
+    group_authors: -> results.find(model:'group_author_tag')
 
     selected_sub_tags: -> selected_sub_tags.array()
-    selected_subreddit_domain: -> selected_subreddit_domain.array()
-    selected_subreddit_time_tags: -> selected_subreddit_time_tags.array()
-    selected_subreddit_authors: -> selected_subreddit_authors.array()
+    selected_group_domain: -> selected_group_domain.array()
+    selected_group_time_tags: -> selected_group_time_tags.array()
+    selected_group_authors: -> selected_group_authors.array()
     
-    subreddit_doc: ->
+    group_doc: ->
         Docs.findOne
-            model:'subreddit'
+            model:'group'
             # "data.display_name":Router.current().params.group
             name:Router.current().params.group
     sub_docs: ->
         Docs.find({
             model:'rpost'
-            subreddit:Router.current().params.group
+            group:Router.current().params.group
         },
             sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
             limit:20)
@@ -164,9 +164,9 @@ Template.group.helpers
     post_count: -> Counts.get('sub_doc_counter')
 
 
-    current_subreddit: ->
+    current_group: ->
         Docs.findOne 
-            model:'subreddit'
+            model:'group'
             # "data.display_name":Router.current().params.group
             name:Router.current().params.group
 
@@ -198,17 +198,17 @@ Template.sub_tag_selector.events
         # console.log @
         # window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        # if @model is 'subreddit_emotion'
+        # if @model is 'group_emotion'
         #     selected_emotions.push @name
         # else
-        # if @model is 'subreddit_tag'
+        # if @model is 'group_tag'
         selected_sub_tags.push @name
-        $('.search_subreddit').val('')
+        $('.search_group').val('')
         
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
         Session.set('subs_loading',true)
-        Meteor.call 'search_subreddit', Router.current().params.group, @name, ->
+        Meteor.call 'search_group', Router.current().params.group, @name, ->
             Session.set('loading',false)
             Session.set('sub_doc_query', null)
             
@@ -264,9 +264,9 @@ Template.flat_sub_tag_selector.events
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         selected_sub_tags.push @valueOf()
         Router.go "/r/#{Router.current().params.group}/"
-        $('.search_subreddit').val('')
+        $('.search_group').val('')
         Session.set('loading',true)
-        Meteor.call 'search_subreddit', Router.current().params.group, @valueOf(), ->
+        Meteor.call 'search_group', Router.current().params.group, @valueOf(), ->
             Session.set('loading',false)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))

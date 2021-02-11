@@ -57,14 +57,9 @@ if Meteor.isClient
 
     Template.group.helpers
         posts: ->
-            if Router.current().params.group is 'all'
-                Docs.find 
-                    model:'post'
-                    group:$exists:false
-            else
-                Docs.find 
-                    model:'post'
-                    group:Router.current().params.group
+            Docs.find 
+                model: $in: ['post','rpost']
+                group:Router.current().params.group
                     
         # group_posts: ->
         #     Docs.find 
@@ -281,11 +276,8 @@ if Meteor.isServer
         selected_time_tags
         selected_location_tags
         )->
-        match = {model:'post'}
-        if group is 'all'
-            match.group = $exists:false
-        else
-            match.group = group
+        match = {model:$in:['post','rpost']}
+        match.group = group
             
         if selected_tags.length > 0 then match.tags = $all:selected_tags
         if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
@@ -307,13 +299,13 @@ if Meteor.isServer
         )->
         self = @
         match = {
-            model:'post'
+            model:$in:['post','rpost']
             # group: group
         }
-        if group is 'all'
-            match.group = $exists:false
-        else
-            match.group = group
+        # if group is 'all'
+        #     match.group = $exists:false
+        # else
+        match.group = group
 
         if sort_key
             sk = sort_key
@@ -379,14 +371,11 @@ if Meteor.isServer
         # @unblock()
         self = @
         match = {
-            model:'post'
+            model: $in: ['post','rpost']
             # group:group
             # subgroup:subgroup
         }
-        if group is 'all'
-            match.group = $exists:false
-        else
-            match.group = group
+        match.group = group
 
         # if view_bounties
         #     match.bounty = true
