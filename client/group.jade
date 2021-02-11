@@ -117,7 +117,7 @@ template(name='post_view')
     with doc_by_id
         .ui.stackable.grid
             .row 
-                .four.wide.column
+                .four.wide.column.scrolling
                     .ui.segmen
                         a.ui.large.circular.button(href="/#{group}")
                             i.chevron.left.icon
@@ -163,7 +163,7 @@ template(name='post_edit')
     with doc_by_id
         .ui.stackable.padded.grid
             .row
-                .four.wide.column
+                .four.wide.column.scrolling
                     a.ui.icon.green.big.button(href="/#{group}/p/#{_id}" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
@@ -177,7 +177,7 @@ template(name='post_edit')
                     +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     +raw_edit key='raw' label='raw' direct=true
-                .twelve.wide.column
+                .twelve.wide.column.scrolling
                     +text_edit key='title' label='title' direct=true
                     +html_edit key='content' label='content' direct=true
                     +image_link_edit key='image_link' direct=true
