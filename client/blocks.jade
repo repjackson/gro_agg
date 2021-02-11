@@ -68,21 +68,12 @@ template(name='comments')
     .ui.comments
         each doc_comments
             .comment
-                a.avatar
-                    img.ui.avatar.image(src="{{c.url _author.profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
                 .content
-                    a.author(href="/u/#{_author.username}")
-                        |#{_author.name}
                     .metadata
                         span.date #{when}
                     .text
                         | !{body}
                     span.actions
-                        if can_edit
-                            +remove_icon
-                        else
-                            +voting_small
-
 
 
 
@@ -126,38 +117,3 @@ template(name='view_user_button')
     .view_user.view(title="view #{username}")
         i.play.icon
         |View
-
-template(name='add_model_button')
-    .ui.icon.basic.button.add(title="add #{model}")
-        i.plus.icon
-        |#{model}
-
-
-
-
-
-
-            
-            
-
-
-template(name='key_value_edit')
-    a.ui.compact.large.circular.button.set_key_value(class=set_key_value_class title=value href='#')
-        if icon
-            // +icon name=icon cl='ui avatar image'
-            i.icon(class=icon)
-        unless icon_only
-            if label
-                |#{label}
-            else 
-                |#{value}
-        
-
-template(name='session_key_value')
-    .ui.button.set_session_value(class=button_class) 
-        if icon 
-            i.icon(class=icon)
-        if label
-            |#{label}
-        else 
-            |#{value}

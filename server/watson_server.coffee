@@ -90,17 +90,17 @@ Meteor.methods
         # console.log 'analyzing', doc.title, 'tags', doc.tags
         params =
             concepts:
-                limit:10
+                limit:42
             features:
                 entities:
                     emotion: true
                     sentiment: true
                     mentions: false
-                    limit: 10
+                    limit: 42
                 keywords:
                     emotion: true
                     sentiment: true
-                    limit: 10
+                    limit: 42
                 concepts: {}
                 categories:
                     explanation:true
