@@ -449,7 +449,7 @@ img:active {
     z-index:1000 !important;
 }
 .superzoom:active {
-    transform: scale(1.5) !important;
+    transform: scale(2) !important;
 }
 .superzoom:hover {
     transition: all .15s ease !important; 
