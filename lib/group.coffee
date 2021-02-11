@@ -11,6 +11,8 @@ if Meteor.isClient
     @selected_tags = new ReactiveArray []
     @selected_time_tags = new ReactiveArray []
     @selected_location_tags = new ReactiveArray []
+    @selected_Person_tags = new ReactiveArray []
+    @selected_Location_tags = new ReactiveArray []
 
 
         
@@ -26,6 +28,9 @@ if Meteor.isClient
             selected_tags.array()
             selected_time_tags.array()
             selected_location_tags.array()
+            selected_Person_tags.array()
+            selected_Location_tags.array()
+            selected_Organization_tags.array()
             # selected_group_authors.array()
             Session.get('toggle')
         @autorun => Meteor.subscribe 'group_count', 
@@ -33,12 +38,19 @@ if Meteor.isClient
             selected_tags.array()
             selected_time_tags.array()
             selected_location_tags.array()
+            selected_Person_tags.array()
+            selected_Location_tags.array()
+            selected_Organization_tags.array()
         
         @autorun => Meteor.subscribe 'group_posts', 
             Router.current().params.group
             selected_tags.array()
             selected_time_tags.array()
             selected_location_tags.array()
+            selected_organization_tags.array()
+            selected_Person_tags.array()
+            selected_Location_tags.array()
+            selected_Organization_tags.array()
             Session.get('group_sort_key')
             Session.get('group_sort_direction')
             Session.get('group_skip_value')
