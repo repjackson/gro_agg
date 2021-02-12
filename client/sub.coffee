@@ -11,8 +11,8 @@
 
 Router.route '/r/:group/post/:doc_id', (->
     @layout 'layout'
-    @render 'reddit_page'
-    ), name:'reddit_page'
+    @render 'rpage'
+    ), name:'rpage'
     
 
 # Template.group.onCreated ->
@@ -141,7 +141,7 @@ Template.post_card_small.onRendered ->
 #         $('.search_group').val('')
         
 #         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-#         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+#         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
 #         Session.set('subs_loading',true)
 #         Meteor.call 'search_group', Router.current().params.group, @name, ->
 #             Session.set('loading',false)
@@ -169,7 +169,7 @@ Template.post_card_small.onRendered ->
 #         Session.set('skip',0)
 #         console.log @
 #         selected_sub_tags.remove @valueOf()
-#         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+#         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
     
 
 # Template.flat_sub_tag_selector.onCreated ->

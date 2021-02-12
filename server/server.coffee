@@ -106,7 +106,7 @@ Meteor.publish 'love', (doc_id)->
 
 Meteor.publish 'wikis', (
     w_query
-    selected_tags
+    picked_tags
     )->
     Docs.find({
         model:'wikipedia'
@@ -135,13 +135,13 @@ Meteor.publish 'comments', (doc_id)->
 
 # Meteor.publish 'tag_results', (
 #     # doc_id
-#     selected_tags
+#     picked_tags
 #     searching
 #     query
 #     dummy
 #     )->
 #     # console.log 'dummy', dummy
-#     console.log 'selected tags', selected_tags
+#     console.log 'selected tags', picked_tags
 #     console.log 'query', query
 
 #     self = @
@@ -171,7 +171,7 @@ Meteor.publish 'comments', (doc_id)->
 #         #     { $project: "tags": 1 }
 #         #     { $unwind: "$tags" }
 #         #     { $group: _id: "$tags", count: $sum: 1 }
-#         #     { $match: _id: $nin: selected_tags }
+#         #     { $match: _id: $nin: picked_tags }
 #         #     { $match: _id: {$regex:"#{query}", $options: 'i'} }
 #         #     { $sort: count: -1, _id: 1 }
 #         #     { $limit: 42 }
@@ -180,7 +180,7 @@ Meteor.publish 'comments', (doc_id)->
 
 #     else
 #         # unless query and query.length > 2
-#         # if selected_tags.length > 0 then match.tags = $all: selected_tags
+#         # if picked_tags.length > 0 then match.tags = $all: picked_tags
 #         # console.log date_setting
 #         # if date_setting
 #         #     if date_setting is 'today'
@@ -192,9 +192,9 @@ Meteor.publish 'comments', (doc_id)->
 
 
 #         # debit = Docs.findOne doc_id
-#         if selected_tags.length > 0
+#         if picked_tags.length > 0
 #             # match.tags = $all: debit.tags
-#             match.tags = $all: selected_tags
+#             match.tags = $all: picked_tags
 #             # else
 #             #     # unless selected_domains.length > 0
 #             #     #     unless selected_subreddits.length > 0
@@ -217,7 +217,7 @@ Meteor.publish 'comments', (doc_id)->
 #                 { $project: "tags": 1 }
 #                 { $unwind: "$tags" }
 #                 { $group: _id: "$tags", count: $sum: 1 }
-#                 { $match: _id: $nin: selected_tags }
+#                 { $match: _id: $nin: picked_tags }
 #                 { $match: count: $lt: agg_doc_count }
 #                 # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
 #                 { $sort: count: -1, _id: 1 }
@@ -240,18 +240,18 @@ Meteor.publish 'comments', (doc_id)->
 #         self.ready()
 
 # Meteor.publish 'doc_results', (
-#     selected_tags
+#     picked_tags
 #     selected_subreddits
 #     selected_domains
 #     selected_authors
 #     selected_emotions
 #     date_setting
 #     )->
-#     # console.log 'got selected tags', selected_tags
+#     # console.log 'got selected tags', picked_tags
 #     # else
 #     self = @
 #     match = {model:$in:['reddit','wikipedia']}
-#     # if selected_tags.length > 0
+#     # if picked_tags.length > 0
 #     # console.log date_setting
 #     if date_setting
 #         if date_setting is 'today'
@@ -261,14 +261,14 @@ Meteor.publish 'comments', (doc_id)->
 #             # console.log yesterday
 #             match._timestamp = $gt:yesterday
 
-#     if selected_tags.length > 0
-#         # if selected_tags.length is 1
-#         #     console.log 'looking single doc', selected_tags[0]
-#         #     found_doc = Docs.findOne(title:selected_tags[0])
+#     if picked_tags.length > 0
+#         # if picked_tags.length is 1
+#         #     console.log 'looking single doc', picked_tags[0]
+#         #     found_doc = Docs.findOne(title:picked_tags[0])
 #         #
-#         #     match.title = selected_tags[0]
+#         #     match.title = picked_tags[0]
 #         # else
-#         match.tags = $all: selected_tags
+#         match.tags = $all: picked_tags
 #     else
 #         # unless selected_domains.length > 0
 #         #     unless selected_subreddits.length > 0

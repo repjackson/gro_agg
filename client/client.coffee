@@ -117,24 +117,13 @@ Template.registerHelper 'calculated_size', (metric) ->
 # Template.registerHelper 'lowered_title', ()-> @title.toLowerCase()
 
 
-# Template.registerHelper 'field_value', () ->
-#     # console.log @
-#     parent = Template.parentData()
-#     parent5 = Template.parentData(5)
-#     parent6 = Template.parentData(6)
-
-
-#     if @direct
-#         parent = Template.parentData()
-#     else if parent5
-#         if parent5._id
-#             parent = Template.parentData(5)
-#     else if parent6
-#         if parent6._id
-#             parent = Template.parentData(6)
-#     # console.log 'parent', parent
-#     if parent
-#         parent["#{@key}"]
+Template.registerHelper 'field_value', () ->
+    # console.log @
+    parent = Template.parentData()
+    parent = Template.parentData()
+    # console.log 'parent', parent
+    if parent
+        parent["#{@key}"]
 
 # Template.registerHelper 'lowered', (input)-> input.toLowerCase()
 # Template.registerHelper 'money_format', (input)-> (input/100).toFixed()
@@ -158,10 +147,12 @@ Template.registerHelper 'calculated_size', (metric) ->
 # Template.registerHelper 'session_is', (key)->
 #     Session.get(key)
 
+Template.registerHelper 'doc_by_id', -> Docs.findOne Router.current().params.doc_id
+
 # Template.registerHelper 'is_loading', -> Session.get 'loading'
 # Template.registerHelper 'long_time', (input)-> 
 #     moment(input).format("h:mm a")
-# Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM Do h:mm a")
+Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM Do h:mm a")
 # Template.registerHelper 'home_long_date', (input)-> moment(input).format("dd, MMM Do h:mm a")
 # Template.registerHelper 'short_date', (input)-> moment(input).format("dddd, MMMM Do")
 # Template.registerHelper 'med_date', (input)-> moment(input).format("MMM D 'YY")
@@ -259,15 +250,15 @@ Template.registerHelper 'kv_is', (key, value) ->
 
 
 
-# Template.registerHelper 'current_doc', () ->
-#     found_doc_by_id = Docs.findOne Router.current().params.doc_id
-#     found_doc_by_slug = 
-#         Docs.findOne 
-#             slug:Router.current().params.slug
-#     if found_doc_by_id
-#         found_doc_by_id
-#     else if found_doc_by_slug
-#         found_doc_by_slug
+Template.registerHelper 'current_doc', () ->
+    found_doc_by_id = Docs.findOne Router.current().params.doc_id
+    found_doc_by_slug = 
+        Docs.findOne 
+            slug:Router.current().params.slug
+    if found_doc_by_id
+        found_doc_by_id
+    else if found_doc_by_slug
+        found_doc_by_slug
 
 # Template.registerHelper 'lowered_title', ()-> @title.toLowerCase()
 
@@ -291,7 +282,7 @@ Template.registerHelper 'kv_is', (key, value) ->
 #     if parent
 #         parent["#{@key}"]
 
-# Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()
+Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()
 
 
 # Template.registerHelper 'session_key_value_is', (key, value) ->

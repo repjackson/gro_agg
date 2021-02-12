@@ -162,7 +162,7 @@ Template.group.events
 Template.tag_picker.onCreated ->
     @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
 Template.tag_picker.helpers
-    pickor_class: ()->
+    picker_class: ()->
         term = 
             Docs.findOne 
                 title:@name.toLowerCase()
@@ -218,6 +218,8 @@ Template.unpick_tag.helpers
                 # model:'wikipedia'
                 title:@valueOf().toLowerCase()
         found
+        
+        
 Template.unpick_tag.events
     'click .unpick_tag': -> 
         Session.set('skip',0)
@@ -229,7 +231,7 @@ Template.unpick_tag.events
 Template.flat_tag_picker.onCreated ->
     # @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
 Template.flat_tag_picker.helpers
-    pickor_class: ()->
+    picker_class: ()->
         term = 
             Docs.findOne 
                 title:@valueOf().toLowerCase()

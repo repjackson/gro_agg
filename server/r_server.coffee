@@ -512,7 +512,7 @@ Meteor.methods
                 
     search_subreddit: (subreddit,search)->
         # @unblock()
-        console.log 'searching ', subreddit, 'for', search
+        console.log 'searching', subreddit, 'for', search
         HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&include_over_18=on&raw_json=1&nsfw=1", (err,res)->
             if res.data.data.dist > 1
                 _.each(res.data.data.children[0..100], (item)=>
@@ -523,13 +523,13 @@ Meteor.methods
                             reddit_id:item.data.id
                             # subreddit:item.data.id
                     if found
-                        console.log found, 'found and updating', subreddit
+                        console.log found, 'found and updating', subreddit, found.data.title
                         Docs.update found._id, 
                             $addToSet: tags: search
                             $set:
                                 subreddit:item.data.subreddit
                     unless found
-                        console.log found, 'not found'
+                        console.log item.data.title, 'not found'
                         item.model = 'rpost'
                         item.reddit_id = item.data.id
                         item.author = item.data.author
@@ -616,12 +616,12 @@ Meteor.publish 'rpost_comments', (subreddit, doc_id)->
         
 Meteor.publish 'subreddits', (
     query=''
-    selected_tags
+    picked_tags
     sort_key='data.subscribers'
     sort_direction=-1
     )->
     match = {model:'subreddit'}
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
     if query.length > 0
         match["data.display_name"] = {$regex:"#{query}", $options:'i'}
     Docs.find match,
@@ -631,11 +631,11 @@ Meteor.publish 'subreddits', (
 
 Meteor.publish 'sub_count', (
     query=''
-    selected_tags
+    picked_tags
     )->
         
     match = {model:'subreddit'}
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
     if query.length > 0
         match["data.display_name"] = {$regex:"#{query}", $options:'i'}
     Counts.publish this, 'sub_counter', Docs.find(match)
@@ -677,7 +677,7 @@ Meteor.publish 'sub_docs_by_name', (
     
 Meteor.publish 'agg_sentiment_subreddit', (
     subreddit
-    selected_tags
+    picked_tags
     )->
     # @unblock()
     self = @
@@ -687,7 +687,7 @@ Meteor.publish 'agg_sentiment_subreddit', (
     }
         
     doc_count = Docs.find(match).count()
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
     emotion_avgs = Docs.aggregate [
         { $match: match }
         #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
@@ -715,7 +715,7 @@ Meteor.publish 'agg_sentiment_subreddit', (
 
 Meteor.publish 'sub_doc_count', (
     subreddit
-    selected_tags
+    picked_tags
     selected_subreddit_domain
     selected_subreddit_time_tags
     selected_subreddit_authors
@@ -724,7 +724,7 @@ Meteor.publish 'sub_doc_count', (
         
     match = {model:'rpost'}
     match.subreddit = subreddit
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
     if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
     if selected_subreddit_time_tags.length > 0 then match.time_tags = $all:selected_subreddit_time_tags
     Counts.publish this, 'sub_doc_counter', Docs.find(match)
@@ -734,7 +734,7 @@ Meteor.publish 'sub_doc_count', (
 Meteor.publish 'rpost_comment_tags', (
     subreddit
     parent_id
-    selected_tags
+    picked_tags
     # view_bounties
     # view_unanswered
     # query=''
@@ -752,7 +752,7 @@ Meteor.publish 'rpost_comment_tags', (
     #     match.bounty = true
     # if view_unanswered
     #     match.is_answered = false
-    # if selected_tags.length > 0 then match.tags = $all:selected_tags
+    # if picked_tags.length > 0 then match.tags = $all:picked_tags
     # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
@@ -762,7 +762,7 @@ Meteor.publish 'rpost_comment_tags', (
         { $project: "tags": 1 }
         { $unwind: "$tags" }
         { $group: _id: "$tags", count: $sum: 1 }
-        { $match: _id: $nin: selected_tags }
+        { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:11 }

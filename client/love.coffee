@@ -244,18 +244,18 @@ Template.love.events
             
             
     
-    Template.unpick_tag.onCreated ->
+    Template.love_unpick_tag.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
         
-    Template.unpick_tag.helpers
+    Template.love_unpick_tag.helpers
         term: ->
             found = 
                 Docs.findOne 
                     # model:'wikipedia'
                     title:@valueOf().toLowerCase()
             found
-    Template.unpick_tag.events
-        'click .unpick_tag': -> 
+    Template.love_unpick_tag.events
+        'click .love_unpick_tag': -> 
             Session.set('skip',0)
             # console.log @
             picked_tags.remove @valueOf()

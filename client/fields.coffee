@@ -231,8 +231,8 @@ Template.array_edit.events
         
     'click .pick_tag': (e,t)->
         # console.log @
-        selected_tags.clear()
-        selected_tags.push @valueOf()
+        picked_tags.clear()
+        picked_tags.push @valueOf()
         Router.go "/#{Router.current().params.group}"
 
     'keyup .new_element': (e,t)->

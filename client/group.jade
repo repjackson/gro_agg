@@ -87,7 +87,7 @@ template(name='group')
                     a.unpick_location_tag.ui.active.large.compact.button(href='#')
                         strong #{this}
             each location_tags
-                .ui.compact.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{pickor_class} #{thinking_class}")
+                .ui.compact.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
                     strong #{name}
             if Locations
                 .ui.header
@@ -123,7 +123,7 @@ template(name='group')
                     .ui.active.button.unpick_domain
                         |#{this}
             each domain_tags
-                .ui.compact.basic.circular.button.pick_domain(class=domain_pickor_class)
+                .ui.compact.basic.circular.button.pick_domain(class=domain_picker_class)
                     |#{name} 
                     // small #{count}
             div
@@ -133,7 +133,7 @@ template(name='group')
                     .ui.active.button.unpick_time_tag
                         |#{this}
             each time_tags
-                .ui.compact.basic.circular.button.pick_time_tag(class=domain_pickor_class)
+                .ui.compact.basic.circular.button.pick_time_tag(class=domain_picker_class)
                     |#{name} 
                     // small #{count}
             div
@@ -143,7 +143,7 @@ template(name='group')
                     .ui.active.basic.circular.button.unpick_author
                         |#{this}
             each authors
-                .ui.compact.basic.circular.button.pick_author(class=domain_pickor_class)
+                .ui.compact.basic.circular.button.pick_author(class=domain_picker_class)
                     |#{name} 
                     // small #{count}
             // .ui.inline.header.pull_latest #{display_name}
@@ -197,8 +197,8 @@ template(name='group')
                 
                 
 template(name='tag_picker')
-    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{pickor_class} #{thinking_class}")
-    .ui.compact.circular.tertiary.button.zoomer.pick_tag(title="#{count} results" class="#{pickor_class} #{thinking_class}")
+    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
+    .ui.compact.circular.tertiary.button.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
@@ -216,8 +216,8 @@ template(name='unpick_tag')
         
         
 template(name='flat_tag_picker')
-    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{pickor_class} #{thinking_class}")
-    .ui.compact.tiny.basic.circular.button.zoomer.pick_flat_tag(title="#{count} results" class="#{pickor_class} #{thinking_class}")
+    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
+    .ui.compact.tiny.basic.circular.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -225,87 +225,8 @@ template(name='flat_tag_picker')
         // if in_dev
         //     small #{count}
 
-template(name='post_view')
-    with doc_by_id
-        .ui.stackable.grid
-            .row 
-                .four.wide.column.scrolling
-                    .ui.segmen
-                        a.ui.large.circular.button(href="/#{group}")
-                            i.chevron.left.icon
-                            |#{group}
-                        .ui.inline.header #{title}
-                        // div
-                        // .ui.inline.grey.header {{from_now start_datetime}}
-                        
-                        if in_dev
-                            a.edit_post(href="/#{group}/p/#{_id}/edit" title='edit')
-                                i.large.link.pencil.circular.icon
-                        div
-                        span(title='views')
-                            | #{views}
-                            i.grey.eye.icon
-                        +array_edit key='tags' label='tags' direct=true
-                        // +voting_full
-                        +link_view key='link' label='link' direct=true
-    
-                        +array_edit key='time_tags' label='time tags' icon='clock' direct=true
-                        +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                .twelve.wide.column.scrolling
-                    if image_link
-                        a(href="/#{group}")
-                            +image_link_view key='image_link' direct=true
-                    if image_id
-                        a(href="/#{group}")
-                            img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-                    if youtube_id
-                        +youtube_view key='youtube_id' label='youtube id' direct=true
-                    if raw 
-                        |!{raw}
-                    .say_this.say_body
-                        |!{content}
-                    div 
-                    .spacer
-                    .spacer
-                    +comments
-                    if watson
-                        +watson_view
-                        +watson_full
-                // .twelve.wide.column.scrolling
-
-template(name='post_edit')
-    with doc_by_id
-        .ui.stackable.padded.grid
-            .row
-                .four.wide.column.scrolling
-                    a.ui.icon.red.circular.big.button(href="/#{group}/p/#{_id}" title='save')
-                        i.checkmark.big.icon
-                    .ui.inline.header 
-                        i.pencil.icon
-                        |edit group post
-                    i.large.link.red.remove.icon.delete_post
-                    +image_edit key='image_id' label='image' direct=true
-                    div 
-                    +array_edit key='tags' label='tags' direct=true
-                    +link_edit key='link' label='link' direct=true
-                    +array_edit key='time_tags' label='time tags' icon='clock' direct=true
-                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    +raw_edit key='raw' label='raw' direct=true
-                .twelve.wide.column.scrolling
-                    +text_edit key='title' label='title' direct=true
-                    +html_edit key='content' label='content' direct=true
-                    +image_link_edit key='image_link' direct=true
-                    +youtube_edit key='youtube_id' label='youtube id' direct=true
         
         
-        
-        
-        
-        
-        
-        
-
-   
    
 template(name='post_card_small')
     .center.aligned.column.medscroll
@@ -340,20 +261,20 @@ template(name='post_card_small')
                 |!{embed}
             div
         else if is_image
-            a.view_post(href="/r/#{group}/post/#{_id}" class=post_header_class)
+            a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
                 img.ui.fluid.zoomer.rounded.image.toggle_view(src=data.url)
         else if watson.metadata.image.length
-            a.view_post(href="/r/#{group}/post/#{_id}" class=post_header_class)
+            a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
                 img.ui.fluid.zoomer.rounded.image.toggle_view(src=watson.metadata.image)
         else if data.thumbnail_width
-            a.view_post(href="/r/#{group}/post/#{_id}" class=post_header_class)
+            a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
                 img.ui.fluid.zoomer.rounded.image.zoomer(src=data.thumbnail)    
         // // else if data.thumbnail.length
         //     .column
-        //         a.view_post(href="/r/#{group}/post/#{_id}" class=post_header_class)
+        //         a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
         //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
         .content
-            a.ui.center.aligned.header.view_post.zoomer(href="/r/#{group}/post/#{_id}" class=post_header_class)
+            a.ui.center.aligned.header.view_post.zoomer(href="/#{group}/p/#{_id}" class=post_header_class)
                 |!{data.title} 
             | #{data.ups}
             i.thumbs.up.outline.grey.icon
@@ -383,28 +304,28 @@ template(name='doc_item')
                 div
             else if is_image
                 .column
-                    a.view_post(href="/r/#{group}/post/#{_id}" class=post_header_class)
+                    a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
                         img.ui.fluid.rounded.image.toggle_view(src=data.url)
             else if watson.metadata.image.length
                 .column
-                    a.view_post(href="/r/#{group}/post/#{_id}" class=post_header_class)
+                    a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
                         img.ui.rounded.inline.image.toggle_view(src=watson.metadata.image)
             else if data.thumbnail.length
                 .column
-                    a.view_post(href="/r/#{group}/post/#{_id}" class=post_header_class)
+                    a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
                         img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
             // else if data.thumbnail.length
             //     .column
-            //         a.view_post(href="/r/#{group}/post/#{_id}" class=post_header_class)
+            //         a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
             //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
             // .column
-            a.ui.inline.header.view_post.zoomer(href="/r/#{group}/post/#{_id}" class=post_header_class)
+            a.ui.inline.header.view_post.zoomer(href="/#{group}/p/#{_id}" class=post_header_class)
                 strong #{data.ups}:
                 |!{data.title} 
                 // span.inline.content
             if watson.analyzed_text
                 // .spacer
-                a.f11.view_post(href="/r/#{group}/post/#{_id}" class=post_header_class)
+                a.f11.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
                     |{{trunc watson.analyzed_text}}...
             .ui.label 
                 i.clock.icon
@@ -418,13 +339,13 @@ template(name='doc_item')
             // if watson
             //     +doc_emotion_small
             // if skv_is 'view_detail' true
-            // a.ui.header.view_post.zoomer(href="/r/#{group}/post/#{_id}" class=post_header_class)
+            // a.ui.header.view_post.zoomer(href="/#{group}/p/#{_id}" class=post_header_class)
             //     strong #{data.ups}:
             //     |!{data.title} 
             // span.inline.content
                     
-            a.say.goto_post(href="/r/#{group}/post/#{_id}" class=post_header_class) !{data.body}
-            a.say(href="/r/#{group}/post/#{_id}" class=post_header_class) !{data.html}
+            a.say.goto_post(href="/#{group}/p/#{_id}" class=post_header_class) !{data.body}
+            a.say(href="/#{group}/p/#{_id}" class=post_header_class) !{data.html}
             // .spacer
             // if parsed_selftext_html
             //     .ui.segment
@@ -439,7 +360,7 @@ template(name='doc_item')
             //         |{{nl2br data.body}}
             // if data.body_html
             //     div
-            //     a.pointer.say(href="/r/#{group}/post/#{_id}" class=post_header_class)
+            //     a.pointer.say(href="/#{group}/p/#{_id}" class=post_header_class)
             //         |!{data.body_html}
             
             each tags
@@ -452,8 +373,8 @@ template(name='doc_item')
 
 
 template(name='sub_tag_picker')
-    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{pickor_class} #{thinking_class}")
-    a.ui.compact.tertiary.circular.button.zoomer.pick_sub_tag(href='#' title="#{count} results" class="#{pickor_class} #{thinking_class}")
+    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.compact.tertiary.circular.button.zoomer.pick_sub_tag(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -471,8 +392,8 @@ template(name='sub_unpick_tag')
         
         
 template(name='flat_sub_tag_picker')
-    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{pickor_class} #{thinking_class}")
-    .ui.compact.basic.circular.button.zoomer.pick_flat_tag(title="#{count} results" class="#{pickor_class} #{thinking_class}")
+    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
+    .ui.compact.basic.circular.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -480,8 +401,8 @@ template(name='flat_sub_tag_picker')
         // if in_dev
         //     small #{count}
 // template(name='flat_sub_ruser_tag_picker')
-//     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{pickor_class} #{thinking_class}")
-//     .ui.compact.button.zoomer.pick_flat_tag(title="#{count} results" class="#{pickor_class} #{thinking_class}")
+//     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
+//     .ui.compact.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
 //         if term
 //             if term.watson.metadata.image
 //                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
