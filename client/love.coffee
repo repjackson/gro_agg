@@ -196,7 +196,7 @@ Template.love.events
                 
             
     Template.love_tag_picker.onCreated ->
-        @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
+        @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
     Template.love_tag_picker.helpers
         picker_class: ()->
             term = 
@@ -245,7 +245,7 @@ Template.love.events
             
     
     Template.unpick_tag.onCreated ->
-        @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
+        @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
         
     Template.unpick_tag.helpers
         term: ->
@@ -263,7 +263,7 @@ Template.love.events
         
     
     Template.flat_love_tag_picker.onCreated ->
-        # @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
+        # @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
     Template.flat_love_tag_picker.helpers
         picker_class: ()->
             term = 
