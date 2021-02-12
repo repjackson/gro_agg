@@ -68,41 +68,41 @@ Template.post_card_small.onRendered ->
         Meteor.call 'tagify_time_rpost',@data._id,=>
 
 
-Template.group.events
-    'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
-    'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
-    'click .sort_up': (e,t)-> Session.set('sort_direction',1)
-    'click .limit_10': (e,t)-> Session.set('limit',10)
-    'click .limit_1': (e,t)-> Session.set('limit',1)
+# Template.group.events
+#     'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
+#     'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
+#     'click .sort_up': (e,t)-> Session.set('sort_direction',1)
+#     'click .limit_10': (e,t)-> Session.set('limit',10)
+#     'click .limit_1': (e,t)-> Session.set('limit',1)
 
-    'click .sort_created': -> Session.set('sort_key', 'data.created')
-    'click .sort_ups': -> Session.set('sort_key', 'data.ups')
-    'click .download': ->
-        Meteor.call 'get_sub_info', Router.current().params.group, ->
+#     'click .sort_created': -> Session.set('sort_key', 'data.created')
+#     'click .sort_ups': -> Session.set('sort_key', 'data.ups')
+#     # 'click .download': ->
+#     #     Meteor.call 'get_sub_info', Router.current().params.group, ->
     
-    'click .unselect_time_tag': ->
-        selected_group_time_tags.remove @valueOf()
-    'click .select_time_tag': ->
-        selected_group_time_tags.push @name
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+#     'click .unselect_time_tag': ->
+#         selected_group_time_tags.remove @valueOf()
+#     'click .select_time_tag': ->
+#         selected_group_time_tags.push @name
+#         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
     
-    'click .unselect_domain': ->
-        selected_group_domain.remove @valueOf()
-    'click .select_domain': ->
-        selected_group_domain.push @name
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+#     'click .unselect_domain': ->
+#         selected_group_domain.remove @valueOf()
+#     'click .select_domain': ->
+#         selected_group_domain.push @name
+#         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
     
-    'click .unselect_author': ->
-        selected_group_authors.remove @valueOf()
-    'click .select_author': ->
-        selected_group_authors.push @name
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+#     'click .unselect_author': ->
+#         selected_group_authors.remove @valueOf()
+#     'click .select_author': ->
+#         selected_group_authors.push @name
+#         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
     
     
     
-    'click .pull_latest': ->
-        # console.log 'latest'
-        Meteor.call 'get_sub_latest', Router.current().params.group, ->
+#     'click .pull_latest': ->
+#         # console.log 'latest'
+#         Meteor.call 'get_sub_latest', Router.current().params.group, ->
 
 
 
