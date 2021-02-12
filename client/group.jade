@@ -136,7 +136,7 @@ template(name='group')
             i.clock.big.grey.icon            
             if picked_time_tags
                 each picked_time_tags
-                    .ui.active.button.unpick_time_tag
+                    .ui.active.compact.circular.button.unpick_time_tag
                         |#{this}
             each time_tags
                 .ui.compact.basic.circular.button.pick_time_tag(class=domain_picker_class)
@@ -157,21 +157,6 @@ template(name='group')
                 +print_this
                 // div
             with emotion_avg
-                // .ui.list
-                //     .item {{ to_percent avg_sent_score}}% sentiment
-                //     .item {{ to_percent avg_joy_score}}% joy
-                //     .item {{ to_percent avg_anger_score}}% anger
-                //     .item {{ to_percent avg_sadness_score}}% sad
-                //     .item {{ to_percent avg_disgust_score}}% disgust
-                //     .item {{ to_percent avg_fear_score}}% fear
-                // if is_positive
-                //     span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% positive
-                //         |&nbsp;
-                //     div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
-                // else
-                //     span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  negative
-                //         |&nbsp;
-                //     div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
                 span.say.ui.green.text(class="{{calculated_size avg_sent_score}}") {{ to_percent avg_sent_score }}% sentiment 
                     |&nbsp;
                 div.rounded(style="height:5px;width:{{to_percent avg_sent_score}}%;background-color:green" title="{{to_percent avg_sent_score}}% joy")
@@ -237,7 +222,22 @@ template(name='flat_tag_picker')
 template(name='post_card_small')
     .center.aligned.column.medscroll
         .content
-            a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
+            // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
+            a.ui.center.aligned.small.grey.header.view_post.zoomer(href="/#{group}/p/#{_id}" class=post_header_class)
+                |!{data.title} #{title}
+            if embed
+                span.rounded.full
+                    |!{embed}
+                div
+            else if is_image
+                a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
+                    img.ui.fluid.zoomer.rounded.image.toggle_view(src=data.url)
+            else if watson.metadata.image.length
+                a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
+                    img.ui.fluid.zoomer.rounded.image.toggle_view(src=watson.metadata.image)
+            else if data.thumbnail_width
+                a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
+                    img.ui.fluid.zoomer.rounded.image.zoomer(src=data.thumbnail)    
             if image_id
                 a(href="/#{group}/p/#{_id}")
                     img.ui.fluid.rounded.zoomer.image(src="{{c.url image_id }}" class=currentUser.invert_class)
@@ -262,42 +262,26 @@ template(name='post_card_small')
     
         // .ui.stackable.equal.width.compact.grid
         //     .row
-        if embed
-            span.rounded.full
-                |!{embed}
-            div
-        else if is_image
-            a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
-                img.ui.fluid.zoomer.rounded.image.toggle_view(src=data.url)
-        else if watson.metadata.image.length
-            a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
-                img.ui.fluid.zoomer.rounded.image.toggle_view(src=watson.metadata.image)
-        else if data.thumbnail_width
-            a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
-                img.ui.fluid.zoomer.rounded.image.zoomer(src=data.thumbnail)    
         // // else if data.thumbnail.length
         //     .column
         //         a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
         //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
-        .content
-            a.ui.center.aligned.header.view_post.zoomer(href="/#{group}/p/#{_id}" class=post_header_class)
-                |!{data.title} 
-            | #{data.ups}
-            i.thumbs.up.outline.grey.icon
-            | #{data.num_comments}
-            i.comment.outline.grey.icon
-            i.clock.icon
-            each time_tags
-                .ui.tiny.basic.circular.label #{this}
-            a.ui.basic.label(href="/u/#{data.author}")
-                |#{data.author}
-            if watson
-                +doc_emotion_small        
-                
-                // span.inline.content
-                // span.inline.content
-            if in_dev
-                +print_this
+        | #{data.ups}
+        i.thumbs.up.outline.grey.icon
+        | #{data.num_comments}
+        i.comment.outline.grey.icon
+        // i.clock.icon
+        // each time_tags
+        //     .ui.tiny.basic.circular.label #{this}
+        // a.ui.basic.label(href="/u/#{data.author}")
+        //     |#{data.author}
+        if watson
+            +doc_emotion_small        
+            
+            // span.inline.content
+            // span.inline.content
+        if in_dev
+            +print_this
    
 template(name='doc_item')                  
     .ui.ite.seg

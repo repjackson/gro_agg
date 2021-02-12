@@ -513,7 +513,7 @@ Meteor.methods
     search_subreddit: (subreddit,search)->
         # @unblock()
         console.log 'searching', subreddit, 'for', search
-        HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&include_over_18=on&raw_json=1&nsfw=1", (err,res)->
+        HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&include_over_18=on&raw_json=1&limit=42", (err,res)->
             if res.data.data.dist > 1
                 _.each(res.data.data.children[0..100], (item)=>
                     console.log item.data.id

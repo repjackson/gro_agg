@@ -61,7 +61,7 @@ Template.group.helpers
             group:Router.current().params.group
         },
             sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
-            limit:20
+            limit:25
         )
   
     emotion_avg: -> results.findOne(model:'emotion_avg')

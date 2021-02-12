@@ -351,7 +351,7 @@ Meteor.publish 'posts', (
     if picked_Organizations.length > 0 then match.Organization = $all:picked_Organizations
     console.log 'skip', skip
     Docs.find match,
-        limit: 42
+        limit: 25
         sort: _timestamp:-1
         # sort: "#{sk}":-1
         # skip:skip*20
