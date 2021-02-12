@@ -159,6 +159,61 @@ Template.group.events
     'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
     'click .set_list': (e,t)-> Session.set('view_layout', 'list')
  
+ 
+ 
+ 
+# Template.sub_tag_selector.onCreated ->
+#     @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+# Template.sub_tag_selector.helpers
+#     selector_class: ()->
+#         term = 
+#             Docs.findOne 
+#                 title:@name.toLowerCase()
+#         if term
+#             if term.max_emotion_name
+#                 switch term.max_emotion_name
+#                     when 'joy' then "  green"
+#                     when "anger" then "  red"
+#                     when "sadness" then "  blue"
+#                     when "disgust" then "  orange"
+#                     when "fear" then "  grey"
+#                     else " grey"
+#     term: ->
+#         Docs.findOne 
+#             title:@name.toLowerCase()
+ 
+ 
+
+Template.doc_item.events
+    'click .view_post': (e,t)-> 
+        Session.set('view_section','main')
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
+        # Router.go "/group/#{@group}/post/#{@_id}"
+
+Template.doc_item.onRendered ->
+    # console.log @
+    unless @data.watson
+        Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
+
+Template.post_card_small.onRendered ->
+    # console.log @
+    unless @data.watson
+        Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
+    unless @data.time_tags
+        Meteor.call 'tagify_time_rpost',@data._id,=>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 Template.tag_picker.onCreated ->
     @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
 Template.tag_picker.helpers
@@ -181,6 +236,19 @@ Template.tag_picker.helpers
                 title:@name.toLowerCase()
         # console.log res
         res
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
             
 Template.tag_picker.events
     'click .pick_tag': -> 

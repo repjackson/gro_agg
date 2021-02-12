@@ -81,40 +81,46 @@ template(name='group')
                         i.massive.grey.loading.yin.yang.icon
         .four.wide.column.scrolling.seg
             // +alpha
-            i.big.marker.grey.icon(title='where tags')
-            if picked_location_tags
-                each picked_location_tags
-                    a.unpick_location_tag.ui.active.large.compact.button(href='#')
-                        strong #{this}
-            each location_tags
-                .ui.compact.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
-                    strong #{name}
+            if location_tags
+                if picked_location_tags
+                    each picked_location_tags
+                        a.unpick_location_tag.ui.active.large.compact.button(href='#')
+                            strong #{this}
+                each location_tags
+                    .ui.compact.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+                        strong #{name}
             if Locations
-                .ui.header
+                div
+                .ui.small.grey.inline.header
                     i.marker.icon
                     |locations
                 each locations
                     .ui.link.label.pick_Location #{name}
             if HealthConditions
-                .ui.grey.header 
+                div
+                .ui.small.grey.inline.header
                     i.doctor.icon
                     |health conditions
                 each HealthConditions
                     .ui.link.label.pick_healthcondition #{name}
             if Persons
-                .ui.header 
+                div
+                .ui.small.grey.inline.header
                     i.user.icon
                     |people
                 each Persons
                     .ui.label.pick_person #{name}
             if Organizations
-                .ui.header 
+                div
+                .ui.small.grey.inline.header
                     i.building.icon
                     |organizations
                 each Organizations
                     .ui.label.pick_organization #{name}
             if Companies
-                .ui.header company
+                .ui.small.grey.inline.header
+                    i.building.icon
+                    |companies
                 each companies
                     .ui.label.pick_company #{name}
             i.big.globe.grey.icon
@@ -207,7 +213,7 @@ template(name='tag_picker')
         //     small #{count}
         
 template(name='unpick_tag')
-    a.unpick_tag.ui.large.active.circular.compact.button(href='#')
+    a.unpick_tag.ui.active.circular.compact.button(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    

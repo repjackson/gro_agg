@@ -15,8 +15,8 @@ Template.body.events
     'click .say_body': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
-    # 'click .say': ->
-    #     window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
+    'click .say': ->
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
 # Template.say.events
 #     'click .quiet': (e,t)->
@@ -58,9 +58,9 @@ Router.route '/', (->
 #         when 'analytical' then 'orange'
 #         when 'tentative' then 'yellow'
         
-# Template.registerHelper 'abs_percent', (num) -> 
-#     # console.l/og Math.abs(num*100)
-#     parseInt(Math.abs(num*100))
+Template.registerHelper 'abs_percent', (num) -> 
+    # console.l/og Math.abs(num*100)
+    parseInt(Math.abs(num*100))
     
 # Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 
