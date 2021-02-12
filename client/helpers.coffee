@@ -17,10 +17,6 @@ Template.registerHelper 'sentence_color', () ->
 Template.registerHelper 'abs_percent', (num) -> 
     # console.l/og Math.abs(num*100)
     parseInt(Math.abs(num*100))
-Template.registerHelper 'selected_tags', () -> selected_tags.array()
-Template.registerHelper 'selected_models', () -> selected_models.array()
-Template.registerHelper 'selected_subreddits', () -> selected_subreddits.array()
-Template.registerHelper 'selected_emotions', () -> selected_emotions.array()
     
 Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 
@@ -66,7 +62,6 @@ Template.registerHelper 'tag_term', () ->
 
 Template.registerHelper 'session', () -> Session.get(@key)
 
-Template.registerHelper 'lowered_title', ()-> @title.toLowerCase()
 
 Template.registerHelper 'skip_is_zero', ()-> Session.equals('skip', 0)
 Template.registerHelper 'one_post', ()-> Counts.get('result_counter') is 1
@@ -100,17 +95,6 @@ Template.registerHelper 'field_value', () ->
 Template.registerHelper 'lowered', (input)-> input.toLowerCase()
 Template.registerHelper 'money_format', (input)-> (input/100).toFixed()
 
-Template.registerHelper 'session_key_value_is', (key, value) ->
-    # console.log 'key', key
-    # console.log 'value', value
-    Session.equals key,value
-
-Template.registerHelper 'key_value_is', (key, value) ->
-    # console.log 'key', key
-    # console.log 'value', value
-    @["#{key}"] is value
-
-
 Template.registerHelper 'template_subs_ready', () ->
     Template.instance().subscriptionsReady()
 
@@ -127,9 +111,6 @@ Template.registerHelper 'fixed', (number)->
     number.toFixed(2)
     # (number*100).toFixed()
 
-Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
-Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
-
 Template.registerHelper 'session_is', (key)->
     Session.get(key)
 
@@ -145,11 +126,7 @@ Template.registerHelper 'medium_date', (input)-> moment(input).format("dddd, MMM
 Template.registerHelper 'today', -> moment(Date.now()).format("dddd, MMMM Do a")
 Template.registerHelper 'int', (input)-> input.toFixed(0)
 Template.registerHelper 'made_when', ()-> moment(@_timestamp).fromNow()
-Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
 Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
-
-Template.registerHelper 'current_month', ()-> moment(Date.now()).format("MMMM")
-Template.registerHelper 'current_day', ()-> moment(Date.now()).format("DD")
 
 
 Template.registerHelper 'loading_class', ()->
@@ -162,7 +139,6 @@ Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
 Template.registerHelper 'loading_class', ()->
     if Session.get 'loading' then 'disabled' else ''
 Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
-Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
 
 Template.registerHelper 'embed', ()->
     if @data and @data.media and @data.media.oembed and @data.media.oembed.html
@@ -175,9 +151,6 @@ Template.registerHelper 'embed', ()->
         #         parsed_selftext_html:dom.value
 
 
-
-Template.registerHelper 'lowered', (input)-> input.toLowerCase()
-Template.registerHelper 'money_format', (input)-> (input/100).toFixed(2)
 
 Template.registerHelper 'skv_is', (key, value) ->
     Session.equals key,value
@@ -216,11 +189,6 @@ Template.registerHelper 'ruser_doc', () ->
 
 Template.registerHelper 'user_class', () ->
     if @online then 'user_online'
-
-Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
-Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
-
-
 
 # Template.registerHelper 'field_value', () ->
 #     # console.log @
@@ -282,9 +250,6 @@ Template.registerHelper 'field_value', () ->
 Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()
 
 
-Template.registerHelper 'lowered', (input)-> input.toLowerCase()
-Template.registerHelper 'money_format', (input)-> (input/100).toFixed()
-
 Template.registerHelper 'session_key_value_is', (key, value) ->
     # console.log 'key', key
     # console.log 'value', value
@@ -318,32 +283,6 @@ Template.registerHelper 'to_percent', (number)->
     # console.log number
     (number*100).toFixed()
 
-Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
-Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
-
-
-Template.registerHelper 'session_is', (key)->
-    Session.get(key)
-
-# Template.registerHelper 'is_loading', -> Session.get 'loading'
-# Template.registerHelper 'long_time', (input)-> 
-#         console.log 'long time', input
-#         moment(input).format("h:mm a")
-# Template.registerHelper 'long_date', (input)-> moment.unix(input).format("dddd, MMMM Do h:mm a")
-# Template.registerHelper 'home_long_date', (input)-> moment.unix(input).format("dd, MMM Do h:mm a")
-# Template.registerHelper 'short_date', (input)-> moment(input).format("dddd, MMMM Do")
-# Template.registerHelper 'med_date', (input)-> moment(input).format("MMM D 'YY")
-# # Template.registerHelper 'medium_date', (input)-> moment(input).format("MMMM Do YYYY")
-# Template.registerHelper 'medium_date', (input)-> moment(input).format("dddd, MMMM Do")
-# Template.registerHelper 'today', -> moment(Date.now()).format("dddd, MMMM Do a")
-# Template.registerHelper 'int', (input)-> input.toFixed(0)
-# Template.registerHelper 'made_when', ()-> moment(@_timestamp).fromNow()
-# Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
-# Template.registerHelper 'trump_date', (input)-> moment(input).format("dd, MMM Do YYYY, h:mm a")
-# Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
-
-# Template.registerHelper 'current_month', ()-> moment(Date.now()).format("MMMM")
-# Template.registerHelper 'current_day', ()-> moment(Date.now()).format("DD")
 
 
 Template.registerHelper 'loading_class', ()->

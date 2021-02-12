@@ -8,112 +8,132 @@ if Meteor.isClient
         @render 'group'
         ), name:'group_short'
 
-    @selected_tags = new ReactiveArray []
-    @selected_time_tags = new ReactiveArray []
-    @selected_location_tags = new ReactiveArray []
-    @selected_Person_tags = new ReactiveArray []
-    @selected_Locations = new ReactiveArray []
-    @selected_Organization_tags = new ReactiveArray []
+    @picked_tags = new ReactiveArray []
+    @picked_time_tags = new ReactiveArray []
+    @picked_location_tags = new ReactiveArray []
+    @picked_Persons = new ReactiveArray []
+    @picked_Locations = new ReactiveArray []
+    @picked_Organizations = new ReactiveArray []
 
 
-        
-   
     Template.group.onCreated ->
-        if Router.current().params.group
-            @autorun => Meteor.subscribe 'doc', Router.current().params.group
-        if Router.current().params.group
-            @autorun => Meteor.subscribe 'doc_from_group', Router.current().params.group
-        # @autorun => Meteor.subscribe 'shop_from_group', Router.current().params.group
-        @autorun => Meteor.subscribe 'group_tags',
-            Router.current().params.group
-            selected_tags.array()
-            selected_time_tags.array()
-            selected_location_tags.array()
-            selected_Person_tags.array()
-            selected_Locations.array()
-            selected_Organization_tags.array()
-            # selected_group_authors.array()
-            Session.get('toggle')
-        @autorun => Meteor.subscribe 'group_count', 
-            Router.current().params.group
-            selected_tags.array()
-            selected_time_tags.array()
-            selected_location_tags.array()
-            selected_Person_tags.array()
-            selected_Locations.array()
-            selected_Organization_tags.array()
+        Session.setDefault('view_layout', 'grid')
+        Session.setDefault('sort_key', 'data.created')
+        Session.setDefault('sort_direction', -1)
         
-        @autorun => Meteor.subscribe 'group_posts', 
+        Meteor.call 'get_sub_latest', Router.current().params.group, ->
+        
+        # @autorun => Meteor.subscribe 'shop_from_group', Router.current().params.group
+        @autorun => Meteor.subscribe 'tags',
             Router.current().params.group
-            selected_tags.array()
-            selected_time_tags.array()
-            selected_location_tags.array()
-            selected_Person_tags.array()
-            selected_Locations.array()
-            selected_Organization_tags.array()
+            picked_tags.array()
+            picked_time_tags.array()
+            picked_location_tags.array()
+            picked_Persons.array()
+            picked_Locations.array()
+            picked_Organizations.array()
+            # picked_group_authors.array()
+            Session.get('toggle')
+        @autorun => Meteor.subscribe 'count', 
+            Router.current().params.group
+            picked_tags.array()
+            picked_time_tags.array()
+            picked_location_tags.array()
+            picked_Persons.array()
+            picked_Locations.array()
+            picked_Organizations.array()
+        
+        @autorun => Meteor.subscribe 'posts', 
+            Router.current().params.group
+            picked_tags.array()
+            picked_time_tags.array()
+            picked_location_tags.array()
+            picked_Persons.array()
+            picked_Locations.array()
+            picked_Organizations.array()
             Session.get('group_sort_key')
             Session.get('group_sort_direction')
             Session.get('group_skip_value')
 
     Template.group.helpers
         posts: ->
-            Docs.find 
+            Docs.find({
                 model: $in: ['post','rpost']
                 group:Router.current().params.group
-                    
-        selected_tags: -> selected_tags.array()
-        selected_time_tags: -> selected_time_tags.array()
-        selected_location_tags: -> selected_location_tags.array()
-        selected_people_tags: -> selected_people_tags.array()
+            },
+                sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+                limit:20
+            )
+      
+        emotion_avg: -> results.findOne(model:'emotion_avg')
+        
+        sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
+        sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
+        emotion_avg: -> results.findOne(model:'emotion_avg')
+        
         counter: -> Counts.get 'counter'
+
+        sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
+        sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
+      
+      
+        picked_tags: -> picked_tags.array()
+        picked_time_tags: -> picked_time_tags.array()
+        picked_location_tags: -> picked_location_tags.array()
+        picked_people_tags: -> picked_people_tags.array()
       
         result_tags: -> results.find(model:'tag')
-        organizations: -> results.find(model:'Organization')
-        companies: -> results.find(model:'Company')
-        healthconditions: -> results.find(model:'HealthCondition')
-        persons: -> results.find(model:'Person')
+        Organizations: -> results.find(model:'Organization')
+        Companies: -> results.find(model:'Company')
+        HealthConditions: -> results.find(model:'HealthCondition')
+        Persons: -> results.find(model:'Person')
+        
         time_tags: -> results.find(model:'time_tag')
         location_tags: -> results.find(model:'location_tag')
-        locations: -> results.find(model:'Location')
+        Locations: -> results.find(model:'Location')
+        authors: -> results.find(model:'author')
+       
+        domains: -> results.find(model:'group_domain_tag')
+       
        
         current_group: -> Router.current().params.group
             
     Template.group.events
-        # 'click .unselect_group_tag': -> 
+        # 'click .unpick_group_tag': -> 
         #     Session.set('skip',0)
         #     # console.log @
-        #     selected_tags.remove @valueOf()
-        #     # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+        #     picked_tags.remove @valueOf()
+        #     # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
     
-        # 'click .select_tag': -> 
+        # 'click .pick_tag': -> 
         #     # results.update
         #     # console.log @
         #     # window.speechSynthesis.cancel()
         #     window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         #     # if @model is 'group_emotion'
-        #     #     selected_emotions.push @name
+        #     #     picked_emotions.push @name
         #     # else
         #     # if @model is 'group_tag'
-        #     selected_tags.push @name
-        #     $('.search_subgroup').val('')
+        #     picked_tags.push @name
+        #     $('.search_tag').val('')
         #     Session.set('group_skip_value',0)
     
-        'click .unselect_Location': ->
-            selected_Locations.remove @valueOf()
+        'click .unpick_Location': ->
+            picked_Locations.remove @valueOf()
         'click .pick_Location': ->
-            selected_Locations.push @name
+            picked_Locations.push @name
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             
-        'click .unselect_time_tag': ->
-            selected_time_tags.remove @valueOf()
-        'click .select_time_tag': ->
-            selected_time_tags.push @name
+        'click .unpick_time_tag': ->
+            picked_time_tags.remove @valueOf()
+        'click .pick_time_tag': ->
+            picked_time_tags.push @name
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             
-        'click .unselect_location_tag': ->
-            selected_location_tags.remove @valueOf()
-        'click .select_location_tag': ->
-            selected_location_tags.push @name
+        'click .unpick_location_tag': ->
+            picked_location_tags.remove @valueOf()
+        'click .pick_location_tag': ->
+            picked_location_tags.push @name
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
     
         'click .add_post': ->
@@ -122,18 +142,28 @@ if Meteor.isClient
                     model:'post'
                     group:Router.current().params.group
             Router.go "/#{Router.current().params.group}/p/#{new_id}/edit"
+     
         'keyup .search_tag': (e,t)->
              if e.which is 13
                 val = t.$('.search_tag').val().trim().toLowerCase()
                 window.speechSynthesis.speak new SpeechSynthesisUtterance val
-                selected_tags.push val   
+                picked_tags.push val   
                 t.$('.search_tag').val('')
+                # Session.set('sub_doc_query', val)
+                Session.set('loading',true)
+        
+                Meteor.call 'search_subreddit', Router.current().params.group, val, ->
+                    Session.set('loading',false)
+                    Session.set('sub_doc_query', null)
             
-            
-    Template.tag_selector.onCreated ->
+
+        'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
+        'click .set_list': (e,t)-> Session.set('view_layout', 'list')
+     
+    Template.tag_picker.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
-    Template.tag_selector.helpers
-        selector_class: ()->
+    Template.tag_picker.helpers
+        pickor_class: ()->
             term = 
                 Docs.findOne 
                     title:@name.toLowerCase()
@@ -153,25 +183,25 @@ if Meteor.isClient
             # console.log res
             res
                 
-    Template.tag_selector.events
-        'click .select_tag': -> 
+    Template.tag_picker.events
+        'click .pick_tag': -> 
             # results.update
             # console.log @
             # window.speechSynthesis.cancel()
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             # if @model is 'group_emotion'
-            #     selected_emotions.push @name
+            #     picked_emotions.push @name
             # else
             # if @model is 'group_tag'
-            selected_tags.push @name
-            $('.search_subgroup').val('')
+            picked_tags.push @name
+            $('.search_tag').val('')
             Session.set('group_skip_value',0)
     
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
             # Session.set('group_loading',true)
-            # Meteor.call 'search_group', @name, ->
-            #     Session.set('group_loading',false)
+            Meteor.call 'search_subreddit', Router.current().params.group, @name, ->
+                Session.set('group_loading',false)
             # Meteor.setTimeout( ->
             #     Session.set('toggle',!Session.get('toggle'))
             # , 5000)
@@ -179,28 +209,28 @@ if Meteor.isClient
             
             
     
-    Template.unselect_tag.onCreated ->
+    Template.unpick_tag.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
         
-    Template.unselect_tag.helpers
+    Template.unpick_tag.helpers
         term: ->
             found = 
                 Docs.findOne 
                     # model:'wikipedia'
                     title:@valueOf().toLowerCase()
             found
-    Template.unselect_tag.events
-        'click .unselect_tag': -> 
+    Template.unpick_tag.events
+        'click .unpick_tag': -> 
             Session.set('skip',0)
             # console.log @
-            selected_tags.remove @valueOf()
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+            picked_tags.remove @valueOf()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         
     
-    Template.flat_tag_selector.onCreated ->
+    Template.flat_tag_picker.onCreated ->
         # @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
-    Template.flat_tag_selector.helpers
-        selector_class: ()->
+    Template.flat_tag_picker.helpers
+        pickor_class: ()->
             term = 
                 Docs.findOne 
                     title:@valueOf().toLowerCase()
@@ -216,12 +246,12 @@ if Meteor.isClient
         term: ->
             Docs.findOne 
                 title:@valueOf().toLowerCase()
-    Template.flat_tag_selector.events
-        'click .select_flat_tag': -> 
+    Template.flat_tag_picker.events
+        'click .pick_flat_tag': -> 
             # results.update
             # window.speechSynthesis.cancel()
             window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-            selected_tags.push @valueOf()
+            picked_tags.push @valueOf()
             $('.search_group').val('')
 
 if Meteor.isClient
@@ -266,29 +296,29 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'group_count', (
+    Meteor.publish 'count', (
         group
-        selected_tags
-        selected_time_tags
-        selected_location_tags
+        picked_tags
+        picked_time_tags
+        picked_location_tags
         )->
         match = {model:$in:['post','rpost']}
         match.group = group
             
-        if selected_tags.length > 0 then match.tags = $all:selected_tags
-        if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
-        if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
+        if picked_tags.length > 0 then match.tags = $all:picked_tags
+        if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
+        if picked_location_tags.length > 0 then match.location_tags = $all:picked_location_tags
         Counts.publish this, 'counter', Docs.find(match)
         return undefined
                 
-    Meteor.publish 'group_posts', (
+    Meteor.publish 'posts', (
         group
-        selected_tags
-        selected_time_tags
-        selected_location_tags
-        selected_Person_tags
-        selected_Location_tags
-        selected_Organization_tags
+        picked_tags
+        picked_time_tags
+        picked_location_tags
+        picked_Persons
+        picked_Locations
+        picked_Organizations
         sort_key
         sort_direction
         skip=0
@@ -311,12 +341,12 @@ if Meteor.isServer
         #     match.bounty = true
         # if view_unanswered
         #     match.is_answered = false
-        if selected_tags.length > 0 then match.tags = $all:selected_tags
-        if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
-        if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
-        if selected_Person_tags.length > 0 then match.Person = $all:selected_Person_tags
-        if selected_Location_tags.length > 0 then match.Location = $all:selected_Location_tags
-        if selected_Organization_tags.length > 0 then match.Organization = $all:selected_Organization_tags
+        if picked_tags.length > 0 then match.tags = $all:picked_tags
+        if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
+        if picked_location_tags.length > 0 then match.location_tags = $all:picked_location_tags
+        if picked_Persons.length > 0 then match.Person = $all:picked_Persons
+        if picked_Locations.length > 0 then match.Location = $all:picked_Locations
+        if picked_Organizations.length > 0 then match.Organization = $all:picked_Organizations
         console.log 'skip', skip
         Docs.find match,
             limit: 42
@@ -355,14 +385,14 @@ if Meteor.isServer
         #             $set:addedtime_tags:date_array
         
                
-    Meteor.publish 'group_tags', (
+    Meteor.publish 'tags', (
         group
-        selected_tags
-        selected_time_tags
-        selected_location_tags
-        selected_Person_tags
-        selected_Location_tags
-        selected_Organization_tags
+        picked_tags
+        picked_time_tags
+        picked_location_tags
+        picked_Persons
+        picked_Locations
+        picked_Organizations
         )->
         # @unblock()
         self = @
@@ -377,13 +407,13 @@ if Meteor.isServer
         #     match.bounty = true
         # if view_unanswered
         #     match.is_answered = false
-        if selected_tags.length > 0 then match.tags = $all:selected_tags
-        # if selected_subgroup_domain.length > 0 then match.domain = $all:selected_subgroup_domain
-        if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
-        if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
-        if selected_Person_tags.length > 0 then match.Person = $all:selected_Person_tags
-        if selected_Location_tags.length > 0 then match.Location = $all:selected_Location_tags
-        if selected_Organization_tags.length > 0 then match.Organization = $all:selected_Organization_tags
+        if picked_tags.length > 0 then match.tags = $all:picked_tags
+        # if picked_subgroup_domain.length > 0 then match.domain = $all:picked_subgroup_domain
+        if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
+        if picked_location_tags.length > 0 then match.location_tags = $all:picked_location_tags
+        if picked_Persons.length > 0 then match.Person = $all:picked_Persons
+        if picked_Locations.length > 0 then match.Location = $all:picked_Locations
+        if picked_Organizations.length > 0 then match.Organization = $all:picked_Organizations
         doc_count = Docs.find(match).count()
         # console.log 'doc_count', doc_count
         group_tag_cloud = Docs.aggregate [
@@ -391,7 +421,7 @@ if Meteor.isServer
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_tags }
+            { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit:25 }
@@ -410,7 +440,7 @@ if Meteor.isServer
         #     { $project: "data.domain": 1 }
         #     # { $unwind: "$domain" }
         #     { $group: _id: "$data.domain", count: $sum: 1 }
-        #     # { $match: _id: $nin: selected_domains }
+        #     # { $match: _id: $nin: picked_domains }
         #     { $sort: count: -1, _id: 1 }
         #     { $match: count: $lt: doc_count }
         #     { $limit:10 }
@@ -428,7 +458,7 @@ if Meteor.isServer
             { $project: "location_tags": 1 }
             { $unwind: "$location_tags" }
             { $group: _id: "$location_tags", count: $sum: 1 }
-            # { $match: _id: $nin: selected_location }
+            # { $match: _id: $nin: picked_location }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit:25 }
@@ -447,7 +477,7 @@ if Meteor.isServer
             { $project: "time_tags": 1 }
             { $unwind: "$time_tags" }
             { $group: _id: "$time_tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_time_tags }
+            { $match: _id: $nin: picked_time_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit:25 }
@@ -464,7 +494,7 @@ if Meteor.isServer
             { $project: "Location": 1 }
             { $unwind: "$Location" }
             { $group: _id: "$Location", count: $sum: 1 }
-            { $match: _id: $nin: selected_time_tags }
+            { $match: _id: $nin: picked_time_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit:25 }
@@ -481,7 +511,7 @@ if Meteor.isServer
             { $project: "Person": 1 }
             { $unwind: "$Person" }
             { $group: _id: "$Person", count: $sum: 1 }
-            { $match: _id: $nin: selected_time_tags }
+            { $match: _id: $nin: picked_time_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit:25 }
@@ -498,7 +528,7 @@ if Meteor.isServer
             { $project: "Organization": 1 }
             { $unwind: "$Organization" }
             { $group: _id: "$Organization", count: $sum: 1 }
-            { $match: _id: $nin: selected_time_tags }
+            { $match: _id: $nin: picked_time_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit:25 }
@@ -515,7 +545,7 @@ if Meteor.isServer
             { $project: "HealthCondition": 1 }
             { $unwind: "$HealthCondition" }
             { $group: _id: "$HealthCondition", count: $sum: 1 }
-            { $match: _id: $nin: selected_time_tags }
+            { $match: _id: $nin: picked_time_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit:25 }
@@ -532,7 +562,7 @@ if Meteor.isServer
         #     { $project: "HealthCondition": 1 }
         #     { $unwind: "$HealthCondition" }
         #     { $group: _id: "$HealthCondition", count: $sum: 1 }
-        #     { $match: _id: $nin: selected_time_tags }
+        #     { $match: _id: $nin: picked_time_tags }
         #     { $sort: count: -1, _id: 1 }
         #     { $match: count: $lt: doc_count }
         #     { $limit:25 }

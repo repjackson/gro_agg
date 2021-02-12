@@ -1,6 +1,5 @@
 NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1.js');
 ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3')
-# VisualRecognitionV3 = require('ibm-watson/visual-recognition/v3')
 # PersonalityInsightsV3 = require('ibm-watson/personality-insights/v3')
 # TextToSpeechV1 = require('ibm-watson/text-to-speech/v1')
 
@@ -33,13 +32,6 @@ tone_analyzer = new ToneAnalyzerV3(
     url: Meteor.settings.private.tone.url)
 
 
-# visual_recognition = new VisualRecognitionV3({
-#   version: '2018-03-19',
-#   authenticator: new IamAuthenticator({
-#     apikey: Meteor.settings.private.visual.apikey,
-#   }),
-#   url: Meteor.settings.private.visual.url,
-# });
 
 # const classify_params = {
 #   url: 'https://ibm.biz/BdzLPG',
@@ -77,11 +69,11 @@ Meteor.methods
 
 
     call_watson: (doc_id, key, mode) ->
-        console.log 'calling watson'
+        # console.log 'calling watson'
         self = @
-        console.log doc_id
-        console.log key
-        console.log mode
+        # console.log doc_id
+        # console.log key
+        # console.log mode
         doc = Docs.findOne doc_id
         # console.log 'calling watson on', doc.title
         # if doc.skip_watson is false
@@ -161,8 +153,8 @@ Meteor.methods
             if err
                 # console.log 'watson error for', params.url
                 # console.log err
-                if err.code is 400
-                    console.log 'crawl rejected by server', err
+                # if err.code is 400
+                #     console.log 'crawl rejected by server', err
                 unless err.code is 403
                     Docs.update doc_id,
                         $set:skip_watson:false

@@ -195,9 +195,9 @@ Template.love.events
                 author:author
                 
             
-    Template.tag_picker.onCreated ->
+    Template.love_tag_picker.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
-    Template.tag_picker.helpers
+    Template.love_tag_picker.helpers
         picker_class: ()->
             term = 
                 Docs.findOne 
@@ -218,7 +218,7 @@ Template.love.events
             # console.log res
             res
                 
-    Template.tag_picker.events
+    Template.love_tag_picker.events
         'click .pick_tag': -> 
             # results.update
             # console.log @
@@ -262,9 +262,9 @@ Template.love.events
             # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         
     
-    Template.flat_tag_picker.onCreated ->
+    Template.flat_love_tag_picker.onCreated ->
         # @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
-    Template.flat_tag_picker.helpers
+    Template.flat_love_tag_picker.helpers
         picker_class: ()->
             term = 
                 Docs.findOne 
@@ -281,7 +281,7 @@ Template.love.events
         term: ->
             Docs.findOne 
                 title:@valueOf().toLowerCase()
-    Template.flat_tag_picker.events
+    Template.flat_love_tag_picker.events
         'click .pick_flat_tag': -> 
             # results.update
             # window.speechSynthesis.cancel()

@@ -17,25 +17,23 @@ template(name='group')
             // +image_link_view key='image' label='image' direct=true
             .ui.icon.circular.basic.button.add_post
                 i.plus.icon
-            if selected_tags
+            if picked_tags
                 // if many_tags
-                //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                //     a#clear_tags.ui.black.invert.icon.compact.button.pick_term
                 //         i.remove.icon
-                each selected_tags
-                    +unselect_tag
+                each picked_tags
+                    +unpick_tag
             .ui.icon.input
                 i.search.icon
                 input.search_tag(type='text' value=query)
                 // .ui.label #{this}
             if result_tags.count
                 each result_tags
-                    +tag_selector
+                    +tag_picker
             else
                 i.big.grey.loading.yin.yang.icon
         
-            .ui.inline.header.get_info #{current_group}
             div
-            .ui.inline.header #{post_count}
             if skv_is 'sort_direction' 1
                 .ui.icon.compact.basic.circular.button.sort_down
                     i.caret.down.icon
@@ -84,12 +82,12 @@ template(name='group')
         .four.wide.column.scrolling.seg
             // +alpha
             i.big.marker.grey.icon(title='where tags')
-            if selected_location_tags
-                each selected_location_tags
-                    a.unselect_location_tag.ui.active.large.compact.button(href='#')
+            if picked_location_tags
+                each picked_location_tags
+                    a.unpick_location_tag.ui.active.large.compact.button(href='#')
                         strong #{this}
             each location_tags
-                .ui.compact.small.button.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                .ui.compact.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{pickor_class} #{thinking_class}")
                     strong #{name}
             if Locations
                 .ui.header
@@ -102,50 +100,50 @@ template(name='group')
                     i.doctor.icon
                     |health conditions
                 each HealthConditions
-                    .ui.link.label.select_healthcondition #{name}
+                    .ui.link.label.pick_healthcondition #{name}
             if Persons
                 .ui.header 
                     i.user.icon
                     |people
                 each Persons
-                    .ui.label.select_person #{name}
+                    .ui.label.pick_person #{name}
             if Organizations
                 .ui.header 
                     i.building.icon
                     |organizations
                 each Organizations
-                    .ui.label.select_organization #{name}
+                    .ui.label.pick_organization #{name}
             if Companies
                 .ui.header company
                 each companies
-                    .ui.label.select_company #{name}
+                    .ui.label.pick_company #{name}
             i.big.globe.grey.icon
-            if selected_domain
-                each selected_domain
-                    .ui.active.button.unselect_domain
+            if picked_domain
+                each picked_domain
+                    .ui.active.button.unpick_domain
                         |#{this}
             each domain_tags
-                .ui.compact.basic.circular.button.select_domain(class=domain_selector_class)
+                .ui.compact.basic.circular.button.pick_domain(class=domain_pickor_class)
                     |#{name} 
                     // small #{count}
             div
             i.clock.big.grey.icon            
-            if selected_time_tags
-                each selected_time_tags
-                    .ui.active.button.unselect_time_tag
+            if picked_time_tags
+                each picked_time_tags
+                    .ui.active.button.unpick_time_tag
                         |#{this}
             each time_tags
-                .ui.compact.basic.circular.button.select_time_tag(class=domain_selector_class)
+                .ui.compact.basic.circular.button.pick_time_tag(class=domain_pickor_class)
                     |#{name} 
                     // small #{count}
             div
             i.user.big.grey.icon            
-            if selected_authors
-                each selected_authors
-                    .ui.active.basic.circular.button.unselect_author
+            if picked_authors
+                each picked_authors
+                    .ui.active.basic.circular.button.unpick_author
                         |#{this}
             each authors
-                .ui.compact.basic.circular.button.select_author(class=domain_selector_class)
+                .ui.compact.basic.circular.button.pick_author(class=domain_pickor_class)
                     |#{name} 
                     // small #{count}
             // .ui.inline.header.pull_latest #{display_name}
@@ -198,9 +196,9 @@ template(name='group')
                 
                 
                 
-template(name='tag_selector')
-    // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.compact.circular.tertiary.button.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+template(name='tag_picker')
+    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{pickor_class} #{thinking_class}")
+    .ui.compact.circular.tertiary.button.zoomer.pick_tag(title="#{count} results" class="#{pickor_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
@@ -208,8 +206,8 @@ template(name='tag_selector')
         // if in_dev
         //     small #{count}
         
-template(name='unselect_tag')
-    a.unselect_tag.ui.large.active.circular.compact.button(href='#')
+template(name='unpick_tag')
+    a.unpick_tag.ui.large.active.circular.compact.button(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -217,9 +215,9 @@ template(name='unselect_tag')
 
         
         
-template(name='flat_tag_selector')
-    // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.compact.tiny.basic.circular.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+template(name='flat_tag_picker')
+    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{pickor_class} #{thinking_class}")
+    .ui.compact.tiny.basic.circular.button.zoomer.pick_flat_tag(title="#{count} results" class="#{pickor_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -328,7 +326,7 @@ template(name='post_card_small')
                 if raw
                     |!{raw}
             each tags
-                +flat_tag_selector
+                +flat_tag_picker
             if in_dev
                 +print_this
                 +remove_button
@@ -414,7 +412,7 @@ template(name='doc_item')
                 small ({{long_date data.created}})
             .ui.label(title='domain') #{data.domain}
             // each tags
-            //     +flat_sub_tag_selector
+            //     +flat_sub_tag_picker
             if in_dev
                 +print_this
             // if watson
@@ -445,7 +443,7 @@ template(name='doc_item')
             //         |!{data.body_html}
             
             each tags
-                +flat_sub_tag_selector
+                +flat_sub_tag_picker
             // if watson
             //     +doc_emotion_small
             a.ui.inline.header(href="/u/#{data.author}")
@@ -453,9 +451,9 @@ template(name='doc_item')
     
 
 
-template(name='sub_tag_selector')
-    // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.compact.tertiary.circular.button.zoomer.select_sub_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+template(name='sub_tag_picker')
+    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{pickor_class} #{thinking_class}")
+    a.ui.compact.tertiary.circular.button.zoomer.pick_sub_tag(href='#' title="#{count} results" class="#{pickor_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -463,8 +461,8 @@ template(name='sub_tag_selector')
         // if in_dev
         //     small #{count}
         
-template(name='sub_unselect_tag')
-    a.unselect_sub_tag.ui.active.compact.basic.circular.button(href='#')
+template(name='sub_unpick_tag')
+    a.unpick_sub_tag.ui.active.compact.basic.circular.button(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -472,18 +470,18 @@ template(name='sub_unselect_tag')
 
         
         
-template(name='flat_sub_tag_selector')
-    // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.compact.basic.circular.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+template(name='flat_sub_tag_picker')
+    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{pickor_class} #{thinking_class}")
+    .ui.compact.basic.circular.button.zoomer.pick_flat_tag(title="#{count} results" class="#{pickor_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
         strong #{this}
         // if in_dev
         //     small #{count}
-// template(name='flat_sub_ruser_tag_selector')
-//     // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-//     .ui.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+// template(name='flat_sub_ruser_tag_picker')
+//     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{pickor_class} #{thinking_class}")
+//     .ui.compact.button.zoomer.pick_flat_tag(title="#{count} results" class="#{pickor_class} #{thinking_class}")
 //         if term
 //             if term.watson.metadata.image
 //                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    

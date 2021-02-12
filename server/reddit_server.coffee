@@ -242,36 +242,6 @@ Meteor.methods
         
         
         
-    get_sub_info: (subreddit)->
-        # @unblock()
-        # console.log 'getting info', subreddit
-        # if subreddit 
-        #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
-        # else
-        url = "https://www.reddit.com/r/#{subreddit}/about.json?&raw_json=1"
-        HTTP.get url,(err,res)=>
-            console.log 'hi'
-            # if res.data.data
-            existing = Docs.findOne 
-                model:'subreddit'
-                name:subreddit
-                # "data.display_name":subreddit
-            if existing
-                # console.log 'existing', existing
-                # if Meteor.isDevelopment
-                # if typeof(existing.tags) is 'string'
-                #     Doc.update
-                #         $unset: tags: 1
-                Docs.update existing._id,
-                    $set: data:res.data.data
-            unless existing
-                # console.log 'new sub', subreddit
-                sub = {}
-                sub.model = 'subreddit'
-                sub.name = subreddit
-                sub.data = res.data.data
-                new_reddit_post_id = Docs.insert sub
-    
     get_sub_latest: (subreddit)->
         @unblock()
         # console.log 'getting latest', subreddit
@@ -539,20 +509,6 @@ Meteor.methods
                             # downs: rd.downs
                             over_18: rd.over_18
 
-    search_subreddits: (search)->
-        @unblock()
-        HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1&nsfw=1", (err,res)->
-            if res.data.data.dist > 1
-                _.each(res.data.data.children[0..200], (item)=>
-                    found = 
-                        Docs.findOne    
-                            model:'subreddit'
-                            "data.display_name":item.data.display_name
-                    # if found
-                    unless found
-                        item.model = 'subreddit'
-                        Docs.insert item
-                )
                 
     search_subreddit: (subreddit,search)->
         # @unblock()

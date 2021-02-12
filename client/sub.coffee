@@ -15,44 +15,39 @@ Router.route '/r/:group/post/:doc_id', (->
     ), name:'reddit_page'
     
 
-Template.group.onCreated ->
-    Session.setDefault('view_layout', 'grid')
-    Session.setDefault('sort_key', 'data.created')
-    Session.setDefault('sort_direction', -1)
+# Template.group.onCreated ->
     # Session.setDefault('location_query', null)
-    @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    # @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     # @autorun => Meteor.subscribe 'subrzeddit_user_count', Router.current().params.group
-    @autorun => Meteor.subscribe 'group_by_param', Router.current().params.group
-    @autorun => Meteor.subscribe 'sub_docs_by_name', 
-        Router.current().params.group
-        selected_sub_tags.array()
-        selected_group_domain.array()
-        selected_group_time_tags.array()
-        selected_group_authors.array()
-        Session.get('sort_key')
-        Session.get('sort_direction')
+    # @autorun => Meteor.subscribe 'group_by_param', Router.current().params.group
+    # @autorun => Meteor.subscribe 'sub_docs_by_name', 
+    #     Router.current().params.group
+    #     selected_sub_tags.array()
+    #     selected_group_domain.array()
+    #     selected_group_time_tags.array()
+    #     selected_group_authors.array()
+    #     Session.get('sort_key')
+    #     Session.get('sort_direction')
   
-    @autorun => Meteor.subscribe 'sub_doc_count', 
-        Router.current().params.group
-        selected_sub_tags.array()
-        selected_group_domain.array()
-        selected_group_time_tags.array()
-        selected_group_authors.array()
+    # @autorun => Meteor.subscribe 'sub_doc_count', 
+    #     Router.current().params.group
+    #     selected_sub_tags.array()
+    #     selected_group_domain.array()
+    #     selected_group_time_tags.array()
+    #     selected_group_authors.array()
 
-    @autorun => Meteor.subscribe 'group_result_tags',
-        Router.current().params.group
-        selected_sub_tags.array()
-        selected_group_domain.array()
-        selected_group_time_tags.array()
-        selected_group_authors.array()
-        Session.get('toggle')
-    Meteor.call 'get_sub_latest', Router.current().params.group, ->
+    # @autorun => Meteor.subscribe 'group_result_tags',
+    #     Router.current().params.group
+    #     selected_sub_tags.array()
+    #     selected_group_domain.array()
+    #     selected_group_time_tags.array()
+    #     selected_group_authors.array()
+    #     Session.get('toggle')
 
-    Meteor.call 'log_group_view', Router.current().params.group, ->
-    @autorun => Meteor.subscribe 'agg_sentiment_group',
-        Router.current().params.group
-        selected_sub_tags.array()
-        ()->Session.set('ready',true)
+    # @autorun => Meteor.subscribe 'agg_sentiment_group',
+    #     Router.current().params.group
+    #     selected_sub_tags.array()
+    #     ()->Session.set('ready',true)
 
 Template.doc_item.events
     'click .view_post': (e,t)-> 
@@ -108,165 +103,105 @@ Template.group.events
     'click .pull_latest': ->
         # console.log 'latest'
         Meteor.call 'get_sub_latest', Router.current().params.group, ->
-    'click .get_info': ->
-        console.log 'dl'
-        Meteor.call 'get_sub_info', Router.current().params.group, ->
-    'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
-    'click .set_list': (e,t)-> Session.set('view_layout', 'list')
-
-    'keyup .search_group': (e,t)->
-        val = $('.search_group').val().toLowerCase().trim()
-        Session.set('sub_doc_query', val)
-        if e.which is 13 
-            selected_sub_tags.push val
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance val
-
-            $('.search_group').val('')
-            Session.set('loading',true)
-            Meteor.call 'search_group', Router.current().params.group, val, ->
-                Session.set('loading',false)
-                Session.set('sub_doc_query', null)
-            
-Template.group.helpers
-    domain_selector_class: ->
-        if @name in selected_group_domain.array() then 'blue' else ''
-    sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
-    sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
-    
-    group_result_tags: -> results.find(model:'tag')
-    group_domain_tags: -> results.find(model:'group_domain_tag')
-    group_time_tags: -> results.find(model:'group_time_tag')
-    group_authors: -> results.find(model:'group_author_tag')
-
-    selected_sub_tags: -> selected_sub_tags.array()
-    selected_group_domain: -> selected_group_domain.array()
-    selected_group_time_tags: -> selected_group_time_tags.array()
-    selected_group_authors: -> selected_group_authors.array()
-    
-    group_doc: ->
-        Docs.findOne
-            model:'group'
-            # "data.display_name":Router.current().params.group
-            name:Router.current().params.group
-    sub_docs: ->
-        Docs.find({
-            model:'rpost'
-            group:Router.current().params.group
-        },
-            sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
-            limit:20)
-    emotion_avg: -> results.findOne(model:'emotion_avg')
-
-    sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
-    sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
-    emotion_avg: -> results.findOne(model:'emotion_avg')
-
-    post_count: -> Counts.get('sub_doc_counter')
 
 
-    current_group: ->
-        Docs.findOne 
-            model:'group'
-            # "data.display_name":Router.current().params.group
-            name:Router.current().params.group
 
-
-Template.sub_tag_selector.onCreated ->
-    @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
-Template.sub_tag_selector.helpers
-    selector_class: ()->
-        term = 
-            Docs.findOne 
-                title:@name.toLowerCase()
-        if term
-            if term.max_emotion_name
-                switch term.max_emotion_name
-                    when 'joy' then "  green"
-                    when "anger" then "  red"
-                    when "sadness" then "  blue"
-                    when "disgust" then "  orange"
-                    when "fear" then "  grey"
-                    else " grey"
-    term: ->
-        Docs.findOne 
-            title:@name.toLowerCase()
+# Template.sub_tag_selector.onCreated ->
+#     @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
+# Template.sub_tag_selector.helpers
+#     selector_class: ()->
+#         term = 
+#             Docs.findOne 
+#                 title:@name.toLowerCase()
+#         if term
+#             if term.max_emotion_name
+#                 switch term.max_emotion_name
+#                     when 'joy' then "  green"
+#                     when "anger" then "  red"
+#                     when "sadness" then "  blue"
+#                     when "disgust" then "  orange"
+#                     when "fear" then "  grey"
+#                     else " grey"
+#     term: ->
+#         Docs.findOne 
+#             title:@name.toLowerCase()
             
             
-Template.sub_tag_selector.events
-    'click .select_sub_tag': -> 
-        # results.update
-        # console.log @
-        # window.speechSynthesis.cancel()
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        # if @model is 'group_emotion'
-        #     selected_emotions.push @name
-        # else
-        # if @model is 'group_tag'
-        selected_sub_tags.push @name
-        $('.search_group').val('')
+# Template.sub_tag_selector.events
+#     'click .select_sub_tag': -> 
+#         # results.update
+#         # console.log @
+#         # window.speechSynthesis.cancel()
+#         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+#         # if @model is 'group_emotion'
+#         #     selected_emotions.push @name
+#         # else
+#         # if @model is 'group_tag'
+#         selected_sub_tags.push @name
+#         $('.search_group').val('')
         
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
-        Session.set('subs_loading',true)
-        Meteor.call 'search_group', Router.current().params.group, @name, ->
-            Session.set('loading',false)
-            Session.set('sub_doc_query', null)
+#         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+#         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+#         Session.set('subs_loading',true)
+#         Meteor.call 'search_group', Router.current().params.group, @name, ->
+#             Session.set('loading',false)
+#             Session.set('sub_doc_query', null)
             
-        Meteor.setTimeout( ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 5000)
+#         Meteor.setTimeout( ->
+#             Session.set('toggle',!Session.get('toggle'))
+#         , 5000)
         
         
         
 
-Template.sub_unselect_tag.onCreated ->
-    @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
+# Template.sub_unselect_tag.onCreated ->
+#     @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
     
-Template.sub_unselect_tag.helpers
-    term: ->
-        found = 
-            Docs.findOne 
-                # model:'wikipedia'
-                title:@valueOf().toLowerCase()
-        found
-Template.sub_unselect_tag.events
-    'click .unselect_sub_tag': -> 
-        Session.set('skip',0)
-        console.log @
-        selected_sub_tags.remove @valueOf()
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+# Template.sub_unselect_tag.helpers
+#     term: ->
+#         found = 
+#             Docs.findOne 
+#                 # model:'wikipedia'
+#                 title:@valueOf().toLowerCase()
+#         found
+# Template.sub_unselect_tag.events
+#     'click .unselect_sub_tag': -> 
+#         Session.set('skip',0)
+#         console.log @
+#         selected_sub_tags.remove @valueOf()
+#         # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
     
 
-Template.flat_sub_tag_selector.onCreated ->
-    @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
-Template.flat_sub_tag_selector.helpers
-    selector_class: ()->
-        term = 
-            Docs.findOne 
-                title:@valueOf().toLowerCase()
-        if term
-            if term.max_emotion_name
-                switch term.max_emotion_name
-                    when 'joy' then "  green"
-                    when "anger" then "  red"
-                    when "sadness" then "  blue"
-                    when "disgust" then "  orange"
-                    when "fear" then "  grey"
-                    else " grey"
-    term: ->
-        Docs.findOne 
-            title:@valueOf().toLowerCase()
-Template.flat_sub_tag_selector.events
-    'click .select_flat_tag': -> 
-        # results.update
-        # window.speechSynthesis.cancel()
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-        selected_sub_tags.push @valueOf()
-        Router.go "/r/#{Router.current().params.group}/"
-        $('.search_group').val('')
-        Session.set('loading',true)
-        Meteor.call 'search_group', Router.current().params.group, @valueOf(), ->
-            Session.set('loading',false)
-        Meteor.setTimeout( ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 3000)
+# Template.flat_sub_tag_selector.onCreated ->
+#     @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
+# Template.flat_sub_tag_selector.helpers
+#     selector_class: ()->
+#         term = 
+#             Docs.findOne 
+#                 title:@valueOf().toLowerCase()
+#         if term
+#             if term.max_emotion_name
+#                 switch term.max_emotion_name
+#                     when 'joy' then "  green"
+#                     when "anger" then "  red"
+#                     when "sadness" then "  blue"
+#                     when "disgust" then "  orange"
+#                     when "fear" then "  grey"
+#                     else " grey"
+#     term: ->
+#         Docs.findOne 
+#             title:@valueOf().toLowerCase()
+# Template.flat_sub_tag_selector.events
+#     'click .select_flat_tag': -> 
+#         # results.update
+#         # window.speechSynthesis.cancel()
+#         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+#         selected_sub_tags.push @valueOf()
+#         Router.go "/#{Router.current().params.group}/"
+#         $('.search_group').val('')
+#         Session.set('loading',true)
+#         Meteor.call 'search_group', Router.current().params.group, @valueOf(), ->
+#             Session.set('loading',false)
+#         Meteor.setTimeout( ->
+#             Session.set('toggle',!Session.get('toggle'))
+#         , 3000)
