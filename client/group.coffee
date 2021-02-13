@@ -31,7 +31,6 @@ Template.group.onCreated ->
         picked_Persons.array()
         picked_Locations.array()
         picked_Organizations.array()
-        # picked_group_authors.array()
         Session.get('toggle')
     @autorun => Meteor.subscribe 'count', 
         Router.current().params.group
@@ -53,6 +52,7 @@ Template.group.onCreated ->
         Session.get('group_sort_key')
         Session.get('group_sort_direction')
         Session.get('group_skip_value')
+        Session.get('toggle')
 
 Template.group.helpers
     posts: ->
@@ -154,6 +154,9 @@ Template.group.events
             Meteor.call 'search_subreddit', Router.current().params.group, val, ->
                 Session.set('loading',false)
                 Session.set('sub_doc_query', null)
+            Meteor.setTimout ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 8000
         
 
     'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
@@ -269,9 +272,9 @@ Template.tag_picker.events
         # Session.set('group_loading',true)
         Meteor.call 'search_subreddit', Router.current().params.group, @name, ->
             Session.set('group_loading',false)
-        # Meteor.setTimeout( ->
-        #     Session.set('toggle',!Session.get('toggle'))
-        # , 5000)
+        Meteor.setTimeout( ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 7000)
         
         
         
@@ -323,3 +326,6 @@ Template.flat_tag_picker.events
         picked_tags.push @valueOf()
         $('.search_group').val('')
 
+        Meteor.setTimout ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 8000

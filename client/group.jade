@@ -40,30 +40,33 @@ template(name='group')
             else
                 .ui.icon.compact.basic.circular.button.sort_up
                     i.caret.up.icon
-            .ui.icon.compact.small.circular.basic.button.sort_created(class=sort_created_class)
+            .ui.compact.small.circular.basic.button.sort_created(class=sort_created_class)
                 i.clock.icon
-            .ui.icon.compact.small.circular.basic.button.sort_ups(class=sort_ups_class)
+                |latest
+            .ui.compact.small.circular.basic.button.sort_ups(class=sort_ups_class)
                 i.thumbs.up.icon
+                |liked
             if skv_is 'view_detail' true
-                .ui.black.compact.icon.circular.basic.button.toggle_detail
+                .ui.black.compact.circular.basic.button.toggle_detail
                     i.list.icon
-                    // |detail
+                    |detail
             else
-                .ui.compact.icon.circular.basic.button.toggle_detail
+                .ui.compact.circular.basic.button.toggle_detail
                     i.minus.icon
-                    // |simple
+                    |simple
                 // i.line.chart.icon
             if skv_is 'view_layout' 'grid'
-                .ui.compact.icon.circular.basic.button.set_grid(class=grid_class) 
+                .ui.compact.circular.basic.button.set_grid(class=grid_class) 
                     i.th.icon
-                    // |grid
+                    |grid
             else
-                .ui.icon.compact.circular.basic.button.set_grid(class=grid_class) 
+                .ui.compact.circular.basic.button.set_grid(class=grid_class) 
                     i.th.icon
+                    |grid
             if skv_is 'view_layout' 'list'
-                .ui.compact.icon.circular.basic.button.set_list(class=list_class)
+                .ui.compact.circular.basic.button.set_list(class=list_class)
                     i.list.large.icon
-                    // |list
+                    |list
             else
                 .ui.icon.compact.circular.basic.button.set_list(class=list_class)
                     i.list.large.icon
@@ -275,8 +278,8 @@ template(name='post_card_small')
         //     .ui.tiny.basic.circular.label #{this}
         // a.ui.basic.label(href="/u/#{data.author}")
         //     |#{data.author}
-        if watson
-            +doc_emotion_small        
+        // if watson
+        //     +doc_emotion_small        
             
             // span.inline.content
             // span.inline.content

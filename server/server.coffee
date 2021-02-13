@@ -324,6 +324,7 @@ Meteor.publish 'posts', (
     sort_key
     sort_direction
     skip=0
+    toggle
     )->
     self = @
     match = {
@@ -349,11 +350,25 @@ Meteor.publish 'posts', (
     if picked_Persons.length > 0 then match.Person = $all:picked_Persons
     if picked_Locations.length > 0 then match.Location = $all:picked_Locations
     if picked_Organizations.length > 0 then match.Organization = $all:picked_Organizations
-    console.log 'skip', skip
+    # console.log 'skip', skip
     Docs.find match,
         limit: 20
-        sort: _timestamp:-1
-        # sort: "#{sk}":-1
+        sort: "#{sk}":-1
+        fields:
+            tags:1
+            title:1
+            model:1
+            "data.title":1
+            group:1
+            time_tags:1
+            image_id:1
+            youtube_id:1
+            "watson.metadata.image":1
+            "data.url":1
+            "data.thumbnail":1
+            "data.domain":1
+            "data.ups":1
+            "data.comments":1
         # skip:skip*20
     
     
@@ -395,6 +410,7 @@ Meteor.publish 'tags', (
     picked_Persons
     picked_Locations
     picked_Organizations
+    toggle
     )->
     # @unblock()
     self = @
