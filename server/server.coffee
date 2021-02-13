@@ -19,7 +19,7 @@ Meteor.methods
     #     docs = Docs.find({
     #         tags: $exists: true
     #         tags_string: $exists: false
-    #     },{limit:1000})
+    #     },{limit:500})
     #     for doc in docs.fetch()
     #         # doc = Docs.findOne id
     #         tags_string = doc.tags.toString()
@@ -111,7 +111,7 @@ Meteor.publish 'wikis', (
     Docs.find({
         model:'wikipedia'
     },{ 
-        limit:10
+        limit:5
     })
     
 
@@ -294,7 +294,7 @@ Meteor.publish 'comments', (doc_id)->
 #         sort:
 #             points:-1
 #             ups:-1
-#         limit:10      
+#         limit:5      
 
 
 
@@ -400,6 +400,7 @@ Meteor.methods
         for doc in docs.fetch[..100]
             Docs.update doc._id,
                 $set:group_lowered:doc.group.toLowerCase()
+            console.log 'lowered', doc.data.title
         # doc = Docs.findOne group
         # # moment(doc.date).fromNow()
         # # timestamp = Date.now()
@@ -469,7 +470,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:20 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_tag_cloud.forEach (tag, i) ->
@@ -488,7 +489,7 @@ Meteor.publish 'tags', (
     #     # { $match: _id: $nin: picked_domains }
     #     { $sort: count: -1, _id: 1 }
     #     { $match: count: $lt: doc_count }
-    #     { $limit:10 }
+    #     { $limit:5 }
     #     { $project: _id: 0, name: '$_id', count: 1 }
     # ]
     # group_domain_cloud.forEach (domain, i) ->
@@ -506,7 +507,7 @@ Meteor.publish 'tags', (
         # { $match: _id: $nin: picked_location }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:10 }
+        { $limit:5 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_location_cloud.forEach (location, i) ->
@@ -525,7 +526,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_time_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:10 }
+        { $limit:5 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_time_cloud.forEach (time_tag, i) ->
@@ -542,7 +543,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_time_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:10 }
+        { $limit:5 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_Location_cloud.forEach (Location, i) ->
@@ -559,7 +560,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_time_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:10 }
+        { $limit:5 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_Person_cloud.forEach (Person, i) ->
@@ -576,7 +577,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_time_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:10 }
+        { $limit:5 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_Organization_cloud.forEach (Organization, i) ->
@@ -593,7 +594,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_time_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:10 }
+        { $limit:5 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_HealthCondition_cloud.forEach (HealthCondition, i) ->
@@ -610,7 +611,7 @@ Meteor.publish 'tags', (
     #     { $match: _id: $nin: picked_time_tags }
     #     { $sort: count: -1, _id: 1 }
     #     { $match: count: $lt: doc_count }
-    #     { $limit:10 }
+    #     { $limit:5 }
     #     { $project: _id: 0, name: '$_id', count: 1 }
     # ]
     # group_HealthCondition_cloud.forEach (time_tag, i) ->

@@ -48,7 +48,7 @@ Template.registerHelper 'is_positive', () ->
         @doc_sentiment_score > 0
     
 Template.registerHelper 'sentiment_class', () ->
-    if @sentiment_avg > 0 then 'green' else 'red'
+    if @sentiment_avg > 0 then 'green invert' else 'red invert'
 Template.registerHelper 'sv', (key) -> Session.get(key)
 Template.registerHelper 'sentence_color', () ->
     switch @tones[0].tone_id

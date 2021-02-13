@@ -132,7 +132,7 @@ template(name='keywords')
         |#{watson.keywords.length} keywords
     .ui.four.column.stackable.grid
         each watson.keywords
-            .ui.column
+            .ui.center.aligned.column
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
                 .spacer
                 .meta
@@ -162,7 +162,7 @@ template(name='entities')
         |#{watson.entities.length} entities
     .ui.four.column.stackable.grid
         each watson.entities
-            .ui.column
+            .ui.center.aligned.column
                 .ui.small.grey.header #{type}
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
                 .spacer

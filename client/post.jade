@@ -98,9 +98,10 @@ template(name='post_view')
                     .spacer
                     +comments
                     if watson
-                        +watson_view
-                        +watson_full
-                .four.wide.column.scroling
+                        .scrolling
+                            +watson_view
+                            +watson_full
+                .four.wide.column.scrolling
                     .ui.segmen
                         // div
                         // .ui.inline.grey.header {{from_now start_datetime}}
@@ -205,7 +206,7 @@ template(name='rcomments_tab')
 
 template(name='rcomment')                
     .ui.grid.call_watson_comment
-        .sixteen.wide.column
+        .sixteen.wide.center.aligned.column
             .ui.small.inline.header {{data.score}}
             a.author.say(href="/user/#{data.author}") #{data.author}
             span.metadata 
