@@ -13,8 +13,6 @@ template(name='home')
             // +comments
             // .f11 #{description}
             // +image_link_view key='image' label='image' direct=true
-            .ui.icon.button.add_post
-                i.plus.icon
             if picked_tags
                 // if many_tags
                 //     a#clear_tags.ui.black.invert.icon.compact.button.pick_term
@@ -86,6 +84,8 @@ template(name='home')
                         i.massive.grey.loading.yin.yang.icon
         .four.wide.left.aligned.column.scrollng.seg
             // +alpha
+            .ui.icon.button.add_post
+                i.plus.icon
             if location_tags
                 if picked_location_tags
                     each picked_location_tags

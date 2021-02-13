@@ -8,7 +8,7 @@ template(name='post_view')
                         |#{group}
                     .ui.inline.header.say(class=emotion_color)
                         |!{data.title} #{data.link_title} #{title}
-                    .scrolling
+                    .scrollin
                         if image_link
                             a(href="/#{group}")
                                 +image_link_view key='image_link' direct=true
@@ -207,13 +207,13 @@ template(name='rcomments_tab')
 
 template(name='rcomment')                
     .ui.grid.call_watson_comment
-        .sixteen.wide.center.aligned.column
+        .sixteen.wide.aligned.column
             .ui.small.inline.header {{data.score}}
             a.author.say(href="/user/#{data.author}") #{data.author}
             span.metadata 
                 span.date {{ufrom data.created}}
                 // +doc_emotion_small
-            .ui.small.header.pointer.say(class=emotion_color)
+            .ui.small.inline.header.pointer.say(class=emotion_color)
                 |{{#markdown}} {{data.body}} {{/markdown}}
             .actions
                 each tags 
@@ -225,7 +225,7 @@ template(name='rcomment')
                     .one.wide.column
                     .fifteen.wide.column
                         a.author(href="/user/#{data.author}") #{data.author}
-                        .ui.tiny.header.pointer.content.say(class=emotion_color)
+                        .pointer.content.say(class=emotion_color)
                             |{{#markdown}} {{data.body}} {{/markdown}}
                             // .text.say #{data.score} #{data.body}
             // if in_dev

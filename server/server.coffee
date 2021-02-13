@@ -361,7 +361,8 @@ Meteor.publish 'posts', (
     # console.log 'skip', skip
     Docs.find match,
         limit: 10
-        sort: "#{sk}":-1
+        # sort: "#{sk}":-1
+        sort: "data.ups":-1
         fields:
             tags:1
             title:1
