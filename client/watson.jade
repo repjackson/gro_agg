@@ -70,45 +70,46 @@ template(name='doc_emotion_small')
         span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  #{doc_sentiment_label} 
             |&nbsp;
     else if kv_is 'doc_sentiment_label' 'negative'
-        span.say.ui.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label} 
+        // span.say.ui.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label} 
+        span.say.ui.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label}
             |&nbsp;
 
     //- if above_50 'joy_percent'
         //- .spacer
-    span.say.ui.green.text(class="{{calculated_size joy_percent}}") {{ to_percent joy_percent }} joy 
+    span.say.ui.green.text(class="{{calculated_size joy_percent}}") {{ to_percent joy_percent }}
         |&nbsp;
     span.say.rounded(style="height:7px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
     //- if above_50 'sadness_percent'
         //- .spacer
-    span.say.ui.blue.text(class="{{calculated_size sadness_percent}}") {{ to_percent sadness_percent}} sad 
+    span.say.ui.blue.text(class="{{calculated_size sadness_percent}}") {{ to_percent sadness_percent}} 
         |&nbsp;
     span.say.rounded(style="height:7px;width:{{to_percent sadness_percent}}%;background-color:blue" title="{{to_percent sadness_percent}}% sad")
     //- if above_50 'fear_percent'
         //- .spacer
-    span.say.ui.grey.text(class="{{calculated_size fear_percent}}") {{ to_percent fear_percent }} fear 
+    span.say.ui.grey.text(class="{{calculated_size fear_percent}}") {{ to_percent fear_percent }} 
         |&nbsp;
     span.say.rounded(style="height:7px;width:{{to_percent fear_percent}}%;background-color:grey" title="{{to_percent fear_percent}}% fear")
     //- if above_50 'disgust_percent'
         //- .spacer
-    span.say.ui.orange.text(class="{{calculated_size disgust_percent}}") {{ to_percent disgust_percent }} disgust 
+    span.say.ui.orange.text(class="{{calculated_size disgust_percent}}") {{ to_percent disgust_percent }} 
         |&nbsp;
     span.say.rounded(style="height:7px;width:{{to_percent disgust_percent}}%;background-color:orange" title="{{to_percent disgust_percent}}% disgust")
     //- if above_50 'anger_percent'
         //- .spacer
-    span.ui.red.text(class="{{calculated_size anger_percent}}") {{ to_percent anger_percent }} anger 
+    span.ui.red.text(class="{{calculated_size anger_percent}}") {{ to_percent anger_percent }}
         |&nbsp;
     span.rounded(style="height:7px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
     // .spacer
 
 template(name='call_watson')
-    button.ui.large.circular.button.autotag
+    button.ui.large.button.autotag
         i.dna.icon
         |autotag
     if page_doc.watson 
         i.checkmark.icon
 
 template(name='autotag')
-    button.ui.large.icon.circular.button.autotag
+    button.ui.large.icon.button.autotag
         i.dna.icon
         // |autotag
         if watson 
@@ -116,7 +117,7 @@ template(name='autotag')
             
             
 // template(name='call_tone')
-//     button.ui.icon.large.circular.button.call
+//     button.ui.icon.large.button.call
 //         i.smile.icon
 //         // |call tone
 //     if page_doc.tone 
@@ -250,8 +251,8 @@ template(name='categories')
 //                     i.chevron.up.link.grey.large.icon.upvote_sentence
 //                     i.chevron.down.link.grey.large.icon.downvote_sentence
 //                     each tones
-//                         // .ui.basic.inverted.small.compact.circular.label(class="{{calculated_size 'score'}} #{tone_label_class}") 
-//                         .ui.basic.inverted.small.compact.circular.label(class="#{tone_label_class}") 
+//                         // .ui.basic.inverted.small.compact.label(class="{{calculated_size 'score'}} #{tone_label_class}") 
+//                         .ui.basic.inverted.small.compact.label(class="#{tone_label_class}") 
 //                             span.ui.text
 //                                 |#{tone_id} &nbsp;
 //                             | {{ to_percent score }}% 
@@ -397,9 +398,9 @@ template(name='watson_full')
     //     |#{subreddit}
     a(href=url target='_window') #{url}
     // if in_dev
-    //     i.reddit.circular.link.icon.call_reddit_post
-    //     i.code.circular.link.icon.print_this
-    //     i.brain.circular.link.icon.calc_tone
+    //     i.reddit.link.icon.call_reddit_post
+    //     i.code.link.icon.print_this
+    //     i.brain.link.icon.calc_tone
     //     +call_watson mode='url' key='url'
     //     i.remove.link.icon
     //-     +call_watson mode='html'

@@ -534,8 +534,9 @@ Meteor.methods
                         item.reddit_id = item.data.id
                         item.author = item.data.author
                         item.group = item.data.subreddit
+                        item.group_lowered = item.data.subreddit.toLowerCase()
                         item.subreddit = item.data.subreddit
-                        item.tags = [search]
+                        item.tags = search
                         # item.rdata = item.data
                         Docs.insert item
                 )

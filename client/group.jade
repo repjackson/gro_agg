@@ -24,7 +24,10 @@ template(name='group')
                 each picked_tags
                     +unpick_tag
             .ui.icon.input
-                i.search.icon
+                if is_loading
+                    i.yin.yang.loading.icon
+                else
+                    i.search.icon
                 input.search_tag(type='text' value=query)
                 // .ui.label #{this}
             if result_tags.count
@@ -33,27 +36,27 @@ template(name='group')
             else
                 i.big.grey.loading.yin.yang.icon
         
-            // div
-            // if skv_is 'sort_direction' 1
-            //     .ui.icon.compact.button.sort_down
-            //         i.caret.down.icon
-            // else
-            //     .ui.icon.compact.button.sort_up
-            //         i.caret.up.icon
-            // .ui.compact.small.button.sort_created(class=sort_created_class)
-            //     i.clock.icon
-            //     |latest
-            // .ui.compact.small.button.sort_ups(class=sort_ups_class)
-            //     i.thumbs.up.icon
-            //     |liked
-            // if skv_is 'view_detail' true
-            //     .ui.black.compact.button.toggle_detail
-            //         i.list.icon
-            //         |detail
-            // else
-            //     .ui.compact.button.toggle_detail
-            //         i.minus.icon
-            //         |simple
+            div
+            if skv_is 'sort_direction' 1
+                .ui.icon.compact.button.sort_down
+                    i.caret.down.icon
+            else
+                .ui.icon.compact.button.sort_up
+                    i.caret.up.icon
+            .ui.compact.small.button.sort_created(class=sort_created_class)
+                i.clock.icon
+                |latest
+            .ui.compact.small.button.sort_ups(class=sort_ups_class)
+                i.thumbs.up.icon
+                |liked
+            if skv_is 'view_detail' true
+                .ui.black.compact.button.toggle_detail
+                    i.list.icon
+                    |detail
+            else
+                .ui.compact.button.toggle_detail
+                    i.minus.icon
+                    |simple
                 // i.line.chart.icon
             if skv_is 'view_layout' 'grid'
                 .ui.compact.button.set_grid(class=grid_class) 
@@ -110,7 +113,7 @@ template(name='group')
                     +tag_picker
                     // .ui.link.label.pick_healthcondition #{name}
             if Persons
-                div
+                .spacer
                 .ui.small.grey.inline.header
                     i.user.icon
                     |people
@@ -118,7 +121,7 @@ template(name='group')
                     +tag_picker
                     // .ui.label.pick_person #{name}
             if Organizations
-                div
+                .spacer
                 .ui.small.grey.inline.header
                     i.building.icon
                     |organizations
@@ -140,7 +143,7 @@ template(name='group')
                 .ui.compact.button.pick_domain(class=domain_picker_class)
                     |#{name} 
                     // small #{count}
-            div
+            .spacer
             i.clock.big.grey.icon            
             if picked_time_tags
                 each picked_time_tags
@@ -150,7 +153,7 @@ template(name='group')
                 .ui.compact.button.pick_time_tag(class=domain_picker_class)
                     |#{name} 
                     // small #{count}
-            div
+            .spacer
             i.user.big.grey.icon            
             if picked_authors
                 each picked_authors
@@ -206,7 +209,7 @@ template(name='tag_picker')
         //     small #{count}
         
 template(name='unpick_tag')
-    a.unpick_tag.ui.active.image.label(href='#')
+    a.unpick_tag.ui.active.image.big.label(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -268,7 +271,8 @@ template(name='post_card_small')
         i.thumbs.up.outline.grey.icon
         | #{data.num_comments}
         i.comment.outline.grey.icon
-        |#{when}
+        span(title="imported #{when}")
+            |{{ufrom data.created}}
         // i.clock.icon
         // each time_tags
         //     .ui.tiny.label #{this}

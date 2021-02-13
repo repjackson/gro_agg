@@ -46,15 +46,15 @@ Template.registerHelper 'is_positive', () ->
         @doc_sentiment_score > 0
     
 Template.registerHelper 'sentiment_class', () ->
-    if @doc_sentiment_score > 0 then 'green invert' else 'red invert'
+    # if @doc_sentiment_score > 0 then 'green invert' else 'red invert'
+    switch @max_emotion_name
+        when 'sadness' then 'invert blue'
+        when 'joy' then 'invert green'
+        when 'confident' then 'invert teal'
+        when 'analytical' then 'invert orange'
+        when 'tentative' then 'invert yellow'
 Template.registerHelper 'sv', (key) -> Session.get(key)
 Template.registerHelper 'sentence_color', () ->
-    switch @tones[0].tone_id
-        when 'sadness' then 'blue'
-        when 'joy' then 'green'
-        when 'confident' then 'teal'
-        when 'analytical' then 'orange'
-        when 'tentative' then 'yellow'
         
 Template.registerHelper 'abs_percent', (num) -> 
     # console.l/og Math.abs(num*100)
@@ -145,7 +145,7 @@ Template.registerHelper 'field_value', () ->
 
 Template.registerHelper 'doc_by_id', -> Docs.findOne Router.current().params.doc_id
 
-# Template.registerHelper 'is_loading', -> Session.get 'loading'
+Template.registerHelper 'is_loading', -> Session.get 'loading'
 # Template.registerHelper 'long_time', (input)-> 
 #     moment(input).format("h:mm a")
 Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM Do h:mm a")

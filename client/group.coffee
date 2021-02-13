@@ -50,9 +50,9 @@ Template.group.onCreated ->
         picked_Persons.array()
         picked_Locations.array()
         picked_Organizations.array()
-        Session.get('group_sort_key')
-        Session.get('group_sort_direction')
-        Session.get('group_skip_value')
+        Session.get('sort_key')
+        Session.get('sort_direction')
+        Session.get('skip_value')
         Session.get('toggle')
 
 Template.group.helpers
@@ -117,7 +117,7 @@ Template.group.events
     #     # if @model is 'group_tag'
     #     picked_tags.push @name
     #     $('.search_tag').val('')
-    #     Session.set('group_skip_value',0)
+    #     Session.set('skip_value',0)
 
     'click .unpick_Location': ->
         picked_Locations.remove @valueOf()
@@ -156,7 +156,7 @@ Template.group.events
             # Session.set('sub_doc_query', val)
             Session.set('loading',true)
     
-            Meteor.call 'search_subreddit', Router.current().params.group, val, ->
+            Meteor.call 'search_subreddit', Router.current().params.group, picked_tags.array(), ->
                 Session.set('loading',false)
                 Session.set('sub_doc_query', null)
             Meteor.setTimeout ->
@@ -244,12 +244,12 @@ Template.tag_picker.events
         # if @model is 'group_tag'
         picked_tags.push @name
         $('.search_tag').val('')
-        Session.set('group_skip_value',0)
+        Session.set('skip_value',0)
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
-        # Session.set('loading',true)
-        Meteor.call 'search_subreddit', Router.current().params.group, @name, ->
+        Session.set('loading',true)
+        Meteor.call 'search_subreddit', Router.current().params.group, picked_tags.array(), ->
             Session.set('loading',false)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))
@@ -304,7 +304,8 @@ Template.flat_tag_picker.events
         window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         picked_tags.push @valueOf()
         $('.search_group').val('')
-        Meteor.call 'search_subreddit', Router.current().params.group, @valueOf(), ->
+        Session.set('loading',true)
+        Meteor.call 'search_subreddit', Router.current().params.group, picked_tags.array(), ->
             Session.set('loading',false)
         Router.go "/#{Router.current().params.group}"
         Meteor.setTimeout ->
