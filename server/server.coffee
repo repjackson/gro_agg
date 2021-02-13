@@ -305,7 +305,8 @@ Meteor.publish 'count', (
     picked_location_tags
     )->
     match = {model:$in:['post','rpost']}
-    match.group = group
+    # match.group = group
+    match.group_lowered = group.toLowerCase()
         
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
@@ -334,7 +335,8 @@ Meteor.publish 'posts', (
     # if group is 'all'
     #     match.group = $exists:false
     # else
-    match.group = group
+    # match.group = group
+    match.group_lowered = group.toLowerCase()
 
     if sort_key
         sk = sort_key
@@ -361,6 +363,8 @@ Meteor.publish 'posts', (
             "data.title":1
             group:1
             time_tags:1
+            _timestamp:1
+            group_lowered:1
             image_id:1
             youtube_id:1
             "watson.metadata.image":1
@@ -389,18 +393,18 @@ Meteor.publish 'posts', (
     
 Meteor.methods    
     lower_group: (group)->
-        docs = 
+        cursor = 
             Docs.find
                 model:$in:['rpost','post']
                 group:group
                 group_lowered:$exists:false
                 
                 
-        console.log 'unlowered doc count', docs.count()
-        for doc in docs.fetch[..100]
+        console.log 'unlowered doc count', cursor.count()
+        for doc in cursor.fetch()
             Docs.update doc._id,
                 $set:group_lowered:doc.group.toLowerCase()
-            console.log 'lowered', doc.data.title
+            console.log 'lowered', doc.group, doc._id
         # doc = Docs.findOne group
         # # moment(doc.date).fromNow()
         # # timestamp = Date.now()
@@ -446,7 +450,8 @@ Meteor.publish 'tags', (
         # group:group
         # subgroup:subgroup
     }
-    match.group = group
+    # match.group = group
+    match.group_lowered = group.toLowerCase()
 
     # if view_bounties
     #     match.bounty = true

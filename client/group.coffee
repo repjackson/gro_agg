@@ -57,9 +57,10 @@ Template.group.onCreated ->
 
 Template.group.helpers
     posts: ->
+        group_param = Router.current().params.group
         Docs.find({
             model: $in: ['post','rpost']
-            group:Router.current().params.group
+            group_lowered:group_param.toLowerCase()
         },
             sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
             limit:25
