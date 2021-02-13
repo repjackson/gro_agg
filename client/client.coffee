@@ -167,7 +167,7 @@ Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM 
 
 # # Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
 
-# Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
+Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
 # Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
 # Template.registerHelper 'loading_class', ()->
 #     if Session.get 'loading' then 'disabled' else ''
@@ -309,7 +309,6 @@ Template.registerHelper 'to_percent', (number)->
 #     if Session.get 'loading' then 'disabled' else ''
 
 # # Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
-# Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
 
 # Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
 

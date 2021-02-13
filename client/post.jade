@@ -3,6 +3,11 @@ template(name='post_view')
         .ui.stackable.grid
             .row 
                 .twelve.wide.column.scrlling
+                    a.ui.large.circular.button(href="/#{group}")
+                        i.chevron.left.icon
+                        |#{group}
+                    .ui.inline.header.say(class=post_header_class)
+                        |!{data.title} #{data.link_title} #{title}
                     if image_link
                         a(href="/#{group}")
                             +image_link_view key='image_link' direct=true
@@ -15,8 +20,6 @@ template(name='post_view')
                         |!{raw}
                     .say_this.say_body
                         |!{content}
-                    .ui.inline.header.say(class=post_header_class)
-                        |!{data.title} #{data.link_title} #{title}
                     | {{ufrom data.created}}
                     div
                     // +skve k='view_section' v='main' l='main' i='content'
@@ -99,9 +102,6 @@ template(name='post_view')
                         +watson_full
                 .four.wide.column.scroling
                     .ui.segmen
-                        a.ui.large.circular.button(href="/#{group}")
-                            i.chevron.left.icon
-                            |#{group}
                         // div
                         // .ui.inline.grey.header {{from_now start_datetime}}
                         

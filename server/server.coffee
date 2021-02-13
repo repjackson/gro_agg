@@ -364,11 +364,26 @@ Meteor.publish 'posts', (
             image_id:1
             youtube_id:1
             "watson.metadata.image":1
+            watson:1
             "data.url":1
             "data.thumbnail":1
             "data.domain":1
             "data.ups":1
             "data.num_comments":1
+            # analyzed_text:response.analyzed_text
+            # watson: response
+            max_emotion_name:1
+            max_emotion_percent:1
+            sadness_percent: 1
+            joy_percent: 1
+            fear_percent: 1
+            anger_percent: 1
+            disgust_percent: 1
+            watson_concepts: 1
+            watson_keywords: 1
+            "doc_sentiment_score": 1
+            "doc_sentiment_label": 1
+            
         # skip:skip*20
     
     

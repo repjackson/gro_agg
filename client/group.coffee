@@ -172,7 +172,8 @@ Template.group.events
 Template.post_card_small.events
     'click .view_post': (e,t)-> 
         window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
-
+    'click .call_watson': (e,t)-> 
+        Meteor.call 'call_watson',@_id,'data.url','url',@data.url,=>
 Template.doc_item.events
     'click .view_post': (e,t)-> 
         Session.set('view_section','main')

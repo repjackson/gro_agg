@@ -130,7 +130,7 @@ template(name='call_visual')
 template(name='keywords')
     .ui.small.grey.header 
         |#{watson.keywords.length} keywords
-    .ui.three.column.stackable.grid
+    .ui.four.column.stackable.grid
         each watson.keywords
             .ui.column
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
@@ -360,7 +360,7 @@ template(name='watson_full')
         // .ui.inline.small.grey.header locations
         each Location 
             +flat_tag_picker
-            .ui.small.basic.pointer.add_stack_tag.tertiary.button.pick_location #{this}
+            // .ui.small.basic.pointer.add_stack_tag.tertiary.button.pick_location #{this}
     div 
     if PrintMedia
         i.grey.newspaper.icon(title='print media')

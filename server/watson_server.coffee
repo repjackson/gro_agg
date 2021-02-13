@@ -70,11 +70,11 @@ Meteor.methods
 
     call_watson: (doc_id, key, mode) ->
         @unblock()
-        # console.log 'calling watson'
+        console.log 'calling watson'
         self = @
-        # console.log doc_id
-        # console.log key
-        # console.log mode
+        console.log doc_id
+        console.log key
+        console.log mode
         doc = Docs.findOne doc_id
         # console.log 'calling watson on', doc.title
         # if doc.skip_watson is false
@@ -123,11 +123,11 @@ Meteor.methods
                     params.clean = true
                     # params.features.metadata = {}
                 when 'url'
-                    params.url = doc["#{key}"]
+                    # params.url = doc["#{key}"]
                     # params.url = durl
                     # console.log 'calling url', params.url, doc["#{key}"], key
                     # console.log 'calling url', params.url, doc[key], durl
-                    # params.url = doc.data.link_url
+                    params.url = doc.data.url
                     params.returnAnalyzedText = true
                     params.clean = true
                     params.features.metadata = {}
