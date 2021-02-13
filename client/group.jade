@@ -99,28 +99,32 @@ template(name='group')
                     i.marker.icon
                     |locations
                 each locations
-                    .ui.link.label.pick_Location #{name}
+                    +tag_picker
+                    // .ui.link.label.pick_Location #{name}
             if HealthConditions
                 div
                 .ui.small.grey.inline.header
                     i.doctor.icon
                     |health conditions
                 each HealthConditions
-                    .ui.link.label.pick_healthcondition #{name}
+                    +tag_picker
+                    // .ui.link.label.pick_healthcondition #{name}
             if Persons
                 div
                 .ui.small.grey.inline.header
                     i.user.icon
                     |people
                 each Persons
-                    .ui.label.pick_person #{name}
+                    +tag_picker
+                    // .ui.label.pick_person #{name}
             if Organizations
                 div
                 .ui.small.grey.inline.header
                     i.building.icon
                     |organizations
                 each Organizations
-                    .ui.label.pick_organization #{name}
+                    +tag_picker
+                    // .ui.label.pick_organization #{name}
             if Companies
                 .ui.small.grey.inline.header
                     i.building.icon

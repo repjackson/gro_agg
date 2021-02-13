@@ -368,7 +368,7 @@ Meteor.publish 'posts', (
             "data.thumbnail":1
             "data.domain":1
             "data.ups":1
-            "data.comments":1
+            "data.num_comments":1
         # skip:skip*20
     
     
