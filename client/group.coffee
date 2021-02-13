@@ -302,7 +302,7 @@ Template.flat_tag_picker.events
         window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         picked_tags.push @valueOf()
         $('.search_group').val('')
-        Meteor.call 'search_subreddit', Router.current().params.group, @name, ->
+        Meteor.call 'search_subreddit', Router.current().params.group, @valueOf(), ->
             Session.set('loading',false)
         Router.go "/#{Router.current().params.group}"
         Meteor.setTimeout ->
