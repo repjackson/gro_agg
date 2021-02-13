@@ -445,18 +445,18 @@ img:active {
 
 .superzoom {
     /*animation: fadeout .35s; */
-    transition: all .15s ease !important; 
+    transition: all .1s ease !important; 
     z-index:1000 !important;
 }
 .superzoom:active {
-    transform: scale(2) !important;
+    transform: scale(5) !important;
 }
 .superzoom:hover {
-    transition: all .15s ease !important; 
+    transition: all .1s ease !important; 
     transform: scale(2) !important;
     /*transform: rotate(20deg) !important;*/
     z-index:1000 !important;
-    border-radius: 10px !important;
+    border-radius: 2px !important;
     /*animation: fadein .35s !important;*/
     /*-webkit-transition: opacity .15s ease-in !important;*/
     /* -webkit-transition: opacity .15s ease-out; */
@@ -619,7 +619,7 @@ img, .rounded, .embed, iframe, .text {
 
 input {
     /*margin: 10px !important;*/
-    border-radius: 10px !important; 
+    border-radius: 20px !important; 
 }
 
 ::-webkit-scrollbar {

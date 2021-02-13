@@ -33,7 +33,7 @@ template(name='group')
             else
                 i.big.grey.loading.yin.yang.icon
         
-            div
+            // div
             // if skv_is 'sort_direction' 1
             //     .ui.icon.compact.circular.button.sort_down
             //         i.caret.down.icon
@@ -71,19 +71,19 @@ template(name='group')
                 .ui.compact.circular.button.set_list(class=list_class)
                     i.list.icon
                     |list
-            .scrolling
-                if posts.count
-                    if skv_is 'view_layout' 'grid'
-                        .ui.stackable.centered.three.column.grid 
-                            each posts
-                                +post_card_small
-                    else if skv_is 'view_layout' 'list'
+            // .scrollin
+            if posts.count
+                if skv_is 'view_layout' 'grid'
+                    .ui.stackable.centered.three.column.grid 
                         each posts
-                            +doc_item
-                else
-                    .ui.center.aligned.basic.segment
-                        i.massive.grey.loading.yin.yang.icon
-        .four.wide.center.aligned.column.scrolling.seg
+                            +post_card_small
+                else if skv_is 'view_layout' 'list'
+                    each posts
+                        +doc_item
+            else
+                .ui.center.aligned.basic.segment
+                    i.massive.grey.loading.yin.yang.icon
+        .four.wide.center.aligned.column.scrollng.seg
             // +alpha
             if location_tags
                 if picked_location_tags
@@ -224,7 +224,7 @@ template(name='flat_tag_picker')
         
    
 template(name='post_card_small')
-    .center.aligned.column.medscroll
+    .center.aligned.column
         .content.zoomer
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
             a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=post_header_class)

@@ -56,7 +56,7 @@ Template.post_view.events
         Session.set('view_section','main')
         Meteor.call 'get_reddit_post', Router.current().params.doc_id, @reddit_id, ->
 Template.rcomment.onRendered ->
-    console.log @data
+    # console.log @data
     unless @data.watson
         # console.log 'calling watson on comment'
         Meteor.call 'call_watson', @data._id,'data.body','comment',->
