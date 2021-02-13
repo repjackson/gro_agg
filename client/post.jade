@@ -94,7 +94,7 @@ template(name='post_view')
                     // if skv_is 'view_section' 'main'
                     // if skv_is 'view_section' 'main'
                     if is_image
-                        a.view_post(href="/#{subreddit}/post/#{_id}" class=post_header_class)
+                        a.view_post(href="/#{subreddit}/p/#{_id}" class=post_header_class)
                             img.ui.fluid.zoomer.rounded.image.toggle_view(src=data.url)
                     else if data.is_reddit_media_domain
                         img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
@@ -236,15 +236,15 @@ template(name='post_related')
     .ui.header related
     .ui.list
         each related_posts
-            a.item.say.pointer.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class) 
+            a.item.say.pointer.zoomer(href="/r/#{subreddit}/p/#{_id}" class=post_header_class) 
                 if data.is_reddit_media_domain
-                    a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                    a.view_post(href="/r/#{subreddit}/p/#{_id}" class=post_header_class)
                         img.ui.small.rounded.image.toggle_view(src=data.url)
                 else if watson.metadata.image
-                    a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                    a.view_post(href="/r/#{subreddit}/p/#{_id}" class=post_header_class)
                         img.ui.rounded.small.inline.image.toggle_view(src=watson.metadata.image)
                 else if data.thumbnail
-                    a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                    a.view_post(href="/r/#{subreddit}/p/#{_id}" class=post_header_class)
                         img.ui.rounded.small.inline.image(src=data.thumbnail)    
             
                 .ui.inline.small.header !{data.title} #{data.link_title}

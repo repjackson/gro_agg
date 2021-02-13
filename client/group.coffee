@@ -19,6 +19,7 @@ Template.group.onCreated ->
     Session.setDefault('view_layout', 'grid')
     Session.setDefault('sort_key', 'data.created')
     Session.setDefault('sort_direction', -1)
+    Session.setDefault('toggle', false)
     
     # Meteor.call 'get_sub_latest', Router.current().params.group, ->
     
@@ -142,6 +143,9 @@ Template.group.events
                 group:Router.current().params.group
         Router.go "/#{Router.current().params.group}/p/#{new_id}/edit"
  
+    'focus .search_tag': (e,t)->
+        Session.set('toggle',!Session.get('toggle'))
+
     'keyup .search_tag': (e,t)->
          if e.which is 13
             val = t.$('.search_tag').val().trim().toLowerCase()
@@ -154,7 +158,7 @@ Template.group.events
             Meteor.call 'search_subreddit', Router.current().params.group, val, ->
                 Session.set('loading',false)
                 Session.set('sub_doc_query', null)
-            Meteor.setTimout ->
+            Meteor.setTimeout ->
                 Session.set('toggle',!Session.get('toggle'))
             , 8000
         
@@ -191,7 +195,7 @@ Template.doc_item.events
     'click .view_post': (e,t)-> 
         Session.set('view_section','main')
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
-        # Router.go "/group/#{@group}/post/#{@_id}"
+        # Router.go "/group/#{@group}/p/#{@_id}"
 
 Template.doc_item.onRendered ->
     # console.log @
@@ -326,6 +330,6 @@ Template.flat_tag_picker.events
         picked_tags.push @valueOf()
         $('.search_group').val('')
 
-        Meteor.setTimout ->
+        Meteor.setTimeout ->
             Session.set('toggle',!Session.get('toggle'))
         , 8000

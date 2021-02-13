@@ -147,16 +147,16 @@ template(name='ruser_post')
                 |!{embed}
             div
         else if data.is_reddit_media_domain
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=post_header_class)
                 img.ui.fluid.rounded.zoomer.image.toggle_view(src=data.url)
         else if watson.metadata.image.length
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=post_header_class)
                 img.ui.rounded.inline.zoomer.image.toggle_view(src=watson.metadata.image)
         else if data.thumbnail.length
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=post_header_class)
                 img.ui.rounded.inline.zoomer.image.zoomer(src=data.thumbnail)    
 
-        a.ui.small.inline.header(href="/r/#{subreddit}/post/#{_id}")
+        a.ui.small.inline.header(href="/r/#{subreddit}/p/#{_id}")
             // |#{data.ups}:
             |!{data.link_title} !{data.title}
         a.ui.label(href="/r/#{subreddit}") #{subreddit}
@@ -180,15 +180,15 @@ template(name='ruser_post')
 template(name='ruser_doc_item')
     .ui.item
         if is_image
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=post_header_class)
                 img.ui.centered.rounded.zoomer.inline.small.image.toggle_view(src=data.url)
         else if watson.metadata.image
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=post_header_class)
                 img.ui.rounded.inline.small.image.zoomer.toggle_view(src=watson.metadata.image)
         else if data.thumbnail
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=post_header_class)
                 img.ui.rounded.inline.small.image.zoomer(src=data.thumbnail)    
-        a.ui.header.zoomer.say_title(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+        a.ui.header.zoomer.say_title(href="/r/#{subreddit}/p/#{_id}" class=post_header_class)
             strong #{data.score}:
             |!{data.link_title} !{data.title}
         .description
