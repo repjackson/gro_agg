@@ -336,7 +336,18 @@ Meteor.publish 'posts', (
     #     match.group = $exists:false
     # else
     # match.group = group
-    match.group_lowered = group.toLowerCase()
+    self = @
+    match = {
+        # group:group
+        # subgroup:subgroup
+    }
+    # match.group = group
+    if group
+        match.group_lowered = group.toLowerCase()
+        match.model = $in: ['post','rpost']
+    else
+        match.model = $in: ['rpost']
+    
 
     if sort_key
         sk = sort_key
@@ -449,13 +460,15 @@ Meteor.publish 'tags', (
     # @unblock()
     self = @
     match = {
-        model: $in: ['post','rpost']
         # group:group
         # subgroup:subgroup
     }
     # match.group = group
-    match.group_lowered = group.toLowerCase()
-
+    if group
+        match.group_lowered = group.toLowerCase()
+        match.model = $in: ['post','rpost']
+    else
+        match.model = $in: ['rpost']
     # if view_bounties
     #     match.bounty = true
     # if view_unanswered
