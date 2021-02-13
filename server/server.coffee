@@ -351,7 +351,7 @@ Meteor.publish 'posts', (
     if picked_Organizations.length > 0 then match.Organization = $all:picked_Organizations
     console.log 'skip', skip
     Docs.find match,
-        limit: 25
+        limit: 20
         sort: _timestamp:-1
         # sort: "#{sk}":-1
         # skip:skip*20
@@ -427,7 +427,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_tag_cloud.forEach (tag, i) ->
@@ -464,7 +464,7 @@ Meteor.publish 'tags', (
         # { $match: _id: $nin: picked_location }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_location_cloud.forEach (location, i) ->
@@ -483,7 +483,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_time_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_time_cloud.forEach (time_tag, i) ->
@@ -500,7 +500,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_time_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_Location_cloud.forEach (Location, i) ->
@@ -517,7 +517,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_time_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_Person_cloud.forEach (Person, i) ->
@@ -534,7 +534,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_time_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_Organization_cloud.forEach (Organization, i) ->
@@ -551,7 +551,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_time_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_HealthCondition_cloud.forEach (HealthCondition, i) ->
@@ -568,7 +568,7 @@ Meteor.publish 'tags', (
     #     { $match: _id: $nin: picked_time_tags }
     #     { $sort: count: -1, _id: 1 }
     #     { $match: count: $lt: doc_count }
-    #     { $limit:25 }
+    #     { $limit:10 }
     #     { $project: _id: 0, name: '$_id', count: 1 }
     # ]
     # group_HealthCondition_cloud.forEach (time_tag, i) ->

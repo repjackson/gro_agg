@@ -511,25 +511,25 @@ Meteor.methods
 
                 
     search_subreddit: (subreddit,search)->
-        # @unblock()
-        console.log 'searching', subreddit, 'for', search
-        HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&include_over_18=on&raw_json=1&limit=42", (err,res)->
+        @unblock()
+        # console.log 'searching', subreddit, 'for', search
+        HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&include_over_18=on&raw_json=1&limit=20", (err,res)->
             if res.data.data.dist > 1
                 _.each(res.data.data.children[0..100], (item)=>
-                    console.log item.data.id
+                    # console.log item.data.id
                     found = 
                         Docs.findOne    
                             model:'rpost'
                             reddit_id:item.data.id
                             # subreddit:item.data.id
                     if found
-                        console.log found, 'found and updating', subreddit, found.data.title
+                        # console.log found, 'found and updating', subreddit, found.data.title
                         Docs.update found._id, 
                             $addToSet: tags: search
                             $set:
                                 subreddit:item.data.subreddit
                     unless found
-                        console.log item.data.title, 'not found'
+                        # console.log item.data.title, 'not found'
                         item.model = 'rpost'
                         item.reddit_id = item.data.id
                         item.author = item.data.author

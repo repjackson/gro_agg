@@ -223,7 +223,7 @@ template(name='post_card_small')
     .center.aligned.column.medscroll
         .content
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
-            a.ui.center.aligned.small.grey.header.view_post.zoomer(href="/#{group}/p/#{_id}" class=post_header_class)
+            a.ui.center.aligned.small.header.view_post.zoomer(href="/#{group}/p/#{_id}" class=post_header_class)
                 |!{data.title} #{title}
             if embed
                 span.rounded.full
