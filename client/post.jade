@@ -225,7 +225,7 @@ template(name='rcomment')
                     .one.wide.column
                     .fifteen.wide.column
                         a.author(href="/user/#{data.author}") #{data.author}
-                        .ui.header.pointer.content.say(class=emotion_color)
+                        .ui.tiny.header.pointer.content.say(class=emotion_color)
                             |{{#markdown}} {{data.body}} {{/markdown}}
                             // .text.say #{data.score} #{data.body}
             // if in_dev

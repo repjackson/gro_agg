@@ -374,6 +374,7 @@ Meteor.publish 'posts', (
             "data.domain":1
             "data.ups":1
             "data.num_comments":1
+            "data.created":1
             # analyzed_text:response.analyzed_text
             # watson: response
             max_emotion_name:1

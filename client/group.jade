@@ -263,6 +263,11 @@ template(name='post_card_small')
                 |!{content}
                 if raw
                     |!{raw}
+            if watson.analyzed_text
+                // .spacer
+                a.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
+                    |{{trunc watson.analyzed_text}}...
+                    
             each five_tags
                 +flat_tag_picker
             a.ui.icon.button(href="/#{group}/p/#{_id}")
@@ -278,8 +283,8 @@ template(name='post_card_small')
         //     .ui.tiny.label #{this}
         // a.ui.label(href="/u/#{data.author}")
         //     |#{data.author}
-        i.dna.link.icon.call_watson
-        +doc_emotion_small        
+        // i.dna.link.icon.call_watson
+        // +doc_emotion_small        
         // if watson
             
             // span.inline.content

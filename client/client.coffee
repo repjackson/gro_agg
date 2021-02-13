@@ -73,8 +73,8 @@ Template.registerHelper 'rcomments', (doc_id)->
         parent_id:"t3_#{post.reddit_id}"
 
     
-# Template.registerHelper 'trunc', (input) ->
-#     input[0..350]
+Template.registerHelper 'trunc', (input) ->
+    input[0..350]
         
 Template.registerHelper 'calculated_size', (metric) ->
     # whole = parseInt(@["#{metric}"]*10)
@@ -127,15 +127,11 @@ Template.registerHelper 'field_value', () ->
 # Template.registerHelper 'lowered', (input)-> input.toLowerCase()
 # Template.registerHelper 'money_format', (input)-> (input/100).toFixed()
 
-# Template.registerHelper 'template_subs_ready', () ->
-#     Template.instance().subscriptionsReady()
+Template.registerHelper 'template_subs_ready', () ->
+    Template.instance().subscriptionsReady()
 
 # Template.registerHelper 'global_subs_ready', () ->
 #     Session.get('global_subs_ready')
-
-# Template.registerHelper 'nl2br', (text)->
-#     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
-#     new Spacebars.SafeString(nl2br)
 
 # Template.registerHelper 'dev', -> Meteor.isDevelopment
 # Template.registerHelper 'fixed', (number)->
@@ -163,16 +159,7 @@ Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM 
 # Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
 
 
-# Template.registerHelper 'loading_class', ()->
-#     if Session.get 'loading' then 'disabled' else ''
-
-# # Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
-
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
-# Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
-# Template.registerHelper 'loading_class', ()->
-#     if Session.get 'loading' then 'disabled' else ''
-# Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
 
 Template.registerHelper 'embed', ()->
     if @data and @data.media and @data.media.oembed and @data.media.oembed.html
@@ -303,18 +290,3 @@ Template.registerHelper 'nl2br', (text)->
 Template.registerHelper 'to_percent', (number)->
     # console.log number
     (number*100).toFixed()
-
-
-
-# Template.registerHelper 'loading_class', ()->
-#     if Session.get 'loading' then 'disabled' else ''
-
-# # Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
-
-# Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
-
-
-# Template.registerHelper 'loading_class', ()->
-#     if Session.get 'loading' then 'disabled' else ''
-
-# Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
