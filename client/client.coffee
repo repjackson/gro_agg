@@ -30,9 +30,9 @@ Template.body.events
 #         text1 = $("<textarea/>").html(dom.innerHTML).text();
 #         text2 = $("<textarea/>").html(text1).text();
 #         # window.speechSynthesis.speak new SpeechSynthesisUtterance text2
-# Meteor.startup ->
-#     if Meteor.isDevelopment
-#         window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
+Meteor.startup ->
+    if Meteor.isDevelopment
+        window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
         
 
 Router.route '/', (->
@@ -42,21 +42,21 @@ Router.route '/', (->
 
 
 
-# Template.registerHelper 'is_positive', () ->
-#     # console.log @doc_sentiment_score
-#     if @doc_sentiment_score
-#         @doc_sentiment_score > 0
+Template.registerHelper 'is_positive', () ->
+    # console.log @doc_sentiment_score
+    if @doc_sentiment_score
+        @doc_sentiment_score > 0
     
-# Template.registerHelper 'sentiment_class', () ->
-#     if @sentiment_avg > 0 then 'green' else 'red'
-# Template.registerHelper 'sv', (key) -> Session.get(key)
-# Template.registerHelper 'sentence_color', () ->
-#     switch @tones[0].tone_id
-#         when 'sadness' then 'blue'
-#         when 'joy' then 'green'
-#         when 'confident' then 'teal'
-#         when 'analytical' then 'orange'
-#         when 'tentative' then 'yellow'
+Template.registerHelper 'sentiment_class', () ->
+    if @sentiment_avg > 0 then 'green' else 'red'
+Template.registerHelper 'sv', (key) -> Session.get(key)
+Template.registerHelper 'sentence_color', () ->
+    switch @tones[0].tone_id
+        when 'sadness' then 'blue'
+        when 'joy' then 'green'
+        when 'confident' then 'teal'
+        when 'analytical' then 'orange'
+        when 'tentative' then 'yellow'
         
 Template.registerHelper 'abs_percent', (num) -> 
     # console.l/og Math.abs(num*100)
@@ -64,12 +64,12 @@ Template.registerHelper 'abs_percent', (num) ->
     
 # Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 
-# Template.registerHelper 'rcomments', (doc_id)->
-#     post = Docs.findOne Router.current().params.doc_id
-#     # console.log 'comments for ', post
-#     Docs.find
-#         model:'rcomment'
-#         parent_id:"t3_#{post.reddit_id}"
+Template.registerHelper 'rcomments', (doc_id)->
+    post = Docs.findOne Router.current().params.doc_id
+    # console.log 'comments for ', post
+    Docs.find
+        model:'rcomment'
+        parent_id:"t3_#{post.reddit_id}"
 
     
 # Template.registerHelper 'trunc', (input) ->
@@ -118,8 +118,6 @@ Template.registerHelper 'calculated_size', (metric) ->
 
 
 Template.registerHelper 'field_value', () ->
-    # console.log @
-    parent = Template.parentData()
     parent = Template.parentData()
     # console.log 'parent', parent
     if parent
@@ -175,15 +173,15 @@ Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM 
 #     if Session.get 'loading' then 'disabled' else ''
 # Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
 
-# Template.registerHelper 'embed', ()->
-#     if @data and @data.media and @data.media.oembed and @data.media.oembed.html
-#         dom = document.createElement('textarea')
-#         # dom.innerHTML = doc.body
-#         dom.innerHTML = @data.media.oembed.html
-#         return dom.value
-#         # Docs.update @_id,
-#         #     $set:
-#         #         parsed_selftext_html:dom.value
+Template.registerHelper 'embed', ()->
+    if @data and @data.media and @data.media.oembed and @data.media.oembed.html
+        dom = document.createElement('textarea')
+        # dom.innerHTML = doc.body
+        dom.innerHTML = @data.media.oembed.html
+        return dom.value
+        # Docs.update @_id,
+        #     $set:
+        #         parsed_selftext_html:dom.value
 
 
 
@@ -212,29 +210,16 @@ Template.registerHelper 'kv_is', (key, value) ->
     
     
     
-# Template.registerHelper 'comments', ()->
-#     Docs.find
-#         model:'comment'
-#         parent_id:@_id
+Template.registerHelper 'comments', ()->
+    Docs.find
+        model:'comment'
+        parent_id:@_id
         
 
 # Template.registerHelper 'ruser_doc', () ->
 #     Docs.findOne 
 #         model:'ruser'
 
-# Template.registerHelper 'user_class', () ->
-#     if @online then 'user_online'
-
-# # Template.registerHelper 'field_value', () ->
-# #     # console.log @
-# #     parent = Template.parentData()
-# #     # console.log 'parent', parent
-# #     if parent
-# #         parent["#{@key}"]
-
-
-
-# Template.registerHelper 'is_logging_out', () -> Session.get('logging_out')
 
 Template.registerHelper 'is_image', ()->
     if @data.domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
@@ -304,9 +289,9 @@ Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()
 
 
 
-# Template.registerHelper 'nl2br', (text)->
-#     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
-#     new Spacebars.SafeString(nl2br)
+Template.registerHelper 'nl2br', (text)->
+    nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
+    new Spacebars.SafeString(nl2br)
 
 
 # Template.registerHelper 'dev', -> Meteor.isDevelopment

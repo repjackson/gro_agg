@@ -73,7 +73,7 @@ template(name='group')
             .scrolling
                 if posts.count
                     if skv_is 'view_layout' 'grid'
-                        .ui.stackable.three.column.grid 
+                        .ui.stackable.centered.three.column.grid 
                             each posts
                                 +post_card_small
                     else if skv_is 'view_layout' 'list'
@@ -224,9 +224,9 @@ template(name='flat_tag_picker')
    
 template(name='post_card_small')
     .center.aligned.column.medscroll
-        .content
+        .content.zoomer
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
-            a.ui.center.aligned.small.header.view_post.zoomer(href="/#{group}/p/#{_id}" class=post_header_class)
+            a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
                 |!{data.title} #{title}
             if embed
                 span.rounded.full
@@ -234,16 +234,16 @@ template(name='post_card_small')
                 div
             else if is_image
                 a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
-                    img.ui.fluid.zoomer.rounded.image.toggle_view(src=data.url)
+                    img.ui.fluid.rounded.image.toggle_view(src=data.url)
             else if watson.metadata.image.length
                 a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
-                    img.ui.fluid.zoomer.rounded.image.toggle_view(src=watson.metadata.image)
+                    img.ui.fluid.rounded.image.toggle_view(src=watson.metadata.image)
             else if data.thumbnail_width
                 a.view_post(href="/#{group}/p/#{_id}" class=post_header_class)
-                    img.ui.fluid.zoomer.rounded.image.zoomer(src=data.thumbnail)    
+                    img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
             if image_id
                 a(href="/#{group}/p/#{_id}")
-                    img.ui.fluid.rounded.zoomer.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                    img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
             if image_link
                 a(href="/#{group}/p/#{_id}")
                     +image_link_view key='image_link' direct=true
