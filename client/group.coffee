@@ -190,11 +190,14 @@ Template.group.events
 #             title:@name.toLowerCase()
  
  
+Template.post_card_small.events
+    'click .view_post': (e,t)-> 
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
 
 Template.doc_item.events
     'click .view_post': (e,t)-> 
         Session.set('view_section','main')
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
         # Router.go "/group/#{@group}/p/#{@_id}"
 
 Template.doc_item.onRendered ->
@@ -209,7 +212,8 @@ Template.post_card_small.onRendered ->
     unless @data.time_tags
         Meteor.call 'tagify_time_rpost',@data._id,=>
  
- 
+Template.post_card_small.helpers
+    five_tags: -> @tags[..5]
  
  
  
@@ -329,6 +333,8 @@ Template.flat_tag_picker.events
         window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         picked_tags.push @valueOf()
         $('.search_group').val('')
+        Meteor.call 'search_subreddit', Router.current().params.group, @name, ->
+            Session.set('group_loading',false)
 
         Meteor.setTimeout ->
             Session.set('toggle',!Session.get('toggle'))
