@@ -29,10 +29,8 @@ constellation:subscriptions
 constellation:session
 babrahams:temple
 dburles:collection-helpers
-francocatena:status
 ecmascript@0.15.0
 tmeasday:publish-counts
-multiply:iron-router-progress
 lepozepo:cloudinary
 markdown
 http@1.4.2

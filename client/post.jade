@@ -7,7 +7,6 @@ template(name='post_view')
                         a.ui.large.circular.button(href="/#{group}")
                             i.chevron.left.icon
                             |#{group}
-                        .ui.inline.header.say #{data.title} #{title}
                         // div
                         // .ui.inline.grey.header {{from_now start_datetime}}
                         
@@ -63,6 +62,8 @@ template(name='post_view')
                         |#{tags.length}
                         each tags
                             +flat_tag_picker
+                    .ui.basic.button.get_post permalink #{permalink}
+                    .ui.label #{data.ups}
                         
                 .twelve.wide.column.scrolling
                     if image_link
@@ -77,20 +78,18 @@ template(name='post_view')
                         |!{raw}
                     .say_this.say_body
                         |!{content}
-                    span.ui.pointer.text.f13.zoomer(class=post_header_class)
-                        .ui.label #{data.ups}
-                        |!{data.title} #{data.link_title}
+                    .ui.inline.header.say(class=post_header_class)
+                        |!{data.title} #{data.link_title} #{title}
                     | {{ufrom data.created}}
-                    .ui.basic.button.get_post permalink #{permalink}
                     div
-                    +skve k='view_section' v='main' l='main' i='content'
-                    +skve k='view_section' v='comments' l='comments' i='comment'
-                    +skve k='view_section' v='watson' l='emotion' i='dna'
-                    if tone
-                        +skve k='view_section' v='tone' l='tone' i='smile grey'
-                    // +skve k='view_section' v='tags' l='tags' i='tags'
-                    +skve k='view_section' v='related' l='related' i='fork'
-                    +skve k='view_section' v='preview' l='preview' i='content'
+                    // +skve k='view_section' v='main' l='main' i='content'
+                    // +skve k='view_section' v='comments' l='comments' i='comment'
+                    // +skve k='view_section' v='watson' l='emotion' i='dna'
+                    // if tone
+                    //     +skve k='view_section' v='tone' l='tone' i='smile grey'
+                    // // +skve k='view_section' v='tags' l='tags' i='tags'
+                    // +skve k='view_section' v='related' l='related' i='fork'
+                    // +skve k='view_section' v='preview' l='preview' i='content'
                     // if skv_is 'view_section' 'main'
                     // if skv_is 'view_section' 'main'
                     if is_image
@@ -212,7 +211,7 @@ template(name='rcomment')
             span.metadata 
                 span.date {{ufrom data.created}}
                 +doc_emotion_small
-            .pointer.say(class=post_header_class)
+            .pointer.f13.say(class=post_header_class)
                 |{{#markdown}} {{data.body}} {{/markdown}}
             .actions
                 each tags 
@@ -224,7 +223,7 @@ template(name='rcomment')
                     .one.wide.column
                     .fifteen.wide.column
                         a.author(href="/user/#{data.author}") #{data.author}
-                        .pointer.content.say
+                        .pointer.content.f12.say
                             |{{#markdown}} {{data.body}} {{/markdown}}
                             // .text.say #{data.score} #{data.body}
             // if in_dev

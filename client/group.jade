@@ -34,26 +34,26 @@ template(name='group')
                 i.big.grey.loading.yin.yang.icon
         
             div
-            if skv_is 'sort_direction' 1
-                .ui.icon.compact.circular.button.sort_down
-                    i.caret.down.icon
-            else
-                .ui.icon.compact.circular.button.sort_up
-                    i.caret.up.icon
-            .ui.compact.small.circular.button.sort_created(class=sort_created_class)
-                i.clock.icon
-                |latest
-            .ui.compact.small.circular.button.sort_ups(class=sort_ups_class)
-                i.thumbs.up.icon
-                |liked
-            if skv_is 'view_detail' true
-                .ui.black.compact.circular.button.toggle_detail
-                    i.list.icon
-                    |detail
-            else
-                .ui.compact.circular.button.toggle_detail
-                    i.minus.icon
-                    |simple
+            // if skv_is 'sort_direction' 1
+            //     .ui.icon.compact.circular.button.sort_down
+            //         i.caret.down.icon
+            // else
+            //     .ui.icon.compact.circular.button.sort_up
+            //         i.caret.up.icon
+            // .ui.compact.small.circular.button.sort_created(class=sort_created_class)
+            //     i.clock.icon
+            //     |latest
+            // .ui.compact.small.circular.button.sort_ups(class=sort_ups_class)
+            //     i.thumbs.up.icon
+            //     |liked
+            // if skv_is 'view_detail' true
+            //     .ui.black.compact.circular.button.toggle_detail
+            //         i.list.icon
+            //         |detail
+            // else
+            //     .ui.compact.circular.button.toggle_detail
+            //         i.minus.icon
+            //         |simple
                 // i.line.chart.icon
             if skv_is 'view_layout' 'grid'
                 .ui.compact.circular.button.set_grid(class=grid_class) 
@@ -65,11 +65,12 @@ template(name='group')
                     |grid
             if skv_is 'view_layout' 'list'
                 .ui.compact.circular.button.set_list(class=list_class)
-                    i.list.large.icon
+                    i.list.icon
                     |list
             else
-                .ui.icon.compact.circular.button.set_list(class=list_class)
-                    i.list.large.icon
+                .ui.compact.circular.button.set_list(class=list_class)
+                    i.list.icon
+                    |list
             .scrolling
                 if posts.count
                     if skv_is 'view_layout' 'grid'
@@ -80,9 +81,9 @@ template(name='group')
                         each posts
                             +doc_item
                 else
-                    .ui.center.aligned.segment
+                    .ui.center.aligned.basic.segment
                         i.massive.grey.loading.yin.yang.icon
-        .four.wide.column.scrolling.seg
+        .four.wide.center.aligned.column.scrolling.seg
             // +alpha
             if location_tags
                 if picked_location_tags
@@ -326,7 +327,7 @@ template(name='doc_item')
                 small ({{long_date data.created}})
             .ui.label(title='domain') #{data.domain}
             // each tags
-            //     +flat_sub_tag_picker
+            //     +flat_tag_picker
             if in_dev
                 +print_this
             // if watson
@@ -357,49 +358,10 @@ template(name='doc_item')
             //         |!{data.body_html}
             
             each tags
-                +flat_sub_tag_picker
+                +flat_tag_picker
             // if watson
             //     +doc_emotion_small
             a.ui.inline.header(href="/u/#{data.author}")
                 |#{data.author}
     
 
-
-template(name='sub_tag_picker')
-    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.compact.tertiary.circular.button.zoomer.pick_sub_tag(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-        if term
-            if term.watson.metadata.image
-                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
-        strong #{name}
-        // if in_dev
-        //     small #{count}
-        
-template(name='sub_unpick_tag')
-    a.unpick_sub_tag.ui.active.compact.circular.button(href='#')
-        if term
-            if term.watson.metadata.image
-                img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
-        strong #{this}
-
-        
-        
-template(name='flat_sub_tag_picker')
-    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    .ui.compact.circular.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
-        if term
-            if term.watson.metadata.image
-                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
-        strong #{this}
-        // if in_dev
-        //     small #{count}
-// template(name='flat_sub_ruser_tag_picker')
-//     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-//     .ui.compact.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
-//         if term
-//             if term.watson.metadata.image
-//                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
-//         strong #{this}
-//         // if in_dev
-//         //     small #{count}
-        

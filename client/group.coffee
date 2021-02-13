@@ -169,27 +169,6 @@ Template.group.events
  
  
  
-# Template.sub_tag_selector.onCreated ->
-#     @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
-# Template.sub_tag_selector.helpers
-#     selector_class: ()->
-#         term = 
-#             Docs.findOne 
-#                 title:@name.toLowerCase()
-#         if term
-#             if term.max_emotion_name
-#                 switch term.max_emotion_name
-#                     when 'joy' then "  green"
-#                     when "anger" then "  red"
-#                     when "sadness" then "  blue"
-#                     when "disgust" then "  orange"
-#                     when "fear" then "  grey"
-#                     else " grey"
-#     term: ->
-#         Docs.findOne 
-#             title:@name.toLowerCase()
- 
- 
 Template.post_card_small.events
     'click .view_post': (e,t)-> 
         window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
@@ -251,22 +230,12 @@ Template.tag_picker.helpers
      
      
      
-     
-     
-     
-     
-     
-     
-     
-     
-     
-            
 Template.tag_picker.events
     'click .pick_tag': -> 
         # results.update
         # console.log @
         # window.speechSynthesis.cancel()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # if @model is 'group_emotion'
         #     picked_emotions.push @name
         # else
@@ -276,10 +245,10 @@ Template.tag_picker.events
         Session.set('group_skip_value',0)
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
-        # Session.set('group_loading',true)
+        window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+        # Session.set('loading',true)
         Meteor.call 'search_subreddit', Router.current().params.group, @name, ->
-            Session.set('group_loading',false)
+            Session.set('loading',false)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))
         , 7000)
@@ -304,11 +273,11 @@ Template.unpick_tag.events
         Session.set('skip',0)
         # console.log @
         picked_tags.remove @valueOf()
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+        window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
     
 
 Template.flat_tag_picker.onCreated ->
-    # @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
+    @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
 Template.flat_tag_picker.helpers
     picker_class: ()->
         term = 
@@ -334,8 +303,8 @@ Template.flat_tag_picker.events
         picked_tags.push @valueOf()
         $('.search_group').val('')
         Meteor.call 'search_subreddit', Router.current().params.group, @name, ->
-            Session.set('group_loading',false)
-
+            Session.set('loading',false)
+        Router.go "/#{Router.current().params.group}"
         Meteor.setTimeout ->
             Session.set('toggle',!Session.get('toggle'))
         , 8000
