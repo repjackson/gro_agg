@@ -1,6 +1,6 @@
 template(name='group')
     .ui.stackable.grid
-        .twelve.wide.left.aligned.column.seg
+        .twelve.wide.center.aligned.column.seg
             .ui.inline.small.header    
                 |#{counter}
             .ui.inline.header    
@@ -81,9 +81,9 @@ template(name='group')
                         each posts
                             +doc_item
                 else
-                    .ui.left.aligned.basic.segment
+                    .ui.center.aligned.basic.segment
                         i.massive.grey.loading.yin.yang.icon
-        .four.wide.left.aligned.column.scrollng.seg
+        .four.wide.center.aligned.column.scrollng.seg
             // +alpha
             if location_tags
                 if picked_location_tags
@@ -228,10 +228,10 @@ template(name='flat_tag_picker')
         
    
 template(name='post_card_small')
-    .left.aligned.column
+    .center.aligned.column
         .content.zoomer
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
-            a.ui.left.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=sentiment_class)
+            a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=sentiment_class)
                 |!{data.title} #{title}
             if embed
                 span.rounded.full

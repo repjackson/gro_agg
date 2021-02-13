@@ -3,7 +3,7 @@ template(name='post_view')
         .ui.stackable.grid
             .row 
                 .twelve.wide.column.scrlling
-                    a.ui.large.circular.button(href="/#{group}")
+                    a.ui.large.button(href="/#{group}")
                         i.chevron.left.icon
                         |#{group}
                     .ui.inline.header.say(class=sentiment_class)
@@ -108,7 +108,7 @@ template(name='post_view')
                         
                         if in_dev
                             a.edit_post(href="/#{group}/p/#{_id}/edit" title='edit')
-                                i.large.link.pencil.circular.icon
+                                i.large.link.pencil.icon
                         div
                         span(title='views')
                             | #{views}
@@ -168,7 +168,7 @@ template(name='post_edit')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column.scrolling
-                    a.ui.icon.red.circular.big.button(href="/#{group}/p/#{_id}" title='save')
+                    a.ui.icon.red.big.button(href="/#{group}/p/#{_id}" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
                         i.pencil.icon

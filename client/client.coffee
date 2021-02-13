@@ -9,8 +9,6 @@ Template.registerHelper 'youtube_parse', (url) ->
 Session.setDefault('loading', false)
 Template.body.events
     'click .set_main': -> Session.set('view_section','main')
-    # 'click a': ->
-        
         
     'click .say_body': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
@@ -48,7 +46,7 @@ Template.registerHelper 'is_positive', () ->
         @doc_sentiment_score > 0
     
 Template.registerHelper 'sentiment_class', () ->
-    if @sentiment_avg > 0 then 'green invert' else 'red invert'
+    if @doc_sentiment_score > 0 then 'green invert' else 'red invert'
 Template.registerHelper 'sv', (key) -> Session.get(key)
 Template.registerHelper 'sentence_color', () ->
     switch @tones[0].tone_id
