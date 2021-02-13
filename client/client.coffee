@@ -236,17 +236,17 @@ Template.registerHelper 'kv_is', (key, value) ->
 
 # Template.registerHelper 'is_logging_out', () -> Session.get('logging_out')
 
-# Template.registerHelper 'is_image', ()->
-#     if @data.domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
-#         true
-#     else 
-#         false
-# Template.registerHelper 'has_thumbnail', ()->
-#     console.log @data.thumbnail
-#     @data.thumbnail.length > 0
+Template.registerHelper 'is_image', ()->
+    if @data.domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
+        true
+    else 
+        false
+Template.registerHelper 'has_thumbnail', ()->
+    console.log @data.thumbnail
+    @data.thumbnail.length > 0
 
-# Template.registerHelper 'is_youtube', ()->
-#     @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+Template.registerHelper 'is_youtube', ()->
+    @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
 
 
 
