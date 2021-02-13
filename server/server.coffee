@@ -395,6 +395,7 @@ Meteor.publish 'posts', (
     
 Meteor.methods    
     lower_group: (group)->
+        @unblock()
         cursor = 
             Docs.find
                 model:$in:['rpost','post']
@@ -576,39 +577,39 @@ Meteor.publish 'tags', (
             count: Person.count
             model:'Person'
   
-    group_Organization_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "Organization": 1 }
-        { $unwind: "$Organization" }
-        { $group: _id: "$Organization", count: $sum: 1 }
-        { $match: _id: $nin: picked_time_tags }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:5 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    group_Organization_cloud.forEach (Organization, i) ->
-        self.added 'results', Random.id(),
-            name: Organization.name
-            count: Organization.count
-            model:'Organization'
+    # group_Organization_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "Organization": 1 }
+    #     { $unwind: "$Organization" }
+    #     { $group: _id: "$Organization", count: $sum: 1 }
+    #     { $match: _id: $nin: picked_time_tags }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # group_Organization_cloud.forEach (Organization, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: Organization.name
+    #         count: Organization.count
+    #         model:'Organization'
   
-    group_HealthCondition_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "HealthCondition": 1 }
-        { $unwind: "$HealthCondition" }
-        { $group: _id: "$HealthCondition", count: $sum: 1 }
-        { $match: _id: $nin: picked_time_tags }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:5 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    group_HealthCondition_cloud.forEach (HealthCondition, i) ->
-        self.added 'results', Random.id(),
-            name: HealthCondition.name
-            count: HealthCondition.count
-            model:'HealthCondition'
+    # group_HealthCondition_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "HealthCondition": 1 }
+    #     { $unwind: "$HealthCondition" }
+    #     { $group: _id: "$HealthCondition", count: $sum: 1 }
+    #     { $match: _id: $nin: picked_time_tags }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # group_HealthCondition_cloud.forEach (HealthCondition, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: HealthCondition.name
+    #         count: HealthCondition.count
+    #         model:'HealthCondition'
   
     # group_HealthCondition_cloud = Docs.aggregate [
     #     { $match: match }

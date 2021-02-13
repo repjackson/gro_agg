@@ -130,10 +130,6 @@ Template.registerHelper 'field_value', () ->
 Template.registerHelper 'template_subs_ready', () ->
     Template.instance().subscriptionsReady()
 
-# Template.registerHelper 'global_subs_ready', () ->
-#     Session.get('global_subs_ready')
-
-# Template.registerHelper 'dev', -> Meteor.isDevelopment
 # Template.registerHelper 'fixed', (number)->
 #     # console.log number
 #     number.toFixed(2)
@@ -187,10 +183,6 @@ Template.registerHelper 'kv_is', (key, value) ->
 #     Session.get('global_subs_ready')
 
 
-
-# Template.registerHelper 'nl2br', (text)->
-#     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
-#     new Spacebars.SafeString(nl2br)
 
 # Template.registerHelper 'fixed0', (number)-> if number then number.toFixed().toLocaleString()
 # Template.registerHelper 'fixed', (number)-> if number then number.toFixed(2)

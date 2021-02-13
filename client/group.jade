@@ -270,7 +270,7 @@ template(name='post_card_small')
                     
             each five_tags
                 +flat_tag_picker
-            a.ui.icon.button(href="/#{group}/p/#{_id}")
+            a.ui.icon.basic.circular.button(href="/#{group}/p/#{_id}")
                 i.right.chevron.icon
         | #{data.ups}
         i.thumbs.up.outline.grey.icon
