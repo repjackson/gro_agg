@@ -352,7 +352,10 @@ Meteor.publish 'posts', (
     #     match.bounty = true
     # if view_unanswered
     #     match.is_answered = false
-    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    if picked_tags.length > 0 
+        match.tags = $all:picked_tags
+        now = Date.now()-24*60*60
+        match._timestamp = $gt: now
     if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
     if picked_location_tags.length > 0 then match.location_tags = $all:picked_location_tags
     if picked_Persons.length > 0 then match.Person = $all:picked_Persons
@@ -484,7 +487,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:15 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_tag_cloud.forEach (tag, i) ->
@@ -617,22 +620,21 @@ Meteor.publish 'tags', (
     #         count: HealthCondition.count
     #         model:'HealthCondition'
   
-    # group_HealthCondition_cloud = Docs.aggregate [
-    #     { $match: match }
-    #     { $project: "HealthCondition": 1 }
-    #     { $unwind: "$HealthCondition" }
-    #     { $group: _id: "$HealthCondition", count: $sum: 1 }
-    #     { $match: _id: $nin: picked_time_tags }
-    #     { $sort: count: -1, _id: 1 }
-    #     { $match: count: $lt: doc_count }
-    #     { $limit:5 }
-    #     { $project: _id: 0, name: '$_id', count: 1 }
-    # ]
-    # group_HealthCondition_cloud.forEach (time_tag, i) ->
-    #     self.added 'results', Random.id(),
-    #         name: HealthCondition.name
-    #         count: HealthCondition.count
-    #         model:'HealthCondition'
+    group_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "group_lowered": 1 }
+        { $group: _id: "$group_lowered", count: $sum: 1 }
+        # { $match: _id: $nin: picked_groups }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:5 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    group_cloud.forEach (group, i) ->
+        self.added 'results', Random.id(),
+            name: group.name
+            count: group.count
+            model:'group'
   
     self.ready()
         

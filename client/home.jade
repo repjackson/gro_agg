@@ -3,22 +3,12 @@ template(name='home')
         .twelve.wide.left.aligned.column.seg
             .ui.inline.small.header    
                 |#{counter}
-            // a.ui.header(href=link title='link')
-            //     i.link.icon
-            //     |link
-            if in_dev
-                +print_this
-            // +voting_full
-            // +array_view key='tags' label='tags' icon='tags' direct=true
-            // +comments
-            // .f11 #{description}
-            // +image_link_view key='image' label='image' direct=true
-            if picked_tags
+            if home_picked_tags
                 // if many_tags
                 //     a#clear_tags.ui.black.invert.icon.compact.button.pick_term
                 //         i.remove.icon
-                each picked_tags
-                    +unpick_tag
+                each home_picked_tags
+                    +home_unpick_tag
             .ui.icon.input
                 if is_loading
                     i.yin.yang.loading.icon
@@ -28,7 +18,7 @@ template(name='home')
                 // .ui.label #{this}
             if result_tags.count
                 each result_tags
-                    +tag_picker
+                    +home_tag_picker
             // else
             //     i.big.grey.loading.yin.yang.icon
         
@@ -75,10 +65,10 @@ template(name='home')
                     if skv_is 'view_layout' 'grid'
                         .ui.stackable.centered.three.column.grid 
                             each posts
-                                +post_card_small
+                                +home_post_card_small
                     else if skv_is 'view_layout' 'list'
                         each posts
-                            +doc_item
+                            +home_doc_item
                 else
                     .ui.left.aligned.basic.segment
                         i.massive.grey.loading.yin.yang.icon
@@ -86,6 +76,14 @@ template(name='home')
             // +alpha
             .ui.icon.button.add_post
                 i.plus.icon
+            if groups
+                if picked_groups
+                    each picked_groups
+                        a.unpick_group.ui.active.large.compact.button(href='#')
+                            strong #{this}
+                each groups
+                    .ui.compact.small.button.zoomer.pick_group(title="#{count} results" class="#{picker_class} #{thinking_class}")
+                        strong #{name}
             if location_tags
                 if picked_location_tags
                     each picked_location_tags
@@ -100,7 +98,7 @@ template(name='home')
                     i.marker.icon
                     |locations
                 each locations
-                    +tag_picker
+                    +home_tag_picker
                     // .ui.link.label.pick_Location #{name}
             if HealthConditions
                 div
@@ -108,7 +106,7 @@ template(name='home')
                     i.doctor.icon
                     |health conditions
                 each HealthConditions
-                    +tag_picker
+                    +home_tag_picker
                     // .ui.link.label.pick_healthcondition #{name}
             if Persons
                 .spacer
@@ -116,7 +114,7 @@ template(name='home')
                     i.user.icon
                     |people
                 each Persons
-                    +tag_picker
+                    +home_tag_picker
                     // .ui.label.pick_person #{name}
             if Organizations
                 .spacer
@@ -124,7 +122,7 @@ template(name='home')
                     i.building.icon
                     |organizations
                 each Organizations
-                    +tag_picker
+                    +home_tag_picker
                     // .ui.label.pick_organization #{name}
             if Companies
                 .ui.small.grey.inline.header
@@ -198,7 +196,7 @@ template(name='home')
                 
 template(name='home_tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.image.large.link.label.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.image.large.link.label.zoomer.home_pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
@@ -215,7 +213,7 @@ template(name='home_unpick_tag')
 
         
         
-template(name='home_flat_tag_picker')
+template(name='flat_home_tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
     a.ui.link.small.image.label.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
@@ -263,11 +261,11 @@ template(name='home_post_card_small')
                     |!{raw}
             if watson.analyzed_text
                 // .spacer
-                a.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
-                    |{{trunc watson.analyzed_text}}...
+                // .view_post(href="/#{group}/p/#{_id}" class=emotion_color)
+                |{{trunc watson.analyzed_text}}...
                     
             each five_tags
-                +flat_tag_picker
+                +flat_home_tag_picker
             a.ui.icon.basic.circular.button(href="/#{group}/p/#{_id}")
                 i.right.chevron.icon
         | #{data.ups}
@@ -331,7 +329,7 @@ template(name='home_doc_item')
                 small ({{long_date data.created}})
             .ui.label(title='domain') #{data.domain}
             // each tags
-            //     +flat_tag_picker
+            //     +flat_home_tag_picker
             if in_dev
                 +print_this
             // if watson
@@ -362,7 +360,7 @@ template(name='home_doc_item')
             //         |!{data.body_html}
             
             each tags
-                +flat_tag_picker
+                +flat_home_tag_picker
             // if watson
             //     +doc_emotion_small
             a.ui.inline.header(href="/u/#{data.author}")

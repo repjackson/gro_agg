@@ -1,4 +1,4 @@
-@picked_tags = new ReactiveArray []
+@home_picked_tags = new ReactiveArray []
 @picked_time_tags = new ReactiveArray []
 @picked_location_tags = new ReactiveArray []
 @picked_Persons = new ReactiveArray []
@@ -15,7 +15,7 @@ Template.home.onCreated ->
     # @autorun => Meteor.subscribe 'shop_from_home', Router.current().params.home
     @autorun => Meteor.subscribe 'tags',
         null
-        picked_tags.array()
+        home_picked_tags.array()
         picked_time_tags.array()
         picked_location_tags.array()
         picked_Persons.array()
@@ -24,7 +24,7 @@ Template.home.onCreated ->
         Session.get('toggle')
     @autorun => Meteor.subscribe 'count', 
         null
-        picked_tags.array()
+        home_picked_tags.array()
         picked_time_tags.array()
         picked_location_tags.array()
         picked_Persons.array()
@@ -33,7 +33,7 @@ Template.home.onCreated ->
     
     @autorun => Meteor.subscribe 'posts', 
         null
-        picked_tags.array()
+        home_picked_tags.array()
         picked_time_tags.array()
         picked_location_tags.array()
         picked_Persons.array()
@@ -65,12 +65,13 @@ Template.home.helpers
     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
   
   
-    picked_tags: -> picked_tags.array()
+    home_picked_tags: -> home_picked_tags.array()
     picked_time_tags: -> picked_time_tags.array()
     picked_location_tags: -> picked_location_tags.array()
     picked_people_tags: -> picked_people_tags.array()
   
     result_tags: -> results.find(model:'tag')
+    group_results: -> results.find(model:'group')
     Organizations: -> results.find(model:'Organization')
     Companies: -> results.find(model:'Company')
     HealthConditions: -> results.find(model:'HealthCondition')
@@ -88,8 +89,8 @@ Template.home.events
     # 'click .unpick_home_tag': -> 
     #     Session.set('skip',0)
     #     # console.log @
-    #     picked_tags.remove @valueOf()
-    #     # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+    #     home_picked_tags.remove @valueOf()
+    #     # window.speechSynthesis.speak new SpeechSynthesisUtterance home_picked_tags.array().toString()
 
     # 'click .pick_tag': -> 
     #     # results.update
@@ -100,7 +101,7 @@ Template.home.events
     #     #     picked_emotions.push @name
     #     # else
     #     # if @model is 'home_tag'
-    #     picked_tags.push @name
+    #     home_picked_tags.push @name
     #     $('.search_tag').val('')
     #     Session.set('skip_value',0)
 
@@ -136,12 +137,12 @@ Template.home.events
          if e.which is 13
             val = t.$('.search_tag').val().trim().toLowerCase()
             window.speechSynthesis.speak new SpeechSynthesisUtterance val
-            picked_tags.push val   
+            home_picked_tags.push val   
             t.$('.search_tag').val('')
             # Session.set('sub_doc_query', val)
             Session.set('loading',true)
     
-            Meteor.call 'search_reddit', picked_tags.array(), ->
+            Meteor.call 'search_reddit', home_picked_tags.array(), ->
                 Session.set('loading',false)
                 Session.set('sub_doc_query', null)
             Meteor.setTimeout ->
@@ -218,7 +219,7 @@ Template.home_tag_picker.helpers
      
      
 Template.home_tag_picker.events
-    'click .pick_tag': -> 
+    'click .home_pick_tag': -> 
         # results.update
         # console.log @
         # window.speechSynthesis.cancel()
@@ -227,14 +228,14 @@ Template.home_tag_picker.events
         #     picked_emotions.push @name
         # else
         # if @model is 'home_tag'
-        picked_tags.push @name
+        home_picked_tags.push @name
         $('.search_tag').val('')
         Session.set('skip_value',0)
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+        window.speechSynthesis.speak new SpeechSynthesisUtterance home_picked_tags.array().toString()
         Session.set('loading',true)
-        Meteor.call 'search_subreddit', Router.current().params.home, picked_tags.array(), ->
+        Meteor.call 'search_reddit', home_picked_tags.array(), ->
             Session.set('loading',false)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))
@@ -259,16 +260,16 @@ Template.home_unpick_tag.events
     'click .unpick_tag': -> 
         Session.set('skip',0)
         # console.log @
-        picked_tags.remove @valueOf()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+        home_picked_tags.remove @valueOf()
+        window.speechSynthesis.speak new SpeechSynthesisUtterance home_picked_tags.array().toString()
         Session.set('loading',true)
-        Meteor.call 'search_subreddit', Router.current().params.home, picked_tags.array(), ->
+        Meteor.call 'search_reddit', home_picked_tags.array(), ->
             Session.set('loading',false)
 
 
-Template.home_flat_tag_picker.onCreated ->
+Template.flat_home_tag_picker.onCreated ->
     @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
-Template.home_flat_tag_picker.helpers
+Template.flat_home_tag_picker.helpers
     picker_class: ()->
         term = 
             Docs.findOne 
@@ -285,17 +286,17 @@ Template.home_flat_tag_picker.helpers
     term: ->
         Docs.findOne 
             title:@valueOf().toLowerCase()
-Template.home_flat_tag_picker.events
+Template.flat_home_tag_picker.events
     'click .pick_flat_tag': -> 
         # results.update
         # window.speechSynthesis.cancel()
-        picked_tags.push @valueOf()
+        home_picked_tags.push @valueOf()
         $('.search_home').val('')
         Session.set('loading',true)
-        Meteor.call 'search_subreddit', Router.current().params.home, picked_tags.array(), ->
+        Meteor.call 'search_reddit', home_picked_tags.array(), ->
             Session.set('loading',false)
         Router.go "/#{Router.current().params.home}"
-        window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
+        window.speechSynthesis.speak new SpeechSynthesisUtterance home_picked_tags.array()
         Meteor.setTimeout ->
             Session.set('toggle',!Session.get('toggle'))
         , 8000
