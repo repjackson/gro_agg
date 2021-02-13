@@ -45,14 +45,17 @@ Template.registerHelper 'is_positive', () ->
     if @doc_sentiment_score
         @doc_sentiment_score > 0
     
-Template.registerHelper 'sentiment_class', () ->
+Template.registerHelper 'emotion_color', () ->
     # if @doc_sentiment_score > 0 then 'green invert' else 'red invert'
-    switch @max_emotion_name
-        when 'sadness' then 'invert blue'
-        when 'joy' then 'invert green'
-        when 'confident' then 'invert teal'
-        when 'analytical' then 'invert orange'
-        when 'tentative' then 'invert yellow'
+    if @max_emotion_name.length
+        switch @max_emotion_name
+            when 'sadness' then 'invert blue'
+            when 'joy' then 'invert green'
+            when 'confident' then 'invert teal'
+            when 'analytical' then 'invert orange'
+            when 'tentative' then 'invert yellow'
+    else 
+        if @doc_sentiment_score > 0 then 'green invert' else 'red invert'
 Template.registerHelper 'sv', (key) -> Session.get(key)
 Template.registerHelper 'sentence_color', () ->
         

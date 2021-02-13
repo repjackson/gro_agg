@@ -17,7 +17,7 @@ template(name='ruser')
                     //     i.chevron.left.icon
                     //     i.large.users.icon
                     img.ui.small.image(src=data.snoovatar_img)
-                    .ui.large.inline.header.get_user_posts(class=sentiment_class)
+                    .ui.large.inline.header.get_user_posts(class=emotion_color)
                         |!{username} 
                         small(title='reputation') {{ commafy karma }}
                         // strong(title="#{site} rank") ##{site_rank} 
@@ -147,13 +147,13 @@ template(name='ruser_post')
                 |!{embed}
             div
         else if data.is_reddit_media_domain
-            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=sentiment_class)
+            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=emotion_color)
                 img.ui.fluid.rounded.zoomer.image.toggle_view(src=data.url)
         else if watson.metadata.image.length
-            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=sentiment_class)
+            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=emotion_color)
                 img.ui.rounded.inline.zoomer.image.toggle_view(src=watson.metadata.image)
         else if data.thumbnail.length
-            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=sentiment_class)
+            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=emotion_color)
                 img.ui.rounded.inline.zoomer.image.zoomer(src=data.thumbnail)    
 
         a.ui.small.inline.header(href="/r/#{subreddit}/p/#{_id}")
@@ -180,15 +180,15 @@ template(name='ruser_post')
 template(name='ruser_doc_item')
     .ui.item
         if is_image
-            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=sentiment_class)
+            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=emotion_color)
                 img.ui.centered.rounded.zoomer.inline.small.image.toggle_view(src=data.url)
         else if watson.metadata.image
-            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=sentiment_class)
+            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=emotion_color)
                 img.ui.rounded.inline.small.image.zoomer.toggle_view(src=watson.metadata.image)
         else if data.thumbnail
-            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=sentiment_class)
+            a.view_post(href="/r/#{subreddit}/p/#{_id}" class=emotion_color)
                 img.ui.rounded.inline.small.image.zoomer(src=data.thumbnail)    
-        a.ui.header.zoomer.say_title(href="/r/#{subreddit}/p/#{_id}" class=sentiment_class)
+        a.ui.header.zoomer.say_title(href="/r/#{subreddit}/p/#{_id}" class=emotion_color)
             strong #{data.score}:
             |!{data.link_title} !{data.title}
         .description
@@ -220,7 +220,7 @@ template(name='ruser_comment')
         span.metadata 
             span.date {{ufrom data.created}}
             +doc_emotion_small
-        .pointer.say(class=sentiment_class)
+        .pointer.say(class=emotion_color)
             |{{#markdown}} {{data.body}} {{/markdown}}
         each tags 
             +flat_sub_ruser_tag_selector

@@ -234,20 +234,20 @@ template(name='post_card_small')
     .center.aligned.column
         .content.zoomer
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
-            a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=sentiment_class)
+            a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
                 |!{data.title} #{title}
             if embed
                 span.rounded.full
                     |!{embed}
                 div
             else if is_image
-                a.view_post(href="/#{group}/p/#{_id}" class=sentiment_class)
+                a.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
                     img.ui.fluid.rounded.image.toggle_view(src=data.url)
             else if watson.metadata.image.length
-                a.view_post(href="/#{group}/p/#{_id}" class=sentiment_class)
+                a.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
                     img.ui.fluid.rounded.image.toggle_view(src=watson.metadata.image)
             else if data.thumbnail_width
-                a.view_post(href="/#{group}/p/#{_id}" class=sentiment_class)
+                a.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
                     img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
             if image_id
                 a(href="/#{group}/p/#{_id}")
@@ -299,28 +299,28 @@ template(name='doc_item')
                 div
             else if is_image
                 .column
-                    a.view_post(href="/#{group}/p/#{_id}" class=sentiment_class)
+                    a.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
                         img.ui.fluid.rounded.image.toggle_view(src=data.url)
             else if watson.metadata.image.length
                 .column
-                    a.view_post(href="/#{group}/p/#{_id}" class=sentiment_class)
+                    a.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
                         img.ui.rounded.inline.image.toggle_view(src=watson.metadata.image)
             else if data.thumbnail.length
                 .column
-                    a.view_post(href="/#{group}/p/#{_id}" class=sentiment_class)
+                    a.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
                         img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
             // else if data.thumbnail.length
             //     .column
-            //         a.view_post(href="/#{group}/p/#{_id}" class=sentiment_class)
+            //         a.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
             //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
             // .column
-            a.ui.inline.header.view_post.zoomer(href="/#{group}/p/#{_id}" class=sentiment_class)
+            a.ui.inline.header.view_post.zoomer(href="/#{group}/p/#{_id}" class=emotion_color)
                 strong #{data.ups}:
                 |!{data.title} 
                 // span.inline.content
             if watson.analyzed_text
                 // .spacer
-                a.f11.view_post(href="/#{group}/p/#{_id}" class=sentiment_class)
+                a.f11.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
                     |{{trunc watson.analyzed_text}}...
             .ui.label 
                 i.clock.icon
@@ -334,13 +334,13 @@ template(name='doc_item')
             // if watson
             //     +doc_emotion_small
             // if skv_is 'view_detail' true
-            // a.ui.header.view_post.zoomer(href="/#{group}/p/#{_id}" class=sentiment_class)
+            // a.ui.header.view_post.zoomer(href="/#{group}/p/#{_id}" class=emotion_color)
             //     strong #{data.ups}:
             //     |!{data.title} 
             // span.inline.content
                     
-            a.say.goto_post(href="/#{group}/p/#{_id}" class=sentiment_class) !{data.body}
-            a.say(href="/#{group}/p/#{_id}" class=sentiment_class) !{data.html}
+            a.say.goto_post(href="/#{group}/p/#{_id}" class=emotion_color) !{data.body}
+            a.say(href="/#{group}/p/#{_id}" class=emotion_color) !{data.html}
             // .spacer
             // if parsed_selftext_html
             //     .ui.segment
@@ -355,7 +355,7 @@ template(name='doc_item')
             //         |{{nl2br data.body}}
             // if data.body_html
             //     div
-            //     a.pointer.say(href="/#{group}/p/#{_id}" class=sentiment_class)
+            //     a.pointer.say(href="/#{group}/p/#{_id}" class=emotion_color)
             //         |!{data.body_html}
             
             each tags

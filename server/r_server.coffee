@@ -512,7 +512,7 @@ Meteor.methods
                 
     search_subreddit: (subreddit,search)->
         @unblock()
-        # console.log 'searching', subreddit, 'for', search
+        console.log 'searching', subreddit, 'for', search
         HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&include_over_18=on&raw_json=1&limit=42", (err,res)->
             if res.data.data.dist > 1
                 _.each(res.data.data.children[0..100], (item)=>
@@ -523,9 +523,9 @@ Meteor.methods
                             reddit_id:item.data.id
                             # subreddit:item.data.id
                     if found
-                        # console.log found, 'found and updating', subreddit, found.data.title
+                        console.log found, 'found and updating', subreddit, found.data.title, search
                         Docs.update found._id, 
-                            $addToSet: tags: search
+                            $addToSet: tags: $each: search
                             $set:
                                 subreddit:item.data.subreddit
                     unless found
