@@ -12,8 +12,6 @@ Template.home.onCreated ->
     Session.setDefault('sort_direction', -1)
     Session.setDefault('toggle', false)
     
-    Meteor.call 'lower_home', Router.current().params.home, ->
-    
     # @autorun => Meteor.subscribe 'shop_from_home', Router.current().params.home
     @autorun => Meteor.subscribe 'tags',
         null
@@ -49,7 +47,7 @@ Template.home.onCreated ->
 Template.home.helpers
     posts: ->
         Docs.find({
-            model: $in: ['post','rpost']
+            model: 'rpost'
         },
             sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
             limit:25
@@ -143,7 +141,7 @@ Template.home.events
             # Session.set('sub_doc_query', val)
             Session.set('loading',true)
     
-            Meteor.call 'search_subreddit', Router.current().params.home, picked_tags.array(), ->
+            Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('loading',false)
                 Session.set('sub_doc_query', null)
             Meteor.setTimeout ->
@@ -157,30 +155,30 @@ Template.home.events
  
  
  
-Template.post_card_small.events
+Template.home_post_card_small.events
     'click .view_post': (e,t)-> 
         window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
     'click .call_watson': (e,t)-> 
         Meteor.call 'call_watson',@_id,'data.url','url',@data.url,=>
-Template.doc_item.events
+Template.home_doc_item.events
     'click .view_post': (e,t)-> 
         Session.set('view_section','main')
         window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
         # Router.go "/home/#{@home}/p/#{@_id}"
 
-Template.doc_item.onRendered ->
+Template.home_doc_item.onRendered ->
     # console.log @
     unless @data.watson
         Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
 
-Template.post_card_small.onRendered ->
+Template.home_post_card_small.onRendered ->
     # console.log @
     unless @data.watson
         Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
     unless @data.time_tags
         Meteor.call 'tagify_time_rpost',@data._id,=>
  
-Template.post_card_small.helpers
+Template.home_post_card_small.helpers
     five_tags: -> @tags[..5]
  
  
@@ -193,9 +191,9 @@ Template.post_card_small.helpers
  
  
  
-Template.tag_picker.onCreated ->
+Template.home_tag_picker.onCreated ->
     @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
-Template.tag_picker.helpers
+Template.home_tag_picker.helpers
     picker_class: ()->
         term = 
             Docs.findOne 
@@ -219,7 +217,7 @@ Template.tag_picker.helpers
      
      
      
-Template.tag_picker.events
+Template.home_tag_picker.events
     'click .pick_tag': -> 
         # results.update
         # console.log @
@@ -245,10 +243,10 @@ Template.tag_picker.events
         
         
 
-Template.unpick_tag.onCreated ->
+Template.home_unpick_tag.onCreated ->
     @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
     
-Template.unpick_tag.helpers
+Template.home_unpick_tag.helpers
     term: ->
         found = 
             Docs.findOne 
@@ -257,7 +255,7 @@ Template.unpick_tag.helpers
         found
         
         
-Template.unpick_tag.events
+Template.home_unpick_tag.events
     'click .unpick_tag': -> 
         Session.set('skip',0)
         # console.log @
@@ -268,9 +266,9 @@ Template.unpick_tag.events
             Session.set('loading',false)
 
 
-Template.flat_tag_picker.onCreated ->
+Template.home_flat_tag_picker.onCreated ->
     @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
-Template.flat_tag_picker.helpers
+Template.home_flat_tag_picker.helpers
     picker_class: ()->
         term = 
             Docs.findOne 
@@ -287,7 +285,7 @@ Template.flat_tag_picker.helpers
     term: ->
         Docs.findOne 
             title:@valueOf().toLowerCase()
-Template.flat_tag_picker.events
+Template.home_flat_tag_picker.events
     'click .pick_flat_tag': -> 
         # results.update
         # window.speechSynthesis.cancel()

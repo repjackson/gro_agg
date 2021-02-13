@@ -304,9 +304,12 @@ Meteor.publish 'count', (
     picked_time_tags
     picked_location_tags
     )->
-    match = {model:$in:['post','rpost']}
-    # match.group = group
-    match.group_lowered = group.toLowerCase()
+    match = {}
+    if group
+        match.group_lowered = group.toLowerCase()
+        match.model = $in: ['post','rpost']
+    else
+        match.model = 'rpost'
         
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
@@ -328,25 +331,17 @@ Meteor.publish 'posts', (
     toggle
     )->
     self = @
-    match = {
-        model:$in:['post','rpost']
-        # group: group
-    }
     # if group is 'all'
     #     match.group = $exists:false
     # else
-    # match.group = group
     self = @
     match = {
-        # group:group
-        # subgroup:subgroup
     }
-    # match.group = group
     if group
         match.group_lowered = group.toLowerCase()
         match.model = $in: ['post','rpost']
     else
-        match.model = $in: ['rpost']
+        match.model = 'rpost'
     
 
     if sort_key
@@ -460,15 +455,12 @@ Meteor.publish 'tags', (
     # @unblock()
     self = @
     match = {
-        # group:group
-        # subgroup:subgroup
     }
-    # match.group = group
     if group
         match.group_lowered = group.toLowerCase()
         match.model = $in: ['post','rpost']
     else
-        match.model = $in: ['rpost']
+        match.model = 'rpost'
     # if view_bounties
     #     match.bounty = true
     # if view_unanswered

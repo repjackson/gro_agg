@@ -4,7 +4,7 @@ rp = require('request-promise');
 
 Meteor.methods
     search_reddit: (query)->
-        console.log 'searching sub'
+        console.log 'searching reddit'
         @unblock()
         # res = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # if subreddit 
@@ -36,14 +36,16 @@ Meteor.methods
                             ups: data.ups
                             title: data.title
                             subreddit: data.subreddit
+                            group:data.subreddit
+                            group_lowered:data.subreddit.toLowerCase()
                             # root: query
                             # selftext: false
                             # thumbnail: false
                             tags: added_tags
-                            model:'reddit'
+                            model:'rpost'
                             # source:'reddit'
                         existing = Docs.findOne 
-                            model:'reddit'
+                            model:'rpost'
                             url:data.url
                         if existing
                             # if Meteor.isDevelopment
@@ -54,14 +56,14 @@ Meteor.methods
                             Docs.update existing._id,
                                 $addToSet: tags: $each: added_tags
 
-                            Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
+                            # Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
                         unless existing
                             # if Meteor.isDevelopment
                             #     console.log 'new search doc', reddit_post.title
                             new_reddit_post_id = Docs.insert reddit_post
                             # Meteor.users.update Meteor.userId(),
                             #     $inc:points:1
-                            Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
+                            # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                 )
    
     reddit_best: (query)->
@@ -100,10 +102,10 @@ Meteor.methods
                             # selftext: false
                             # thumbnail: false
                             tags: added_tags
-                            model:'reddit'
+                            model:'rpost'
                             # source:'reddit'
                         existing = Docs.findOne 
-                            model:'reddit'
+                            model:'rpost'
                             url:data.url
                         if existing
                             # if Meteor.isDevelopment
@@ -161,10 +163,10 @@ Meteor.methods
                             # selftext: false
                             # thumbnail: false
                             tags: added_tags
-                            model:'reddit'
+                            model:'rpost'
                             # source:'reddit'
                         existing = Docs.findOne 
-                            model:'reddit'
+                            model:'rpost'
                             url:data.url
                         if existing
                             # if Meteor.isDevelopment
@@ -369,7 +371,7 @@ Meteor.methods
             #     existing = 
             #         Docs.findOne({
             #             reddit_id: post.data.id
-            #             model:'reddit'
+            #             model:'rpost'
             #         })
             #     # continue
             #     unless existing
@@ -439,7 +441,7 @@ Meteor.methods
     # reddit_all: ->
     #     total = 
     #         Docs.find({
-    #             model:'reddit'
+    #             model:'rpost'
     #             subreddit: $exists:false
     #         }, limit:100)
     #     total.forEach( (doc)->
