@@ -276,7 +276,10 @@ Template.unpick_tag.events
         # console.log @
         picked_tags.remove @valueOf()
         window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
-    
+        Session.set('loading',true)
+        Meteor.call 'search_subreddit', Router.current().params.group, picked_tags.array(), ->
+            Session.set('loading',false)
+
 
 Template.flat_tag_picker.onCreated ->
     @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
@@ -301,13 +304,13 @@ Template.flat_tag_picker.events
     'click .pick_flat_tag': -> 
         # results.update
         # window.speechSynthesis.cancel()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         picked_tags.push @valueOf()
         $('.search_group').val('')
         Session.set('loading',true)
         Meteor.call 'search_subreddit', Router.current().params.group, picked_tags.array(), ->
             Session.set('loading',false)
         Router.go "/#{Router.current().params.group}"
+        window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
         Meteor.setTimeout ->
             Session.set('toggle',!Session.get('toggle'))
         , 8000
