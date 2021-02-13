@@ -21,7 +21,7 @@ Template.group.onCreated ->
     Session.setDefault('sort_direction', -1)
     Session.setDefault('toggle', false)
     
-    # Meteor.call 'get_sub_latest', Router.current().params.group, ->
+    Meteor.call 'lower_group', Router.current().params.group, ->
     
     # @autorun => Meteor.subscribe 'shop_from_group', Router.current().params.group
     @autorun => Meteor.subscribe 'tags',

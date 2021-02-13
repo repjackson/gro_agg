@@ -80,11 +80,11 @@ html {
   /*filter: drop-shadow(0px 0px 10px grey);    */
 
 }
-/*.invert > p {*/
-/*  color:white !important;*/
-  /*filter: invert(1) !important; */
+.header {
+  /*  color:white !important;*/
+  filter: invert(1) !important; 
   
-/*} */
+} 
 
 
 .tone_item {
@@ -613,7 +613,7 @@ img, .rounded, .embed, iframe, .text {
 }
 
 .label {
-  margin:1px !important;
+  margin:3px !important;
   /*border-radius: 10px !important; */
 }
 

@@ -387,14 +387,25 @@ Meteor.publish 'posts', (
         # skip:skip*20
     
     
-# Meteor.methods    
-    # tagify_group: (group)->
-    #     doc = Docs.findOne group
-    #     # moment(doc.date).fromNow()
-    #     # timestamp = Date.now()
+Meteor.methods    
+    lower_group: (group)->
+        docs = 
+            Docs.find
+                model:$in:['rpost','post']
+                group:group
+                group_lowered:$exists:false
+                
+                
+        console.log 'unlowered doc count', docs.count()
+        for doc in docs.fetch[..100]
+            Docs.update doc._id,
+                $set:group_lowered:doc.group.toLowerCase()
+        # doc = Docs.findOne group
+        # # moment(doc.date).fromNow()
+        # # timestamp = Date.now()
 
-    #     doc._timestamp_long = moment(doc._timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
-    #     # doc._app = 'group'
+        # doc._timestamp_long = moment(doc._timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
+        # doc._app = 'group'
     
     #     date = moment(doc.date).format('Do')
     #     weekdaynum = moment(doc.date).isoWeekday()

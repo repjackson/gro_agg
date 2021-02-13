@@ -6,7 +6,7 @@ template(name='post_view')
                     a.ui.large.circular.button(href="/#{group}")
                         i.chevron.left.icon
                         |#{group}
-                    .ui.inline.header.say(class=post_header_class)
+                    .ui.inline.header.say(class=sentiment_class)
                         |!{data.title} #{data.link_title} #{title}
                     if image_link
                         a(href="/#{group}")
@@ -33,7 +33,7 @@ template(name='post_view')
                     // if skv_is 'view_section' 'main'
                     // if skv_is 'view_section' 'main'
                     if is_image
-                        a.view_post(href="/#{subreddit}/p/#{_id}" class=post_header_class)
+                        a.view_post(href="/#{subreddit}/p/#{_id}" class=sentiment_class)
                             img.ui.fluid.zoomer.rounded.image.toggle_view(src=data.url)
                     else if data.is_reddit_media_domain
                         img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
@@ -211,7 +211,7 @@ template(name='rcomment')
             span.metadata 
                 span.date {{ufrom data.created}}
                 +doc_emotion_small
-            .pointer.f13.say(class=post_header_class)
+            .pointer.f13.say(class=sentiment_class)
                 |{{#markdown}} {{data.body}} {{/markdown}}
             .actions
                 each tags 
@@ -235,15 +235,15 @@ template(name='post_related')
     .ui.header related
     .ui.list
         each related_posts
-            a.item.say.pointer.zoomer(href="/r/#{subreddit}/p/#{_id}" class=post_header_class) 
+            a.item.say.pointer.zoomer(href="/r/#{subreddit}/p/#{_id}" class=sentiment_class) 
                 if data.is_reddit_media_domain
-                    a.view_post(href="/r/#{subreddit}/p/#{_id}" class=post_header_class)
+                    a.view_post(href="/r/#{subreddit}/p/#{_id}" class=sentiment_class)
                         img.ui.small.rounded.image.toggle_view(src=data.url)
                 else if watson.metadata.image
-                    a.view_post(href="/r/#{subreddit}/p/#{_id}" class=post_header_class)
+                    a.view_post(href="/r/#{subreddit}/p/#{_id}" class=sentiment_class)
                         img.ui.rounded.small.inline.image.toggle_view(src=watson.metadata.image)
                 else if data.thumbnail
-                    a.view_post(href="/r/#{subreddit}/p/#{_id}" class=post_header_class)
+                    a.view_post(href="/r/#{subreddit}/p/#{_id}" class=sentiment_class)
                         img.ui.rounded.small.inline.image(src=data.thumbnail)    
             
                 .ui.inline.small.header !{data.title} #{data.link_title}
@@ -256,15 +256,15 @@ template(name='related_questions')
     .ui.header related questions
     .ui.list
         each qs
-            a.item.say.pointer.zoomer.set_main(href="/s/#{site}/q/#{question_id}" class=post_header_class) 
+            a.item.say.pointer.zoomer.set_main(href="/s/#{site}/q/#{question_id}" class=sentiment_class) 
                 if data.is_reddit_media_domain
-                    a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
+                    a.view_post(href="/s/#{site}/q/#{question_id}" class=sentiment_class)
                         img.ui.small.rounded.image.toggle_view(src=data.url)
                 else if watson.metadata.image
-                    a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
+                    a.view_post(href="/s/#{site}/q/#{question_id}" class=sentiment_class)
                         img.ui.rounded.small.inline.image.toggle_view(src=watson.metadata.image)
                 else if data.thumbnail
-                    a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
+                    a.view_post(href="/s/#{site}/q/#{question_id}" class=sentiment_class)
                         img.ui.rounded.small.inline.image(src=data.thumbnail)    
             
                 .ui.inline.small.header !{title}
