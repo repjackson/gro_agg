@@ -5,7 +5,7 @@ rp = require('request-promise');
 Meteor.methods
     search_reddit: (query)->
         console.log 'searching reddit'
-        # @unblock()
+        @unblock()
         # res = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
@@ -17,10 +17,8 @@ Meteor.methods
                 _.each(res.data.data.children, (item)=>
                     unless item.domain is "OneWordBan"
                         data = item.data
+                        # console.log data
                         len = 200
-                        # if typeof(query) is String
-                        #     added_tags = [query]
-                        # else
                         added_tags = [query]
                         # added_tags = [query]
                         # added_tags.push data.domain.toLowerCase()
@@ -44,6 +42,7 @@ Meteor.methods
                             tags: added_tags
                             model:'rpost'
                             # source:'reddit'
+                            data:data
                         existing = Docs.findOne 
                             model:'rpost'
                             url:data.url
@@ -55,6 +54,7 @@ Meteor.methods
                             #         $unset: tags: 1
                             Docs.update existing._id,
                                 $addToSet: tags: $each: added_tags
+                                $set:data:data
 
                             # Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
                         unless existing
@@ -64,125 +64,6 @@ Meteor.methods
                             # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                 )
    
-    reddit_best: (query)->
-        @unblock()
-        # res = HTTP.get("http://reddit.com/search.json?q=#{query}")
-        # if subreddit 
-        #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
-        # else
-        url = "http://reddit.com/best.json?q=#{query}&nsfw=1&limit=30&include_facets=false&raw_json=1"
-        # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,res)=>
-        HTTP.get url,(err,res)=>
-            if res.data.data.dist > 1
-                _.each(res.data.data.children, (item)=>
-                    unless item.domain is "OneWordBan"
-                        data = item.data
-                        len = 200
-                        # if typeof(query) is String
-                        #     added_tags = [query]
-                        # else
-                        added_tags = [query]
-                        # added_tags = [query]
-                        # added_tags.push data.domain.toLowerCase()
-                        # added_tags.push data.subreddit.toLowerCase()
-                        # added_tags.push data.author.toLowerCase()
-                        added_tags = _.flatten(added_tags)
-                        reddit_post =
-                            reddit_id: data.id
-                            url: data.url
-                            domain: data.domain
-                            comment_count: data.num_comments
-                            permalink: data.permalink
-                            ups: data.ups
-                            title: data.title
-                            subreddit: data.subreddit
-                            # root: query
-                            # selftext: false
-                            # thumbnail: false
-                            tags: added_tags
-                            model:'rpost'
-                            # source:'reddit'
-                        existing = Docs.findOne 
-                            model:'rpost'
-                            url:data.url
-                        if existing
-                            # if Meteor.isDevelopment
-                            #     console.log 'existing best doc', existing.url
-                            # if typeof(existing.tags) is 'string'
-                            #     Doc.update
-                            #         $unset: tags: 1
-                            Docs.update existing._id,
-                                $addToSet: tags: $each: added_tags
-                            Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
-                        unless existing
-                            new_reddit_post_id = Docs.insert reddit_post
-                            # if Meteor.isDevelopment
-                            #     console.log 'new best doc', reddit_post.title
-                            Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
-                )
-    
-    reddit_new: (query)->
-        @unblock()
-        # console.log 'searching sub'
-
-        # res = HTTP.get("http://reddit.com/search.json?q=#{query}")
-        # if subreddit 
-        #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
-        # else
-        url = "http://reddit.com/new.json?q=#{query}&nsfw=1&limit=30&include_facets=false&raw_json=1"
-        # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,res)=>
-        HTTP.get url,(err,res)=>
-            if res.data.data.dist > 1
-                _.each(res.data.data.children, (item)=>
-                    unless item.domain is "OneWordBan"
-                        data = item.data
-                        len = 200
-                        # if typeof(query) is String
-                        #     added_tags = [query]
-                        # else
-                        added_tags = [query]
-                        # added_tags = [query]
-                        # added_tags.push data.domain.toLowerCase()
-                        # added_tags.push data.subreddit.toLowerCase()
-                        # added_tags.push data.author.toLowerCase()
-                        added_tags = _.flatten(added_tags)
-                        reddit_post =
-                            reddit_id: data.id
-                            url: data.url
-                            domain: data.domain
-                            comment_count: data.num_comments
-                            permalink: data.permalink
-                            ups: data.ups
-                            title: data.title
-                            subreddit: data.subreddit
-                            # root: query
-                            # selftext: false
-                            # thumbnail: false
-                            tags: added_tags
-                            model:'rpost'
-                            # source:'reddit'
-                        existing = Docs.findOne 
-                            model:'rpost'
-                            url:data.url
-                        if existing
-                            # if Meteor.isDevelopment
-                            #     console.log 'existing new doc', existing._id
-                            # if typeof(existing.tags) is 'string'
-                            #     Doc.update
-                            #         $unset: tags: 1
-                            Docs.update existing._id,
-                                $addToSet: tags: $each: added_tags
-                            Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
-                        unless existing
-                            new_reddit_post_id = Docs.insert reddit_post
-                            # if Meteor.isDevelopment
-                            #     console.log 'new new doc', reddit_post.title
-        
-                            # Meteor.users.update Meteor.userId(),
-                            #     $inc:points:1
-                            Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
-                )
-    
 
     get_reddit_post: (doc_id, reddit_id, root)->
         # @unblock()
