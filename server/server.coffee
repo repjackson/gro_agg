@@ -347,7 +347,7 @@ Meteor.publish 'posts', (
         match.model = $in: ['post','rpost']
     else
         match.model = 'rpost'
-        match['data.over_18'] = false
+        # match['data.over_18'] = false
     
 
     if sort_key
@@ -362,53 +362,53 @@ Meteor.publish 'posts', (
         match.tags = $all:picked_tags
         now = Date.now()-24*60*60
         match._timestamp = $gt: now
-    if picked_groups.length > 0 then match.group_lowered = $all:picked_groups
-
-    if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
-    if picked_location_tags.length > 0 then match.location_tags = $all:picked_location_tags
-    if picked_Persons.length > 0 then match.Person = $all:picked_Persons
-    if picked_Locations.length > 0 then match.Location = $all:picked_Locations
-    if picked_Organizations.length > 0 then match.Organization = $all:picked_Organizations
-    # console.log 'skip', skip
-    Docs.find match,
-        limit: 10
-        # sort: "#{sk}":-1
-        sort: "data.ups":-1
-        fields:
-            tags:1
-            title:1
-            model:1
-            "data.title":1
-            group:1
-            time_tags:1
-            _timestamp:1
-            group_lowered:1
-            image_id:1
-            youtube_id:1
-            "watson.metadata.image":1
-            watson:1
-            "data.url":1
-            "data.thumbnail":1
-            "data.domain":1
-            "data.ups":1
-            "data.num_comments":1
-            "data.created":1
-            "data.media":1
-            # analyzed_text:response.analyzed_text
-            # watson: response
-            max_emotion_name:1
-            max_emotion_percent:1
-            sadness_percent: 1
-            joy_percent: 1
-            fear_percent: 1
-            anger_percent: 1
-            disgust_percent: 1
-            watson_concepts: 1
-            watson_keywords: 1
-            "doc_sentiment_score": 1
-            "doc_sentiment_label": 1
-            
-        # skip:skip*20
+        if picked_groups.length > 0 then match.group_lowered = $all:picked_groups
+    
+        if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
+        if picked_location_tags.length > 0 then match.location_tags = $all:picked_location_tags
+        if picked_Persons.length > 0 then match.Person = $all:picked_Persons
+        if picked_Locations.length > 0 then match.Location = $all:picked_Locations
+        if picked_Organizations.length > 0 then match.Organization = $all:picked_Organizations
+        # console.log 'skip', skip
+        Docs.find match,
+            limit: 10
+            # sort: "#{sk}":-1
+            sort: "data.ups":-1
+            # fields:
+            #     tags:1
+            #     title:1
+            #     model:1
+            #     "data.title":1
+            #     group:1
+            #     time_tags:1
+            #     _timestamp:1
+            #     group_lowered:1
+            #     image_id:1
+            #     youtube_id:1
+            #     "watson.metadata.image":1
+            #     # watson:1
+            #     "data.url":1
+            #     "data.thumbnail":1
+            #     "data.domain":1
+            #     "data.ups":1
+            #     "data.num_comments":1
+            #     "data.created":1
+            #     "data.media":1
+            #     # analyzed_text:response.analyzed_text
+            #     # watson: response
+            #     # max_emotion_name:1
+            #     # max_emotion_percent:1
+            #     # sadness_percent: 1
+            #     # joy_percent: 1
+            #     # fear_percent: 1
+            #     # anger_percent: 1
+            #     # disgust_percent: 1
+            #     # watson_concepts: 1
+            #     # watson_keywords: 1
+            #     # "doc_sentiment_score": 1
+            #     # "doc_sentiment_label": 1
+                
+            # skip:skip*20
     
     
 Meteor.methods    
@@ -474,7 +474,7 @@ Meteor.publish 'tags', (
         match.model = $in: ['post','rpost']
     else
         match.model = 'rpost'
-        match['data.over_18'] = false
+        # match['data.over_18'] = false
 
     # if view_bounties
     #     match.bounty = true
@@ -499,7 +499,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:10 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_tag_cloud.forEach (tag, i) ->
@@ -528,75 +528,75 @@ Meteor.publish 'tags', (
     #         model:'group_domain_tag'
     
     
-    group_location_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "location_tags": 1 }
-        { $unwind: "$location_tags" }
-        { $group: _id: "$location_tags", count: $sum: 1 }
-        # { $match: _id: $nin: picked_location }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:5 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    group_location_cloud.forEach (location, i) ->
-        self.added 'results', Random.id(),
-            name: location.name
-            count: location.count
-            model:'location_tag'
+    # group_location_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "location_tags": 1 }
+    #     { $unwind: "$location_tags" }
+    #     { $group: _id: "$location_tags", count: $sum: 1 }
+    #     # { $match: _id: $nin: picked_location }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # group_location_cloud.forEach (location, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: location.name
+    #         count: location.count
+    #         model:'location_tag'
     
     
     
-    group_time_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "time_tags": 1 }
-        { $unwind: "$time_tags" }
-        { $group: _id: "$time_tags", count: $sum: 1 }
-        { $match: _id: $nin: picked_time_tags }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:10 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    group_time_cloud.forEach (time_tag, i) ->
-        self.added 'results', Random.id(),
-            name: time_tag.name
-            count: time_tag.count
-            model:'time_tag'
+    # group_time_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "time_tags": 1 }
+    #     { $unwind: "$time_tags" }
+    #     { $group: _id: "$time_tags", count: $sum: 1 }
+    #     { $match: _id: $nin: picked_time_tags }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:10 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # group_time_cloud.forEach (time_tag, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: time_tag.name
+    #         count: time_tag.count
+    #         model:'time_tag'
   
-    group_Location_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "Location": 1 }
-        { $unwind: "$Location" }
-        { $group: _id: "$Location", count: $sum: 1 }
-        { $match: _id: $nin: picked_time_tags }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:5 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    group_Location_cloud.forEach (Location, i) ->
-        self.added 'results', Random.id(),
-            name: Location.name
-            count: Location.count
-            model:'Location'
+    # group_Location_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "Location": 1 }
+    #     { $unwind: "$Location" }
+    #     { $group: _id: "$Location", count: $sum: 1 }
+    #     { $match: _id: $nin: picked_time_tags }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # group_Location_cloud.forEach (Location, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: Location.name
+    #         count: Location.count
+    #         model:'Location'
   
-    group_Person_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "Person": 1 }
-        { $unwind: "$Person" }
-        { $group: _id: "$Person", count: $sum: 1 }
-        { $match: _id: $nin: picked_time_tags }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:5 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    group_Person_cloud.forEach (Person, i) ->
-        self.added 'results', Random.id(),
-            name: Person.name
-            count: Person.count
-            model:'Person'
+    # group_Person_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "Person": 1 }
+    #     { $unwind: "$Person" }
+    #     { $group: _id: "$Person", count: $sum: 1 }
+    #     { $match: _id: $nin: picked_time_tags }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # group_Person_cloud.forEach (Person, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: Person.name
+    #         count: Person.count
+    #         model:'Person'
   
     # group_Organization_cloud = Docs.aggregate [
     #     { $match: match }
@@ -632,21 +632,21 @@ Meteor.publish 'tags', (
     #         count: HealthCondition.count
     #         model:'HealthCondition'
   
-    group_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "group_lowered": 1 }
-        { $group: _id: "$group_lowered", count: $sum: 1 }
-        # { $match: _id: $nin: picked_groups }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:20 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    group_cloud.forEach (group, i) ->
-        self.added 'results', Random.id(),
-            name: group.name
-            count: group.count
-            model:'group'
+    # group_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "group_lowered": 1 }
+    #     { $group: _id: "$group_lowered", count: $sum: 1 }
+    #     # { $match: _id: $nin: picked_groups }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:20 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # group_cloud.forEach (group, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: group.name
+    #         count: group.count
+    #         model:'group'
   
     self.ready()
         

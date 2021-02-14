@@ -118,8 +118,6 @@ Meteor.methods
                             new_reddit_post_id = Docs.insert reddit_post
                             # if Meteor.isDevelopment
                             #     console.log 'new best doc', reddit_post.title
-                            # Meteor.users.update Meteor.userId(),
-                            #     $inc:points:1
                             Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                 )
     
@@ -449,7 +447,7 @@ Meteor.methods
 
 
     get_reddit_post: (doc_id, reddit_id, root)->
-        @unblock()
+        # @unblock()
         doc = Docs.findOne doc_id
         if doc.reddit_id
             HTTP.get "http://reddit.com/by_id/t3_#{reddit_id}.json&raw_json=1", (err,res)->
@@ -502,6 +500,7 @@ Meteor.methods
                             # reddit_image:rd.preview.images[0].source.url
                             thumbnail: rd.thumbnail
                             subreddit: rd.subreddit
+                            group:rd.subreddit
                             author: rd.author
                             domain: rd.domain
                             is_video: rd.is_video

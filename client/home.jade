@@ -1,6 +1,6 @@
 template(name='home')
     .ui.stackable.grid
-        .twelve.wide.left.aligned.column.seg
+        .sixteen.wide.left.aligned.column.seg
             .ui.inline.small.header    
                 |#{counter}
             if home_picked_tags
@@ -66,129 +66,129 @@ template(name='home')
                     else if skv_is 'view_layout' 'list'
                         each posts
                             +home_doc_item
-                else
-                    .ui.left.aligned.basic.segment
-                        i.massive.grey.loading.yin.yang.icon
-        .four.wide.left.aligned.column.scrollng.seg
-            // +alpha
-            .ui.icon.button.add_post
-                i.plus.icon
-            i.users.icon
-            if picked_groups
-                each picked_groups
-                    a.unpick_group.ui.active.large.compact.button(href='#')
-                        strong #{this}
-            if group_results
-                each group_results
-                    if name
-                        .ui.compact.small.button.zoomer.pick_group(title="#{count} results" class="#{picker_class} #{thinking_class}")
-                            strong #{name}
-            if location_tags
-                if picked_location_tags
-                    each picked_location_tags
-                        a.unpick_location_tag.ui.active.large.compact.button(href='#')
-                            strong #{this}
-                each location_tags
-                    .ui.compact.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
-                        strong #{name}
-            if Locations
-                div
-                .ui.small.grey.inline.header
-                    i.marker.icon
-                    |locations
-                each locations
-                    +home_tag_picker
-                    // .ui.link.label.pick_Location #{name}
-            if HealthConditions
-                div
-                .ui.small.grey.inline.header
-                    i.doctor.icon
-                    |health conditions
-                each HealthConditions
-                    +home_tag_picker
-                    // .ui.link.label.pick_healthcondition #{name}
-            if Persons
-                .spacer
-                .ui.small.grey.inline.header
-                    i.user.icon
-                    |people
-                each Persons
-                    +home_tag_picker
-                    // .ui.label.pick_person #{name}
-            if Organizations
-                .spacer
-                .ui.small.grey.inline.header
-                    i.building.icon
-                    |organizations
-                each Organizations
-                    +home_tag_picker
-                    // .ui.label.pick_organization #{name}
-            if Companies
-                .ui.small.grey.inline.header
-                    i.building.icon
-                    |companies
-                each companies
-                    .ui.label.pick_company #{name}
-            i.big.globe.grey.icon
-            if picked_domain
-                each picked_domain
-                    .ui.active.button.unpick_domain
-                        |#{this}
-            each domain_tags
-                .ui.compact.button.pick_domain(class=domain_picker_class)
-                    |#{name} 
-                    // small #{count}
-            .spacer
-            i.clock.big.grey.icon            
-            if picked_time_tags
-                each picked_time_tags
-                    .ui.active.compact.button.unpick_time_tag
-                        |#{this}
-            each time_tags
-                .ui.compact.button.pick_time_tag(class=domain_picker_class)
-                    |#{name} 
-                    // small #{count}
-            .spacer
-            i.user.big.grey.icon            
-            if picked_authors
-                each picked_authors
-                    .ui.active.button.unpick_author
-                        |#{this}
-            each authors
-                .ui.compact.button.pick_author(class=domain_picker_class)
-                    |#{name} 
-                    // small #{count}
-            // .ui.inline.header.pull_latest #{display_name}
-            if in_dev
-                +print_this
-                // div
-            with emotion_avg
-                span.say.ui.green.text(class="{{calculated_size avg_sent_score}}") {{ to_percent avg_sent_score }}% sentiment 
-                    |&nbsp;
-                div.rounded(style="height:5px;width:{{to_percent avg_sent_score}}%;background-color:green" title="{{to_percent avg_sent_score}}% joy")
-                span.say.ui.green.text(class="{{calculated_size avg_joy_score}}") {{ to_percent avg_joy_score }}% joy 
-                    |&nbsp;
-                div.rounded(style="height:5px;width:{{to_percent avg_joy_score}}%;background-color:green" title="{{to_percent avg_joy_score}}% joy")
-                //- if above_50 'avg_sadness_score'
-                    //- .spacer
-                span.say.ui.blue.text(class="{{calculated_size avg_sadness_score}}") {{ to_percent avg_sadness_score}}% sad 
-                    |&nbsp;
-                div.rounded(style="height:5px;width:{{to_percent avg_sadness_score}}%;background-color:blue" title="{{to_percent avg_sadness_score}}% sad")
-                //- if above_50 'avg_fear_score'
-                    //- .spacer
-                span.say.ui.grey.text(class="{{calculated_size avg_fear_score}}") {{ to_percent avg_fear_score }}% fear 
-                    |&nbsp;
-                div.rounded(style="height:5px;width:{{to_percent avg_fear_score}}%;background-color:grey" title="{{to_percent avg_fear_score}}% fear")
-                //- if above_50 'avg_disgust_score'
-                    //- .spacer
-                span.say.ui.orange.text(class="{{calculated_size avg_disgust_score}}") {{ to_percent avg_disgust_score }}% disgust 
-                    |&nbsp;
-                div.rounded(style="height:5px;width:{{to_percent avg_disgust_score}}%;background-color:orange" title="{{to_percent avg_disgust_score}}% disgust")
-                //- if above_50 'avg_anger_score'
-                    //- .spacer
-                span.say.ui.red.text(class="{{calculated_size avg_anger_score}}") {{ to_percent avg_anger_score }}% anger 
-                    |&nbsp;
-                div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
+                // else
+                //     .ui.left.aligned.basic.segment
+                //         i.massive.grey.loading.yin.yang.icon
+        // .four.wide.left.aligned.column.scrollng.seg
+        //     // +alpha
+        //     .ui.icon.button.add_post
+        //         i.plus.icon
+        //     i.users.icon
+        //     if picked_groups
+        //         each picked_groups
+        //             a.unpick_group.ui.active.large.compact.button(href='#')
+        //                 strong #{this}
+        //     if group_results
+        //         each group_results
+        //             if name
+        //                 .ui.compact.small.button.zoomer.pick_group(title="#{count} results" class="#{picker_class} #{thinking_class}")
+        //                     strong #{name}
+        //     if location_tags
+        //         if picked_location_tags
+        //             each picked_location_tags
+        //                 a.unpick_location_tag.ui.active.large.compact.button(href='#')
+        //                     strong #{this}
+        //         each location_tags
+        //             .ui.compact.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+        //                 strong #{name}
+        //     if Locations
+        //         div
+        //         .ui.small.grey.inline.header
+        //             i.marker.icon
+        //             |locations
+        //         each locations
+        //             +home_tag_picker
+        //             // .ui.link.label.pick_Location #{name}
+        //     if HealthConditions
+        //         div
+        //         .ui.small.grey.inline.header
+        //             i.doctor.icon
+        //             |health conditions
+        //         each HealthConditions
+        //             +home_tag_picker
+        //             // .ui.link.label.pick_healthcondition #{name}
+        //     if Persons
+        //         .spacer
+        //         .ui.small.grey.inline.header
+        //             i.user.icon
+        //             |people
+        //         each Persons
+        //             +home_tag_picker
+        //             // .ui.label.pick_person #{name}
+        //     if Organizations
+        //         .spacer
+        //         .ui.small.grey.inline.header
+        //             i.building.icon
+        //             |organizations
+        //         each Organizations
+        //             +home_tag_picker
+        //             // .ui.label.pick_organization #{name}
+        //     if Companies
+        //         .ui.small.grey.inline.header
+        //             i.building.icon
+        //             |companies
+        //         each companies
+        //             .ui.label.pick_company #{name}
+        //     i.big.globe.grey.icon
+        //     if picked_domain
+        //         each picked_domain
+        //             .ui.active.button.unpick_domain
+        //                 |#{this}
+        //     each domain_tags
+        //         .ui.compact.button.pick_domain(class=domain_picker_class)
+        //             |#{name} 
+        //             // small #{count}
+        //     .spacer
+        //     i.clock.big.grey.icon            
+        //     if picked_time_tags
+        //         each picked_time_tags
+        //             .ui.active.compact.button.unpick_time_tag
+        //                 |#{this}
+        //     each time_tags
+        //         .ui.compact.button.pick_time_tag(class=domain_picker_class)
+        //             |#{name} 
+        //             // small #{count}
+        //     .spacer
+        //     i.user.big.grey.icon            
+        //     if picked_authors
+        //         each picked_authors
+        //             .ui.active.button.unpick_author
+        //                 |#{this}
+        //     each authors
+        //         .ui.compact.button.pick_author(class=domain_picker_class)
+        //             |#{name} 
+        //             // small #{count}
+        //     // .ui.inline.header.pull_latest #{display_name}
+        //     if in_dev
+        //         +print_this
+        //         // div
+        //     with emotion_avg
+        //         span.say.ui.green.text(class="{{calculated_size avg_sent_score}}") {{ to_percent avg_sent_score }}% sentiment 
+        //             |&nbsp;
+        //         div.rounded(style="height:5px;width:{{to_percent avg_sent_score}}%;background-color:green" title="{{to_percent avg_sent_score}}% joy")
+        //         span.say.ui.green.text(class="{{calculated_size avg_joy_score}}") {{ to_percent avg_joy_score }}% joy 
+        //             |&nbsp;
+        //         div.rounded(style="height:5px;width:{{to_percent avg_joy_score}}%;background-color:green" title="{{to_percent avg_joy_score}}% joy")
+        //         //- if above_50 'avg_sadness_score'
+        //             //- .spacer
+        //         span.say.ui.blue.text(class="{{calculated_size avg_sadness_score}}") {{ to_percent avg_sadness_score}}% sad 
+        //             |&nbsp;
+        //         div.rounded(style="height:5px;width:{{to_percent avg_sadness_score}}%;background-color:blue" title="{{to_percent avg_sadness_score}}% sad")
+        //         //- if above_50 'avg_fear_score'
+        //             //- .spacer
+        //         span.say.ui.grey.text(class="{{calculated_size avg_fear_score}}") {{ to_percent avg_fear_score }}% fear 
+        //             |&nbsp;
+        //         div.rounded(style="height:5px;width:{{to_percent avg_fear_score}}%;background-color:grey" title="{{to_percent avg_fear_score}}% fear")
+        //         //- if above_50 'avg_disgust_score'
+        //             //- .spacer
+        //         span.say.ui.orange.text(class="{{calculated_size avg_disgust_score}}") {{ to_percent avg_disgust_score }}% disgust 
+        //             |&nbsp;
+        //         div.rounded(style="height:5px;width:{{to_percent avg_disgust_score}}%;background-color:orange" title="{{to_percent avg_disgust_score}}% disgust")
+        //         //- if above_50 'avg_anger_score'
+        //             //- .spacer
+        //         span.say.ui.red.text(class="{{calculated_size avg_anger_score}}") {{ to_percent avg_anger_score }}% anger 
+        //             |&nbsp;
+        //         div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
 
                 
                 
@@ -252,29 +252,29 @@ template(name='home_post_card_small')
                     +image_link_view key='image_link' direct=true
             if youtube_id
                 +youtube_view key='youtube_id' label='youtube id' direct=true
-            if is_admin
-                +text_edit key='group' label='slug' direct=true
-            a(href="/#{group}/p/#{_id}")
-                |!{content}
-                if raw
-                    |!{raw}
-            if watson.analyzed_text
-                // .spacer
-                // .view_post(href="/#{group}/p/#{_id}" class=emotion_color)
-                |{{trunc watson.analyzed_text}}...
+            // if is_admin
+            //     +text_edit key='group' label='slug' direct=true
+            // a(href="/#{group}/p/#{_id}")
+            //     |!{content}
+            //     if raw
+            //         |!{raw}
+            // if watson.analyzed_text
+            //     // .spacer
+            //     // .view_post(href="/#{group}/p/#{_id}" class=emotion_color)
+            //     |{{trunc watson.analyzed_text}}...
                     
             each five_tags
                 +flat_home_tag_picker
             a.ui.icon.basic.circular.button(href="/#{group}/p/#{_id}")
                 i.right.chevron.icon
-            | #{data.ups}
-            i.thumbs.up.outline.grey.icon
-            | #{data.num_comments}
-            i.comment.outline.grey.icon
-            .ui.label
-                |#{group_lowered}
-            span(title="imported #{when}")
-                |{{ufrom data.created}}
+            // | #{data.ups}
+            // i.thumbs.up.outline.grey.icon
+            // | #{data.num_comments}
+            // i.comment.outline.grey.icon
+            // .ui.label
+            //     |#{group_lowered}
+            // span(title="imported #{when}")
+            //     |{{ufrom data.created}}
             // i.clock.icon
             // each time_tags
             //     .ui.tiny.label #{this}
