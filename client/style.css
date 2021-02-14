@@ -28,9 +28,11 @@ body {
     margin:2px !important;
 }
 
+input {
+    border-radius: 20px !important;
+}
 .input {
     margin-top: 10px !important;
-    border-radius: 20px !important;
 }
 
 .scrolling{
