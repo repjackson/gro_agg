@@ -49,7 +49,7 @@ template(name='home')
     .ui.stackable.grid
         .sixteen.wide.center.aligned.column.seg
             if counter
-                .ui.inline.grey.header    
+                span.ui.large.text   
                     |#{counter}
             if picked_tags
                 // if many_tags
@@ -62,27 +62,28 @@ template(name='home')
                     i.yin.yang.loading.icon
                 else
                     i.search.icon
-                input.search_tag(type='text' value=query)
-                // .ui.label #{this}
+                input.search_tag(type='text' value=query autofocus='')
             each result_tags
                 +tag_picker
-            each posts
-                +post_card_small
+            .ui.hidden.divider
+            .ui.three.column.centered.grid
+                each posts
+                    +post_card_small
                 
                 
                 
 template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.compact.circular.button.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    button.ui.compact.basic.large.circular.button.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         // if term
         //     if term.watson.metadata.image
         //         img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
         strong #{name}
         // if in_dev
         //     small #{count}
-        
+            
 template(name='unpick_tag')
-    a.unpick_tag.ui.active.compact.circular.large.button(href='#')
+    button.unpick_tag.ui.active.compact.large.circular.button
         // if term
         //     if term.watson.metadata.image
         //         img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
