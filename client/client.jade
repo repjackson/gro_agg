@@ -92,7 +92,7 @@ template(name='unpick_tag')
         
 template(name='flat_tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.compact.small.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.compact.small.basic.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -116,9 +116,11 @@ template(name='post_card_small')
                     |!{embed}
                 div
             else if is_image
-                img.ui.fluid.rounded.image.toggle_view(src=url)
+                a(href=url target='_window')
+                    img.ui.fluid.rounded.image.toggle_view(src=url)
             else if data.thumbnail_width
-                img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
+                a(href=url target='_window')
+                    img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
             // |#{ups}
             // i.thumbs.up.outline.icon
             // |#{comment_count}

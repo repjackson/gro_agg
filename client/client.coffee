@@ -38,6 +38,11 @@ Router.route '/', (->
     @render 'home'
     ), name:'home'
 
+Router.route '/:search', (->
+    @layout 'layout'
+    @render 'home'
+    ), name:'search'
+
 
 
 Template.registerHelper 'is_positive', () ->
@@ -192,17 +197,6 @@ Template.registerHelper 'kv_is', (key, value) ->
     
     
     
-Template.registerHelper 'comments', ()->
-    Docs.find
-        model:'comment'
-        parent_id:@_id
-        
-
-# Template.registerHelper 'ruser_doc', () ->
-#     Docs.findOne 
-#         model:'ruser'
-
-
 Template.registerHelper 'is_image', ()->
     if @domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
         true
@@ -217,58 +211,7 @@ Template.registerHelper 'is_youtube', ()->
 
 
 
-Template.registerHelper 'current_doc', () ->
-    found_doc_by_id = Docs.findOne Router.current().params.doc_id
-    found_doc_by_slug = 
-        Docs.findOne 
-            slug:Router.current().params.slug
-    if found_doc_by_id
-        found_doc_by_id
-    else if found_doc_by_slug
-        found_doc_by_slug
-
-# Template.registerHelper 'lowered_title', ()-> @title.toLowerCase()
-
-
-# Template.registerHelper 'field_value', () ->
-#     # console.log @
-#     parent = Template.parentData()
-#     parent5 = Template.parentData(5)
-#     parent6 = Template.parentData(6)
-
-
-#     if @direct
-#         parent = Template.parentData()
-#     else if parent5
-#         if parent5._id
-#             parent = Template.parentData(5)
-#     else if parent6
-#         if parent6._id
-#             parent = Template.parentData(6)
-#     # console.log 'parent', parent
-#     if parent
-#         parent["#{@key}"]
-
 Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()
-
-
-# Template.registerHelper 'session_key_value_is', (key, value) ->
-#     # console.log 'key', key
-#     # console.log 'value', value
-#     Session.equals key,value
-
-# Template.registerHelper 'key_value_is', (key, value) ->
-#     # console.log 'key', key
-#     # console.log 'value', value
-#     @["#{key}"] is value
-
-
-# Template.registerHelper 'template_subs_ready', () ->
-#     Template.instance().subscriptionsReady()
-
-# Template.registerHelper 'global_subs_ready', () ->
-#     Session.get('global_subs_ready')
-
 
 
 Template.registerHelper 'nl2br', (text)->
@@ -287,6 +230,16 @@ Template.registerHelper 'to_percent', (number)->
     
 @picked_tags = new ReactiveArray []
 
+Template.home.onRendered ->
+    if Router.current().params.search
+        search = Router.current().params.search
+        picked_tags.push search
+        Session.set('loading',true)
+        Meteor.call 'search_reddit', picked_tags.array(), ->
+            Session.set('loading',false)
+
+        
+        
 Template.home.onCreated ->
     @autorun => Meteor.subscribe 'tags',
         picked_tags.array()

@@ -3,6 +3,12 @@
 # @User_tags = new Meteor.Collection 'user_tags'
 # @Level_results = new Meteor.Collection 'level_results'
 # @Tag_results = new Meteor.Collection 'tag_results'
+Router.configure
+    layoutTemplate: 'layout'
+    notFoundTemplate: 'home'
+    loadingTemplate: 'splash'
+    trackPageView: false
+
 
 
 Docs.before.insert (userId, doc)->
