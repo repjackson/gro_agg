@@ -5,3 +5,20 @@
 input {
     border-radius: 20px !important;
 }
+
+.scrolling{
+    max-height: 120vh !important;
+    /*min-height: 50vh !important;*/
+    /* padding: 5px !important;
+    border-radius: 7px !important;
+    border-width: 1px !important;
+    border-color: grey !important;
+    border-style: solid !important; */
+    overflow-y:scroll;
+    overflow-x:hidden;
+    /*z-index:1001;*/
+    /*margin-top: 1em; */
+    /*padding-top: .5em; */
+    padding: 1em;
+    /*padding-left: 1em;*/
+}

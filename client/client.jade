@@ -66,7 +66,7 @@ template(name='home')
             each result_tags
                 +tag_picker
             .ui.hidden.divider
-            .ui.two.column.centered.grid
+            .ui.two.column.centered.grid.scrolling
                 each posts
                     +post_card_small
                 
@@ -110,7 +110,7 @@ template(name='post_card_small')
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
             // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
             a.ui.center.aligned.grey.header(href=url target='_window')
-                |!{data.title} #{title}
+                |!{data.title}
             if embed
                 span.rounded.full
                     |!{embed}
@@ -123,7 +123,9 @@ template(name='post_card_small')
             i.thumbs.up.outline.icon
             |#{comment_count}
             i.chat.outline.icon
-            .ui.basic.label #{subreddit}
+            with subreddit
+                +flat_tag_picker
+                // .ui.basic.label #{this}
             each five_tags
                 +flat_tag_picker
             a(href=permalink target='_window') #{domain}
