@@ -50,19 +50,6 @@ Template.registerHelper 'is_positive', () ->
     if @doc_sentiment_score
         @doc_sentiment_score > 0
     
-Template.registerHelper 'emotion_color', () ->
-    ''
-    # if @doc_sentiment_score > 0 then 'green invert' else 'red invert'
-    # if @max_emotion_name and @max_emotion_name.length
-    #     switch @max_emotion_name
-    #         when 'sadness' then 'invert blue'
-    #         when 'joy' then 'invert green'
-    #         when 'confident' then 'invert teal'
-    #         when 'analytical' then 'invert orange'
-    #         when 'tentative' then 'invert yellow'
-    #         else 'invert'
-    # else 
-    #     if @doc_sentiment_score > 0 then 'green invert' else 'red invert'
 Template.registerHelper 'sv', (key) -> Session.get(key)
 Template.registerHelper 'sentence_color', () ->
         
@@ -72,14 +59,6 @@ Template.registerHelper 'abs_percent', (num) ->
     
 # Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 
-Template.registerHelper 'rcomments', (doc_id)->
-    post = Docs.findOne Router.current().params.doc_id
-    # console.log 'comments for ', post
-    Docs.find
-        model:'rcomment'
-        parent_id:"t3_#{post.reddit_id}"
-
-    
 Template.registerHelper 'trunc', (input) ->
     input[0..350]
         
@@ -273,7 +252,9 @@ Template.home.events
             t.$('.search_tag').val('')
             # Session.set('sub_doc_query', val)
             Session.set('loading',true)
-    
+            $('.search_tag').transition('tada')
+            $('.black').transition('tada')
+
             Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('loading',false)
         
@@ -296,6 +277,9 @@ Template.tag_picker.events
         picked_tags.push @name.toLowerCase()
         $('.search_tag').val('')
         Session.set('skip_value',0)
+        $('.search_tag').transition('tada')
+        $('.black').transition('tada')
+        $('.pick_tag').transition('tada')
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
@@ -310,6 +294,10 @@ Template.unpick_tag.events
         Session.set('skip',0)
         # console.log @
         picked_tags.remove @valueOf()
+        $('.search_tag').transition('tada')
+        $('.black').transition('tada')
+        $('.pick_tag').transition('tada')
+        
         window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         Session.set('loading',true)
