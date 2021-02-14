@@ -117,7 +117,7 @@ Template.registerHelper 'calculated_size', (metric) ->
 
 # Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 # Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
-# Template.registerHelper 'lowered_title', ()-> @title.toLowerCase()
+Template.registerHelper 'lowered_title', ()-> @data.title.toLowerCase()
 
 
 Template.registerHelper 'field_value', () ->
@@ -344,8 +344,8 @@ Template.tag_picker.events
         $('.search_tag').val('')
         Session.set('skip_value',0)
 
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
@@ -357,8 +357,8 @@ Template.unpick_tag.events
         Session.set('skip',0)
         # console.log @
         picked_tags.remove @valueOf()
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+        window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
@@ -368,7 +368,7 @@ Template.flat_tag_picker.events
     'click .pick_flat_tag': -> 
         # results.update
         # window.speechSynthesis.cancel()
-        picked_tags.push @valueOf()
+        picked_tags.push @valueOf().toLowerCase()
         $('.search_home').val('')
         Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
