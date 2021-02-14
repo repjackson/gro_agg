@@ -19,7 +19,6 @@ coffeescript@1.0.17
 constellation:console@1.4.10
 constellation:session@0.4.10
 constellation:subscriptions@0.4.10
-dburles:collection-helpers@1.1.0
 dburles:mongo-collection-instances@0.3.5
 ddp@1.4.0
 ddp-client@2.4.0
