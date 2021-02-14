@@ -301,6 +301,7 @@ Meteor.publish 'comments', (doc_id)->
 Meteor.publish 'count', (
     group
     picked_tags
+    picked_groups
     picked_time_tags
     picked_location_tags
     )->
@@ -310,8 +311,11 @@ Meteor.publish 'count', (
         match.model = $in: ['post','rpost']
     else
         match.model = 'rpost'
-        
+        match['data.over_18'] = false
+
     if picked_tags.length > 0 then match.tags = $all:picked_tags
+    if picked_groups.length > 0 then match.group_lowered = $all:picked_groups
+
     if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
     if picked_location_tags.length > 0 then match.location_tags = $all:picked_location_tags
     Counts.publish this, 'counter', Docs.find(match)
@@ -320,6 +324,7 @@ Meteor.publish 'count', (
 Meteor.publish 'posts', (
     group
     picked_tags
+    picked_groups
     picked_time_tags
     picked_location_tags
     picked_Persons
@@ -342,6 +347,7 @@ Meteor.publish 'posts', (
         match.model = $in: ['post','rpost']
     else
         match.model = 'rpost'
+        match['data.over_18'] = false
     
 
     if sort_key
@@ -356,6 +362,8 @@ Meteor.publish 'posts', (
         match.tags = $all:picked_tags
         now = Date.now()-24*60*60
         match._timestamp = $gt: now
+    if picked_groups.length > 0 then match.group_lowered = $all:picked_groups
+
     if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
     if picked_location_tags.length > 0 then match.location_tags = $all:picked_location_tags
     if picked_Persons.length > 0 then match.Person = $all:picked_Persons
@@ -449,6 +457,7 @@ Meteor.methods
 Meteor.publish 'tags', (
     group
     picked_tags
+    picked_groups
     picked_time_tags
     picked_location_tags
     picked_Persons
@@ -465,11 +474,14 @@ Meteor.publish 'tags', (
         match.model = $in: ['post','rpost']
     else
         match.model = 'rpost'
+        match['data.over_18'] = false
+
     # if view_bounties
     #     match.bounty = true
     # if view_unanswered
     #     match.is_answered = false
     if picked_tags.length > 0 then match.tags = $all:picked_tags
+    if picked_groups.length > 0 then match.group_lowered = $all:picked_groups
     # if picked_subgroup_domain.length > 0 then match.domain = $all:picked_subgroup_domain
     if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
     if picked_location_tags.length > 0 then match.location_tags = $all:picked_location_tags
@@ -543,7 +555,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_time_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:5 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_time_cloud.forEach (time_tag, i) ->
@@ -627,7 +639,7 @@ Meteor.publish 'tags', (
         # { $match: _id: $nin: picked_groups }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:5 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_cloud.forEach (group, i) ->

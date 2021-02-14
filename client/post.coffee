@@ -55,6 +55,14 @@ Template.post_view.events
     'click .get_post': ->
         Session.set('view_section','main')
         Meteor.call 'get_reddit_post', Router.current().params.doc_id, @reddit_id, ->
+
+Template.rcomments_tab.onCreated ->
+    @autorun => Meteor.subscribe 'rpost_comment_tags', Router.current().params.doc_id
+
+Template.rcomments_tab.helpers
+    rcomment_tags: ->
+        results.find(model:'rpost_comment_tag')
+
 Template.rcomment.onRendered ->
     # console.log @data
     unless @data.watson

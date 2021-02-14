@@ -4,7 +4,7 @@ rp = require('request-promise');
 
 Meteor.methods
     search_reddit: (query)->
-        console.log 'searching reddit'
+        # console.log 'searching reddit'
         @unblock()
         # res = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # if subreddit 
@@ -61,9 +61,7 @@ Meteor.methods
                             # if Meteor.isDevelopment
                             #     console.log 'new search doc', reddit_post.title
                             new_reddit_post_id = Docs.insert reddit_post
-                            # Meteor.users.update Meteor.userId(),
-                            #     $inc:points:1
-                            # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
+                            Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                 )
    
     reddit_best: (query)->
@@ -127,7 +125,7 @@ Meteor.methods
     
     reddit_new: (query)->
         @unblock()
-        console.log 'searching sub'
+        # console.log 'searching sub'
 
         # res = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # if subreddit 
@@ -514,7 +512,7 @@ Meteor.methods
                 
     search_subreddit: (subreddit,search)->
         @unblock()
-        console.log 'searching', subreddit, 'for', search
+        # console.log 'searching', subreddit, 'for', search
         HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&include_over_18=on&raw_json=1&limit=20", (err,res)->
             if res.data.data.dist > 1
                 _.each(res.data.data.children[0..100], (item)=>
@@ -525,7 +523,7 @@ Meteor.methods
                             reddit_id:item.data.id
                             # subreddit:item.data.id
                     if found
-                        console.log found, 'found and updating', subreddit, found.data.title, search
+                        # console.log found, 'found and updating', subreddit, found.data.title, search
                         Docs.update found._id, 
                             $addToSet: tags: $each: search
                             $set:
@@ -621,7 +619,7 @@ Meteor.publish 'agg_sentiment_subreddit', (
     self = @
     match = {
         model:'rpost'
-        subreddit:subreddit
+        group_lowered:subreddit.toLowerCase()
     }
         
     doc_count = Docs.find(match).count()

@@ -1,5 +1,6 @@
 @home_picked_tags = new ReactiveArray []
 @picked_time_tags = new ReactiveArray []
+@picked_groups = new ReactiveArray []
 @picked_location_tags = new ReactiveArray []
 @picked_Persons = new ReactiveArray []
 @picked_Locations = new ReactiveArray []
@@ -16,6 +17,7 @@ Template.home.onCreated ->
     @autorun => Meteor.subscribe 'tags',
         null
         home_picked_tags.array()
+        picked_groups.array()
         picked_time_tags.array()
         picked_location_tags.array()
         picked_Persons.array()
@@ -25,6 +27,7 @@ Template.home.onCreated ->
     @autorun => Meteor.subscribe 'count', 
         null
         home_picked_tags.array()
+        picked_groups.array()
         picked_time_tags.array()
         picked_location_tags.array()
         picked_Persons.array()
@@ -34,6 +37,7 @@ Template.home.onCreated ->
     @autorun => Meteor.subscribe 'posts', 
         null
         home_picked_tags.array()
+        picked_groups.array()
         picked_time_tags.array()
         picked_location_tags.array()
         picked_Persons.array()
@@ -69,6 +73,7 @@ Template.home.helpers
     picked_time_tags: -> picked_time_tags.array()
     picked_location_tags: -> picked_location_tags.array()
     picked_people_tags: -> picked_people_tags.array()
+    picked_groups: -> picked_groups.array()
   
     result_tags: -> results.find(model:'tag')
     group_results: -> results.find(model:'group')
@@ -105,6 +110,12 @@ Template.home.events
     #     $('.search_tag').val('')
     #     Session.set('skip_value',0)
 
+    'click .unpick_group': ->
+        picked_groups.remove @valueOf()
+    'click .pick_group': ->
+        picked_groups.push @name
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        
     'click .unpick_Location': ->
         picked_Locations.remove @valueOf()
     'click .pick_Location': ->

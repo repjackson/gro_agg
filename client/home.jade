@@ -19,9 +19,6 @@ template(name='home')
             if result_tags.count
                 each result_tags
                     +home_tag_picker
-            // else
-            //     i.big.grey.loading.yin.yang.icon
-        
             div
             if skv_is 'sort_direction' 1
                 .ui.icon.compact.button.sort_down
@@ -76,14 +73,16 @@ template(name='home')
             // +alpha
             .ui.icon.button.add_post
                 i.plus.icon
-            if groups
-                if picked_groups
-                    each picked_groups
-                        a.unpick_group.ui.active.large.compact.button(href='#')
-                            strong #{this}
-                each groups
-                    .ui.compact.small.button.zoomer.pick_group(title="#{count} results" class="#{picker_class} #{thinking_class}")
-                        strong #{name}
+            i.users.icon
+            if picked_groups
+                each picked_groups
+                    a.unpick_group.ui.active.large.compact.button(href='#')
+                        strong #{this}
+            if group_results
+                each group_results
+                    if name
+                        .ui.compact.small.button.zoomer.pick_group(title="#{count} results" class="#{picker_class} #{thinking_class}")
+                            strong #{name}
             if location_tags
                 if picked_location_tags
                     each picked_location_tags
@@ -268,26 +267,28 @@ template(name='home_post_card_small')
                 +flat_home_tag_picker
             a.ui.icon.basic.circular.button(href="/#{group}/p/#{_id}")
                 i.right.chevron.icon
-        | #{data.ups}
-        i.thumbs.up.outline.grey.icon
-        | #{data.num_comments}
-        i.comment.outline.grey.icon
-        span(title="imported #{when}")
-            |{{ufrom data.created}}
-        // i.clock.icon
-        // each time_tags
-        //     .ui.tiny.label #{this}
-        // a.ui.label(href="/u/#{data.author}")
-        //     |#{data.author}
-        // i.dna.link.icon.call_watson
-        // +doc_emotion_small        
-        // if watson
-            
-            // span.inline.content
-            // span.inline.content
-        if in_dev
-            +remove_button
-            +print_this
+            | #{data.ups}
+            i.thumbs.up.outline.grey.icon
+            | #{data.num_comments}
+            i.comment.outline.grey.icon
+            .ui.label
+                |#{group_lowered}
+            span(title="imported #{when}")
+                |{{ufrom data.created}}
+            // i.clock.icon
+            // each time_tags
+            //     .ui.tiny.label #{this}
+            // a.ui.label(href="/u/#{data.author}")
+            //     |#{data.author}
+            // i.dna.link.icon.call_watson
+            // +doc_emotion_small        
+            // if watson
+                
+                // span.inline.content
+                // span.inline.content
+            if in_dev
+                +remove_button
+                +print_this
    
 template(name='home_doc_item')                  
     .ui.ite.seg

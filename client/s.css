@@ -12,7 +12,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   background: rgba(200,200,200,1) !important;
-  /*filter: invert(.99) !important; */
+  filter: invert(.99) !important; 
   /*overscroll-behavior: none; */
   /*transition: all .15s ease !important;*/
   /*background: #0e0e44 !important; */
@@ -82,7 +82,7 @@ html {
 }
 .invert {
   /*  color:white !important;*/
-  /*filter: invert(1) !important; */
+  filter: invert(1) !important; 
   
 } 
 
@@ -295,7 +295,6 @@ html.ios body {
 /*    top: 290px;*/
 /*  }*/
 }
-input
 
 
 
@@ -353,7 +352,7 @@ a.goto_article {
 }
 
 .ui.button:not(.circular) { 
-    border-radius: 7px !important; 
+    /*border-radius: 7px !important; */
     /*border-radius: 7px !important;*/
 }
 .ui.button {
@@ -486,7 +485,7 @@ a.title, #title {
 }
 
 img, .rounded, .embed, iframe, .text {
-  /*filter: invert(1) !important; */
+  filter: invert(1) !important; 
 }
 .left.floated{
     margin:3px !important;
@@ -670,7 +669,7 @@ input {
     /*padding-left: 1em;*/
 }
 .scrolling{
-    max-height: 100vh !important;
+    max-height: 120vh !important;
     /*min-height: 50vh !important;*/
     /* padding: 5px !important;
     border-radius: 7px !important;

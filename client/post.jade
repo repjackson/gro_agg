@@ -3,10 +3,12 @@ template(name='post_view')
         .ui.stackable.grid
             .row 
                 .twelve.wide.column
+                    a.ui.large.icon.circular.button(href="/")
+                        i.home.icon
                     a.ui.large.button(href="/#{group}")
                         i.chevron.left.icon
                         |#{group}
-                    .ui.inline.header.say(class=emotion_color)
+                    .ui.inline.header.say.get_post(class=emotion_color)
                         |!{data.title} #{data.link_title} #{title}
                     .scrollin
                         if image_link
@@ -34,7 +36,7 @@ template(name='post_view')
                         // if skv_is 'view_section' 'main'
                         // if skv_is 'view_section' 'main'
                         if is_image
-                            a.view_post(href="/#{subreddit}/p/#{_id}" class=emotion_color)
+                            a.view_post(href="/#{subreddit}/" class=emotion_color)
                                 img.ui.fluid.zoomer.rounded.image.toggle_view(src=data.url)
                         else if data.is_reddit_media_domain
                             img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
@@ -159,7 +161,7 @@ template(name='post_view')
                         |#{tags.length}
                         each tags
                             +flat_tag_picker
-                    .ui.basic.button.get_post permalink #{permalink}
+                    .ui.basic.button permalink #{permalink}
                     .ui.label #{data.ups}
                         
                 // .twelve.wide.column.scrolling
@@ -191,17 +193,18 @@ template(name='post_edit')
         
 
 
-template(name='rcomments_tab')                
-    .ui.horizontal.divider.get_post_comments
-        i.grey.comment.outline.icon
-        |#{rcomments.count} comments
-    // .ui.items
-    each rcomment_tags
-        .ui.compact.button #{name}
-            small #{count}
-    .spacer
-    each rcomments
-        +rcomment
+template(name='rcomments_tab')             
+    .scrolling
+        .ui.horizontal.divider.get_post_comments
+            i.grey.comment.outline.icon
+            |#{rcomments.count} comments
+        // .ui.items
+        each rcomment_tags
+            .ui.compact.button #{name}
+                small #{count}
+        .spacer
+        each rcomments
+            +rcomment
                 
                 
 
@@ -225,7 +228,7 @@ template(name='rcomment')
                     .one.wide.column
                     .fifteen.wide.column
                         a.author(href="/user/#{data.author}") #{data.author}
-                        .pointer.content.say(class=emotion_color)
+                        .pointer.content.say
                             |{{#markdown}} {{data.body}} {{/markdown}}
                             // .text.say #{data.score} #{data.body}
             // if in_dev
