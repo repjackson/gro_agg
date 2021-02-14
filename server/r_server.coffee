@@ -5,12 +5,12 @@ rp = require('request-promise');
 Meteor.methods
     search_reddit: (query)->
         console.log 'searching reddit'
-        @unblock()
+        # @unblock()
         # res = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "http://reddit.com/search.json?q=#{query}&nsfw=1&limit=20&include_facets=false&raw_json=1"
+        url = "http://reddit.com/search.json?q=#{query}&nsfw=1&limit=100&include_facets=false&raw_json=1"
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,res)=>
         HTTP.get url,(err,res)=>
             if res.data.data.dist > 1
@@ -61,7 +61,7 @@ Meteor.methods
                             # if Meteor.isDevelopment
                             #     console.log 'new search doc', reddit_post.title
                             new_reddit_post_id = Docs.insert reddit_post
-                            Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
+                            # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                 )
    
     reddit_best: (query)->

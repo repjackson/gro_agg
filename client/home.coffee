@@ -13,6 +13,7 @@ Template.home.helpers
         Docs.find({
             model: 'rpost'
         },
+            sort: ups:-1
             limit:10
         )
   
@@ -52,12 +53,12 @@ Template.post_card_small.helpers
  
 Template.tag_picker.events
     'click .pick_tag': -> 
-        picked_tags.push @name
+        picked_tags.push @name.toLowerCase()
         $('.search_tag').val('')
         Session.set('skip_value',0)
 
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
@@ -69,7 +70,8 @@ Template.unpick_tag.events
         Session.set('skip',0)
         # console.log @
         picked_tags.remove @valueOf()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)

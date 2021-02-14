@@ -1,15 +1,16 @@
 template(name='home')
     .ui.stackable.grid
         .sixteen.wide.center.aligned.column.seg
-            .ui.inline.small.header    
-                |#{counter}
+            if counter
+                .ui.inline.grey.header    
+                    |#{counter}
             if picked_tags
                 // if many_tags
                 //     a#clear_tags.ui.black.invert.icon.compact.button.pick_term
                 //         i.remove.icon
                 each picked_tags
                     +unpick_tag
-            .ui.icon.input
+            .ui.icon.large.input
                 if is_loading
                     i.yin.yang.loading.icon
                 else
@@ -25,7 +26,7 @@ template(name='home')
                 
 template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.image.large.link.label.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.compact.circular.button.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         // if term
         //     if term.watson.metadata.image
         //         img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
@@ -34,7 +35,7 @@ template(name='tag_picker')
         //     small #{count}
         
 template(name='unpick_tag')
-    a.unpick_tag.ui.active.image.big.label(href='#')
+    a.unpick_tag.ui.active.compact.circular.large.button(href='#')
         // if term
         //     if term.watson.metadata.image
         //         img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -60,16 +61,22 @@ template(name='post_card_small')
         .content.zoomer
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
             // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
-            a.ui.center.aligned.small.header
+            a.ui.center.aligned.grey.header(href=url target='_window')
                 |!{data.title} #{title}
             if embed
                 span.rounded.full
                     |!{embed}
                 div
             else if is_image
-                img.ui.fluid.rounded.image.toggle_view(src=data.url)
+                img.ui.fluid.rounded.image.toggle_view(src=url)
             else if data.thumbnail_width
                 img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
-                    
+            |#{ups}
+            i.thumbs.up.outline.icon
+            |#{comment_count}
+            i.chat.outline.icon
             each five_tags
                 +flat_tag_picker
+            a(href=permalink target='_window') #{domain}
+            div
+            .ui.hidden.divider
