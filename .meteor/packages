@@ -31,7 +31,5 @@ babrahams:temple
 dburles:collection-helpers
 ecmascript@0.15.0
 tmeasday:publish-counts
-lepozepo:cloudinary
 markdown
 http@1.4.2
-mdg:meteor-apm-agent

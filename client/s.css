@@ -448,11 +448,11 @@ img:active {
     z-index:1000 !important;
 }
 .superzoom:active {
-    transform: scale(3) !important;
+    transform: scale(2) !important;
 }
 .superzoom:hover {
     transition: all .1s ease !important; 
-    transform: scale(2) !important;
+    transform: scale(1.5) !important;
     /*transform: rotate(20deg) !important;*/
     z-index:1000 !important;
     border-radius: 2px !important;
