@@ -252,8 +252,8 @@ Template.home.events
             t.$('.search_tag').val('')
             # Session.set('sub_doc_query', val)
             Session.set('loading',true)
-            $('.search_tag').transition('tada')
-            $('.black').transition('tada')
+            $('.search_tag').transition('pulse')
+            $('.black').transition('pulse')
 
             Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('loading',false)
@@ -277,9 +277,10 @@ Template.tag_picker.events
         picked_tags.push @name.toLowerCase()
         $('.search_tag').val('')
         Session.set('skip_value',0)
-        $('.search_tag').transition('tada')
+        $('.search_tag').transition('pulse')
         $('.black').transition('tada')
-        $('.pick_tag').transition('tada')
+        $('.pick_tag').transition('pulse')
+        $('.card_small').transition('shake')
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
@@ -294,9 +295,10 @@ Template.unpick_tag.events
         Session.set('skip',0)
         # console.log @
         picked_tags.remove @valueOf()
-        $('.search_tag').transition('tada')
+        $('.search_tag').transition('pulse')
         $('.black').transition('tada')
         $('.pick_tag').transition('tada')
+        $('.card_small').transition('shake')
         
         window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()

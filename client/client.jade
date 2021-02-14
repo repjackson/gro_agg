@@ -37,16 +37,10 @@ template(name='layout')
         +yield
 
 
-template(name='not_found')
-    .ui.basic.center.aligned.segment
-        .ui.header page not found
-        a(href="/")
-            i.massive.yin.yang.link.icon
-            
             
 template(name='home')
     .ui.stackable.grid
-        .sixteen.wide.center.aligned.column.seg
+        .sixteen.wide.left.aligned.column.seg
             if counter
                 span.ui.text   
                     |#{counter}
@@ -105,7 +99,7 @@ template(name='flat_tag_picker')
    
 template(name='post_card_small')
     .center.aligned.column
-        .content.zoomer
+        .content.zoomer.card_small
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
             // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
             a.ui.center.aligned.grey.header(href=url target='_window')
