@@ -49,24 +49,24 @@ Meteor.publish 'posts', (
     
         console.log 'match', match
         Docs.find match,
-            limit: 20
+            limit: 42
             # sort: "#{sk}":-1
             sort: ups:-1
-            # fields:
-            #     "data.title":1
-            #     "data.subreddit":1
-            #     "data.thumbnail_width":1
-            #     "data.thumbnail":1
-            #     "data.media":1
-            #     "data.selftext_html":1
-            #     "data.created":1
-            #     "subreddit":1
-            #     tags:1
-            #     url:1
-            #     model:1
-            #     ups:1
-            #     domain:1
-            #     # data:1
+            fields:
+                "data.title":1
+                "data.subreddit":1
+                "data.thumbnail_width":1
+                "data.thumbnail":1
+                "data.media":1
+                "data.selftext_html":1
+                "data.created":1
+                "subreddit":1
+                tags:1
+                url:1
+                model:1
+                ups:1
+                domain:1
+                # data:1
     
     
            
@@ -95,7 +95,7 @@ Meteor.publish 'tags', (
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:15 }
+            { $limit:20 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         tag_cloud.forEach (tag, i) ->

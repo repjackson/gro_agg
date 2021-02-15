@@ -208,7 +208,7 @@ Template.home.helpers
             model: 'rpost'
         },
             sort: ups:-1
-            limit:10
+            limit:42
         )
   
     counter: -> Counts.get 'counter'

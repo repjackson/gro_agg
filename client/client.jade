@@ -85,7 +85,7 @@ template(name='home')
                 
 template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    button.ui.basic.large.grey.tertiary.button.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    button.ui.basic.grey.tertiary.button.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         // if term
         //     if term.watson.metadata.image
         //         img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
@@ -114,7 +114,7 @@ template(name='flat_tag_picker')
         
    
 template(name='post_card_small')
-    .center.aligned.column
+    .center.aligned.column.smallscroll
         .content.zoomer.card_small.invert
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
             // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
@@ -132,25 +132,26 @@ template(name='post_card_small')
             else if data.thumbnail_width
                 a(href=url target='_window')
                     img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
-            i.circular.chevron.down.icon.dl.invert
-            span.invert
-                |#{ups}
-                i.thumbs.up.outline.icon
-                |#{comment_count}
-                i.chat.outline.icon
             span.ui.text {{ufrom data.created}}
-            with subreddit
-                +flat_tag_picker
-                // .ui.basic.label #{this}
-            each five_tags
-                +flat_tag_picker
-            a.ui.icon.compact.circular.basic.button(href="https://www.reddit.com#{permalink}" target='_window' title=domain)
-                // |#{domain}
-                i.external.icon
-            // div
-            .ui.tiny.invert.transparent.left.icon.input
-                i.plus.icon
-                input.add_tag(type='text' placeholder='...')
+            unless simple
+                i.circular.chevron.down.icon.dl.invert
+                span.invert
+                    |#{ups}
+                    i.thumbs.up.outline.icon
+                    |#{comment_count}
+                    i.chat.outline.icon
+                with subreddit
+                    +flat_tag_picker
+                    // .ui.basic.label #{this}
+                each five_tags
+                    +flat_tag_picker
+                a.ui.icon.compact.circular.basic.button(href="https://www.reddit.com#{permalink}" target='_window' title=domain)
+                    // |#{domain}
+                    i.external.icon
+                // div
+                .ui.tiny.invert.transparent.left.icon.input
+                    i.tag.icon
+                    input.add_tag(type='text' placeholder='...')
             .ui.hidden.divider   
             if data.selftext_html
                 unless simple

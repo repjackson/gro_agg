@@ -78,7 +78,7 @@ input {
     /*padding-left: 1em;*/
 }
 .smallscroll{
-    max-height: 20vh !important;
+    max-height: 500px !important;
     /*min-height: 50vh !important;*/
     /* padding: 5px !important;
     border-radius: 7px !important;
@@ -97,4 +97,9 @@ input {
 /*iframe, img, a, .image, .invert, .button {*/
 .button, .text, button, .invert {
     /*filter: invert(1) !important; */
+}
+
+.smallscroll::-webkit-scrollbar {
+    width: 0px !important;
+   /*border-radius: 10px !important; */
 }
