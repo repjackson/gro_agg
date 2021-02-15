@@ -37,6 +37,9 @@ template(name='layout')
         +yield
 
 
+template(name='doc')
+    .ui.header doc
+            
             
 template(name='home')
     .ui.stackable.grid
@@ -55,8 +58,8 @@ template(name='home')
                                 i.sliders.horizontal.large.black.link.icon.simple_on(title='make advanced')
                     input.search_tag(type='text' value=query autofocus='' placeholder="search #{counter}")
                 if many_tags
-                    a#clear_tags.ui.black.basic.circular.icon.compact.button
-                        i.remove.icon
+                    a#clear_tags
+                        i.remove.link.circular.icon
                 each picked_tags
                     +unpick_tag
             |&nbsp;
@@ -82,6 +85,7 @@ template(name='home')
             // div
             each result_tags
                 +tag_picker
+            .ui.hidden.divider
             .ui.four.column.centered.stackable.grid.scrolling.pushed
                 if alphas.count
                     .column.smallscroll.zoomer
@@ -126,7 +130,10 @@ template(name='post_card_small')
         .content.zoomer.card_small.invert
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
             // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
-            a.ui.invert.header.thin.title.zoomer(href=url target='_window')
+            a.ui.invert.header.thin.title.zoomer(href="/p/#{_id}")
+                |#{lowered_title}
+            
+            a(href=url target='_window')
                 // |!{data.title} #{lowered_title}
                 |#{lowered_title}
             span.ui.text {{ufrom data.created}}

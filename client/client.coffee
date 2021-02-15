@@ -34,10 +34,20 @@ Router.route '/', (->
     @render 'home'
     ), name:'home'
 
-Router.route '/:search', (->
+Router.route '/p/:doc_id', (->
+    @layout 'layout'
+    @render 'doc'
+    ), name:'doc'
+
+Router.route '/s/:search', (->
     @layout 'layout'
     @render 'home'
     ), name:'search'
+
+Router.route '/love', (->
+    @layout 'layout'
+    @render 'love'
+    ), name:'love'
 
 
 
