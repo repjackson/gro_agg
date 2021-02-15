@@ -42,7 +42,7 @@ template(name='home')
     .ui.stackable.grid
         .sixteen.wide.center.aligned.column.seg
             if counter
-                span.ui.text   
+                .ui.inline.small.header.thin   
                     |#{counter}
             if picked_tags
                 // if many_tags
@@ -51,11 +51,14 @@ template(name='home')
                 each picked_tags
                     +unpick_tag
             |&nbsp;
-            .ui.icon.big.transparent.input
+            .ui.left.icon.big.transparent.input
                 if is_loading
                     i.yin.yang.loading.large.icon
                 else
-                    i.search.icon
+                    if porn_mode
+                        i.large.fire.icon
+                    else
+                        i.search.icon
                 input.search_tag(type='text' value=query autofocus='' placeholder='search')
             div
             each result_tags
@@ -102,7 +105,7 @@ template(name='post_card_small')
         .content.zoomer.card_small.invert
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
             // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
-            a.ui.center.aligned.grey.header.title(href=url target='_window')
+            a.ui.center.aligned.invert.header.thin.title(href=url target='_window')
                 // |!{data.title} #{lowered_title}
                 |#{lowered_title}
             .spacer

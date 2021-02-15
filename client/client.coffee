@@ -187,15 +187,19 @@ Template.home.onRendered ->
         
 Template.home.onCreated ->
     Session.setDefault('toggle',false)
+    Session.setDefault('porn_mode',false)
     @autorun => Meteor.subscribe 'tags',
         picked_tags.array()
         Session.get('toggle')
+        Session.get('porn_mode')
     @autorun => Meteor.subscribe 'count', 
         picked_tags.array()
         Session.get('toggle')
+        Session.get('porn_mode')
     @autorun => Meteor.subscribe 'posts', 
         picked_tags.array()
         Session.get('toggle')
+        Session.get('porn_mode')
 
 Template.home.helpers
     posts: ->
@@ -211,14 +215,14 @@ Template.home.helpers
     picked_tags: -> picked_tags.array()
   
     result_tags: -> results.find(model:'tag')
-   
+    porn_mode: -> Session.get('porn_mode')
         
 Template.home.events
     'click .search_tag': (e,t)->
         Session.set('toggle',!Session.get('toggle'))
         $('.seg .pick_tag').transition({
             animation : 'pulse',
-            duration  : 800,
+            duration  : 500,
             interval  : 300
         })
         $('.black').transition('pulse')
@@ -226,41 +230,46 @@ Template.home.events
         # $('.card_small').transition('shake')
             
     'keyup .search_tag': (e,t)->
-        $('.search_tag').transition('pulse', 200)
+        $('.search_tag').transition('glow', 100)
         if e.which is 13
             val = t.$('.search_tag').val().trim().toLowerCase()
             if val.length > 0
-                picked_tags.push val   
-                # Session.set('sub_doc_query', val)
-                Session.set('loading',true)
-                window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
-                $('.search_tag').transition('pulse')
-                $('.black').transition('pulse')
-                $('.seg .pick_tag').transition({
-                    animation : 'pulse',
-                    duration  : 800,
-                    interval  : 300
-                })
-                $('.seg .black').transition({
-                    animation : 'pulse',
-                    duration  : 800,
-                    interval  : 300
-                })
-                # $('.pick_tag').transition('pulse')
-                # $('.card_small').transition('shake')
-                $('.pushed .card_small').transition({
-                    animation : 'pulse',
-                    duration  : 800,
-                    interval  : 300
-                })
-
-                t.$('.search_tag').val('')
-                Meteor.call 'search_reddit', picked_tags.array(), ->
-                    Session.set('loading',false)
-                Meteor.setTimeout ->
-                    Session.set('toggle',!Session.get('toggle'))
-                , 5000
-        
+                if val is 'nsfw'
+                    Session.set('porn_mode', true)
+                    # window.speechSynthesis.speak new SpeechSynthesisUtterance '
+                    t.$('.search_tag').val('')
+                else
+                    picked_tags.push val   
+                    # Session.set('sub_doc_query', val)
+                    Session.set('loading',true)
+                    # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
+                    $('.search_tag').transition('pulse')
+                    $('.black').transition('pulse')
+                    $('.seg .pick_tag').transition({
+                        animation : 'pulse',
+                        duration  : 500,
+                        interval  : 300
+                    })
+                    $('.seg .black').transition({
+                        animation : 'pulse',
+                        duration  : 500,
+                        interval  : 300
+                    })
+                    # $('.pick_tag').transition('pulse')
+                    # $('.card_small').transition('shake')
+                    $('.pushed .card_small').transition({
+                        animation : 'pulse',
+                        duration  : 500,
+                        interval  : 300
+                    })
+    
+                    t.$('.search_tag').val('')
+                    Meteor.call 'search_reddit', picked_tags.array(), ->
+                        Session.set('loading',false)
+                    Meteor.setTimeout ->
+                        Session.set('toggle',!Session.get('toggle'))
+                    , 5000
+            
 
     'click .title': (e,t)-> 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
@@ -272,11 +281,11 @@ Template.post_card_small.events
     'click .view_post': (e,t)-> 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
     'keyup .add_tag': (e,t)->
-        $('.add_tag').transition('bounce', 100)
+        $('.add_tag').transition('glow', 100)
         if e.which is 13
             # $(e.currentTarget).closest('.button').transition('pulse',200)
             val = $(e.currentTarget).closest('.add_tag').val().trim().toLowerCase()
-            console.log val
+            # console.log val
             if val.length > 0
                 Session.set('loading',true)
                 Docs.update @_id, 
@@ -302,19 +311,19 @@ Template.tag_picker.events
         $('.search_tag').transition('pulse')
         $('.seg .pick_tag').transition({
             animation : 'pulse',
-            duration  : 800,
+            duration  : 500,
             interval  : 300
         })
         $('.seg .black').transition({
             animation : 'pulse',
-            duration  : 800,
+            duration  : 500,
             interval  : 300
         })
         # $('.pick_tag').transition('pulse')
         # $('.card_small').transition('shake')
         # $('.pushed .card_small').transition({
         #     animation : 'pulse',
-        #     duration  : 800,
+        #     duration  : 500,
         #     interval  : 300
         # })
 
@@ -337,21 +346,21 @@ Template.unpick_tag.events
         $('.search_tag').transition('pulse')
         $('.seg .black').transition({
             animation : 'pulse',
-            duration  : 800,
+            duration  : 500,
             interval  : 300
         })
         # $('.pick_tag').transition('pulse')
         # $('.card_small').transition('shake')
         $('.seg .pick_tag').transition({
             animation : 'pulse',
-            duration  : 800,
+            duration  : 500,
             interval  : 300
         })
-        $('.pushed .card_small').transition({
-            animation : 'pulse',
-            duration  : 800,
-            interval  : 300
-        })
+        # $('.pushed .card_small').transition({
+        #     animation : 'pulse',
+        #     duration  : 500,
+        #     interval  : 300
+        # })
         if picked_tags.array().length is 0
             $('.search_tag').focus()
         else

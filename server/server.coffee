@@ -37,6 +37,7 @@ Meteor.publish 'count', (
 Meteor.publish 'posts', (
     picked_tags
     toggle
+    porn_mode
     )->
     self = @
     match = {
@@ -44,33 +45,34 @@ Meteor.publish 'posts', (
     }
     if picked_tags.length
         match.tags = $all:picked_tags
-        
+        match["data.over_18"] = porn_mode
     
         console.log 'match', match
         Docs.find match,
             limit: 20
             # sort: "#{sk}":-1
             sort: ups:-1
-            fields:
-                "data.title":1
-                "data.subreddit":1
-                "data.thumbnail_width":1
-                "data.thumbnail":1
-                "data.media":1
-                "data.created":1
-                "subreddit":1
-                tags:1
-                url:1
-                model:1
-                ups:1
-                domain:1
-                # data:1
+            # fields:
+            #     "data.title":1
+            #     "data.subreddit":1
+            #     "data.thumbnail_width":1
+            #     "data.thumbnail":1
+            #     "data.media":1
+            #     "data.created":1
+            #     "subreddit":1
+            #     tags:1
+            #     url:1
+            #     model:1
+            #     ups:1
+            #     domain:1
+            #     # data:1
     
     
            
 Meteor.publish 'tags', (
     picked_tags
     toggle
+    porn_mode
     )->
     # @unblock()
     self = @
@@ -79,6 +81,8 @@ Meteor.publish 'tags', (
     }
     if picked_tags.length
         match.tags = $all:picked_tags
+        match["data.over_18"] = porn_mode
+
         doc_count = Docs.find(match).count()
         # console.log 'doc_count', doc_count
         # console.log 'tag match', match
@@ -90,7 +94,7 @@ Meteor.publish 'tags', (
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:20 }
+            { $limit:15 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         tag_cloud.forEach (tag, i) ->
@@ -115,7 +119,7 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "http://reddit.com/search.json?q=#{query}&nsfw=1&limit=100&include_facets=false&raw_json=1"
+        url = "http://reddit.com/search.json?q=#{query}&over_18=1&limit=100&include_facets=false&raw_json=1"
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,res)=>
         HTTP.get url,(err,res)=>
             if res.data.data.dist > 1
@@ -175,8 +179,10 @@ Meteor.methods
         doc = Docs.findOne doc_id
         if doc.reddit_id
             HTTP.get "http://reddit.com/by_id/t3_#{reddit_id}.json&raw_json=1", (err,res)->
-                if err then console.error err
-                else
+                if err
+                    console.log 'error getting', reddit_id
+                    console.error err
+                unless err
                     rd = res.data.data.children[0].data
                     Docs.update doc_id,
                         $set:
