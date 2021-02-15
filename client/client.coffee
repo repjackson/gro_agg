@@ -217,11 +217,11 @@ Template.home.events
     'click .search_tag': (e,t)->
         Session.set('toggle',!Session.get('toggle'))
         $('.seg .pick_tag').transition({
-            animation : 'bounce',
+            animation : 'pulse',
             duration  : 800,
-            interval  : 200
+            interval  : 300
         })
-        $('.black').transition('bounce')
+        $('.black').transition('pulse')
         # $('.pick_tag').transition('pulse')
         # $('.card_small').transition('shake')
             
@@ -238,21 +238,21 @@ Template.home.events
                 $('.search_tag').transition('pulse')
                 $('.black').transition('pulse')
                 $('.seg .pick_tag').transition({
-                    animation : 'bounce',
+                    animation : 'pulse',
                     duration  : 800,
-                    interval  : 200
+                    interval  : 300
                 })
                 $('.seg .black').transition({
-                    animation : 'bounce',
+                    animation : 'pulse',
                     duration  : 800,
-                    interval  : 200
+                    interval  : 300
                 })
                 # $('.pick_tag').transition('pulse')
                 # $('.card_small').transition('shake')
                 $('.pushed .card_small').transition({
-                    animation : 'bounce',
+                    animation : 'pulse',
                     duration  : 800,
-                    interval  : 200
+                    interval  : 300
                 })
 
                 Meteor.call 'search_reddit', picked_tags.array(), ->
@@ -263,23 +263,25 @@ Template.home.events
         
 
     'click .title': (e,t)-> 
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
  
  
  
  
 Template.post_card_small.events
     'click .view_post': (e,t)-> 
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
      'keyup .add_tag': (e,t)->
-        $('.add_tag').transition('bounce', 100)
+        $('.add_tag').transition('pulse', 100)
         if e.which is 13
-            val = t.$('.add_tag').val().trim().toLowerCase()
+            # $(e.currentTarget).closest('.button').transition('pulse',200)
+            
+            val = $(e.currentTarget).closest('.add_tag').val().trim().toLowerCase()
             if val.length > 0
                 Session.set('loading',true)
                 Docs.update @_id, 
                     $addToSet: tags: val
-                window.speechSynthesis.speak new SpeechSynthesisUtterance val
+                # window.speechSynthesis.speak new SpeechSynthesisUtterance val
                 picked_tags.push val   
                 Meteor.call 'search_reddit', picked_tags.array(), ->
                     Session.set('loading',false)
@@ -298,28 +300,28 @@ Template.tag_picker.events
         Session.set('skip_value',0)
         $('.search_tag').transition('pulse')
         $('.seg .pick_tag').transition({
-            animation : 'bounce',
+            animation : 'pulse',
             duration  : 800,
-            interval  : 200
+            interval  : 300
         })
         $('.seg .black').transition({
-            animation : 'bounce',
+            animation : 'pulse',
             duration  : 800,
-            interval  : 200
+            interval  : 300
         })
         # $('.pick_tag').transition('pulse')
         # $('.card_small').transition('shake')
         $('.pushed .card_small').transition({
-            animation : 'bounce',
+            animation : 'pulse',
             duration  : 800,
-            interval  : 200
+            interval  : 300
         })
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
-            window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
         Meteor.setTimeout ->
             Session.set('toggle',!Session.get('toggle'))
         , 5000
@@ -331,26 +333,26 @@ Template.unpick_tag.events
         Session.set('skip',0)
         # console.log @
         picked_tags.remove @valueOf()
-        $('.search_tag').transition('bounce')
+        $('.search_tag').transition('pulse')
         $('.seg .black').transition({
-            animation : 'bounce',
+            animation : 'pulse',
             duration  : 800,
-            interval  : 200
+            interval  : 300
         })
-        # $('.pick_tag').transition('bounce')
+        # $('.pick_tag').transition('pulse')
         # $('.card_small').transition('shake')
         $('.seg .pick_tag').transition({
-            animation : 'bounce',
+            animation : 'pulse',
             duration  : 800,
-            interval  : 200
+            interval  : 300
         })
         $('.pushed .card_small').transition({
-            animation : 'bounce',
+            animation : 'pulse',
             duration  : 800,
-            interval  : 200
+            interval  : 300
         })
 
-        window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
@@ -369,5 +371,5 @@ Template.flat_tag_picker.events
         Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
-        window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
     

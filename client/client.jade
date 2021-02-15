@@ -40,7 +40,7 @@ template(name='layout')
             
 template(name='home')
     .ui.stackable.grid
-        .sixteen.wide.left.aligned.column.seg
+        .sixteen.wide.center.aligned.column.seg
             if counter
                 span.ui.text   
                     |#{counter}
@@ -50,12 +50,13 @@ template(name='home')
                 //         i.remove.icon
                 each picked_tags
                     +unpick_tag
-            .ui.icon.large.input
+            |&nbsp;
+            .ui.icon.big.transparent.input
                 if is_loading
                     i.yin.yang.loading.large.icon
                 else
                     i.search.icon
-                input.search_tag(type='text' value=query autofocus='' placeholder='consult')
+                input.search_tag(type='text' value=query autofocus='' placeholder='search')
             each result_tags
                 +tag_picker
             .ui.hidden.divider
@@ -67,7 +68,7 @@ template(name='home')
                 
 template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    button.ui.compact.basic.large.circular.inverted.grey.button.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    button.ui.basic.large.grey.tertiary.button.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         // if term
         //     if term.watson.metadata.image
         //         img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
@@ -76,7 +77,7 @@ template(name='tag_picker')
         //     small #{count}
             
 template(name='unpick_tag')
-    button.unpick_tag.ui.black.circular.compact.large.inverted.button.invert
+    button.unpick_tag.ui.black.circular.compact.large.secondary.button.invert
         // if term
         //     if term.watson.metadata.image
         //         img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -103,6 +104,7 @@ template(name='post_card_small')
             a.ui.center.aligned.grey.header.title(href=url target='_window')
                 // |!{data.title} #{lowered_title}
                 |#{lowered_title}
+            .spacer
             if embed
                 span.rounded.full
                     |!{embed}
