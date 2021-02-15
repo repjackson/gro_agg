@@ -33,6 +33,17 @@ head
 
 
 template(name='layout')
+    .ui.fluid.attached.five.item.icon.menu
+        a.icon.item(href="/")
+            i.yin.yang.icon
+        a.icon.item(href="/love")
+            i.heart.icon
+        a.icon.item.set_food(href="/s/recipes")
+            i.food.icon
+        a.icon.item.set_nature(href="/s/environment")
+            i.leaf.icon
+        a.icon.item.set_movies(href="/s/movies")
+            i.film.icon
     .ui.bottom.attached.pushable.segment
         +yield
 

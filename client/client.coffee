@@ -49,7 +49,20 @@ Router.route '/love', (->
     @render 'love'
     ), name:'love'
 
-
+Template.layout.events
+    'click .clear_tags': -> picked_tags.clear()
+    'click .set_food': -> 
+        picked_tags.clear()
+        picked_tags.push 'food'
+    'click .set_movies': -> 
+        picked_tags.clear()
+        picked_tags.push 'movies'
+    'click .set_nature': -> 
+        picked_tags.clear()
+        picked_tags.push 'nature'
+    'click .set_food': -> 
+        picked_tags.clear()
+        picked_tags.push 'food'
 
 Template.registerHelper 'trunc', (input) ->
     input[0..350]
