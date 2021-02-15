@@ -81,8 +81,8 @@ Meteor.publish 'tags', (
     if picked_tags.length
         match.tags = $all:picked_tags
         doc_count = Docs.find(match).count()
-        console.log 'doc_count', doc_count
-        console.log 'tag match', match
+        # console.log 'doc_count', doc_count
+        # console.log 'tag match', match
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }

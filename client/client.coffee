@@ -226,21 +226,40 @@ Template.home.events
         # $('.card_small').transition('shake')
             
     'keyup .search_tag': (e,t)->
-         if e.which is 13
+        $('.search_tag').transition('pulse', 250)
+        if e.which is 13
             val = t.$('.search_tag').val().trim().toLowerCase()
-            picked_tags.push val   
-            t.$('.search_tag').val('')
-            # Session.set('sub_doc_query', val)
-            Session.set('loading',true)
-            window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
-            $('.search_tag').transition('pulse')
-            $('.black').transition('pulse')
+            if val.length > 0
+                picked_tags.push val   
+                t.$('.search_tag').val('')
+                # Session.set('sub_doc_query', val)
+                Session.set('loading',true)
+                window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
+                $('.search_tag').transition('pulse')
+                $('.black').transition('pulse')
+                $('.seg .pick_tag').transition({
+                    animation : 'bounce',
+                    duration  : 800,
+                    interval  : 200
+                })
+                $('.seg .black').transition({
+                    animation : 'bounce',
+                    duration  : 800,
+                    interval  : 200
+                })
+                # $('.pick_tag').transition('pulse')
+                # $('.card_small').transition('shake')
+                $('.pushed .card_small').transition({
+                    animation : 'bounce',
+                    duration  : 800,
+                    interval  : 200
+                })
 
-            Meteor.call 'search_reddit', picked_tags.array(), ->
-                Session.set('loading',false)
-            Meteor.setTimeout ->
-                Session.set('toggle',!Session.get('toggle'))
-            , 5000
+                Meteor.call 'search_reddit', picked_tags.array(), ->
+                    Session.set('loading',false)
+                Meteor.setTimeout ->
+                    Session.set('toggle',!Session.get('toggle'))
+                , 5000
         
 
     'click .title': (e,t)-> 
@@ -261,7 +280,7 @@ Template.tag_picker.events
         picked_tags.push @name.toLowerCase()
         $('.search_tag').val('')
         Session.set('skip_value',0)
-        $('.search_tag').tWransition('pulse')
+        $('.search_tag').transition('pulse')
         $('.seg .pick_tag').transition({
             animation : 'jiggle',
             duration  : 800,
@@ -281,10 +300,10 @@ Template.tag_picker.events
         })
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
+            window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
         Meteor.setTimeout ->
             Session.set('toggle',!Session.get('toggle'))
         , 5000
