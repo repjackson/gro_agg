@@ -277,10 +277,20 @@ Template.tag_picker.events
         picked_tags.push @name.toLowerCase()
         $('.search_tag').val('')
         Session.set('skip_value',0)
-        $('.search_tag').transition('pulse')
+        # $('.search_tag').tWransition('pulse')
+        $('.seg .pick_tag').transition({
+            animation : 'jiggle',
+            duration  : 800,
+            interval  : 200
+        })
         $('.black').transition('tada')
-        $('.pick_tag').transition('pulse')
-        $('.card_small').transition('shake')
+        # $('.pick_tag').transition('pulse')
+        # $('.card_small').transition('shake')
+        $('.pushed .card_small').transition({
+            animation : 'jiggle',
+            duration  : 800,
+            interval  : 200
+        })
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
@@ -297,9 +307,19 @@ Template.unpick_tag.events
         picked_tags.remove @valueOf()
         $('.search_tag').transition('pulse')
         $('.black').transition('tada')
-        $('.pick_tag').transition('tada')
-        $('.card_small').transition('shake')
-        
+        # $('.pick_tag').transition('tada')
+        # $('.card_small').transition('shake')
+        $('.seg .pick_tag').transition({
+            animation : 'jiggle',
+            duration  : 800,
+            interval  : 200
+        })
+        $('.pushed .card_small').transition({
+            animation : 'jiggle',
+            duration  : 800,
+            interval  : 200
+        })
+
         window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         Session.set('loading',true)

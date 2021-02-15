@@ -56,6 +56,7 @@ Meteor.publish 'posts', (
                 "data.thumbnail":1
                 "data.media":1
                 "data.created":1
+                "subreddit":1
                 tags:1
                 tags:1
                 url:1
@@ -88,7 +89,7 @@ Meteor.publish 'tags', (
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:20 }
+            { $limit:15 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         tag_cloud.forEach (tag, i) ->
