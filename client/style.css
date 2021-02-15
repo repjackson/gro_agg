@@ -36,7 +36,7 @@ body {
     height: 5px !important;
 }
 .header {
-  font-family: 'Ubuntu', sans-serif !important; 
+  /*font-family: 'Ubuntu', sans-serif !important; */
     
 }
 .pushed {
@@ -51,11 +51,11 @@ body {
 }
 
 .thin {
-    font-weight: 300 !important;
+    font-weight: 400 !important;
 }
 
 input {
-    border-radius: 20px !important;
+    border-radius: 42px !important;
 }
 .input {
     margin-top: 10px !important;

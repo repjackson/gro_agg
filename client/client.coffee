@@ -183,9 +183,40 @@ Template.home.onRendered ->
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
 
+Template.alpha.onRendered ->
+    # unless @data.watson
+    #     Meteor.call 'call_watson', @data._id, 'url','url',->
+    # if @data.response
+    # window.speechSynthesis.cancel()
+    # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[1].plaintext
+    if @data 
+        if @data.voice
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @data.voice
+        else if @data.response.queryresult.pods
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[0].plaintext
+    # Meteor.setTimeout( =>
+    # , 7000)
+
+Template.alpha.helpers
+    alphas: ->
+        Docs.find
+            model:'alpha'
+    
+    split_datatypes: ->
+        split = @datatypes.split ','
+        split
+
+Template.alpha.events
+    'click .select_datatype': ->
+        picked_tags.push @valueOf().toLowerCase()
+    'click .alphatemp': ->
+        window.speechSynthesis.cancel()
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @plaintext
         
+
         
 Template.home.onCreated ->
+    @autorun -> Meteor.subscribe('alpha_combo',picked_tags.array())
     Session.setDefault('simple',true)
     Session.setDefault('toggle',false)
     Session.setDefault('nsfw_mode',false)
@@ -210,7 +241,12 @@ Template.home.helpers
             sort: ups:-1
             limit:42
         )
-  
+    alphas: ->
+        Docs.find 
+            model:'alpha'
+            # query: $in: picked_tags.array()
+            # query: picked_tags.array().toString()
+
     counter: -> Counts.get 'counter'
 
     picked_tags: -> picked_tags.array()
@@ -248,6 +284,8 @@ Template.home.events
                     picked_tags.push val   
                     # Session.set('sub_doc_query', val)
                     Session.set('loading',true)
+                    Meteor.call 'call_alpha', picked_tags.array().toString(), ->
+
                     # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
                     $('.search_tag').transition('pulse')
                     $('.black').transition('pulse')
@@ -335,6 +373,7 @@ Template.tag_picker.events
         #     duration  : 500,
         #     interval  : 300
         # })
+        Meteor.call 'call_alpha', picked_tags.array().toString(), ->
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         Session.set('loading',true)
@@ -365,6 +404,8 @@ Template.unpick_tag.events
             duration  : 500,
             interval  : 300
         })
+        Meteor.call 'call_alpha', picked_tags.array().toString(), ->
+        
         # $('.pushed .card_small').transition({
         #     animation : 'pulse',
         #     duration  : 500,
