@@ -231,7 +231,6 @@ Template.home.events
             val = t.$('.search_tag').val().trim().toLowerCase()
             if val.length > 0
                 picked_tags.push val   
-                t.$('.search_tag').val('')
                 # Session.set('sub_doc_query', val)
                 Session.set('loading',true)
                 window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
@@ -255,6 +254,7 @@ Template.home.events
                     interval  : 300
                 })
 
+                t.$('.search_tag').val('')
                 Meteor.call 'search_reddit', picked_tags.array(), ->
                     Session.set('loading',false)
                 Meteor.setTimeout ->
@@ -271,12 +271,12 @@ Template.home.events
 Template.post_card_small.events
     'click .view_post': (e,t)-> 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
-     'keyup .add_tag': (e,t)->
-        $('.add_tag').transition('pulse', 100)
+    'keyup .add_tag': (e,t)->
+        $('.add_tag').transition('bounce', 100)
         if e.which is 13
             # $(e.currentTarget).closest('.button').transition('pulse',200)
-            
             val = $(e.currentTarget).closest('.add_tag').val().trim().toLowerCase()
+            console.log val
             if val.length > 0
                 Session.set('loading',true)
                 Docs.update @_id, 
@@ -288,7 +288,8 @@ Template.post_card_small.events
                 Meteor.setTimeout ->
                     Session.set('toggle',!Session.get('toggle'))
                 , 5000
-                t.$('.add_tag').val('')
+                # t.$('.add_tag').val('')
+                $(e.currentTarget).closest('.add_tag').val('')
 
 Template.post_card_small.helpers
     five_tags: -> @tags[..5]
@@ -311,11 +312,11 @@ Template.tag_picker.events
         })
         # $('.pick_tag').transition('pulse')
         # $('.card_small').transition('shake')
-        $('.pushed .card_small').transition({
-            animation : 'pulse',
-            duration  : 800,
-            interval  : 300
-        })
+        # $('.pushed .card_small').transition({
+        #     animation : 'pulse',
+        #     duration  : 800,
+        #     interval  : 300
+        # })
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         Session.set('loading',true)
@@ -351,15 +352,17 @@ Template.unpick_tag.events
             duration  : 800,
             interval  : 300
         })
-
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-        Session.set('loading',true)
-        Meteor.call 'search_reddit', picked_tags.array(), ->
-            Session.set('loading',false)
-        Meteor.setTimeout ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 5000
+        if picked_tags.array().length is 0
+            $('.search_tag').focus()
+        else
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+            Session.set('loading',true)
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('loading',false)
+            Meteor.setTimeout ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 5000
 
 
 Template.flat_tag_picker.events

@@ -28,7 +28,7 @@ body {
   to   { opacity: 1}
 }
 
-.button, .selector, .card, .dark_mode, .ui.header, .ui.label, .item, p, img{
+.button, button, .selector, .card, .dark_mode, .ui.header, .ui.label, .item, p, img{
     animation: fadein 1s !important;
 }
 
