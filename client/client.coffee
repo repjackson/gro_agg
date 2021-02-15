@@ -73,7 +73,7 @@ Template.registerHelper 'calculated_size', (metric) ->
 
 
 
-# Template.registerHelper 'session', () -> Session.get(@key)
+Template.registerHelper 'session_is', (input) -> Session.get(input)
 
 
 # Template.registerHelper 'skip_is_zero', ()-> Session.equals('skip', 0)
@@ -186,20 +186,21 @@ Template.home.onRendered ->
         
         
 Template.home.onCreated ->
+    Session.setDefault('simple',true)
     Session.setDefault('toggle',false)
-    Session.setDefault('porn_mode',false)
+    Session.setDefault('nsfw_mode',false)
     @autorun => Meteor.subscribe 'tags',
         picked_tags.array()
         Session.get('toggle')
-        Session.get('porn_mode')
+        Session.get('nsfw_mode')
     @autorun => Meteor.subscribe 'count', 
         picked_tags.array()
         Session.get('toggle')
-        Session.get('porn_mode')
+        Session.get('nsfw_mode')
     @autorun => Meteor.subscribe 'posts', 
         picked_tags.array()
         Session.get('toggle')
-        Session.get('porn_mode')
+        Session.get('nsfw_mode')
 
 Template.home.helpers
     posts: ->
@@ -215,9 +216,14 @@ Template.home.helpers
     picked_tags: -> picked_tags.array()
   
     result_tags: -> results.find(model:'tag')
-    porn_mode: -> Session.get('porn_mode')
+    nsfw_mode: -> Session.get('nsfw_mode')
+    simple: -> Session.get('simple')
         
 Template.home.events
+    'click .simple_off': (e,t)-> Session.set('simple',false)
+        
+    'click .simple_on': (e,t)-> Session.set('simple',true)
+        
     'click .search_tag': (e,t)->
         Session.set('toggle',!Session.get('toggle'))
         $('.seg .pick_tag').transition({
@@ -235,7 +241,7 @@ Template.home.events
             val = t.$('.search_tag').val().trim().toLowerCase()
             if val.length > 0
                 if val is 'nsfw'
-                    Session.set('porn_mode', true)
+                    Session.set('nsfw_mode', true)
                     # window.speechSynthesis.speak new SpeechSynthesisUtterance '
                     t.$('.search_tag').val('')
                 else
@@ -279,6 +285,8 @@ Template.home.events
  
 Template.post_card_small.events
     'click .view_post': (e,t)-> 
+    'click .dl': (e,t)-> 
+        Meteor.call 'get_reddit_post', @_id, ->
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
     'keyup .add_tag': (e,t)->
         $('.add_tag').transition('glow', 100)
@@ -302,7 +310,8 @@ Template.post_card_small.events
 
 Template.post_card_small.helpers
     five_tags: -> @tags[..5]
- 
+    simple: -> Session.get('simple')
+
 Template.tag_picker.events
     'click .pick_tag': -> 
         picked_tags.push @name.toLowerCase()

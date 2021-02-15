@@ -41,6 +41,11 @@ template(name='layout')
 template(name='home')
     .ui.stackable.grid
         .sixteen.wide.center.aligned.column.seg
+            if session_is 'simple'
+                i.sliders.horizontal.grey.link.icon.simple_off
+            unless session_is 'simple'
+                i.sliders.horizontal.large.link.icon.simple_on
+                
             if counter
                 .ui.inline.small.header.thin   
                     |#{counter}
@@ -55,11 +60,19 @@ template(name='home')
                 if is_loading
                     i.yin.yang.loading.large.icon
                 else
-                    if porn_mode
+                    if nsfw_mode
                         i.large.fire.icon
                     else
                         i.search.icon
                 input.search_tag(type='text' value=query autofocus='' placeholder='search')
+            unless simple
+                i.fire.icon
+                i.clock.icon
+                i.chevron.down.icon
+                i.chevron.right.icon
+                i.chevron.left.icon
+           
+           
             div
             each result_tags
                 +tag_picker
@@ -89,7 +102,7 @@ template(name='unpick_tag')
 
 template(name='flat_tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.compact.small.basic.circular.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.compact.small.basic.tertiary.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -119,10 +132,12 @@ template(name='post_card_small')
             else if data.thumbnail_width
                 a(href=url target='_window')
                     img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
-            // |#{ups}
-            // i.thumbs.up.outline.icon
-            // |#{comment_count}
-            // i.chat.outline.icon
+            i.circular.chevron.down.icon.dl.invert
+            span.invert
+                |#{ups}
+                i.thumbs.up.outline.icon
+                |#{comment_count}
+                i.chat.outline.icon
             span.ui.text {{ufrom data.created}}
             with subreddit
                 +flat_tag_picker
@@ -136,4 +151,8 @@ template(name='post_card_small')
             .ui.tiny.invert.transparent.left.icon.input
                 i.plus.icon
                 input.add_tag(type='text' placeholder='...')
-            .ui.hidden.divider            
+            .ui.hidden.divider   
+            if data.selftext_html
+                unless simple
+                    span.invert.smallscroll
+                        |{{#markdown}} !{data.selftext_html} {{/markdown}}

@@ -58,6 +58,7 @@ Meteor.publish 'posts', (
             #     "data.thumbnail_width":1
             #     "data.thumbnail":1
             #     "data.media":1
+            #     "data.selftext_html":1
             #     "data.created":1
             #     "subreddit":1
             #     tags:1
@@ -175,15 +176,17 @@ Meteor.methods
    
 
     get_reddit_post: (doc_id, reddit_id, root)->
-        # @unblock()
+        @unblock()
         doc = Docs.findOne doc_id
         if doc.reddit_id
-            HTTP.get "http://reddit.com/by_id/t3_#{reddit_id}.json&raw_json=1", (err,res)->
+            # HTTP.get "http://reddit.com/by_id/t3_#{doc.reddit_id}.json&raw_json=1", (err,res)->
+            HTTP.get "https://www.reddit.com/comments/#{doc.reddit_id}/.json", (err,res)->
                 if err
-                    console.log 'error getting', reddit_id
-                    console.error err
+                    console.log 'error getting', doc.reddit_id
+                    # console.error err
                 unless err
-                    rd = res.data.data.children[0].data
+                    # console.log res.data[0].data.children[0].data
+                    rd = res.data[0].data.children[0].data
                     Docs.update doc_id,
                         $set:
                             data: rd
