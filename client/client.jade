@@ -40,31 +40,39 @@ template(name='layout')
             
 template(name='home')
     .ui.stackable.grid
-        .sixteen.wide.center.aligned.column.seg
-            if session_is 'simple'
-                i.sliders.horizontal.grey.link.icon.simple_off
-            unless session_is 'simple'
-                i.sliders.horizontal.large.link.icon.simple_on
-                
-            if counter
-                .ui.inline.small.header.thin   
-                    |#{counter}
+        .sixteen.wide.left.aligned.column.seg
             if picked_tags
+                    
+                .ui.left.icon.big.transparent.input
+                    if is_loading
+                        i.yin.yang.loading.large.icon
+                    else
+                        if nsfw_mode
+                            i.large.fire.icon
+                        else
+                            if session_is 'simple'
+                                i.yin.yang.large.grey.link.icon.simple_off(title='simple mode')
+                            unless session_is 'simple'
+                                i.sliders.horizontal.large.black.link.icon.simple_on(title='make advanced')
+                    input.search_tag(type='text' value=query autofocus='' placeholder="search #{counter}")
                 // if many_tags
                 //     a#clear_tags.ui.black.invert.icon.compact.button.pick_term
                 //         i.remove.icon
                 each picked_tags
                     +unpick_tag
             |&nbsp;
-            .ui.left.icon.big.transparent.input
-                if is_loading
-                    i.yin.yang.loading.large.icon
-                else
-                    if nsfw_mode
-                        i.large.fire.icon
+            unless picked_tags
+                .ui.center.aligned.basic.segment
+                .ui.left.icon.massive.transparent.input
+                    if is_loading
+                        i.yin.yang.loading.large.icon
                     else
-                        i.search.icon
-                input.search_tag(type='text' value=query autofocus='' placeholder='search')
+                        if nsfw_mode
+                            i.large.fire.icon
+                        else
+                            i.search.icon
+                    input.search_tag(type='text' value=query autofocus='' placeholder='search')
+                
             unless simple
                 i.fire.icon
                 i.clock.icon
@@ -73,11 +81,11 @@ template(name='home')
                 i.chevron.left.icon
            
            
-            div
+            // div
             each result_tags
                 +tag_picker
             .ui.hidden.divider
-            .ui.three.column.centered.stackable.grid.scrolling.pushed
+            .ui.four.column.centered.stackable.grid.scrolling.pushed
                 each posts
                     +post_card_small
                 
