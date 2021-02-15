@@ -60,7 +60,6 @@ Meteor.publish 'posts', (
                 "data.created":1
                 "subreddit":1
                 tags:1
-                tags:1
                 url:1
                 model:1
                 ups:1

@@ -217,16 +217,16 @@ Template.home.events
     'click .search_tag': (e,t)->
         Session.set('toggle',!Session.get('toggle'))
         $('.seg .pick_tag').transition({
-            animation : 'jiggle',
+            animation : 'bounce',
             duration  : 800,
             interval  : 200
         })
-        $('.black').transition('tada')
+        $('.black').transition('bounce')
         # $('.pick_tag').transition('pulse')
         # $('.card_small').transition('shake')
             
     'keyup .search_tag': (e,t)->
-        $('.search_tag').transition('pulse', 250)
+        $('.search_tag').transition('pulse', 200)
         if e.which is 13
             val = t.$('.search_tag').val().trim().toLowerCase()
             if val.length > 0
@@ -271,7 +271,23 @@ Template.home.events
 Template.post_card_small.events
     'click .view_post': (e,t)-> 
         window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
- 
+     'keyup .add_tag': (e,t)->
+        $('.add_tag').transition('bounce', 100)
+        if e.which is 13
+            val = t.$('.add_tag').val().trim().toLowerCase()
+            if val.length > 0
+                Session.set('loading',true)
+                Docs.update @_id, 
+                    $addToSet: tags: val
+                window.speechSynthesis.speak new SpeechSynthesisUtterance val
+                picked_tags.push val   
+                Meteor.call 'search_reddit', picked_tags.array(), ->
+                    Session.set('loading',false)
+                Meteor.setTimeout ->
+                    Session.set('toggle',!Session.get('toggle'))
+                , 5000
+                t.$('.add_tag').val('')
+
 Template.post_card_small.helpers
     five_tags: -> @tags[..5]
  
@@ -282,19 +298,19 @@ Template.tag_picker.events
         Session.set('skip_value',0)
         $('.search_tag').transition('pulse')
         $('.seg .pick_tag').transition({
-            animation : 'jiggle',
+            animation : 'bounce',
             duration  : 800,
             interval  : 200
         })
         $('.seg .black').transition({
-            animation : 'jiggle',
+            animation : 'bounce',
             duration  : 800,
             interval  : 200
         })
         # $('.pick_tag').transition('pulse')
         # $('.card_small').transition('shake')
         $('.pushed .card_small').transition({
-            animation : 'jiggle',
+            animation : 'bounce',
             duration  : 800,
             interval  : 200
         })
@@ -315,21 +331,21 @@ Template.unpick_tag.events
         Session.set('skip',0)
         # console.log @
         picked_tags.remove @valueOf()
-        $('.search_tag').transition('jiggle')
+        $('.search_tag').transition('bounce')
         $('.seg .black').transition({
-            animation : 'tada',
+            animation : 'bounce',
             duration  : 800,
             interval  : 200
         })
-        # $('.pick_tag').transition('tada')
+        # $('.pick_tag').transition('bounce')
         # $('.card_small').transition('shake')
         $('.seg .pick_tag').transition({
-            animation : 'jiggle',
+            animation : 'bounce',
             duration  : 800,
             interval  : 200
         })
         $('.pushed .card_small').transition({
-            animation : 'jiggle',
+            animation : 'bounce',
             duration  : 800,
             interval  : 200
         })
