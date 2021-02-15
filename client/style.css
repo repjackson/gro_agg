@@ -53,6 +53,16 @@ body {
 .thin {
     font-weight: 400 !important;
 }
+.zoomer:hover {
+    transition: all .3s ease !important; 
+    /*text-shadow: 0 0 3px grey !important;*/
+    /*filter: drop-shadow(0px 0px 5px grey);    */
+    z-index: 1000 !important;
+    /*animation: fadein .5s !important;*/
+    transform: scale(1.1) !important;
+    /*animation: fadein .5s !important;*/
+    /*animation: fadeout .5s; */
+}
 
 input {
     border-radius: 42px !important;

@@ -250,6 +250,7 @@ Template.home.helpers
     counter: -> Counts.get 'counter'
 
     picked_tags: -> picked_tags.array()
+    many_tags: -> picked_tags.array().length>1
   
     result_tags: -> results.find(model:'tag')
     nsfw_mode: -> Session.get('nsfw_mode')

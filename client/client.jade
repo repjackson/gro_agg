@@ -54,9 +54,9 @@ template(name='home')
                             unless session_is 'simple'
                                 i.sliders.horizontal.large.black.link.icon.simple_on(title='make advanced')
                     input.search_tag(type='text' value=query autofocus='' placeholder="search #{counter}")
-                // if many_tags
-                //     a#clear_tags.ui.black.invert.icon.compact.button.pick_term
-                //         i.remove.icon
+                if many_tags
+                    a#clear_tags.ui.black.basic.circular.icon.compact.button
+                        i.remove.icon
                 each picked_tags
                     +unpick_tag
             |&nbsp;
@@ -71,7 +71,6 @@ template(name='home')
                             else
                                 i.yin.yang.large.icon
                         input.search_tag(type='text' value=query autofocus='' placeholder='search')
-                
             unless simple
                 i.fire.icon
                 i.clock.icon
@@ -85,7 +84,7 @@ template(name='home')
                 +tag_picker
             .ui.four.column.centered.stackable.grid.scrolling.pushed
                 if alphas.count
-                    .column
+                    .column.smallscroll.zoomer
                         +alpha
                 each posts
                     +post_card_small
@@ -127,7 +126,7 @@ template(name='post_card_small')
         .content.zoomer.card_small.invert
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
             // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
-            a.ui.invert.header.thin.title(href=url target='_window')
+            a.ui.invert.header.thin.title.zoomer(href=url target='_window')
                 // |!{data.title} #{lowered_title}
                 |#{lowered_title}
             span.ui.text {{ufrom data.created}}
@@ -138,7 +137,7 @@ template(name='post_card_small')
                 div
             else if is_image
                 a(href=url target='_window')
-                    img.ui.fluid.rounded.image.toggle_view(src=url)
+                    img.ui.fluid.rounded.image.zoomer.toggle_view(src=url)
             else if data.thumbnail_width
                 a(href=url target='_window')
                     img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
@@ -170,30 +169,13 @@ template(name='post_card_small')
                         
                         
 template(name='alpha')
-    a.ui.header.toggle_alpha.pointer
-        i.large.brain.icon
-        | wolfram alpha
-        // unless viewing_alpha
-        // each alphas
-        //     with response.queryresult
-        //         each split_datatypes
-        //             .ui.button.basic.compact.buton.select_datatype
-        //                 |#{this}
-            
-            // if viewing_alpha
-        // if skv_is 'loading_alpha' true
-        //     .ui.header 
-        //         i.large.brain.loading.icon 
-        //         |alpha...
-        // else
     each alphas
-        i.large.brain.icon
         if response.queryresult
             with response.queryresult
                 .ui.inline.header #{datatypes}
-                each split_datatypes
-                    .ui.button.basic.compact.buton.select_datatype
-                        |#{this}
+                // each split_datatypes
+                //     .ui.button.basic.compact.buton.select_datatype
+                //         |#{this}
                 // .ui.list
                     // .item success: #{success}
                     // .item error: #{error}
@@ -215,7 +197,7 @@ template(name='alpha')
                     // .item version: #{version}
                 each pods
                     span.say
-                        .ui.small.inline.middle.aligned.header.middled #{title}
+                        // .ui.small.inline.middle.aligned.header.middled #{title}
                         .ui.small.inline.header #{title}
                         div
                         // .item #{scanner}
@@ -229,7 +211,7 @@ template(name='alpha')
                             .ui.small.inline.header #{title}
                             img.ui.zoomer.pointer.image.invert.alphatemp(src=img.src)
                             // .item.alphatemp
-                            span.say #{plaintext}
+                            // span.say #{plaintext}
                             // .item title: #{title}
                             // .item primary: #{primary}
                     // each tags
