@@ -23,6 +23,7 @@ Meteor.methods
 
 Meteor.publish 'count', (
     picked_tags
+    toggle
     )->
     match = {
         model:'rpost'
@@ -35,6 +36,7 @@ Meteor.publish 'count', (
             
 Meteor.publish 'posts', (
     picked_tags
+    toggle
     )->
     self = @
     match = {
@@ -89,7 +91,7 @@ Meteor.publish 'tags', (
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:15 }
+            { $limit:20 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         tag_cloud.forEach (tag, i) ->

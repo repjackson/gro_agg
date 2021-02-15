@@ -28,10 +28,6 @@ Template.body.events
 #         text1 = $("<textarea/>").html(dom.innerHTML).text();
 #         text2 = $("<textarea/>").html(text1).text();
 #         # window.speechSynthesis.speak new SpeechSynthesisUtterance text2
-Meteor.startup ->
-    if Meteor.isDevelopment
-        window.speechSynthesis.speak new SpeechSynthesisUtterance 'dao'
-        
 
 Router.route '/', (->
     @layout 'layout'
@@ -44,20 +40,6 @@ Router.route '/:search', (->
     ), name:'search'
 
 
-
-Template.registerHelper 'is_positive', () ->
-    # console.log @doc_sentiment_score
-    if @doc_sentiment_score
-        @doc_sentiment_score > 0
-    
-Template.registerHelper 'sv', (key) -> Session.get(key)
-Template.registerHelper 'sentence_color', () ->
-        
-Template.registerHelper 'abs_percent', (num) -> 
-    # console.l/og Math.abs(num*100)
-    parseInt(Math.abs(num*100))
-    
-# Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 
 Template.registerHelper 'trunc', (input) ->
     input[0..350]
@@ -116,13 +98,6 @@ Template.registerHelper 'field_value', () ->
 Template.registerHelper 'template_subs_ready', () ->
     Template.instance().subscriptionsReady()
 
-# Template.registerHelper 'fixed', (number)->
-#     # console.log number
-#     number.toFixed(2)
-#     # (number*100).toFixed()
-
-# Template.registerHelper 'session_is', (key)->
-#     Session.get(key)
 
 Template.registerHelper 'doc_by_id', -> Docs.findOne Router.current().params.doc_id
 
@@ -198,15 +173,6 @@ Template.registerHelper 'nl2br', (text)->
     new Spacebars.SafeString(nl2br)
 
 
-# Template.registerHelper 'dev', -> Meteor.isDevelopment
-# # Template.registerHelper 'fixed', (number)->
-# #     # console.log number
-# #     number.toFixed(2)
-# #     # (number*100).toFixed()
-Template.registerHelper 'to_percent', (number)->
-    # console.log number
-    (number*100).toFixed()
-    
 @picked_tags = new ReactiveArray []
 
 Template.home.onRendered ->
@@ -220,12 +186,16 @@ Template.home.onRendered ->
         
         
 Template.home.onCreated ->
+    Session.setDefault('toggle',false)
     @autorun => Meteor.subscribe 'tags',
         picked_tags.array()
+        Session.get('toggle')
     @autorun => Meteor.subscribe 'count', 
         picked_tags.array()
+        Session.get('toggle')
     @autorun => Meteor.subscribe 'posts', 
         picked_tags.array()
+        Session.get('toggle')
 
 Template.home.helpers
     posts: ->
@@ -244,23 +214,37 @@ Template.home.helpers
    
         
 Template.home.events
+    'click .search_tag': (e,t)->
+        Session.set('toggle',!Session.get('toggle'))
+        $('.seg .pick_tag').transition({
+            animation : 'jiggle',
+            duration  : 800,
+            interval  : 200
+        })
+        $('.black').transition('tada')
+        # $('.pick_tag').transition('pulse')
+        # $('.card_small').transition('shake')
+            
     'keyup .search_tag': (e,t)->
          if e.which is 13
             val = t.$('.search_tag').val().trim().toLowerCase()
-            window.speechSynthesis.speak new SpeechSynthesisUtterance val
             picked_tags.push val   
             t.$('.search_tag').val('')
             # Session.set('sub_doc_query', val)
             Session.set('loading',true)
+            window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
             $('.search_tag').transition('pulse')
             $('.black').transition('pulse')
 
             Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('loading',false)
+            Meteor.setTimeout ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 5000
         
 
-    'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
-    'click .set_list': (e,t)-> Session.set('view_layout', 'list')
+    'click .title': (e,t)-> 
+        window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
  
  
  
@@ -277,13 +261,17 @@ Template.tag_picker.events
         picked_tags.push @name.toLowerCase()
         $('.search_tag').val('')
         Session.set('skip_value',0)
-        # $('.search_tag').tWransition('pulse')
+        $('.search_tag').tWransition('pulse')
         $('.seg .pick_tag').transition({
             animation : 'jiggle',
             duration  : 800,
             interval  : 200
         })
-        $('.black').transition('tada')
+        $('.seg .black').transition({
+            animation : 'jiggle',
+            duration  : 800,
+            interval  : 200
+        })
         # $('.pick_tag').transition('pulse')
         # $('.card_small').transition('shake')
         $('.pushed .card_small').transition({
@@ -297,6 +285,9 @@ Template.tag_picker.events
         Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
+        Meteor.setTimeout ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 5000
         
         
 
@@ -305,8 +296,12 @@ Template.unpick_tag.events
         Session.set('skip',0)
         # console.log @
         picked_tags.remove @valueOf()
-        $('.search_tag').transition('pulse')
-        $('.black').transition('tada')
+        $('.search_tag').transition('jiggle')
+        $('.seg .black').transition({
+            animation : 'tada',
+            duration  : 800,
+            interval  : 200
+        })
         # $('.pick_tag').transition('tada')
         # $('.card_small').transition('shake')
         $('.seg .pick_tag').transition({
@@ -325,6 +320,9 @@ Template.unpick_tag.events
         Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
+        Meteor.setTimeout ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 5000
 
 
 Template.flat_tag_picker.events
