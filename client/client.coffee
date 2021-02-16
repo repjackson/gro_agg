@@ -34,10 +34,6 @@ Router.route '/', (->
     @render 'home'
     ), name:'home'
 
-Router.route '/p/:doc_id', (->
-    @layout 'layout'
-    @render 'doc'
-    ), name:'doc'
 
 Router.route '/s/:search', (->
     @layout 'layout'

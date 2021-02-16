@@ -239,6 +239,13 @@ Meteor.publish 'alpha_combo', (selected_tags)->
         # query: $in: selected_tags
         query: selected_tags.toString()
         
+Meteor.publish 'doc_by_id', (id)->
+    Docs.find 
+        _id: id
+        # model:'alpha'
+        # query: selected_tags.toString()
+        
+        
 # Meteor.publish 'alpha_single', (selected_tags)->
 #     Docs.find 
 #         model:'alpha'
