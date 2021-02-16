@@ -1,103 +1,103 @@
-Router.route '/g/:group', (->
-    @layout 'layout'
-    @render 'group'
-    ), name:'group'
-# Router.route '/:group', (->
+# Router.route '/g/:group', (->
 #     @layout 'layout'
 #     @render 'group'
-#     ), name:'group_short'
+#     ), name:'group'
+# # Router.route '/:group', (->
+# #     @layout 'layout'
+# #     @render 'group'
+# #     ), name:'group_short'
 
-@picked_tags = new ReactiveArray []
-@picked_time_tags = new ReactiveArray []
-@picked_location_tags = new ReactiveArray []
-@picked_Persons = new ReactiveArray []
-@picked_Locations = new ReactiveArray []
-@picked_Organizations = new ReactiveArray []
+# @picked_tags = new ReactiveArray []
+# @picked_time_tags = new ReactiveArray []
+# @picked_location_tags = new ReactiveArray []
+# @picked_Persons = new ReactiveArray []
+# @picked_Locations = new ReactiveArray []
+# @picked_Organizations = new ReactiveArray []
 
 
-Template.group.onCreated ->
-    Session.setDefault('view_layout', 'grid')
-    Session.setDefault('sort_key', 'data.created')
-    Session.setDefault('sort_direction', -1)
-    Session.setDefault('toggle', false)
+# Template.group.onCreated ->
+#     Session.setDefault('view_layout', 'grid')
+#     Session.setDefault('sort_key', 'data.created')
+#     Session.setDefault('sort_direction', -1)
+#     Session.setDefault('toggle', false)
     
-    Meteor.call 'lower_group', Router.current().params.group, ->
+#     Meteor.call 'lower_group', Router.current().params.group, ->
     
-    # @autorun => Meteor.subscribe 'shop_from_group', Router.current().params.group
-    @autorun => Meteor.subscribe 'tags',
-        Router.current().params.group
-        picked_tags.array()
-        picked_time_tags.array()
-        picked_location_tags.array()
-        picked_Persons.array()
-        picked_Locations.array()
-        picked_Organizations.array()
-        Session.get('toggle')
-    @autorun => Meteor.subscribe 'count', 
-        Router.current().params.group
-        picked_tags.array()
-        picked_time_tags.array()
-        picked_location_tags.array()
-        picked_Persons.array()
-        picked_Locations.array()
-        picked_Organizations.array()
+#     # @autorun => Meteor.subscribe 'shop_from_group', Router.current().params.group
+#     @autorun => Meteor.subscribe 'tags',
+#         Router.current().params.group
+#         picked_tags.array()
+#         picked_time_tags.array()
+#         picked_location_tags.array()
+#         picked_Persons.array()
+#         picked_Locations.array()
+#         picked_Organizations.array()
+#         Session.get('toggle')
+#     @autorun => Meteor.subscribe 'count', 
+#         Router.current().params.group
+#         picked_tags.array()
+#         picked_time_tags.array()
+#         picked_location_tags.array()
+#         picked_Persons.array()
+#         picked_Locations.array()
+#         picked_Organizations.array()
     
-    @autorun => Meteor.subscribe 'posts', 
-        Router.current().params.group
-        picked_tags.array()
-        picked_time_tags.array()
-        picked_location_tags.array()
-        picked_Persons.array()
-        picked_Locations.array()
-        picked_Organizations.array()
-        Session.get('sort_key')
-        Session.get('sort_direction')
-        Session.get('skip_value')
-        Session.get('toggle')
+#     @autorun => Meteor.subscribe 'posts', 
+#         Router.current().params.group
+#         picked_tags.array()
+#         picked_time_tags.array()
+#         picked_location_tags.array()
+#         picked_Persons.array()
+#         picked_Locations.array()
+#         picked_Organizations.array()
+#         Session.get('sort_key')
+#         Session.get('sort_direction')
+#         Session.get('skip_value')
+#         Session.get('toggle')
 
-Template.group.helpers
-    posts: ->
-        group_param = Router.current().params.group
-        Docs.find({
-            model: $in: ['post','rpost']
-            group_lowered:group_param.toLowerCase()
-        },
-            sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
-            limit:25
-        )
+# Template.group.helpers
+#     posts: ->
+#         group_param = Router.current().params.group
+#         Docs.find({
+#             model: $in: ['post','rpost']
+#             group_lowered:group_param.toLowerCase()
+#         },
+#             sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+#             limit:25
+#         )
   
-    emotion_avg: -> results.findOne(model:'emotion_avg')
+#     emotion_avg: -> results.findOne(model:'emotion_avg')
     
-    sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
-    sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
-    emotion_avg: -> results.findOne(model:'emotion_avg')
+#     sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
+#     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
+#     emotion_avg: -> results.findOne(model:'emotion_avg')
     
-    counter: -> Counts.get 'counter'
+#     counter: -> Counts.get 'counter'
 
-    sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
-    sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
+#     sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
+#     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
   
   
-    picked_tags: -> picked_tags.array()
-    picked_time_tags: -> picked_time_tags.array()
-    picked_location_tags: -> picked_location_tags.array()
-    picked_people_tags: -> picked_people_tags.array()
+#     picked_tags: -> picked_tags.array()
+#     picked_time_tags: -> picked_time_tags.array()
+#     picked_location_tags: -> picked_location_tags.array()
+#     picked_people_tags: -> picked_people_tags.array()
   
-    result_tags: -> results.find(model:'tag')
-    Organizations: -> results.find(model:'Organization')
-    Companies: -> results.find(model:'Company')
-    HealthConditions: -> results.find(model:'HealthCondition')
-    Persons: -> results.find(model:'Person')
+#     result_tags: -> results.find(model:'tag')
+#     Organizations: -> results.find(model:'Organization')
+#     Companies: -> results.find(model:'Company')
+#     HealthConditions: -> results.find(model:'HealthCondition')
+#     Persons: -> results.find(model:'Person')
     
-    time_tags: -> results.find(model:'time_tag')
-    location_tags: -> results.find(model:'location_tag')
-    Locations: -> results.find(model:'Location')
-    authors: -> results.find(model:'author')
+#     time_tags: -> results.find(model:'time_tag')
+#     location_tags: -> results.find(model:'location_tag')
+#     Locations: -> results.find(model:'Location')
+#     authors: -> results.find(model:'author')
    
-    domains: -> results.find(model:'group_domain_tag')
+#     domains: -> results.find(model:'group_domain_tag')
    
    
-    current_group: -> Router.current().params.group
+#     current_group: -> Router.current().params.group
         
 Template.group.events
     # 'click .unpick_group_tag': -> 

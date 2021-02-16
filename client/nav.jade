@@ -1,26 +1,26 @@
 template(name='nav')
-    .ui.fluid.attached.borderless.twelve.item.menu.hscroll
+    .ui.fluid.attached.borderless.eleven.item.menu.hscroll
         a.icon.item.toggle_sidebar
             i.large.bars.icon
-        a.icon.item(href="/") 
+        a.icon.item(href="/" class="{{isActiveRoute '/'}}")
             i.yin.yang.large.icon
             // i.heart.large.icon
             // |home
-        a.icon.item.set_tarot(href="/s/tarot") 
+        a.icon.item.set_tarot(href="/s/tarot" class="{{isActiveRoute '/s/tarot'}}")
             i.moon.large.icon
             // |tarot
-        a.icon.item(href="/love")
+        a.icon.item(href="/love" class="{{isActiveRoute '/love'}}")
             i.heart.large.icon
-        a.icon.item.set_food(href="/s/recipes")
+        a.icon.item.set_food(href="/s/recipes" class="{{isActiveRoute '/s/recipes'}}")
             i.food.large.icon
-        a.icon.item.set_nature(href="/s/environment")
+        a.icon.item.set_nature(href="/s/environment" class="{{isActiveRoute '/s/environment'}}")
             i.leaf.large.icon
-        a.icon.item.set_movies(href="/s/movies")
+        a.icon.item.set_movies(href="/s/movies" class="{{isActiveRoute '/s/movies'}}")
             i.film.large.icon
         
-        .icon.item 
-            i.shop.large.icon
-            // |shop
+        // .icon.item 
+        //     i.shop.large.icon
+        //     // |shop
         // .right.menu
         if unread_count
             a.item.alerts.select_term(href="#" class=alert_toggle_class)
@@ -37,31 +37,31 @@ template(name='nav')
         if is_dev 
             .icon.item
                 i.large.code.icon
-        // if currentUser
-        // a.large.item.toggle_rightbar(class="{{isActiveRoute 'user_dashboard'}}")
-        a.large.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_dashboard'}}")
-            //- i.large.user.large.icon
-            if currentUser.profile_image_id
-                if is_admin
-                    i.large.shield.icon(title='admin mode on')
-                else
-                    img.ui.avatar.compact.image(src="{{c.url currentUser.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            else 
-                i.large.user.large.icon
-            strong.mobile.hidden #{currentUser.name}
-        // a.mobile.hidden.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_credits'}}")
-        //     |#{currentUser.points}p
+        if currentUser
+            // a.large.item.toggle_rightbar(class="{{isActiveRoute 'user_dashboard'}}")
+            a.large.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_dashboard'}}")
+                //- i.large.user.large.icon
+                if currentUser.profile_image_id
+                    if is_admin
+                        i.large.shield.icon(title='admin mode on')
+                    else
+                        img.ui.avatar.compact.image(src="{{c.url currentUser.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                else 
+                    i.large.user.large.icon
+                strong.mobile.hidden #{currentUser.name}
+            // a.mobile.hidden.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_credits'}}")
+            //     |#{currentUser.points}p
+        else
+            a.item(href="/register" title='register')
+                // |login
+                +icon name='plus'
+                // i.large.chevron.right.icon
+            a.item(href="/login" title='login')
+                // |login
+                +icon name='login-rounded-right'
+                // i.large.chevron.right.icon
         a.icon.large.item.toggle_rightbar.select_term
             i.ellipsis.vertical.large.icon
-        // else
-        //     // a.item(href="/register" title='register')
-        //     //     // |login
-        //     //     +icon name='plus'
-        //     //     // i.large.chevron.right.icon
-        //     a.item(href="/login" title='login')
-        //         // |login
-        //         +icon name='login-rounded-right'
-        //         // i.large.chevron.right.icon
     if session_is 'viewing_alerts'
         +topbar
 

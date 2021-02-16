@@ -21,6 +21,7 @@ coffeescript@1.0.17
 constellation:console@1.4.10
 constellation:session@0.4.10
 constellation:subscriptions@0.4.10
+dburles:collection-helpers@1.1.0
 dburles:mongo-collection-instances@0.3.5
 ddp@1.4.0
 ddp-client@2.4.0
@@ -38,6 +39,7 @@ ejson@1.1.1
 email@2.0.0
 es5-shim@4.8.0
 fetch@0.1.1
+flowkey:hotkeys@1.2.0
 fourseven:scss@4.12.0
 geojson-utils@1.0.10
 gwendall:body-events@0.1.7
@@ -59,6 +61,7 @@ iron:url@1.0.11
 jquery@1.11.11
 lai:collection-extensions@0.2.1_1
 launch-screen@1.2.0
+lepozepo:cloudinary@4.2.6
 less@2.5.7
 livedata@1.0.18
 localstorage@1.2.0
@@ -83,8 +86,10 @@ mongo-decimal@0.1.2
 mongo-dev-server@1.1.0
 mongo-id@1.0.7
 mongo-livedata@1.0.12
+mousetrap:mousetrap@1.4.6_1
 mquandalle:jade@0.4.9
 mquandalle:jade-compiler@0.4.5
+mrgalaxy:stripe@2.2.2
 multiply:iron-router-progress@1.0.2
 npm-bcrypt@0.9.3
 npm-mongo@3.8.1
