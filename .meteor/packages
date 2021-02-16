@@ -9,7 +9,9 @@ iron:router@=1.0.13
 mongo@1.10.1                   # The database Meteor supports right now
 session@1.2.0                 # Client-side reactive dictionary for your app
 tracker@1.2.0                 # Meteor's client-side reactive programming library
+accounts-base@1.7.0
 
+accounts-password
 random@1.2.0
 manuel:reactivearray
 meteorhacks:aggregate
@@ -31,4 +33,6 @@ babrahams:temple
 ecmascript@0.15.0
 tmeasday:publish-counts
 markdown
+zimme:active-route
+multiply:iron-router-progress
 http@1.4.2

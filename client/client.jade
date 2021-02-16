@@ -19,7 +19,7 @@ head
     script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
     script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/en.js")
 
-    // script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
+    script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
 
     link(rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css")
     script(src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js")
@@ -33,23 +33,18 @@ head
 
 
 template(name='layout')
-    .ui.fluid.attached.five.item.icon.menu
-        a.icon.item(href="/")
-            i.yin.yang.icon
-        a.icon.item(href="/love")
-            i.heart.icon
-        a.icon.item.set_food(href="/s/recipes")
-            i.food.icon
-        a.icon.item.set_nature(href="/s/environment")
-            i.leaf.icon
-        a.icon.item.set_movies(href="/s/movies")
-            i.film.icon
+    // +status
+    +nav
     .ui.bottom.attached.pushable.segment
-        +yield
-
-
-template(name='doc')
-    .ui.header doc
+        // +top_sidebar
+        +left_sidebar
+        +right_sidebar
+                
+        #main_area.global_container.pusher
+            +yield
+    
+    // .ui.bottom.attached.pushable.segment
+    //     #main_area.pusher(class=currentUser.invert_class)
             
             
 template(name='home')
