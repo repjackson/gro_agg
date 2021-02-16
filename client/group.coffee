@@ -2,10 +2,10 @@ Router.route '/g/:group', (->
     @layout 'layout'
     @render 'group'
     ), name:'group'
-Router.route '/:group', (->
-    @layout 'layout'
-    @render 'group'
-    ), name:'group_short'
+# Router.route '/:group', (->
+#     @layout 'layout'
+#     @render 'group'
+#     ), name:'group_short'
 
 @picked_tags = new ReactiveArray []
 @picked_time_tags = new ReactiveArray []
@@ -258,10 +258,10 @@ Template.group_tag_picker.events
         
         
 
-Template.unpick_tag.onCreated ->
+Template.group_unpick_tag.onCreated ->
     @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
     
-Template.unpick_tag.helpers
+Template.group_unpick_tag.helpers
     term: ->
         found = 
             Docs.findOne 
@@ -270,7 +270,7 @@ Template.unpick_tag.helpers
         found
         
         
-Template.unpick_tag.events
+Template.group_unpick_tag.events
     'click .unpick_tag': -> 
         Session.set('skip',0)
         # console.log @

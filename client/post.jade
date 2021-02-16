@@ -3,9 +3,11 @@ template(name='post_view')
         .ui.stackable.grid
             .row 
                 .twelve.wide.column
-                    a.ui.large.button(href="/g/#{group}")
+                    a.ui.large.button(href="/")
                         i.chevron.left.icon
-                        |#{group}
+                    // a.ui.large.button(href="/g/#{group}")
+                    //     i.chevron.left.icon
+                    //     |#{group}
                     .ui.inline.header.say(class=emotion_color)
                         |!{data.title} #{data.link_title}
                     .scrolling

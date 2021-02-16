@@ -1,0 +1,34 @@
+template(name='food')
+    .ui.padded.stackable.grid
+        .sixteen.wide.column
+            .ui.header 
+                +icolorlg name='food' cl='ui inline image'
+                |food
+        .sixteen.wide.column
+            // .ui.header 
+            //     i.shop.icon
+            //     |vendors
+            .ui.stackable.six.cards
+                each shops
+                    +shop_card
+            .ui.header 
+                i.list.icon
+                |dishes
+            .ui.stackable.six.cards
+                each dishes
+                    +dish_card
+            a.ui.header(href="/m/drink")
+                i.list.icon
+                |drinks
+            .ui.stackable.six.cards
+                each drinks
+                    +drink_card
+                    
+                    
+template(name='drink_card')
+    a.ui.card(href="/drink/#{_id}/view")
+        img.ui.image(src="{{c.url image height=400 width=400 gravity='face' crop='fill'}}")
+        .content
+            .header #{title}
+            .header $#{price}
+                    

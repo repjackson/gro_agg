@@ -1,6 +1,6 @@
 template(name='home')
     .ui.stackable.grid
-        .sixteen.wide.center.aligned.column.seg
+        .sixteen.wide.left.aligned.column.seg
             if picked_tags
                 .ui.left.icon.big.transparent.input
                     if is_loading
@@ -45,8 +45,9 @@ template(name='home')
             .ui.hidden.divider
             .ui.four.column.centered.stackable.grid.scrolling.pushed
                 if alphas.count
-                    .column.smallscroll.zoomer
-                        +alpha
+                    .smallscroll
+                        .column
+                            +alpha
                 each posts
                     +post_card_small
                 
@@ -83,7 +84,7 @@ template(name='flat_tag_picker')
         
    
 template(name='post_card_small')
-    .center.aligned.column.smallscroll
+    .column.smallscroll
         .content.zoomer.card_small.invert
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
             // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
@@ -96,15 +97,18 @@ template(name='post_card_small')
             span.ui.text {{ufrom data.created}}
             .spacer
             if embed
-                span.rounded.full
+                span.rounded.full.invert
                     |!{embed}
                 div
             else if is_image
                 a(href=url target='_window')
-                    img.ui.fluid.rounded.image.zoomer.toggle_view(src="/p/#{_id}")
+                    img.ui.fluid.rounded.image.zoomer.toggle_view.invert(src="/p/#{_id}")
+            else if watson.metadata.image
+                img.ui.rounded.image.pointer.invert.call_meta(src=watson.metadata.image)
+                    
             else if data.thumbnail_width
                 a(href=url target='_window')
-                    img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
+                    img.ui.fluid.rounded.image.zoomer.invert(src=data.thumbnail)    
             unless simple
                 i.circular.chevron.down.icon.dl.invert
                 span.invert

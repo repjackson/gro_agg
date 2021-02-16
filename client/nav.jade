@@ -143,9 +143,10 @@ template(name='left_sidebar')
         // a.item.toggle_sidebar(href="/" class="{{isActiveRoute '/'}}")
         //     img.ui.avatar.compact.image(src="{{c.url 'one_logo' height=200 width=200 gravity='face' crop='fill'}}")
         //     |One
-        a.item.set_member.toggle_sidebar(href="/m/member" class="{{isActivePath 'm/member'}}" title='players')
+        // a.item.set_member.toggle_sidebar(href="/m/member" class="{{isActivePath 'm/member'}}" title='players')
+        a.item.set_member.toggle_sidebar(href="/users" class="{{isActivePath 'users'}}" title='users')
             i.large.users.icon
-            | directory
+            | users
         a.item.toggle_sidebar(href="/events" class="{{isActivePath '/events'}}")
             i.large.calendar.icon
             |events
