@@ -71,10 +71,10 @@ Template.registerHelper 'calculated_size', (metric) ->
     
     
   
-# Template.registerHelper 'tag_term', () ->
-#     Docs.findOne 
-#         model:'wikipedia'
-#         title:@valueOf()
+Template.registerHelper 'tag_term', () ->
+    Docs.findOne 
+        model:'wikipedia'
+        title:@valueOf()
 
 
 

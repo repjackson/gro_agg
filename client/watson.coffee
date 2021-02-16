@@ -60,6 +60,10 @@ Template.keywords.onRendered ->
         $('.ui.accordion').accordion()
     , 2000
     
+    
+Template.call_watson.events
+    'click .autotag': -> Meteor.call 'call_watson',Router.current().params.doc_id,'data.url','url',=>
+
 
 # Template.call_visual_analysis.events
 #     'click #call_visual': ->

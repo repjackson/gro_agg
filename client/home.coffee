@@ -134,6 +134,30 @@ Template.post_card_small.helpers
     five_tags: -> @tags[..5]
     simple: -> Session.get('simple')
 
+
+Template.tag_picker.onCreated ->
+    @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+Template.tag_picker.helpers
+    picker_class: ()->
+        term = 
+            Docs.findOne 
+                title:@name.toLowerCase()
+        if term
+            if term.max_emotion_name
+                switch term.max_emotion_name
+                    when 'joy' then " basic green"
+                    when "anger" then " basic red"
+                    when "sadness" then " basic blue"
+                    when "disgust" then " basic orange"
+                    when "fear" then " basic grey"
+                    else "basic grey"
+    term: ->
+        res = 
+            Docs.findOne 
+                title:@name.toLowerCase()
+        # console.log res
+        res
+
 Template.tag_picker.events
     'click .pick_tag': -> 
         picked_tags.push @name.toLowerCase()

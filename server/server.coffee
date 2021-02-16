@@ -47,9 +47,9 @@ Meteor.publish 'posts', (
         match.tags = $all:picked_tags
         match["data.over_18"] = porn_mode
     
-        console.log 'match', match
+        # console.log 'match', match
         Docs.find match,
-            limit: 42
+            limit: 10
             # sort: "#{sk}":-1
             sort: ups:-1
             fields:
