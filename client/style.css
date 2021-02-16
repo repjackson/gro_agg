@@ -30,6 +30,8 @@ body {
 
 .button, button, .selector, .icon, .card, .dark_mode, .ui.header, .ui.label, .item, p, img {
     animation: fadein .5s !important;
+.button, button {
+    border-radius: 20px !important;
 }
 
 .spacer {

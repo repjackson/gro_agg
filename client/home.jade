@@ -1,6 +1,6 @@
 template(name='home')
     .ui.stackable.grid
-        .sixteen.wide.left.aligned.column.seg
+        .sixteen.wide.center.aligned.column.seg
             if picked_tags
                 .ui.left.icon.big.transparent.input
                     if is_loading
@@ -63,7 +63,7 @@ template(name='tag_picker')
         //     small #{count}
             
 template(name='unpick_tag')
-    button.unpick_tag.ui.black.circular.compact.large.secondary.button.invert
+    button.unpick_tag.ui.black.compact.large.secondary.button.invert
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -87,7 +87,7 @@ template(name='post_card_small')
         .content.zoomer.card_small.invert
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
             // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
-            a.ui.invert.header.thin.title.zoomer(href="/p/#{_id}")
+            a.ui.invert.small.header.thin.title.zoomer(href="/p/#{_id}")
                 |#{lowered_title}
             
             // a(href=url target='_window')
@@ -136,10 +136,10 @@ template(name='alpha')
     each alphas
         if response.queryresult
             with response.queryresult
-                .ui.inline.header #{datatypes}
-                // each split_datatypes
-                //     .ui.button.basic.compact.buton.select_datatype
-                //         |#{this}
+                // .ui.label #{datatypes}
+                each split_datatypes
+                    .ui.button.basic.compact.buton.select_datatype
+                        |#{this}
                 // .ui.list
                     // .item success: #{success}
                     // .item error: #{error}

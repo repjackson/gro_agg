@@ -7,7 +7,7 @@ template(name='post_view')
                         i.chevron.left.icon
                         |#{group}
                     .ui.inline.header.say(class=emotion_color)
-                        |!{data.title} #{data.link_title} #{title}
+                        |!{data.title} #{data.link_title}
                     .scrolling
                         if image_link
                             a(href="/#{group}")
