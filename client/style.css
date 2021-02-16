@@ -339,7 +339,7 @@ input
 
 
 .rounded {
-  /*border-radius: 5px !important; */
+  border-radius: 10px !important; 
   padding: 10px !important; 
 }
 
@@ -445,14 +445,14 @@ img:active {
 
 .superzoom {
     /*animation: fadeout .35s; */
-    transition: all .15s ease !important; 
+    /*transition: all .15s ease !important; */
     z-index:1000 !important;
 }
 .superzoom:active {
     transform: scale(1.5) !important;
 }
 .superzoom:hover {
-    transition: all .15s ease !important; 
+    /*transition: all .15s ease !important; */
     transform: scale(2) !important;
     /*transform: rotate(20deg) !important;*/
     z-index:1000 !important;
@@ -707,8 +707,8 @@ input {
 } 
 
 
-.button,.card,.image,.header,p,img,.say,.pointer{
-    animation: fadein .15s !important;
+.button,.card,.image,.header,p,img,.say,.pointer, .item{
+    animation: fadein .5s !important;
     -webkit-transition: opacity .35s ease-in !important;
     -webkit-transition: opacity .35s ease-out; 
     animation: fadeout .35s; 

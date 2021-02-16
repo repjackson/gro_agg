@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.fluid.attached.borderless.eleven.item.menu.hscroll
+    .ui.fluid.attached.borderless.twelve.item.menu.hscroll
         a.icon.item.toggle_sidebar
             i.large.bars.icon
         a.icon.item(href="/" class="{{isActiveRoute '/'}}")
@@ -11,12 +11,14 @@ template(name='nav')
             // |tarot
         a.icon.item(href="/love" class="{{isActiveRoute '/love'}}")
             i.heart.large.icon
-        a.icon.item.set_food(href="/s/recipes" class="{{isActiveRoute '/s/recipes'}}")
+        a.icon.item.set_food.mobile.hidden(href="/s/recipes" class="{{isActiveRoute '/s/recipes'}}")
             i.food.large.icon
-        a.icon.item.set_nature(href="/s/environment" class="{{isActiveRoute '/s/environment'}}")
+        a.icon.item.set_nature.mobile.hidden(href="/s/environment" class="{{isActiveRoute '/s/environment'}}")
             i.leaf.large.icon
-        a.icon.item.set_movies(href="/s/movies" class="{{isActiveRoute '/s/movies'}}")
+        a.icon.item.set_movies.mobile.hidden(href="/s/movies" class="{{isActiveRoute '/s/movies'}}")
             i.film.large.icon
+        a.icon.item.set_users(href="/users" class="{{isActiveRoute '/users'}}")
+            i.users.large.icon
         
         // .icon.item 
         //     i.shop.large.icon

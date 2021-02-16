@@ -1,7 +1,6 @@
 if Meteor.isClient
-    @selected_user_tags = new ReactiveArray []
-    @selected_user_levels = new ReactiveArray []
-    @selected_user_roles = new ReactiveArray []
+    @picked_user_tags = new ReactiveArray []
+    @picked_user_roles = new ReactiveArray []
 
 
     Router.route '/users', (->
@@ -10,16 +9,17 @@ if Meteor.isClient
 
 
     Template.users.onCreated ->
-        @autorun -> Meteor.subscribe 'selected_users', 
-            selected_user_tags.array() 
-            selected_user_levels.array()
+        @autorun -> Meteor.subscribe 'picked_users', 
+            picked_user_tags.array() 
+            picked_user_roles.array()
 
     Template.users.helpers
         users: ->
             match = {}
-            unless 'admin' in Meteor.user().roles
-                match.levels = $in:['member']
-            if selected_user_tags.array().length > 0 then match.tags = $all: selected_user_tags.array()
+            # unless 'admin' in Meteor.user().roles
+            #     match.roles = $in:['member']
+            if picked_user_tags.array().length > 0 then match.tags = $all: picked_user_tags.array()
+            if picked_user_roles.array().length > 0 then match.roles = $all: picked_user_roles.array()
             Meteor.users.find match,
                 sort:points:-1
             # if Meteor.user()
@@ -27,12 +27,12 @@ if Meteor.isClient
             #         Meteor.users.find()
             #     else
             #         Meteor.users.find(
-            #             # levels:$in:['l1']
-            #             levels:$in:['member']
+            #             # roles:$in:['l1']
+            #             roles:$in:['member']
             #         )
             # else
             #     Meteor.users.find(
-            #         levels:$in:['member']
+            #         roles:$in:['member']
             #     )
 
     Template.member_card.helpers
@@ -69,6 +69,16 @@ if Meteor.isClient
                 # console.log 'oh god no'
                 ''
 
+    Template.user_item.events
+        'click .profile': ->
+            $('.global_container')
+                .transition('fade right', 500)
+                # .transition('fade in', 200)
+            console.log @
+            Meteor.setTimeout =>
+                Router.go "/u/#{@username}"
+            , 500
+
     Template.addtoset_user.events
         'click .toggle_value': ->
             # console.log @
@@ -82,75 +92,84 @@ if Meteor.isClient
 
     Template.user_cloud.onCreated ->
         @autorun -> Meteor.subscribe('user_tags',
-            selected_user_tags.array()
-            selected_user_levels.array()
-            selected_user_roles.array()
+            picked_user_tags.array()
+            picked_user_roles.array()
+            picked_user_roles.array()
             Session.get('view_mode')
         )
 
     Template.user_cloud.helpers
         all_tags: ->
             user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
-            if 0 < user_count < 3 then results.find { model:'user_tag', count: $lt: user_count } else results.find()
-        selected_user_tags: ->
+            if 0 < user_count < 3 then results.find { model:'user_tag', count: $lt: user_count } else results.find(model:'user_tag')
+        picked_user_tags: ->
             # model = 'event'
-            # console.log "selected_#{model}_tags"
-            selected_user_tags.array()
-        all_levels: ->
+            # console.log "pickeded_#{model}_tags"
+            picked_user_tags.array()
+        all_roles: ->
             user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
-            if 0 < user_count < 3 then results.find { model:'user_level', count: $lt: user_count } else results.find()
+            if 0 < user_count < 3 then results.find { model:'user_role', count: $lt: user_count } else results.find(model:'user_role')
 
-        selected_user_levels: ->
+        picked_user_roles: ->
             # model = 'event'
-            # console.log "selected_#{model}_levels"
-            selected_user_levels.array()
+            # console.log "pickeded_#{model}_roles"
+            picked_user_roles.array()
 
 
     Template.user_cloud.events
-        'click .select_tag': -> selected_user_tags.push @name
-        'click .unselect_tag': -> selected_user_tags.remove @valueOf()
-        'click #clear_tags': -> selected_user_tags.clear()
+        'click .pick_tag': -> picked_user_tags.push @name
+        'click .unpick_tag': -> picked_user_tags.remove @valueOf()
+        'click #clear_tags': -> picked_user_tags.clear()
 
-        'click .select_level': -> selected_user_levels.push @name
-        'click .unselect_level': -> selected_user_levels.remove @valueOf()
-        'click #clear_levels': -> selected_user_levels.clear()
+        'click .pick_role': -> picked_user_roles.push @name
+        'click .unpick_role': -> picked_user_roles.remove @valueOf()
+        'click #clear_roles': -> picked_user_roles.clear()
 
 
 
 if Meteor.isServer
-    Meteor.publish 'selected_users', (
-        selected_user_tags
-        selected_user_levels
+    Meteor.publish 'picked_users', (
+        picked_user_tags
+        picked_user_roles
         )->
         match = {}
-        if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
-        if selected_user_levels.length > 0 then match.levels = $all: selected_user_levels
-        Meteor.users.find match
+        if picked_user_tags.length > 0 then match.tags = $all: picked_user_tags
+        if picked_user_roles.length > 0 then match.roles = $all: picked_user_roles
+        Meteor.users.find match,
+            fields:
+                username:1
+                profile_image_id:1
+                theme_color:1
+                one_ratio:1
+                points:1
+                flow_volume:1
+                roles:1
+                tags:1
         # if Meteor.user()
         #     if 'admin' in Meteor.user().roles
         #         Meteor.users.find()
         #     else
         #         Meteor.users.find(
-        #             # levels:$in:['l1']
+        #             # roles:$in:['l1']
         #             roles:$in:['member']
         #         )
         # else
         #     Meteor.users.find(
-        #         levels:$in:['member']
+        #         roles:$in:['member']
         #     )
 
 
 
     Meteor.publish 'user_tags', (
-        selected_user_tags,
-        selected_user_levels,
+        picked_user_tags,
+        picked_user_roles,
         view_mode
         limit
     )->
         self = @
         match = {}
-        if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
-        if selected_user_levels.length > 0 then match.levels = $all: selected_user_levels
+        if picked_user_tags.length > 0 then match.tags = $all: picked_user_tags
+        if picked_user_roles.length > 0 then match.roles = $all: picked_user_roles
         # match.model = 'item'
         # if view_mode is 'users'
         #     match.bought = $ne:true
@@ -170,7 +189,7 @@ if Meteor.isServer
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_user_tags }
+            { $match: _id: $nin: picked_user_tags }
             { $sort: count: -1, _id: 1 }
             { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
@@ -180,30 +199,32 @@ if Meteor.isServer
         # console.log 'cloud: ', cloud
 
         cloud.forEach (user_tag, i) ->
-            self.added 'user_tags', Random.id(),
+            self.added 'results', Random.id(),
                 name: user_tag.name
                 count: user_tag.count
+                model:'user_tag'
                 index: i
     
     
-        level_cloud = Meteor.users.aggregate [
+        role_cloud = Meteor.users.aggregate [
             { $match: match }
-            { $project: "levels": 1 }
-            { $unwind: "$levels" }
-            { $group: _id: "$levels", count: $sum: 1 }
-            { $match: _id: $nin: selected_user_levels }
+            { $project: "roles": 1 }
+            { $unwind: "$roles" }
+            { $group: _id: "$roles", count: $sum: 1 }
+            { $match: _id: $nin: picked_user_roles }
             { $sort: count: -1, _id: 1 }
             { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
 
         # console.log 'filter: ', filter
-        # console.log 'level_cloud: ', level_cloud
+        # console.log 'role_cloud: ', role_cloud
 
-        level_cloud.forEach (level_result, i) ->
-            self.added 'level_results', Random.id(),
-                name: level_result.name
-                count: level_result.count
+        role_cloud.forEach (role_result, i) ->
+            self.added 'results', Random.id(),
+                name: role_result.name
+                count: role_result.count
                 index: i
+                model:'user_role'
 
         self.ready()

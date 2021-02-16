@@ -5,13 +5,13 @@ if Meteor.isClient
         ), name:'user_friends'
     
     Template.user_friends.onCreated ->
-        @autorun => Meteor.subscribe 'users'
+        @autorun => Meteor.subscribe 'user_friends'
 
 
 
     Template.user_friends.helpers
         friends: ->
-            current_user = Meteor.users.findOne Router.current().params.user_id
+            current_user = Meteor.users.findOne Router.current().params.username
             Meteor.users.find
                 _id:$in: current_user.friend_ids
         nonfriends: ->
@@ -36,7 +36,7 @@ if Meteor.isClient
             if e.which is 13
                 post = t.$('.assign_earn').val().trim()
                 # console.log post
-                current_user = Meteor.users.findOne Router.current().params.user_id
+                current_user = Meteor.users.findOne Router.current().params.username
                 Docs.insert
                     body:post
                     model:'earn'
