@@ -6,6 +6,107 @@ Docs.allow
     update: (userId, doc) -> true
     remove: (userId, doc) -> true
 
+Meteor.users.allow
+    insert: (user_id, doc, fields, modifier) ->
+        # user_id
+        true
+        # if user_id and doc._id == user_id
+        #     true
+    update: (user_id, doc, fields, modifier) ->
+        user = Meteor.users.findOne user_id
+        if user_id and 'dev' in user.roles
+            true
+        else
+            if user_id and doc._id == user_id
+                true
+    remove: (user_id, doc, fields, modifier) ->
+        user = Meteor.users.findOne user_id
+        if user_id and 'dev' in user.roles
+            true
+        # if userId and doc._id == userId
+        #     true
+
+
+# Meteor.publish 'model_count', (
+#     model
+#     )->
+#     match = {model:model}
+    
+#     Counts.publish this, 'model_counter', Docs.find(match)
+#     return undefined
+
+
+Meteor.methods
+    # hi: ->
+    # stringify_tags: ->
+    #     docs = Docs.find({
+    #         tags: $exists: true
+    #         tags_string: $exists: false
+    #     },{limit:1000})
+    #     for doc in docs.fetch()
+    #         # doc = Docs.findOne id
+    #         tags_string = doc.tags.toString()
+    #         Docs.update doc._id,
+    #             $set: tags_string:tags_string
+    #
+    log_view: (doc_id)->
+        console.log 'logging view', doc_id
+        Docs.update doc_id, 
+            $inc:views:1
+            
+
+
+    # log_term: (term_title)->
+    #     found_term =
+    #         Terms.findOne
+    #             title:term_title
+    #     unless found_term
+    #         Terms.insert
+    #             title:term_title
+    #         # if Meteor.user()
+    #         #     Meteor.users.update({_id:Meteor.userId()},{$inc: karma: 1}, -> )
+    #     else
+    #         Terms.update({_id:found_term._id},{$inc: count: 1}, -> )
+    #         Meteor.call 'call_wiki', @term_title, =>
+    #             Meteor.call 'calc_term', @term_title, ->
+
+    # calc_term: (term_title)->
+    #     found_term =
+    #         Terms.findOne
+    #             title:term_title
+    #     unless found_term
+    #         Terms.insert
+    #             title:term_title
+    #     if found_term
+    #         found_term_docs =
+    #             Docs.find {
+    #                 model:'reddit'
+    #                 tags:$in:[term_title]
+    #             }, {
+    #                 sort:
+    #                     points:-1
+    #                     ups:-1
+    #                 limit:10
+    #             }
+
+
+
+    #         unless found_term.image
+    #             found_wiki_doc =
+    #                 Docs.findOne
+    #                     model:$in:['wikipedia']
+    #                     # model:$in:['wikipedia','reddit']
+    #                     title:term_title
+    #             found_reddit_doc =
+    #                 Docs.findOne
+    #                     model:$in:['reddit']
+    #                     "watson.metadata.image": $exists:true
+    #                     # model:$in:['wikipedia','reddit']
+    #                     title:term_title
+    #             if found_wiki_doc
+    #                 if found_wiki_doc.watson.metadata.image
+    #                     Terms.update term._id,
+    #                         $set:image:found_wiki_doc.watson.metadata.image
 
 Meteor.methods
     # hi: ->
@@ -95,7 +196,7 @@ Meteor.publish 'tags', (
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:20 }
+            { $limit:15 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         tag_cloud.forEach (tag, i) ->
@@ -112,47 +213,11 @@ Meteor.publish 'tags', (
         
 
 
-Meteor.methods
-    # tagify_time_rpost: (doc_id)->
-    #     doc = Docs.findOne doc_id
-    #     # moment.unix(doc.data.created).fromNow()
-    #     # timestamp = Date.now()
-    #     if doc.data and doc.data.created
-    #         doc._timestamp_long = moment.unix(doc.data.created).format("dddd, MMMM Do YYYY, h:mm:ss a")
-    #         # doc._app = 'dao'
-        
-    #         date = moment.unix(doc.data.created).format('Do')
-    #         weekdaynum = moment.unix(doc.data.created).isoWeekday()
-    #         weekday = moment().isoWeekday(weekdaynum).format('dddd')
-        
-    #         hour = moment.unix(doc.data.created).format('h')
-    #         minute = moment.unix(doc.data.created).format('m')
-    #         ap = moment.unix(doc.data.created).format('a')
-    #         month = moment.unix(doc.data.created).format('MMMM')
-    #         year = moment.unix(doc.data.created).format('YYYY')
-        
-    #         # doc.points = 0
-    #         # date_array = [ap, "hour #{hour}", "min #{minute}", weekday, month, date, year]
-    #         date_array = [ap, weekday, month, date, year]
-    #         if _
-    #             date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
-    #             doc.timestamp_tags = date_array
-    #             # console.log date_array
-    #             Docs.update doc_id, 
-    #                 $set:time_tags:date_array
-                            
-
 Meteor.publish 'alpha_combo', (selected_tags)->
     Docs.find 
         model:'alpha'
         # query: $in: selected_tags
         query: selected_tags.toString()
-        
-Meteor.publish 'doc_by_id', (id)->
-    Docs.find 
-        _id: id
-        # model:'alpha'
-        # query: selected_tags.toString()
         
         
 # Meteor.publish 'alpha_single', (selected_tags)->
@@ -160,22 +225,6 @@ Meteor.publish 'doc_by_id', (id)->
 #         model:'alpha'
 #         query: $in: selected_tags
 #         # query: selected_tags.toString()
-
-Meteor.publish 'doc_by_title', (title)->
-    Docs.find({
-        title:title
-        model:'wikipedia'
-    }, {
-        fields:
-            title:1
-            "watson.metadata.image":1
-    })
-
-Meteor.publish 'comments', (doc_id)->
-    Docs.find
-        model:'comment'
-        parent_id:doc_id
-
 
         
 Meteor.publish 'duck', (selected_tags)->

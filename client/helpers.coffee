@@ -66,7 +66,6 @@ Template.registerHelper 'tag_term', () ->
 
 Template.registerHelper 'session', () -> Session.get(@key)
 
-Template.registerHelper 'lowered_title', ()-> @title.toLowerCase()
 
 Template.registerHelper 'skip_is_zero', ()-> Session.equals('skip', 0)
 Template.registerHelper 'one_post', ()-> Counts.get('result_counter') is 1
@@ -75,7 +74,6 @@ Template.registerHelper 'key_value', (key,value)-> @["#{key}"] is value
 
 Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
-Template.registerHelper 'lowered_title', ()-> @title.toLowerCase()
 
 
 Template.registerHelper 'field_value', () ->
@@ -257,7 +255,7 @@ Template.registerHelper 'current_doc', () ->
     else if found_doc_by_slug
         found_doc_by_slug
 
-Template.registerHelper 'lowered_title', ()-> @title.toLowerCase()
+Template.registerHelper 'lowered_title', ()-> @data.title.toLowerCase()
 
 
 Template.registerHelper 'field_value', () ->

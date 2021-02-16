@@ -1,6 +1,16 @@
 template(name='admin')
-    //- +models
-    +user_table
+    .ui.padded.stackable.grid
+        .sixteen.wide.column
+            //- +models
+            .ui.header
+                i.shield.icon
+                |admin
+            .ui.header
+                i.user.shield.icon
+                |admin users
+            each admins 
+                +user_item    
+            +user_table
 
 
 

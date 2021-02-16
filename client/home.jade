@@ -21,7 +21,7 @@ template(name='home')
                     +unpick_tag
             |&nbsp;
             unless picked_tags
-                .ui.center.aligned.basic.segment
+                .ui.center.aligned.basic.segment.big_search
                     .ui.icon.massive.input
                         if is_loading
                             i.yin.yang.loading.large.icon
@@ -138,7 +138,7 @@ template(name='post_card_small')
                         
 template(name='alpha')
     each alphas
-        if response.queryresult
+        if response.queryresult.success
             with response.queryresult
                 // .ui.label #{datatypes}
                 each split_datatypes

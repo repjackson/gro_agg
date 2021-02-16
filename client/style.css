@@ -334,13 +334,13 @@ input
 }
 .thin {
     /* font-size: 1.10rem !important; */
-    font-weight: 400 !important;
+    font-weight: 500 !important;
 }
 
 
 .rounded {
   /*border-radius: 5px !important; */
-  /*padding: 10px !important; */
+  padding: 10px !important; 
 }
 
 .card {
@@ -619,7 +619,7 @@ a.title, #title {
 
 input {
     /*margin: 10px !important;*/
-    border-radius: 15px !important; 
+    border-radius: 10px !important; 
 }
 
 ::-webkit-scrollbar {

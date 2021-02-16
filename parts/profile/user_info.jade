@@ -3,24 +3,7 @@ template(name='user_about')
         i.info.icon
         |user info
     with current_user
-        .ui.four.column.stackable.grid
-            .column
-                .ui.small.header What do you hope to receive?
-                .smallscroll
-                    |#{profile_hope_receive}
-            .column
-                .ui.small.header What excites you about being apart of this community?
-                .smallscroll
-                    |#{profile_excites_blurb}
-                .spacer
-            .column
-                .ui.small.header What do you want this community to know about you?
-                .smallscroll
-                    |#{profile_community_blurb}
-            .column
-                .ui.small.header What would you like to contribute (think: superpowers, talents, gifts, resources)?
-                .smallscroll
-                    |#{profile_contribute_blurb}
+        |!{bio}
         if tags 
             i.large.tags.icon
             each tags

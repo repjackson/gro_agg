@@ -39,6 +39,15 @@ if Meteor.isClient
                 .transition('fade out', 200)
                 .transition('fade in', 200)
     
+        'click .goto_users': ->
+            $('.global_container')
+                .transition('fade right', 500)
+                # .transition('fade in', 200)
+            Meteor.setTimeout ->
+                Router.go '/users'
+            , 500
+    
+    
         'click .refresh_user_stats': ->
             user = Meteor.users.findOne(username:Router.current().params.username)
             # Meteor.call 'calc_user_stats', user._id, ->

@@ -65,6 +65,8 @@ Template.home.events
                     # window.speechSynthesis.speak new SpeechSynthesisUtterance '
                     t.$('.search_tag').val('')
                 else
+                    if picked_tags.array().length is 0
+                        $('.big_search').transition('zoom', 500)
                     picked_tags.push val   
                     # Session.set('sub_doc_query', val)
                     Session.set('loading',true)

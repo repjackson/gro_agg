@@ -19,11 +19,6 @@ Meteor.publish 'wikis', (
 
 
 Meteor.publish 'doc_by_title', (title)->
-    Docs.find
-        title:title
-        model:'wikipedia'
-
-Meteor.publish 'doc_by_title_small', (title)->
     Docs.find({
         title:title
         model:'wikipedia'
@@ -32,6 +27,7 @@ Meteor.publish 'doc_by_title_small', (title)->
             title:1
             "watson.metadata.image":1
     })
+
 
 Meteor.publish 'comments', (doc_id)->
     Docs.find
@@ -125,7 +121,7 @@ Meteor.publish 'latest_debits', ()->
 
 
 Meteor.publish 'all_users', ()->
-    Meteor.users.find()
+    # Meteor.users.find()
 
 
 

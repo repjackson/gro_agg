@@ -16,6 +16,12 @@ Template.body.events
     'click .say': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
+    'click a:not(.profile_nav_item)': ->
+        $('.global_container')
+            .transition('fade out', 200)
+            .transition('fade in', 200)
+        
+        
 # Template.say.events
 #     'click .quiet': (e,t)->
 #         Session.set('talking',false)

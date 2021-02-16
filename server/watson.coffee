@@ -115,11 +115,11 @@ Meteor.methods
     #     )
 
     call_watson: (doc_id, key, mode) ->
-        console.log 'calling watson'
+        # console.log 'calling watson'
         self = @
-        console.log doc_id
-        console.log key
-        console.log mode
+        # console.log doc_id
+        # console.log key
+        # console.log mode
         doc = Docs.findOne doc_id
         # console.log 'calling watson on', doc.title
         # if doc.skip_watson is false
@@ -128,24 +128,24 @@ Meteor.methods
         # console.log 'analyzing', doc.title, 'tags', doc.tags
         params =
             concepts:
-                limit:10
+                limit:20
             features:
                 entities:
                     emotion: true
                     sentiment: true
                     mentions: false
-                    limit: 10
+                    limit: 20
                 keywords:
                     emotion: true
                     sentiment: true
-                    limit: 10
+                    limit: 20
                 concepts: {}
                 categories:
                     explanation:true
                 emotion: {}
                 # metadata: {}
-                relations: {}
-                semantic_roles: {}
+                # relations: {}
+                # semantic_roles: {}
                 sentiment: {}
         if doc.data and doc.data.domain and doc.data.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
             params.url = "https://www.reddit.com#{doc.data.permalink}"
@@ -201,7 +201,8 @@ Meteor.methods
                 # console.log 'watson error for', params.url
                 # console.log err
                 if err.code is 400
-                    console.log 'crawl rejected by server', err
+                    # console.log 'crawl rejected by server', err
+                    console.log 'crawl rejected by server'
                 unless err.code is 403
                     Docs.update doc_id,
                         $set:skip_watson:false
@@ -284,7 +285,7 @@ Meteor.methods
                             # else
                             Docs.update { _id: doc_id },
                                 $addToSet:
-                                    # "#{entity.type}":entity.text
+                                    "#{entity.type}":entity.text
                                     tags:entity.text.toLowerCase()
                 concept_array = _.pluck(response.concepts, 'text')
                 lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()

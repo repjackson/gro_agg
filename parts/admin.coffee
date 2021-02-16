@@ -5,7 +5,8 @@ if Meteor.isClient
         ), name:'admin'
 
     Template.admin.onCreated ->
-        @autorun -> Meteor.subscribe 'user_model_docs', 'offer', Router.current().params.username
+        @autorun -> Meteor.subscribe 'admins'
+        # @autorun -> Meteor.subscribe 'user_model_docs', 'offer', Router.current().params.username
         # @autorun => Meteor.subscribe 'admin', Router.current().params.username
         @autorun => Meteor.subscribe 'model_docs', 'stat'
 
@@ -23,6 +24,11 @@ if Meteor.isClient
 
 
     Template.admin.helpers
+        admins: ->
+            Meteor.users.find
+                roles: $in: ['admin']
+        
+        
         offers: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find {
@@ -38,3 +44,10 @@ if Meteor.isServer
     Meteor.publish 'admin', (username)->
         Docs.find
             model:'offer'
+            
+    Meteor.publish 'admins', ()->
+        Meteor.users.find   
+            roles:$in:['admin']
+            
+            
+            

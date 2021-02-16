@@ -22,22 +22,22 @@ template(name='nav')
         //     i.shop.large.icon
         //     // |shop
         // .right.menu
-        if unread_count
-            a.item.alerts.select_term(href="#" class=alert_toggle_class)
-                i.large.bell.icon
-                if unread_count
-                    |#{unread_count}
-        else
-            a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
-                i.large.outline.bell.icon
-        a.icon.item(href="/chat" title='chat') 
-            i.chat.large.outline.icon
-        // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
-        //     i.chat.large.icon
-        if is_dev 
-            .icon.item
-                i.large.code.icon
         if currentUser
+            if unread_count
+                a.item.alerts.select_term(href="#" class=alert_toggle_class)
+                    i.large.bell.icon
+                    if unread_count
+                        |#{unread_count}
+            else
+                a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+                    i.large.outline.bell.icon
+            a.icon.item(href="/chat" title='chat') 
+                i.chat.large.outline.icon
+            // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
+            //     i.chat.large.icon
+            if is_dev 
+                .icon.item
+                    i.large.code.icon
             // a.large.item.toggle_rightbar(class="{{isActiveRoute 'user_dashboard'}}")
             a.large.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_dashboard'}}")
                 //- i.large.user.large.icon
@@ -53,13 +53,14 @@ template(name='nav')
             //     |#{currentUser.points}p
         else
             a.item(href="/register" title='register')
-                // |login
-                +icon name='plus'
+                i.plus.icon
+                |register
+                // +icon name='plus'
                 // i.large.chevron.right.icon
             a.item(href="/login" title='login')
-                // |login
-                +icon name='login-rounded-right'
-                // i.large.chevron.right.icon
+                |login
+                // +icon name='login-rounded-right'
+                i.large.chevron.right.icon
         a.icon.large.item.toggle_rightbar.select_term
             i.ellipsis.vertical.large.icon
     if session_is 'viewing_alerts'
@@ -132,9 +133,9 @@ template(name='right_sidebar')
         a.item.logout(href="/u/#{currentUser.username}/messages" class="{{isActiveRoute 'user_messages'}}" )
             |logout
             if is_logging_out
-                i.refresh.loading.icon
+                i.refresh.loading.large.icon
             else
-                i.sign.out.icon
+                i.sign.out.large.icon
 
 
 
