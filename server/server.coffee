@@ -251,7 +251,23 @@ Meteor.publish 'doc_by_id', (id)->
 #         model:'alpha'
 #         query: $in: selected_tags
 #         # query: selected_tags.toString()
-        
+
+Meteor.publish 'doc_by_title', (title)->
+    Docs.find({
+        title:title
+        model:'wikipedia'
+    }, {
+        fields:
+            title:1
+            "watson.metadata.image":1
+    })
+
+Meteor.publish 'comments', (doc_id)->
+    Docs.find
+        model:'comment'
+        parent_id:doc_id
+
+
         
 Meteor.publish 'duck', (selected_tags)->
     Docs.find 

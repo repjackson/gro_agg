@@ -1,6 +1,6 @@
 template(name='group')
     .ui.stackable.grid
-        .twelve.wide.center.aligned.column.seg
+        .twelve.wide.left.aligned.column.seg
             .ui.inline.small.header    
                 |#{counter}
             .ui.inline.header    
@@ -77,16 +77,16 @@ template(name='group')
             .scrolling
                 if posts.count
                     if skv_is 'view_layout' 'grid'
-                        .ui.stackable.centered.three.column.grid 
+                        .ui.stackable.lefted.three.column.grid 
                             each posts
                                 +post_card_small
                     else if skv_is 'view_layout' 'list'
                         each posts
                             +doc_item
                 else
-                    .ui.center.aligned.basic.segment
+                    .ui.left.aligned.basic.segment
                         i.massive.grey.loading.yin.yang.icon
-        .four.wide.center.aligned.column.scrollng.seg
+        .four.wide.left.aligned.column.scrollng.seg
             // +alpha
             if location_tags
                 if picked_location_tags
@@ -230,10 +230,10 @@ template(name='flat_group_tag_picker')
         
    
 template(name='group_post_card_small')
-    .center.aligned.column
+    .left.aligned.column
         .content.zoomer
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
-            a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
+            a.ui.left.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
                 |!{data.title} #{title}
             if embed
                 span.rounded.full
