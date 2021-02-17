@@ -31,44 +31,44 @@ template(name='group')
             // else
             //     i.big.grey.loading.yin.yang.icon
         
-            // div
-            // if skv_is 'sort_direction' 1
-            //     .ui.icon.compact.button.sort_down
-            //         i.caret.down.icon
-            // else
-            //     .ui.icon.compact.button.sort_up
-            //         i.caret.up.icon
-            // .ui.compact.small.button.sort_created(class=sort_created_class)
-            //     i.clock.icon
-            //     |latest
-            // .ui.compact.small.button.sort_ups(class=sort_ups_class)
-            //     i.thumbs.up.icon
-            //     |liked
-            // if skv_is 'view_detail' true
-            //     .ui.black.compact.button.toggle_detail
-            //         i.list.icon
-            //         |detail
-            // else
-            //     .ui.compact.button.toggle_detail
-            //         i.minus.icon
-            //         |simple
-            //     // i.line.chart.icon
-            // if skv_is 'view_layout' 'grid'
-            //     .ui.compact.button.set_grid(class=grid_class) 
-            //         i.th.icon
-            //         |grid
-            // else
-            //     .ui.compact.button.set_grid(class=grid_class) 
-            //         i.th.icon
-            //         |grid
-            // if skv_is 'view_layout' 'list'
-            //     .ui.compact.button.set_list(class=list_class)
-            //         i.list.icon
-            //         |list
-            // else
-            //     .ui.compact.button.set_list(class=list_class)
-            //         i.list.icon
-            //         |list
+            div
+            if skv_is 'sort_direction' 1
+                .ui.icon.compact.button.sort_down
+                    i.caret.down.icon
+            else
+                .ui.icon.compact.button.sort_up
+                    i.caret.up.icon
+            .ui.compact.small.button.sort_created(class=sort_created_class)
+                i.clock.icon
+                |latest
+            .ui.compact.small.button.sort_ups(class=sort_ups_class)
+                i.thumbs.up.icon
+                |liked
+            if skv_is 'view_detail' true
+                .ui.black.compact.button.toggle_detail
+                    i.list.icon
+                    |detail
+            else
+                .ui.compact.button.toggle_detail
+                    i.minus.icon
+                    |simple
+                // i.line.chart.icon
+            if skv_is 'view_layout' 'grid'
+                .ui.compact.button.set_grid(class=grid_class) 
+                    i.th.icon
+                    |grid
+            else
+                .ui.compact.button.set_grid(class=grid_class) 
+                    i.th.icon
+                    |grid
+            if skv_is 'view_layout' 'list'
+                .ui.compact.button.set_list(class=list_class)
+                    i.list.icon
+                    |list
+            else
+                .ui.compact.button.set_list(class=list_class)
+                    i.list.icon
+                    |list
             .scrolling
                 if posts.count
                     // if skv_is 'view_layout' 'grid'
@@ -228,8 +228,8 @@ template(name='group_flat_tag_picker')
         
    
 template(name='group_post_card_small')
-    .left.aligned.column
-        .content.zoomer
+    .ui.fluid.card
+        .content
             // a.ui.header.zoomer(href="/g/#{group}/p/#{_id}") #{title}
             a.ui.left.aligned.small.header.view_post(href="/g/#{group}/p/#{_id}" class=emotion_color)
                 |!{data.title} #{title}
@@ -267,8 +267,8 @@ template(name='group_post_card_small')
         // i.thumbs.up.outline.grey.icon
         // | #{comments}
         // i.comment.outline.grey.icon
-        // span(title="imported #{when}")
-        //     |{{when}}
+        span(title="imported #{when}")
+            |{{when}}
         // i.clock.icon
         // each time_tags
         //     .ui.tiny.label #{this}

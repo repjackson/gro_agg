@@ -688,8 +688,8 @@ input {
     /*z-index:1001;*/
     /*margin-top: 1em; */
     /*padding-top: .5em; */
-    /*padding: .4em;*/
-    padding-left: 1em;
+    padding: 1em;
+    /*padding-left: 1em;*/
 }
 .forty {
     max-height:38vh !important;

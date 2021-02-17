@@ -17,7 +17,7 @@ template(name='group_post_view')
                                 img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                         if youtube_id
                             +youtube_view key='youtube_id' label='youtube id' direct=true
-                        .say_this.say_body
+                        .say_this.say_body.f12
                             |!{content}
                         | {{when}}
                         div
@@ -42,9 +42,9 @@ template(name='group_post_view')
                             //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
                             iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                         div
-                        if watson.analyzed_text
-                            .say.f12
-                                |{{nl2br watson.analyzed_text}}
+                        // if watson.analyzed_text
+                        //     .say.f12
+                        //         |{{nl2br watson.analyzed_text}}
                         // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                         .spacer
                         // img(src=url)
@@ -76,6 +76,7 @@ template(name='group_post_view')
                                 +watson_full
                 .four.wide.column.scrolling
                     .ui.segmen
+                        +voting_full
                         // div
                         // .ui.inline.grey.header {{from_now start_datetime}}
                         
@@ -92,9 +93,6 @@ template(name='group_post_view')
     
                         +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                         +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                        a.ui.basic.fluid.button(href=data.url target="_window" title=data.url) 
-                            i.external.icon
-                            |url
                         // .ui.header #{data.domain}
                         .spacer
                         // a.ui.basic.button(href="https://www.reddit.com/user/#{author}" target='_window')
