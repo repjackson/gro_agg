@@ -198,7 +198,7 @@ template(name='group')
                 
 template(name='group_tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.tertiary.large.button.zoomer.pick_tag.profile_nav_item(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.tertiary.button.zoomer.pick_tag.profile_nav_item(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    

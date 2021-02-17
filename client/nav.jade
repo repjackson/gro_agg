@@ -11,19 +11,6 @@ template(name='nav')
             // |home
         a.icon.item(href="/love" class="{{isActiveRoute '/love'}}")
             i.heart.icon
-        // a.icon.item.set_food.mobile.hidden(href="/s/recipes" class="{{isActiveRoute '/s/recipes'}}")
-        //     i.food.icon
-        // a.icon.item.set_nature.mobile.hidden(href="/s/environment" class="{{isActiveRoute '/s/environment'}}")
-        //     i.leaf.icon
-        // a.icon.item.set_movies.mobile.hidden(href="/s/movies" class="{{isActiveRoute '/s/movies'}}")
-        //     i.film.icon
-        // a.icon.item.set_users(href="/users" class="{{isActiveRoute '/users'}}")
-        //     i.users.icon
-        
-        // .icon.item 
-        //     i.shop.icon
-        //     // |shop
-        // .right.menu
         if currentUser
             // if unread_count
             //     a.item.alerts.select_term(href="#" class=alert_toggle_class)
@@ -53,6 +40,8 @@ template(name='nav')
                 strong.mobile.hidden #{currentUser.name}
             // a.mobile.hidden.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_credits'}}")
             //     |#{currentUser.points}p
+            a.icon.item.toggle_rightbar.select_term
+                i.ellipsis.vertical.icon
         else
             a.item(href="/register" title='register')
                 i.plus.icon
@@ -63,10 +52,6 @@ template(name='nav')
                 |login
                 // +icon name='login-rounded-right'
                 i.chevron.right.icon
-        a.icon.item.toggle_rightbar.select_term
-            i.ellipsis.vertical.icon
-    if session_is 'viewing_alerts'
-        +topbar
 
 
 
