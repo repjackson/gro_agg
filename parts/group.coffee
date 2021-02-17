@@ -7,6 +7,7 @@ if Meteor.isClient
     @group_picked_tags = new ReactiveArray []
     @group_picked_time_tags = new ReactiveArray []
     @group_picked_location_tags = new ReactiveArray []
+    @group_picked_author_tags = new ReactiveArray []
 
 
     Template.group.onCreated ->
@@ -20,6 +21,7 @@ if Meteor.isClient
             group_picked_tags.array()
             group_picked_time_tags.array()
             group_picked_location_tags.array()
+            group_picked_author_tags.array()
             # selected_group_authors.array()
             Session.get('toggle')
         @autorun => Meteor.subscribe 'group_count', 
@@ -27,12 +29,14 @@ if Meteor.isClient
             group_picked_tags.array()
             group_picked_time_tags.array()
             group_picked_location_tags.array()
+            group_picked_author_tags.array()
         
         @autorun => Meteor.subscribe 'group_posts', 
             Router.current().params.group
             group_picked_tags.array()
             group_picked_time_tags.array()
             group_picked_location_tags.array()
+            group_picked_author_tags.array()
             Session.get('group_sort_key')
             Session.get('group_sort_direction')
             Session.get('group_skip_value')
@@ -85,7 +89,10 @@ if Meteor.isClient
         group_picked_time_tags: -> group_picked_time_tags.array()
         group_picked_location_tags: -> group_picked_location_tags.array()
         group_picked_people_tags: -> group_picked_people_tags.array()
+        group_picked_author_tags: -> group_picked_author_tags.array()
+        
         counter: -> Counts.get 'counter'
+        group_author_results: -> results.find(model:'group_author_tag')
         group_result_tags: -> results.find(model:'group_tag')
         time_tags: -> results.find(model:'time_tag')
         location_tags: -> results.find(model:'location_tag')
@@ -232,7 +239,6 @@ if Meteor.isClient
     #         $('.search_group').val('')
 
 if Meteor.isClient
-
     Template.post_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
     Template.post_view.onCreated ->
@@ -270,6 +276,7 @@ if Meteor.isServer
         group_picked_tags
         group_picked_time_tags
         group_picked_location_tags
+        group_picked_author_tags
         )->
         match = {model:'post'}
         if group is 'all'
@@ -280,6 +287,8 @@ if Meteor.isServer
         if group_picked_tags.length > 0 then match.tags = $all:group_picked_tags
         if group_picked_time_tags.length > 0 then match.time_tags = $all:group_picked_time_tags
         if group_picked_location_tags.length > 0 then match.location_tags = $all:group_picked_location_tags
+        if group_picked_author_tags.length > 0 then match._author_username = $all:group_picked_author_tags
+
         Counts.publish this, 'counter', Docs.find(match)
         return undefined
                 
@@ -288,6 +297,7 @@ if Meteor.isServer
         group_picked_tags
         group_picked_time_tags
         group_picked_location_tags
+        group_picked_author_tags
         sort_key
         sort_direction
         skip=0
@@ -313,14 +323,30 @@ if Meteor.isServer
         if group_picked_tags.length > 0 then match.tags = $all:group_picked_tags
         if group_picked_time_tags.length > 0 then match.time_tags = $all:group_picked_time_tags
         if group_picked_location_tags.length > 0 then match.location_tags = $all:group_picked_location_tags
+        if group_picked_author_tags.length > 0 then match._author_username = $all:group_picked_author_tags
         # if selected_subgroup_domains.length > 0 then match.domain = $all:selected_subgroup_domains
         # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
-        console.log 'skip', skip
+        # console.log 'skip', skip
         Docs.find match,
             limit:20
             sort: "#{sk}":-1
             # skip:skip*20
-        
+            fields:
+                title:1
+                content:1
+                tags:1
+                time_tags:1
+                image_id:1
+                group:1
+                model:1
+                _author_username:1
+                _timestamp:1
+                doc_sentiment_label:1
+                joy_percent:1
+                sadness_percent:1        
+                fear_percent:1        
+                disgust_percent:1        
+                anger_percent:1        
         
     # Meteor.methods    
         # tagify_group: (group)->
@@ -357,6 +383,7 @@ if Meteor.isServer
         group_picked_tags
         group_picked_time_tags
         group_picked_location_tags
+        group_picked_author_tags
         # selected_group_authors
         # view_bounties
         # view_unanswered
@@ -382,6 +409,7 @@ if Meteor.isServer
         # if selected_subgroup_domain.length > 0 then match.domain = $all:selected_subgroup_domain
         if group_picked_time_tags.length > 0 then match.time_tags = $all:group_picked_time_tags
         if group_picked_location_tags.length > 0 then match.location_tags = $all:group_picked_location_tags
+        if group_picked_author_tags.length > 0 then match._author_username = $all:group_picked_author_tags
         # if selected_group_location.length > 0 then match.subgroup = $all:selected_group_location
         # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
         # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
@@ -406,22 +434,22 @@ if Meteor.isServer
                 model:'group_tag'
         
         
-        # group_domain_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "data.domain": 1 }
-        #     # { $unwind: "$domain" }
-        #     { $group: _id: "$data.domain", count: $sum: 1 }
-        #     # { $match: _id: $nin: selected_domains }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $match: count: $lt: doc_count }
-        #     { $limit:10 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ]
-        # group_domain_cloud.forEach (domain, i) ->
-        #     self.added 'results', Random.id(),
-        #         name: domain.name
-        #         count: domain.count
-        #         model:'group_domain_tag'
+        group_author_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "_author_username": 1 }
+            # { $unwind: "$author" }
+            { $group: _id: "$_author_username", count: $sum: 1 }
+            # { $match: _id: $nin: selected_authors }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        group_author_cloud.forEach (author, i) ->
+            self.added 'results', Random.id(),
+                name: author.name
+                count: author.count
+                model:'group_author_tag'
         
         
         group_location_cloud = Docs.aggregate [

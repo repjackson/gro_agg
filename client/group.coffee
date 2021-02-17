@@ -136,6 +136,12 @@ Template.group.events
     'click .pick_location_tag': ->
         group_picked_location_tags.push @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+  
+    'click .unpick_author': ->
+        group_picked_author_tags.remove @valueOf()
+    'click .pick_author': ->
+        group_picked_author_tags.push @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
 
     'click .add_post': ->
         new_id = 

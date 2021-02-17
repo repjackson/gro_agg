@@ -87,12 +87,13 @@ template(name='group')
                 i.plus.green.icon
                 |add
             if location_tags
+                i.large.marker.icon
                 if picked_location_tags
                     each picked_location_tags
                         a.unpick_location_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
                 each location_tags
-                    .ui.compact.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+                    .ui.compact.small.basic.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
                         strong #{name}
             if Locations
                 div
@@ -132,15 +133,15 @@ template(name='group')
                     |companies
                 each companies
                     .ui.label.pick_company #{name}
-            i.big.globe.grey.icon
-            if picked_domain
-                each picked_domain
-                    .ui.active.button.unpick_domain
-                        |#{this}
-            each domain_tags
-                .ui.compact.button.pick_domain(class=domain_picker_class)
-                    |#{name} 
-                    // small #{count}
+            // i.big.globe.grey.icon
+            // if picked_domain
+            //     each picked_domain
+            //         .ui.active.button.unpick_domain
+            //             |#{this}
+            // each domain_tags
+            //     .ui.compact.button.pick_domain(class=domain_picker_class)
+            //         |#{name} 
+            //         // small #{count}
             .spacer
             i.clock.big.grey.icon            
             if picked_group_time_tags
@@ -158,7 +159,8 @@ template(name='group')
                     .ui.active.button.unpick_author
                         |#{this}
             each group_author_results
-                .ui.compact.button.pick_author(class=domain_picker_class)
+                .ui.compact.circular.basic.button.pick_author(class=domain_picker_class)
+                    i.user.outline.icon
                     |#{name} 
                     // small #{count}
             // .ui.inline.header.pull_latest #{display_name}
@@ -237,12 +239,6 @@ template(name='group_post_card_small')
                 span.rounded.full
                     |!{embed}
                 div
-            else if is_image
-                a.view_post(href="/g/#{group}/p/#{_id}" class=emotion_color)
-                    img.ui.fluid.rounded.image.toggle_view(src=data.url)
-            else if watson.metadata.image.length
-                a.view_post(href="/g/#{group}/p/#{_id}" class=emotion_color)
-                    img.ui.fluid.rounded.image.toggle_view(src=watson.metadata.image)
             if image_id
                 a(href="/g/#{group}/p/#{_id}")
                     img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)

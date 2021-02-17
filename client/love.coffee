@@ -117,13 +117,13 @@ Template.love.events
         picked_locations.remove @valueOf()
     'click .pick_location': ->
         picked_locations.push @name
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         
     'click .unpick_author': ->
         picked_authors.remove @valueOf()
     'click .pick_author': ->
         picked_authors.push @name
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
 
     'click .pick_l': -> 
         if @name
