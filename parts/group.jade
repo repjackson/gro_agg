@@ -231,22 +231,18 @@ template(name='group_flat_tag_picker')
    
 template(name='group_post_card_small')
     .ui.fluid.card
+        if image_id
+            a(href="/g/#{group}/p/#{_id}")
+                img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+        if image_link
+            a(href="/g/#{group}/p/#{_id}")
+                +image_link_view key='image_link' direct=true
+        if youtube_id
+            +youtube_view key='youtube_id' label='youtube id' direct=true
         .content
             // a.ui.header.zoomer(href="/g/#{group}/p/#{_id}") #{title}
             a.ui.left.aligned.small.header.view_post(href="/g/#{group}/p/#{_id}" class=emotion_color)
-                |!{data.title} #{title}
-            if embed
-                span.rounded.full
-                    |!{embed}
-                div
-            if image_id
-                a(href="/g/#{group}/p/#{_id}")
-                    img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-            if image_link
-                a(href="/g/#{group}/p/#{_id}")
-                    +image_link_view key='image_link' direct=true
-            if youtube_id
-                +youtube_view key='youtube_id' label='youtube id' direct=true
+                |#{title}
             if is_admin
                 +text_edit key='group' label='slug' direct=true
             .f12
@@ -281,6 +277,7 @@ template(name='group_post_card_small')
             if is_admin
                 +remove_button
                 +print_this
+            +comments
         +doc_emotion_small        
    
 template(name='doc_item')                  

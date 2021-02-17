@@ -347,6 +347,7 @@ if Meteor.isServer
                 fear_percent:1        
                 disgust_percent:1        
                 anger_percent:1        
+                youtube_id:1        
         
     # Meteor.methods    
         # tagify_group: (group)->
