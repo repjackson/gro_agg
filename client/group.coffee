@@ -8,8 +8,8 @@
 # #     ), name:'group_short'
 
 # @picked_tags = new ReactiveArray []
-# @picked_time_tags = new ReactiveArray []
-# @picked_location_tags = new ReactiveArray []
+# @group_picked_time_tags = new ReactiveArray []
+# @group_picked_location_tags = new ReactiveArray []
 # @picked_Persons = new ReactiveArray []
 # @picked_Locations = new ReactiveArray []
 # @picked_Organizations = new ReactiveArray []
@@ -27,8 +27,8 @@
 #     @autorun => Meteor.subscribe 'tags',
 #         Router.current().params.group
 #         picked_tags.array()
-#         picked_time_tags.array()
-#         picked_location_tags.array()
+#         group_picked_time_tags.array()
+#         group_picked_location_tags.array()
 #         picked_Persons.array()
 #         picked_Locations.array()
 #         picked_Organizations.array()
@@ -36,8 +36,8 @@
 #     @autorun => Meteor.subscribe 'count', 
 #         Router.current().params.group
 #         picked_tags.array()
-#         picked_time_tags.array()
-#         picked_location_tags.array()
+#         group_picked_time_tags.array()
+#         group_picked_location_tags.array()
 #         picked_Persons.array()
 #         picked_Locations.array()
 #         picked_Organizations.array()
@@ -45,8 +45,8 @@
 #     @autorun => Meteor.subscribe 'posts', 
 #         Router.current().params.group
 #         picked_tags.array()
-#         picked_time_tags.array()
-#         picked_location_tags.array()
+#         group_picked_time_tags.array()
+#         group_picked_location_tags.array()
 #         picked_Persons.array()
 #         picked_Locations.array()
 #         picked_Organizations.array()
@@ -79,8 +79,8 @@
   
   
 #     picked_tags: -> picked_tags.array()
-#     picked_time_tags: -> picked_time_tags.array()
-#     picked_location_tags: -> picked_location_tags.array()
+#     group_picked_time_tags: -> group_picked_time_tags.array()
+#     group_picked_location_tags: -> group_picked_location_tags.array()
 #     picked_people_tags: -> picked_people_tags.array()
   
 #     result_tags: -> results.find(model:'tag')
@@ -123,26 +123,26 @@ Template.group.events
         picked_Locations.remove @valueOf()
     'click .pick_Location': ->
         picked_Locations.push @name
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         
     'click .unpick_time_tag': ->
-        picked_time_tags.remove @valueOf()
+        group_picked_time_tags.remove @valueOf()
     'click .pick_time_tag': ->
-        picked_time_tags.push @name
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        group_picked_time_tags.push @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         
     'click .unpick_location_tag': ->
-        picked_location_tags.remove @valueOf()
+        group_picked_location_tags.remove @valueOf()
     'click .pick_location_tag': ->
-        picked_location_tags.push @name
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        group_picked_location_tags.push @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
 
     'click .add_post': ->
         new_id = 
             Docs.insert 
                 model:'post'
                 group:Router.current().params.group
-        Router.go "/#{Router.current().params.group}/p/#{new_id}/edit"
+        Router.go "/g/#{Router.current().params.group}/p/#{new_id}/edit"
  
     'focus .search_tag': (e,t)->
         Session.set('toggle',!Session.get('toggle'))
@@ -236,24 +236,10 @@ Template.group_tag_picker.events
     'click .pick_tag': -> 
         # results.update
         # console.log @
-        # window.speechSynthesis.cancel()
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        # if @model is 'group_emotion'
-        #     picked_emotions.push @name
-        # else
-        # if @model is 'group_tag'
         group_picked_tags.push @name
         $('.search_tag').val('')
         Session.set('skip_value',0)
 
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
-        Session.set('loading',true)
-        # Meteor.call 'search_subreddit', Router.current().params.group, picked_tags.array(), ->
-        #     Session.set('loading',false)
-        # Meteor.setTimeout( ->
-        #     Session.set('toggle',!Session.get('toggle'))
-        # , 7000)
         
         
         
@@ -278,9 +264,9 @@ Template.group_unpick_tag.events
         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
     
 
-Template.flat_tag_picker.onCreated ->
+Template.group_flat_tag_picker.onCreated ->
     @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
-Template.flat_tag_picker.helpers
+Template.group_flat_tag_picker.helpers
     picker_class: ()->
         term = 
             Docs.findOne 
@@ -297,17 +283,11 @@ Template.flat_tag_picker.helpers
     term: ->
         Docs.findOne 
             title:@valueOf().toLowerCase()
-Template.flat_tag_picker.events
+Template.group_flat_tag_picker.events
     'click .pick_flat_tag': -> 
         # results.update
         # window.speechSynthesis.cancel()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-        picked_tags.push @valueOf()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+        group_picked_tags.push @valueOf()
         $('.search_group').val('')
-        Session.set('loading',true)
-        Meteor.call 'search_subreddit', Router.current().params.group, picked_tags.array(), ->
-            Session.set('loading',false)
-        Router.go "/#{Router.current().params.group}"
-        Meteor.setTimeout ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 8000
+        # Router.go "/g/#{Router.current().params.group}"

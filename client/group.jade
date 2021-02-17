@@ -8,33 +8,28 @@ template(name='group')
             // a.ui.header(href=link title='link')
             //     i.link.icon
             //     |link
-            if in_dev
-                +print_this
-            // +voting_full
             // +array_view key='tags' label='tags' icon='tags' direct=true
             // +comments
             // .f11 #{description}
             // +image_link_view key='image' label='image' direct=true
-            .ui.icon.button.add_post
-                i.plus.icon
             if group_picked_tags
-                // if many_tags
-                //     a#clear_tags.ui.black.invert.icon.compact.button.pick_term
-                //         i.remove.icon
+                if many_tags
+                    a#clear_tags.ui.black.invert.icon.compact.button.pick_term
+                        i.remove.icon
                 each group_picked_tags
                     +group_unpick_tag
             .ui.icon.input
-                if is_loading
-                    i.yin.yang.loading.icon
-                else
-                    i.search.icon
+                // if is_loading
+                //     i.yin.yang.loading.icon
+                // else
+                i.search.icon
                 input.search_tag(type='text' value=query)
                 // .ui.label #{this}
             if group_result_tags.count
                 each group_result_tags
                     +group_tag_picker
-            else
-                i.big.grey.loading.yin.yang.icon
+            // else
+            //     i.big.grey.loading.yin.yang.icon
         
             // div
             // if skv_is 'sort_direction' 1
@@ -77,17 +72,20 @@ template(name='group')
             .scrolling
                 if posts.count
                     // if skv_is 'view_layout' 'grid'
-                    .ui.stackable.lefted.three.column.grid 
+                    .ui.stackable.lefted.one.column.grid 
                         each posts
                             +group_post_card_small
                     // else if skv_is 'view_layout' 'list'
                     //     each posts
                     //         +doc_item
-                else
-                    .ui.left.aligned.basic.segment
-                        i.massive.grey.loading.yin.yang.icon
+                // else
+                //     .ui.left.aligned.basic.segment
+                //         i.massive.grey.loading.yin.yang.icon
         .four.wide.left.aligned.column.scrollng.seg
             // +alpha
+            .ui.fluid.basic.button.add_post
+                i.plus.green.icon
+                |add
             if location_tags
                 if picked_location_tags
                     each picked_location_tags
@@ -209,7 +207,7 @@ template(name='group_tag_picker')
         //     small #{count}
         
 template(name='group_unpick_tag')
-    a.group_unpick_tag.ui.active.image.big.label.profile_nav_item(href='#')
+    a.group_unpick_tag.ui.black.image.big.label.profile_nav_item(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -217,9 +215,9 @@ template(name='group_unpick_tag')
 
         
         
-template(name='flat_group_tag_picker')
+template(name='group_flat_tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.link.small.image.label.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.link.tiny.image.basic.label.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -259,16 +257,18 @@ template(name='group_post_card_small')
             // a(href="/g/#{group}/p/#{_id}")
             if raw
                 |!{raw}
-            each five_tags
-                +flat_group_tag_picker
-            a.ui.icon.button(href="/g/#{group}/p/#{_id}")
+            each tags
+                +group_flat_tag_picker
+            a.ui.basic.button(href="/g/#{group}/p/#{_id}")
+                |view
                 i.right.chevron.icon
-        | #{points}
-        i.thumbs.up.outline.grey.icon
-        | #{comments}
-        i.comment.outline.grey.icon
-        span(title="imported #{when}")
-            |{{when}}
+            +voting_full
+        // | #{points}
+        // i.thumbs.up.outline.grey.icon
+        // | #{comments}
+        // i.comment.outline.grey.icon
+        // span(title="imported #{when}")
+        //     |{{when}}
         // i.clock.icon
         // each time_tags
         //     .ui.tiny.label #{this}
@@ -280,7 +280,7 @@ template(name='group_post_card_small')
             
             // span.inline.content
             // span.inline.content
-        if in_dev
+        if is_admin
             +remove_button
             +print_this
    
@@ -324,7 +324,7 @@ template(name='doc_item')
                 small ({{long_date data.created}})
             .ui.label(title='domain') #{data.domain}
             // each tags
-            //     +flat_group_tag_picker
+            //     +group_flat_tag_picker
             if in_dev
                 +print_this
             // if watson
@@ -355,7 +355,7 @@ template(name='doc_item')
             //         |!{data.body_html}
             
             each tags
-                +flat_group_tag_picker
+                +group_flat_tag_picker
             // if watson
             //     +doc_emotion_small
             a.ui.inline.header(href="/u/#{data.author}")
