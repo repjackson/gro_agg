@@ -41,10 +41,10 @@ Template.post_edit.events
 
 
 
-Template.post_view.onCreated ->
+Template.group_post_view.onCreated ->
     @autorun -> Meteor.subscribe('doc_by_id', Router.current().params.doc_id)
     @autorun -> Meteor.subscribe('rpost_comments', Router.current().params.group, Router.current().params.doc_id)
-Template.post_view.onRendered ->
+Template.group_post_view.onRendered ->
     Meteor.call 'get_post_comments', Router.current().params.group, Router.current().params.doc_id, ->
 
 Template.post_view.events

@@ -66,31 +66,31 @@ if Meteor.isClient
     #         Session.get('group_sort_direction')
     #         Session.get('group_skip_value')
 
-    # Template.group.helpers
-    #     posts: ->
-    #         if Router.current().params.group is 'all'
-    #             Docs.find 
-    #                 model:'post'
-    #                 group:$exists:false
-    #         else
-    #             Docs.find 
-    #                 model:'post'
-    #                 group:Router.current().params.group
+    Template.group.helpers
+        posts: ->
+            if Router.current().params.group is 'all'
+                Docs.find 
+                    model:'post'
+                    group:$exists:false
+            else
+                Docs.find 
+                    model:'post'
+                    group:Router.current().params.group
                     
-    #     # group_posts: ->
-    #     #     Docs.find 
-    #     #         model:'post'
-    #     #         course_id:Router.current().params.group
-    #     selected_tags: -> selected_tags.array()
-    #     selected_time_tags: -> selected_time_tags.array()
-    #     selected_location_tags: -> selected_location_tags.array()
-    #     selected_people_tags: -> selected_people_tags.array()
-    #     counter: -> Counts.get 'counter'
-    #     result_tags: -> results.find(model:'group_tag')
-    #     time_tags: -> results.find(model:'time_tag')
-    #     location_tags: -> results.find(model:'location_tag')
-    #     current_group: ->
-    #         Router.current().params.group
+        # group_posts: ->
+        #     Docs.find 
+        #         model:'post'
+        #         course_id:Router.current().params.group
+        selected_tags: -> selected_tags.array()
+        selected_time_tags: -> selected_time_tags.array()
+        selected_location_tags: -> selected_location_tags.array()
+        selected_people_tags: -> selected_people_tags.array()
+        counter: -> Counts.get 'counter'
+        result_tags: -> results.find(model:'group_tag')
+        time_tags: -> results.find(model:'time_tag')
+        location_tags: -> results.find(model:'location_tag')
+        current_group: ->
+            Router.current().params.group
             
     # Template.group.events
     #     # 'click .unselect_group_tag': -> 
@@ -239,7 +239,7 @@ if Meteor.isClient
         ), name:'group_post_edit'
     Router.route '/g/:group/p/:doc_id', (->
         @layout 'layout'
-        @render 'post_view'
+        @render 'group_post_view'
         ), name:'group_post_view'
 
     Template.post_edit.onCreated ->

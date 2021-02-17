@@ -76,13 +76,13 @@ template(name='group')
                     |list
             .scrolling
                 if posts.count
-                    if skv_is 'view_layout' 'grid'
-                        .ui.stackable.lefted.three.column.grid 
-                            each posts
-                                +post_card_small
-                    else if skv_is 'view_layout' 'list'
+                    // if skv_is 'view_layout' 'grid'
+                    .ui.stackable.lefted.three.column.grid 
                         each posts
-                            +doc_item
+                            +group_post_card_small
+                    // else if skv_is 'view_layout' 'list'
+                    //     each posts
+                    //         +doc_item
                 else
                     .ui.left.aligned.basic.segment
                         i.massive.grey.loading.yin.yang.icon
@@ -277,8 +277,8 @@ template(name='group_post_card_small')
         //     .ui.tiny.label #{this}
         // a.ui.label(href="/u/#{data.author}")
         //     |#{data.author}
-        i.dna.link.icon.call_watson
-        +doc_emotion_small        
+        // i.dna.link.icon.call_watson
+        // +doc_emotion_small        
         // if watson
             
             // span.inline.content

@@ -1,22 +1,22 @@
 template(name='nav')
-    .ui.fluid.attached.borderless.ten.item.menu.hscroll
+    .ui.fluid.attached.borderless.eight.item.menu.hscroll
         a.icon.item.toggle_sidebar
             i.bars.icon
-        a.icon.item.set_tarot(href="/s/tarot" class="{{isActiveRoute '/s/tarot'}}")
-            i.moon.icon
+        // a.icon.item.set_tarot(href="/s/tarot" class="{{isActiveRoute '/s/tarot'}}")
+        //     i.moon.icon
             // |tarot
+        a.icon.item(href="/" class="{{isActiveRoute '/'}}")
+            i.yin.yang.large.icon
+            // i.heart.icon
+            // |home
         a.icon.item(href="/love" class="{{isActiveRoute '/love'}}")
             i.heart.icon
-        a.icon.item.set_food.mobile.hidden(href="/s/recipes" class="{{isActiveRoute '/s/recipes'}}")
-            i.food.icon
+        // a.icon.item.set_food.mobile.hidden(href="/s/recipes" class="{{isActiveRoute '/s/recipes'}}")
+        //     i.food.icon
         // a.icon.item.set_nature.mobile.hidden(href="/s/environment" class="{{isActiveRoute '/s/environment'}}")
         //     i.leaf.icon
         // a.icon.item.set_movies.mobile.hidden(href="/s/movies" class="{{isActiveRoute '/s/movies'}}")
         //     i.film.icon
-        a.icon.item(href="/" class="{{isActiveRoute '/'}}")
-            i.yin.yang.icon
-            // i.heart.icon
-            // |home
         a.icon.item.set_users(href="/users" class="{{isActiveRoute '/users'}}")
             i.users.icon
         
