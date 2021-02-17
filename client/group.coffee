@@ -242,18 +242,18 @@ Template.group_tag_picker.events
         #     picked_emotions.push @name
         # else
         # if @model is 'group_tag'
-        picked_tags.push @name
+        group_picked_tags.push @name
         $('.search_tag').val('')
         Session.set('skip_value',0)
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         Session.set('loading',true)
-        Meteor.call 'search_subreddit', Router.current().params.group, picked_tags.array(), ->
-            Session.set('loading',false)
-        Meteor.setTimeout( ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 7000)
+        # Meteor.call 'search_subreddit', Router.current().params.group, picked_tags.array(), ->
+        #     Session.set('loading',false)
+        # Meteor.setTimeout( ->
+        #     Session.set('toggle',!Session.get('toggle'))
+        # , 7000)
         
         
         
@@ -271,11 +271,11 @@ Template.group_unpick_tag.helpers
         
         
 Template.group_unpick_tag.events
-    'click .unpick_tag': -> 
+    'click .group_unpick_tag': -> 
         Session.set('skip',0)
         # console.log @
-        picked_tags.remove @valueOf()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+        group_picked_tags.remove @valueOf()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
     
 
 Template.flat_tag_picker.onCreated ->

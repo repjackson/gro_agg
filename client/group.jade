@@ -17,11 +17,11 @@ template(name='group')
             // +image_link_view key='image' label='image' direct=true
             .ui.icon.button.add_post
                 i.plus.icon
-            if picked_tags
+            if group_picked_tags
                 // if many_tags
                 //     a#clear_tags.ui.black.invert.icon.compact.button.pick_term
                 //         i.remove.icon
-                each picked_tags
+                each group_picked_tags
                     +group_unpick_tag
             .ui.icon.input
                 if is_loading
@@ -30,50 +30,50 @@ template(name='group')
                     i.search.icon
                 input.search_tag(type='text' value=query)
                 // .ui.label #{this}
-            if result_tags.count
-                each result_tags
+            if group_result_tags.count
+                each group_result_tags
                     +group_tag_picker
             else
                 i.big.grey.loading.yin.yang.icon
         
-            div
-            if skv_is 'sort_direction' 1
-                .ui.icon.compact.button.sort_down
-                    i.caret.down.icon
-            else
-                .ui.icon.compact.button.sort_up
-                    i.caret.up.icon
-            .ui.compact.small.button.sort_created(class=sort_created_class)
-                i.clock.icon
-                |latest
-            .ui.compact.small.button.sort_ups(class=sort_ups_class)
-                i.thumbs.up.icon
-                |liked
-            if skv_is 'view_detail' true
-                .ui.black.compact.button.toggle_detail
-                    i.list.icon
-                    |detail
-            else
-                .ui.compact.button.toggle_detail
-                    i.minus.icon
-                    |simple
-                // i.line.chart.icon
-            if skv_is 'view_layout' 'grid'
-                .ui.compact.button.set_grid(class=grid_class) 
-                    i.th.icon
-                    |grid
-            else
-                .ui.compact.button.set_grid(class=grid_class) 
-                    i.th.icon
-                    |grid
-            if skv_is 'view_layout' 'list'
-                .ui.compact.button.set_list(class=list_class)
-                    i.list.icon
-                    |list
-            else
-                .ui.compact.button.set_list(class=list_class)
-                    i.list.icon
-                    |list
+            // div
+            // if skv_is 'sort_direction' 1
+            //     .ui.icon.compact.button.sort_down
+            //         i.caret.down.icon
+            // else
+            //     .ui.icon.compact.button.sort_up
+            //         i.caret.up.icon
+            // .ui.compact.small.button.sort_created(class=sort_created_class)
+            //     i.clock.icon
+            //     |latest
+            // .ui.compact.small.button.sort_ups(class=sort_ups_class)
+            //     i.thumbs.up.icon
+            //     |liked
+            // if skv_is 'view_detail' true
+            //     .ui.black.compact.button.toggle_detail
+            //         i.list.icon
+            //         |detail
+            // else
+            //     .ui.compact.button.toggle_detail
+            //         i.minus.icon
+            //         |simple
+            //     // i.line.chart.icon
+            // if skv_is 'view_layout' 'grid'
+            //     .ui.compact.button.set_grid(class=grid_class) 
+            //         i.th.icon
+            //         |grid
+            // else
+            //     .ui.compact.button.set_grid(class=grid_class) 
+            //         i.th.icon
+            //         |grid
+            // if skv_is 'view_layout' 'list'
+            //     .ui.compact.button.set_list(class=list_class)
+            //         i.list.icon
+            //         |list
+            // else
+            //     .ui.compact.button.set_list(class=list_class)
+            //         i.list.icon
+            //         |list
             .scrolling
                 if posts.count
                     // if skv_is 'view_layout' 'grid'
@@ -200,7 +200,7 @@ template(name='group')
                 
 template(name='group_tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.image.large.link.label.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.image.large.link.basic.label.zoomer.pick_tag.profile_nav_item(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
@@ -209,7 +209,7 @@ template(name='group_tag_picker')
         //     small #{count}
         
 template(name='group_unpick_tag')
-    a.group_unpick_tag.ui.active.image.big.label(href='#')
+    a.group_unpick_tag.ui.active.image.big.label.profile_nav_item(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -245,9 +245,6 @@ template(name='group_post_card_small')
             else if watson.metadata.image.length
                 a.view_post(href="/g/#{group}/p/#{_id}" class=emotion_color)
                     img.ui.fluid.rounded.image.toggle_view(src=watson.metadata.image)
-            else if data.thumbnail_width
-                a.view_post(href="/g/#{group}/p/#{_id}" class=emotion_color)
-                    img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
             if image_id
                 a(href="/g/#{group}/p/#{_id}")
                     img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
@@ -258,20 +255,20 @@ template(name='group_post_card_small')
                 +youtube_view key='youtube_id' label='youtube id' direct=true
             if is_admin
                 +text_edit key='group' label='slug' direct=true
-            a(href="/g/#{group}/p/#{_id}")
-                |!{content}
-                if raw
-                    |!{raw}
+            |!{content}
+            // a(href="/g/#{group}/p/#{_id}")
+            if raw
+                |!{raw}
             each five_tags
                 +flat_group_tag_picker
             a.ui.icon.button(href="/g/#{group}/p/#{_id}")
                 i.right.chevron.icon
-        | #{data.ups}
+        | #{points}
         i.thumbs.up.outline.grey.icon
-        | #{data.num_comments}
+        | #{comments}
         i.comment.outline.grey.icon
         span(title="imported #{when}")
-            |{{ufrom data.created}}
+            |{{when}}
         // i.clock.icon
         // each time_tags
         //     .ui.tiny.label #{this}
