@@ -143,21 +143,21 @@ template(name='group')
                     // small #{count}
             .spacer
             i.clock.big.grey.icon            
-            if picked_time_tags
+            if picked_group_time_tags
                 each picked_time_tags
                     .ui.active.compact.button.unpick_time_tag
                         |#{this}
-            each time_tags
+            each group_time_tag_results
                 .ui.compact.button.pick_time_tag(class=domain_picker_class)
                     |#{name} 
                     // small #{count}
             .spacer
             i.user.big.grey.icon            
-            if picked_authors
+            if picked_group_authors
                 each picked_authors
                     .ui.active.button.unpick_author
                         |#{this}
-            each authors
+            each group_author_results
                 .ui.compact.button.pick_author(class=domain_picker_class)
                     |#{name} 
                     // small #{count}
@@ -198,7 +198,7 @@ template(name='group')
                 
 template(name='group_tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.tertiary.button.zoomer.pick_tag.profile_nav_item(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.tertiary.large.button.zoomer.pick_tag.profile_nav_item(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
@@ -253,15 +253,15 @@ template(name='group_post_card_small')
                 +youtube_view key='youtube_id' label='youtube id' direct=true
             if is_admin
                 +text_edit key='group' label='slug' direct=true
-            |!{content}
+            .f12
+                |!{content}
             // a(href="/g/#{group}/p/#{_id}")
             if raw
                 |!{raw}
             each tags
                 +group_flat_tag_picker
-            a.ui.basic.button(href="/g/#{group}/p/#{_id}")
-                |view
-                i.right.chevron.icon
+            a.ui.big.icon.circular.basic.button(href="/g/#{group}/p/#{_id}")
+                i.right.chevron.big.icon
             +voting_full
         // | #{points}
         // i.thumbs.up.outline.grey.icon

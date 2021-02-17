@@ -231,9 +231,9 @@ Template.array_edit.events
         
     'click .pick_tag': (e,t)->
         # console.log @
-        selected_tags.clear()
-        selected_tags.push @valueOf()
-        Router.go "/#{Router.current().params.group}"
+        group_picked_tags.clear()
+        group_picked_tags.push @valueOf()
+        Router.go "/g/#{Router.current().params.group}"
 
     'keyup .new_element': (e,t)->
         if e.which is 13

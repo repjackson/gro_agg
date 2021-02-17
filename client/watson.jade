@@ -13,15 +13,15 @@ template(name='doc_sentiment')
     if kv_is 'doc_sentiment_label' 'positive'
         span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label}
             |&nbsp;
-        div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+        div.rounde(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
     else if kv_is 'doc_sentiment_label' 'negative'
         span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  #{doc_sentiment_label} 
             |&nbsp;
-        div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+        div.rounde(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
     else if kv_is 'doc_sentiment_label' 'negative'
         span.say.ui.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label} 
             |&nbsp;
-        div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:black" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+        div.rounde(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:black" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
 
 template(name='small_sentiment') 
     .ui.tiny.disabled.progress(data-percent=sentiment_score_percent class=sentiment_bar_class)
@@ -40,27 +40,27 @@ template(name='doc_emotion')
         //- .spacer
     span.say.ui.green.text(class="{{calculated_size joy_percent}}") {{ to_percent joy_percent }}% joy 
         |&nbsp;
-    div.rounded(style="height:5px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
+    div.rounde(style="height:5px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
     //- if above_50 'sadness_percent'
         //- .spacer
     span.say.ui.blue.text(class="{{calculated_size sadness_percent}}") {{ to_percent sadness_percent}}% sad 
         |&nbsp;
-    div.rounded(style="height:5px;width:{{to_percent sadness_percent}}%;background-color:blue" title="{{to_percent sadness_percent}}% sad")
+    div.rounde(style="height:5px;width:{{to_percent sadness_percent}}%;background-color:blue" title="{{to_percent sadness_percent}}% sad")
     //- if above_50 'fear_percent'
         //- .spacer
     span.say.ui.grey.text(class="{{calculated_size fear_percent}}") {{ to_percent fear_percent }}% fear 
         |&nbsp;
-    div.rounded(style="height:5px;width:{{to_percent fear_percent}}%;background-color:grey" title="{{to_percent fear_percent}}% fear")
+    div.rounde(style="height:5px;width:{{to_percent fear_percent}}%;background-color:grey" title="{{to_percent fear_percent}}% fear")
     //- if above_50 'disgust_percent'
         //- .spacer
     span.say.ui.orange.text(class="{{calculated_size disgust_percent}}") {{ to_percent disgust_percent }}% disgust 
         |&nbsp;
-    div.rounded(style="height:5px;width:{{to_percent disgust_percent}}%;background-color:orange" title="{{to_percent disgust_percent}}% disgust")
+    div.rounde(style="height:5px;width:{{to_percent disgust_percent}}%;background-color:orange" title="{{to_percent disgust_percent}}% disgust")
     //- if above_50 'anger_percent'
         //- .spacer
     span.say.ui.red.text(class="{{calculated_size anger_percent}}") {{ to_percent anger_percent }}% anger 
         |&nbsp;
-    div.rounded(style="height:5px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
+    div.rounde(style="height:5px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
 
 template(name='doc_emotion_small') 
     if kv_is 'doc_sentiment_label' 'positive'
@@ -78,27 +78,27 @@ template(name='doc_emotion_small')
         //- .spacer
     span.say.ui.green.text(class="{{calculated_size joy_percent}}") {{ to_percent joy_percent }}
         |&nbsp;
-    span.say.rounded(style="height:7px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
+    span.say.rounde(style="height:3px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
     //- if above_50 'sadness_percent'
         //- .spacer
     span.say.ui.blue.text(class="{{calculated_size sadness_percent}}") {{ to_percent sadness_percent}} 
         |&nbsp;
-    span.say.rounded(style="height:7px;width:{{to_percent sadness_percent}}%;background-color:blue" title="{{to_percent sadness_percent}}% sad")
+    span.say.rounde(style="height:3px;width:{{to_percent sadness_percent}}%;background-color:blue" title="{{to_percent sadness_percent}}% sad")
     //- if above_50 'fear_percent'
         //- .spacer
     span.say.ui.grey.text(class="{{calculated_size fear_percent}}") {{ to_percent fear_percent }} 
         |&nbsp;
-    span.say.rounded(style="height:7px;width:{{to_percent fear_percent}}%;background-color:grey" title="{{to_percent fear_percent}}% fear")
+    span.say.rounde(style="height:3px;width:{{to_percent fear_percent}}%;background-color:grey" title="{{to_percent fear_percent}}% fear")
     //- if above_50 'disgust_percent'
         //- .spacer
     span.say.ui.orange.text(class="{{calculated_size disgust_percent}}") {{ to_percent disgust_percent }} 
         |&nbsp;
-    span.say.rounded(style="height:7px;width:{{to_percent disgust_percent}}%;background-color:orange" title="{{to_percent disgust_percent}}% disgust")
+    span.say.rounde(style="height:3px;width:{{to_percent disgust_percent}}%;background-color:orange" title="{{to_percent disgust_percent}}% disgust")
     //- if above_50 'anger_percent'
         //- .spacer
     span.ui.red.text(class="{{calculated_size anger_percent}}") {{ to_percent anger_percent }}
         |&nbsp;
-    span.rounded(style="height:7px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
+    span.rounde(style="height:3px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
     // .spacer
 template(name='call_watson')
     button.ui.large.button.autotag
@@ -144,15 +144,15 @@ template(name='keywords')
                     if emotion
                         with emotion
                             span {{ to_percent sadness }}% sad
-                                .rounded(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad" )
+                                .rounde(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad" )
                             span {{ to_percent joy }}% joy
-                                .rounded(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% sadness" )
+                                .rounde(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% sadness" )
                             span {{ to_percent disgust }}% disgust
-                                .rounded(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% disgust" )
+                                .rounde(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% disgust" )
                             span {{ to_percent fear }}% fear
-                                .rounded(style="height:5px;width:{{to_percent fear}}%;background-color:black" title="{{to_percent fear}}% fear" )
+                                .rounde(style="height:5px;width:{{to_percent fear}}%;background-color:black" title="{{to_percent fear}}% fear" )
                             span {{ to_percent anger }}% anger
-                                .rounded(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% anger" )
+                                .rounde(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% anger" )
 
 
 
@@ -182,15 +182,15 @@ template(name='entities')
                 if emotion
                     with emotion
                         span {{ to_percent sadness }}% sad
-                            .rounded(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad" )
+                            .rounde(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad" )
                         span {{ to_percent joy }}% joy
-                            .rounded(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% sadness" )
+                            .rounde(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% sadness" )
                         span {{ to_percent disgust }}% disgust
-                            .rounded(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% disgust" )
+                            .rounde(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% disgust" )
                         span {{ to_percent fear }}% fear
-                            .rounded(style="height:5px;width:{{to_percent fear}}%;background-color:black" title="{{to_percent fear}}% fear" )
+                            .rounde(style="height:5px;width:{{to_percent fear}}%;background-color:black" title="{{to_percent fear}}% fear" )
                         span {{ to_percent anger }}% anger
-                            .rounded(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% anger" )
+                            .rounde(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% anger" )
 
 
 
