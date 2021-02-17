@@ -22,7 +22,7 @@ Template.home.helpers
             model: 'rpost'
         },
             sort: ups:-1
-            limit:42
+            limit:20
         )
     alphas: ->
         Docs.find 
@@ -39,6 +39,12 @@ Template.home.helpers
     nsfw_mode: -> Session.get('nsfw_mode')
     simple: -> Session.get('simple')
         
+Template.tag_select.events
+    'click .select_tag': ->
+        picked_tags.push @tag
+    
+    
+    
 Template.home.events
     'click .simple_off': (e,t)-> Session.set('simple',false)
         
@@ -101,7 +107,7 @@ Template.home.events
                     , 5000
                     Meteor.setTimeout ->
                         Session.set('toggle',!Session.get('toggle'))
-                    , 1500
+                    , 2000
             
 
     'click .title': (e,t)-> 

@@ -371,13 +371,13 @@ a.goto_article {
   }
 /*  */
 .say {
-    /*animation: fadein .35s !important;*/
-    /*animation: fadeout .35s; */
+    /*animation: fadein .5s !important;*/
+    /*animation: fadeout .5s; */
     transition: all .15s ease !important; 
 }
 .say:hover {
-    /*animation: fadein .35s !important;*/
-    /*animation: fadeout .35s; */
+    /*animation: fadein .5s !important;*/
+    /*animation: fadeout .5s; */
     /*transition: all .15s ease !important; */
     cursor: help !important;
     /*color: black !important; */
@@ -407,7 +407,7 @@ a.goto_article {
 }
 
 .zoomer {
-    /*animation: fadeout .35s; */
+    /*animation: fadeout .5s; */
     transition: all .15s ease !important; 
 
 }
@@ -416,6 +416,9 @@ a.goto_article {
 }
 a:active {
   transform: scale(.97) !important;
+}
+img, .image {
+  border-radius:10px !important;
 }
 a.segment:active {
   transform: scale(.97) !important;
@@ -431,13 +434,13 @@ img:active {
     /*text-shadow: 0 0 3px grey !important;*/
     /*filter: drop-shadow(0px 0px 3px white);    */
     z-index: 1000 !important;
-    /*animation: fadein .35s !important;*/
+    /*animation: fadein .5s !important;*/
     transform: scale(1.05) !important;
-    /*animation: fadein .35s !important;*/
-    /*animation: fadeout .35s; */
+    /*animation: fadein .5s !important;*/
+    /*animation: fadeout .5s; */
 }
 /*img.zoomer:hover {*/
-/*    transition: all ..35s ease !important; */
+/*    transition: all ..5s ease !important; */
 /*    z-index: 1000 !important;*/
 /*    transform: scale(1.2) !important;*/
 /*}*/
@@ -447,7 +450,7 @@ img:active {
 }
 
 .superzoom {
-    /*animation: fadeout .35s; */
+    /*animation: fadeout .5s; */
     /*transition: all .15s ease !important; */
     z-index:1000 !important;
 }
@@ -460,10 +463,10 @@ img:active {
     /*transform: rotate(20deg) !important;*/
     z-index:1000 !important;
     border-radius: 10px !important;
-    /*animation: fadein .35s !important;*/
+    /*animation: fadein .5s !important;*/
     /*-webkit-transition: opacity .15s ease-in !important;*/
     /* -webkit-transition: opacity .15s ease-out; */
-    /*animation: fadeout .35s; */
+    /*animation: fadeout .5s; */
     
 }
 .inset {
@@ -652,7 +655,7 @@ input {
     border-width: 1px !important;
     border-color: grey !important;
     border-style: solid !important; */
-    max-height: 300px !important;
+    max-height: 500px !important;
     overflow-y:scroll;
     overflow-x:hidden;
     /* padding-top: .2em; */
@@ -712,17 +715,17 @@ input {
 
 .button,.card,.image,.header,p,img,.say,.pointer, .item{
     animation: fadein .5s !important;
-    -webkit-transition: opacity .35s ease-in !important;
-    -webkit-transition: opacity .35s ease-out; 
-    animation: fadeout .35s; 
+    -webkit-transition: opacity .5s ease-in !important;
+    -webkit-transition: opacity .5s ease-out; 
+    animation: fadeout .5s; 
 }
 
 
 .icon:not(.loading){
-    animation: fadein .35s !important;
-    transition: all .35s ease !important;
+    animation: fadein .5s !important;
+    transition: all .5s ease !important;
     /* -webkit-transition: opacity .15s ease-out; */
-    animation: fadeout .35s; 
+    animation: fadeout .5s; 
 }
 
 
@@ -757,7 +760,7 @@ input {
 }
 
 .result_column {
-  /* animation: fadein .35s; */
+  /* animation: fadein .5s; */
 }
 
 @media screen and (max-width: 1100px) {

@@ -1,25 +1,6 @@
 template(name='home')
     .ui.stackable.grid
         .sixteen.wide.left.aligned.column.seg
-            if picked_tags
-                .ui.left.icon.large.transparent.input
-                    if is_loading
-                        i.yin.yang.loading.large.icon
-                    else
-                        if nsfw_mode
-                            i.large.fire.icon
-                        else
-                            if session_is 'simple'
-                                i.yin.yang.large.grey.link.icon.simple_off(title='simple mode')
-                            unless session_is 'simple'
-                                i.sliders.horizontal.large.black.link.icon.simple_on(title='make advanced')
-                    input.search_tag(type='text' value=query autofocus='' placeholder="#{counter}")
-                if many_tags
-                    a#clear_tags
-                        i.remove.link.icon
-                each picked_tags
-                    +unpick_tag
-            |&nbsp;
             unless picked_tags
                 .ui.center.aligned.basic.segment.large_search
                     .ui.icon.massive.input
@@ -30,20 +11,44 @@ template(name='home')
                                 i.large.fire.icon
                             else
                                 i.yin.yang.large.icon
-                        input.search_tag(type='text' value=query autofocus='' placeholder='what')
-            unless simple
-                i.fire.icon
-                i.clock.icon
-                i.chevron.down.icon
-                i.chevron.right.icon
-                i.chevron.left.icon
+                        input.search_tag(type='text' value=query autofocus='' placeholder='search')
+                    .ui.hidden.divider
+                    +tag_select icon='food' tag='food'
+                    +tag_select icon='dna' tag='biology'
+                    +tag_select icon='heart' tag='love'
+                    +tag_select icon='moon' tag='tarot'
+            if picked_tags
+                .ui.left.icon.large.transparent.input
+                    if is_loading
+                        i.yin.yang.loading.large.icon
+                    else
+                        if nsfw_mode
+                            i.large.fire.icon
+                        else
+                            if session_is 'simple'
+                                i.sliders.horizontal.grey.link.icon.simple_off(title='simple mode')
+                            unless session_is 'simple'
+                                i.sliders.horizontal.large.black.link.icon.simple_on(title='make advanced')
+                    input.search_tag(type='text' value=query autofocus='' placeholder="#{counter}")
+                if many_tags
+                    a#clear_tags
+                        i.remove.link.icon
+                each picked_tags
+                    +unpick_tag
+            |&nbsp;
+            // unless simple
+            //     i.fire.icon
+            //     i.clock.icon
+            //     i.chevron.down.icon
+            //     i.chevron.right.icon
+            //     i.chevron.left.icon
            
            
             // div
             each result_tags
                 +tag_picker
             .ui.hidden.divider
-            .ui.four.column.centered.stackable.grid.scrolling.pushed
+            .ui.four.column.centered.stackable.grid.scrollig.pushed
                 if alphas.count
                     .smallscroll
                         .column
@@ -81,6 +86,8 @@ template(name='flat_tag_picker')
         //     small #{count}
 
         
+template(name='tag_select')        
+    i.big.link.icon.select_tag(class=icon title=tag)
         
    
 template(name='post_card_small')
@@ -91,7 +98,7 @@ template(name='post_card_small')
             a.ui.invert.small.header.thin.title.zoomer(href="/p/#{_id}")
                 |#{lowered_title}
             
-            // a(href=url target='_window')
+            // a(href="/p/#{_id}" target='_window')
             //     // |!{data.title} #{lowered_title}
             //     |#{lowered_title}
             span.ui.text {{ufrom data.created}}
@@ -101,13 +108,13 @@ template(name='post_card_small')
                     |!{embed}
                 div
             else if is_image
-                a(href=url target='_window')
+                a(href="/p/#{_id}" target='_window')
                     img.ui.fluid.rounded.image.zoomer.toggle_view.invert(src="/p/#{_id}")
             else if watson.metadata.image
                 img.ui.rounded.image.pointer.invert.call_meta(src=watson.metadata.image)
                     
             else if data.thumbnail_width
-                a(href=url target='_window')
+                a(href="/p/#{_id}" target='_window')
                     img.ui.fluid.rounded.image.zoomer.invert(src=data.thumbnail)    
             unless simple
                 i.chevron.down.icon.dl.invert

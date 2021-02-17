@@ -545,7 +545,7 @@ Meteor.methods
 
     search_subreddits: (search)->
         @unblock()
-        HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1&nsfw=1", (err,res)->
+        HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1&nsfw=0", (err,res)->
             if res.data.data.dist > 1
                 _.each(res.data.data.children[0..200], (item)=>
                     found = 

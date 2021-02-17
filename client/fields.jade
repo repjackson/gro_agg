@@ -434,7 +434,7 @@ template(name='date_view')
             else
                 |#{this}
         .ui.inline.header 
-            |&nbsp; {{medium_date field_value}}
+            | {{medium_date field_value}}
 
 
 
@@ -467,7 +467,7 @@ template(name='time_view')
                 |#{key}
             else
                 |#{this}
-        .ui.inline.header &nbsp; #{field_value}
+        .ui.inline.header #{field_value}
 
 template(name='datetime_edit')
     .ui.form
@@ -497,7 +497,7 @@ template(name='datetime_view')
         |#{key}
     else
         |#{this}
-    strong &nbsp; #{field_value}
+    strong #{field_value}
 
 template(name='array_edit')
     .spacer
@@ -568,7 +568,7 @@ template(name='array_view')
             .ui.inline.small.grey.header(title=title)
                 |#{key}
         each field_value
-            .ui.label.say_body #{this}
+            .ui.basic.label.say_body #{this}
 
 
 template(name='children_edit')
@@ -731,7 +731,7 @@ template(name='number_view')
             //-     |#{key}
             //- else
             //-     |#{this}
-        .ui.inline.header &nbsp;
+        .ui.inline.header
             if unit
                 span #{prefix}
             |#{field_value}
@@ -783,7 +783,7 @@ template(name='phone_view')
                     |#{key}
                 else
                     |#{this}
-        strong &nbsp; #{field_value}
+        strong #{field_value}
 
             
             
@@ -803,7 +803,7 @@ template(name='float_view')
                 |#{key}
             else
                 |#{this}
-        .ui.inline.large.header &nbsp; #{field_value}
+        .ui.inline.large.header #{field_value}
 
 template(name='slug_edit')
     if icon
