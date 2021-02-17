@@ -1,55 +1,55 @@
 template(name='nav')
-    .ui.fluid.attached.borderless.twelve.item.menu.hscroll
+    .ui.fluid.attached.borderless.ten.item.menu.hscroll
         a.icon.item.toggle_sidebar
-            i.large.bars.icon
-        a.icon.item(href="/" class="{{isActiveRoute '/'}}")
-            i.yin.yang.large.icon
-            // i.heart.large.icon
-            // |home
+            i.bars.icon
         a.icon.item.set_tarot(href="/s/tarot" class="{{isActiveRoute '/s/tarot'}}")
-            i.moon.large.icon
+            i.moon.icon
             // |tarot
         a.icon.item(href="/love" class="{{isActiveRoute '/love'}}")
-            i.heart.large.icon
+            i.heart.icon
         a.icon.item.set_food.mobile.hidden(href="/s/recipes" class="{{isActiveRoute '/s/recipes'}}")
-            i.food.large.icon
-        a.icon.item.set_nature.mobile.hidden(href="/s/environment" class="{{isActiveRoute '/s/environment'}}")
-            i.leaf.large.icon
-        a.icon.item.set_movies.mobile.hidden(href="/s/movies" class="{{isActiveRoute '/s/movies'}}")
-            i.film.large.icon
+            i.food.icon
+        // a.icon.item.set_nature.mobile.hidden(href="/s/environment" class="{{isActiveRoute '/s/environment'}}")
+        //     i.leaf.icon
+        // a.icon.item.set_movies.mobile.hidden(href="/s/movies" class="{{isActiveRoute '/s/movies'}}")
+        //     i.film.icon
+        a.icon.item(href="/" class="{{isActiveRoute '/'}}")
+            i.yin.yang.large.icon
+            // i.heart.icon
+            // |home
         a.icon.item.set_users(href="/users" class="{{isActiveRoute '/users'}}")
-            i.users.large.icon
+            i.users.icon
         
         // .icon.item 
-        //     i.shop.large.icon
+        //     i.shop.icon
         //     // |shop
         // .right.menu
         if currentUser
             if unread_count
                 a.item.alerts.select_term(href="#" class=alert_toggle_class)
-                    i.large.bell.icon
+                    i.bell.icon
                     if unread_count
                         |#{unread_count}
             else
                 a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
-                    i.large.outline.bell.icon
+                    i.outline.bell.icon
             a.icon.item(href="/chat" title='chat') 
-                i.chat.large.outline.icon
+                i.chat.outline.icon
             // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
-            //     i.chat.large.icon
+            //     i.chat.icon
             if is_dev 
                 .icon.item
-                    i.large.code.icon
-            // a.large.item.toggle_rightbar(class="{{isActiveRoute 'user_dashboard'}}")
-            a.large.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_dashboard'}}")
-                //- i.large.user.large.icon
+                    i.code.icon
+            // a.item.toggle_rightbar(class="{{isActiveRoute 'user_dashboard'}}")
+            a.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_dashboard'}}")
+                //- i.user.icon
                 if currentUser.profile_image_id
                     if is_admin
-                        i.large.shield.icon(title='admin mode on')
+                        i.shield.icon(title='admin mode on')
                     else
                         img.ui.avatar.compact.image(src="{{c.url currentUser.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                 else 
-                    i.large.user.large.icon
+                    i.user.icon
                 strong.mobile.hidden #{currentUser.name}
             // a.mobile.hidden.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_credits'}}")
             //     |#{currentUser.points}p
@@ -58,31 +58,31 @@ template(name='nav')
                 i.plus.icon
                 |register
                 // +icon name='plus'
-                // i.large.chevron.right.icon
+                // i.chevron.right.icon
             a.item(href="/login" title='login')
                 |login
                 // +icon name='login-rounded-right'
-                i.large.chevron.right.icon
-        a.icon.large.item.toggle_rightbar.select_term
-            i.ellipsis.vertical.large.icon
+                i.chevron.right.icon
+        a.icon.item.toggle_rightbar.select_term
+            i.ellipsis.vertical.icon
     if session_is 'viewing_alerts'
         +topbar
 
 
 
 template(name='topbar')
-    .ui.fluid.large.attached.segment
+    .ui.fluid.attached.segment
         .ui.middle.aligned.divided.list
             each recent_alerts
                 +recent_alert
         a.ui.icon.attached.basic.button.item.close_topbar(href="/inbox")
-            i.inbox.large.icon
+            i.inbox.icon
             |inbox
         
 template(name='recent_alert')        
     .item.alert
         .right.floated.content
-            i.circular.eye.link.large.icon.mark_read(title='mark read')
+            i.eye.link.icon.mark_read(title='mark read')
         img.ui.avatar.image(src="{{c.url author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
         .content
             .header
@@ -99,45 +99,45 @@ template(name='right_sidebar')
         //     |#{currentUser.name}
         a.item.toggle_rightbar(href="/u/#{currentUser.username}/" class="{{isActiveRoute 'user_dashboard'}}")
             | dashboard (#{currentUser.points}p)
-            i.large.dashboard.icon
+            i.dashboard.icon
         
         a.item.toggle_rightbar(href="/u/#{currentUser.username}/about" class="{{isActiveRoute 'user_about'}}")
             | about
-            i.large.info.icon
+            i.info.icon
         a.item.toggle_rightbar(href="/u/#{currentUser.username}/credits" class="{{isActiveRoute 'user_credits'}}")
             | #{currentUser.total_credit_amount}p received
-            i.large.chevron.down.icon
+            i.chevron.down.icon
         a.item.toggle_rightbar(href="/u/#{currentUser.username}/debits" class="{{isActiveRoute 'user_sent'}}")
             | #{currentUser.total_debit_amount}p sent
-            i.large.chevron.up.icon
+            i.chevron.up.icon
         a.item.toggle_rightbar(href="/u/#{currentUser.username}/events" class="{{isActiveRoute 'user_events'}}")
             | events
-            i.large.calendar.icon
+            i.calendar.icon
         a.item.toggle_rightbar(href="/u/#{currentUser.username}/requests" class="{{isActiveRoute 'user_requests'}}")
             | requests
-            i.large.concierge.bell.icon
+            i.concierge.bell.icon
         a.item.toggle_rightbar(href="/u/#{currentUser.username}/orders" class="{{isActiveRoute 'user_orders'}}")
             | orders
-            i.large.cart.icon
+            i.cart.icon
         a.item.toggle_rightbar(href="/u/#{currentUser.username}/offers" class="{{isActiveRoute 'user_offers'}}")
             | offers
-            i.large.hand.holding.heart.icon
+            i.hand.holding.heart.icon
         // a.item.toggle_rightbar(href="/u/#{currentUser.username}/messages" class="{{isActiveRoute 'user_messages'}}")
         //     | chat
         //     i.chat.icon
         .ui.divider
         a.item.toggle_rightbar(href="/u/#{currentUser.username}/edit" title='edit your account')
-            i.cog.large.icon
+            i.cog.icon
             |settings
         // a.item.toggle_nightmode.toggle_rightbar(href="#")
-        //     i.lightbulb.large.icon
+        //     i.lightbulb.icon
         //     |dark mode
         a.item.logout(href="/u/#{currentUser.username}/messages" class="{{isActiveRoute 'user_messages'}}" )
             |logout
             if is_logging_out
-                i.refresh.loading.large.icon
+                i.refresh.loading.icon
             else
-                i.sign.out.large.icon
+                i.sign.out.icon
 
 
 
@@ -148,31 +148,31 @@ template(name='left_sidebar')
         //     |One
         // a.item.set_member.toggle_sidebar(href="/m/member" class="{{isActivePath 'm/member'}}" title='players')
         a.item.set_member.toggle_sidebar(href="/users" class="{{isActivePath 'users'}}" title='users')
-            i.large.users.icon
+            i.users.icon
             | users
         a.item.toggle_sidebar(href="/events" class="{{isActivePath '/events'}}")
-            i.large.calendar.icon
+            i.calendar.icon
             |events
         a.item.toggle_sidebar(href="/m/request" class="{{isActivePath '/m/request'}}")
-            i.large.concierge.bell.icon
+            i.concierge.bell.icon
             |requests
         a.item.toggle_sidebar(href="/m/offer" class="{{isActivePath '/m/offer'}}")
-            i.large.hand.holding.heart.icon
+            i.hand.holding.heart.icon
             |offers
         a.item.toggle_sidebar.set_post(href="/m/post" class="{{isActivePath '/m/post'}}")
-            i.large.newspaper.icon
+            i.newspaper.icon
             |news
         // a.item.toggle_sidebar(href="/m/collective" class="{{isActivePath 'requests'}}")
         //     i.users.icon
         //     |collectives
         a.item.toggle_sidebar.set_bug(href="/m/bug" class="{{isActivePath '/m/bug'}}")
-            i.large.bug.icon
+            i.bug.icon
             |bugs
         a.icon.item.toggle_sidebar.set_photo(href="/m/photo" class="{{isActivePath '/m/photo'}}" title='photos')
-            i.large.large.picture.icon
+            i.picture.icon
             |photos  
         a.icon.item.toggle_sidebar.set_expense(href="/m/expense" class="{{isActivePath '/m/expense'}}" title='expenses')
-            i.large.dollar.icon
+            i.dollar.icon
             |expenses            
         // a.item.toggle_sidebar.set_rental(href="/m/rental" class="{{isActivePath regex='rentals'}}")
         //     i.clock.icon
@@ -180,21 +180,21 @@ template(name='left_sidebar')
         // if has_badge 'facilitator'
         // a.item.toggle_sidebar(href="/chat" class="{{isActivePath '/chat'}}" title='chat') 
         //     |chat
-        //     i.large.chat.icon
+        //     i.chat.icon
         // if is_eric
         //     a.icon.item.toggle_dev.toggle_sidebar
         //         |toggle dev
         //         if is_dev
-        //             i.code.blue.large.icon
+        //             i.code.blue.icon
         //         else
-        //             i.code.large.icon
+        //             i.code.icon
         if is_in_admin
             a.icon.item.toggle_admin.toggle_sidebar
                 |toggle admin
                 if is_admin
-                    i.shield.blue.large.icon
+                    i.shield.blue.icon
                 else
-                    i.shield.large.icon
+                    i.shield.icon
             
         if is_admin
             // a.item.toggle_sidebar.set_badge(href="/m/badge" class="{{isActivePath 'badges'}}")

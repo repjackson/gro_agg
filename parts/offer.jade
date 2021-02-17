@@ -5,7 +5,7 @@ template(name='offers')
                 .ui.inline.header 
                     i.hand.holding.heart.icon
                     |offers
-                i.circular.link.large.plus.icon.add_offer
+                i.link.large.plus.icon.add_offer
                 .spacer
                 .spacer
                 .spacer
@@ -73,14 +73,14 @@ template(name='offer_view')
             .middle.aligned.row 
                 .sixteen.wide.column
                     a(href="/m/offer" title='offers')
-                        i.hand.holding.heart.big.circular.link.icon
+                        i.hand.holding.heart.big.link.icon
                     .ui.inline.header 
                         small viewing offer 
                     .ui.inline.large.header 
                         |#{title}
                     if can_edit
                         a.edit_offer(href="/m/offer/#{_id}/edit")
-                            i.large.pencil.circular.link.icon
+                            i.large.pencil.link.icon
             .row 
                 .four.wide.column
                     if image_id
@@ -205,7 +205,7 @@ template(name='offer_edit')
                     .ui.inline.large.header 
                         small edit offer
                         |#{title}
-                    i.large.remove.link.circular.icon.delete_offer(title='delete offer')
+                    i.large.remove.link.icon.delete_offer(title='delete offer')
             .row 
                 .four.wide.column
                     .ui.header 

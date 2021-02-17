@@ -2,7 +2,7 @@ template(name='home')
     .ui.stackable.grid
         .sixteen.wide.left.aligned.column.seg
             if picked_tags
-                .ui.left.icon.big.transparent.input
+                .ui.left.icon.large.transparent.input
                     if is_loading
                         i.yin.yang.loading.large.icon
                     else
@@ -13,15 +13,15 @@ template(name='home')
                                 i.yin.yang.large.grey.link.icon.simple_off(title='simple mode')
                             unless session_is 'simple'
                                 i.sliders.horizontal.large.black.link.icon.simple_on(title='make advanced')
-                    input.search_tag(type='text' value=query autofocus='' placeholder="search #{counter}")
+                    input.search_tag(type='text' value=query autofocus='' placeholder="#{counter}")
                 if many_tags
                     a#clear_tags
-                        i.remove.link.circular.icon
+                        i.remove.link.icon
                 each picked_tags
                     +unpick_tag
             |&nbsp;
             unless picked_tags
-                .ui.center.aligned.basic.segment.big_search
+                .ui.center.aligned.basic.segment.large_search
                     .ui.icon.massive.input
                         if is_loading
                             i.yin.yang.loading.large.icon
@@ -30,7 +30,7 @@ template(name='home')
                                 i.large.fire.icon
                             else
                                 i.yin.yang.large.icon
-                        input.search_tag(type='text' value=query autofocus='' placeholder='search')
+                        input.search_tag(type='text' value=query autofocus='' placeholder='what')
             unless simple
                 i.fire.icon
                 i.clock.icon
@@ -54,8 +54,8 @@ template(name='home')
                 
                 
 template(name='tag_picker')
-    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    button.ui.basic.grey.tertiary.button.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    // a.ui.large.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
+    button.ui.basic.grey.large.tertiary.circular.button.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
@@ -64,15 +64,15 @@ template(name='tag_picker')
         //     small #{count}
             
 template(name='unpick_tag')
-    button.unpick_tag.ui.black.compact.large.secondary.button.invert
+    button.unpick_tag.ui.black.compact.large.secondary.circular.button.invert
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
         strong #{this}
 
 template(name='flat_tag_picker')
-    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.compact.small.basic.tertiary.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    // a.ui.large.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.compact.small.basic.tertiary.circular.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -84,7 +84,7 @@ template(name='flat_tag_picker')
         
    
 template(name='post_card_small')
-    .column.smallscroll
+    .center.aligned.column.smallscroll
         .content.zoomer.card_small.invert
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
             // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
@@ -110,7 +110,7 @@ template(name='post_card_small')
                 a(href=url target='_window')
                     img.ui.fluid.rounded.image.zoomer.invert(src=data.thumbnail)    
             unless simple
-                i.circular.chevron.down.icon.dl.invert
+                i.chevron.down.icon.dl.invert
                 span.invert
                     |#{ups}
                     i.thumbs.up.outline.icon
@@ -121,7 +121,7 @@ template(name='post_card_small')
                     // .ui.basic.label #{this}
                 each five_tags
                     +flat_tag_picker
-                a.ui.icon.compact.circular.basic.button(href="https://www.reddit.com#{permalink}" target='_window' title=domain)
+                a.ui.icon.compact.basic.button(href="https://www.reddit.com#{permalink}" target='_window' title=domain)
                     // |#{domain}
                     i.external.icon
                 // div

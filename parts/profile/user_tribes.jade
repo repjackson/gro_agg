@@ -3,7 +3,7 @@ template(name='user_tribes')
         +icolor name='campfire'
         |user tribes
     if is_current_user
-        a.ui.circular.basic.icon.button(href="/u/#{current_user.username}/edit/tribes")
+        a.ui.basic.icon.button(href="/u/#{current_user.username}/edit/tribes")
             i.pencil.icon
     .ui.header leader of
     each user_leader_tribes

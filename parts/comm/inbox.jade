@@ -5,7 +5,7 @@ template(name='inbox')
                 .ui.header 
                     i.big.inbox.icon
                     |inbox
-                .ui.basic.big.compact.circular.button.add_message
+                .ui.basic.big.compact.button.add_message
                     i.chat.blue.icon
                     |+ message
             .six.wide.column
@@ -50,6 +50,6 @@ template(name='inbox')
                                 
 template(name='toggle_view_icon')
     if is_read
-        i.eye.circular.link.grey.icon.mark_unread(title='mark unread')
+        i.eye.link.grey.icon.mark_unread(title='mark unread')
     else
-        i.eye.circular.link.large.icon.mark_read(title='mark read')
+        i.eye.link.large.icon.mark_read(title='mark read')

@@ -269,7 +269,7 @@ template(name='big_user_card')
                     //- .meta @#{username}
                     //- +array_view key='tags' label='Tags' direct=true
 template(name='user_info')
-    a.ui.compact.basic.circular.button(href="/u/#{user.username}/")
+    a.ui.compact.basic.button(href="/u/#{user.username}/")
         if user.profile_image_id
             img.ui.avatar.image(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
         //- .visible.content
@@ -281,21 +281,21 @@ template(name='user_info_small')
         if user.profile_image_id
             img.ui.avatar.image(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}" title=name)
         else
-            i.circular.user.outline.icon(title=user.name)
+            i.user.outline.icon(title=user.name)
 
 template(name='user_info_tiny')
     a(href="/u/#{user.username}/")
         // if user.profile_image_id
         //     img.ui.avatar.image(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}" title=name)
         // else
-        //     i.circular.user.outline.icon(title=user.name)
+        //     i.user.outline.icon(title=user.name)
         .ui.basic.tiny.label #{user.shortname}
 
 template(name='user_avatar')
     if user.profile_image_id
         img.ui.avatar.image(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}" title=name)
     else
-        i.circular.user.outline.icon(title=user.name)
+        i.user.outline.icon(title=user.name)
 
 
 template(name='username_info')
@@ -324,7 +324,7 @@ template(name='creation_info')
 
 template(name='user_list_toggle')
     if currentUser
-        .ui.icon.compact.circular.button.toggle(class=user_list_toggle_class title=label)
+        .ui.icon.compact.button.toggle(class=user_list_toggle_class title=label)
             i.large.icon(class=icon)
             // |#{label}
         //- each list_users
@@ -401,8 +401,8 @@ template(name='honey_badger')
 
 template(name='voting_full')
     // unless is_author
-    i.thumbs.up.large.big.circular.link.icon.upvote(class=upvote_class title='upvote')
-    i.thumbs.down.large.big.circular.link.icon.downvote(class=downvote_class title='downvote')
+    i.thumbs.up.large.big.link.icon.upvote(class=upvote_class title='upvote')
+    i.thumbs.down.large.big.link.icon.downvote(class=downvote_class title='downvote')
     if points
         |&nbsp;
         span(title='points') #{points} pts
@@ -511,7 +511,7 @@ template(name='user_string_toggle')
 
 
 template(name='key_value_edit')
-    a.ui.compact.large.circular.button.set_key_value(class=set_key_value_class title=value href='#')
+    a.ui.compact.large.button.set_key_value(class=set_key_value_class title=value href='#')
         if icon
             // +icon name=icon cl='ui avatar image'
             i.icon(class=icon)

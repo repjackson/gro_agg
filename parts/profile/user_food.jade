@@ -3,7 +3,7 @@ template(name='user_food')
         +icolor name='food'
         |user food
     if is_current_user
-        a.ui.circular.basic.icon.button(href="/u/#{current_user.username}/edit/food")
+        a.ui.basic.icon.button(href="/u/#{current_user.username}/edit/food")
             i.pencil.icon
     div
     +array_view key='allergens' label='allergens'

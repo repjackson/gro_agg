@@ -102,7 +102,7 @@ template(name='badge_edit')
                     .ui.inline.header
                         small edit badge
                         |#{title}
-                    i.remove.circular.link.icon.delete_item
+                    i.remove.link.icon.delete_item
             .row 
                 .eight.wide.column
                     +text_edit key='title' icon='header' direct=true
@@ -127,8 +127,8 @@ template(name='badge_edit')
                     .ui.segment
                         .ui.small.header add badgers
                         each unselected_badgers
-                            .ui.basic.circular.compact.button.add_badger
-                                img.ui.avatar.circular.compact.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                            .ui.basic.compact.button.add_badger
+                                img.ui.avatar.compact.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                                 |#{name}
                     
                     // .ui.header

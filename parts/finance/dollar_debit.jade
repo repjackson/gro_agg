@@ -4,7 +4,7 @@ template(name='dollar_debit_view')
             .centered.row 
                 .five.wide.column
                     a(href="/u/#{_author.username}") 
-                        img.ui.circular.centered.pointer.zoomer.image(src="{{c.url _author.profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
+                        img.ui.centered.pointer.zoomer.image(src="{{c.url _author.profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
                         .ui.large.center.aligned.header.pointer.zoomer
                             |#{_author.name}
                 .five.wide.column
@@ -20,7 +20,7 @@ template(name='dollar_debit_view')
                     if tags
                         i.tags.icon
                         each tags 
-                            .ui.big.basic.circular.label #{this}
+                            .ui.big.basic.label #{this}
                     +voting_full
                     .ui.small.header
                         i.clock.icon
@@ -32,7 +32,7 @@ template(name='dollar_debit_view')
                     //- +array_view key='location_tags' label='location_tags' direct=true
                 .five.wide.column
                     a(href="/u/#{recipient.username}")
-                        img.ui.circular.centered.fluid.pointer.zoomer.image(src="{{c.url recipient.profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
+                        img.ui.centered.fluid.pointer.zoomer.image(src="{{c.url recipient.profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
                         .ui.large.center.aligned.header.pointer.zoomer
                             |#{recipient.name}
                             
@@ -44,7 +44,7 @@ template(name='dollar_debit_edit')
             .row 
                 .five.wide.column
                     unless charge
-                        .ui.large.fluid.basic.circular.button.cancel_dollar_debit
+                        .ui.large.fluid.basic.button.cancel_dollar_debit
                             i.large.remove.red.icon
                             |cancel
                     .ui.segment
@@ -68,7 +68,7 @@ template(name='dollar_debit_edit')
                             //     i.search.icon
                             //     input.search_username(type='text' placeholder='username')
                             each members
-                                .ui.compact.basic.circular.button.add_recipient
+                                .ui.compact.basic.button.add_recipient
                                     // i.plus.icon
                                     img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                                     |#{name}
@@ -86,7 +86,7 @@ template(name='dollar_debit_edit')
                         input.new_element(type='text' placeholder='+' autocomplete="off")
                         //- +clear_value                
                     each tags
-                        .ui.big.basic.circular.label
+                        .ui.big.basic.label
                             i.delete.icon.remove_element
                             |#{this}
                     +array_edit key='location_tags' label='location_tags' direct=true
@@ -106,11 +106,11 @@ template(name='dollar_debit_edit')
                         .spacer
                         .ui.center.aligned.basic.segment
                             if can_submit
-                                .ui.green.huge.circular.button.submit
+                                .ui.green.huge.button.submit
                                     i.big.send.icon
                                     |send
                             else 
-                                .ui.green.huge.circular.disabled.button
+                                .ui.green.huge.disabled.button
                                     i.send.big.icon
                                     |send
                     else

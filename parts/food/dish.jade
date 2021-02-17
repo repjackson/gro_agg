@@ -27,7 +27,7 @@ template(name='dish_view')
                         |#{title}
                     if can_edit
                         a.edit_dish(href="/dish/#{_id}/edit")
-                            i.big.blue.pencil.circular.link.icon
+                            i.big.blue.pencil.link.icon
                     .ui.header $#{price}
                     if in_dev
                         +print_this
@@ -53,7 +53,7 @@ template(name='dish_edit')
         .ui.stackable.padded.grid
             .row 
                 .five.wide.column
-                    a.ui.green.circular.icon.button(href="/dish/#{_id}/view" title='save')
+                    a.ui.green.icon.button(href="/dish/#{_id}/view" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
                         i.pencil.icon

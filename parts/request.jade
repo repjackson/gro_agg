@@ -5,7 +5,7 @@ template(name='requests')
                 .ui.inline.header 
                     i.concierge.bell.icon
                     |requests
-                i.circular.link.large.plus.icon.add_request
+                i.link.large.plus.icon.add_request
                 .spacer
                 .spacer
                 .spacer
@@ -79,14 +79,14 @@ template(name='request_view')
             .middle.aligned.row 
                 .sixteen.wide.column
                     a(href="/m/request" title='requests')
-                        i.concierge.bell.big.circular.link.icon
+                        i.concierge.bell.big.link.icon
                     .ui.inline.header 
                         small viewing request 
                     .ui.inline.large.header 
                         |#{title}
                     if can_edit
                         a.edit_request(href="/m/request/#{_id}/edit")
-                            i.large.pencil.circular.link.icon
+                            i.large.pencil.link.icon
             .row 
                 .four.wide.column
                     .ui.header
@@ -153,12 +153,12 @@ template(name='request_edit')
         .ui.stackable.padded.grid
             .row 
                 .sixteen.wide.column
-                    a.ui.green.icon.circular.button(href="/m/request/#{_id}/view" title='save')
+                    a.ui.green.icon.button(href="/m/request/#{_id}/view" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
                         small edit request
                         |#{title}
-                    i.large.remove.link.circular.icon.delete_request(title='cancel')
+                    i.large.remove.link.icon.delete_request(title='cancel')
             .row 
                 .four.wide.column
                     .ui.header 

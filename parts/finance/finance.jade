@@ -9,7 +9,7 @@ template(name='finance')
             .ui.inline.header
                 i.minus.icon
                 |expenses
-            i.plus.circular.link.icon.add_expense
+            i.plus.link.icon.add_expense
             .ui.list
                 each expenses
                     if editing_expense
@@ -19,7 +19,7 @@ template(name='finance')
                             +text_edit key='note' direct=true
                             +date_edit key='date' direct=true
                             +text_edit key='source' direct=true
-                            i.green.circular.link.checkmark.icon.save_expense
+                            i.green.link.checkmark.icon.save_expense
                     else
                         +number_view key='amount' direct=true
                         +text_view key='note' direct=true
@@ -31,7 +31,7 @@ template(name='finance')
             .ui.inline.header 
                 i.plus.icon
                 |income
-            i.plus.circular.link.icon.add_income
+            i.plus.link.icon.add_income
             .ui.list
                 each income
                     if editing_income
@@ -41,7 +41,7 @@ template(name='finance')
                             +text_edit key='note' direct=true
                             +date_edit key='date' direct=true
                             +text_edit key='source' direct=true
-                            i.green.circular.link.checkmark.icon.save_income
+                            i.green.link.checkmark.icon.save_income
                     else
                         +number_view key='amount' direct=true
                         +text_view key='note' direct=true

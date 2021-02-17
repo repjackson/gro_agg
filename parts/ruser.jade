@@ -213,13 +213,13 @@ template(name='rusers')
                 i.search.icon
                 input.search_tags(type='text')
             if selected_ruser_tags
-                // #clear_tags.ui.grey.icon.compact.circular.button
+                // #clear_tags.ui.grey.icon.compact.button
                 //     i.remove.icon
                 each selected_ruser_tags
-                    .unselect_ruser_tag.ui.black.compact.circular.button
+                    .unselect_ruser_tag.ui.black.compact.button
                         strong !{this}
             each all_ruser_tags
-                .ui.compact.circular.basic.small.button.select_ruser_tag(class=cloud_tag_class title=count) !{this.name}
+                .ui.compact.basic.small.button.select_ruser_tag(class=cloud_tag_class title=count) !{this.name}
                     // small #{this.count}
             .ui.small.header sort by
             +ruser_karma_sort_button l='total' i='yin yang' c=''
@@ -269,17 +269,17 @@ template(name='rusers')
 template(name='ruser_small')
     .four.wide.column
         a.select_user(href="/u/#{username}")
-            img.ui.circular.small.image.zoomer(src=data.snoovatar_img)
+            img.ui.small.image.zoomer(src=data.snoovatar_img)
         .content
             a.ui.zoomer.header.select_user(href="/u/#{username}" class=post_header_class)
                 |!{username}
-                .ui.basic.circular.label(title='total karma')
+                .ui.basic.label(title='total karma')
                     i.grey.yin.yang.icon
                     |{{ commafy data.total_karma }}
-                .ui.basic.circular.label(title='post karma')
+                .ui.basic.label(title='post karma')
                     i.grey.edit.icon
                     |{{ commafy data.link_karma }}
-                .ui.basic.circular.label(title='comment karma')
+                .ui.basic.label(title='comment karma')
                     i.grey.chat.outline.icon
                     |{{ commafy data.comment_karma }}
                 // .ui.basic.label(class=sentiment_class) {{to_percent sentiment_avg}}% #{doc_sentiment_label}
@@ -290,7 +290,7 @@ template(name='ruser_small')
                     i.grey.clock.icon
                     | {{ufrom data.created}}
                 .ui.label(title='accept rate') #{accept_rate}%
-                // .ui.circular.compact.basic.button.set_location
+                // .ui.compact.basic.button.set_location
                 //     i.grey.marker.icon
                 //     |!{location}
                 each ten_tags

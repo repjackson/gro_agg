@@ -48,4 +48,4 @@ if Meteor.isServer
             model:'debit'
             _author_id: user._id
         }, 
-            limit:100
+            limit:42

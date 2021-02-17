@@ -14,7 +14,7 @@ template(name='course_home')
     .ui.segment
         .ui.inline.header
             |#{course_posts.count} posts
-        .ui.circular.basic.icon.button.add_post
+        .ui.basic.icon.button.add_post
             i.plus.icon
         if selected_course_tags
             each selected_course_tags
@@ -117,7 +117,7 @@ template(name='course_view_layout')
         .ui.stackable.padded.grid
             .row 
                 .three.wide.column.scrolling
-                    a.ui.circular.icon.button(href="/school")
+                    a.ui.icon.button(href="/school")
                         i.university.icon
                     a.ui.center.aligned.inline.header(href="/course/#{_id}")
                         if image
@@ -162,7 +162,7 @@ template(name='course_view_layout')
                     //         |competencies
                     if can_edit
                         a.edit_course(href="/course/#{_id}/edit")
-                            i.big.blue.pencil.circular.link.icon
+                            i.big.blue.pencil.link.icon
                     .ui.header(href='professor')
                         i.user.icon
                         |#{professor}
@@ -188,7 +188,7 @@ template(name='course_edit')
         .ui.stackable.padded.grid
             .row 
                 .five.wide.column
-                    a.ui.green.circular.icon.button(href="/course/#{_id}" title='save')
+                    a.ui.green.icon.button(href="/course/#{_id}" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
                         i.pencil.icon

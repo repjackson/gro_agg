@@ -519,13 +519,13 @@ template(name='array_edit')
     if field_value
         each field_value
             if currentUser
-                .ui.large.circular.label.touch_element
+                .ui.large.label.touch_element
                     i.delete.icon.remove_element
                     |#{this}
-                // .ui.compact.circular.button.pick_tag
+                // .ui.compact.button.pick_tag
                 //     |#{this}
             else
-                .ui.compact.circular.button.pick_tag
+                .ui.compact.button.pick_tag
                     |#{this}
 
 // template(name='array_edit')
@@ -546,13 +546,13 @@ template(name='array_edit')
 //     if field_value
 //         each field_value
 //             if in_dev
-//                 .ui.large.circular.label
+//                 .ui.large.label
 //                     i.delete.icon.remove_element
 //                     |#{this}
-//                 .ui.compact.circular.button.pick_tag
+//                 .ui.compact.button.pick_tag
 //                     |#{this}
 //             else
-//                 .ui.compact.circular.button.pick_tag
+//                 .ui.compact.button.pick_tag
 //                     |#{this}
             
                 
@@ -955,7 +955,7 @@ template(name='single_user_edit')
             .ui.inline.header
                 img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                 |#{name}
-            i.pull_user.remove.link.circular.icon
+            i.pull_user.remove.link.icon
 
 
 template(name='single_user_view')
@@ -1009,7 +1009,7 @@ template(name='multi_user_edit')
             .ui.inline.header
                 img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                 |#{name}
-            i.pull_user.remove.link.circular.icon
+            i.pull_user.remove.link.icon
 
 template(name='multi_doc_input')
     //- .ui.form

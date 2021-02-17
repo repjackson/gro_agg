@@ -150,7 +150,7 @@ Meteor.publish 'posts', (
     
         # console.log 'match', match
         Docs.find match,
-            limit: 10
+            limit: 20
             # sort: "#{sk}":-1
             sort: ups:-1
             fields:
@@ -196,7 +196,7 @@ Meteor.publish 'tags', (
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:15 }
+            { $limit:20 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         tag_cloud.forEach (tag, i) ->

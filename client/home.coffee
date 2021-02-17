@@ -99,6 +99,9 @@ Template.home.events
                     Meteor.setTimeout ->
                         Session.set('toggle',!Session.get('toggle'))
                     , 5000
+                    Meteor.setTimeout ->
+                        Session.set('toggle',!Session.get('toggle'))
+                    , 1500
             
 
     'click .title': (e,t)-> 

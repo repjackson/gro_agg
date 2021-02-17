@@ -487,60 +487,61 @@ Meteor.methods
                     # console.error err
                     console.error 'error getting', doc.reddit_id
                 else
-                    rd = res.data.data.children[0].data
-                    # if rd.is_video
-                    #     Meteor.call 'call_watson', doc_id, 'url', 'video', ->
-                    # else if rd.is_image
-                    #     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
-                    # else
-                    #     Meteor.call 'call_watson', doc_id, 'url', 'url', ->
-                    #     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
-                    #     # Meteor.call 'call_visual', doc_id, ->
-                    # if rd.selftext
-                    #     unless rd.is_video
-                    #         # if Meteor.isDevelopment
-                    #         Docs.update doc_id, {
-                    #             $set:
-                    #                 body: rd.selftext
-                    #         }, ->
-                    #         #     Meteor.call 'pull_subreddit', doc_id, url
-                    # if rd.selftext_html
-                    #     unless rd.is_video
-                    #         Docs.update doc_id, {
-                    #             $set:
-                    #                 html: rd.selftext_html
-                    #         }, ->
-                    #             # Meteor.call 'pull_subreddit', doc_id, url
-                    # if rd.url
-                    #     unless rd.is_video
-                    #         url = rd.url
-                    #         # if Meteor.isDevelopment
-                    #         Docs.update doc_id, {
-                    #             $set:
-                    #                 reddit_url: url
-                    #                 url: url
-                    #         }, ->
-                    #             # Meteor.call 'call_watson', doc_id, 'url', 'url', ->
-                    # update_ob = {}
-                    # if rd.preview
-                    #     if rd.preview.images[0].source.url
-                    #         thumbnail = rd.preview.images[0].source.url
-                    # else
-                    #     thumbnail = rd.thumbnail
-                    Docs.update doc_id,
-                        $set:
-                            data: rd
-                            url: rd.url
-                            # reddit_image:rd.preview.images[0].source.url
-                            thumbnail: rd.thumbnail
-                            subreddit: rd.subreddit
-                            group:rd.subreddit
-                            author: rd.author
-                            domain: rd.domain
-                            is_video: rd.is_video
-                            ups: rd.ups
-                            # downs: rd.downs
-                            over_18: rd.over_18
+                    if res.data.data
+                        rd = res.data.data.children[0].data
+                        # if rd.is_video
+                        #     Meteor.call 'call_watson', doc_id, 'url', 'video', ->
+                        # else if rd.is_image
+                        #     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
+                        # else
+                        #     Meteor.call 'call_watson', doc_id, 'url', 'url', ->
+                        #     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
+                        #     # Meteor.call 'call_visual', doc_id, ->
+                        # if rd.selftext
+                        #     unless rd.is_video
+                        #         # if Meteor.isDevelopment
+                        #         Docs.update doc_id, {
+                        #             $set:
+                        #                 body: rd.selftext
+                        #         }, ->
+                        #         #     Meteor.call 'pull_subreddit', doc_id, url
+                        # if rd.selftext_html
+                        #     unless rd.is_video
+                        #         Docs.update doc_id, {
+                        #             $set:
+                        #                 html: rd.selftext_html
+                        #         }, ->
+                        #             # Meteor.call 'pull_subreddit', doc_id, url
+                        # if rd.url
+                        #     unless rd.is_video
+                        #         url = rd.url
+                        #         # if Meteor.isDevelopment
+                        #         Docs.update doc_id, {
+                        #             $set:
+                        #                 reddit_url: url
+                        #                 url: url
+                        #         }, ->
+                        #             # Meteor.call 'call_watson', doc_id, 'url', 'url', ->
+                        # update_ob = {}
+                        # if rd.preview
+                        #     if rd.preview.images[0].source.url
+                        #         thumbnail = rd.preview.images[0].source.url
+                        # else
+                        #     thumbnail = rd.thumbnail
+                        Docs.update doc_id,
+                            $set:
+                                data: rd
+                                url: rd.url
+                                # reddit_image:rd.preview.images[0].source.url
+                                thumbnail: rd.thumbnail
+                                subreddit: rd.subreddit
+                                group:rd.subreddit
+                                author: rd.author
+                                domain: rd.domain
+                                is_video: rd.is_video
+                                ups: rd.ups
+                                # downs: rd.downs
+                                over_18: rd.over_18
 
     search_subreddits: (search)->
         @unblock()

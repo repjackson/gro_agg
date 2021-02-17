@@ -3,7 +3,7 @@ template(name='debit_edit')
         .ui.stackable.padded.grid
             .row 
                 .five.wide.column
-                    .ui.large.fluid.basic.circular.button.cancel_debit
+                    .ui.large.fluid.basic.button.cancel_debit
                         i.large.remove.red.icon
                         |cancel
                     .ui.segment
@@ -27,7 +27,7 @@ template(name='debit_edit')
                             //     i.search.icon
                             //     input.search_username(type='text' placeholder='username')
                             // each members
-                            //     .ui.compact.basic.circular.button.add_recipient
+                            //     .ui.compact.basic.button.add_recipient
                             //         // i.plus.icon
                             //         img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             //         |#{name}
@@ -47,18 +47,18 @@ template(name='debit_edit')
                         input.new_tag(type='text' placeholder='+' autocomplete="off")
                         //- +clear_value                
                     each terms 
-                        a.ui.large.circular.basic.button.select_term(href='#')
+                        a.ui.large.basic.button.select_term(href='#')
                             if image
                                 img.ui.mini.rounded.inline.image(src="{{c.url image height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{title}
                     each tags
-                        .ui.big.basic.circular.label
+                        .ui.big.basic.label
                             i.delete.icon.remove_element
                             |#{this}
                     if suggestions
                         .ui.small.inline.header suggestions
                     each suggestions
-                        a.ui.large.circular.basic.button.select_term(href='#')
+                        a.ui.large.basic.button.select_term(href='#')
                             // if image
                             //     img.ui.mini.rounded.inline.image(src="{{c.url image height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{title}
@@ -75,10 +75,10 @@ template(name='debit_edit')
                     .spacer
                     .ui.center.aligned.basic.segment
                         if can_submit
-                            .ui.green.huge.circular.button.submit
+                            .ui.green.huge.button.submit
                                 i.big.send.icon
                                 |send
                         else 
-                            .ui.green.huge.circular.disabled.button
+                            .ui.green.huge.disabled.button
                                 i.send.big.icon
                                 |send

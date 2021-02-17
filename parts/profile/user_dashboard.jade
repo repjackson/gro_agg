@@ -29,7 +29,7 @@ template(name='user_dashboard')
                     small(title='rank') ##{global_credit_count_rank}
                 i.tags.icon(title='credit tags')
                 each credit_tags
-                    .ui.small.basic.circular.label #{title}
+                    .ui.small.basic.label #{title}
                         // small #{count}
                 .medscroll.ui.segments
                     each user_credits
@@ -43,7 +43,7 @@ template(name='user_dashboard')
                     small(title='rank') ##{global_debit_count_rank}
                 i.tags.icon(title='credit tags')
                 each debit_tags
-                    .ui.small.basic.circular.label #{title} 
+                    .ui.small.basic.label #{title} 
                         // small #{count}
     
                 div
@@ -94,7 +94,7 @@ template(name='user_bookmarks_widget')
         i.bookmark.icon(title='bookmark tags')
         |bookmarks
     each bookmark_tags
-        .ui.small.basic.circular.label #{title} 
+        .ui.small.basic.label #{title} 
     div
     .medscroll.ui.segments
         each user_bookmark_docs
