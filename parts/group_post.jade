@@ -10,10 +10,10 @@ template(name='group_post_view')
                         |#{title}
                     .scrolling
                         if image_link
-                            a(href="/#{group}")
+                            a(href="/g/#{group}")
                                 +image_link_view key='image_link' direct=true
                         if image_id
-                            a(href="/#{group}")
+                            a(href="/g/#{group}")
                                 img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                         if youtube_id
                             +youtube_view key='youtube_id' label='youtube id' direct=true
@@ -80,7 +80,7 @@ template(name='group_post_view')
                         // .ui.inline.grey.header {{from_now start_datetime}}
                         
                         if in_dev
-                            a.edit_post(href="/#{group}/p/#{_id}/edit" title='edit')
+                            a.edit_post(href="/g/#{group}/p/#{_id}/edit" title='edit')
                                 i.large.link.pencil.icon
                         div
                         span(title='views')
@@ -119,11 +119,11 @@ template(name='group_post_view')
                     .ui.label #{points}
                         
 template(name='group_post_edit')
-    with doc_by_id
+    with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column.scrolling
-                    a.ui.icon.big.button(href="/#{group}/p/#{_id}" title='save')
+                    a.ui.icon.big.button(href="/g/#{group}/p/#{_id}" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
                         i.pencil.icon

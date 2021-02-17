@@ -232,14 +232,6 @@ if Meteor.isClient
     #         $('.search_group').val('')
 
 if Meteor.isClient
-    Router.route '/g/:group/p/:doc_id/edit', (->
-        @layout 'layout'
-        @render 'group_post_edit'
-        ), name:'group_post_edit'
-    Router.route '/g/:group/p/:doc_id', (->
-        @layout 'layout'
-        @render 'group_post_view'
-        ), name:'group_post_view'
 
     Template.post_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id

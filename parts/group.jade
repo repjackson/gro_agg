@@ -217,7 +217,7 @@ template(name='group_unpick_tag')
         
 template(name='group_flat_tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.link.tiny.image.basic.label.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.link.tiny.image.basic.label.zoomer.pick_flat_tag.profile_nav_item(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    

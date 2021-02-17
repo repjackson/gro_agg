@@ -1,11 +1,3 @@
-Router.route '/:group/p/:doc_id/edit', (->
-    @layout 'layout'
-    @render 'post_edit'
-    ), name:'post_edit'
-Router.route '/:group/p/:doc_id', (->
-    @layout 'layout'
-    @render 'post_view'
-    ), name:'gpost_view'
 Router.route '/p/:doc_id', (->
     @layout 'layout'
     @render 'post_view'
@@ -41,14 +33,6 @@ Template.post_edit.events
 
 
 
-Template.group_post_view.onCreated ->
-    @autorun -> Meteor.subscribe('doc_by_id', Router.current().params.doc_id)
-    @autorun -> Meteor.subscribe('rpost_comments', Router.current().params.group, Router.current().params.doc_id)
-Template.group_post_view.onRendered ->
-    Meteor.call 'get_post_comments', Router.current().params.group, Router.current().params.doc_id, ->
-Template.group_post_view.helpers
-    doc_by_id: ->
-        Docs.findOne Router.current().params.doc_id
 
 Template.post_view.events
     'click .goto_sub': -> 
