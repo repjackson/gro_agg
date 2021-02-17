@@ -20,6 +20,24 @@ if Meteor.isClient
         doc_by_id: -> Docs.findOne Router.current().params.doc_id
 
 
+    Template.group_post_view.onRendered ->
+        Meteor.call 'log_view', Router.current().params.doc_id, ->
+    # Router.route '/posts', (->
+    #     @layout 'layout'
+    #     @render 'posts'
+    #     ), name:'posts'
+
+    Template.group_post_edit.events
+        'click .delete_post': ->
+            if confirm 'delete?'
+                Docs.remove @_id
+                Router.go "/"
+
+        'click .publish': ->
+            if confirm 'publish post?'
+                Meteor.call 'publish_post', @_id, =>
+
+
 if Meteor.isClient
     # Template.post_card.onCreated ->
     #     @autorun => Meteor.subscribe 'doc_comments', @data._id

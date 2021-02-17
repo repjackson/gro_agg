@@ -245,28 +245,6 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'comments', Router.current().params.doc_id
 
-    Template.post_view.onRendered ->
-        Meteor.call 'log_view', Router.current().params.doc_id, ->
-    # Router.route '/posts', (->
-    #     @layout 'layout'
-    #     @render 'posts'
-    #     ), name:'posts'
-
-    Template.post_edit.helpers
-        doc_by_id: ->
-            Docs.findOne Router.current().params.doc_id
-    Template.post_view.helpers
-        doc_by_id: ->
-            Docs.findOne Router.current().params.doc_id
-    Template.post_edit.events
-        'click .delete_post': ->
-            if confirm 'delete?'
-                Docs.remove @_id
-                Router.go "/"
-
-        'click .publish': ->
-            if confirm 'publish post?'
-                Meteor.call 'publish_post', @_id, =>
 
 
 
@@ -347,7 +325,11 @@ if Meteor.isServer
                 fear_percent:1        
                 disgust_percent:1        
                 anger_percent:1        
-                youtube_id:1        
+                youtube_id:1
+                downvoter_ids:1
+                upvoter_ids:1
+                points:1
+                doc_sentiment_score:1
         
     # Meteor.methods    
         # tagify_group: (group)->

@@ -251,7 +251,7 @@ Template.array_edit.events
                 else if user
                     Meteor.users.update parent._id,
                         $addToSet:"#{@key}":element_val
-                window.speechSynthesis.speak new SpeechSynthesisUtterance element_val
+                # window.speechSynthesis.speak new SpeechSynthesisUtterance element_val
                 t.$('.new_element').val('')
 
     'click .remove_element': (e,t)->

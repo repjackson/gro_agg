@@ -1,5 +1,5 @@
 template(name='group_post_view')
-    with doc_by_id
+    with current_doc
         .ui.stackable.grid
             .row 
                 .twelve.wide.column
@@ -31,11 +31,6 @@ template(name='group_post_view')
                         // +skve k='view_section' v='preview' l='preview' i='content'
                         // if skv_is 'view_section' 'main'
                         // if skv_is 'view_section' 'main'
-                        if is_youtube
-                            div
-                            // .ui.fluid.embed
-                            //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
-                            iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                         div
                         // if watson.analyzed_text
                         //     .say.f12
@@ -45,8 +40,6 @@ template(name='group_post_view')
                         // img(src=url)
                         // div(style='position:relative; padding-bottom:calc(125.00% + 44px)')
                         //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
-                        // .rounded
-                        //     |!{embed}
                         // if skv_is 'view_section' 'watson'
                         // +watson_full
                         // if skv_is 'view_section' 'related'
