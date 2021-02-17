@@ -235,7 +235,7 @@ if Meteor.isClient
 if Meteor.isClient
     Router.route '/g/:group/p/:doc_id/edit', (->
         @layout 'layout'
-        @render 'post_edit'
+        @render 'group_post_edit'
         ), name:'group_post_edit'
     Router.route '/g/:group/p/:doc_id', (->
         @layout 'layout'

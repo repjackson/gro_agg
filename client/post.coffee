@@ -46,6 +46,9 @@ Template.group_post_view.onCreated ->
     @autorun -> Meteor.subscribe('rpost_comments', Router.current().params.group, Router.current().params.doc_id)
 Template.group_post_view.onRendered ->
     Meteor.call 'get_post_comments', Router.current().params.group, Router.current().params.doc_id, ->
+Template.group_post_view.helpers
+    doc_by_id: ->
+        Docs.findOne Router.current().params.doc_id
 
 Template.post_view.events
     'click .goto_sub': -> 
