@@ -31,11 +31,6 @@ template(name='group_post_view')
                         // +skve k='view_section' v='preview' l='preview' i='content'
                         // if skv_is 'view_section' 'main'
                         // if skv_is 'view_section' 'main'
-                        if is_image
-                            a.view_post(href="/#{subreddit}/p/#{_id}" class=emotion_color)
-                                img.ui.fluid.zoomer.rounded.image.toggle_view(src=data.url)
-                        else if watson.metadata.image
-                            img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
                         if is_youtube
                             div
                             // .ui.fluid.embed
@@ -80,8 +75,8 @@ template(name='group_post_view')
                         // div
                         // .ui.inline.grey.header {{from_now start_datetime}}
                         
-                        if in_dev
-                            a.edit_post(href="/g/#{group}/p/#{_id}/edit" title='edit')
+                        if can_edit
+                            a.ui.circular.icon.button.edit_post(href="/g/#{group}/p/#{_id}/edit" title='edit')
                                 i.large.link.pencil.icon
                         div
                         span(title='views')
@@ -96,24 +91,17 @@ template(name='group_post_view')
                         // .ui.header #{data.domain}
                         .spacer
                         // a.ui.basic.button(href="https://www.reddit.com/user/#{author}" target='_window')
-                        a.ui.basic.button.goto_ruser(href="/user/#{data.author}")
+                        a.ui.basic.button.goto_ruser(href="/u/#{_author_username}")
                             i.user.outline.icon
-                            |#{data.author}
-                        +call_watson id=_id key='data.url' durl=data.url mode='url'
+                            |#{_author_username}
+                        +call_watson id=_id key='content' mode='html'
                         if in_dev
                             +print_this
                         if watson
                             +doc_emotion
-                            // unless tone
-                            //     +call_tone    
-                        // a.ui.large.basic.label(href=data.url target='_window')
-                        //     | #{data.url}
-                        if in_dev
-                            .ui.small.header reddit_id #{data.reddit_id}
                         |#{tags.length}
                         each tags
                             +flat_tag_picker
-                    .ui.basic.button.get_post permalink #{permalink}
                     .ui.label #{points}
                         
 template(name='group_post_edit')

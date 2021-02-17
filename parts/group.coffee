@@ -317,7 +317,7 @@ if Meteor.isServer
         # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
         console.log 'skip', skip
         Docs.find match,
-            limit:10
+            limit:20
             sort: "#{sk}":-1
             # skip:skip*20
         
@@ -395,7 +395,7 @@ if Meteor.isServer
             { $match: _id: $nin: group_picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:25 }
+            { $limit:42 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         group_tag_cloud.forEach (tag, i) ->

@@ -33,40 +33,40 @@ template(name='group')
         
             div
             if skv_is 'sort_direction' 1
-                .ui.icon.compact.button.sort_down
+                .ui.icon.compact.disabled.button.sort_down
                     i.caret.down.icon
             else
-                .ui.icon.compact.button.sort_up
+                .ui.icon.compact.disabled.button.sort_up
                     i.caret.up.icon
-            .ui.compact.small.button.sort_created(class=sort_created_class)
+            .ui.compact.small.disabled.button.sort_created(class=sort_created_class)
                 i.clock.icon
                 |latest
-            .ui.compact.small.button.sort_ups(class=sort_ups_class)
+            .ui.compact.small.disabled.button.sort_ups(class=sort_ups_class)
                 i.thumbs.up.icon
                 |liked
             if skv_is 'view_detail' true
-                .ui.black.compact.button.toggle_detail
+                .ui.black.compact.disabled.button.toggle_detail
                     i.list.icon
                     |detail
             else
-                .ui.compact.button.toggle_detail
+                .ui.compact.basic.disabled.button.toggle_detail
                     i.minus.icon
                     |simple
                 // i.line.chart.icon
             if skv_is 'view_layout' 'grid'
-                .ui.compact.button.set_grid(class=grid_class) 
+                .ui.compact.basic.disabled.button.set_grid(class=grid_class) 
                     i.th.icon
                     |grid
             else
-                .ui.compact.button.set_grid(class=grid_class) 
+                .ui.compact.basic.disabled.button.set_grid(class=grid_class) 
                     i.th.icon
                     |grid
             if skv_is 'view_layout' 'list'
-                .ui.compact.button.set_list(class=list_class)
+                .ui.compact.basic.disabled.button.set_list(class=list_class)
                     i.list.icon
                     |list
             else
-                .ui.compact.button.set_list(class=list_class)
+                .ui.compact.disabled.button.set_list(class=list_class)
                     i.list.icon
                     |list
             .scrolling
@@ -198,7 +198,7 @@ template(name='group')
                 
 template(name='group_tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.image.large.link.basic.label.zoomer.pick_tag.profile_nav_item(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.tertiary.button.zoomer.pick_tag.profile_nav_item(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
