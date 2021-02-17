@@ -217,7 +217,7 @@ template(name='group_unpick_tag')
         
 template(name='group_flat_tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.link.tiny.image.basic.label.zoomer.pick_flat_tag.profile_nav_item(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.link.image.basic.label.zoomer.pick_flat_tag.profile_nav_item(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -263,26 +263,29 @@ template(name='group_post_card_small')
             a.ui.big.icon.circular.basic.button(href="/g/#{group}/p/#{_id}")
                 i.right.chevron.big.icon
             +voting_full
-        // | #{points}
-        // i.thumbs.up.outline.grey.icon
-        // | #{comments}
-        // i.comment.outline.grey.icon
-        span(title="imported #{when}")
-            |{{when}}
-        // i.clock.icon
-        // each time_tags
-        //     .ui.tiny.label #{this}
-        // a.ui.label(href="/u/#{data.author}")
-        //     |#{data.author}
-        // i.dna.link.icon.call_watson
-        // +doc_emotion_small        
-        // if watson
-            
-            // span.inline.content
-            // span.inline.content
-        if is_admin
-            +remove_button
-            +print_this
+            // | #{points}
+            // i.thumbs.up.outline.grey.icon
+            // | #{comments}
+            // i.comment.outline.grey.icon
+            span(title="made #{made_when}")
+                |{{made_when}}
+            if time_tags
+                i.clock.icon
+                each time_tags
+                    .ui.tiny.label #{this}
+            if _author_username
+                a.ui.basic.label(href="/u/#{_author_username}")
+                    i.large.user.outline.icon
+                    |#{_author_username}
+            // i.dna.link.icon.call_watson
+            // if watson
+                
+                // span.inline.content
+                // span.inline.content
+            if is_admin
+                +remove_button
+                +print_this
+        +doc_emotion_small        
    
 template(name='doc_item')                  
     .ui.ite.seg
