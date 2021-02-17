@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.fluid.attached.borderless.eight.item.menu.hscroll
+    .ui.fluid.attached.borderless.seven.item.menu.hscroll
         a.icon.item.toggle_sidebar
             i.bars.icon
         // a.icon.item.set_tarot(href="/s/tarot" class="{{isActiveRoute '/s/tarot'}}")
@@ -17,24 +17,24 @@ template(name='nav')
         //     i.leaf.icon
         // a.icon.item.set_movies.mobile.hidden(href="/s/movies" class="{{isActiveRoute '/s/movies'}}")
         //     i.film.icon
-        a.icon.item.set_users(href="/users" class="{{isActiveRoute '/users'}}")
-            i.users.icon
+        // a.icon.item.set_users(href="/users" class="{{isActiveRoute '/users'}}")
+        //     i.users.icon
         
         // .icon.item 
         //     i.shop.icon
         //     // |shop
         // .right.menu
         if currentUser
-            if unread_count
-                a.item.alerts.select_term(href="#" class=alert_toggle_class)
-                    i.bell.icon
-                    if unread_count
-                        |#{unread_count}
-            else
-                a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
-                    i.outline.bell.icon
-            a.icon.item(href="/chat" title='chat') 
-                i.chat.outline.icon
+            // if unread_count
+            //     a.item.alerts.select_term(href="#" class=alert_toggle_class)
+            //         i.bell.icon
+            //         if unread_count
+            //             |#{unread_count}
+            // else
+            //     a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+            //         i.outline.bell.icon
+            // a.icon.item(href="/chat" title='chat') 
+            //     i.chat.outline.icon
             // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
             //     i.chat.icon
             if is_dev 
