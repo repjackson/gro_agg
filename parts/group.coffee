@@ -43,25 +43,6 @@ if Meteor.isClient
     #     current_group: -> Router.current().params.group
             
     Template.group.events
-        # 'click .unpick_group_tag': -> 
-        #     Session.set('skip',0)
-        #     # console.log @
-        #     picked_tags.remove @valueOf()
-        #     # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
-    
-        # 'click .pick_tag': -> 
-        #     # results.update
-        #     # console.log @
-        #     # window.speechSynthesis.cancel()
-        #     window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        #     # if @model is 'group_emotion'
-        #     #     picked_emotions.push @name
-        #     # else
-        #     # if @model is 'group_tag'
-        #     picked_tags.push @name
-        #     $('.search_tag').val('')
-        #     Session.set('skip_value',0)
-    
         'click .unpick_Location': ->
             picked_Locations.remove @valueOf()
         'click .pick_Location': ->
@@ -93,9 +74,6 @@ if Meteor.isClient
                     group:Router.current().params.group
             Router.go "/g/#{Router.current().params.group}/p/#{new_id}/edit"
      
-        'focus .search_tag': (e,t)->
-            Session.set('toggle',!Session.get('toggle'))
-    
         'keyup .search_tag': (e,t)->
              if e.which is 13
                 val = t.$('.search_tag').val().trim().toLowerCase()
@@ -111,7 +89,14 @@ if Meteor.isClient
         'click .set_list': (e,t)-> Session.set('view_layout', 'list')
      
      
-     
+    Template.tip.events
+        'click .tip': ->
+            Docs.update @_id, 
+                $inc:tip_total:1
+            Meteor.users.update Meteor.userId(),
+                $inc:points:-1
+            Meteor.users.update @_author_id,
+                $inc:points:1
      
     Template.post_card_small.events
         # 'click .view_post': (e,t)-> 
@@ -408,6 +393,7 @@ if Meteor.isServer
                 youtube_id:1
                 downvoter_ids:1
                 upvoter_ids:1
+                tip_total:1
                 points:1
                 doc_sentiment_score:1
         

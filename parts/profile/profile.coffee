@@ -38,14 +38,27 @@ if Meteor.isClient
             $('.profile_yield')
                 .transition('fade out', 200)
                 .transition('fade in', 200)
-    
-        'click .goto_users': ->
-            $('.global_container')
-                .transition('fade right', 500)
-                # .transition('fade in', 200)
-            Meteor.setTimeout ->
-                Router.go '/users'
-            , 500
+        'keyup .goto_group': (e,t)->
+            if e.which is 13
+                # $('.header')
+                #     .transition('scale', 200)
+                $('.global_container')
+                    .transition('scale', 400)
+                val = $('.goto_group').val()
+                Router.go "/g/#{val}"
+                # target_user = Meteor.users.findOne(username:Router.current().params.username)
+                # Docs.insert
+                #     model:'debit'
+                #     body: val
+                #     target_user_id: target_user._id
+
+        # 'click .goto_users': ->
+        #     $('.global_container')
+        #         .transition('fade right', 500)
+        #         # .transition('fade in', 200)
+        #     Meteor.setTimeout ->
+        #         Router.go '/users'
+        #     , 500
     
     
         'click .refresh_user_stats': ->
@@ -78,20 +91,20 @@ if Meteor.isClient
                     model:'dollar_debit'
             Router.go "/dollar_debit/#{new_debit_id}/edit"
 
-        'click .request': ->
-            user = Meteor.users.findOne(username:@username)
-            if Meteor.userId() is user._id
-                new_id =
-                    Docs.insert
-                        model:'request'
-                        amount:1
-            else    
-                new_id =
-                    Docs.insert
-                        model:'request'
-                        recipient_id: user._id
-                        amount:1
-            Router.go "/request/#{new_id}/edit"
+        # 'click .request': ->
+        #     user = Meteor.users.findOne(username:@username)
+        #     if Meteor.userId() is user._id
+        #         new_id =
+        #             Docs.insert
+        #                 model:'request'
+        #                 amount:1
+        #     else    
+        #         new_id =
+        #             Docs.insert
+        #                 model:'request'
+        #                 recipient_id: user._id
+        #                 amount:1
+        #     Router.go "/request/#{new_id}/edit"
     
         # 'click .recalc_user_cloud': ->
         #     Meteor.call 'recalc_user_cloud', Router.current().params.username, ->

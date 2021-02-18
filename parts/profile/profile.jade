@@ -31,6 +31,10 @@ template(name='profile_layout')
                         .ui.inline.header() #{points}pts
                         .ui.basic.label {{to_percent one_ratio}}% ratio
                         .ui.basic.label #{flow_volume} volume
+                        .ui.small.header 
+                            label goto/create group
+                        .ui.input
+                            input.goto_group(type='text' placeholder='name')
                         //- .ui.icon.button.refresh_user_stats(title='refresh stats')
                         //-     i.refresh.icon
                         // if is_current_user

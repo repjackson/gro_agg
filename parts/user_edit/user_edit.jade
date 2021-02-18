@@ -13,22 +13,19 @@ template(name='user_edit_layout')
                             .ui.small.inline.header @#{current_user.username}
                             img.ui.centered.medium.rounded.image(src="{{c.url profile_image_id height=400 width=400 gravity='face' crop='fill'}}")
                                 
-                            a.ui.green.big.circular.button(href="/u/#{current_user.username}/") 
+                            a.ui.green.big.button(href="/u/#{current_user.username}/") 
                                 i.checkmark.big.icon
                                 strong save
-                            a.ui.basic.circular.button(href="/u/#{current_user.username}/edit/account" class="{{isActiveRoute 'user_edit_account'}}" title='account') 
+                            a.ui.basic.button(href="/u/#{current_user.username}/edit/account" class="{{isActiveRoute 'user_edit_account'}}" title='account') 
                                 i.cog.icon 
                                 |account
-                            a.ui.basic.circular.button(href="/u/#{current_user.username}/edit/info" class="{{isActiveRoute 'user_edit_info'}}" title='info') 
-                                i.info.icon 
-                                |info
-                            a.ui.basic.circular.button(href="/u/#{current_user.username}/edit/alerts" class="{{isActiveRoute 'user_edit_alerts'}}") 
+                            a.ui.basic.button(href="/u/#{current_user.username}/edit/alerts" class="{{isActiveRoute 'user_edit_alerts'}}") 
                                 i.bell.icon 
                                 |alerts
-                            a.ui.basic.circular.button(href="/u/#{current_user.username}/edit/privacy" class="{{isActiveRoute 'user_edit_privacy'}}") 
+                            a.ui.basic.button(href="/u/#{current_user.username}/edit/privacy" class="{{isActiveRoute 'user_edit_privacy'}}") 
                                 i.lock.privacy.icon 
                                 | privacy
-                            a.ui.basic.circular.button(href="/u/#{current_user.username}/edit/membership" class="{{isActiveRoute 'user_edit_membership'}}" title='membership') 
+                            a.ui.basic.button(href="/u/#{current_user.username}/edit/membership" class="{{isActiveRoute 'user_edit_membership'}}" title='membership') 
                                 i.shield.icon
                                 | membership
                         .twelve.wide.column
@@ -128,29 +125,29 @@ template(name='user_edit_account')
     .ui.two.column.stackable.grid
         .column
             +image_edit key='profile_image_id' icon='picture' title='profile image' direct=true
-            +image_edit key='avatar_image_id' icon='picture' title='avatar image' direct=true
-            +password_edit
+            // +image_edit key='avatar_image_id' icon='picture' title='avatar image' direct=true
         .column
             +text_edit key='nickname' label='display name' direct=true
-            +text_edit key='first_name' label='first name' direct=true
-            +text_edit key='last_name' label='last name' direct=true
+            // +text_edit key='first_name' label='first name' direct=true
+            // +text_edit key='last_name' label='last name' direct=true
             .ui.header 
                 i.envelope.outline.icon
                 |emails
             +emails_edit
+            +password_edit
             if is_dev
                 .ui.segment
                     i.code.icon
                     +username_edit
                     +boolean_edit key='disabled' label='disabled' direct=true
-                    +multi_user_edit key='user_representatives' label='user representatives' direct=true
+                    // +multi_user_edit key='user_representatives' label='user representatives' direct=true
                     div
                     with current_user
                         .ui.button.remove_user 
                             i.remove.icon
                             |delete user
-            .spacer
-            +phone_edit key='phone' label='phone' icon='phone' direct=true
+            // .spacer
+            // +phone_edit key='phone' label='phone' icon='phone' direct=true
 
             //- +phone_editor
     

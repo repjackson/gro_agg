@@ -354,6 +354,9 @@ template(name='doc_item')
 
 
 template(name='tip')
-    .ui.basic.button.tip
+    .ui.basic.circular.button.tip
         i.donate.icon
         |tip 1p
+    |#{tip_total} total
+    each tips
+        .ui.header #{amount} #{_author_username}
