@@ -38,8 +38,7 @@ template(name='nav')
                 else 
                     i.user.icon
                 strong.mobile.hidden #{currentUser.name}
-            // a.mobile.hidden.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_credits'}}")
-            //     |#{currentUser.points}p
+                |#{currentUser.points}p
             a.icon.item.toggle_rightbar.select_term
                 i.ellipsis.vertical.icon
         else

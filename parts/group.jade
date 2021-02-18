@@ -278,7 +278,8 @@ template(name='group_post_card_small')
                 +remove_button
                 +print_this
             +comments
-        +doc_emotion_small        
+        if doc_sentiment_label
+            +doc_emotion_small        
    
 template(name='doc_item')                  
     .ui.ite.seg

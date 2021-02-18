@@ -28,19 +28,23 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'children', 'comment', @data._id
     Template.comments.helpers
         doc_comments: ->
+            # console.log Template.parentData()
+            # console.log Template.parentData(1)
+            # console.log Template.parentData(2)
+            # console.log Template.currentData()
             if Router.current().params.doc_id
                 parent = Docs.findOne Router.current().params.doc_id
             else
-                parent = Docs.findOne Template.parentData()._id
-            if Meteor.user()
-                Docs.find
-                    parent_id:parent._id
-                    model:'comment'
-            else
-                Docs.find
-                    model:'comment'
-                    parent_id:parent._id
-                    _author_id:$exists:false
+                parent = Docs.findOne Template.currentData()._id
+            # if Meteor.user()
+            Docs.find
+                parent_id:parent._id
+                model:'comment'
+            # else
+            #     Docs.find
+            #         model:'comment'
+            #         parent_id:parent._id
+            #         _author_id:$exists:false
                     
     Template.comments.events
         'keyup .add_comment': (e,t)->
@@ -48,7 +52,7 @@ if Meteor.isClient
                 if Router.current().params.doc_id
                     parent = Docs.findOne Router.current().params.doc_id
                 else
-                    parent = Docs.findOne Template.parentData()._id
+                    parent = Docs.findOne Template.currentData()._id
                 # parent = Docs.findOne Router.current().params.doc_id
                 comment = t.$('.add_comment').val()
                 Docs.insert

@@ -22,6 +22,7 @@ Meteor.publish 'doc_by_title', (title)->
     Docs.find({
         title:title
         model:'wikipedia'
+        "watson.metadata.image":$exists:true
     }, {
         fields:
             title:1
@@ -137,7 +138,11 @@ Meteor.publish 'doc', (doc_id)->
 
 Meteor.publish 'me', ()->
     if Meteor.user()
-        Meteor.users.find Meteor.userId()
+        Meteor.users.find Meteor.userId(),
+            fields:
+                username:1
+                profile_image_id:1
+                points:1
     else
         []
 

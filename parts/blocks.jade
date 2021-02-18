@@ -95,7 +95,7 @@ template(name='comments')
                     a.author(href="/u/#{_author_username}")
                         |#{_author_username}
                     .metadata
-                        span.date #{when}
+                        span.date #{made_when}
                     .text
                         | !{body}
                     span.actions
