@@ -163,9 +163,32 @@ if Meteor.isClient
         'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
         'click .set_list': (e,t)-> Session.set('view_layout', 'list')
      
-     
+    Template.group_tag_picker.onCreated ->
+        # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+        @autorun => Meteor.subscribe('model_docs', 'tip')
+
+    Template.tip.helpers
+        tips: ->
+            Docs.find 
+                model:'tip'
+                parent_id:@_id
     Template.tip.events
         'click .tip': ->
+            found_tip =
+                Docs.findOne 
+                    model:'tip'
+                    parent_id:@_id
+                    _author_id: Meteor.userId()
+            if found_tip
+                Docs.update found_tip._id,
+                    $inc:amount:1
+            else
+                Docs.insert 
+                    model:'tip'
+                    amount:1
+                    parent_id:@_id
+                    _author_id: Meteor.userId()
+                
             Docs.update @_id, 
                 $inc:tip_total:1
             Meteor.users.update Meteor.userId(),
@@ -305,6 +328,10 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.publish 'post_tips', (parent_id)->
+        Docs.find 
+            model:'tip'
+            parent_id:parent_id
     Meteor.publish 'group_count', (
         group
         group_picked_tags
