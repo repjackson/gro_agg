@@ -418,7 +418,7 @@ a:active {
   transform: scale(.97) !important;
 }
 img, .image {
-  border-radius:10px !important;
+  /*border-radius:10px !important;*/
 }
 a.segment:active {
   transform: scale(.97) !important;

@@ -15,7 +15,7 @@ if Meteor.isClient
         Session.setDefault('view_layout', 'grid')
         Session.setDefault('sort_key', '_timestamp')
         Session.setDefault('sort_direction', -1)
-        Session.setDefault('toggle', false)
+        Session.setDefault('view_detail', true)
         
         @autorun => Meteor.subscribe 'group_tags',
             Router.current().params.group
@@ -173,16 +173,20 @@ if Meteor.isClient
             Meteor.users.update @_author_id,
                 $inc:points:1
      
-    Template.group_post_card_small.events
+    Template.group_post_card.events
         'click .view_post': (e,t)-> 
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
+            $(e.currentTarget).closest('.card').transition('slide left')
+            Router.go "/g/#{@group}/p/#{@_id}"
+            # Meteor.setTimeout =>
+            # , 500
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @title
         # 'click .call_watson': (e,t)-> 
         #     Meteor.call 'call_watson',@_id,'data.url','url',@data.url,=>
     Template.doc_item.events
         'click .view_post': (e,t)-> 
             Session.set('view_section','main')
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
-            # Router.go "/group/#{@group}/p/#{@_id}"
+            Router.go "/g/#{@group}/p/#{@_id}"
     
     Template.doc_item.onRendered ->
         # console.log @

@@ -45,7 +45,7 @@ template(name='group')
                     |simple
                 // i.line.chart.icon
             if skv_is 'view_layout' 'grid'
-                .ui.compact.basic.circular.button.set_grid(class=grid_class) 
+                .ui.compact.black.circular.button.set_grid(class=grid_class) 
                     i.th.icon
                     |grid
             else
@@ -57,7 +57,7 @@ template(name='group')
                     i.list.icon
                     |list
             else
-                .ui.compact.basic.circlar.button.set_list(class=list_class)
+                .ui.compact.basic.circular.button.set_list(class=list_class)
                     i.list.icon
                     |list
             .ui.circular.icon.basic.button
@@ -69,9 +69,9 @@ template(name='group')
             .scrolling
                 if posts.count
                     if skv_is 'view_layout' 'grid'
-                        .ui.stackable.three.cards 
+                        .ui.stackable.two.cards 
                             each posts
-                                +group_post_card_small
+                                +group_post_card
                     else if skv_is 'view_layout' 'list'
                         each posts
                             +doc_item
@@ -224,11 +224,11 @@ template(name='group_flat_tag_picker')
         
         
    
-template(name='group_post_card_small')
+template(name='group_post_card')
     .ui.card
         if image_id
             a(href="/g/#{group}/p/#{_id}")
-                img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                img.ui.image.zoomer(src="{{c.url image_id }}" class=currentUser.invert_class)
         if image_link
             a(href="/g/#{group}/p/#{_id}")
                 +image_link_view key='image_link' direct=true
@@ -236,7 +236,7 @@ template(name='group_post_card_small')
             +youtube_view key='youtube_id' label='youtube id' direct=true
         .content
             // a.ui.header.zoomer(href="/g/#{group}/p/#{_id}") #{title}
-            a.ui.left.aligned.inline.header.pointer.view_post(class=emotion_color)
+            a.ui.left.aligned.inline.header.pointer.view_post.zoomer(class=emotion_color)
                 |#{title}
             span(title="made #{made_when}")
                 |{{made_when}}
