@@ -23,16 +23,27 @@ if Meteor.isClient
         , 1000
         user = Meteor.users.findOne(username:Router.current().params.username)
         # Meteor.call 'calc_user_stats', user._id, ->
-        Meteor.setTimeout ->
-            if user
-                Meteor.call 'recalc_one_stats', user._id, ->
-        , 2000
+        # Meteor.setTimeout ->
+        #     if user
+        #         Meteor.call 'recalc_one_stats', user._id, ->
+        # , 2000
 
 
     Template.profile_layout.helpers
         route_slug: -> "user_#{@slug}"
         user: -> Meteor.users.findOne username:Router.current().params.username
 
+    Template.profile_layout.onCreated ->
+        # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+        @autorun => Meteor.subscribe('model_docs', 'group_bookmark')
+
+    Template.profile_layout.helpers
+        group_bookmarks: ->
+            Docs.find {
+                model:'group_bookmark'
+                _author_id:Meteor.userId()
+            }, sort:search_amount:-1
+                
     Template.profile_layout.events
         'click a.select_term': ->
             $('.profile_yield')
@@ -40,11 +51,23 @@ if Meteor.isClient
                 .transition('fade in', 200)
         'keyup .goto_group': (e,t)->
             if e.which is 13
+                val = $('.goto_group').val()
+                found_group =
+                    Docs.findOne 
+                        model:'group_bookmark'
+                        name:val
+                if found_group
+                    Docs.update found_group._id,
+                        $inc:search_amount:1
+                else
+                    Docs.insert 
+                        model:'group_bookmark'
+                        search_amount:1
+                        name:val
                 # $('.header')
                 #     .transition('scale', 200)
                 $('.global_container')
                     .transition('scale', 400)
-                val = $('.goto_group').val()
                 Router.go "/g/#{val}"
                 # target_user = Meteor.users.findOne(username:Router.current().params.username)
                 # Docs.insert
