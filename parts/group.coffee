@@ -251,7 +251,7 @@ if Meteor.isClient
 
     Template.group.onCreated ->
         Session.setDefault('view_layout', 'grid')
-        Session.setDefault('sort_key', 'data.created')
+        Session.setDefault('sort_key', '_timestamp')
         Session.setDefault('sort_direction', -1)
         Session.setDefault('toggle', false)
         
@@ -315,145 +315,7 @@ if Meteor.isClient
         timestamp_tags: -> results.find(model:'timestamp_tag')
         current_group: -> Router.current().params.group
             
-    # Template.group.events
-    #     # 'click .unselect_group_tag': -> 
-    #     #     Session.set('skip',0)
-    #     #     # console.log @
-    #     #     group_picked_tags.remove @valueOf()
-    #     #     # window.speechSynthesis.speak new SpeechSynthesisUtterance group_picked_tags.array().toString()
-    
-    #     # 'click .select_tag': -> 
-    #     #     # results.update
-    #     #     # console.log @
-    #     #     # window.speechSynthesis.cancel()
-    #     #     window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-    #     #     # if @model is 'group_emotion'
-    #     #     #     selected_emotions.push @name
-    #     #     # else
-    #     #     # if @model is 'group_tag'
-    #     #     group_picked_tags.push @name
-    #     #     $('.search_subgroup').val('')
-    #     #     Session.set('group_skip_value',0)
-    
-    #     'click .unselect_time_tag': ->
-    #         group_picked_time_tags.remove @valueOf()
-    #     'click .select_time_tag': ->
-    #         group_picked_time_tags.push @name
-    #         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             
-    #     'click .unselect_location_tag': ->
-    #         group_picked_location_tags.remove @valueOf()
-    #     'click .select_location_tag': ->
-    #         group_picked_location_tags.push @name
-    #         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-    
-    #     'click .add_post': ->
-    #         new_id = 
-    #             Docs.insert 
-    #                 model:'post'
-    #                 group:Router.current().params.group
-    #         Router.go "/#{Router.current().params.group}/p/#{new_id}/edit"
-    #     'keyup .search_group_tag': (e,t)->
-    #          if e.which is 13
-    #             val = t.$('.search_group_tag').val().trim().toLowerCase()
-    #             window.speechSynthesis.speak new SpeechSynthesisUtterance val
-    #             group_picked_tags.push val   
-    #             t.$('.search_group_tag').val('')
-            
-            
-    # Template.tag_selector.onCreated ->
-    #     @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
-    # Template.tag_selector.helpers
-    #     selector_class: ()->
-    #         term = 
-    #             Docs.findOne 
-    #                 title:@name.toLowerCase()
-    #         if term
-    #             if term.max_emotion_name
-    #                 switch term.max_emotion_name
-    #                     when 'joy' then " basic green"
-    #                     when "anger" then " basic red"
-    #                     when "sadness" then " basic blue"
-    #                     when "disgust" then " basic orange"
-    #                     when "fear" then " basic grey"
-    #                     else "basic grey"
-    #     term: ->
-    #         res = 
-    #             Docs.findOne 
-    #                 title:@name.toLowerCase()
-    #         # console.log res
-    #         res
-                
-    # Template.tag_selector.events
-    #     'click .select_tag': -> 
-    #         # results.update
-    #         # console.log @
-    #         # window.speechSynthesis.cancel()
-    #         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-    #         # if @model is 'group_emotion'
-    #         #     selected_emotions.push @name
-    #         # else
-    #         # if @model is 'group_tag'
-    #         group_picked_tags.push @name
-    #         $('.search_subgroup').val('')
-    #         Session.set('group_skip_value',0)
-    
-    #         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-    #         # window.speechSynthesis.speak new SpeechSynthesisUtterance group_picked_tags.array().toString()
-    #         # Session.set('group_loading',true)
-    #         # Meteor.call 'search_group', @name, ->
-    #         #     Session.set('group_loading',false)
-    #         # Meteor.setTimeout( ->
-    #         #     Session.set('toggle',!Session.get('toggle'))
-    #         # , 5000)
-            
-            
-            
-    
-    # Template.unselect_tag.onCreated ->
-    #     @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
-        
-    # Template.unselect_tag.helpers
-    #     term: ->
-    #         found = 
-    #             Docs.findOne 
-    #                 # model:'wikipedia'
-    #                 title:@valueOf().toLowerCase()
-    #         found
-    # Template.unselect_tag.events
-    #     'click .unselect_tag': -> 
-    #         Session.set('skip',0)
-    #         # console.log @
-    #         group_picked_tags.remove @valueOf()
-    #         # window.speechSynthesis.speak new SpeechSynthesisUtterance group_picked_tags.array().toString()
-        
-    
-    # Template.flat_tag_selector.onCreated ->
-    #     # @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
-    # Template.flat_tag_selector.helpers
-    #     selector_class: ()->
-    #         term = 
-    #             Docs.findOne 
-    #                 title:@valueOf().toLowerCase()
-    #         if term
-    #             if term.max_emotion_name
-    #                 switch term.max_emotion_name
-    #                     when 'joy' then " basic green"
-    #                     when "anger" then " basic red"
-    #                     when "sadness" then " basic blue"
-    #                     when "disgust" then " basic orange"
-    #                     when "fear" then " basic grey"
-    #                     else "basic grey"
-    #     term: ->
-    #         Docs.findOne 
-    #             title:@valueOf().toLowerCase()
-    # Template.flat_tag_selector.events
-    #     'click .select_flat_tag': -> 
-    #         # results.update
-    #         # window.speechSynthesis.cancel()
-    #         window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-    #         group_picked_tags.push @valueOf()
-    #         $('.search_group').val('')
 
 if Meteor.isClient
     Template.group_post_edit.onCreated ->
@@ -623,7 +485,7 @@ if Meteor.isServer
             { $match: _id: $nin: group_picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:25 }
+            { $limit:33 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         group_tag_cloud.forEach (tag, i) ->
@@ -660,7 +522,7 @@ if Meteor.isServer
             # { $match: _id: $nin: selected_location }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:25 }
+            { $limit:10 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         group_location_cloud.forEach (location, i) ->
@@ -679,7 +541,7 @@ if Meteor.isServer
             { $match: _id: $nin: group_picked_time_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:25 }
+            { $limit:10 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         group_time_cloud.forEach (time_tag, i) ->
@@ -697,7 +559,7 @@ if Meteor.isServer
             { $match: _id: $nin: group_picked_timestamp_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:25 }
+            { $limit:10 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         group_timestamp_cloud.forEach (timestamp_tag, i) ->

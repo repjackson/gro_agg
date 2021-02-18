@@ -107,3 +107,54 @@ Template.flat_tag_picker.events
             Session.set('loading',false)
         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
     
+Template.nav.onCreated ->
+    @autorun => Meteor.subscribe 'me'
+
+Template.nav.onRendered ->
+    # Meteor.setTimeout ->
+    #     $('.menu .item')
+    #         .popup()
+    # , 1000
+    Meteor.setTimeout ->
+        $('.ui.right.sidebar')
+            .sidebar({
+                context: $('.bottom.segment')
+                transition:'overlay'
+                exclusive:true
+                duration:200
+                scrollLock:true
+            })
+            .sidebar('attach events', '.toggle_rightbar')
+    , 1000
+
+Template.right_sidebar.events
+    'click .logout': ->
+        Session.set 'logging_out', true
+        Meteor.logout ->
+            Session.set 'logging_out', false
+            Router.go '/login'
+            
+    'click .toggle_nightmode': ->
+        if Meteor.user().invert_class is 'invert'
+            Meteor.users.update Meteor.userId(),
+                $set:invert_class:''
+        else
+            Meteor.users.update Meteor.userId(),
+                $set:invert_class:'invert'
+            
+
+Template.nav.helpers
+    alert_toggle_class: ->
+        if Session.get('viewing_alerts') then 'active' else ''
+        
+Template.nav.events
+    'click .view_profile': ->
+        Meteor.call 'calc_user_points', Meteor.userId()
+        
+Template.nav.helpers
+    # unread_count: ->
+    #     Docs.find( 
+    #         model:'message'
+    #         recipient_id:Meteor.userId()
+    #         read_ids:$nin:[Meteor.userId()]
+    #     ).count()

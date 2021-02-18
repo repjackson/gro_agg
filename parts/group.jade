@@ -5,13 +5,6 @@ template(name='group')
                 |#{counter}
             .ui.inline.header    
                 |#{current_group}
-            // a.ui.header(href=link title='link')
-            //     i.link.icon
-            //     |link
-            // +array_view key='tags' label='tags' icon='tags' direct=true
-            // +comments
-            // .f11 #{description}
-            // +image_link_view key='image' label='image' direct=true
             if group_picked_tags
                 if many_tags
                     a#clear_tags.ui.black.invert.icon.compact.button.pick_term
@@ -28,45 +21,43 @@ template(name='group')
             if group_result_tags.count
                 each group_result_tags
                     +group_tag_picker
-            // else
-            //     i.big.grey.loading.yin.yang.icon
         
             div
             if skv_is 'sort_direction' 1
-                .ui.icon.compact.disabled.button.sort_down
+                .ui.icon.compact.button.sort_down
                     i.caret.down.icon
             else
-                .ui.icon.compact.disabled.button.sort_up
+                .ui.icon.compact.button.sort_up
                     i.caret.up.icon
-            .ui.compact.small.disabled.button.sort_created(class=sort_created_class)
+            .ui.compact.small.button.sort_created(class=sort_created_class)
                 i.clock.icon
                 |latest
-            .ui.compact.small.disabled.button.sort_ups(class=sort_ups_class)
+            .ui.compact.small.button.sort_ups(class=sort_ups_class)
                 i.thumbs.up.icon
                 |liked
             if skv_is 'view_detail' true
-                .ui.black.compact.disabled.button.toggle_detail
+                .ui.black.compact.button.toggle_detail
                     i.list.icon
                     |detail
             else
-                .ui.compact.basic.disabled.button.toggle_detail
+                .ui.compact.basic.button.toggle_detail
                     i.minus.icon
                     |simple
                 // i.line.chart.icon
             if skv_is 'view_layout' 'grid'
-                .ui.compact.basic.disabled.button.set_grid(class=grid_class) 
+                .ui.compact.basic.button.set_grid(class=grid_class) 
                     i.th.icon
                     |grid
             else
-                .ui.compact.basic.disabled.button.set_grid(class=grid_class) 
+                .ui.compact.basic.button.set_grid(class=grid_class) 
                     i.th.icon
                     |grid
             if skv_is 'view_layout' 'list'
-                .ui.compact.basic.disabled.button.set_list(class=list_class)
+                .ui.compact.basic.button.set_list(class=list_class)
                     i.list.icon
                     |list
             else
-                .ui.compact.disabled.button.set_list(class=list_class)
+                .ui.compact.button.set_list(class=list_class)
                     i.list.icon
                     |list
             .scrolling
@@ -83,22 +74,22 @@ template(name='group')
                 //         i.massive.grey.loading.yin.yang.icon
         .four.wide.left.aligned.column.scrollng.seg
             // +alpha
-            .ui.fluid.basic.button.add_post
+            .ui.fluid.basic.circular.button.add_post
                 i.plus.green.icon
                 |add
             if location_tags
-                i.large.marker.icon
+                i.big.marker.grey.icon
                 if picked_location_tags
                     each picked_location_tags
                         a.unpick_location_tag.ui.active.large.compact.button(href='#')
-                            strong #{this}
+                            | #{this}
                 each location_tags
-                    .ui.compact.small.basic.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
-                        strong #{name}
+                    .ui.compact.small.basic.circular.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+                        | #{name}
             if Locations
                 div
                 .ui.small.grey.inline.header
-                    i.marker.icon
+                    i.marker.grey.icon
                     |locations
                 each locations
                     +group_tag_picker
@@ -149,7 +140,7 @@ template(name='group')
                     .ui.active.compact.button.unpick_time_tag
                         |#{this}
             each timestamp_tags
-                .ui.compact.button.pick_time_tag(class=domain_picker_class)
+                .ui.compact.basic.circular.button.pick_time_tag(class=domain_picker_class)
                     |#{name} 
                     // small #{count}
             .spacer
@@ -277,7 +268,7 @@ template(name='group_post_card_small')
             if is_admin
                 +remove_button
                 +print_this
-            +comments
+        +comments
         if doc_sentiment_label
             +doc_emotion_small        
    

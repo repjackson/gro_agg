@@ -10,7 +10,7 @@ template(name='nav')
             // i.heart.icon
             // |home
         a.icon.item(href="/love" class="{{isActiveRoute '/love'}}")
-            i.heart.icon
+            i.heart.red.large.icon
         if currentUser
             // if unread_count
             //     a.item.alerts.select_term(href="#" class=alert_toggle_class)
@@ -54,27 +54,6 @@ template(name='nav')
 
 
 
-template(name='topbar')
-    .ui.fluid.attached.segment
-        .ui.middle.aligned.divided.list
-            each recent_alerts
-                +recent_alert
-        a.ui.icon.attached.basic.button.item.close_topbar(href="/inbox")
-            i.inbox.icon
-            |inbox
-        
-template(name='recent_alert')        
-    .item.alert
-        .right.floated.content
-            i.eye.link.icon.mark_read(title='mark read')
-        img.ui.avatar.image(src="{{c.url author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
-        .content
-            .header
-                |#{description} 
-            .description #{author.name} #{made_when}
-            
-            
-            
             
 template(name='right_sidebar')
     .ui.right.sidebar.vertical.borderless.menu
@@ -94,21 +73,10 @@ template(name='right_sidebar')
         a.item.toggle_rightbar(href="/u/#{currentUser.username}/debits" class="{{isActiveRoute 'user_sent'}}")
             | #{currentUser.total_debit_amount}p sent
             i.chevron.up.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/events" class="{{isActiveRoute 'user_events'}}")
-            | events
-            i.calendar.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/requests" class="{{isActiveRoute 'user_requests'}}")
-            | requests
             i.concierge.bell.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/orders" class="{{isActiveRoute 'user_orders'}}")
-            | orders
-            i.cart.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/offers" class="{{isActiveRoute 'user_offers'}}")
-            | offers
-            i.hand.holding.heart.icon
-        // a.item.toggle_rightbar(href="/u/#{currentUser.username}/messages" class="{{isActiveRoute 'user_messages'}}")
-        //     | chat
-        //     i.chat.icon
+        // a.item.toggle_rightbar(href="/u/#{currentUser.username}/orders" class="{{isActiveRoute 'user_orders'}}")
+        //     | orders
+        //     i.cart.icon
         .ui.divider
         a.item.toggle_rightbar(href="/u/#{currentUser.username}/edit" title='edit your account')
             i.cog.icon
