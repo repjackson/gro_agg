@@ -10,6 +10,7 @@ if Meteor.isClient
 
     Template.group_post_edit.onCreated ->
         @autorun -> Meteor.subscribe('doc_by_id', Router.current().params.doc_id)
+
         # @autorun -> Meteor.subscribe('post_comments', Router.current().params.group, Router.current().params.doc_id)
     Template.group_post_view.onCreated ->
         @autorun -> Meteor.subscribe('doc_by_id', Router.current().params.doc_id)

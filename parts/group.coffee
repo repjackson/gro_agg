@@ -1,46 +1,111 @@
 if Meteor.isClient
-    # Template.group.onCreated ->
-    #     Session.setDefault('view_layout', 'grid')
-    #     Session.setDefault('sort_key', 'data.created')
-    #     Session.setDefault('sort_direction', -1)
-    #     Session.setDefault('toggle', false)
+    Router.route '/g/:group', (->
+        @layout 'layout'
+        @render 'group'
+        ), name:'group'
+
+    @group_picked_tags = new ReactiveArray []
+    @group_picked_time_tags = new ReactiveArray []
+    @group_picked_location_tags = new ReactiveArray []
+    @group_picked_author_tags = new ReactiveArray []
+    @group_picked_timestamp_tags = new ReactiveArray []
+
+
+    Template.group.onCreated ->
+        Session.setDefault('view_layout', 'grid')
+        Session.setDefault('sort_key', '_timestamp')
+        Session.setDefault('sort_direction', -1)
+        Session.setDefault('toggle', false)
         
-    #     Meteor.call 'lower_group', Router.current().params.group, ->
+        @autorun => Meteor.subscribe 'group_tags',
+            Router.current().params.group
+            group_picked_tags.array()
+            group_picked_time_tags.array()
+            group_picked_location_tags.array()
+            group_picked_author_tags.array()
+            group_picked_timestamp_tags.array()
+            Session.get('toggle')
+        @autorun => Meteor.subscribe 'group_count', 
+            Router.current().params.group
+            group_picked_tags.array()
+            group_picked_time_tags.array()
+            group_picked_location_tags.array()
+            group_picked_author_tags.array()
+            group_picked_timestamp_tags.array()
         
-    # Template.group.helpers
+        @autorun => Meteor.subscribe 'group_posts', 
+            Router.current().params.group
+            group_picked_tags.array()
+            group_picked_time_tags.array()
+            group_picked_location_tags.array()
+            group_picked_author_tags.array()
+            group_picked_timestamp_tags.array()
+            Session.get('group_sort_key')
+            Session.get('sort_direction')
+            Session.get('group_skip_value')
+        
+   
+
+    Template.group.helpers
       
-    #     emotion_avg: -> results.findOne(model:'emotion_avg')
+        emotion_avg: -> results.findOne(model:'emotion_avg')
         
-    #     sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
-    #     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
-    #     emotion_avg: -> results.findOne(model:'emotion_avg')
+        sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
+        sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
+        emotion_avg: -> results.findOne(model:'emotion_avg')
         
-    #     counter: -> Counts.get 'counter'
+        counter: -> Counts.get 'counter'
     
-    #     sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
-    #     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
+        sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
+        sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
       
       
-    #     picked_tags: -> picked_tags.array()
-    #     group_picked_time_tags: -> group_picked_time_tags.array()
-    #     group_picked_location_tags: -> group_picked_location_tags.array()
-    #     picked_people_tags: -> picked_people_tags.array()
-      
-    #     result_tags: -> results.find(model:'tag')
-    #     Organizations: -> results.find(model:'Organization')
-    #     Companies: -> results.find(model:'Company')
-    #     HealthConditions: -> results.find(model:'HealthCondition')
-    #     Persons: -> results.find(model:'Person')
+        # result_tags: -> results.find(model:'tag')
+        # Organizations: -> results.find(model:'Organization')
+        # Companies: -> results.find(model:'Company')
+        # HealthConditions: -> results.find(model:'HealthCondition')
+        # Persons: -> results.find(model:'Person')
         
-    #     time_tags: -> results.find(model:'time_tag')
-    #     location_tags: -> results.find(model:'location_tag')
-    #     Locations: -> results.find(model:'Location')
-    #     authors: -> results.find(model:'author')
+        time_tags: -> results.find(model:'time_tag')
+        location_tags: -> results.find(model:'location_tag')
+        Locations: -> results.find(model:'Location')
+        authors: -> results.find(model:'author')
        
-    #     domains: -> results.find(model:'group_domain_tag')
+        domains: -> results.find(model:'group_domain_tag')
        
        
-    #     current_group: -> Router.current().params.group
+        current_group: -> Router.current().params.group
+        posts: ->
+            group_param = Router.current().params.group
+            Docs.find({
+                group:Router.current().params.group
+                model:'post'
+                # group_lowered:group_param.toLowerCase()
+            },
+                sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+                limit:10
+                skip:Session.get('skip_value')
+            )
+        # group_posts: ->
+        #     Docs.find 
+        #         model:'post'
+        #         course_id:Router.current().params.group
+        group_picked_tags: -> group_picked_tags.array()
+        group_picked_time_tags: -> group_picked_time_tags.array()
+        group_picked_locations: -> group_picked_location_tags.array()
+        group_picked_people: -> group_picked_people_tags.array()
+        group_picked_authors: -> group_picked_author_tags.array()
+        group_picked_timestamp_tags: -> group_picked_timestamp_tags.array()
+        
+        counter: -> Counts.get 'counter'
+        group_author_results: -> results.find(model:'group_author_tag')
+        group_result_tags: -> results.find(model:'group_tag')
+        time_tags: -> results.find(model:'time_tag')
+        location_tags: -> results.find(model:'location_tag')
+        timestamp_tags: -> results.find(model:'timestamp_tag')
+        current_group: -> Router.current().params.group
+            
+            
             
     Template.group.events
         'click .unpick_Location': ->
@@ -53,6 +118,13 @@ if Meteor.isClient
             group_picked_time_tags.remove @valueOf()
         'click .pick_time_tag': ->
             group_picked_time_tags.push @name
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            
+            
+        'click .unpick_timestamp_tag': ->
+            group_picked_timestamp_tags.remove @valueOf()
+        'click .pick_timestamp_tag': ->
+            group_picked_timestamp_tags.push @name
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             
         'click .unpick_location_tag': ->
@@ -84,7 +156,10 @@ if Meteor.isClient
                 Session.set('loading',true)
         
             
-    
+        'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
+        'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
+        'click .sort_up': (e,t)-> Session.set('sort_direction',1)
+
         'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
         'click .set_list': (e,t)-> Session.set('view_layout', 'list')
      
@@ -98,11 +173,11 @@ if Meteor.isClient
             Meteor.users.update @_author_id,
                 $inc:points:1
      
-    Template.post_card_small.events
-        # 'click .view_post': (e,t)-> 
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
-        'click .call_watson': (e,t)-> 
-            Meteor.call 'call_watson',@_id,'data.url','url',@data.url,=>
+    Template.group_post_card_small.events
+        'click .view_post': (e,t)-> 
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
+        # 'click .call_watson': (e,t)-> 
+        #     Meteor.call 'call_watson',@_id,'data.url','url',@data.url,=>
     Template.doc_item.events
         'click .view_post': (e,t)-> 
             Session.set('view_section','main')
@@ -114,15 +189,15 @@ if Meteor.isClient
         unless @data.watson
             Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
     
-    Template.post_card_small.onRendered ->
-        # console.log @
-        unless @data.watson
-            Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
-        unless @data.time_tags
-            Meteor.call 'tagify_time_rpost',@data._id,=>
+    # Template.post_card_small.onRendered ->
+    #     # console.log @
+    #     unless @data.watson
+    #         Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
+    #     unless @data.time_tags
+    #         Meteor.call 'tagify_time_rpost',@data._id,=>
      
-    Template.post_card_small.helpers
-        five_tags: -> @tags[..5]
+    # Template.post_card_small.helpers
+    #     five_tags: -> @tags[..5]
      
      
      
@@ -135,7 +210,7 @@ if Meteor.isClient
      
      
     Template.group_tag_picker.onCreated ->
-        # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+        @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
     Template.group_tag_picker.helpers
         picker_class: ()->
             term = 
@@ -221,93 +296,6 @@ if Meteor.isClient
             # Router.go "/g/#{Router.current().params.group}"
 
 
-if Meteor.isClient
-    Router.route '/g/:group', (->
-        @layout 'layout'
-        @render 'group'
-        ), name:'group'
-
-    @group_picked_tags = new ReactiveArray []
-    @group_picked_time_tags = new ReactiveArray []
-    @group_picked_location_tags = new ReactiveArray []
-    @group_picked_author_tags = new ReactiveArray []
-    @group_picked_timestamp_tags = new ReactiveArray []
-
-
-    Template.group.onCreated ->
-        Session.setDefault('view_layout', 'grid')
-        Session.setDefault('sort_key', '_timestamp')
-        Session.setDefault('sort_direction', -1)
-        Session.setDefault('toggle', false)
-        
-        @autorun => Meteor.subscribe 'group_tags',
-            Router.current().params.group
-            group_picked_tags.array()
-            group_picked_time_tags.array()
-            group_picked_location_tags.array()
-            group_picked_author_tags.array()
-            group_picked_timestamp_tags.array()
-            Session.get('toggle')
-        @autorun => Meteor.subscribe 'group_count', 
-            Router.current().params.group
-            group_picked_tags.array()
-            group_picked_time_tags.array()
-            group_picked_location_tags.array()
-            group_picked_author_tags.array()
-            group_picked_timestamp_tags.array()
-        
-        @autorun => Meteor.subscribe 'group_posts', 
-            Router.current().params.group
-            group_picked_tags.array()
-            group_picked_time_tags.array()
-            group_picked_location_tags.array()
-            group_picked_author_tags.array()
-            group_picked_timestamp_tags.array()
-            Session.get('group_sort_key')
-            Session.get('group_sort_direction')
-            Session.get('group_skip_value')
-        
-   
-
-    Template.group.helpers
-        posts: ->
-            group_param = Router.current().params.group
-            Docs.find({
-                group:Router.current().params.group
-                model:'post'
-                # group_lowered:group_param.toLowerCase()
-            },
-                sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
-                limit:10
-                skip:Session.get('skip_value')
-            )
-        # group_posts: ->
-        #     Docs.find 
-        #         model:'post'
-        #         course_id:Router.current().params.group
-        group_picked_tags: -> group_picked_tags.array()
-        group_picked_time_tags: -> group_picked_time_tags.array()
-        group_picked_location_tags: -> group_picked_location_tags.array()
-        group_picked_people_tags: -> group_picked_people_tags.array()
-        group_picked_author_tags: -> group_picked_author_tags.array()
-        group_picked_timestamp_tags: -> group_picked_timestamp_tags.array()
-        
-        counter: -> Counts.get 'counter'
-        group_author_results: -> results.find(model:'group_author_tag')
-        group_result_tags: -> results.find(model:'group_tag')
-        time_tags: -> results.find(model:'time_tag')
-        location_tags: -> results.find(model:'location_tag')
-        timestamp_tags: -> results.find(model:'timestamp_tag')
-        current_group: -> Router.current().params.group
-            
-            
-
-if Meteor.isClient
-    Template.group_post_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
-    Template.group_post_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'comments', Router.current().params.doc_id
 
 
 
@@ -341,7 +329,7 @@ if Meteor.isServer
         group_picked_author_tags
         group_picked_timestamp_tags
         sort_key
-        sort_direction
+        sort_direction=-1
         skip=0
         )->
         self = @
@@ -349,10 +337,7 @@ if Meteor.isServer
             model:'post'
             # group: group
         }
-        if group is 'all'
-            match.group = $exists:false
-        else
-            match.group = group
+        match.group = group
 
         if sort_key
             sk = sort_key
@@ -371,7 +356,7 @@ if Meteor.isServer
         # console.log 'skip', skip
         Docs.find match,
             limit:20
-            sort: "#{sk}":-1
+            sort: "#{sk}":parseInt(sort_direction)
             # skip:skip*20
             fields:
                 title:1

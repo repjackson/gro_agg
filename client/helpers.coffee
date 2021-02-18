@@ -258,6 +258,7 @@ Template.registerHelper 'current_doc', () ->
 Template.registerHelper 'lowered_title', ()-> @data.title.toLowerCase()
 
 
+Template.registerHelper 'template_parent', () ->Template.parentData()
 Template.registerHelper 'field_value', () ->
     # console.log @
     parent = Template.parentData()

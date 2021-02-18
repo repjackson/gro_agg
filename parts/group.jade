@@ -24,40 +24,40 @@ template(name='group')
         
             div
             if skv_is 'sort_direction' 1
-                .ui.icon.compact.button.sort_down
+                .ui.icon.compact.circular.basic.button.sort_down
                     i.caret.down.icon
             else
-                .ui.icon.compact.button.sort_up
+                .ui.icon.compact.circular.basic.button.sort_up
                     i.caret.up.icon
-            .ui.compact.small.button.sort_created(class=sort_created_class)
+            .ui.compact.small.circular.button.sort_created(class=sort_created_class)
                 i.clock.icon
                 |latest
-            .ui.compact.small.button.sort_ups(class=sort_ups_class)
+            .ui.compact.small.circular.button.sort_ups(class=sort_ups_class)
                 i.thumbs.up.icon
                 |liked
             if skv_is 'view_detail' true
-                .ui.black.compact.button.toggle_detail
+                .ui.black.compact.circular.button.toggle_detail
                     i.list.icon
                     |detail
             else
-                .ui.compact.basic.button.toggle_detail
+                .ui.compact.basic.circular.button.toggle_detail
                     i.minus.icon
                     |simple
                 // i.line.chart.icon
             if skv_is 'view_layout' 'grid'
-                .ui.compact.basic.button.set_grid(class=grid_class) 
+                .ui.compact.basic.circular.button.set_grid(class=grid_class) 
                     i.th.icon
                     |grid
             else
-                .ui.compact.basic.button.set_grid(class=grid_class) 
+                .ui.compact.basic.circular.button.set_grid(class=grid_class) 
                     i.th.icon
                     |grid
             if skv_is 'view_layout' 'list'
-                .ui.compact.basic.button.set_list(class=list_class)
+                .ui.compact.black.circular.button.set_list(class=list_class)
                     i.list.icon
                     |list
             else
-                .ui.compact.button.set_list(class=list_class)
+                .ui.compact.basic.circlar.button.set_list(class=list_class)
                     i.list.icon
                     |list
             .ui.circular.icon.basic.button
@@ -68,27 +68,26 @@ template(name='group')
                 i.chat.icon
             .scrolling
                 if posts.count
-                    // if skv_is 'view_layout' 'grid'
-                    .ui.stackable.lefted.one.column.grid 
+                    if skv_is 'view_layout' 'grid'
+                        .ui.stackable.three.cards 
+                            each posts
+                                +group_post_card_small
+                    else if skv_is 'view_layout' 'list'
                         each posts
-                            +group_post_card_small
-                    // else if skv_is 'view_layout' 'list'
-                    //     each posts
-                    //         +doc_item
-                // else
-                //     .ui.left.aligned.basic.segment
-                //         i.massive.grey.loading.yin.yang.icon
+                            +doc_item
+                else
+                    .ui.left.aligned.basic.segment
+                        i.massive.grey.loading.yin.yang.icon
         .four.wide.left.aligned.column.scrollng.seg
             // +alpha
             .ui.fluid.basic.circular.button.add_post
                 i.plus.green.icon
                 |add
+            each group_picked_locations
+                a.unpick_location_tag.ui.black.circular.large.compact.button(href='#')
+                    | #{this}
             if location_tags
                 i.big.marker.grey.icon
-                if picked_location_tags
-                    each picked_location_tags
-                        a.unpick_location_tag.ui.active.large.compact.button(href='#')
-                            | #{this}
                 each location_tags
                     .ui.compact.small.basic.circular.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
                         | #{name}
@@ -133,7 +132,7 @@ template(name='group')
             // i.big.globe.grey.icon
             // if picked_domain
             //     each picked_domain
-            //         .ui.active.button.unpick_domain
+            //         .ui.black.circular.button.unpick_domain
             //             |#{this}
             // each domain_tags
             //     .ui.compact.button.pick_domain(class=domain_picker_class)
@@ -141,19 +140,18 @@ template(name='group')
             //         // small #{count}
             .spacer
             i.clock.big.grey.icon            
-            if picked_group_timestamp_tags
-                each picked_timestamp_tags
-                    .ui.active.compact.button.unpick_time_tag
-                        |#{this}
+            each group_picked_timestamp_tags
+                .ui.black.circular.compact.button.unpick_timestamp_tag
+                    |#{this}
             each timestamp_tags
-                .ui.compact.basic.circular.button.pick_time_tag(class=domain_picker_class)
+                .ui.compact.basic.circular.button.pick_timestamp_tag(class=domain_picker_class)
                     |#{name} 
                     // small #{count}
             .spacer
             i.user.big.grey.icon            
-            if picked_group_authors
-                each picked_authors
-                    .ui.active.button.unpick_author
+            if group_picked_authors
+                each group_picked_authors
+                    .ui.black.circular.button.unpick_author
                         |#{this}
             each group_author_results
                 .ui.compact.circular.basic.button.pick_author(class=domain_picker_class)
@@ -227,7 +225,7 @@ template(name='group_flat_tag_picker')
         
    
 template(name='group_post_card_small')
-    .ui.fluid.card
+    .ui.card
         if image_id
             a(href="/g/#{group}/p/#{_id}")
                 img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
@@ -238,41 +236,42 @@ template(name='group_post_card_small')
             +youtube_view key='youtube_id' label='youtube id' direct=true
         .content
             // a.ui.header.zoomer(href="/g/#{group}/p/#{_id}") #{title}
-            a.ui.left.aligned.small.header.view_post(href="/g/#{group}/p/#{_id}" class=emotion_color)
+            a.ui.left.aligned.inline.header.pointer.view_post(class=emotion_color)
                 |#{title}
-            if is_admin
-                +text_edit key='group' label='slug' direct=true
-            .f12
-                |!{content}
-            // a(href="/g/#{group}/p/#{_id}")
-            if raw
-                |!{raw}
-            each tags
-                +group_flat_tag_picker
-            a.ui.big.icon.circular.basic.button(href="/g/#{group}/p/#{_id}")
-                i.right.chevron.big.icon
-            +voting_full
-            +tip
-            // | #{points}
-            // i.thumbs.up.outline.grey.icon
-            // | #{comments}
-            // i.comment.outline.grey.icon
             span(title="made #{made_when}")
                 |{{made_when}}
-            if time_tags
-                i.clock.icon
-                each time_tags
-                    .ui.tiny.label #{this}
             if _author_username
                 a.ui.basic.label(href="/u/#{_author_username}")
                     i.large.user.outline.icon
                     |#{_author_username}
             if is_admin
-                +remove_button
-                +print_this
-        +comments
-        if doc_sentiment_label
-            +doc_emotion_small        
+                +text_edit key='group' label='slug' direct=true
+            .f12.pointer.view_post
+                |!{content}
+            // a(href="/g/#{group}/p/#{_id}")
+            if raw
+                |!{raw}
+            if session_is 'view_detail'            
+                each tags
+                    +group_flat_tag_picker
+                a.ui.big.icon.circular.basic.button(href="/g/#{group}/p/#{_id}")
+                    i.right.chevron.big.icon
+                +voting_full
+                +tip
+                // | #{points}
+                // i.thumbs.up.outline.grey.icon
+                // | #{comments}
+                // i.comment.outline.grey.icon
+                if time_tags
+                    i.clock.icon
+                    each time_tags
+                        .ui.tiny.label #{this}
+                if is_admin
+                    +remove_button
+                    +print_this
+                +comments
+                if doc_sentiment_label
+                    +doc_emotion_small        
    
 template(name='doc_item')                  
     .ui.ite.seg
@@ -354,9 +353,10 @@ template(name='doc_item')
 
 
 template(name='tip')
-    .ui.basic.circular.button.tip
-        i.donate.icon
-        |tip 1p
+    unless template_parent.is_author
+        .ui.basic.circular.button.tip
+            i.donate.icon
+            |tip 1p
     |#{tip_total} total
     each tips
         .ui.header #{amount} #{_author_username}
