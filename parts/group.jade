@@ -144,11 +144,11 @@ template(name='group')
             //         // small #{count}
             .spacer
             i.clock.big.grey.icon            
-            if picked_group_time_tags
-                each picked_time_tags
+            if picked_group_timestamp_tags
+                each picked_timestamp_tags
                     .ui.active.compact.button.unpick_time_tag
                         |#{this}
-            each group_time_tag_results
+            each timestamp_tags
                 .ui.compact.button.pick_time_tag(class=domain_picker_class)
                     |#{name} 
                     // small #{count}

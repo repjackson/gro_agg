@@ -7,48 +7,7 @@ if Meteor.isClient
         
     #     Meteor.call 'lower_group', Router.current().params.group, ->
         
-    #     # @autorun => Meteor.subscribe 'shop_from_group', Router.current().params.group
-    #     @autorun => Meteor.subscribe 'tags',
-    #         Router.current().params.group
-    #         picked_tags.array()
-    #         group_picked_time_tags.array()
-    #         group_picked_location_tags.array()
-    #         picked_Persons.array()
-    #         picked_Locations.array()
-    #         picked_Organizations.array()
-    #         Session.get('toggle')
-    #     @autorun => Meteor.subscribe 'count', 
-    #         Router.current().params.group
-    #         picked_tags.array()
-    #         group_picked_time_tags.array()
-    #         group_picked_location_tags.array()
-    #         picked_Persons.array()
-    #         picked_Locations.array()
-    #         picked_Organizations.array()
-        
-    #     @autorun => Meteor.subscribe 'posts', 
-    #         Router.current().params.group
-    #         picked_tags.array()
-    #         group_picked_time_tags.array()
-    #         group_picked_location_tags.array()
-    #         picked_Persons.array()
-    #         picked_Locations.array()
-    #         picked_Organizations.array()
-    #         Session.get('sort_key')
-    #         Session.get('sort_direction')
-    #         Session.get('skip_value')
-    #         Session.get('toggle')
-    
     # Template.group.helpers
-    #     posts: ->
-    #         group_param = Router.current().params.group
-    #         Docs.find({
-    #             model: $in: ['post','rpost']
-    #             group_lowered:group_param.toLowerCase()
-    #         },
-    #             sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
-    #             limit:25
-    #         )
       
     #     emotion_avg: -> results.findOne(model:'emotion_avg')
         
@@ -249,7 +208,7 @@ if Meteor.isClient
         
     
     Template.group_flat_tag_picker.onCreated ->
-        @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
+        # @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
     Template.group_flat_tag_picker.helpers
         picker_class: ()->
             term = 
@@ -287,6 +246,7 @@ if Meteor.isClient
     @group_picked_time_tags = new ReactiveArray []
     @group_picked_location_tags = new ReactiveArray []
     @group_picked_author_tags = new ReactiveArray []
+    @group_picked_timestamp_tags = new ReactiveArray []
 
 
     Template.group.onCreated ->
@@ -295,18 +255,13 @@ if Meteor.isClient
         Session.setDefault('sort_direction', -1)
         Session.setDefault('toggle', false)
         
-        if Router.current().params.group
-            @autorun => Meteor.subscribe 'doc', Router.current().params.group
-        if Router.current().params.group
-            @autorun => Meteor.subscribe 'doc_from_group', Router.current().params.group
-        # @autorun => Meteor.subscribe 'shop_from_group', Router.current().params.group
         @autorun => Meteor.subscribe 'group_tags',
             Router.current().params.group
             group_picked_tags.array()
             group_picked_time_tags.array()
             group_picked_location_tags.array()
             group_picked_author_tags.array()
-            # selected_group_authors.array()
+            group_picked_timestamp_tags.array()
             Session.get('toggle')
         @autorun => Meteor.subscribe 'group_count', 
             Router.current().params.group
@@ -314,6 +269,7 @@ if Meteor.isClient
             group_picked_time_tags.array()
             group_picked_location_tags.array()
             group_picked_author_tags.array()
+            group_picked_timestamp_tags.array()
         
         @autorun => Meteor.subscribe 'group_posts', 
             Router.current().params.group
@@ -321,50 +277,25 @@ if Meteor.isClient
             group_picked_time_tags.array()
             group_picked_location_tags.array()
             group_picked_author_tags.array()
+            group_picked_timestamp_tags.array()
             Session.get('group_sort_key')
             Session.get('group_sort_direction')
             Session.get('group_skip_value')
         
    
-    # Template.group.onCreated ->
-    #     if Router.current().params.group
-    #         @autorun => Meteor.subscribe 'doc', Router.current().params.group
-    #     if Router.current().params.group
-    #         @autorun => Meteor.subscribe 'doc_from_group', Router.current().params.group
-    #     # @autorun => Meteor.subscribe 'shop_from_group', Router.current().params.group
-    #     @autorun => Meteor.subscribe 'group_tags',
-    #         Router.current().params.group
-    #         group_picked_tags.array()
-    #         group_picked_time_tags.array()
-    #         group_picked_location_tags.array()
-    #         # selected_group_authors.array()
-    #         Session.get('toggle')
-    #     @autorun => Meteor.subscribe 'group_count', 
-    #         Router.current().params.group
-    #         group_picked_tags.array()
-    #         group_picked_time_tags.array()
-    #         group_picked_location_tags.array()
-        
-    #     @autorun => Meteor.subscribe 'group_posts', 
-    #         Router.current().params.group
-    #         group_picked_tags.array()
-    #         group_picked_time_tags.array()
-    #         group_picked_location_tags.array()
-    #         Session.get('group_sort_key')
-    #         Session.get('group_sort_direction')
-    #         Session.get('group_skip_value')
 
     Template.group.helpers
         posts: ->
-            # if Router.current().params.group is 'all'
-            #     Docs.find 
-            #         model:'post'
-            #         group:$exists:false
-            # else
-            Docs.find { 
-                model:'post'
+            group_param = Router.current().params.group
+            Docs.find({
                 group:Router.current().params.group
-            }, sort: _timestamp:-1
+                model:'post'
+                # group_lowered:group_param.toLowerCase()
+            },
+                sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+                limit:10
+                skip:Session.get('skip_value')
+            )
         # group_posts: ->
         #     Docs.find 
         #         model:'post'
@@ -374,12 +305,14 @@ if Meteor.isClient
         group_picked_location_tags: -> group_picked_location_tags.array()
         group_picked_people_tags: -> group_picked_people_tags.array()
         group_picked_author_tags: -> group_picked_author_tags.array()
+        group_picked_timestamp_tags: -> group_picked_timestamp_tags.array()
         
         counter: -> Counts.get 'counter'
         group_author_results: -> results.find(model:'group_author_tag')
         group_result_tags: -> results.find(model:'group_tag')
         time_tags: -> results.find(model:'time_tag')
         location_tags: -> results.find(model:'location_tag')
+        timestamp_tags: -> results.find(model:'timestamp_tag')
         current_group: -> Router.current().params.group
             
     # Template.group.events
@@ -523,9 +456,9 @@ if Meteor.isClient
     #         $('.search_group').val('')
 
 if Meteor.isClient
-    Template.post_edit.onCreated ->
+    Template.group_post_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
-    Template.post_view.onCreated ->
+    Template.group_post_view.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'comments', Router.current().params.doc_id
 
@@ -539,17 +472,16 @@ if Meteor.isServer
         group_picked_time_tags
         group_picked_location_tags
         group_picked_author_tags
+        group_picked_timestamp_tags
         )->
         match = {model:'post'}
-        if group is 'all'
-            match.group = $exists:false
-        else
-            match.group = group
+        match.group = group
             
         if group_picked_tags.length > 0 then match.tags = $all:group_picked_tags
         if group_picked_time_tags.length > 0 then match.time_tags = $all:group_picked_time_tags
         if group_picked_location_tags.length > 0 then match.location_tags = $all:group_picked_location_tags
         if group_picked_author_tags.length > 0 then match._author_username = $all:group_picked_author_tags
+        if group_picked_timestamp_tags.length > 0 then match.timestamp_tags = $all:group_picked_timestamp_tags
 
         Counts.publish this, 'counter', Docs.find(match)
         return undefined
@@ -560,6 +492,7 @@ if Meteor.isServer
         group_picked_time_tags
         group_picked_location_tags
         group_picked_author_tags
+        group_picked_timestamp_tags
         sort_key
         sort_direction
         skip=0
@@ -586,7 +519,7 @@ if Meteor.isServer
         if group_picked_time_tags.length > 0 then match.time_tags = $all:group_picked_time_tags
         if group_picked_location_tags.length > 0 then match.location_tags = $all:group_picked_location_tags
         if group_picked_author_tags.length > 0 then match._author_username = $all:group_picked_author_tags
-        # if selected_subgroup_domains.length > 0 then match.domain = $all:selected_subgroup_domains
+        if group_picked_timestamp_tags.length > 0 then match.timestamp_tags = $all:group_picked_timestamp_tags
         # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
         # console.log 'skip', skip
         Docs.find match,
@@ -652,6 +585,7 @@ if Meteor.isServer
         group_picked_time_tags
         group_picked_location_tags
         group_picked_author_tags
+        group_picked_timestamp_tags
         # selected_group_authors
         # view_bounties
         # view_unanswered
@@ -664,10 +598,7 @@ if Meteor.isServer
             # group:group
             # subgroup:subgroup
         }
-        if group is 'all'
-            match.group = $exists:false
-        else
-            match.group = group
+        match.group = group
 
         # if view_bounties
         #     match.bounty = true
@@ -678,6 +609,7 @@ if Meteor.isServer
         if group_picked_time_tags.length > 0 then match.time_tags = $all:group_picked_time_tags
         if group_picked_location_tags.length > 0 then match.location_tags = $all:group_picked_location_tags
         if group_picked_author_tags.length > 0 then match._author_username = $all:group_picked_author_tags
+        if group_picked_timestamp_tags.length > 0 then match.timestamp_tags = $all:group_picked_timestamp_tags
         # if selected_group_location.length > 0 then match.subgroup = $all:selected_group_location
         # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
         # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
