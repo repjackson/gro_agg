@@ -102,11 +102,11 @@ template(name='group_post_edit')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column.scrolling
-                    a.ui.icon.big.button(href="/g/#{group}/p/#{_id}" title='save')
-                        i.checkmark.big.icon
+                    a.ui.icon.circular.basic.big.button(href="/g/#{group}/p/#{_id}" title='save')
+                        i.checkmark.big.green.icon
                     .ui.inline.header 
                         i.pencil.icon
-                        |edit group post
+                        |edit post
                     i.large.link.red.remove.icon.delete_post
                     +image_edit key='image_id' label='image' direct=true
                     div 

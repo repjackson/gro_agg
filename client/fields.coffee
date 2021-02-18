@@ -94,6 +94,18 @@ Template.html_edit.events
             Docs.update parent._id,
                 $set:"#{@key}":html
 
+    'keyup .testsun': _.throttle((e,t)=>
+        html = t.editor.getContents(onlyContents: Boolean);
+        # console.log html
+        parent = Template.parentData()
+        Docs.update parent._id,
+            $set:"#{@key}":html
+        $('body').toast({
+            class: 'success',
+            message: "saved"
+        })
+
+    , 5000)
 
 Template.html_edit.helpers
         
