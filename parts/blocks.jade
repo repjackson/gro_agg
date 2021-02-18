@@ -257,9 +257,9 @@ template(name='big_user_card')
                     //- .meta @#{username}
                     //- +array_view key='tags' label='Tags' direct=true
 template(name='user_info')
-    a.ui.compact.basic.button(href="/u/#{user.username}/")
+    a.ui.image.basic.label(href="/u/#{user.username}/")
         if user.profile_image_id
-            img.ui.avatar.image(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
+            img.ui.avatar.image.superzoom(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
         //- .visible.content
         |#{user.shortname}
         // |@#{user.username}
@@ -381,14 +381,14 @@ template(name='voting_full')
     // unless is_author
     i.thumbs.up.large.big.link.icon.upvote(class=upvote_class title='upvote')
     // i.thumbs.down.large.big.link.icon.downvote(class=downvote_class title='downvote')
-    if points
-        |&nbsp;
-        span(title='points') #{points} pts
+    // if points
+    //     |&nbsp;
+    //     span(title='points') #{points} pts
         //- .ui.large.basic.label(title='anon points') #{anon_points} anon pts
     if upvoter_ids
         // div
-        .ui.small.grey.inline.header(title='upvoters')
-            i.thumbs.up.outline.green.icon
+        // .ui.small.grey.inline.header(title='upvoters')
+        //     i.thumbs.up.outline.green.icon
             //- |upvoters
         each upvoter_ids
             +user_info
