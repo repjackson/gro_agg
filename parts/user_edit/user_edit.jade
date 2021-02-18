@@ -1,7 +1,6 @@
 template(name='user_edit_layout')
     +nav
     .ui.bottom.attached.pushable.segment
-        +left_sidebar
         +right_sidebar
         #main_area.global_container.pusher(class=currentUser.invert_class)
             with current_user          
@@ -14,7 +13,7 @@ template(name='user_edit_layout')
                             .ui.small.inline.header @#{current_user.username}
                             img.ui.centered.medium.rounded.image(src="{{c.url profile_image_id height=400 width=400 gravity='face' crop='fill'}}")
                                 
-                            a.ui.green.button(href="/u/#{current_user.username}/") 
+                            a.ui.green.big.circular.button(href="/u/#{current_user.username}/") 
                                 i.checkmark.big.icon
                                 strong save
                             a.ui.basic.circular.button(href="/u/#{current_user.username}/edit/account" class="{{isActiveRoute 'user_edit_account'}}" title='account') 
@@ -163,12 +162,3 @@ template(name='username_edit')
         input.new_username(type='text' placeholder='new username...')
         i.play.link.icon.change_username
 
-
-template(name='user_edit_food')
-    .ui.header
-        +icolor name='food'
-        | food
-    .ui.header allergens
-    +array_edit key='allergens' label='allergens' direct=true
-    .ui.header dislikes
-    +array_edit key='food_dislikes' label='food dislikes' direct=true

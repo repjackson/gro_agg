@@ -6,10 +6,6 @@ template(name='profile_layout')
             with user
                 .ui.stackable.padded.grid
                     .four.wide.column
-                        .ui.small.fluid.basic.button.goto_users
-                            i.chevron.left.icon
-                            i.users.icon
-                            |users
                         span.mobile.only
                             a(href="/u/#{username}/")
                                 img.ui.centered.tiny.inline.spaced.circular.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")

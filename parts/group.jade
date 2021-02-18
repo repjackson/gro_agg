@@ -11,7 +11,7 @@ template(name='group')
                         i.remove.icon
                 each group_picked_tags
                     +group_unpick_tag
-            .ui.icon.input
+            .ui.icon.transparent.input
                 // if is_loading
                 //     i.yin.yang.loading.icon
                 // else
@@ -200,7 +200,7 @@ template(name='group_tag_picker')
         //     small #{count}
         
 template(name='group_unpick_tag')
-    a.group_unpick_tag.ui.black.image.big.label.profile_nav_item(href='#')
+    a.group_unpick_tag.ui.black.image.large.label.profile_nav_item(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -246,6 +246,7 @@ template(name='group_post_card_small')
             a.ui.big.icon.circular.basic.button(href="/g/#{group}/p/#{_id}")
                 i.right.chevron.big.icon
             +voting_full
+            +tip
             // | #{points}
             // i.thumbs.up.outline.grey.icon
             // | #{comments}
@@ -260,11 +261,6 @@ template(name='group_post_card_small')
                 a.ui.basic.label(href="/u/#{_author_username}")
                     i.large.user.outline.icon
                     |#{_author_username}
-            // i.dna.link.icon.call_watson
-            // if watson
-                
-                // span.inline.content
-                // span.inline.content
             if is_admin
                 +remove_button
                 +print_this
@@ -348,3 +344,10 @@ template(name='doc_item')
             //     +doc_emotion_small
             a.ui.inline.header(href="/u/#{data.author}")
                 |#{data.author}
+
+
+
+template(name='tip')
+    .ui.basic.button.tip
+        i.donate.icon
+        |tip 1p
