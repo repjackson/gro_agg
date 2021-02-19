@@ -120,6 +120,15 @@ template(name='love')
             .ui.stackable.four.centered.cards.scrolling
                 each expressions
                     .card
+                        if image_link
+                            a(href="/love/#{_id}/view")
+                                img.ui.zoomer.image(src=image_link)
+                        if image_id
+                            a(href="/love/#{_id}/view")
+                                img.ui.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                        if youtube_id
+                            +youtube_view key='youtube_id' label='youtube id' direct=true
+
                         .content 
                             .ui.tertiary.large.basic.circular.button.pick_l #{l_value}
                             .ui.tertiary.large.basic.circular.button.pick_o #{o_value}
@@ -206,13 +215,12 @@ template(name='love_view')
                         +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                         +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                 .eight.wide.column.scrolling
-                    .ui.big.header #{l_value}
-                    .ui.big.header #{o_value}
-                    .ui.big.header #{v_value}
-                    .ui.big.header #{e_value}
+                    .ui.big.inline.header #{l_value}
+                    .ui.big.inline.header #{o_value}
+                    .ui.big.inline.header #{v_value}
+                    .ui.big.inline.header #{e_value}
                     if image_link
-                        a(href="/#{group}")
-                            +image_link_view key='image_link' direct=true
+                        +image_link_view key='image_link' direct=true
                     if image_id
                         a(href="/#{group}")
                             img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
@@ -255,7 +263,7 @@ template(name='love_edit')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column.scrolling
-                    a.ui.icon.circular.basic.big.button(href="/love/#{_id}" title='save')
+                    a.ui.icon.circular.basic.big.button(href="/love/#{_id}/view" title='save')
                         i.checkmark.big.green.icon
                     .ui.inline.header 
                         i.pencil.icon
@@ -274,7 +282,7 @@ template(name='love_edit')
                     +text_edit key='l_value' label='l value' direct=true
                     +text_edit key='o_value' label='o value' direct=true
                     +text_edit key='v_value' label='v value' direct=true
-                    +text_edit key='e value' label='e value' direct=true
+                    +text_edit key='e_value' label='e value' direct=true
                     +html_edit key='content' label='content' direct=true
                     +image_link_edit key='image_link' direct=true
                     +youtube_edit key='youtube_id' label='youtube id' direct=true
