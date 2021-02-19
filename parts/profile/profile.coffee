@@ -33,11 +33,11 @@ if Meteor.isClient
         route_slug: -> "user_#{@slug}"
         user: -> Meteor.users.findOne username:Router.current().params.username
 
-    Template.profile_layout.onCreated ->
+    Template.user_dashboard.onCreated ->
         # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
         @autorun => Meteor.subscribe('model_docs', 'group_bookmark')
 
-    Template.profile_layout.helpers
+    Template.user_dashboard.helpers
         group_bookmarks: ->
             Docs.find {
                 model:'group_bookmark'

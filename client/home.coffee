@@ -51,6 +51,7 @@ Template.home.events
     'click .simple_on': (e,t)-> Session.set('simple',true)
         
     'click .search_tag': (e,t)->
+        Session.set('toggle',!Session.get('toggle'))
         $('.seg .pick_tag').transition({
             animation : 'pulse',
             duration  : 500,

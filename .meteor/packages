@@ -34,7 +34,6 @@ ecmascript@0.15.0
 tmeasday:publish-counts
 markdown
 zimme:active-route
-multiply:iron-router-progress
 http@1.4.2
 lepozepo:cloudinary
 dburles:collection-helpers

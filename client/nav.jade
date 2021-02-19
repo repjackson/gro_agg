@@ -1,16 +1,16 @@
 template(name='nav')
-    .ui.fluid.attached.borderless.four.item.menu.hscroll
+    .ui.fluid.attached.borderless.three.item.menu.hscroll
         // a.icon.item.toggle_sidebar
         //     i.bars.icon
         // a.icon.item.set_tarot(href="/s/tarot" class="{{isActiveRoute '/s/tarot'}}")
         //     i.moon.icon
             // |tarot
         a.icon.item(href="/" class="{{isActiveRoute '/'}}")
-            i.yin.yang.large.icon
+            i.yin.yang.big.icon
             // i.heart.icon
             // |home
         a.icon.item(href="/love" class="{{isActiveRoute '/love'}}")
-            i.heart.red.large.icon
+            i.heart.outline.big.icon
         if currentUser
             // if unread_count
             //     a.item.alerts.select_term(href="#" class=alert_toggle_class)
@@ -39,137 +39,22 @@ template(name='nav')
                     i.user.icon
                 strong.mobile.hidden #{currentUser.name}
                 |#{currentUser.points}p
-            a.icon.item.toggle_rightbar.select_term
-                i.ellipsis.vertical.icon
         else
-            a.item(href="/register" title='register')
-                i.plus.icon
-                |register
-                // +icon name='plus'
-                // i.chevron.right.icon
-            a.item(href="/login" title='login')
-                |login
+            // a.item(href="/register" title='register')
+            //     i.plus.icon
+            //     |register
+            //     // +icon name='plus'
+            //     // i.chevron.right.icon
+            a.icon.item(href="/login" title='login')
+                // |login
                 // +icon name='login-rounded-right'
-                i.chevron.right.icon
+                i.chevron.right.large.icon
 
 
 
             
-template(name='right_sidebar')
-    .ui.right.sidebar.vertical.borderless.menu
-        // a.item.toggle_rightbar(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_layout'}}")
-        //     img.ui.avatar.compact.image(src="{{c.url 'one_logo' height=200 width=200 gravity='face' crop='fill'}}")
-        //     |#{currentUser.name}
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/" class="{{isActiveRoute 'user_dashboard'}}")
-            | dashboard (#{currentUser.points}p)
-            i.dashboard.icon
-        
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/about" class="{{isActiveRoute 'user_about'}}")
-            | about
-            i.info.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/credits" class="{{isActiveRoute 'user_credits'}}")
-            | #{currentUser.total_credit_amount}p received
-            i.chevron.down.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/debits" class="{{isActiveRoute 'user_sent'}}")
-            | #{currentUser.total_debit_amount}p sent
-            i.chevron.up.icon
-            i.concierge.bell.icon
-        // a.item.toggle_rightbar(href="/u/#{currentUser.username}/orders" class="{{isActiveRoute 'user_orders'}}")
-        //     | orders
-        //     i.cart.icon
-        .ui.divider
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/edit" title='edit your account')
-            i.cog.icon
-            |settings
-        // a.item.toggle_nightmode.toggle_rightbar(href="#")
-        //     i.lightbulb.icon
-        //     |dark mode
-        a.item.logout(href="/u/#{currentUser.username}/messages" class="{{isActiveRoute 'user_messages'}}" )
-            |logout
-            if is_logging_out
-                i.refresh.loading.icon
-            else
-                i.sign.out.icon
-
-
-
-template(name='left_sidebar')
-    .ui.left.sidebar.vertical.borderless.menu
-        // a.item.toggle_sidebar(href="/" class="{{isActiveRoute '/'}}")
-        //     img.ui.avatar.compact.image(src="{{c.url 'one_logo' height=200 width=200 gravity='face' crop='fill'}}")
-        //     |One
-        // a.item.set_member.toggle_sidebar(href="/m/member" class="{{isActivePath 'm/member'}}" title='players')
-        a.item.set_member.toggle_sidebar(href="/users" class="{{isActivePath 'users'}}" title='users')
-            i.users.icon
-            | users
-        a.item.toggle_sidebar(href="/events" class="{{isActivePath '/events'}}")
-            i.calendar.icon
-            |events
-        a.item.toggle_sidebar(href="/m/request" class="{{isActivePath '/m/request'}}")
-            i.concierge.bell.icon
-            |requests
-        a.item.toggle_sidebar(href="/m/offer" class="{{isActivePath '/m/offer'}}")
-            i.hand.holding.heart.icon
-            |offers
-        a.item.toggle_sidebar.set_post(href="/m/post" class="{{isActivePath '/m/post'}}")
-            i.newspaper.icon
-            |news
-        // a.item.toggle_sidebar(href="/m/collective" class="{{isActivePath 'requests'}}")
-        //     i.users.icon
-        //     |collectives
-        a.item.toggle_sidebar.set_bug(href="/m/bug" class="{{isActivePath '/m/bug'}}")
-            i.bug.icon
-            |bugs
-        a.icon.item.toggle_sidebar.set_photo(href="/m/photo" class="{{isActivePath '/m/photo'}}" title='photos')
-            i.picture.icon
-            |photos  
-        a.icon.item.toggle_sidebar.set_expense(href="/m/expense" class="{{isActivePath '/m/expense'}}" title='expenses')
-            i.dollar.icon
-            |expenses            
-        // a.item.toggle_sidebar.set_rental(href="/m/rental" class="{{isActivePath regex='rentals'}}")
-        //     i.clock.icon
-        //     |rentals
-        // if has_badge 'facilitator'
-        // a.item.toggle_sidebar(href="/chat" class="{{isActivePath '/chat'}}" title='chat') 
-        //     |chat
-        //     i.chat.icon
-        // if is_eric
-        //     a.icon.item.toggle_dev.toggle_sidebar
-        //         |toggle dev
-        //         if is_dev
-        //             i.code.blue.icon
-        //         else
-        //             i.code.icon
-        if is_in_admin
-            a.icon.item.toggle_admin.toggle_sidebar
-                |toggle admin
-                if is_admin
-                    i.shield.blue.icon
-                else
-                    i.shield.icon
-            
-        if is_admin
-            // a.item.toggle_sidebar.set_badge(href="/m/badge" class="{{isActivePath 'badges'}}")
-            //     i.certificate.blue.icon
-            //     | badges
-            // a.item.toggle_sidebar.set_debit(href="/m/debit" class="{{isActivePath regex='rentals'}}")
-            //     i.gift.blue.icon
-            //     |gifts
-            .divider
-            // a.item.toggle_sidebar.set_project(href="/m/project" class="{{isActivePath regex='projects'}}")
-            //     i.tasks.blue.icon
-            //     | projects
-            // a.item.toggle_sidebar(href="/m/room" class="{{isActiveRoute 'requests'}}")
-            //     i.building.blue.icon
-            //     |rooms
-            a.blue.item.set_model.toggle_sidebar(href="/m/model" class="{{isActivePath '/m/model'}}")
-                |admin
-                i.database.blue.icon
-            a.item.set_user.toggle_sidebar(href="/m/user" class="{{isActiveRoute '/m/user'}}")
-                i.blue.users.icon
-                | all users
 
 template(name='not_found')
-    .ui.basic.center.aligned.segment
+    .ui.center.aligned.segment
         a(href="/discrete")
             i.massive.yin.yang.link.icon

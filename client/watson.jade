@@ -101,7 +101,7 @@ template(name='doc_emotion_small')
     span.rounde(style="height:3px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
     // .spacer
 template(name='call_watson')
-    button.ui.large.fluid.basic.circular.button.autotag
+    button.ui.large.fluid.circular.button.autotag
         i.dna.icon
         if current_doc.watson 
             i.checkmark.green.icon
@@ -198,7 +198,7 @@ template(name='keyword_list')
     .ui.small.grey.header 
         |#{watson_keywords.length} keywords
     each watson_keywords
-        .ui.large.basic.label #{this}
+        .ui.large.label #{this}
         span(class="{{calculated_size 'relevance'}}") #{this}
 
 
@@ -207,7 +207,7 @@ template(name='concept_list')
     .ui.small.grey.header 
         |#{watson_concepts.length} concepts
     each watson_concepts
-        .ui.large.basic.label #{this}
+        .ui.large.label #{this}
 
 
 
@@ -250,8 +250,8 @@ template(name='categories')
 //                     i.chevron.up.link.grey.large.icon.upvote_sentence
 //                     i.chevron.down.link.grey.large.icon.downvote_sentence
 //                     each tones
-//                         // .ui.basic.inverted.small.compact.label(class="{{calculated_size 'score'}} #{tone_label_class}") 
-//                         .ui.basic.inverted.small.compact.label(class="#{tone_label_class}") 
+//                         // .ui.inverted.small.compact.label(class="{{calculated_size 'score'}} #{tone_label_class}") 
+//                         .ui.inverted.small.compact.label(class="#{tone_label_class}") 
 //                             span.ui.text
 //                                 |#{tone_id} &nbsp;
 //                             | {{ to_percent score }}% 
@@ -304,83 +304,83 @@ template(name='watson_full')
         |categories
         each categories
             // +tag_picker
-            .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}    
+            .ui.small.pointer.add_stack_tag.tertiary.button #{this}    
     div 
     if Person 
         i.grey.users.icon
         .ui.inline.small.grey.header people
         each Person 
             // +tag_picker
-            .ui.small.basic.pointer.add_stack_tag.tertiary.button.pick_person #{this}
+            .ui.small.pointer.add_stack_tag.tertiary.button.pick_person #{this}
     div 
     if Company
         i.grey.briefcase.icon(title='company')
         .ui.inline.small.grey.header companies
         each Company 
             // +tag_picker
-            .ui.small.basic.pointer.add_stack_tag.tertiary.button.pick_company #{this}
+            .ui.small.pointer.add_stack_tag.tertiary.button.pick_company #{this}
     div 
     if TelevisionShow
         i.grey.video.icon(title='television show')
         // .ui.inline.small.grey.header television show
         each TelevisionShow 
-            .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}
+            .ui.small.pointer.add_stack_tag.tertiary.button #{this}
     div 
     if Broadcaster
         i.grey.video.icon(title='broadcaster')
         // .ui.inline.small.grey.header broadcaster
         each Broadcaster 
-            .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}
+            .ui.small.pointer.add_stack_tag.tertiary.button #{this}
     div 
     if Facility
         i.grey.building.icon(title='facility')
         // .ui.inline.small.grey.header facilities
         each Facility 
-            .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}
+            .ui.small.pointer.add_stack_tag.tertiary.button #{this}
     div 
     if HealthCondition
         i.grey.heartbeat.icon(title='health condition')
         .ui.inline.small.grey.header health condition
         each HealthCondition 
-            .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}
+            .ui.small.pointer.add_stack_tag.tertiary.button #{this}
     div 
     if Organization
         i.grey.users.icon
         // .ui.inline.small.grey.header organizations
         each Organization 
-            .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}
+            .ui.small.pointer.add_stack_tag.tertiary.button #{this}
     div 
     if Award
         i.grey.trophy.icon
         each Award 
-            .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}
+            .ui.small.pointer.add_stack_tag.tertiary.button #{this}
     div 
     if Location
         i.grey.marker.icon
         // .ui.inline.small.grey.header locations
         each Location 
             +flat_tag_picker
-            // .ui.small.basic.pointer.add_stack_tag.tertiary.button.pick_location #{this}
+            // .ui.small.pointer.add_stack_tag.tertiary.button.pick_location #{this}
     div 
     if PrintMedia
         i.grey.newspaper.icon(title='print media')
         each PrintMedia 
-            .ui.small.basic.pointer.add_stack_tag.tertiary.button #{this}
+            .ui.small.pointer.add_stack_tag.tertiary.button #{this}
     div 
     // each tone.result.sentences_tone 
     //     |#{sentence_id}:
     //     |#{text}
     //     each tones 
-    //         .ui.basic.pointer.add_stack_tag.tertiary.button #{tone_name}
+    //         .ui.pointer.add_stack_tag.tertiary.button #{tone_name}
     //     div
     //- .large-text    
     //-     |!{body}
     // .ui.inline.small.grey.header concepts
     each watson_concepts
-        .ui.tiny.basic.pointer.add_stack_tag.tertiary.button #{this}
+        .ui.tiny.pointer.add_stack_tag.tertiary.button #{this}
     // .ui.inline.small.grey.header keywords
     each watson_keywords
-        .ui.tiny.basic.pointer.add_stack_tag.tertiary.button #{this}
+        .ui.tiny.pointer.add_stack_tag.tertiary.button #{this}
     // |#{ups}
     // i.thumbs.up.outline.icon
     // |#{downs}

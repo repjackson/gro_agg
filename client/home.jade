@@ -11,13 +11,15 @@ template(name='home')
                                 i.large.fire.icon
                             else
                                 i.yin.yang.large.icon
-                        input.search_tag(type='text' value=query autofocus='' placeholder='search')
+                        input.search_tag(type='text' value=query autofocus='' placeholder='')
                     .ui.hidden.divider
                     +tag_select icon='food' tag='food'
                     +tag_select icon='dna' tag='biology'
                     +tag_select icon='heart' tag='love'
                     +tag_select icon='moon' tag='tarot'
                     +tag_select icon='dog' tag='dog'
+                    +tag_select icon='tv' tag='tv'
+                    +tag_select icon='leaf' tag='environment'
             if picked_tags
                 .ui.left.icon.large.transparent.input
                     if is_loading
@@ -61,7 +63,7 @@ template(name='home')
                 
 template(name='tag_picker')
     // a.ui.large.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    button.ui.basic.grey.large.tertiary.circular.button.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    button.ui.grey.large.tertiary.button.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
@@ -70,7 +72,7 @@ template(name='tag_picker')
         //     small #{count}
             
 template(name='unpick_tag')
-    button.unpick_tag.ui.black.compact.large.secondary.circular.button.invert
+    button.unpick_tag.ui.black.compact.large.secondary.button.invert
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -78,7 +80,7 @@ template(name='unpick_tag')
 
 template(name='flat_tag_picker')
     // a.ui.large.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.compact.small.basic.tertiary.circular.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.compact.small.tertiary.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -88,7 +90,7 @@ template(name='flat_tag_picker')
 
         
 template(name='tag_select')        
-    i.big.link.icon.select_tag(class=icon title=tag)
+    i.big.link.grey.circular.icon.select_tag(class=icon title=tag)
         
    
 template(name='post_card_small')
@@ -126,10 +128,10 @@ template(name='post_card_small')
                     i.chat.outline.icon
                 with subreddit
                     +flat_tag_picker
-                    // .ui.basic.label #{this}
+                    // .ui.label #{this}
                 each five_tags
                     +flat_tag_picker
-                a.ui.icon.compact.basic.button(href="https://www.reddit.com#{permalink}" target='_window' title=domain)
+                a.ui.icon.compact.button(href="https://www.reddit.com#{permalink}" target='_window' title=domain)
                     // |#{domain}
                     i.external.icon
                 // div
@@ -150,7 +152,7 @@ template(name='alpha')
             with response.queryresult
                 // .ui.label #{datatypes}
                 each split_datatypes
-                    .ui.button.basic.compact.buton.select_datatype
+                    .ui.button.compact.buton.select_datatype
                         |#{this}
                 // .ui.list
                     // .item success: #{success}

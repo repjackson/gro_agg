@@ -127,21 +127,6 @@ Template.nav.onRendered ->
             .sidebar('attach events', '.toggle_rightbar')
     , 1000
 
-Template.right_sidebar.events
-    'click .logout': ->
-        Session.set 'logging_out', true
-        Meteor.logout ->
-            Session.set 'logging_out', false
-            Router.go '/login'
-            
-    'click .toggle_nightmode': ->
-        if Meteor.user().invert_class is 'invert'
-            Meteor.users.update Meteor.userId(),
-                $set:invert_class:''
-        else
-            Meteor.users.update Meteor.userId(),
-                $set:invert_class:'invert'
-            
 
 Template.nav.helpers
     alert_toggle_class: ->

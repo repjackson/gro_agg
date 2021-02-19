@@ -519,7 +519,7 @@ template(name='array_edit')
     if field_value
         each field_value
             if currentUser
-                .ui.large.basic.label.touch_element
+                .ui.large.label.touch_element
                     i.delete.icon.remove_element
                     |#{this}
                 // .ui.compact.button.pick_tag
@@ -568,7 +568,7 @@ template(name='array_view')
             .ui.inline.small.grey.header(title=title)
                 |#{key}
         each field_value
-            .ui.basic.label.say_body #{this}
+            .ui.label.say_body #{this}
 
 
 template(name='children_edit')
