@@ -50,10 +50,12 @@ Meteor.methods
     #             $set: tags_string:tags_string
     #
     log_view: (doc_id)->
-        console.log 'logging view', doc_id
+        # console.log 'logging view', doc_id
         Docs.update doc_id, 
             $inc:views:1
-            
+        if Meteor.userId()
+            Docs.update doc_id,
+                $addToSet:viewer_ids:Meteor.userId()
 
 
     # log_term: (term_title)->

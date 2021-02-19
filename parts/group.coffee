@@ -163,9 +163,9 @@ if Meteor.isClient
         'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
         'click .set_list': (e,t)-> Session.set('view_layout', 'list')
      
-    Template.group_tag_picker.onCreated ->
+    Template.tip.onCreated ->
         # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
-        @autorun => Meteor.subscribe('model_docs', 'tip')
+        @autorun => Meteor.subscribe('post_tips', Router.current().params.doc_id)
 
     Template.tip.helpers
         tips: ->

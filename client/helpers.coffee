@@ -255,7 +255,10 @@ Template.registerHelper 'current_doc', () ->
     else if found_doc_by_slug
         found_doc_by_slug
 
-Template.registerHelper 'lowered_title', ()-> @data.title.toLowerCase()
+Template.registerHelper 'lowered_title', ()-> 
+    if @data
+        if @data.title
+            @data.title.toLowerCase()
 
 
 Template.registerHelper 'template_parent', () ->Template.parentData()

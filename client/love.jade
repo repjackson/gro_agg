@@ -98,7 +98,7 @@ template(name='love')
                             strong #{this}
                     each time_results
                         .ui.tiny.compact.basic.circular.button.pick_time #{name}
-                .center.aligned.column
+                .center.aligned.column.smallscroll
                     .ui.inline.header 
                         |#{expressions.count}
                     // i.large.clock.icon
@@ -117,9 +117,9 @@ template(name='love')
                         +love_tag_picker
         .ui.divider
         .sixteen.wide.column
-            .ui.stackable.four.column.centered.grid.scrolling
+            .ui.stackable.four.centered.cards.scrolling
                 each expressions
-                    .center.aligned.column
+                    .card
                         .content 
                             .ui.tertiary.large.basic.circular.button.pick_l #{l_value}
                             .ui.tertiary.large.basic.circular.button.pick_o #{o_value}
@@ -129,7 +129,7 @@ template(name='love')
                             i.thumbs.up.link.outline.icon.upvote
                             |#{points}
                             i.thumbs.down.link.outline.icon.downvote
-                            |#{when}
+                            |#{made_when}
                             // .ui.tiny.icon.input
                             //     i.grey.tag.icon
                             //     input.add_tag(type='text' placeholder='+')
@@ -185,8 +185,8 @@ template(name='love_view')
                 .four.wide.column
                     .ui.segmen
                         a.ui.large.icon.basic.circular.button(href="/love")
-                            i.chevron.left.big.icon
-                            
+                            i.chevron.left.large.icon
+                            i.big.heart.outline.icon
                         .ui.large.inline.header
                             each tags
                                 .ui.label #{this}
@@ -226,8 +226,18 @@ template(name='love_view')
                     +comments
                 .four.wide.column
                     .ui.header viewed by
+                    each viewer_ids
+                        +user_info
                     .ui.header tip
+                    +tip
                     .ui.header anon vote
+                    i.large.thumbs.up.icon.anon_voteup
+                    i.large.thumbs.down.icon.anon_votedown
                     .ui.header user vote
+                    if currentUser
+                        +voting_full
+                        // i.large.thumbs.up.icon.voteup
+                        // i.large.thumbs.down.icon.anon_votedown
+                        
                     .ui.header related links
                     .ui.button.search_dao search in dao
