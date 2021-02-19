@@ -439,5 +439,6 @@ Template.registerHelper 'can_edit', () ->
     # if @_author_id and Meteor.userId()
     # @_author_id is Meteor.userId()
     # if Meteor.user().roles
-    if Meteor.user()
-        if Meteor.user().roles and 'dev' in Meteor.user().roles or @_author_id is Meteor.userId() then true else false
+    # if Meteor.user()
+    #     if Meteor.user().roles and 'dev' in Meteor.user().roles or @_author_id is Meteor.userId() then true else false
+    Meteor.user()

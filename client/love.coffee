@@ -12,6 +12,13 @@ Router.route '/love/:doc_id/view', (->
     @render 'love_view'
     ), name:'love_view'
 
+Router.route '/love/:doc_id/edit', (->
+    @layout 'layout'
+    @render 'love_edit'
+    ), name:'love_edit'
+
+Template.love_edit.onCreated ->
+    @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 Template.love_view.onCreated ->
     Meteor.call 'log_view', Router.current().params.doc_id, ->
     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
