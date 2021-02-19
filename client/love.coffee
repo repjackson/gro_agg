@@ -13,13 +13,19 @@ Router.route '/love/:doc_id/view', (->
     ), name:'love_view'
 
 Template.love_view.onCreated ->
+    Meteor.call 'log_view', Router.current().params.doc_id, ->
     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-Template.love_view.helpers
-    doc_by_id: ->
-        Docs.findOne Router.current().params.doc_id
 
+Template.love_view.events
+    'click .search_dao': ->
+        picked_tags.clear()
+        picked_tags.push @l_value
+        picked_tags.push @o_value
+        picked_tags.push @v_value
+        picked_tags.push @e_value
+        Meteor.call 'search_reddit', picked_tags.array(), ->
+        Router.go '/'
 
-    
 Template.love.onCreated ->
     # Session.setDefault('subreddit_view_layout', 'grid')
     Session.setDefault('sort_key', 'data.created')
@@ -285,7 +291,7 @@ Template.love.events
         'click .pick_flat_tag': -> 
             # results.update
             # window.speechSynthesis.cancel()
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
             picked_tags.push @valueOf()
             $('.search_love').val('')
 

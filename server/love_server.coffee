@@ -127,7 +127,7 @@ Meteor.publish 'love_tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     love_tag_cloud.forEach (tag, i) ->
@@ -145,7 +145,7 @@ Meteor.publish 'love_tags', (
         # { $match: _id: $nin: picked_location }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     location_cloud.forEach (location, i) ->
@@ -163,7 +163,7 @@ Meteor.publish 'love_tags', (
         # { $match: _id: $nin: picked_time }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     # console.log match
@@ -184,7 +184,7 @@ Meteor.publish 'love_tags', (
         { $match: _id: $nin: picked_authors }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     author_cloud.forEach (author, i) ->
@@ -201,7 +201,7 @@ Meteor.publish 'love_tags', (
         { $match: _id: $nin: picked_l }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     l_cloud.forEach (l_tag, i) ->
@@ -217,7 +217,7 @@ Meteor.publish 'love_tags', (
         { $match: _id: $nin: picked_l }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     o_cloud.forEach (l_tag, i) ->
@@ -233,7 +233,7 @@ Meteor.publish 'love_tags', (
         { $match: _id: $nin: picked_l }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     v_cloud.forEach (v_tag, i) ->
@@ -249,7 +249,7 @@ Meteor.publish 'love_tags', (
         { $match: _id: $nin: picked_l }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     e_cloud.forEach (e_tag, i) ->

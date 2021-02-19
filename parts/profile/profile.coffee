@@ -18,7 +18,7 @@ if Meteor.isClient
     
     Template.profile_layout.onRendered ->
         Meteor.setTimeout ->
-            $('.profile_nav_item')
+            $('.no_blink')
                 .popup()
         , 1000
         user = Meteor.users.findOne(username:Router.current().params.username)

@@ -16,7 +16,7 @@ Template.body.events
     'click .say': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
-    'click a:not(.profile_nav_item)': ->
+    'click a:not(.no_blink)': ->
         $('.global_container')
             .transition('fade out', 200)
             .transition('fade in', 200)
@@ -37,8 +37,8 @@ Template.body.events
 
 Router.route '/', (->
     @layout 'layout'
-    @render 'home'
-    ), name:'home'
+    @render 'dao'
+    ), name:'dao'
 
 
 Router.route '/s/:search', (->
@@ -54,7 +54,7 @@ Router.route '/love', (->
 
 @picked_tags = new ReactiveArray []
 
-Template.home.onRendered ->
+Template.dao.onRendered ->
     if Router.current().params.search
         search = Router.current().params.search
         picked_tags.push search
@@ -110,31 +110,12 @@ Template.flat_tag_picker.events
 Template.nav.onCreated ->
     @autorun => Meteor.subscribe 'me'
 
-Template.nav.onRendered ->
-    # Meteor.setTimeout ->
-    #     $('.menu .item')
-    #         .popup()
-    # , 1000
-    Meteor.setTimeout ->
-        $('.ui.right.sidebar')
-            .sidebar({
-                context: $('.bottom.segment')
-                transition:'overlay'
-                exclusive:true
-                duration:200
-                scrollLock:true
-            })
-            .sidebar('attach events', '.toggle_rightbar')
-    , 1000
-
-
-Template.nav.helpers
-    alert_toggle_class: ->
-        if Session.get('viewing_alerts') then 'active' else ''
-        
 Template.nav.events
-    'click .view_profile': ->
-        Meteor.call 'calc_user_points', Meteor.userId()
+    'click .clear': ->
+        picked_tags.clear()
+    
+    # 'click .view_profile': ->
+    #     Meteor.call 'calc_user_points', Meteor.userId()
         
 Template.nav.helpers
     # unread_count: ->

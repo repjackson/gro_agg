@@ -1,4 +1,4 @@
-Template.home.onCreated ->
+Template.dao.onCreated ->
     @autorun -> Meteor.subscribe('alpha_combo',picked_tags.array())
     Session.setDefault('simple',true)
     Session.setDefault('toggle',false)
@@ -16,7 +16,7 @@ Template.home.onCreated ->
         Session.get('toggle')
         Session.get('nsfw_mode')
 
-Template.home.helpers
+Template.dao.helpers
     posts: ->
         Docs.find({
             model: 'rpost'
@@ -45,7 +45,7 @@ Template.tag_select.events
     
     
     
-Template.home.events
+Template.dao.events
     'click .simple_off': (e,t)-> Session.set('simple',false)
         
     'click .simple_on': (e,t)-> Session.set('simple',true)
@@ -204,6 +204,8 @@ Template.tag_picker.events
         , 5000
         
         
+Template.unpick_tag.onCreated ->
+    @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
 
 Template.unpick_tag.events
     'click .unpick_tag': -> 

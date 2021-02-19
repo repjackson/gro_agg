@@ -39,7 +39,36 @@ template(name='layout')
         #main_area.global_container.pusher
             +yield
     
-    // .ui.bottom.attached.pushable.segment
-    //     #main_area.pusher(class=currentUser.invert_class)
             
+template(name='nav')
+    .ui.fluid.attached.borderless.three.item.menu.hscroll
+        a.icon.red.item.clear(href="/love" class="{{isActiveRoute regex='love'}}")
+            i.heart.red.outline.big.icon
+        a.icon.item.clear(href="/" class="{{isActiveRoute 'dao'}}")
+            i.yin.yang.big.icon
+        if currentUser
+            if is_dev 
+                .icon.item
+                    i.code.icon
+            a.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_dashboard'}}")
+                if currentUser.profile_image_id
+                    if is_admin
+                        i.shield.icon(title='admin mode on')
+                    else
+                        img.ui.avatar.compact.image(src="{{c.url currentUser.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                else 
+                    i.user.icon
+                strong.mobile.hidden #{currentUser.name}
+                |#{currentUser.points}p
+        else
+            a.icon.item(href="/login" title='login')
+                i.chevron.right.large.icon
+
+
+
             
+
+template(name='not_found')
+    .ui.center.aligned.segment
+        a(href="/discrete")
+            i.massive.yin.yang.link.icon

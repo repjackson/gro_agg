@@ -16,10 +16,6 @@ Template.post_view.onRendered ->
 #     @render 'posts'
 #     ), name:'posts'
 
-Template.post_edit.helpers
-Template.post_view.helpers
-    doc_by_id: ->
-        Docs.findOne Router.current().params.doc_id
 Template.post_edit.events
     'click .delete_post': ->
         if confirm 'delete?'

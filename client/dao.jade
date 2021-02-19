@@ -1,25 +1,51 @@
-template(name='home')
+template(name='dao')
     .ui.stackable.grid
         .sixteen.wide.left.aligned.column.seg
             unless picked_tags
-                .ui.center.aligned.basic.segment.large_search
-                    .ui.icon.massive.input
-                        if is_loading
-                            i.yin.yang.loading.large.icon
-                        else
-                            if nsfw_mode
-                                i.large.fire.icon
-                            else
-                                i.yin.yang.large.icon
-                        input.search_tag(type='text' value=query autofocus='' placeholder='')
-                    .ui.hidden.divider
-                    +tag_select icon='food' tag='food'
-                    +tag_select icon='dna' tag='biology'
-                    +tag_select icon='heart' tag='love'
-                    +tag_select icon='moon' tag='tarot'
-                    +tag_select icon='dog' tag='dog'
-                    +tag_select icon='tv' tag='tv'
-                    +tag_select icon='leaf' tag='environment'
+                .ui.centered.grid
+                    .ten.wide.column
+                        .ui.center.aligned.basic.segment.large_search
+                            .ui.icon.massive.input
+                                if is_loading
+                                    i.yin.yang.loading.large.icon
+                                else
+                                    if nsfw_mode
+                                        i.large.fire.icon
+                                    else
+                                        i.yin.yang.large.icon
+                                input.search_tag(type='text' value=query autofocus='' placeholder='')
+                            .ui.hidden.divider
+                            +tag_select icon='food' tag='food'
+                            +tag_select icon='dna' tag='biology'
+                            +tag_select icon='heart' tag='love'
+                            +tag_select icon='moon' tag='tarot'
+                            +tag_select icon='dog' tag='dog'
+                            +tag_select icon='car' tag='car'
+                            +tag_select icon='bicycle' tag='bike'
+                            +tag_select icon='tv' tag='tv'
+                            +tag_select icon='leaf' tag='environment'
+                            +tag_select icon='beer' tag='beer'
+                            +tag_select icon='briefcase' tag='business'
+                            +tag_select icon='compass' tag='travel'
+                            +tag_select icon='hospital' tag='medical'
+                            +tag_select icon='coffee' tag='coffee'
+                            +tag_select icon='synagogue' tag='judaism'
+                            +tag_select icon='wine glass' tag='wine'
+                            +tag_select icon='school' tag='school'
+                            +tag_select icon='campground' tag='camping'
+                            +tag_select icon='ice cream' tag='ice cream'
+                            +tag_select icon='code' tag='code'
+                            +tag_select icon='meteor' tag='meteor'
+                            +tag_select icon='bitcoin' tag='bitcoin'
+                            +tag_select icon='skiing' tag='skiing'
+                            +tag_select icon='apple' tag='apple'
+                            +tag_select icon='audible' tag='audible'
+                            +tag_select icon='ethereum' tag='ethereum'
+                            +tag_select icon='github' tag='github'
+                            +tag_select icon='imdb' tag='imdb'
+                            +tag_select icon='html5' tag='html'
+                            +tag_select icon='imdb' tag='imdb'
+                            +tag_select icon='wikipedia' tag='wikipedia'
             if picked_tags
                 .ui.left.icon.large.transparent.input
                     if is_loading
@@ -72,7 +98,7 @@ template(name='tag_picker')
         //     small #{count}
             
 template(name='unpick_tag')
-    button.unpick_tag.ui.black.compact.large.secondary.button.invert
+    button.unpick_tag.ui.black.compact.circular.large.secondary.button
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -90,15 +116,15 @@ template(name='flat_tag_picker')
 
         
 template(name='tag_select')        
-    i.big.link.grey.circular.icon.select_tag(class=icon title=tag)
+    i.big.link.grey.icon.select_tag.tag_select_class(class=icon title=tag)
         
    
 template(name='post_card_small')
     .center.aligned.column.smallscroll
-        .content.zoomer.card_small.invert
+        .content.zoomer.card_small
             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
             // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
-            a.ui.invert.small.header.thin.title.zoomer(href="/p/#{_id}")
+            a.ui.small.header.thin.title.zoomer(href="/p/#{_id}")
                 |#{lowered_title}
             
             // a(href="/p/#{_id}" target='_window')
@@ -107,21 +133,20 @@ template(name='post_card_small')
             span.ui.text {{ufrom data.created}}
             .spacer
             if embed
-                span.rounded.full.invert
+                span.rounded.full
                     |!{embed}
                 div
             else if is_image
                 a(href="/p/#{_id}" target='_window')
-                    img.ui.fluid.rounded.image.zoomer.toggle_view.invert(src="/p/#{_id}")
+                    img.ui.fluid.rounded.image.zoomer(src=data.url)
             else if watson.metadata.image
-                img.ui.rounded.image.pointer.invert.call_meta(src=watson.metadata.image)
-                    
+                img.ui.rounded.image.pointer(src=watson.metadata.image)
             else if data.thumbnail_width
                 a(href="/p/#{_id}" target='_window')
-                    img.ui.fluid.rounded.image.zoomer.invert(src=data.thumbnail)    
+                    img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
             unless simple
-                i.chevron.down.icon.dl.invert
-                span.invert
+                i.chevron.down.icon.dl
+                span
                     |#{ups}
                     i.thumbs.up.outline.icon
                     |#{comment_count}
@@ -135,13 +160,13 @@ template(name='post_card_small')
                     // |#{domain}
                     i.external.icon
                 // div
-                .ui.tiny.invert.transparent.left.icon.input
+                .ui.tiny.transparent.left.icon.input
                     i.tag.icon
                     input.add_tag(type='text' placeholder='...')
             .ui.hidden.divider   
             if data.selftext_html
                 unless simple
-                    span.invert.smallscroll
+                    span.smallscroll
                         |{{#markdown}} !{data.selftext_html} {{/markdown}}
                         
                         
@@ -187,7 +212,7 @@ template(name='alpha')
                         // .ui.list
                         each subpods
                             .ui.small.inline.header #{title}
-                            img.ui.zoomer.pointer.image.invert.alphatemp(src=img.src)
+                            img.ui.zoomer.pointer.image.alphatemp(src=img.src)
                             // .item.alphatemp
                             // span.say #{plaintext}
                             // .item title: #{title}

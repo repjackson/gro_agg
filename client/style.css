@@ -18,6 +18,19 @@ body {
   /*background: #0e0e44 !important; */
 }
 
+.tag_select_class {
+  margin:15px !important;
+  transform: scale(1.2) !important;
+}
+.tag_select_class:hover {
+    animation: fadein .25s !important;
+    animation: fadeout .25s; 
+    transition: all .15s ease !important; 
+    /*cursor: help !important;*/
+    /*color: black !important; */
+    transform: scale(1.5) !important;
+}
+
 a {
   /*color: black !important;*/
 }
@@ -298,9 +311,6 @@ html.ios body {
 /*    top: 290px;*/
 /*  }*/
 }
-input
-
-
 
 .centered {
     text-align: center !important;
@@ -451,14 +461,14 @@ img:active {
 
 .superzoom {
     /*animation: fadeout .25s; */
-    /*transition: all .15s ease !important; */
+    transition: all .15s ease !important; 
     z-index:1000 !important;
 }
 .superzoom:active {
     transform: scale(1.5) !important;
 }
 .superzoom:hover {
-    /*transition: all .15s ease !important; */
+    transition: all .15s ease !important; 
     transform: scale(2) !important;
     /*transform: rotate(20deg) !important;*/
     z-index:1000 !important;
@@ -625,7 +635,7 @@ a.title, #title {
 
 input {
     /*margin: 10px !important;*/
-    /*border-radius: 10px !important; */
+    border-radius: 10px !important; 
 }
 
 ::-webkit-scrollbar {
