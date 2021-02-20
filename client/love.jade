@@ -98,9 +98,9 @@ template(name='love')
                             strong #{this}
                     each time_results
                         .ui.tiny.compact.basic.circular.button.pick_time #{name}
-                .ui.inline.header 
-                    |#{love_counter}
                 .center.aligned.column.smallscroll
+                    .ui.inline.header 
+                        |#{love_counter}
                     // i.large.clock.icon
                     // i.large.thumbs.up.icon
                     if picked_tags
@@ -154,9 +154,9 @@ template(name='love')
                             if author
                                 i.grey.user.outline.icon
                                 |#{author}
-                            a.ui.icon.compact.basic.circular.button(href="/love/#{_id}/view")
+                            a.ui.icon.large.basic.circular.button(href="/love/#{_id}/view")
                                 |#{views}
-                                i.chevron.right.icon
+                                i.chevron.right.large.icon
                                     
                                 
                                 

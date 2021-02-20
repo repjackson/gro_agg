@@ -242,8 +242,8 @@ html.ios body {
   /*border-radius: 20px !important;*/
 }
 .item.active {
-  background: black !important;
-  color:white !important;
+  /*background: black !important;*/
+  /*color:white !important;*/
   /*filter: invert(1) !important; */
 }  
   

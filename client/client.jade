@@ -41,11 +41,11 @@ template(name='layout')
     
             
 template(name='nav')
-    .ui.fluid.attached.borderless.three.item.menu.hscroll
-        a.icon.red.item.clear(href="/love" class="{{isActiveRoute regex='love'}}")
+    .ui.fluid.attached.borderless.two.item.menu.hscroll
+        a.icon.red.item.clear(href="/" class="{{isActiveRoute regex='home'}}")
             i.heart.red.outline.big.icon
-        a.icon.item.clear(href="/" class="{{isActiveRoute 'dao'}}")
-            i.yin.yang.big.icon
+        // a.icon.item.clear(href="/" class="{{isActiveRoute 'dao'}}")
+        //     i.yin.yang.big.icon
         if currentUser
             if is_dev 
                 .icon.item

@@ -37,14 +37,10 @@ Template.body.events
 
 Router.route '/', (->
     @layout 'layout'
-    @render 'dao'
-    ), name:'dao'
+    @render 'love'
+    ), name:'home'
 
 
-Router.route '/s/:search', (->
-    @layout 'layout'
-    @render 'home'
-    ), name:'search'
 
 Router.route '/love', (->
     @layout 'layout'
@@ -54,58 +50,7 @@ Router.route '/love', (->
 
 @picked_tags = new ReactiveArray []
 
-Template.dao.onRendered ->
-    if Router.current().params.search
-        search = Router.current().params.search
-        picked_tags.push search
-        Session.set('loading',true)
-        Meteor.call 'search_reddit', picked_tags.array(), ->
-            Session.set('loading',false)
 
-Template.alpha.onRendered ->
-    # unless @data.watson
-    #     Meteor.call 'call_watson', @data._id, 'url','url',->
-    # if @data.response
-    # window.speechSynthesis.cancel()
-    # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[1].plaintext
-    if @data 
-        if @data.voice
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @data.voice
-        else if @data.response.queryresult.pods
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[0].plaintext
-    # Meteor.setTimeout( =>
-    # , 7000)
-
-Template.alpha.helpers
-    alphas: ->
-        Docs.find
-            model:'alpha'
-    
-    split_datatypes: ->
-        split = @datatypes.split ','
-        split
-
-Template.alpha.events
-    'click .select_datatype': ->
-        picked_tags.push @valueOf().toLowerCase()
-    'click .alphatemp': ->
-        window.speechSynthesis.cancel()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @plaintext
-        
-
-        
-
-
-Template.flat_tag_picker.events
-    'click .pick_flat_tag': -> 
-        # results.update
-        # window.speechSynthesis.cancel()
-        picked_tags.push @valueOf().toLowerCase()
-        $('.search_home').val('')
-        Session.set('loading',true)
-        Meteor.call 'search_reddit', picked_tags.array(), ->
-            Session.set('loading',false)
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
     
 Template.nav.onCreated ->
     @autorun => Meteor.subscribe 'me'
