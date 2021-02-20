@@ -4,7 +4,18 @@ template(name='stats')
             .ui.header 
                 i.line.chart.icon
                 |stats
-            .ui.header #{comment_count} comments
-            .ui.header #{reflection_count} reflections
-            .ui.header #{definitions} definitions
-            .ui.header #{user_counter} users
+            .ui.header 
+                i.chat.icon
+                |#{comment_count} comments
+            .ui.header 
+                i.reply.icon
+                |#{reflection_count} reflections
+            .ui.header 
+                i.heart.outline.icon
+                |#{definition_count} definitions
+            .ui.header 
+                i.users.icon
+                |#{user_count} users
+            .ui.header 
+                i.donate.icon
+                |#{tip_count} tips
