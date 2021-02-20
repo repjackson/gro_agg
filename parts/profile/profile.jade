@@ -116,6 +116,8 @@ template(name='user_dashboard')
                 .ui.header 
                     i.newspaper.icon
                     |posts
+                each posts
+                    a.ui.header(href="/love/#{_id}/view") #{title} #{made_when}
                 .ui.header 
                     i.donate.icon
                     |tips

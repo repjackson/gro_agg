@@ -389,14 +389,14 @@ template(name='voting_full')
         div
         .ui.small.grey.inline.header(title='upvoters')
             i.thumbs.up.outline.green.icon
-            |upvoters
+            // |upvoters
         each upvoter_ids
             +user_info
     if downvoter_ids
         div
         .ui.small.grey.inline.header(title='downvoters')
             i.thumbs.down.outline.icon
-            |downvoters
+            // |downvoters
         each downvoter_ids
             +user_info
 

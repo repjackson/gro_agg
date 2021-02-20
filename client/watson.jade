@@ -359,8 +359,8 @@ template(name='watson_full')
         i.grey.marker.icon
         // .ui.inline.small.grey.header locations
         each Location 
-            +flat_tag_picker
-            // .ui.small.pointer.add_stack_tag.tertiary.button.pick_location #{this}
+            // +flat_tag_picker
+            .ui.small.pointer.add_stack_tag.tertiary.button.pick_location #{this}
     div 
     if PrintMedia
         i.grey.newspaper.icon(title='print media')
