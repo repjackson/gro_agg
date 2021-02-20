@@ -10,6 +10,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'user_count'
         @autorun => Meteor.subscribe 'comment_count'
         @autorun => Meteor.subscribe 'tip_count'
+        @autorun => Meteor.subscribe 'post_count'
         
         
     Template.stats.helpers
@@ -18,6 +19,7 @@ if Meteor.isClient
         comment_count: -> Counts.get 'comment_count'
         definition_count: -> Counts.get 'definition_count'
         tip_count: -> Counts.get 'tip_count'
+        post_count: -> Counts.get 'post_count'
     
 
 if Meteor.isServer
@@ -59,6 +61,19 @@ if Meteor.isServer
         # match.tags = $all:picked_tags
         # if picked_tags.length
         Counts.publish this, 'tip_count', Docs.find(match)
+        return undefined
+    
+    Meteor.publish 'post_count', (
+        # picked_tags
+        # toggle
+        )->
+        match = {
+            model:'post'
+        }
+    
+        # match.tags = $all:picked_tags
+        # if picked_tags.length
+        Counts.publish this, 'post_count', Docs.find(match)
         return undefined
     
     

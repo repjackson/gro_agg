@@ -76,16 +76,17 @@ if Meteor.isClient
        
         current_group: -> Router.current().params.group
         posts: ->
-            group_param = Router.current().params.group
-            Docs.find({
-                group:Router.current().params.group
-                model:'post'
-                # group_lowered:group_param.toLowerCase()
-            },
-                sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
-                limit:10
-                skip:Session.get('skip_value')
-            )
+            if Meteor.userId()
+                group_param = Router.current().params.group
+                Docs.find({
+                    group:Router.current().params.group
+                    model:'post'
+                    # group_lowered:group_param.toLowerCase()
+                },
+                    sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+                    limit:10
+                    skip:Session.get('skip_value')
+                )
         # group_posts: ->
         #     Docs.find 
         #         model:'post'

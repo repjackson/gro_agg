@@ -3,7 +3,7 @@ template(name='login')
         .centered.row
             .eight.wide.column
                 .ui.center.aligned.basic.segment
-                    i.big.heart.icon
+                    i.big.yin.yang.icon
                     .ui.inline.grey.header login
                 div
                 if message
@@ -23,7 +23,7 @@ template(name='login')
                 if logging_in
                     .spacer
                     .ui.fluid.big.basic.button.enter(title="login #{username}" class=enter_class)
-                        |login
+                        // |login
                         strong #{username}
                         |&nbsp;
                         i.sign.in.alternate.icon
@@ -48,22 +48,8 @@ template(name='register')
                         
                     // div
                     // +icon name='circled' cl='ui inline image'
-                    i.big.heart.red.icon
+                    i.big.yin.yang.icon
                     .ui.big.inline.header register
-                //- if message
-                //-     h4.ui.center.aligned.header #{message}
-                // .ui.fluid.input(class=login_class)
-                //     input.last_name(type='text')
-                // .ui.small.inline.header 
-                //     i.mail.icon
-                //     |email
-                // .ui.fluid.icon.input(class=login_class)
-                //     //- if email_valid
-                //     if email_valid
-                //         i.checkmark.large.green.icon
-                //     else
-                //         i.ban.orange.large.icon
-                //     input.email_field(type='email')
                 .ui.header 
                     i.user.outline.icon
                     |username

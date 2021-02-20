@@ -2,11 +2,11 @@ if Meteor.isClient
     Router.route '/u/:username', (->
         @layout 'profile_layout'
         @render 'user_dashboard'
-        ), name:'user_dash'
-    Router.route '/u/:username/reflections', (->
+        ), name:'user_dashboard'
+    Router.route '/u/:username/comments', (->
         @layout 'profile_layout'
-        @render 'user_reflections'
-        ), name:'user_reflections'
+        @render 'user_comments'
+        ), name:'user_comments'
     Router.route '/u/:username/posts', (->
         @layout 'profile_layout'
         @render 'user_posts'
@@ -16,7 +16,90 @@ if Meteor.isClient
         @render 'user_tips'
         ), name:'user_tips'
 
+    Template.user_dashboard.onCreated ->
+        @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_commentss', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'user_debits', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'user_checkins', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'user_child_referrals', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'user_requests', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'user_completed_requests', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'user_event_tickets', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'model_docs', 'event'
+        # @autorun -> Meteor.subscribe 'all_users'
+        
+    Template.user_dashboard.events
+        'click .user_credit_segment': ->
+            Router.go "/debit/#{@_id}/view"
+            
+        'click .user_debit_segment': ->
+            Router.go "/debit/#{@_id}/view"
+            
+        'click .user_checkin_segment': ->
+            Router.go "/drink/#{@drink_id}/view"
+            
+            
+            
+    Template.user_dashboard.helpers
+        user_referred: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            Meteor.users.find 
+                referrer:current_user._id
+        user_comments: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find {
+                model:'comment'
+                _author_id: current_user._id
+            }, 
+                limit: 10
+                sort: _timestamp:-1
+        user_debits: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find {
+                model:'debit'
+                _author_id: current_user._id
+            }, 
+                limit: 10
+                sort: _timestamp:-1
+        user_credits: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find {
+                model:'debit'
+                recipient_id: current_user._id
+            }, 
+                sort: _timestamp:-1
+                limit: 10
 
+        user_requests: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find {
+                model:'request'
+                _author_id: current_user._id
+            }, 
+                sort: _timestamp:-1
+                limit: 10
+
+        user_completed_requests: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find {
+                model:'request'
+                completed_by_user_id: current_user._id
+            }, 
+                sort: _timestamp:-1
+                limit: 10
+
+        user_event_tickets: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find {
+                model:'transaction'
+                transaction_type:'ticket_purchase'
+            }, 
+                sort: _timestamp:-1
+                limit: 10
+
+
+        
+        
     Template.profile_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
     
@@ -26,11 +109,11 @@ if Meteor.isClient
                 .popup()
         , 1000
         user = Meteor.users.findOne(username:Router.current().params.username)
-        # Meteor.call 'calc_user_stats', user._id, ->
-        # Meteor.setTimeout ->
-        #     if user
-        #         Meteor.call 'recalc_one_stats', user._id, ->
-        # , 2000
+        Meteor.setTimeout ->
+            if user
+                Meteor.call 'calc_user_stats', user._id, ->
+                Meteor.call 'log_user_view', user._id, ->
+        , 2000
 
 
     Template.profile_layout.helpers
@@ -180,6 +263,12 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.methods
+        log_user_view: (user_id)->
+            if Meteor.user()
+                unless user_id is Meteor.userId()
+                    Meteor.users.update user_id,
+                        $inc:profile_views:1
+            
         # calc_test_sessions: (user_id)->
         #     user = Meteor.users.findOne user_id
         #     now = Date.now()
@@ -523,3 +612,45 @@ if Meteor.isServer
                     # one_ratio: one_ratio
                     # total_fulfilled_amount:total_fulfilled_amount
                     # fulfilled_count:fulfilled_count
+                    
+                    
+if Meteor.isServer
+    Meteor.publish 'user_child_referrals', (username)->
+        user = Meteor.users.findOne username:username
+        Meteor.users.find({
+            referrer:user._id
+            # _author_id:user._id
+        },{
+            limit:20
+            sort: _timestamp:-1
+        })
+        
+    Meteor.publish 'user_debits', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find({
+            model:'debit'
+            _author_id:user._id
+        },{
+            limit:20
+            sort: _timestamp:-1
+        })
+        
+    Meteor.publish 'user_posts', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find({
+            model:'post'
+            _author_id:user._id
+        },{
+            limit:20
+            sort: _timestamp:-1
+        })
+    Meteor.publish 'user_comments', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find({
+            model:'comment'
+            _author_id:user._id
+        },{
+            limit:20
+            sort: _timestamp:-1
+        })
+        

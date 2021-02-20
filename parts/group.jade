@@ -67,17 +67,22 @@ template(name='group')
             .ui.icon.basic.button
                 i.chat.icon
             .scrolling
-                if posts.count
-                    if skv_is 'view_layout' 'grid'
-                        .ui.stackable.two.cards 
+                if currentUser
+                    if posts.count
+                        if skv_is 'view_layout' 'grid'
+                            .ui.stackable.two.cards 
+                                each posts
+                                    +group_post_card
+                        else if skv_is 'view_layout' 'list'
                             each posts
-                                +group_post_card
-                    else if skv_is 'view_layout' 'list'
-                        each posts
-                            +doc_item
-                else
-                    .ui.left.aligned.basic.segment
-                        i.massive.grey.loading.yin.yang.icon
+                                +doc_item
+                    else
+                        .ui.left.aligned.basic.segment
+                            i.massive.grey.loading.yin.yang.icon
+                else 
+                    a.ui.large.basic.button(href="/login")
+                        i.sign.in.icon
+                        |login to view group posts
         .four.wide.left.aligned.column.scrollng.seg
             // +alpha
             .ui.fluid.basic.button.add_post
