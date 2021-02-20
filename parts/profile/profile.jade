@@ -52,6 +52,9 @@ template(name='profile_layout')
                         a.ui.compact.basic.tertiary.button.select_term.no_blink(href="/u/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
                             i.large.dashboard.icon
                             span dashboard
+                        a.ui.basic.compact.tertiary.button.select_term.no_blink(href="/u/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} posts")
+                            i.newspaper.down.icon
+                            span posts
                         a.ui.basic.compact.tertiary.button.select_term.no_blink(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
                             i.large.chevron.down.icon
                             span pts received
@@ -98,32 +101,34 @@ template(name='user_dashboard')
     .ui.stackable.grid
         .row
             .sixteen.wide.column
-                .ui.small.header 
-                    label goto/create group
-                .ui.input
-                    input.goto_group(type='text' placeholder='name')
-                each group_bookmarks
-                    a.ui.basic.big.label(href="/g/#{name}")
-                        i.remove.icon
-                        |#{name}
-                //- .ui.icon.button.refresh_user_stats(title='refresh stats')
-                //-     i.refresh.icon
+                if currentUser
+                    .ui.small.header 
+                        label goto/create group
+                    .ui.input
+                        input.goto_group(type='text' placeholder='name')
+                    each group_bookmarks
+                        .ui.basic.big.label
+                            i.remove.icon.remove_group
+                            span.pointer.click_group
+                                |#{name}
+                    //- .ui.icon.button.refresh_user_stats(title='refresh stats')
+                    //-     i.refresh.icon
             
-                .ui.header 
-                    i.chat.icon
-                    |comments
-                .ui.header 
-                    i.newspaper.icon
-                    |posts
-                .ui.link.list
-                    each posts
-                        a.ui.item(href="/love/#{_id}/view") 
-                            |#{title} #{made_when}
-                            each tags 
-                                .ui.mini.basic.label #{this}
-                .ui.header 
-                    i.donate.icon
-                    |tips
+                    .ui.header 
+                        i.chat.icon
+                        |comments
+                    .ui.header 
+                        i.newspaper.icon
+                        |posts
+                    .ui.link.list
+                        each posts
+                            a.ui.item(href="/love/#{_id}/view") 
+                                |#{title} #{made_when}
+                                each tags 
+                                    .ui.mini.basic.label #{this}
+                    .ui.header 
+                        i.donate.icon
+                        |tips
                 .ui.link.list
                     each tips
                         a.ui.item(href="/love/#{_id}/view") 

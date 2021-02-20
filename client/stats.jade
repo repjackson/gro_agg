@@ -1,0 +1,10 @@
+template(name='stats')
+    .ui.padded.grid
+        .ui.sixteen.wide.column
+            .ui.header 
+                i.line.chart.icon
+                |stats
+            .ui.header #{comment_count} comments
+            .ui.header #{reflection_count} reflections
+            .ui.header #{definitions} definitions
+            .ui.header #{user_counter} users

@@ -1,8 +1,36 @@
+Meteor.publish 'stats', ()->
+    Docs.find 
+        model:'stats'
+
 Meteor.publish 'love_reflections', (doc_id)->
     Docs.find
         model:'reflection'
         parent_id:doc_id
 
+Meteor.publish 'user_count', (
+    # picked_tags
+    # toggle
+    )->
+    match = {
+        # model:'rpost'
+    }
+
+    # match.tags = $all:picked_tags
+    Counts.publish this, 'user_counter', Meteor.users.find(match)
+    return undefined
+
+Meteor.publish 'reflection_count', (
+    # picked_tags
+    # toggle
+    )->
+    match = {
+        model:'reflection'
+    }
+
+    # match.tags = $all:picked_tags
+    # if picked_tags.length
+    Counts.publish this, 'reflection_counter', Docs.find(match)
+    return undefined
 
 Meteor.publish 'love_count', (
     picked_tags

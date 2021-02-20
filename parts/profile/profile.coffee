@@ -55,13 +55,30 @@ if Meteor.isClient
             Docs.find {
                 model:'tip'
                 _author_id:user._id
-            }, sort:search_amount:-1
+            }, sort:amount:-1
+                
+        reflections: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find {
+                model:'reflections'
+                _author_id:user._id
+            }, sort:_timestamp:-1
+        comments: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find {
+                model:'comment'
+                _author_id:user._id
+            }, sort:_timestamp:-1
                 
     Template.profile_layout.events
         'click a.select_term': ->
             $('.profile_yield')
                 .transition('fade out', 200)
                 .transition('fade in', 200)
+        'click .click_group': (e,t)->
+            # $('.label')
+            #     .transition('fade out', 200)
+            Router.go "/g/#{@name}"
         'keyup .goto_group': (e,t)->
             if e.which is 13
                 val = $('.goto_group').val()
@@ -79,15 +96,17 @@ if Meteor.isClient
                         name:val
                 # $('.header')
                 #     .transition('scale', 200)
-                $('.global_container')
-                    .transition('scale', 400)
+                # $('.global_container')
+                #     .transition('scale', 400)
                 Router.go "/g/#{val}"
                 # target_user = Meteor.users.findOne(username:Router.current().params.username)
                 # Docs.insert
                 #     model:'debit'
                 #     body: val
                 #     target_user_id: target_user._id
-
+        'click .remove_group': ->
+            if confirm 'remove group?'
+                Docs.remove @_id
         # 'click .goto_users': ->
         #     $('.global_container')
         #         .transition('fade right', 500)
