@@ -6,7 +6,7 @@ if Meteor.isClient
         
         
     Template.user_dashboard.onCreated ->
-        # @autorun -> Meteor.subscribe 'user_credits', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_debits', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_checkins', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_child_referrals', Router.current().params.username
@@ -107,10 +107,10 @@ if Meteor.isServer
             sort: _timestamp:-1
         })
         
-    Meteor.publish 'user_checkins', (username)->
+    Meteor.publish 'user_posts', (username)->
         user = Meteor.users.findOne username:username
         Docs.find({
-            model:'drink_checkin'
+            model:'post'
             _author_id:user._id
         },{
             limit:20

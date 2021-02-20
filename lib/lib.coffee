@@ -5,7 +5,7 @@
 # @Tag_results = new Meteor.Collection 'tag_results'
 Router.configure
     layoutTemplate: 'layout'
-    notFoundTemplate: 'home'
+    notFoundTemplate: 'not_found'
     loadingTemplate: 'splash'
     trackPageView: false
 

@@ -32,7 +32,6 @@ template(name='profile_layout')
                         .ui.basic.label #{flow_volume} volume
                         if is_dev
                             .ui.small.inline.header #{_id}
-
                         unless is_current_user
                             if currentUser
                                 // div
@@ -116,11 +115,21 @@ template(name='user_dashboard')
                 .ui.header 
                     i.newspaper.icon
                     |posts
-                each posts
-                    a.ui.header(href="/love/#{_id}/view") #{title} #{made_when}
+                .ui.link.list
+                    each posts
+                        a.ui.item(href="/love/#{_id}/view") 
+                            |#{title} #{made_when}
+                            each tags 
+                                .ui.mini.basic.label #{this}
                 .ui.header 
                     i.donate.icon
                     |tips
+                .ui.link.list
+                    each tips
+                        a.ui.item(href="/love/#{_id}/view") 
+                            |#{title} #{made_when}
+                            each tags 
+                                .ui.mini.basic.label #{this}
         .three.column.row
             .column
                 a.ui.inline.header(href="/u/#{username}/credits")

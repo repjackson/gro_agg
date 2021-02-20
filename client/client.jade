@@ -41,11 +41,11 @@ template(name='layout')
     
             
 template(name='nav')
-    .ui.fluid.attached.borderless.two.item.menu.hscroll
-        a.icon.red.item.clear(href="/" class="{{isActiveRoute regex='home'}}")
-            i.heart.red.outline.big.icon
-        // a.icon.item.clear(href="/" class="{{isActiveRoute 'dao'}}")
-        //     i.yin.yang.big.icon
+    .ui.fluid.attached.borderless.three.item.inverted.menu.hscroll
+        a.icon.item.clear(href="/" class="{{isActiveRoute regex='home'}}")
+            i.heart.red.big.icon
+        a.icon.item.clear(href="/stats" class="{{isActiveRoute 'stats'}}")
+            i.line.chart.big.icon
         if currentUser
             if is_dev 
                 .icon.item
@@ -61,6 +61,8 @@ template(name='nav')
                 strong.mobile.hidden #{currentUser.name}
                 |#{currentUser.points}p
         else
+            // a.icon.item(href="/register" title='login')
+            //     i.user.plus.large.icon
             a.icon.item(href="/login" title='login')
                 i.chevron.right.large.icon
 
@@ -70,5 +72,5 @@ template(name='nav')
 
 template(name='not_found')
     .ui.center.aligned.segment
-        a(href="/discrete")
-            i.massive.yin.yang.link.icon
+        a(href="/")
+            i.massive.heart.red.link.icon

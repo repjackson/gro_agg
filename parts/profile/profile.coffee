@@ -39,9 +39,22 @@ if Meteor.isClient
 
     Template.user_dashboard.helpers
         group_bookmarks: ->
+            user = Meteor.users.findOne username:Router.current().params.username
             Docs.find {
                 model:'group_bookmark'
-                _author_id:Meteor.userId()
+                _author_id:user._id
+            }, sort:search_amount:-1
+        posts: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find {
+                model:'post'
+                _author_id:user._id
+            }, sort:search_amount:-1
+        tips: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find {
+                model:'tip'
+                _author_id:user._id
             }, sort:search_amount:-1
                 
     Template.profile_layout.events
