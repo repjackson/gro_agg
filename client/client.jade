@@ -35,13 +35,12 @@ head
 template(name='layout')
     // +status
     +nav
-    .ui.bottom.attached.pushable.segment
-        #main_area.global_container.pusher
-            +yield
+    #main_area.global_container.pusher
+        +yield
     
             
 template(name='nav')
-    .ui.fluid.attached.borderless.three.item.inverted.menu.hscroll
+    .ui.fluid.attached.borderless.inverted.three.item.menu.hscroll
         a.icon.item.clear(href="/" class="{{isActiveRoute regex='home'}}")
             i.heart.red.big.icon
         a.icon.item.clear(href="/stats" class="{{isActiveRoute 'stats'}}")
@@ -71,6 +70,6 @@ template(name='nav')
             
 
 template(name='not_found')
-    .ui.center.aligned.segment
+    .ui.center.aligned.basic.segment
         a(href="/")
-            i.massive.heart.red.link.icon
+            i.massive.heart.red.link.icon.pulse

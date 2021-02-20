@@ -11,7 +11,7 @@ body {
   -webkit-font-smoothing: antialiased; 
   -moz-osx-font-smoothing: grayscale;
 
-  background: rgba(200,200,200,1) !important;
+  background: rgba(249,249,249,1) !important;
   /*filter: invert(1) !important; */
   /*overscroll-behavior: none; */
   /*transition: all .15s ease !important;*/
@@ -353,7 +353,7 @@ html.ios body {
 
 .rounded {
   border-radius: 10px !important; 
-  padding: 10px !important; 
+  /*padding: 10px !important; */
 }
 
 .card {
@@ -366,8 +366,7 @@ a.goto_article {
 }
 
 .ui.button:not(.circular) { 
-    /*border-radius: 10px !important; */
-    /*border-radius: 10px !important;*/
+    border-radius: 15px !important; 
 }
 .ui.button {
   margin: 2px !important;
@@ -427,6 +426,14 @@ a.goto_article {
 a:active {
   transform: scale(.97) !important;
 }
+
+.pulse:active {
+  transform: scale(.97) !important;
+}
+.pulse:hover {
+  transform: scale(1.1) !important;
+}
+
 img, .image {
   /*border-radius:10px !important;*/
 }
@@ -501,8 +508,8 @@ a.title, #title {
     /*border-radius: 10px !important;*/
 }
 
-/*.invert{*/
-  /*filter: invert(1) !important; */
+/*.invert, img, input {*/
+/*  filter: invert(1) !important; */
 /*}*/
 .left.floated{
     margin:3px !important;

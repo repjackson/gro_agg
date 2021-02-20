@@ -16,10 +16,10 @@ Template.body.events
     'click .say': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
-    # 'click a:not(.no_blink)': ->
-    #     $('.global_container')
-    #         .transition('fade out', 200)
-    #         .transition('fade in', 200)
+    'click a:not(.no_blink)': ->
+        $('.global_container')
+            .transition('fade out', 200)
+            .transition('fade in', 200)
         
         
 # Template.say.events
