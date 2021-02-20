@@ -2,15 +2,19 @@ if Meteor.isClient
     Router.route '/u/:username', (->
         @layout 'profile_layout'
         @render 'user_dashboard'
-        ), name:'profile_layout'
-    Router.route '/u/:username/about', (->
+        ), name:'user_dash'
+    Router.route '/u/:username/reflections', (->
         @layout 'profile_layout'
-        @render 'user_about'
-        ), name:'user_about'
-    Router.route '/u/:username/contact', (->
+        @render 'user_reflections'
+        ), name:'user_reflections'
+    Router.route '/u/:username/posts', (->
         @layout 'profile_layout'
-        @render 'user_contact'
-        ), name:'user_contact'
+        @render 'user_posts'
+        ), name:'user_posts'
+    Router.route '/u/:username/tips', (->
+        @layout 'profile_layout'
+        @render 'user_tips'
+        ), name:'user_tips'
 
 
     Template.profile_layout.onCreated ->

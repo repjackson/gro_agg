@@ -19,17 +19,10 @@ Template.registerHelper 'abs_percent', (num) ->
     parseInt(Math.abs(num*100))
 Template.registerHelper 'selected_tags', () -> selected_tags.array()
 Template.registerHelper 'selected_models', () -> selected_models.array()
-Template.registerHelper 'selected_subreddits', () -> selected_subreddits.array()
+Template.registerHelper 'selected_groups', () -> selected_groups.array()
 Template.registerHelper 'selected_emotions', () -> selected_emotions.array()
     
 Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
-
-Template.registerHelper 'rcomments', (doc_id)->
-    post = Docs.findOne Router.current().params.doc_id
-    # console.log 'comments for ', post
-    Docs.find
-        model:'rcomment'
-        parent_id:"t3_#{post.reddit_id}"
 
     
 Template.registerHelper 'trunc', (input) ->
@@ -64,50 +57,15 @@ Template.registerHelper 'tag_term', () ->
 
 
 
-Template.registerHelper 'session', () -> Session.get(@key)
-
-
 Template.registerHelper 'skip_is_zero', ()-> Session.equals('skip', 0)
 Template.registerHelper 'one_post', ()-> Counts.get('result_counter') is 1
 Template.registerHelper 'two_posts', ()-> Counts.get('result_counter') is 2
 Template.registerHelper 'key_value', (key,value)-> @["#{key}"] is value
 
-Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
-Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 
-
-Template.registerHelper 'field_value', () ->
-    # console.log @
-    parent = Template.parentData()
-    parent5 = Template.parentData(5)
-    parent6 = Template.parentData(6)
-
-
-    if @direct
-        parent = Template.parentData()
-    else if parent5
-        if parent5._id
-            parent = Template.parentData(5)
-    else if parent6
-        if parent6._id
-            parent = Template.parentData(6)
-    # console.log 'parent', parent
-    if parent
-        parent["#{@key}"]
 
 Template.registerHelper 'lowered', (input)-> input.toLowerCase()
 Template.registerHelper 'money_format', (input)-> (input/100).toFixed()
-
-Template.registerHelper 'session_key_value_is', (key, value) ->
-    # console.log 'key', key
-    # console.log 'value', value
-    Session.equals key,value
-
-Template.registerHelper 'key_value_is', (key, value) ->
-    # console.log 'key', key
-    # console.log 'value', value
-    @["#{key}"] is value
-
 
 Template.registerHelper 'template_subs_ready', () ->
     Template.instance().subscriptionsReady()
@@ -125,8 +83,6 @@ Template.registerHelper 'fixed', (number)->
     number.toFixed(2)
     # (number*100).toFixed()
 
-Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
-Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 
 Template.registerHelper 'session_is', (key)->
     Session.get(key)
@@ -143,34 +99,15 @@ Template.registerHelper 'medium_date', (input)-> moment(input).format("dddd, MMM
 Template.registerHelper 'today', -> moment(Date.now()).format("dddd, MMMM Do a")
 Template.registerHelper 'int', (input)-> input.toFixed(0)
 Template.registerHelper 'made_when', ()-> moment(@_timestamp).fromNow()
-Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
 Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
 
 Template.registerHelper 'current_month', ()-> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', ()-> moment(Date.now()).format("DD")
 
 
-Template.registerHelper 'loading_class', ()->
-    if Session.get 'loading' then 'disabled' else ''
-
-# Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
-
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
 Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
-Template.registerHelper 'loading_class', ()->
-    if Session.get 'loading' then 'disabled' else ''
-Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
 Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
-
-Template.registerHelper 'embed', ()->
-    if @data and @data.media and @data.media.oembed and @data.media.oembed.html
-        dom = document.createElement('textarea')
-        # dom.innerHTML = doc.body
-        dom.innerHTML = @data.media.oembed.html
-        return dom.value
-        # Docs.update @_id,
-        #     $set:
-        #         parsed_selftext_html:dom.value
 
 
 
@@ -208,9 +145,6 @@ Template.registerHelper 'comments', ()->
         parent_id:@_id
         
 
-Template.registerHelper 'ruser_doc', () ->
-    Docs.findOne 
-        model:'ruser'
 
 Template.registerHelper 'user_class', () ->
     if @online then 'user_online'
@@ -220,29 +154,7 @@ Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 
 
 
-# Template.registerHelper 'field_value', () ->
-#     # console.log @
-#     parent = Template.parentData()
-#     # console.log 'parent', parent
-#     if parent
-#         parent["#{@key}"]
-
-
-
 Template.registerHelper 'is_logging_out', () -> Session.get('logging_out')
-
-Template.registerHelper 'is_image', ()->
-    if @data.domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
-        true
-    else 
-        false
-Template.registerHelper 'has_thumbnail', ()->
-    console.log @data.thumbnail
-    @data.thumbnail.length > 0
-
-Template.registerHelper 'is_youtube', ()->
-    @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
-
 
 
 Template.registerHelper 'current_doc', () ->
@@ -265,27 +177,14 @@ Template.registerHelper 'template_parent', () ->Template.parentData()
 Template.registerHelper 'field_value', () ->
     # console.log @
     parent = Template.parentData()
-    parent5 = Template.parentData(5)
-    parent6 = Template.parentData(6)
 
-
-    if @direct
-        parent = Template.parentData()
-    else if parent5
-        if parent5._id
-            parent = Template.parentData(5)
-    else if parent6
-        if parent6._id
-            parent = Template.parentData(6)
-    # console.log 'parent', parent
+    # if @direct
+    parent = Template.parentData()
     if parent
         parent["#{@key}"]
 
 Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()
 
-
-Template.registerHelper 'lowered', (input)-> input.toLowerCase()
-Template.registerHelper 'money_format', (input)-> (input/100).toFixed()
 
 Template.registerHelper 'session_key_value_is', (key, value) ->
     # console.log 'key', key
@@ -320,42 +219,9 @@ Template.registerHelper 'to_percent', (number)->
     # console.log number
     (number*100).toFixed()
 
-Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
-Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
-
 
 Template.registerHelper 'session_is', (key)->
     Session.get(key)
-
-# Template.registerHelper 'is_loading', -> Session.get 'loading'
-# Template.registerHelper 'long_time', (input)-> 
-#         console.log 'long time', input
-#         moment(input).format("h:mm a")
-# Template.registerHelper 'long_date', (input)-> moment.unix(input).format("dddd, MMMM Do h:mm a")
-# Template.registerHelper 'home_long_date', (input)-> moment.unix(input).format("dd, MMM Do h:mm a")
-# Template.registerHelper 'short_date', (input)-> moment(input).format("dddd, MMMM Do")
-# Template.registerHelper 'med_date', (input)-> moment(input).format("MMM D 'YY")
-# # Template.registerHelper 'medium_date', (input)-> moment(input).format("MMMM Do YYYY")
-# Template.registerHelper 'medium_date', (input)-> moment(input).format("dddd, MMMM Do")
-# Template.registerHelper 'today', -> moment(Date.now()).format("dddd, MMMM Do a")
-# Template.registerHelper 'int', (input)-> input.toFixed(0)
-# Template.registerHelper 'made_when', ()-> moment(@_timestamp).fromNow()
-# Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
-# Template.registerHelper 'trump_date', (input)-> moment(input).format("dd, MMM Do YYYY, h:mm a")
-# Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
-
-# Template.registerHelper 'current_month', ()-> moment(Date.now()).format("MMMM")
-# Template.registerHelper 'current_day', ()-> moment(Date.now()).format("DD")
-
-
-Template.registerHelper 'loading_class', ()->
-    if Session.get 'loading' then 'disabled' else ''
-
-# Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
-
-Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
-
-Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
 
 
 Template.registerHelper 'loading_class', ()->
@@ -363,16 +229,11 @@ Template.registerHelper 'loading_class', ()->
 
 Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
 
-Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
-        
-        
         
 Template.registerHelper 'is_in_admin', () ->
     Meteor.user() and Meteor.userId() in ['vwCi2GTJgvBJN5F6c','EYGz4bDSAdWF3W4wi']
 Template.registerHelper 'is_this_user', () ->
     Meteor.userId() is @_id
-Template.registerHelper 'is_in_levels', (level) ->
-    Meteor.user() and Meteor.user().levels and level in Meteor.user().levels
 Template.registerHelper 'current_user', () ->
     Meteor.users.findOne username:Router.current().params.username
 
@@ -395,10 +256,6 @@ Template.registerHelper 'target', () ->
 Template.registerHelper 'to', () ->
     Meteor.users.findOne @to_user_id
     
-Template.registerHelper 'shift_leader', () ->
-    Meteor.users.findOne @leader_user_id
-Template.registerHelper 'product', () ->
-    Docs.findOne @product_id
 Template.registerHelper 'upvote_class', () ->
     if Meteor.userId()
         if @upvoter_ids and Meteor.userId() in @upvoter_ids then 'green' else 'outline'

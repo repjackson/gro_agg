@@ -49,22 +49,25 @@ template(name='profile_layout')
                                 i.red.gift.large.icon
                                 span send pts
                     .twelve.wide.column
-                        a.ui.compact.basic.tertiary.button.select_term.no_blink(href="/u/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
+                        a.ui.basic.tertiary.button.select_term.no_blink(href="/u/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
                             i.large.dashboard.icon
                             span dashboard
-                        a.ui.basic.compact.tertiary.button.select_term.no_blink(href="/u/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} posts")
+                        a.ui.basic.tertiary.button.select_term.no_blink(href="/u/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} posts")
                             i.newspaper.down.icon
                             span posts
-                        a.ui.basic.compact.tertiary.button.select_term.no_blink(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
+                        a.ui.basic.tertiary.button.select_term.no_blink(href="/u/#{username}/reflections" class="{{isActiveRoute 'user_reflections'}}" title="#{user.username} reflections")
+                            i.reply.icon
+                            span reflections
+                        a.ui.basic.tertiary.button.select_term.no_blink(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
                             i.large.chevron.down.icon
                             span pts received
-                        a.ui.basic.compact.tertiary.button.select_term.no_blink(href="/u/#{username}/debits" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
+                        a.ui.basic.tertiary.button.select_term.no_blink(href="/u/#{username}/debits" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
                             i.large.gift.icon
                             span pts sent
-                        a.ui.basic.compact.tertiary.button.select_term.no_blink(href="/u/#{username}/credit" class="{{isActiveRoute 'user_credit'}}" title="#{user.username} credit")
+                        a.ui.basic.tertiary.button.select_term.no_blink(href="/u/#{username}/credit" class="{{isActiveRoute 'user_credit'}}" title="#{user.username} credit")
                             i.large.dollar.icon
                             span credit
-                        a.ui.basic.compact.tertiary.button.select_term.no_blink(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
+                        a.ui.basic.tertiary.button.select_term.no_blink(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
                             i.users.large.icon
                             span friends
                         if is_dev

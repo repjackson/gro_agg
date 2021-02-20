@@ -49,7 +49,7 @@ template(name='nav')
             if is_dev 
                 .icon.item
                     i.code.icon
-            a.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_dashboard'}}")
+            a.item(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
                 if currentUser.profile_image_id
                     if is_admin
                         i.shield.icon(title='admin mode on')
