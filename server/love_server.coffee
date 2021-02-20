@@ -1,3 +1,9 @@
+Meteor.publish 'love_reflections', (doc_id)->
+    Docs.find
+        model:'reflection'
+        parent_id:doc_id
+
+
 Meteor.publish 'love_count', (
     picked_tags
     picked_authors
@@ -19,7 +25,7 @@ Meteor.publish 'love_count', (
     if picked_v.length > 0 then match.v_value = $all:picked_v
     if picked_e.length > 0 then match.e_value = $all:picked_e
 
-    Counts.publish this, 'counter', Docs.find(match)
+    Counts.publish this, 'love_counter', Docs.find(match)
     return undefined
             
 Meteor.publish 'expressions', (

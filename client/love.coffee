@@ -17,11 +17,34 @@ Router.route '/love/:doc_id/edit', (->
     @render 'love_edit'
     ), name:'love_edit'
 
+Router.route '/reflection/:doc_id/edit', (->
+    @layout 'layout'
+    @render 'reflection_edit'
+    ), name:'reflection_edit'
+
+Router.route '/reflection/:doc_id/view', (->
+    @layout 'layout'
+    @render 'reflection_view'
+    ), name:'reflection_view'
+
+Template.reflection_edit.onCreated ->
+    @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+Template.reflection_view.onCreated ->
+    @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+
 Template.love_edit.onCreated ->
     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 Template.love_view.onCreated ->
     Meteor.call 'log_view', Router.current().params.doc_id, ->
     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    @autorun => Meteor.subscribe 'love_reflections', Router.current().params.doc_id
+
+Template.love_view.helpers
+    reflections: ->
+        Docs.find
+            model:'reflection'
+            parent_id:Router.current().params.doc_id
+
 
 Template.love_view.events
     'click .search_dao': ->
@@ -35,7 +58,7 @@ Template.love_view.events
 
 Template.love.onCreated ->
     # Session.setDefault('subreddit_view_layout', 'grid')
-    Session.setDefault('sort_key', 'data.created')
+    Session.setDefault('sort_key', '_timestamp')
     Session.setDefault('sort_direction', -1)
     # Session.setDefault('location_query', null)
     @autorun => Meteor.subscribe 'love_tags',
@@ -89,7 +112,7 @@ Template.love.helpers
     picked_locations: -> picked_locations.array()
     picked_authors: -> picked_authors.array()
     picked_times: -> picked_times.array()
-    counter: -> Counts.get 'counter'
+    love_counter: -> Counts.get 'love_counter'
     
     result_tags: -> results.find(model:'love_tag')
     author_results: -> results.find(model:'author')
@@ -101,6 +124,13 @@ Template.love.helpers
     e_results: -> results.find(model:'e_tag')
         
         
+Template.love_view.events
+    'click .add_reflection': ->
+        new_id = 
+            Docs.insert 
+                model:'reflection'
+                parent_id:Router.current().params.doc_id
+        Router.go "/reflection/#{new_id}/edit"
 Template.love.events
     'click .upvote': ->
         Docs.update @_id,
