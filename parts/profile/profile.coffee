@@ -123,7 +123,7 @@ if Meteor.isClient
         'click .refresh_user_stats': ->
             user = Meteor.users.findOne(username:Router.current().params.username)
             # Meteor.call 'calc_user_stats', user._id, ->
-            Meteor.call 'recalc_one_stats', user._id, ->
+            Meteor.call 'recalc_user_stats', user._id, ->
             Meteor.call 'calc_user_tags', user._id, ->
     
     Template.profile_layout.events
@@ -403,7 +403,7 @@ if Meteor.isServer
 
 
 
-        recalc_one_stats: (user_id)->
+        recalc_user_stats: (user_id)->
             user = Meteor.users.findOne user_id
             unless user
                 user = Meteor.users.findOne username
@@ -419,74 +419,90 @@ if Meteor.isServer
             #         user_id: user_id
             #     student_stats_doc = Docs.findOne new_stats_doc_id
 
-            debits = Docs.find({
-                model:'debit'
-                amount:$exists:true
-                _author_id:user_id})
-            debit_count = debits.count()
-            total_debit_amount = 0
-            for debit in debits.fetch()
-                total_debit_amount += debit.amount
+            # debits = Docs.find({
+            #     model:'debit'
+            #     amount:$exists:true
+            #     _author_id:user_id})
+            # debit_count = debits.count()
+            # total_debit_amount = 0
+            # for debit in debits.fetch()
+            #     total_debit_amount += debit.amount
 
-            console.log 'total debit amount', total_debit_amount
+            # console.log 'total debit amount', total_debit_amount
 
-            fulfilled_requests = Docs.find({
-                model:'request'
-                point_bounty:$exists:true
-                claimed_user_id:user_id
-                complete:true
+            tips_out = Docs.find({
+                model:'tip'
+                _author_id: user_id
             })
-            fulfilled_count = fulfilled_requests.count()
-            total_fulfilled_amount = 0
-            for fulfilled in fulfilled_requests.fetch()
-                total_fulfilled_amount += fulfilled.point_bounty
+            tips_out_count = tips_out.count()
+            console.log 'tips out count', tips_out_count
+            
+            total_tips_out_amount = 0
+            for tip in tips_out.fetch()
+                if tip.amount
+                    total_tips_out_amount += tip.amount
             
             
-            requested = Docs.find({
-                model:'request'
-                point_bounty:$exists:true
-                _author_id:user_id
-                published:true
+            tips_in = Docs.find({
+                model:'post'
+                _author_id: user_id
+                # tip_total: $exists: true
             })
-            authored_count = requested.count()
-            total_request_amount = 0
-            for request in requested.fetch()
-                total_request_amount += request.point_bounty
+            tips_in_count = tips_in.count()
+            console.log 'tips in count', tips_in_count
+            
+            total_tips_in_amount = 0
+            for post in tips_in.fetch()
+                if post.tip_total
+                    total_tips_in_amount += post.tip_total
             
             
-            credits = Docs.find({
-                model:'debit'
-                amount:$exists:true
-                recipient_id:user_id})
-            credit_count = credits.count()
-            total_credit_amount = 0
-            for credit in credits.fetch()
-                total_credit_amount += credit.amount
+            # posts = Docs.find({
+            #     model:'post'
+            #     _author_id:user_id
+            #     # published:true
+            # })
+            # post_count = posts.count()
+            # total_request_amount = 0
+            # for request in requested.fetch()
+            #     total_request_amount += request.point_bounty
+            
+            
+            # credits = Docs.find({
+            #     model:'debit'
+            #     amount:$exists:true
+            #     recipient_id:user_id})
+            # credit_count = credits.count()
+            # total_credit_amount = 0
+            # for credit in credits.fetch()
+            #     total_credit_amount += credit.amount
 
-            console.log 'total credit amount', total_credit_amount
-            calculated_user_balance = total_credit_amount-total_debit_amount
-
+            console.log 'total tips in amount', total_tips_in_amount
+            console.log 'total tips out amount', total_tips_out_amount
+            tip_balance = total_tips_in_amount - total_tips_out_amount
+            
+            console.log 'total tip balance', tip_balance
             # average_credit_per_student = total_credit_amount/student_count
             # average_debit_per_student = total_debit_amount/student_count
-            flow_volume = Math.abs(total_credit_amount)+Math.abs(total_debit_amount)
-            flow_volumne =+ total_fulfilled_amount
-            flow_volumne =+ total_request_amount
+            # flow_volume = Math.abs(total_credit_amount)+Math.abs(total_debit_amount)
+            # flow_volumne =+ total_fulfilled_amount
+            # flow_volumne =+ total_request_amount
             
             
-            points = total_credit_amount-total_debit_amount+total_fulfilled_amount-total_request_amount
+            # points = total_credit_amount-total_debit_amount+total_fulfilled_amount-total_request_amount
             # points =+ total_fulfilled_amount
             # points =- total_request_amount
             
-            if total_debit_amount is 0 then total_debit_amount++
-            if total_credit_amount is 0 then total_credit_amount++
-            # debit_credit_ratio = total_debit_amount/total_credit_amount
-            unless total_debit_amount is 1
-                unless total_credit_amount is 1
-                    one_ratio = total_debit_amount/total_credit_amount
-                else
-                    one_ratio = 0
-            else
-                one_ratio = 0
+            # if total_debit_amount is 0 then total_debit_amount++
+            # if total_credit_amount is 0 then total_credit_amount++
+            # # debit_credit_ratio = total_debit_amount/total_credit_amount
+            # unless total_debit_amount is 1
+            #     unless total_credit_amount is 1
+            #         one_ratio = total_debit_amount/total_credit_amount
+            #     else
+            #         one_ratio = 0
+            # else
+            #     one_ratio = 0
                     
             # dc_ratio_inverted = 1/debit_credit_ratio
 
@@ -497,12 +513,13 @@ if Meteor.isServer
 
             Meteor.users.update user_id,
                 $set:
-                    credit_count: credit_count
-                    debit_count: debit_count
-                    total_credit_amount: total_credit_amount
-                    total_debit_amount: total_debit_amount
-                    flow_volume: flow_volume
-                    points:points
-                    one_ratio: one_ratio
-                    total_fulfilled_amount:total_fulfilled_amount
-                    fulfilled_count:fulfilled_count
+                    points:tip_balance
+                    # credit_count: credit_count
+                    # debit_count: debit_count
+                    # total_credit_amount: total_credit_amount
+                    # total_debit_amount: total_debit_amount
+                    # flow_volume: flow_volume
+                    # points:points
+                    # one_ratio: one_ratio
+                    # total_fulfilled_amount:total_fulfilled_amount
+                    # fulfilled_count:fulfilled_count
