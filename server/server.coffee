@@ -199,7 +199,7 @@ Meteor.publish 'posts', (
     #             $set:addedauthors:date_array
     
            
-Meteor.publish 'tags', (
+Meteor.publish 'dao_tags', (
     picked_tags
     picked_times
     picked_locations

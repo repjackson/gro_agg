@@ -143,6 +143,7 @@ Meteor.publish 'me', ()->
                 username:1
                 profile_image_id:1
                 points:1
+                roles:1
     else
         []
 

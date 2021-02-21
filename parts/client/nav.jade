@@ -4,9 +4,13 @@ template(name='nav')
             i.bars.icon
     
         a.icon.item.blink.clear(href="/" class="{{isActiveRoute regex='home'}}")
-            i.yin.yang.big.icon
+            i.yin.yang.large.icon
         a.icon.item.blink.clear(href="/stats" class="{{isActiveRoute 'stats'}}")
-            i.line.chart.big.icon
+            i.line.chart.large.icon
+        a.icon.item.blink.clear(href="/reddit" class="{{isActiveRoute 'reddit'}}")
+            i.reddit.large.icon
+        a.icon.item.blink.clear(href="/stack" class="{{isActiveRoute 'stack'}}")
+            i.stack.exchange.large.icon
         if currentUser
             if is_dev 
                 .icon.item
@@ -22,8 +26,10 @@ template(name='nav')
                         i.outline.bell.icon
                 a.icon.item(href="/chat" title='chat') 
                     i.chat.outline.icon
-                a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
-                    i.inbox.icon
+                // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
+                //     i.inbox.icon
+                a.icon.item(href="/u/#{currentUser.username}/credit" class="{{isActivePath 'user_credit'}}" title="#{user.username} credit")
+                    i.money.icon
             
                 a.item(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
                     if currentUser.profile_image_id
@@ -126,21 +132,24 @@ template(name='left_sidebar')
         a.item.set_member.toggle_sidebar.no_blink(href="/users" class="{{isActivePath 'users'}}" title='users')
             i.users.icon
             | users
-        a.item.toggle_sidebar.no_blink(href="/events" class="{{isActivePath '/events'}}")
-            i.calendar.icon
-            |events
-        a.item.toggle_sidebar.no_blink(href="/m/request" class="{{isActivePath '/m/request'}}")
-            i.concierge.bell.icon
-            |requests
+        a.item.toggle_sidebar.no_blink(href="/reddit" class="{{isActivePath '/reddit'}}")
+            i.reddit.icon
+            |reddit
+        a.item.toggle_sidebar.no_blink(href="/stack" class="{{isActivePath '/stack'}}")
+            i.stack.exchange.icon
+            |stack exchange
+        a.item.toggle_sidebar.no_blink(href="/questions" class="{{isActivePath '/questions'}}")
+            i.question.icon
+            |questions
         a.item.toggle_sidebar.no_blink(href="/m/offer" class="{{isActivePath '/m/offer'}}")
             i.hand.holding.heart.icon
             |offers
         a.item.toggle_sidebar.no_blink.set_post(href="/m/post" class="{{isActivePath '/m/post'}}")
             i.newspaper.icon
             |news
-        // a.item.toggle_sidebar.no_blink(href="/m/collective" class="{{isActivePath 'requests'}}")
-        //     i.users.icon
-        //     |collectives
+        a.item.toggle_sidebar.no_blink(href="/m/collective" class="{{isActivePath 'requests'}}")
+            i.users.icon
+            |collectives
         a.item.toggle_sidebar.no_blink.set_bug(href="/m/bug" class="{{isActivePath '/m/bug'}}")
             i.bug.icon
             |bugs

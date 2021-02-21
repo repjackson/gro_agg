@@ -36,7 +36,7 @@ Template.home.onCreated ->
     Session.setDefault('sort_key', '_timestamp')
     Session.setDefault('sort_direction', -1)
     # Session.setDefault('location_query', null)
-    @autorun => Meteor.subscribe 'tags',
+    @autorun => Meteor.subscribe 'dao_tags',
         picked_tags.array()
         picked_times.array()
         picked_locations.array()
