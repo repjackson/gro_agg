@@ -11,13 +11,16 @@ body {
   -webkit-font-smoothing: antialiased; 
   -moz-osx-font-smoothing: grayscale;
 
-  background: rgba(249,249,249,1) !important;
+  background: rgba(200,200,200,1) !important;
   /*filter: invert(1) !important; */
   /*overscroll-behavior: none; */
   /*transition: all .15s ease !important;*/
   /*background: #0e0e44 !important; */
 }
-
+.no_left {
+  padding-left:0px !important;
+  margin-left:0px !important;
+}
 .tag_select_class {
   margin:15px !important;
   transform: scale(1.2) !important;
@@ -366,7 +369,7 @@ a.goto_article {
 }
 
 .ui.button:not(.circular) { 
-    border-radius: 15px !important; 
+    border-radius: 10px !important; 
 }
 .ui.button {
   margin: 2px !important;

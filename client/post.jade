@@ -2,7 +2,7 @@ template(name='post_view')
     with current_doc
         .ui.stackable.grid
             .row 
-                .twelve.wide.column
+                .twelve.wide.column.no_left
                     if image_link
                         +image_link_view key='image_link' direct=true
                     if image_id

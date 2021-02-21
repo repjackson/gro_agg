@@ -163,7 +163,7 @@ Meteor.publish 'posts', (
 
     # console.log 'match',match
     Docs.find match,
-        limit:20
+        limit:10
         sort:_timestamp:-1
         # sort: "#{sk}":-1
         # skip:skip*20
@@ -209,6 +209,7 @@ Meteor.publish 'tags', (
     # @unblock()
     self = @
     match = {
+        # model:$in:['post','rpost']
         model:'post'
         is_private:$ne:true
         # sublove:sublove
@@ -228,7 +229,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:42 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     tag_cloud.forEach (tag, i) ->
@@ -240,9 +241,9 @@ Meteor.publish 'tags', (
     
     location_cloud = Docs.aggregate [
         { $match: match }
-        { $project: "location": 1 }
-        # { $unwind: "$location" }
-        { $group: _id: "$location", count: $sum: 1 }
+        { $project: "location_tags": 1 }
+        { $unwind: "$location_tags" }
+        { $group: _id: "$location_tags", count: $sum: 1 }
         # { $match: _id: $nin: picked_location }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
@@ -256,7 +257,7 @@ Meteor.publish 'tags', (
             model:'location_tag'
     
     
-    time_cloud = Docs.aggregate [
+    timestamp_cloud = Docs.aggregate [
         { $match: match }
         { $project: "timestamp_tags": 1 }
         { $unwind: "$timestamp_tags" }
@@ -268,7 +269,27 @@ Meteor.publish 'tags', (
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     # console.log match
-    time_cloud.forEach (time, i) ->
+    timestamp_cloud.forEach (time, i) ->
+        # console.log 'time', time
+        self.added 'results', Random.id(),
+            name: time.name
+            count: time.count
+            model:'timestamp_tag'
+    
+    
+    time_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "time_tags": 1 }
+        { $unwind: "$time_tags" }
+        { $group: _id: "$time_tags", count: $sum: 1 }
+        # { $match: _id: $nin: picked_time }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:20 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    # console.log match
+    timestamp_cloud.forEach (time, i) ->
         # console.log 'time', time
         self.added 'results', Random.id(),
             name: time.name

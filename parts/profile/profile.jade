@@ -1,6 +1,11 @@
 template(name='profile_layout')
+    +status
     +nav
     .ui.bottom.attached.pushable.segment
+        // +topbar
+        +left_sidebar
+        +right_sidebar
+                
         #main_area.global_container.pusher
             with user
                 .ui.stackable.padded.grid
