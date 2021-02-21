@@ -1,10 +1,8 @@
-request = require('request')
-rp = require('request-promise');
 # tsqp-gebk-xhpz-eobp-agle
 Docs.allow
     insert: (userId, doc) -> true
-    update: (userId, doc) -> true
-    remove: (userId, doc) -> true
+    update: (userId, doc) -> userId
+    remove: (userId, doc) -> userId
 
 Meteor.users.allow
     insert: (user_id, doc, fields, modifier) ->
@@ -110,210 +108,187 @@ Meteor.methods
     #                     Terms.update term._id,
     #                         $set:image:found_wiki_doc.watson.metadata.image
 
-Meteor.methods
-    # hi: ->
-    # stringify_tags: ->
-    #     docs = Docs.find({
-    #         tags: $exists: true
-    #         tags_string: $exists: false
-    #     },{limit:500})
-    #     for doc in docs.fetch()
-    #         # doc = Docs.findOne id
-    #         tags_string = doc.tags.toString()
-    #         Docs.update doc._id,
-    #             $set: tags_string:tags_string
-    #
+Meteor.publish 'stats', ()->
+    Docs.find 
+        model:'stats'
 
-Meteor.publish 'count', (
+Meteor.publish 'love_reflections', (doc_id)->
+    Docs.find
+        model:'reflection'
+        parent_id:doc_id
+
+
+
+Meteor.publish 'doc_count', (
     picked_tags
-    toggle
+    picked_authors
+    picked_locations
+    picked_times
     )->
-    match = {
-        model:'rpost'
-    }
+    match = {model:'post'}
+        
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    if picked_authors.length > 0 then match.author = $all:picked_authors
+    if picked_locations.length > 0 then match.location = $all:picked_locations
+    if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
 
-    match.tags = $all:picked_tags
-    if picked_tags.length
-        Counts.publish this, 'counter', Docs.find(match)
-        return undefined
+    Counts.publish this, 'doc_count', Docs.find(match)
+    return undefined
             
 Meteor.publish 'posts', (
     picked_tags
-    toggle
-    porn_mode
+    picked_times
+    picked_locations
+    picked_authors
+    sort_key
+    sort_direction
+    skip=0
     )->
     self = @
     match = {
-        model:'rpost'
+        model:'post'
     }
-    if picked_tags.length
-        match.tags = $all:picked_tags
-        match["data.over_18"] = porn_mode
+    if sort_key
+        sk = sort_key
+    else
+        sk = '_timestamp'
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    if picked_locations.length > 0 then match.location = $all:picked_locations
+    if picked_authors.length > 0 then match.author = $all:picked_authors
+    if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
+
+    # console.log 'match',match
+    Docs.find match,
+        limit:10
+        sort:_timestamp:-1
+        # sort: "#{sk}":-1
+        # skip:skip*20
     
-        # console.log 'match', match
-        Docs.find match,
-            limit: 20
-            # sort: "#{sk}":-1
-            sort: ups:-1
-            fields:
-                "data.title":1
-                "data.subreddit":1
-                "data.thumbnail_width":1
-                "data.thumbnail":1
-                "data.media":1
-                "data.selftext_html":1
-                "data.created":1
-                "subreddit":1
-                tags:1
-                url:1
-                model:1
-                ups:1
-                domain:1
-                # data:1
     
+# Meteor.methods    
+    # tagify_love: (love)->
+    #     doc = Docs.findOne love
+    #     # moment(doc.date).fromNow()
+    #     # authorstamp = Date.now()
+
+    #     doc._authorstamp_long = moment(doc._authorstamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
+    #     # doc._app = 'love'
+    
+    #     date = moment(doc.date).format('Do')
+    #     weekdaynum = moment(doc.date).isoWeekday()
+    #     weekday = moment().isoWeekday(weekdaynum).format('dddd')
+    
+    #     hour = moment(doc.date).format('h')
+    #     minute = moment(doc.date).format('m')
+    #     ap = moment(doc.date).format('a')
+    #     month = moment(doc.date).format('MMMM')
+    #     year = moment(doc.date).format('YYYY')
+    
+    #     # doc.points = 0
+    #     # date_array = [ap, "hour #{hour}", "min #{minute}", weekday, month, date, year]
+    #     date_array = [ap, weekday, month, date, year]
+    #     if _
+    #         date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
+    #         doc._authorstamp_tags = date_array
+    #         # console.log 'love', date_array
+    #         Docs.update love, 
+    #             $set:addedauthors:date_array
     
            
 Meteor.publish 'tags', (
     picked_tags
-    toggle
-    porn_mode
+    picked_times
+    picked_locations
+    picked_authors
+    # query=''
     )->
     # @unblock()
     self = @
     match = {
-        model: 'rpost'
+        model:'post'
+        # love:love
+        # sublove:sublove
     }
-    if picked_tags.length
-        match.tags = $all:picked_tags
-        match["data.over_18"] = porn_mode
 
-        doc_count = Docs.find(match).count()
-        # console.log 'doc_count', doc_count
-        # console.log 'tag match', match
-        tag_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "tags": 1 }
-            { $unwind: "$tags" }
-            { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: picked_tags }
-            { $sort: count: -1, _id: 1 }
-            { $match: count: $lt: doc_count }
-            { $limit:25 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ]
-        tag_cloud.forEach (tag, i) ->
-            # console.log tag
-            self.added 'results', Random.id(),
-                name: tag.name
-                count: tag.count
-                model:'tag'
-        
-        
-        self.ready()
-        
-        
-        
-
-
-Meteor.publish 'alpha_combo', (selected_tags)->
-    Docs.find 
-        model:'alpha'
-        # query: $in: selected_tags
-        query: selected_tags.toString()
-        
-        
-# Meteor.publish 'alpha_single', (selected_tags)->
-#     Docs.find 
-#         model:'alpha'
-#         query: $in: selected_tags
-#         # query: selected_tags.toString()
-
-        
-Meteor.publish 'duck', (selected_tags)->
-    Docs.find 
-        model:'duck'
-        # query: $in: selected_tags
-        query: selected_tags.toString()
-        
-        
-Meteor.methods
-    call_alpha: (query)->
-        # @unblock()
-        found_alpha = 
-            Docs.findOne 
-                model:'alpha'
-                query:query
-        if found_alpha
-            target = found_alpha
-            # if target.updated
-            #     return target
-        else
-            target_id = 
-                Docs.insert
-                    model:'alpha'
-                    query:query
-                    tags:[query]
-            target = Docs.findOne target_id       
-                   
-                    
-        HTTP.get "http://api.wolframalpha.com/v1/spoken?i=#{query}&output=JSON&appid=UULLYY-QR2ALYJ9JU",(err,response)=>
-            if response
-                Docs.update target._id,
-                    $set:
-                        voice:response.content  
-            # HTTP.get "https://api.wolframalpha.com/v2/query?input=#{query}&mag=1&ignorecase=true&scantimeout=3&format=html,image,plaintext,sound&output=JSON&appid=UULLYY-QR2ALYJ9JU",(err,response)=>
-            HTTP.get "https://api.wolframalpha.com/v2/query?input=#{query}&mag=1&ignorecase=true&scantimeout=5&format=html,image,plaintext&output=JSON&appid=UULLYY-QR2ALYJ9JU",(err,response)=>
-                if response
-                    parsed = JSON.parse(response.content)
-                    Docs.update target._id,
-                        $set:
-                            response:parsed  
-                            updated:true
-                                    
-                                    
-                            
-    add_chat: (chat)->
-        @unblock()
-        # now = Date.now()
-        # found_last_chat = 
-        #     Docs.findOne { 
-        #         model:'global_chat'
-        #         _timestamp: $lt:now
-        #     }, limit:1
-        # new_id = 
-        #     Docs.insert 
-        #         model:'global_chat'
-        #         body:chat
-        #         bot:false
-        HTTP.get "http://api.wolframalpha.com/v1/conversation.jsp?appid=UULLYY-QR2ALYJ9JU&i=#{chat}",(err,res)=>
-            if res
-                parsed = JSON.parse(res.content)
-                Docs.insert
-                    model:'global_chat'
-                    bot:true
-                    res:parsed
-                return parsed
-                
-                
-    arespond: (post_id)->
-        # @unblock()
-        post = Docs.findOne post_id
-        # now = Date.now()
-        # found_last_chat = 
-        #     Docs.findOne { 
-        #         model:'global_chat'
-        #         _timestamp: $lt:now
-        #     }, limit:1
-        # new_id = 
-        #     Docs.insert 
-        #         model:'global_chat'
-        #         body:chat
-        #         bot:false
-        HTTP.get "http://api.wolframalpha.com/v1/conversation.jsp?appid=UULLYY-QR2ALYJ9JU&i=#{post.body}",(err,response)=>
-            if response
-                parsed = JSON.parse(response.content)
-                Docs.insert
-                    model:'alpha_response'
-                    bot:true
-                    response:parsed
-                    parent_id:post_id
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    if picked_authors.length > 0 then match.author = $all:picked_authors
+    if picked_locations.length > 0 then match.location = $all:picked_locations
+    if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
+    doc_count = Docs.find(match).count()
+    # console.log 'doc_count', doc_count
+    tag_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "tags": 1 }
+        { $unwind: "$tags" }
+        { $group: _id: "$tags", count: $sum: 1 }
+        { $match: _id: $nin: picked_tags }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:20 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    tag_cloud.forEach (tag, i) ->
+        # console.log tag
+        self.added 'results', Random.id(),
+            name: tag.name
+            count: tag.count
+            model:'tag'
+    
+    location_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "location": 1 }
+        # { $unwind: "$location" }
+        { $group: _id: "$location", count: $sum: 1 }
+        # { $match: _id: $nin: picked_location }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:20 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    location_cloud.forEach (location, i) ->
+        self.added 'results', Random.id(),
+            name: location.name
+            count: location.count
+            model:'location_tag'
+    
+    
+    time_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "timestamp_tags": 1 }
+        { $unwind: "$timestamp_tags" }
+        { $group: _id: "$timestamp_tags", count: $sum: 1 }
+        # { $match: _id: $nin: picked_time }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:20 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    # console.log match
+    time_cloud.forEach (time, i) ->
+        # console.log 'time', time
+        self.added 'results', Random.id(),
+            name: time.name
+            count: time.count
+            model:'time_tag'
+    
+    
+    
+    author_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "author": 1 }
+        # { $unwind: "$author" }
+        { $group: _id: "$author", count: $sum: 1 }
+        { $match: _id: $nin: picked_authors }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:20 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    author_cloud.forEach (author, i) ->
+        self.added 'results', Random.id(),
+            name: author.name
+            count: author.count
+            model:'author'
+    
+    
+    self.ready()

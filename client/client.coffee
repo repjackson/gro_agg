@@ -37,15 +37,10 @@ Template.body.events
 
 Router.route '/', (->
     @layout 'layout'
-    @render 'love'
+    @render 'home'
     ), name:'home'
 
 
-
-Router.route '/love', (->
-    @layout 'layout'
-    @render 'love'
-    ), name:'love'
 
 
 @picked_tags = new ReactiveArray []
