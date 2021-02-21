@@ -85,6 +85,10 @@ Template.post_view.events
                 parent_id:Router.current().params.doc_id
         Router.go "/reflection/#{new_id}/edit"
 Template.home.events
+    'click .make_private': ->
+        Docs.update @_id,
+            $set:is_private:true
+
     'click .upvote': ->
         Docs.update @_id,
             $inc:points:1
@@ -125,7 +129,7 @@ Template.home.events
     'keyup .search_love_tag': (e,t)->
          if e.which is 13
             val = t.$('.search_love_tag').val().trim().toLowerCase()
-            window.speechSynthesis.speak new SpeechSynthesisUtterance val
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance val
             picked_tags.push val   
             t.$('.search_love_tag').val('')
             
@@ -190,7 +194,7 @@ Template.home.events
                     title:@valueOf().toLowerCase()
             found
     Template.unpick_tag.events
-        'click .love_unpick_tag': -> 
+        'click .unpick_tag': -> 
             Session.set('skip',0)
             # console.log @
             picked_tags.remove @valueOf()

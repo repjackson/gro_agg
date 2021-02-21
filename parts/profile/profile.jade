@@ -143,6 +143,9 @@ template(name='user_dashboard')
                     .ui.header 
                         i.donate.icon
                         |tips
+                    .ui.link.list.smallscroll
+                        each posts
+                            +user_post_small
                 .ui.link.list
                     each tips
                         a.ui.item(href="/tip/#{_id}/view") 

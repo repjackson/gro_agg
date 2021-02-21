@@ -125,7 +125,10 @@ Meteor.publish 'doc_count', (
     picked_locations
     picked_times
     )->
-    match = {model:'post'}
+    match = {
+        model:'post'
+        is_private:$ne:true
+    }
         
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     if picked_authors.length > 0 then match.author = $all:picked_authors
@@ -147,6 +150,7 @@ Meteor.publish 'posts', (
     self = @
     match = {
         model:'post'
+        is_private:$ne:true
     }
     if sort_key
         sk = sort_key
@@ -206,7 +210,7 @@ Meteor.publish 'tags', (
     self = @
     match = {
         model:'post'
-        # love:love
+        is_private:$ne:true
         # sublove:sublove
     }
 
@@ -224,7 +228,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:20 }
+        { $limit:30 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     tag_cloud.forEach (tag, i) ->

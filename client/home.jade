@@ -1,5 +1,20 @@
 template(name='home')
     .ui.padded.grid
+        .sixteen.wide.column.scrolling             
+            // i.large.clock.icon
+            // i.large.thumbs.up.icon
+            if picked_tags
+                // if many_tags
+                //     a#clear_tags.ui.red.invert.icon.compact.basic.button.pick_term
+                //         i.remove.icon
+                each picked_tags
+                    +unpick_tag
+            // .ui.icon.input
+            //     i.search.icon
+            //     input.search_tag(type='text' value=query)
+            each result_tags
+                // .ui.label #{this}
+                +tag_picker
         .four.wide.column.scrolling             
             if location_results.count
                 i.big.marker.icon
@@ -26,22 +41,8 @@ template(name='home')
                 .ui.tiny.compact.basic.button.pick_time #{name}
             .ui.inline.header 
                 |#{post_counter}
-            // i.large.clock.icon
-            // i.large.thumbs.up.icon
-            if picked_tags
-                // if many_tags
-                //     a#clear_tags.ui.red.invert.icon.compact.basic.button.pick_term
-                //         i.remove.icon
-                each picked_tags
-                    +unpick_tag
-            // .ui.icon.input
-            //     i.search.icon
-            //     input.search_group_tag(type='text' value=group_query)
-            each result_tags
-                // .ui.label #{this}
-                +tag_picker
-        .eight.wide.column
-            .ui.stackable.three.centered.cards.scrolling
+        .nine.wide.column
+            .ui.stackable.two.centered.cards.scrolling
                 each posts
                     .card
                         if image_link
@@ -59,6 +60,7 @@ template(name='home')
                             |#{points}
                             i.thumbs.down.link.outline.icon.downvote
                             |#{made_when}
+                            |!{content}
                             +voting_full
                             // .ui.tiny.icon.input
                             //     i.grey.tag.icon
@@ -71,18 +73,22 @@ template(name='home')
                             if location
                                 i.grey.marker.icon
                                 |#{location}
-                            if author
-                                i.grey.user.outline.icon
-                                |#{author}
+                            // if author
+                            //     i.grey.user.outline.icon
+                            //     |#{author}
+                            if is_author
+                                i.large.lock.icon.make_private
+                            if in_dev
+                                i.large.lock.icon.make_private
                             a.ui.icon.large.basic.button(href="/p/#{_id}/view")
                                 |#{views}
                                 i.chevron.right.large.icon
-        .four.wide.left.aligned.column.scrollng.seg
+        .three.wide.left.aligned.column.scrollng.seg
             // +alpha
             .ui.fluid.basic.button.add_post
                 i.plus.green.icon
                 |add
-            each group_picked_locations
+            each picked_locations
                 a.unpick_location_tag.ui.black.large.compact.button(href='#')
                     | #{this}
             if location_tags
@@ -96,7 +102,7 @@ template(name='home')
                     i.marker.grey.icon
                     |locations
                 each locations
-                    +group_tag_picker
+                    +tag_picker
                     // .ui.link.label.pick_Location #{name}
             if HealthConditions
                 div
@@ -104,7 +110,7 @@ template(name='home')
                     i.doctor.icon
                     |health conditions
                 each HealthConditions
-                    +group_tag_picker
+                    +tag_picker
                     // .ui.link.label.pick_healthcondition #{name}
             if Persons
                 .spacer
@@ -112,7 +118,7 @@ template(name='home')
                     i.user.icon
                     |people
                 each Persons
-                    +group_tag_picker
+                    +tag_picker
                     // .ui.label.pick_person #{name}
             if Organizations
                 .spacer
@@ -120,7 +126,7 @@ template(name='home')
                     i.building.icon
                     |organizations
                 each Organizations
-                    +group_tag_picker
+                    +tag_picker
                     // .ui.label.pick_organization #{name}
             if Companies
                 .ui.small.grey.inline.header
@@ -142,7 +148,7 @@ template(name='tag_picker')
         //     small #{count}
         
 template(name='unpick_tag')
-    a.unpick_tag.ui.large.red.compact.basic.button(href='#')
+    a.unpick_tag.ui.large.compact.basic.button(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
