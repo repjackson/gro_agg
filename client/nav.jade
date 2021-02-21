@@ -1,5 +1,8 @@
 template(name='nav')
     .ui.fluid.attached.borderless.inverted.menu.hscroll
+        a.icon.item.toggle_sidebar.no_blink
+            i.bars.icon
+    
         a.icon.item.clear(href="/" class="{{isActiveRoute regex='home'}}")
             i.yin.yang.big.icon
         a.icon.item.clear(href="/stats" class="{{isActiveRoute 'stats'}}")
@@ -9,6 +12,19 @@ template(name='nav')
                 .icon.item
                     i.code.icon
             .right.menu
+                if unread_count
+                    a.item.alerts.select_term(href="#" class=alert_toggle_class)
+                        i.bell.icon
+                        if unread_count
+                            |#{unread_count}
+                else
+                    a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+                        i.outline.bell.icon
+                a.icon.item(href="/chat" title='chat') 
+                    i.chat.outline.icon
+                a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
+                    i.chat.icon
+            
                 a.item(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
                     if currentUser.profile_image_id
                         if is_admin
@@ -102,7 +118,7 @@ template(name='right_sidebar')
 
 
 template(name='left_sidebar')
-    .ui.left.sidebar.vertical.borderless.menu
+    .ui.left.sidebar.vertical.borderless.inverted.menu
         // a.item.toggle_sidebar.no_blink(href="/" class="{{isActiveRoute '/'}}")
         //     img.ui.avatar.compact.image(src="{{c.url 'one_logo' height=200 width=200 gravity='face' crop='fill'}}")
         //     |One
