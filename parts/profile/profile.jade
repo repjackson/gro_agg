@@ -144,14 +144,8 @@ template(name='user_dashboard')
                         i.donate.icon
                         |tips
                     .ui.link.list.smallscroll
-                        each posts
-                            +user_post_small
-                .ui.link.list
-                    each tips
-                        a.ui.item(href="/tip/#{_id}/view") 
-                            |#{title} #{made_when} #{amount} #{parent_id}
-                            each tags 
-                                .ui.mini.basic.label #{this}
+                        each tips
+                            +user_tip_small
         .three.column.row
             .column
                 a.ui.inline.header(href="/u/#{username}/credits")
@@ -198,6 +192,12 @@ template(name='user_posts')
                     .ui.mini.basic.label #{this}
 
 
+
+template(name='user_tip_small')
+    a.ui.item(href="/tip/#{_id}/view") 
+        |#{title} #{made_when} #{amount} #{parent_id}
+        each tags 
+            .ui.mini.basic.label #{this}
 
 template(name='user_comment_small')
     |#{body}

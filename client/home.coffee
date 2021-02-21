@@ -78,13 +78,13 @@ Template.home.helpers
         
         
 Template.post_view.events
-    'click .add_reflection': ->
+Template.home.events
+    'click .add_post': ->
         new_id = 
             Docs.insert 
-                model:'reflection'
-                parent_id:Router.current().params.doc_id
-        Router.go "/reflection/#{new_id}/edit"
-Template.home.events
+                model:'post'
+        Router.go "/p/#{new_id}/edit"
+
     'click .make_private': ->
         Docs.update @_id,
             $set:is_private:true

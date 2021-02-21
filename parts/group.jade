@@ -357,11 +357,11 @@
 
 
 
-// template(name='tip')
-//     unless template_parent.is_author
-//         .ui.basic.button.tip
-//             i.donate.icon
-//             |tip 1p
-//     |#{tip_total} total
-//     each tips
-//         .ui.header #{amount} #{_author_username}
+template(name='tip')
+    unless template_parent.is_author
+        .ui.basic.button.tip
+            i.donate.icon
+            |tip 1p
+    |#{tip_total} total
+    each tips
+        .ui.header #{amount} #{_author_username}

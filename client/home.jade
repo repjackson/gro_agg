@@ -3,6 +3,8 @@ template(name='home')
         .sixteen.wide.column.scrolling             
             // i.large.clock.icon
             // i.large.thumbs.up.icon
+            .ui.basic.icon.button.add_post
+                i.plus.green.icon
             if picked_tags
                 // if many_tags
                 //     a#clear_tags.ui.red.invert.icon.compact.basic.button.pick_term
@@ -19,7 +21,7 @@ template(name='home')
             if location_results.count
                 i.big.marker.icon
             each picked_locations
-                a.unpick_location.ui.red.large.compact.basic.button(href='#')
+                a.unpick_location.ui.large.compact.basic.button(href='#')
                     strong #{this}
             each location_results
                 if name
@@ -27,7 +29,7 @@ template(name='home')
             div
             i.big.user.icon
             each picked_authors
-                a.unpick_author.ui.red.large.compact.basic.button(href='#')
+                a.unpick_author.ui.large.compact.basic.button(href='#')
                     strong #{this}
             each author_results
                 if name
@@ -41,53 +43,7 @@ template(name='home')
                 .ui.tiny.compact.basic.button.pick_time #{name}
             .ui.inline.header 
                 |#{post_counter}
-        .nine.wide.column
-            .ui.stackable.two.centered.cards.scrolling
-                each posts
-                    .card
-                        if image_link
-                            a(href="/p/#{_id}/view")
-                                img.ui.zoomer.image(src=image_link)
-                        if image_id
-                            a(href="/p/#{_id}/view")
-                                img.ui.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-                        if youtube_id
-                            +youtube_view key='youtube_id' label='youtube id' direct=true
-
-                        .content 
-                            div
-                            i.thumbs.up.link.outline.icon.upvote
-                            |#{points}
-                            i.thumbs.down.link.outline.icon.downvote
-                            |#{made_when}
-                            |!{content}
-                            +voting_full
-                            // .ui.tiny.icon.input
-                            //     i.grey.tag.icon
-                            //     input.add_tag(type='text' placeholder='+')
-                            // each tags
-                            //     +flat_tag_picker
-                                // .ui.small.compact.basic.button.pick_flat_tag #{this}
-                            // each timestamp_tags
-                            //     .ui.small.compact.basic.button.pick_flat_time #{this}
-                            if location
-                                i.grey.marker.icon
-                                |#{location}
-                            // if author
-                            //     i.grey.user.outline.icon
-                            //     |#{author}
-                            if is_author
-                                i.large.lock.icon.make_private
-                            if in_dev
-                                i.large.lock.icon.make_private
-                            a.ui.icon.large.basic.button(href="/p/#{_id}/view")
-                                |#{views}
-                                i.chevron.right.large.icon
-        .three.wide.left.aligned.column.scrollng.seg
             // +alpha
-            .ui.fluid.basic.button.add_post
-                i.plus.green.icon
-                |add
             each picked_locations
                 a.unpick_location_tag.ui.black.large.compact.button(href='#')
                     | #{this}
@@ -135,6 +91,48 @@ template(name='home')
                 each companies
                     .ui.label.pick_company #{name}                        
                                 
+        .twelve.wide.column
+            .ui.stackable.two.centered.cards.scrolling
+                each posts
+                    .card
+                        if image_link
+                            a(href="/p/#{_id}/view")
+                                img.ui.zoomer.image(src=image_link)
+                        if image_id
+                            a(href="/p/#{_id}/view")
+                                img.ui.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                        if youtube_id
+                            +youtube_view key='youtube_id' label='youtube id' direct=true
+
+                        .content 
+                            div
+                            i.thumbs.up.link.outline.icon.upvote
+                            |#{points}
+                            i.thumbs.down.link.outline.icon.downvote
+                            |#{made_when}
+                            |!{content}
+                            +voting_full
+                            // .ui.tiny.icon.input
+                            //     i.grey.tag.icon
+                            //     input.add_tag(type='text' placeholder='+')
+                            // each tags
+                            //     +flat_tag_picker
+                                // .ui.small.compact.basic.button.pick_flat_tag #{this}
+                            // each timestamp_tags
+                            //     .ui.small.compact.basic.button.pick_flat_time #{this}
+                            if location
+                                i.grey.marker.icon
+                                |#{location}
+                            // if author
+                            //     i.grey.user.outline.icon
+                            //     |#{author}
+                            if is_author
+                                i.large.lock.icon.make_private
+                            if in_dev
+                                i.large.lock.icon.make_private
+                            a.ui.icon.large.basic.button(href="/p/#{_id}/view")
+                                |#{views}
+                                i.chevron.right.large.icon
                                 
                                 
 template(name='tag_picker')
@@ -148,7 +146,7 @@ template(name='tag_picker')
         //     small #{count}
         
 template(name='unpick_tag')
-    a.unpick_tag.ui.large.compact.basic.button(href='#')
+    a.unpick_tag.ui.large.compact.basic.button.no_blink(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    

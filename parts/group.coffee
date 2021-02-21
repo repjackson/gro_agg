@@ -140,12 +140,6 @@
 #             group_picked_author_tags.push @name
 #             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
     
-#         'click .add_post': ->
-#             new_id = 
-#                 Docs.insert 
-#                     model:'post'
-#                     group:Router.current().params.group
-#             Router.go "/g/#{Router.current().params.group}/p/#{new_id}/edit"
      
 #         'keyup .search_tag': (e,t)->
 #              if e.which is 13
