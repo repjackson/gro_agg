@@ -79,6 +79,15 @@ Template.home.helpers
         
 Template.post_view.events
 Template.home.events
+    'keyup .search_tag': (e,t)->
+         if e.which is 13
+            val = t.$('.search_tag').val().trim().toLowerCase()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance val
+            picked_tags.push val   
+            t.$('.search_tag').val('')
+            # Session.set('sub_doc_query', val)
+
+
     'click .add_post': ->
         new_id = 
             Docs.insert 

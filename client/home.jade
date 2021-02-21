@@ -3,17 +3,22 @@ template(name='home')
         .sixteen.wide.column.scrolling             
             // i.large.clock.icon
             // i.large.thumbs.up.icon
-            .ui.basic.icon.button.add_post
+            .ui.icon.button.add_post
                 i.plus.green.icon
+            .ui.icon.transparent.input
+                // if is_loading
+                //     i.yin.yang.loading.icon
+                // else
+                i.search.icon
+                input.search_tag(type='text' value=query)
+                // .ui.label #{this}
+            
             if picked_tags
                 // if many_tags
-                //     a#clear_tags.ui.red.invert.icon.compact.basic.button.pick_term
+                //     a#clear_tags.ui.red.invert.icon.compact.button.pick_term
                 //         i.remove.icon
                 each picked_tags
                     +unpick_tag
-            // .ui.icon.input
-            //     i.search.icon
-            //     input.search_tag(type='text' value=query)
             each result_tags
                 // .ui.label #{this}
                 +tag_picker
@@ -21,26 +26,26 @@ template(name='home')
             if location_results.count
                 i.big.marker.icon
             each picked_locations
-                a.unpick_location.ui.large.compact.basic.button(href='#')
+                a.unpick_location.ui.large.compact.button(href='#')
                     strong #{this}
             each location_results
                 if name
-                    .ui.tiny.compact.basic.button.pick_location #{name}
+                    .ui.tiny.compact.button.pick_location #{name}
             div
             i.big.user.icon
             each picked_authors
-                a.unpick_author.ui.large.compact.basic.button(href='#')
+                a.unpick_author.ui.large.compact.button(href='#')
                     strong #{this}
             each author_results
                 if name
-                    .ui.tiny.compact.basic.button.pick_author #{name}
+                    .ui.tiny.compact.button.pick_author #{name}
             div
             i.clock.big.icon
             each picked_times
-                a.unpick_time.ui.large.large.compact.basic.button(href='#')
+                a.unpick_time.ui.large.large.compact.button(href='#')
                     strong #{this}
             each time_results
-                .ui.tiny.compact.basic.button.pick_time #{name}
+                .ui.tiny.compact.button.pick_time #{name}
             .ui.inline.header 
                 |#{post_counter}
             // +alpha
@@ -50,7 +55,7 @@ template(name='home')
             if location_tags
                 i.big.marker.grey.icon
                 each location_tags
-                    .ui.compact.small.basic.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+                    .ui.compact.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
                         | #{name}
             if Locations
                 div
@@ -92,7 +97,51 @@ template(name='home')
                     .ui.label.pick_company #{name}                        
                                 
         .twelve.wide.column
-            .ui.stackable.two.centered.cards.scrolling
+            .ui.disabled.button shared with me
+            if skv_is 'sort_direction' 1
+                .ui.icon.compact.button.sort_down
+                    i.caret.down.icon
+            else
+                .ui.icon.compact.button.sort_up
+                    i.caret.up.icon
+            .ui.compact.small.button.sort_created(class=sort_created_class)
+                i.clock.icon
+                |latest
+            .ui.compact.small.button.sort_ups(class=sort_ups_class)
+                i.thumbs.up.icon
+                |liked
+            if skv_is 'view_detail' true
+                .ui.black.compact.button.toggle_detail
+                    i.list.icon
+                    |detail
+            else
+                .ui.compact.button.toggle_detail
+                    i.minus.icon
+                    |simple
+                // i.line.chart.icon
+            if skv_is 'view_layout' 'grid'
+                .ui.compact.black.button.set_grid(class=grid_class) 
+                    i.th.icon
+                    |grid
+            else
+                .ui.compact.button.set_grid(class=grid_class) 
+                    i.th.icon
+                    |grid
+            if skv_is 'view_layout' 'list'
+                .ui.compact.black.button.set_list(class=list_class)
+                    i.list.icon
+                    |list
+            else
+                .ui.compact.basic.button.set_list(class=list_class)
+                    i.list.icon
+                    |list
+            .ui.icon.button
+                i.film.icon
+            .ui.icon.button
+                i.picture.icon
+            .ui.icon.button
+                i.chat.icon            
+            .ui.stackable.two.cards.scrolling
                 each posts
                     .card
                         if image_link
@@ -104,7 +153,7 @@ template(name='home')
                         if youtube_id
                             +youtube_view key='youtube_id' label='youtube id' direct=true
 
-                        .content 
+                        .content.smallscroll
                             div
                             i.thumbs.up.link.outline.icon.upvote
                             |#{points}
@@ -117,27 +166,28 @@ template(name='home')
                             //     input.add_tag(type='text' placeholder='+')
                             // each tags
                             //     +flat_tag_picker
-                                // .ui.small.compact.basic.button.pick_flat_tag #{this}
+                                // .ui.small.compact.button.pick_flat_tag #{this}
                             // each timestamp_tags
-                            //     .ui.small.compact.basic.button.pick_flat_time #{this}
+                            //     .ui.small.compact.button.pick_flat_time #{this}
                             if location
                                 i.grey.marker.icon
                                 |#{location}
                             // if author
                             //     i.grey.user.outline.icon
                             //     |#{author}
+                        .content
                             if is_author
                                 i.large.lock.icon.make_private
-                            if in_dev
+                            else if in_dev
                                 i.large.lock.icon.make_private
-                            a.ui.icon.large.basic.button(href="/p/#{_id}/view")
+                            a.ui.icon.large.button(href="/p/#{_id}/view")
                                 |#{views}
                                 i.chevron.right.large.icon
                                 
                                 
 template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    .ui.compact.tertiary.basic.button.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    .ui.compact.tertiary.button.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
@@ -146,7 +196,7 @@ template(name='tag_picker')
         //     small #{count}
         
 template(name='unpick_tag')
-    a.unpick_tag.ui.large.compact.basic.button.no_blink(href='#')
+    a.unpick_tag.ui.large.compact.button.no_blink(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -156,7 +206,7 @@ template(name='unpick_tag')
         
 template(name='flat_tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    .ui.compact.tiny.basic.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    .ui.compact.tiny.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         // if term
         //     if term.watson.metadata.image
         //         img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    

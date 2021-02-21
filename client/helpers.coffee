@@ -174,7 +174,7 @@ Template.registerHelper 'lowered_title', ()->
 
 
 Template.registerHelper 'template_parent', () ->
-    console.log Template.parentData()
+    # console.log Template.parentData()
     Template.parentData()
     
 Template.registerHelper 'field_value', () ->

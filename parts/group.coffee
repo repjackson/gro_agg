@@ -141,14 +141,6 @@
 #             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
     
      
-#         'keyup .search_tag': (e,t)->
-#              if e.which is 13
-#                 val = t.$('.search_tag').val().trim().toLowerCase()
-#                 # window.speechSynthesis.speak new SpeechSynthesisUtterance val
-#                 group_picked_tags.push val   
-#                 t.$('.search_tag').val('')
-#                 # Session.set('sub_doc_query', val)
-#                 Session.set('loading',true)
         
             
 #         'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
