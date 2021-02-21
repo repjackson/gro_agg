@@ -98,7 +98,7 @@ Template.registerHelper 'med_date', (input)-> moment(input).format("MMM D 'YY")
 Template.registerHelper 'medium_date', (input)-> moment(input).format("dddd, MMMM Do")
 Template.registerHelper 'today', -> moment(Date.now()).format("dddd, MMMM Do a")
 Template.registerHelper 'int', (input)-> input.toFixed(0)
-Template.registerHelper 'made_when', ()-> moment(@_timestamp).fromNow()
+Template.registerHelper 'when', ()-> moment(@_timestamp).fromNow()
 Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
 
 Template.registerHelper 'current_month', ()-> moment(Date.now()).format("MMMM")
@@ -293,6 +293,10 @@ Template.registerHelper 'is_dev', () ->
 Template.registerHelper 'is_author', () ->
     # if @_author_id and Meteor.userId()
     @_author_id is Meteor.userId()
+
+Template.registerHelper '_author', () ->
+    # if @_author_id and Meteor.userId()
+    Meteor.users.findOne @_author_id
 
 
 Template.registerHelper 'can_edit', () ->

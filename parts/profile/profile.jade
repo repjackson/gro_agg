@@ -192,7 +192,7 @@ template(name='user_posts')
     .ui.link.list
         each posts
             a.ui.item(href="/love/#{_id}/view") 
-                |#{title} #{made_when}
+                |#{title} #{when}
                 each tags 
                     .ui.mini.basic.label #{this}
 
@@ -200,7 +200,7 @@ template(name='user_posts')
 
 template(name='user_tip_small')
     a.ui.item(href="/tip/#{_id}/view") 
-        |#{title} #{made_when} #{amount} #{parent_id}
+        |#{title} #{when} #{amount} #{parent_id}
         each tags 
             .ui.mini.basic.label #{this}
 
@@ -209,7 +209,7 @@ template(name='user_comment_small')
 template(name='user_post_small')
     .ui.seg
         a.ui.item(href="/g/#{group}/p/#{_id}/view") 
-            |#{title} #{made_when}
+            |#{title} #{when}
         if image_link
             a.view_post(href="/g/#{group}/p/#{_id}/view" class=post_header_class)
                 img.ui.rounded.inline.zoomer.image.zoomer(src=image_link)    

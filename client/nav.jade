@@ -3,9 +3,9 @@ template(name='nav')
         a.icon.item.toggle_sidebar.no_blink
             i.bars.icon
     
-        a.icon.item.clear(href="/" class="{{isActiveRoute regex='home'}}")
+        a.icon.item.blink.clear(href="/" class="{{isActiveRoute regex='home'}}")
             i.yin.yang.big.icon
-        a.icon.item.clear(href="/stats" class="{{isActiveRoute 'stats'}}")
+        a.icon.item.blink.clear(href="/stats" class="{{isActiveRoute 'stats'}}")
             i.line.chart.big.icon
         if currentUser
             if is_dev 
@@ -23,7 +23,7 @@ template(name='nav')
                 a.icon.item(href="/chat" title='chat') 
                     i.chat.outline.icon
                 a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
-                    i.chat.icon
+                    i.inbox.icon
             
                 a.item(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
                     if currentUser.profile_image_id
@@ -63,7 +63,7 @@ template(name='recent_alert')
         .content
             .header
                 |#{description} 
-            .description #{author.name} #{made_when}
+            .description #{author.name} #{when}
             
             
             
