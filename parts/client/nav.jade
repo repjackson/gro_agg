@@ -3,16 +3,16 @@ template(name='nav')
         // a.icon.item.toggle_sidebar.no_blink
         //     i.bars.icon
     
-        a.icon.item.blink.clear.penny(href="/" class="{{isActiveRoute regex='home'}}")
+        a.icon.item.blink.clear.penny.add_global_karma(href="/" class="{{isActiveRoute regex='home'}}")
             i.yin.yang.large.icon
-        a.icon.item.blink.clear.penny(href="/stats" class="{{isActiveRoute 'stats'}}")
+        a.icon.item.blink.clear.penny.add_global_karma(href="/stats" class="{{isActiveRoute 'stats'}}")
             i.line.chart.large.icon
-        a.icon.item.blink.clear.penny(href="/love" class="{{isActiveRoute 'love'}}")
+        a.icon.item.blink.clear.penny.add_global_karma(href="/love" class="{{isActiveRoute 'love'}}")
             i.heart.outline.large.icon
-        .item(title='session_karma')
+        .item.add_global_karma(title='session karma')
             i.grey.lightning.icon
             |#{session_clicks}
-        .item(title='global karma')
+        .item.add_global_karma(title='global karma')
             i.grey.globe.icon
             |#{global_karma}
         +status
@@ -22,7 +22,7 @@ template(name='nav')
                 .icon.item
                     i.code.icon
             .right.menu
-                .icon.item.add_post.penny
+                .icon.item.add_post.penny.add_global_karma
                     i.plus.large.icon
             
                 // if unread_count
@@ -35,9 +35,9 @@ template(name='nav')
                 //         i.outline.bell.icon
                 // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
                 //     i.inbox.icon
-                a.icon.item.penny(href="/u/#{currentUser.username}/credit" class="{{isActivePath 'user_credit'}}" title="#{user.username} credit")
+                a.icon.item.penny.add_global_karma(href="/u/#{currentUser.username}/credit" class="{{isActivePath 'user_credit'}}" title="#{user.username} credit")
                     .ui.inverted.header #{currentUser.points}
-                a.item.penny(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
+                a.item.penny.add_global_karma(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
                     if currentUser.profile_image_id
                         if is_admin
                             i.shield.icon(title='admin mode on')
@@ -46,7 +46,7 @@ template(name='nav')
                     else 
                         i.user.icon
                     strong.mobile.hidden #{currentUser.name}
-                a.icon.item.toggle_rightbar.no_blink.penny
+                a.icon.item.toggle_rightbar.no_blink.penny.add_global_karma
                     i.bars.large.icon
             
         else
