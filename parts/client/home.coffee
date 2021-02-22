@@ -58,7 +58,7 @@ Template.home.onCreated ->
 
 
 Template.post_card.onRendered ->
-    console.log @
+    # console.log @
     Meteor.call 'log_view', @data._id, ->
 
 

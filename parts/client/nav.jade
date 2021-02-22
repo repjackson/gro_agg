@@ -17,20 +17,20 @@ template(name='nav')
                     i.code.icon
             .right.menu
                 .icon.item.add_post
-                    i.plus.icon
+                    i.plus.large.icon
             
-                if unread_count
-                    a.item.alerts.select_term(href="#" class=alert_toggle_class)
-                        i.bell.icon
-                        if unread_count
-                            |#{unread_count}
-                else
-                    a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
-                        i.outline.bell.icon
+                // if unread_count
+                //     a.item.alerts.select_term(href="#" class=alert_toggle_class)
+                //         i.bell.icon
+                //         if unread_count
+                //             |#{unread_count}
+                // else
+                //     a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+                //         i.outline.bell.icon
                 // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
                 //     i.inbox.icon
                 a.icon.item(href="/u/#{currentUser.username}/credit" class="{{isActivePath 'user_credit'}}" title="#{user.username} credit")
-                    .ui.inverted.small.header #{currentUser.points}p
+                    .ui.inverted.header #{currentUser.points}
                 a.item(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
                     if currentUser.profile_image_id
                         if is_admin
@@ -40,8 +40,8 @@ template(name='nav')
                     else 
                         i.user.icon
                     strong.mobile.hidden #{currentUser.name}
-                a.icon.item.toggle_rightbar.no_blink.no_blink
-                    i.ellipsis.vertical.icon
+                a.icon.item.toggle_rightbar.no_blink
+                    i.bars.large.icon
             
         else
             // a.icon.item(href="/register" title='login')
