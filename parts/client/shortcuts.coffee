@@ -77,6 +77,15 @@ globalHotkeys.add
 
 
 globalHotkeys.add
+	combo: "s"
+	callback: -> 
+        window.speechSynthesis.cancel()
+        $('body').toast({
+            class: 'success',
+            message: "shut up"
+        })
+
+globalHotkeys.add
 	combo: "g h"
 	callback: -> Router.go '/'
 globalHotkeys.add

@@ -3,11 +3,11 @@ template(name='nav')
         // a.icon.item.toggle_sidebar.no_blink
         //     i.bars.icon
     
-        a.icon.item.blink.clear(href="/" class="{{isActiveRoute regex='home'}}")
+        a.icon.item.blink.clear.penny(href="/" class="{{isActiveRoute regex='home'}}")
             i.yin.yang.large.icon
-        a.icon.item.blink.clear(href="/stats" class="{{isActiveRoute 'stats'}}")
+        a.icon.item.blink.clear.penny(href="/stats" class="{{isActiveRoute 'stats'}}")
             i.line.chart.large.icon
-        a.icon.item.blink.clear(href="/love" class="{{isActiveRoute 'love'}}")
+        a.icon.item.blink.clear.penny(href="/love" class="{{isActiveRoute 'love'}}")
             i.heart.large.icon
         +status
     

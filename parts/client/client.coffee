@@ -13,6 +13,17 @@ Template.body.events
     'click .say_body': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
+    'click .penny': ->
+        if Meteor.userId()
+            Meteor.users.update Meteor.userId(),
+                $inc:points:1
+        if @_author_id
+            Meteor.users.update @_author_id,
+                $inc:points:1
+    
+    'click .shutup': ->
+        window.speechSynthesis.cancel()
+
     'click .say': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         

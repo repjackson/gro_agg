@@ -170,6 +170,8 @@ Meteor.methods
                         upvotes:1
                         downvotes:-1
                         points:2
+                Meteor.users.update Meteor.userId(),
+                    $inc:points:1
             else if doc.upvoter_ids and Meteor.userId() in doc.upvoter_ids
                 Docs.update doc._id,
                     $pull: 
@@ -179,6 +181,8 @@ Meteor.methods
                         credit:-.01
                         upvotes:-1
                         points:-1
+                Meteor.users.update Meteor.userId(),
+                    $inc:points:1
             else
                 Docs.update doc._id,
                     $addToSet: 
@@ -188,6 +192,10 @@ Meteor.methods
                         points:1
                         upvotes:1
                         credit:.01
+                Meteor.users.update Meteor.userId(),
+                    $inc:points:1
+            Meteor.users.update Meteor.userId(),
+                $inc:points:1
             Meteor.users.update doc._author_id,
                 $inc:points:1
         else
@@ -197,6 +205,8 @@ Meteor.methods
                     anon_upvotes:1
             Meteor.users.update doc._author_id,
                 $inc:anon_points:1
+            Meteor.users.update Meteor.userId(),
+                $inc:points:1
 
     downvote: (doc)->
         if Meteor.userId()
@@ -213,6 +223,8 @@ Meteor.methods
                         points:-2
                         downvotes:1
                         upvotes:-1
+                Meteor.users.update Meteor.userId(),
+                    $inc:points:1
             else if doc.downvoter_ids and Meteor.userId() in doc.downvoter_ids
                 Docs.update doc._id,
                     $pull: 
@@ -222,6 +234,8 @@ Meteor.methods
                         points:1
                         credit:.01
                         downvotes:-1
+                Meteor.users.update Meteor.userId(),
+                    $inc:points:1
             else
                 Docs.update doc._id,
                     $addToSet: 
@@ -231,6 +245,8 @@ Meteor.methods
                         points:-1
                         credit:-.01
                         downvotes:1
+                Meteor.users.update Meteor.userId(),
+                    $inc:points:1
             Meteor.users.update doc._author_id,
                 $inc:points:-1
         else

@@ -56,6 +56,8 @@ Meteor.methods
             Docs.update doc_id,
                 $addToSet:viewer_ids:Meteor.userId()
         Meteor.users.update doc._author_id,
+            $inc:points:2
+        Meteor.users.update Meteor.userId(),
             $inc:points:1
 
 

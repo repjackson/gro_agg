@@ -95,44 +95,44 @@ template(name='home')
                     .ui.label.pick_company #{name}                        
                                 
         .twelve.wide.column
-            .ui.disabled.button shared with me
+            // .ui.disabled.button shared with me
             if skv_is 'sort_direction' 1
-                .ui.icon.compact.button.sort_down
+                .ui.icon.compact.basic.button.sort_down
                     i.caret.down.icon
             else
-                .ui.icon.compact.button.sort_up
+                .ui.icon.compact.basic.button.sort_up
                     i.caret.up.icon
-            .ui.compact.small.button.sort_created(class=sort_created_class)
+            .ui.compact.large.icon.basic.button.sort_created(class=sort_created_class)
                 i.clock.icon
-                |latest
-            .ui.compact.small.button.sort_ups(class=sort_ups_class)
+                // |latest
+            .ui.compact.large.icon.basic.button.sort_ups(class=sort_ups_class)
                 i.thumbs.up.icon
-                |liked
+                // |liked
             if skv_is 'view_detail' true
-                .ui.black.compact.button.toggle_detail
+                .ui.black.large.icon.compact.basic.button.toggle_detail
                     i.list.icon
-                    |detail
+                    // |detail
             else
-                .ui.compact.button.toggle_detail
+                .ui.compact.large.icon.basic.button.toggle_detail
                     i.minus.icon
-                    |simple
+                    // |simple
                 // i.line.chart.icon
             if skv_is 'view_layout' 'grid'
-                .ui.compact.black.button.set_grid(class=grid_class) 
+                .ui.compact.large.icon.black.basic.button.set_grid(class=grid_class) 
                     i.th.icon
-                    |grid
+                    // |grid
             else
-                .ui.compact.button.set_grid(class=grid_class) 
+                .ui.compact.large.icon.basic.button.set_grid(class=grid_class) 
                     i.th.icon
-                    |grid
+                    // |grid
             if skv_is 'view_layout' 'list'
-                .ui.compact.black.button.set_list(class=list_class)
+                .ui.compact.black.icon.large.basic.button.set_list(class=list_class)
                     i.list.icon
-                    |list
+                    // |list
             else
-                .ui.compact.basic.button.set_list(class=list_class)
+                .ui.compact.large.icon.basic.button.set_list(class=list_class)
                     i.list.icon
-                    |list
+                    // |list
             .ui.icon.button
                 i.film.icon
             .ui.icon.button
