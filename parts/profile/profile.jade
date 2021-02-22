@@ -215,21 +215,24 @@ template(name='user_tip_small')
 template(name='user_comment_small')
     |#{body}
 template(name='user_post_small')
-    .ui.seg
-        a.ui.item(href="/g/#{group}/p/#{_id}/view") 
-            |#{title} #{when}
-        if image_link
-            a.view_post(href="/g/#{group}/p/#{_id}/view" class=post_header_class)
-                img.ui.rounded.inline.zoomer.image.zoomer(src=image_link)    
-        |!{content}
-        |#{points}
-        each tags
-            .ui.small.basic.label #{this}
-        +doc_emotion_small        
-        // +skve k='view_preview' v='preview' l=' ' i='caret down'
-        // if skv_is 'view_preview' 'preview'
-        +print_this
-    .ui.divider       
+    .ui.fluid.link.card.mark_read.pad
+        .content
+            a.ui.item(href="/p/#{_id}/view") 
+                |#{title} #{when}
+            if image_link
+                a.view_post(href="/p/#{_id}/view" class=post_header_class)
+                    img.ui.rounded.inline.zoomer.image.zoomer(src=image_link)    
+            // |!{content}
+            i.grey.eye.icon
+            each view_ids
+                .ui.label #{this}
+            |#{points}
+            each tags
+                .ui.small.basic.label #{this}
+            +doc_emotion_small        
+            // +skve k='view_preview' v='preview' l=' ' i='caret down'
+            // if skv_is 'view_preview' 'preview'
+            +print_this
 
 template(name='user_bookmarks_widget')
     a.ui.header(href="/u/#{username}/bookmarks")

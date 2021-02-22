@@ -34,6 +34,15 @@ body {
     transform: scale(1.5) !important;
 }
 
+.mark_read {
+    animation: fadein .5s !important;
+    animation: fadeout .5s; 
+    transition: all .5s ease !important; 
+    /*cursor: help !important;*/
+    /*color: black !important; */
+    /*transform: scale(1.5) !important;*/
+}
+
 a {
   /*color: black !important;*/
 }
@@ -669,6 +678,10 @@ input {
 ::-webkit-scrollbar-thumb:hover {
   background: darkgrey !important;
 }
+.pad{
+    /*margin: 2em;*/
+    margin: .2em !important;
+}
 .smallscroll{
     /* padding: 5px !important;
     border-radius: 10px !important;
@@ -679,7 +692,7 @@ input {
     overflow-y:scroll;
     overflow-x:hidden;
     /* padding-top: .2em; */
-    padding: .2em;
+    /*padding: 2em;*/
     /*padding-left: 1em;*/
 }
 .medscroll{
@@ -692,7 +705,7 @@ input {
     overflow-y:scroll;
     overflow-x:hidden;
     /* padding-top: .2em; */
-    padding: .2em;
+    padding: 2em;
     /*padding-left: 1em;*/
 }
 .scrolling{

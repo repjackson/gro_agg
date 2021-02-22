@@ -2,13 +2,15 @@ template(name='post_view')
     with current_doc
         .ui.stackable.grid
             .row 
-                .twelve.wide.column.no_left
+                .twelve.wide.column
+                    .ui.header #{title}
                     if image_link
                         +image_link_view key='image_link' direct=true
                     if image_id
                         img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     if youtube_id
-                        +youtube_view key='youtube_id' label='youtube id' direct=true
+                        .no_left
+                            +youtube_view key='youtube_id' label='youtube id' direct=true
                     if raw 
                         |!{raw}
                     .say_this.say_body
@@ -70,6 +72,7 @@ template(name='post_edit')
                     +boolean_edit key='private' label='private' direct=true
                     // +text_edit key='group' label='group' direct=true
                 .twelve.wide.column.scrolling
+                    +text_edit key='title' label='title' direct=true
                     +html_edit key='content' label='content' direct=true
                     +image_link_edit key='image_link' direct=true
                     +youtube_edit key='youtube_id' label='youtube id' direct=true

@@ -88,7 +88,12 @@ Template.home.helpers
     time_results: -> results.find(model:'time_tag')
         
         
-Template.post_view.events
+Template.user_post_small.events
+    'click .mark_read': (e,t)->
+        console.log 'hi'
+        if Meteor.userId()
+            Docs.update @_id,
+                $addToSet:read_ids:Meteor.userId()
 Template.home.events
     'click .mark_read': (e,t)->
         console.log 'hi'
