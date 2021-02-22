@@ -141,49 +141,52 @@ template(name='home')
                 i.chat.icon            
             .ui.stackable.two.cards.scrolling
                 each posts
-                    .ui.card.mark_read(class=card_class)
-                        if image_link
-                            a(href="/p/#{_id}/view")
-                                img.ui.zoomer.image(src=image_link)
-                        if image_id
-                            a(href="/p/#{_id}/view")
-                                img.ui.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-                        if youtube_id
-                            +youtube_view key='youtube_id' label='youtube id' direct=true
+                    +post_card
 
-                        .content.smallscroll
-                            .ui.header #{title}
-                            div
-                            i.thumbs.up.link.outline.icon.upvote
-                            |#{points}
-                            i.thumbs.down.link.outline.icon.downvote
-                            |#{when}
-                            |!{content}
-                            +voting_full
-                            // .ui.tiny.icon.input
-                            //     i.grey.tag.icon
-                            //     input.add_tag(type='text' placeholder='+')
-                            // each tags
-                            //     +flat_tag_picker
-                                // .ui.small.compact.button.pick_flat_tag #{this}
-                            // each timestamp_tags
-                            //     .ui.small.compact.button.pick_flat_time #{this}
-                            if location
-                                i.grey.marker.icon
-                                |#{location}
-                            // if author
-                            //     i.grey.user.outline.icon
-                            //     |#{author}
-                            each read_ids
-                                .ui.label #{this}
-                        .content
-                            if is_author
-                                i.large.lock.link.circular.grey.icon.make_private
-                            else if in_dev
-                                i.large.lock.link.circular.grey.icon.make_private
-                            a.ui.icon.large.button(href="/p/#{_id}/view")
-                                |#{views}
-                                i.chevron.right.large.icon
+template(name='post_card')
+    .ui.card.mark_read(class=card_class)
+        if image_link
+            a(href="/p/#{_id}/view")
+                img.ui.zoomer.image(src=image_link)
+        if image_id
+            a(href="/p/#{_id}/view")
+                img.ui.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+        if youtube_id
+            +youtube_view key='youtube_id' label='youtube id' direct=true
+
+        .content.smallscroll
+            .ui.header #{title}
+            div
+            i.thumbs.up.link.outline.icon.upvote
+            |#{points}
+            i.thumbs.down.link.outline.icon.downvote
+            |#{when}
+            |!{content}
+            +voting_full
+            // .ui.tiny.icon.input
+            //     i.grey.tag.icon
+            //     input.add_tag(type='text' placeholder='+')
+            // each tags
+            //     +flat_tag_picker
+                // .ui.small.compact.button.pick_flat_tag #{this}
+            // each timestamp_tags
+            //     .ui.small.compact.button.pick_flat_time #{this}
+            if location
+                i.grey.marker.icon
+                |#{location}
+            // if author
+            //     i.grey.user.outline.icon
+            //     |#{author}
+            each read_ids
+                .ui.label #{this}
+        .content
+            if is_author
+                i.large.lock.link.circular.grey.icon.make_private
+            else if in_dev
+                i.large.lock.link.circular.grey.icon.make_private
+            a.ui.icon.large.button(href="/p/#{_id}/view")
+                |#{views}
+                i.chevron.right.large.icon
                                 
                                 
 template(name='tag_picker')

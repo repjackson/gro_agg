@@ -57,9 +57,13 @@ Template.home.onCreated ->
 
 
 
+Template.post_card.onRendered ->
+    console.log @
+    Meteor.call 'log_view', @data._id, ->
 
 
-Template.home.helpers
+
+Template.post_card.helpers
     card_class: ->
         if Meteor.userId()
             if @read_ids 
@@ -71,6 +75,7 @@ Template.home.helpers
                 'raised link'
         else
             'raised link'
+Template.home.helpers
     posts: ->
         Docs.find {
             model:'post'
@@ -94,6 +99,8 @@ Template.user_post_small.events
         if Meteor.userId()
             Docs.update @_id,
                 $addToSet:read_ids:Meteor.userId()
+        Meteor.users.update @_author_id,
+            $inc:points:1
 Template.home.events
     'click .mark_read': (e,t)->
         console.log 'hi'
