@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.fluid.attached.borderless.inverted.menu.hscroll
+    .ui.fluid.attached.large.borderless.inverted.menu.hscroll
         // a.icon.item.toggle_sidebar.no_blink
         //     i.bars.icon
     
@@ -9,6 +9,8 @@ template(name='nav')
             i.line.chart.large.icon
         a.icon.item.blink.clear(href="/love" class="{{isActiveRoute 'love'}}")
             i.heart.large.icon
+        +status
+    
         if currentUser
             if is_dev 
                 .icon.item
@@ -25,8 +27,7 @@ template(name='nav')
                 // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
                 //     i.inbox.icon
                 a.icon.item(href="/u/#{currentUser.username}/credit" class="{{isActivePath 'user_credit'}}" title="#{user.username} credit")
-                    i.money.icon
-            
+                    .ui.inverted.small.header #{currentUser.points}p
                 a.item(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
                     if currentUser.profile_image_id
                         if is_admin
@@ -36,8 +37,6 @@ template(name='nav')
                     else 
                         i.user.icon
                     strong.mobile.hidden #{currentUser.name}
-                    |&nbsp;
-                    |#{currentUser.points}p
                 a.icon.item.toggle_rightbar.no_blink.no_blink
                     i.ellipsis.vertical.icon
             
@@ -79,30 +78,12 @@ template(name='right_sidebar')
             | dashboard (#{currentUser.points}p)
             i.dashboard.icon
         
-        a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/about" class="{{isActiveRoute 'user_about'}}")
-            | about
-            i.info.icon
         a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/credits" class="{{isActiveRoute 'user_credits'}}")
             | #{currentUser.total_credit_amount}p received
             i.chevron.down.icon
         a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/debits" class="{{isActiveRoute 'user_sent'}}")
             | #{currentUser.total_debit_amount}p sent
             i.chevron.up.icon
-        a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/events" class="{{isActiveRoute 'user_events'}}")
-            | events
-            i.calendar.icon
-        a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/requests" class="{{isActiveRoute 'user_requests'}}")
-            | requests
-            i.concierge.bell.icon
-        a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/orders" class="{{isActiveRoute 'user_orders'}}")
-            | orders
-            i.cart.icon
-        a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/offers" class="{{isActiveRoute 'user_offers'}}")
-            | offers
-            i.hand.holding.heart.icon
-        // a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/messages" class="{{isActiveRoute 'user_messages'}}")
-        //     | chat
-        //     i.chat.icon
         .ui.divider
         a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/edit" title='edit your account')
             i.cog.icon

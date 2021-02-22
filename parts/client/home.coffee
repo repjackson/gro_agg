@@ -60,6 +60,17 @@ Template.home.onCreated ->
 
 
 Template.home.helpers
+    card_class: ->
+        if Meteor.userId()
+            if @read_ids 
+                if Meteor.userId() in @read_ids
+                    'link'
+                else
+                    'raised link'
+            else
+                'raised link'
+        else
+            'raised link'
     posts: ->
         Docs.find {
             model:'post'
@@ -79,6 +90,11 @@ Template.home.helpers
         
 Template.post_view.events
 Template.home.events
+    'click .mark_read': (e,t)->
+        console.log 'hi'
+        if Meteor.userId()
+            Docs.update @_id,
+                $addToSet:read_ids:Meteor.userId()
     'keyup .search_tag': (e,t)->
          if e.which is 13
             val = t.$('.search_tag').val().trim().toLowerCase()
@@ -95,6 +111,7 @@ Template.home.events
         Router.go "/p/#{new_id}/edit"
 
     'click .make_private': ->
+        # if confirm 'make private?'
         Docs.update @_id,
             $set:is_private:true
 

@@ -143,7 +143,7 @@ template(name='home')
                 i.chat.icon            
             .ui.stackable.two.cards.scrolling
                 each posts
-                    .card
+                    .ui.card.mark_read(class=card_class)
                         if image_link
                             a(href="/p/#{_id}/view")
                                 img.ui.zoomer.image(src=image_link)
@@ -175,11 +175,13 @@ template(name='home')
                             // if author
                             //     i.grey.user.outline.icon
                             //     |#{author}
+                            each read_ids
+                                .ui.label #{this}
                         .content
                             if is_author
-                                i.large.lock.icon.make_private
+                                i.large.lock.link.circular.grey.icon.make_private
                             else if in_dev
-                                i.large.lock.icon.make_private
+                                i.large.lock.link.circular.grey.icon.make_private
                             a.ui.icon.large.button(href="/p/#{_id}/view")
                                 |#{views}
                                 i.chevron.right.large.icon
