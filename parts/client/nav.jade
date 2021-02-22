@@ -4,11 +4,11 @@ template(name='nav')
         //     i.bars.icon
     
         a.icon.item.blink.clear.penny.add_global_karma(href="/" class="{{isActiveRoute regex='home'}}")
-            i.yin.yang.large.icon
+            i.yin.yang.icon
         a.icon.item.blink.clear.penny.add_global_karma(href="/stats" class="{{isActiveRoute 'stats'}}")
-            i.line.chart.large.icon
+            i.line.chart.icon
         a.icon.item.blink.clear.penny.add_global_karma(href="/love" class="{{isActiveRoute 'love'}}")
-            i.heart.outline.large.icon
+            i.heart.outline.icon
         .item.add_global_karma(title='session karma')
             i.grey.lightning.icon
             |#{session_clicks}
@@ -23,7 +23,7 @@ template(name='nav')
                     i.code.icon
             .right.menu
                 .icon.item.add_post.penny.add_global_karma
-                    i.plus.large.icon
+                    i.plus.icon
             
                 // if unread_count
                 //     a.item.alerts.select_term(href="#" class=alert_toggle_class)
@@ -36,7 +36,7 @@ template(name='nav')
                 // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
                 //     i.inbox.icon
                 a.icon.item.penny.add_global_karma(href="/u/#{currentUser.username}/credit" class="{{isActivePath 'user_credit'}}" title="#{user.username} credit")
-                    .ui.inverted.header #{currentUser.points}
+                    strong #{currentUser.points}
                 a.item.penny.add_global_karma(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
                     if currentUser.profile_image_id
                         if is_admin
@@ -47,7 +47,7 @@ template(name='nav')
                         i.user.icon
                     strong.mobile.hidden #{currentUser.name}
                 a.icon.item.toggle_rightbar.no_blink.penny.add_global_karma
-                    i.bars.large.icon
+                    i.bars.icon
             
         else
             // a.icon.item(href="/register" title='login')

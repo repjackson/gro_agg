@@ -96,7 +96,6 @@ Template.home.helpers
         
 Template.user_post_small.events
     'click .mark_read': (e,t)->
-        console.log 'hi'
         if Meteor.userId()
             Docs.update @_id,
                 $addToSet:read_ids:Meteor.userId()
@@ -104,7 +103,6 @@ Template.user_post_small.events
             $inc:points:1
 Template.home.events
     'click .mark_read': (e,t)->
-        console.log 'hi'
         if Meteor.userId()
             Docs.update @_id,
                 $addToSet:read_ids:Meteor.userId()
