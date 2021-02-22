@@ -19,8 +19,12 @@ if Meteor.isClient
     Template.user_dashboard.onCreated ->
         @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_commentss', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_post_count', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_comment_count', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_tips_received_count', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_tips_sent_count', Router.current().params.username
+        
         # @autorun -> Meteor.subscribe 'user_debits', Router.current().params.username
-        # @autorun -> Meteor.subscribe 'user_checkins', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_child_referrals', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_requests', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_completed_requests', Router.current().params.username
@@ -41,6 +45,12 @@ if Meteor.isClient
             
             
     Template.user_dashboard.helpers
+        user_post_count: -> Counts.get 'user_post_count'
+        post_points: -> Counts.get('user_post_count')*10
+        user_comment_count: -> Counts.get 'user_comment_count'
+        user_tips_sent_count: -> Counts.get 'user_tips_sent_count'
+        user_tips_received_count: -> Counts.get 'user_tips_received_count'
+
         user_referred: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Meteor.users.find 
@@ -70,61 +80,7 @@ if Meteor.isClient
                 sort: _timestamp:-1
                 limit: 10
 
-        user_requests: ->
-            current_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find {
-                model:'request'
-                _author_id: current_user._id
-            }, 
-                sort: _timestamp:-1
-                limit: 10
 
-        user_completed_requests: ->
-            current_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find {
-                model:'request'
-                completed_by_user_id: current_user._id
-            }, 
-                sort: _timestamp:-1
-                limit: 10
-
-        user_event_tickets: ->
-            current_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find {
-                model:'transaction'
-                transaction_type:'ticket_purchase'
-            }, 
-                sort: _timestamp:-1
-                limit: 10
-
-
-        
-        
-    Template.profile_layout.onCreated ->
-        @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
-    
-    Template.profile_layout.onRendered ->
-        Meteor.setTimeout ->
-            $('.no_blink')
-                .popup()
-        , 1000
-        user = Meteor.users.findOne(username:Router.current().params.username)
-        Meteor.setTimeout ->
-            if user
-                Meteor.call 'calc_user_stats', user._id, ->
-                Meteor.call 'log_user_view', user._id, ->
-        , 2000
-
-
-    Template.profile_layout.helpers
-        route_slug: -> "user_#{@slug}"
-        user: -> Meteor.users.findOne username:Router.current().params.username
-
-    Template.user_dashboard.onCreated ->
-        # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
-        @autorun => Meteor.subscribe('model_docs', 'group_bookmark')
-
-    Template.user_dashboard.helpers
         group_bookmarks: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.find {
@@ -157,6 +113,32 @@ if Meteor.isClient
                 _author_id:user._id
             }, sort:_timestamp:-1
                 
+        
+        
+    Template.profile_layout.onCreated ->
+        @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
+    
+    Template.profile_layout.onRendered ->
+        Meteor.setTimeout ->
+            $('.no_blink')
+                .popup()
+        , 1000
+        user = Meteor.users.findOne(username:Router.current().params.username)
+        Meteor.setTimeout ->
+            if user
+                Meteor.call 'calc_user_stats', user._id, ->
+                Meteor.call 'log_user_view', user._id, ->
+        , 2000
+
+
+    Template.profile_layout.helpers
+        route_slug: -> "user_#{@slug}"
+        user: -> Meteor.users.findOne username:Router.current().params.username
+
+    Template.user_dashboard.onCreated ->
+        # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+        @autorun => Meteor.subscribe('model_docs', 'group_bookmark')
+
     Template.profile_layout.events
         'click a.select_term': ->
             $('.profile_yield')
@@ -262,6 +244,42 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.publish 'user_post_count', (username)->
+        user = Meteor.users.findOne username:username
+        match = {
+            model:'post'
+            _author_id:user._id
+        }
+    
+        # match.tags = $all:picked_tags
+        # if picked_tags.length
+        Counts.publish this, 'user_post_count', Docs.find(match)
+        return undefined
+    
+    Meteor.publish 'user_comment_count', (username)->
+        user = Meteor.users.findOne username:username
+        match = {
+            model:'comment'
+            _author_id:user._id
+        }
+    
+        # match.tags = $all:picked_tags
+        # if picked_tags.length
+        Counts.publish this, 'user_comment_count', Docs.find(match)
+        return undefined
+    
+    Meteor.publish 'user_tip_count', (username)->
+        user = Meteor.users.findOne username:username
+        match = {
+            model:'tip'
+            _author_id:user._id
+        }
+    
+        # match.tags = $all:picked_tags
+        # if picked_tags.length
+        Counts.publish this, 'user_tip_count', Docs.find(match)
+        return undefined
+    
     Meteor.methods
         log_user_view: (user_id)->
             if Meteor.user()

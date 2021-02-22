@@ -3,7 +3,7 @@ template(name='profile_layout')
     +nav
     .ui.bottom.attached.pushable.segment
         // +topbar
-        +left_sidebar
+        // +left_sidebar
         +right_sidebar
                 
         #main_area.global_container.pusher
@@ -21,6 +21,10 @@ template(name='profile_layout')
                         // div
                         a.ui.small.header.refresh_user_stats(href="/u/#{username}") 
                             |@#{username}
+                        .ui.inline.header() #{points}pts
+                        .ui.basic.label {{to_percent one_ratio}}% ratio
+                        .ui.basic.label #{flow_volume} volume
+                        .ui.basic.label #{profile_views} views
                         if is_admin
                             a.ui.basic.button(href="/u/#{username}/edit" title='admin edit account')
                                 i.shield.large.icon
@@ -32,10 +36,6 @@ template(name='profile_layout')
                             a.ui.basic.button.logout(href="#" title='log out')
                                 i.sign.out.icon
                                 |log out
-                        .ui.inline.header() #{points}pts
-                        .ui.basic.label {{to_percent one_ratio}}% ratio
-                        .ui.basic.label #{flow_volume} volume
-                        .ui.basic.label #{profile_views} views
                         if is_dev
                             .ui.small.inline.header #{_id}
                         unless is_current_user
@@ -120,18 +120,26 @@ template(name='user_dashboard')
         .row
             .sixteen.wide.column
                 if currentUser
-                    .ui.small.header 
-                        label goto/create group
-                    .ui.input
-                        input.goto_group(type='text' placeholder='name')
-                    each group_bookmarks
-                        .ui.basic.large.label
-                            i.remove.icon.remove_group
-                            span.pointer.click_group
-                                |#{name}
+                    // .ui.small.header 
+                    //     label goto/create group
+                    // .ui.input
+                    //     input.goto_group(type='text' placeholder='name')
+                    // each group_bookmarks
+                    //     .ui.basic.large.label
+                    //         i.remove.icon.remove_group
+                    //         span.pointer.click_group
+                    //             |#{name}
                     //- .ui.icon.button.refresh_user_stats(title='refresh stats')
                     //-     i.refresh.icon
-            
+                    .ui.big.basic.label #{user_post_count} posts x 10p = #{post_points}p
+                    i.big.minus.icon
+                    .ui.big.basic.label #{user_comment_count} comments x 1p
+                    i.big.minus.icon
+                    .ui.big.basic.label #{user_comment_count} tips sent totaling #{tips_sent_amount}
+                    i.big.plus.icon
+                    .ui.big.basic.label #{tips_received_count} tips received totaling #{tips_received_amount}
+                    i.big.equals.icon
+                    .ui.big.basic.label #{points}p
                     .ui.header 
                         i.chat.icon
                         |comments
