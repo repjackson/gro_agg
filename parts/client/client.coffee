@@ -20,6 +20,7 @@ Template.body.events
         if @_author_id
             Meteor.users.update @_author_id,
                 $inc:points:1
+        Session.set('session_clicks', Session.get('session_clicks')+1)
     
     'click .shutup': ->
         window.speechSynthesis.cancel()

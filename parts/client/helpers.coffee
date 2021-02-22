@@ -14,6 +14,7 @@ Template.registerHelper 'sentence_color', () ->
         when 'analytical' then 'orange'
         when 'tentative' then 'yellow'
         
+Template.registerHelper 'session_clicks', () -> Session.get('session_clicks') 
 Template.registerHelper 'abs_percent', (num) -> 
     # console.l/og Math.abs(num*100)
     parseInt(Math.abs(num*100))

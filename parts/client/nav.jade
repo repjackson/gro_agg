@@ -8,7 +8,9 @@ template(name='nav')
         a.icon.item.blink.clear.penny(href="/stats" class="{{isActiveRoute 'stats'}}")
             i.line.chart.large.icon
         a.icon.item.blink.clear.penny(href="/love" class="{{isActiveRoute 'love'}}")
-            i.heart.large.icon
+            i.heart.outline.large.icon
+        .item 
+            |#{session_clicks}
         +status
     
         if currentUser

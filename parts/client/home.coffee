@@ -31,8 +31,9 @@ Template.post_view.events
         picked_tags.clear()
         Router.go '/'
 
+Template.nav.onCreated ->
+    Session.setDefault('session_clicks', 0)
 Template.home.onCreated ->
-    # Session.setDefault('subreddit_view_layout', 'grid')
     Session.setDefault('sort_key', '_timestamp')
     Session.setDefault('sort_direction', -1)
     # Session.setDefault('location_query', null)
