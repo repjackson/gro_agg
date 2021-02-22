@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.fluid.attached.large.borderless.inverted.menu.hscroll
+    .ui.fluid.attached.borderless.inverted.menu.hscroll
         // a.icon.item.toggle_sidebar.no_blink
         //     i.bars.icon
     
@@ -9,8 +9,12 @@ template(name='nav')
             i.line.chart.large.icon
         a.icon.item.blink.clear.penny(href="/love" class="{{isActiveRoute 'love'}}")
             i.heart.outline.large.icon
-        .item 
+        .item(title='session_karma')
+            i.grey.lightning.icon
             |#{session_clicks}
+        .item(title='global karma')
+            i.grey.globe.icon
+            |#{global_karma}
         +status
     
         if currentUser

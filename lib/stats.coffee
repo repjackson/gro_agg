@@ -14,6 +14,13 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'global_stats'
         
         
+    Template.nav.helpers
+        global_karma: ->
+            gs = 
+                Docs.findOne 
+                    model:'global_stats'
+            if gs
+                gs.global_karma
     Template.stats.helpers
         global_karma: ->
             gs = 
