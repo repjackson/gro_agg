@@ -20,6 +20,8 @@ Template.youtube_edit.events
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":val
+        Meteor.call 'add_global_karma', ->
+        Session.set('session_clicks', Session.get('session_clicks')+2)
 
 
 
@@ -93,6 +95,10 @@ Template.html_edit.events
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":html
+        Meteor.users.update Meteor.userId(),
+            $inc:points:1
+        Meteor.call 'add_global_karma', ->
+        Session.set('session_clicks', Session.get('session_clicks')+2)
 
     'keyup .testsun': _.throttle((e,t)=>
         html = t.editor.getContents(onlyContents: Boolean);
@@ -109,21 +115,6 @@ Template.html_edit.events
 
 Template.html_edit.helpers
         
-
-
-Template.color_icon_edit.events
-    'blur .color_icon': (e,t)->
-        val = t.$('.color_icon').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
-        doc = Docs.findOne parent._id
-        if doc
-            Docs.update parent._id,
-                $set:"#{@key}":val
-
-
 
 
 Template.clear_value.events
@@ -150,6 +141,10 @@ Template.link_edit.events
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":val
+        Meteor.users.update Meteor.userId(),
+            $inc:points:1
+        Meteor.call 'add_global_karma', ->
+        Session.set('session_clicks', Session.get('session_clicks')+2)
 
 
 Template.icon_edit.events
@@ -175,6 +170,10 @@ Template.image_link_edit.events
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":val
+        Meteor.users.update Meteor.userId(),
+            $inc:points:1
+        Meteor.call 'add_global_karma', ->
+        Session.set('session_clicks', Session.get('session_clicks')+2)
 
 
 Template.image_edit.events
@@ -195,18 +194,10 @@ Template.image_edit.events
                     if doc
                         Docs.update parent._id,
                             $set:"#{@key}":res.public_id
-
-    'click .call_cloud_visual': (e,t)->
-        Meteor.call 'call_visual', Router.current().params.doc_id, 'cloud', ->
-            $('body').toast(
-                showIcon: 'dna'
-                message: 'image autotagged'
-                # showProgress: 'bottom'
-                class: 'success'
-                displayTime: 'auto',
-                position: "bottom center"
-            )
-
+        Meteor.users.update Meteor.userId(),
+            $inc:points:1
+        Meteor.call 'add_global_karma', ->
+        Session.set('session_clicks', Session.get('session_clicks')+2)
 
     'blur .cloudinary_id': (e,t)->
         cloudinary_id = t.$('.cloudinary_id').val()
@@ -231,6 +222,8 @@ Template.image_edit.events
             if doc
                 Docs.update parent._id,
                     $unset:"#{@key}":1
+        Meteor.users.update Meteor.userId(),
+            $inc:points:1
 
 
 
@@ -265,6 +258,10 @@ Template.array_edit.events
                         $addToSet:"#{@key}":element_val
                 # window.speechSynthesis.speak new SpeechSynthesisUtterance element_val
                 t.$('.new_element').val('')
+            Meteor.users.update Meteor.userId(),
+                $inc:points:2
+            Meteor.call 'add_global_karma', ->
+            Session.set('session_clicks', Session.get('session_clicks')+2)
 
     'click .remove_element': (e,t)->
         $(e.currentTarget).closest('.touch_element').transition('slide left', 1000)
@@ -287,6 +284,10 @@ Template.array_edit.events
 
         t.$('.new_element').focus()
         t.$('.new_element').val(element)
+        Meteor.users.update Meteor.userId(),
+            $inc:points:1
+        Meteor.call 'add_global_karma', ->
+        Session.set('session_clicks', Session.get('session_clicks')+2)
 
 # Template.textarea.onCreated ->
 #     @editing = new ReactiveVar false
@@ -346,6 +347,8 @@ Template.text_edit.events
         else if user
             Meteor.users.update parent._id,
                 $set:"#{@key}":val
+        Meteor.users.update Meteor.userId(),
+            $inc:points:1
 
 
 
@@ -384,33 +387,6 @@ Template.float_edit.events
                 $set:"#{@key}":val
 
 
-Template.slug_edit.events
-    'blur .edit_text': (e,t)->
-        val = t.$('.edit_text').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
-
-        doc = Docs.findOne parent._id
-        if doc
-            Docs.update parent._id,
-                $set:"#{@key}":val
-
-
-    'click .slugify_title': (e,t)->
-        page_doc = Docs.findOne Router.current().params.doc_id
-        # val = t.$('.edit_text').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
-        doc = Docs.findOne parent._id
-        Meteor.call 'slugify', page_doc._id, (err,res)=>
-            Docs.update page_doc._id,
-                $set:slug:res
-
-
 Template.boolean_edit.helpers
     boolean_toggle_class: ->
         if @direct
@@ -432,6 +408,10 @@ Template.boolean_edit.events
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":!parent["#{@key}"]
+        Meteor.users.update Meteor.userId(),
+            $inc:points:1
+        Meteor.call 'add_global_karma', ->
+        Session.set('session_clicks', Session.get('session_clicks')+2)
 
 Template.single_doc_view.onCreated ->
     # @autorun => Meteor.subscribe 'model_docs', @data.ref_model
