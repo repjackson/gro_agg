@@ -36,22 +36,22 @@ if Meteor.isClient
         post_count: -> Counts.get 'post_count'
     
 
+Meteor.methods
+    add_global_karma: ->
+        gs = 
+            Docs.findOne 
+                model:'global_stats'
+        console.log gs
+        if gs
+            Docs.update gs._id,
+                $inc:global_karma:1
+        else
+            Docs.insert
+                model:'global_stats'
 if Meteor.isServer
     Meteor.publish 'global_stats', ()->
         Docs.find
             model:'global_stats'
-    Meteor.methods
-        add_global_karma: ->
-            gs = 
-                Docs.findOne 
-                    model:'global_stats'
-            console.log gs
-            if gs
-                Docs.update gs._id,
-                    $inc:global_karma:1
-            else
-                Docs.insert
-                    model:'global_stats'
     Meteor.publish 'reflection_count', (
         # picked_tags
         # toggle

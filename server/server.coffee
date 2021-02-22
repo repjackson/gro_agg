@@ -47,18 +47,6 @@ Meteor.methods
     #         Docs.update doc._id,
     #             $set: tags_string:tags_string
     #
-    log_view: (doc_id)->
-        doc = Docs.findOne doc_id
-        # console.log 'logging view', doc_id
-        Docs.update doc_id, 
-            $inc:views:1
-        if Meteor.userId()
-            Docs.update doc_id,
-                $addToSet:viewer_ids:Meteor.userId()
-        Meteor.users.update doc._author_id,
-            $inc:points:2
-        Meteor.users.update Meteor.userId(),
-            $inc:points:1
 
 
     # log_term: (term_title)->

@@ -12,7 +12,9 @@ Template.body.events
         
     'click .say_body': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
-        
+        Meteor.call 'add_global_karma', ->
+        Session.set('session_clicks', Session.get('session_clicks')+2)
+
     'click a': ->
         if Meteor.userId()
             Meteor.users.update Meteor.userId(),
