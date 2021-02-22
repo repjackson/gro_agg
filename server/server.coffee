@@ -112,11 +112,6 @@ Meteor.publish 'stats', ()->
     Docs.find 
         model:'stats'
 
-Meteor.publish 'love_reflections', (doc_id)->
-    Docs.find
-        model:'reflection'
-        parent_id:doc_id
-
 
 
 Meteor.publish 'doc_count', (

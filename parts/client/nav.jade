@@ -1,16 +1,14 @@
 template(name='nav')
     .ui.fluid.attached.borderless.inverted.menu.hscroll
-        a.icon.item.toggle_sidebar.no_blink
-            i.bars.icon
+        // a.icon.item.toggle_sidebar.no_blink
+        //     i.bars.icon
     
         a.icon.item.blink.clear(href="/" class="{{isActiveRoute regex='home'}}")
             i.yin.yang.large.icon
         a.icon.item.blink.clear(href="/stats" class="{{isActiveRoute 'stats'}}")
             i.line.chart.large.icon
-        a.icon.item.blink.clear(href="/reddit" class="{{isActiveRoute 'reddit'}}")
-            i.reddit.large.icon
-        a.icon.item.blink.clear(href="/stack" class="{{isActiveRoute 'stack'}}")
-            i.stack.exchange.large.icon
+        a.icon.item.blink.clear(href="/love" class="{{isActiveRoute 'love'}}")
+            i.heart.large.icon
         if currentUser
             if is_dev 
                 .icon.item
@@ -24,8 +22,6 @@ template(name='nav')
                 else
                     a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
                         i.outline.bell.icon
-                a.icon.item(href="/chat" title='chat') 
-                    i.chat.outline.icon
                 // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
                 //     i.inbox.icon
                 a.icon.item(href="/u/#{currentUser.username}/credit" class="{{isActivePath 'user_credit'}}" title="#{user.username} credit")
