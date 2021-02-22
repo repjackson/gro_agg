@@ -100,6 +100,8 @@ Template.home.events
         if Meteor.userId()
             Docs.update @_id,
                 $addToSet:read_ids:Meteor.userId()
+            Meteor.users.update Meteor.userId(),
+                $inc:points:1
     'keyup .search_tag': (e,t)->
          if e.which is 13
             val = t.$('.search_tag').val().trim().toLowerCase()
@@ -109,11 +111,6 @@ Template.home.events
             # Session.set('sub_doc_query', val)
 
 
-    'click .add_post': ->
-        new_id = 
-            Docs.insert 
-                model:'post'
-        Router.go "/p/#{new_id}/edit"
 
     'click .make_private': ->
         # if confirm 'make private?'

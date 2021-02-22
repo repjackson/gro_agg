@@ -3,8 +3,6 @@ template(name='home')
         .sixteen.wide.column.scrolling             
             // i.large.clock.icon
             // i.large.thumbs.up.icon
-            .ui.icon.button.add_post
-                i.plus.green.icon
             .ui.icon.transparent.input
                 // if is_loading
                 //     i.yin.yang.loading.icon
@@ -154,6 +152,7 @@ template(name='home')
                             +youtube_view key='youtube_id' label='youtube id' direct=true
 
                         .content.smallscroll
+                            .ui.header #{title}
                             div
                             i.thumbs.up.link.outline.icon.upvote
                             |#{points}

@@ -188,7 +188,7 @@ if Meteor.isClient
         'click .refresh_user_stats': ->
             user = Meteor.users.findOne(username:Router.current().params.username)
             # Meteor.call 'calc_user_stats', user._id, ->
-            Meteor.call 'recalc_user_stats', user._id, ->
+            Meteor.call 'calc_user_stats', user._id, ->
             Meteor.call 'calc_user_tags', user._id, ->
     
     Template.profile_layout.events
@@ -510,11 +510,12 @@ if Meteor.isServer
 
 
 
-        recalc_user_stats: (user_id)->
+        calc_user_stats: (user_id)->
             user = Meteor.users.findOne user_id
             unless user
                 user = Meteor.users.findOne username
             user_id = user._id
+            
             # console.log classroom
             # student_stats_doc = Docs.findOne
             #     model:'student_stats'
@@ -537,6 +538,20 @@ if Meteor.isServer
 
             # console.log 'total debit amount', total_debit_amount
 
+            viewed_docs = Docs.find({
+                model:'post'
+                _author_id: user_id
+                view_ids:$exists
+            })
+            viewed_docs_count = viewed_docs.count()
+            console.log 'viewed docs count', viewed_docs_count
+            
+            total_views_amount = 0
+            for post in viewed_docs.fetch()
+                # if post.amount
+                total_views += post.view_ids.length
+            
+            
             tips_out = Docs.find({
                 model:'tip'
                 _author_id: user_id
@@ -586,9 +601,9 @@ if Meteor.isServer
 
             console.log 'total tips in amount', total_tips_in_amount
             console.log 'total tips out amount', total_tips_out_amount
-            tip_balance = total_tips_in_amount - total_tips_out_amount
+            tip_balance = total_tips_in_amount - total_tips_out_amount + total_views
             
-            console.log 'total tip balance', tip_balance
+            console.log 'total tip balance + views', tip_balance
             # average_credit_per_student = total_credit_amount/student_count
             # average_debit_per_student = total_debit_amount/student_count
             # flow_volume = Math.abs(total_credit_amount)+Math.abs(total_debit_amount)

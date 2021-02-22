@@ -7,15 +7,15 @@ Template.nav.onRendered ->
     Meteor.setTimeout ->
         $('.menu .item')
             .popup()
-        $('.ui.left.sidebar')
-            .sidebar({
-                context: $('.bottom.segment')
-                transition:'overlay'
-                exclusive:true
-                duration:200
-                scrollLock:true
-            })
-            .sidebar('attach events', '.toggle_sidebar')
+        # $('.ui.left.sidebar')
+        #     .sidebar({
+        #         context: $('.bottom.segment')
+        #         transition:'overlay'
+        #         exclusive:true
+        #         duration:200
+        #         scrollLock:true
+        #     })
+        #     .sidebar('attach events', '.toggle_sidebar')
     , 1000
     Meteor.setTimeout ->
         $('.ui.right.sidebar')
@@ -48,12 +48,14 @@ Template.right_sidebar.events
 Template.nav.helpers
     alert_toggle_class: ->
         if Session.get('viewing_alerts') then 'active' else ''
-    current_tribe: () ->
-        if Meteor.user()
-            Docs.findOne 
-                _id:Meteor.user().current_tribe_id
         
 Template.nav.events
+    'click .add_post': ->
+        new_id = 
+            Docs.insert 
+                model:'post'
+        Router.go "/p/#{new_id}/edit"
+
     'click .alerts': ->
         Session.set('viewing_alerts', !Session.get('viewing_alerts'))
         
@@ -71,49 +73,10 @@ Template.nav.events
         else
             Meteor.users.update Meteor.userId(),
                 $addToSet:'roles':'dev'
-    'click .set_member': ->
-        Session.set 'loading', true
-        Meteor.call 'set_facets', 'member', ->
-            Session.set 'loading', false
-    'click .set_shift': ->
-        Session.set 'loading', true
-        Meteor.call 'set_facets', 'shift', ->
-    'click .add_gift': ->
-        # user = Meteor.users.findOne(username:@username)
-        new_gift_id =
-            Docs.insert
-                model:'gift'
-                recipient_id: @_id
-        Router.go "/debit/#{new_gift_id}/edit"
-
-    'click .add_request': ->
-        # user = Meteor.users.findOne(username:@username)
-        new_id =
-            Docs.insert
-                model:'request'
-                recipient_id: @_id
-        Router.go "/request/#{new_id}/edit"
-
-
     'click .view_profile': ->
-        Meteor.call 'calc_user_points', Meteor.userId()
+        Meteor.call 'calc_user_points', Meteor.userId(), ->
         
     'click .clear_tags': -> picked_tags.clear()
-    'click .set_food': -> 
-        picked_tags.clear()
-        picked_tags.push 'food'
-    'click .set_movies': -> 
-        picked_tags.clear()
-        picked_tags.push 'movies'
-    'click .set_nature': -> 
-        picked_tags.clear()
-        picked_tags.push 'nature'
-    'click .set_tarot': -> 
-        picked_tags.clear()
-        picked_tags.push 'tarot'
-    'click .set_food': -> 
-        picked_tags.clear()
-        picked_tags.push 'food'
 
 Template.topbar.onCreated ->
     @autorun => Meteor.subscribe 'my_received_messages'
@@ -152,39 +115,39 @@ Template.topbar.events
 
         
         
-Template.left_sidebar.events
-    # 'click .toggle_sidebar': ->
-    #     $('.ui.sidebar')
-    #         .sidebar('setting', 'transition', 'push')
-    #         .sidebar('toggle')
-    'click .toggle_admin': ->
-        if 'admin' in Meteor.user().roles
-            Meteor.users.update Meteor.userId(),
-                $pull:'roles':'admin'
-        else
-            Meteor.users.update Meteor.userId(),
-                $addToSet:'roles':'admin'
-    'click .toggle_dev': ->
-        if 'dev' in Meteor.user().roles
-            Meteor.users.update Meteor.userId(),
-                $pull:'roles':'dev'
-        else
-            Meteor.users.update Meteor.userId(),
-                $addToSet:'roles':'dev'
+# Template.left_sidebar.events
+#     # 'click .toggle_sidebar': ->
+#     #     $('.ui.sidebar')
+#     #         .sidebar('setting', 'transition', 'push')
+#     #         .sidebar('toggle')
+#     'click .toggle_admin': ->
+#         if 'admin' in Meteor.user().roles
+#             Meteor.users.update Meteor.userId(),
+#                 $pull:'roles':'admin'
+#         else
+#             Meteor.users.update Meteor.userId(),
+#                 $addToSet:'roles':'admin'
+#     'click .toggle_dev': ->
+#         if 'dev' in Meteor.user().roles
+#             Meteor.users.update Meteor.userId(),
+#                 $pull:'roles':'dev'
+#         else
+#             Meteor.users.update Meteor.userId(),
+#                 $addToSet:'roles':'dev'
                 
             
-    'click .add_gift': ->
-        # user = Meteor.users.findOne(username:@username)
-        new_gift_id =
-            Docs.insert
-                model:'gift'
-                recipient_id: @_id
-        Router.go "/debit/#{new_gift_id}/edit"
+#     'click .add_gift': ->
+#         # user = Meteor.users.findOne(username:@username)
+#         new_gift_id =
+#             Docs.insert
+#                 model:'gift'
+#                 recipient_id: @_id
+#         Router.go "/debit/#{new_gift_id}/edit"
 
-    'click .add_request': ->
-        # user = Meteor.users.findOne(username:@username)
-        new_id =
-            Docs.insert
-                model:'request'
-                recipient_id: @_id
-        Router.go "/request/#{new_id}/edit"
+#     'click .add_request': ->
+#         # user = Meteor.users.findOne(username:@username)
+#         new_id =
+#             Docs.insert
+#                 model:'request'
+#                 recipient_id: @_id
+#         Router.go "/request/#{new_id}/edit"
