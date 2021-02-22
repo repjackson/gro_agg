@@ -100,7 +100,7 @@ Template.home.events
         if Meteor.userId()
             Docs.update @_id,
                 $addToSet:read_ids:Meteor.userId()
-            Meteor.users.update Meteor.userId(),
+            Meteor.users.update @_author_id,
                 $inc:points:1
     'keyup .search_tag': (e,t)->
          if e.which is 13

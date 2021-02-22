@@ -83,9 +83,9 @@ template(name='session_toggle_button')
 
 template(name='comments')
     div
-    .ui.fluid.icon.transparent.input
+    .ui.fluid.icon.large.input
         i.plus.icon
-        input.add_comment(model='text' placeholder='comment')
+        input.add_comment(model='text' placeholder='comment (-1p from author, +1p to op')
     .ui.comments
         each doc_comments
             .comment

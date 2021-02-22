@@ -541,7 +541,7 @@ if Meteor.isServer
             viewed_docs = Docs.find({
                 model:'post'
                 _author_id: user_id
-                view_ids:$exists
+                viewer_ids:$exists
             })
             viewed_docs_count = viewed_docs.count()
             console.log 'viewed docs count', viewed_docs_count
@@ -549,7 +549,7 @@ if Meteor.isServer
             total_views_amount = 0
             for post in viewed_docs.fetch()
                 # if post.amount
-                total_views += post.view_ids.length
+                total_views += post.viewer_ids.length
             
             
             tips_out = Docs.find({
