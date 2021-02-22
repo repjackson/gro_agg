@@ -85,7 +85,7 @@ template(name='subreddit')
                 .scrolling
                     if sub_docs
                         if skv_is 'subreddit_view_layout' 'grid'
-                            .ui.stackable.four.cards 
+                            .ui.stackable.three.cards 
                                 each sub_docs
                                     +subreddit_post_card_small
                         else if skv_is 'subreddit_view_layout' 'list'

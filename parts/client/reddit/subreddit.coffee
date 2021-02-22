@@ -91,8 +91,8 @@ Template.subreddit_doc_item.onRendered ->
 
 Template.subreddit_post_card_small.onRendered ->
     # console.log @
-    unless @data.watson
-        Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
+    # unless @data.watson
+    #     Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
     unless @data.time_tags
         Meteor.call 'tagify_time_rpost',@data._id,=>
 
@@ -104,8 +104,12 @@ Template.subreddit.events
     'click .limit_10': (e,t)-> Session.set('limit',10)
     'click .limit_1': (e,t)-> Session.set('limit',1)
 
-    'click .sort_created': -> Session.set('sort_key', 'data.created')
-    'click .sort_ups': -> Session.set('sort_key', 'data.ups')
+    'click .sort_created': -> 
+        Session.set('sort_key', 'data.created')
+        Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
+    'click .sort_ups': -> 
+        Session.set('sort_key', 'data.ups')
+        Meteor.call 'get_sub_best', Router.current().params.subreddit, ->
     'click .download': ->
         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
     

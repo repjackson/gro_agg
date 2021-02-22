@@ -30,7 +30,7 @@ constellation:console
 constellation:subscriptions
 constellation:session
 babrahams:temple
-ecmascript@0.15.0
+ecmascript
 tmeasday:publish-counts
 markdown
 zimme:active-route

@@ -279,23 +279,27 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "https://www.reddit.com/r/#{subreddit}.json?&raw_json=1&nsfw=1"
+        url = "https://www.reddit.com/r/#{subreddit}.json?&raw_json=1&include_over_18=on&search_include_over_18=on&limit=100"
         HTTP.get url,(err,res)=>
+            if err
+                console.log err
+            # if res 
+            #     console.log res
             # console.log res.data.data.children.length
             # if res.data.data.dist > 1
             _.each(res.data.data.children[0..100], (item)=>
-                # console.log item.data.id
+                console.log 'result', item.data.id
                 found = 
                     Docs.findOne    
                         model:'rpost'
                         reddit_id:item.data.id
                         # subreddit:item.data.id
                 if found
-                    # console.log found, 'found'
+                    console.log found, 'found', found._id
                     Docs.update found._id,
                         $set:subreddit:item.data.subreddit
                 unless found
-                    # console.log found, 'not found'
+                    console.log found, 'not found, adding', item.data.title
                     item.model = 'rpost'
                     item.reddit_id = item.data.id
                     item.author = item.data.author
@@ -558,31 +562,43 @@ Meteor.methods
     search_subreddit: (subreddit,search)->
         @unblock()
         console.log 'searching ', subreddit, 'for ', search
-        HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&raw_json=1&nsfw=1", (err,res)->
+        HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&raw_json=1&include_over_18=on&nsfw=1", (err,res)->
+            # console.log 'res',res.data.data
+            # console.log 'err',err
             if res.data.data.dist > 1
-                _.each(res.data.data.children[0..100], (item)=>
-                    # console.log item.data.id
-                    found = 
-                        Docs.findOne    
-                            model:'rpost'
-                            reddit_id:item.data.id
-                            # subreddit:item.data.id
-                    if found
-                        # console.log found, 'found and updating', subreddit
-                        Docs.update found._id, 
-                            $addToSet: tags: search
-                            # $set:
-                            #     subreddit:item.data.subreddit
-                    unless found
-                        # console.log found, 'not found'
-                        item.model = 'rpost'
-                        item.reddit_id = item.data.id
-                        item.author = item.data.author
-                        item.subreddit = item.data.subreddit
-                        item.tags = [search]
-                        # item.rdata = item.data
-                        Docs.insert item
-                )
+                for item in res.data.data.children[0..3]
+                    console.log 'data id', item.data.id
+                    id = item.data.id
+                    console.log typeof(id), id
+                    # Docs.insert d
+                    # found = 
+                    found = Docs.findOne({
+                        model:'rpost',
+                        "data.subreddit":item.data.subreddit
+                        # reddit_id:id
+                    })
+                    console.log 'found', found.data, found.reddit_id
+                    # continue
+                # _.each(res.data.data.children[0..100], (item)=>
+                #     console.log item.data.id
+                #     id = item.data.id
+                #     console.log 'id is', id
+                #     # if found
+                #     #     console.log found, 'found and updating', subreddit
+                #     #     Docs.update found._id, 
+                #     #         $addToSet: tags: search
+                #     #         $set:
+                #     #             subreddit:item.data.subreddit
+                #     # unless found
+                #     #     console.log found, 'not found'
+                #     #     item.model = 'rpost'
+                #     #     item.reddit_id = item.data.id
+                #     #     item.author = item.data.author
+                #     #     item.subreddit = item.data.subreddit
+                #     #     item.tags = [search]
+                #     #     # item.rdata = item.data
+                #     #     Docs.insert item
+                # )
                 
         
     tagify_time_rpost: (doc_id)->
