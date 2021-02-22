@@ -16,7 +16,7 @@ template(name='nav')
                 .icon.item
                     i.code.icon
             .right.menu
-                .icon.item.add_post
+                .icon.item.add_post.penny
                     i.plus.large.icon
             
                 // if unread_count
@@ -29,9 +29,9 @@ template(name='nav')
                 //         i.outline.bell.icon
                 // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
                 //     i.inbox.icon
-                a.icon.item(href="/u/#{currentUser.username}/credit" class="{{isActivePath 'user_credit'}}" title="#{user.username} credit")
+                a.icon.item.penny(href="/u/#{currentUser.username}/credit" class="{{isActivePath 'user_credit'}}" title="#{user.username} credit")
                     .ui.inverted.header #{currentUser.points}
-                a.item(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
+                a.item.penny(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
                     if currentUser.profile_image_id
                         if is_admin
                             i.shield.icon(title='admin mode on')
@@ -40,7 +40,7 @@ template(name='nav')
                     else 
                         i.user.icon
                     strong.mobile.hidden #{currentUser.name}
-                a.icon.item.toggle_rightbar.no_blink
+                a.icon.item.toggle_rightbar.no_blink.penny
                     i.bars.large.icon
             
         else
