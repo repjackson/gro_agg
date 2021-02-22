@@ -11,9 +11,16 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'comment_count'
         @autorun => Meteor.subscribe 'tip_count'
         @autorun => Meteor.subscribe 'post_count'
+        @autorun => Meteor.subscribe 'global_stats'
         
         
     Template.stats.helpers
+        global_karma: ->
+            gs = 
+                Docs.findOne 
+                    model:'global_stats'
+            if gs
+                gs.global_karma
         user_count: -> Counts.get 'user_count'
         reflection_count: -> Counts.get 'reflection_count'
         comment_count: -> Counts.get 'comment_count'
@@ -23,6 +30,33 @@ if Meteor.isClient
     
 
 if Meteor.isServer
+    Meteor.publish 'global_stats', ()->
+        Docs.find
+            model:'global_stats'
+    Meteor.methods
+        add_global_karma: ->
+            gs = 
+                Docs.findOne 
+                    model:'global_stats'
+            console.log gs
+            if gs
+                Docs.update gs._id,
+                    $inc:global_karma:1
+            else
+                Docs.insert
+                    model:'global_stats'
+    Meteor.publish 'reflection_count', (
+        # picked_tags
+        # toggle
+        )->
+        match = {
+            model:'reflection'
+        }
+    
+        # match.tags = $all:picked_tags
+        # if picked_tags.length
+        Counts.publish this, 'reflection_count', Docs.find(match)
+        return undefined
     Meteor.publish 'reflection_count', (
         # picked_tags
         # toggle

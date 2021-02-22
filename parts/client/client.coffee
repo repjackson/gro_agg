@@ -20,6 +20,7 @@ Template.body.events
         if @_author_id
             Meteor.users.update @_author_id,
                 $inc:points:1
+        Meteor.call 'add_global_karma', ->
         Session.set('session_clicks', Session.get('session_clicks')+1)
     
     'click .shutup': ->
