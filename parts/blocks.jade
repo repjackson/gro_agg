@@ -81,6 +81,17 @@ template(name='session_toggle_button')
     .ui.compact.icon.button.toggle(class=session_toggle_button_class title=title)
         i.large.icon(class=icon)
 
+
+template(name='tip')
+    unless template_parent.is_author
+        .ui.basic.button.tip
+            i.donate.icon
+            |tip 1p
+    |#{tip_total} total
+    each tips
+        .ui.header #{amount} #{_author_username}
+        
+        
 template(name='comments')
     div
     .ui.fluid.icon.large.input

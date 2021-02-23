@@ -287,7 +287,9 @@ html.ios body {
     /*margin-bottom: 4em; */
 }
 
-
+.hidden {
+  display:hidden !important;
+}
 .secnav{
     /* padding: 5px !important;
     border-radius: 10px !important;

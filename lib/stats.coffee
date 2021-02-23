@@ -43,11 +43,10 @@ Meteor.methods
                 model:'global_stats'
         # console.log gs
         if gs
-            Docs.update gs._id,
-                $inc:global_karma:1
-        else
-            Docs.insert
-                model:'global_stats'
+            Docs.update({_id:gs._id},{$inc:global_karma:1},->)
+        # else
+        #     Docs.insert
+        #         model:'global_stats'
 if Meteor.isServer
     Meteor.publish 'global_stats', ()->
         Docs.find

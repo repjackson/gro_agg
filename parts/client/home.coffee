@@ -96,15 +96,28 @@ Template.home.helpers
     location_results: -> results.find(model:'location_tag')
     time_results: -> results.find(model:'time_tag')
         
+    sidebar_class: -> if Session.get('view_sidebar') then 'ui four wide column' else 'hidden'
+    main_column_class: -> if Session.get('view_sidebar') then 'ui twelve wide column' else 'ui sixteen wide column' 
         
 Template.user_post_small.events
     'click .mark_read': (e,t)->
+        Meteor.call 'log_view', @_id, ->
         if Meteor.userId()
             Docs.update @_id,
                 $addToSet:read_ids:Meteor.userId()
         Meteor.users.update @_author_id,
             $inc:points:1
 Template.home.events
+    'click .enable_sidebar': (e,t)-> Session.set('view_sidebar',true)
+    'click .disable_sidebar': (e,t)-> Session.set('view_sidebar',false)
+    'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
+    'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
+    'click .sort_up': (e,t)-> Session.set('sort_direction',1)
+
+    'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
+    'click .set_list': (e,t)-> Session.set('view_layout', 'list')
+
+
     'click .mark_read': (e,t)->
         if Meteor.userId()
             Docs.update @_id,
@@ -162,7 +175,38 @@ Template.home.events
         picked_authors.push @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
 
-
+    'click .unpick_Location': ->
+        picked_Locations.remove @valueOf()
+    'click .pick_Location': ->
+        picked_Locations.push @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        
+    'click .unpick_time_tag': ->
+        group_picked_time_tags.remove @valueOf()
+    'click .pick_time_tag': ->
+        group_picked_time_tags.push @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        
+        
+    'click .unpick_timestamp_tag': ->
+        group_picked_timestamp_tags.remove @valueOf()
+    'click .pick_timestamp_tag': ->
+        group_picked_timestamp_tags.push @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        
+    'click .unpick_location_tag': ->
+        group_picked_location_tags.remove @valueOf()
+    'click .pick_location_tag': ->
+        group_picked_location_tags.push @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+  
+    'click .unpick_author': ->
+        group_picked_author_tags.remove @valueOf()
+    'click .pick_author': ->
+        group_picked_author_tags.push @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+    
+     
     'keyup .search_love_tag': (e,t)->
          if e.which is 13
             val = t.$('.search_love_tag').val().trim().toLowerCase()

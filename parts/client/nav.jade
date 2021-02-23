@@ -9,6 +9,9 @@ template(name='nav')
             i.line.chart.icon
         a.icon.item.blink.clear.penny.add_global_karma(href="/love" class="{{isActiveRoute 'love'}}")
             i.heart.outline.icon
+        if currentUser
+            a.icon.item.blink.clear.penny.add_global_karma(href="/users" class="{{isActiveRoute 'users'}}")
+                i.users.icon
         .item.add_global_karma(title='session karma')
             i.grey.lightning.icon
             |#{session_clicks}

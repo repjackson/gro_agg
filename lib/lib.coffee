@@ -1,8 +1,8 @@
 @Docs = new Meteor.Collection 'docs'
 @results = new Meteor.Collection 'results'
 @Tags = new Meteor.Collection 'tags'
-# @User_tags = new Meteor.Collection 'user_tags'
-# @Level_results = new Meteor.Collection 'level_results'
+@User_tags = new Meteor.Collection 'user_tags'
+@Level_results = new Meteor.Collection 'level_results'
 # @Tag_results = new Meteor.Collection 'tag_results'
 Router.configure
     layoutTemplate: 'layout'
@@ -31,13 +31,10 @@ Meteor.methods
         Docs.update doc_id, 
             $inc:views:1
         if Meteor.userId()
-            Docs.update doc_id,
-                $addToSet:viewer_ids:Meteor.userId()
-            Meteor.users.update Meteor.userId(),
-                $inc:points:1
+            Docs.update({_id:doc_id},{$addToSet:{viewer_ids:Meteor.userId()}}, ->)
+            Meteor.users.update({_id:Meteor.userId()},{$inc:{points:1}},->)
         if doc._author_id
-            Meteor.users.update doc._author_id,
-                $inc:points:2
+            Meteor.users.update({_id:doc._author_id},{$inc:points:2},->)
         Meteor.call 'add_global_karma', ->
 
 

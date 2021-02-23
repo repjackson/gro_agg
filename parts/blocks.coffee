@@ -143,6 +143,42 @@ if Meteor.isClient
             Meteor.call 'downvote', @, ->
 
 
+
+    Template.tip.onCreated ->
+        # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+        @autorun => Meteor.subscribe('post_tips', Router.current().params.doc_id)
+
+    Template.tip.helpers
+        tips: ->
+            Docs.find 
+                model:'tip'
+                parent_id:@_id
+    Template.tip.events
+        'click .tip': ->
+            found_tip =
+                Docs.findOne 
+                    model:'tip'
+                    parent_id:@_id
+                    _author_id: Meteor.userId()
+            if found_tip
+                Docs.update found_tip._id,
+                    $inc:amount:1
+            else
+                Docs.insert 
+                    model:'tip'
+                    amount:1
+                    parent_id:@_id
+                    _author_id: Meteor.userId()
+                
+            Docs.update @_id, 
+                $inc:tip_total:1
+            Meteor.users.update Meteor.userId(),
+                $inc:points:-1
+            Meteor.users.update @_author_id,
+                $inc:points:1
+     
+            
+
 #
 #
 #     Template.role_editor.onCreated ->
