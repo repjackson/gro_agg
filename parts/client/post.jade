@@ -73,8 +73,17 @@ template(name='post_edit')
                     // +text_edit key='group' label='group' direct=true
                     
                 .twelve.wide.column.scrolling
-                    +text_edit key='title' label='title' direct=true
-                    +html_edit key='content' label='content' direct=true
-                    +image_link_edit key='image_link' direct=true
-                    +youtube_edit key='youtube_id' label='youtube id' direct=true
+                    +boolean_edit key='has_title' icon='text' label='title'
+                    +boolean_edit key='has_html' icon='content' label='content'
+                    +boolean_edit key='has_image_link' icon='image' label='image link'
+                    +boolean_edit key='has_image_upload' icon='image' label='image upload'
+                    +boolean_edit key='has_youtube' icon='youtube' label='youtube'
+                    if has_title
+                        +text_edit key='title' label='title' direct=true
+                    if has_html
+                        +html_edit key='content' label='content' direct=true
+                    if has_image_link
+                        +image_link_edit key='image_link' direct=true
+                    if has_youtube
+                        +youtube_edit key='youtube_id' label='youtube id' direct=true
             

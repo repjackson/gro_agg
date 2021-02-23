@@ -301,6 +301,8 @@ if Meteor.isServer
         }
         Docs.find match,
             limit:20
+            sort:
+                _timestamp:-1
     
     Meteor.publish 'user_vault', (username)->
         user = Meteor.users.findOne username:username
@@ -311,6 +313,8 @@ if Meteor.isServer
         }
         Docs.find match,
             limit:20
+            sort:
+                _timestamp:-1
     
     Meteor.publish 'user_feed_items', (username)->
         user = Meteor.users.findOne username:username
@@ -617,7 +621,7 @@ if Meteor.isServer
             viewed_docs = Docs.find({
                 model:'post'
                 _author_id: user_id
-                viewer_ids:$exists
+                viewer_ids:$exists:true
             })
             viewed_docs_count = viewed_docs.count()
             console.log 'viewed docs count', viewed_docs_count
@@ -625,7 +629,7 @@ if Meteor.isServer
             total_views_amount = 0
             for post in viewed_docs.fetch()
                 # if post.amount
-                total_views += post.viewer_ids.length
+                total_views_amount += post.viewer_ids.length
             
             
             tips_out = Docs.find({
@@ -677,7 +681,7 @@ if Meteor.isServer
 
             console.log 'total tips in amount', total_tips_in_amount
             console.log 'total tips out amount', total_tips_out_amount
-            tip_balance = total_tips_in_amount - total_tips_out_amount + total_views
+            tip_balance = total_tips_in_amount - total_tips_out_amount + total_views_amount
             
             console.log 'total tip balance + views', tip_balance
             # average_credit_per_student = total_credit_amount/student_count

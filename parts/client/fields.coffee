@@ -11,10 +11,7 @@ Template.youtube_view.onRendered ->
 
 Template.youtube_edit.events
     'blur .youtube_id': (e,t)->
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         val = t.$('.youtube_id').val()
         doc = Docs.findOne parent._id
         if doc
@@ -28,10 +25,7 @@ Template.youtube_edit.events
 Template.color_edit.events
     'blur .edit_color': (e,t)->
         val = t.$('.edit_color').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         doc = Docs.findOne parent._id
         if doc
             Docs.update parent._id,
@@ -87,10 +81,7 @@ Template.html_edit.events
     'blur .testsun': (e,t)->
         html = t.editor.getContents(onlyContents: Boolean);
 
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         doc = Docs.findOne parent._id
         if doc
             Docs.update parent._id,
@@ -133,10 +124,7 @@ Template.clear_value.events
 Template.link_edit.events
     'blur .edit_url': (e,t)->
         val = t.$('.edit_url').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         doc = Docs.findOne parent._id
         if doc
             Docs.update parent._id,
@@ -150,10 +138,7 @@ Template.link_edit.events
 Template.icon_edit.events
     'blur .icon_val': (e,t)->
         val = t.$('.icon_val').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         doc = Docs.findOne parent._id
         if doc
             Docs.update parent._id,
@@ -162,10 +147,7 @@ Template.icon_edit.events
 Template.image_link_edit.events
     'blur .image_link_val': (e,t)->
         val = t.$('.image_link_val').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         doc = Docs.findOne parent._id
         if doc
             Docs.update parent._id,
@@ -179,10 +161,7 @@ Template.image_link_edit.events
 Template.image_edit.events
     "change input[name='upload_image']": (e) ->
         files = e.currentTarget.files
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         Cloudinary.upload files[0],
             # folder:"secret" # optional parameters described in http://cloudinary.com/documentation/upload_images#remote_upload
             # model:"private" # optional: makes the image accessible only via a signed url. The signed url is available publicly for 1 hour.
@@ -201,19 +180,13 @@ Template.image_edit.events
 
     'blur .cloudinary_id': (e,t)->
         cloudinary_id = t.$('.cloudinary_id').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         Docs.update parent._id,
             $set:"#{@key}":cloudinary_id
 
 
     'click #remove_photo': ->
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
 
         if confirm 'Remove Photo?'
             # Docs.update parent._id,
@@ -258,10 +231,6 @@ Template.array_edit.events
                         $addToSet:"#{@key}":element_val
                 # window.speechSynthesis.speak new SpeechSynthesisUtterance element_val
                 t.$('.new_element').val('')
-            Meteor.users.update Meteor.userId(),
-                $inc:points:2
-            Meteor.call 'add_global_karma', ->
-            Session.set('session_clicks', Session.get('session_clicks')+2)
 
     'click .remove_element': (e,t)->
         $(e.currentTarget).closest('.touch_element').transition('slide left', 1000)
@@ -270,8 +239,6 @@ Template.array_edit.events
         field = Template.currentData()
         if field.direct
             parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
 
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
@@ -284,10 +251,6 @@ Template.array_edit.events
 
         t.$('.new_element').focus()
         t.$('.new_element').val(element)
-        Meteor.users.update Meteor.userId(),
-            $inc:points:1
-        Meteor.call 'add_global_karma', ->
-        Session.set('session_clicks', Session.get('session_clicks')+2)
 
 # Template.textarea.onCreated ->
 #     @editing = new ReactiveVar false
@@ -302,10 +265,7 @@ Template.textarea_edit.events
 
     'blur .edit_textarea': (e,t)->
         textarea_val = t.$('.edit_textarea').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
 
         doc = Docs.findOne parent._id
         if doc
@@ -319,10 +279,7 @@ Template.raw_edit.events
 
     'blur .edit_textarea': (e,t)->
         textarea_val = t.$('.edit_textarea').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
 
         doc = Docs.findOne parent._id
         if doc
@@ -334,10 +291,7 @@ Template.raw_edit.events
 Template.text_edit.events
     'blur .edit_text': (e,t)->
         val = t.$('.edit_text').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
 
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
@@ -347,8 +301,6 @@ Template.text_edit.events
         else if user
             Meteor.users.update parent._id,
                 $set:"#{@key}":val
-        Meteor.users.update Meteor.userId(),
-            $inc:points:1
 
 
 
@@ -363,10 +315,7 @@ Template.textarea_view.onRendered ->
 Template.number_edit.events
     'blur .edit_number': (e,t)->
         # console.log @
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         val = parseInt t.$('.edit_number').val()
         doc = Docs.findOne parent._id
         if doc
@@ -376,10 +325,7 @@ Template.number_edit.events
 
 Template.float_edit.events
     'blur .edit_float': (e,t)->
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         val = parseFloat t.$('.edit_float').val()
         doc = Docs.findOne parent._id
         if doc
@@ -389,29 +335,19 @@ Template.float_edit.events
 
 Template.boolean_edit.helpers
     boolean_toggle_class: ->
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         if parent["#{@key}"] then 'active' else 'basic'
 
 
 Template.boolean_edit.events
     'click .toggle_boolean': (e,t)->
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         # $(e.currentTarget).closest('.button').transition('pulse', 100)
 
         doc = Docs.findOne parent._id
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":!parent["#{@key}"]
-        Meteor.users.update Meteor.userId(),
-            $inc:points:1
-        Meteor.call 'add_global_karma', ->
-        Session.set('session_clicks', Session.get('session_clicks')+2)
 
 Template.single_doc_view.onCreated ->
     # @autorun => Meteor.subscribe 'model_docs', @data.ref_model
@@ -444,8 +380,6 @@ Template.single_doc_edit.helpers
         ref_field = Template.parentData(1)
         if ref_field.direct
             parent = Template.parentData(2)
-        else
-            parent = Template.parentData(5)
         target = Template.parentData(2)
         if @direct
             if target["#{ref_field.key}"]
@@ -463,8 +397,6 @@ Template.single_doc_edit.events
         ref_field = Template.currentData()
         if ref_field.direct
             parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
         # parent = Template.parentData(1)
 
         # key = ref_field.button_key
@@ -512,10 +444,7 @@ Template.multi_doc_edit.helpers
     choice_class: ->
         selection = @
         current = Template.currentData()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         ref_field = Template.parentData(1)
         target = Template.parentData(2)
 
@@ -531,8 +460,6 @@ Template.multi_doc_edit.events
         ref_field = Template.currentData()
         if ref_field.direct
             parent = Template.parentData(2)
-        else
-            parent = Template.parentData(6)
         parent = Template.parentData(1)
         parent2 = Template.parentData(2)
         parent3 = Template.parentData(3)
@@ -588,8 +515,6 @@ Template.single_user_edit.events
         val = t.$('.edit_text').val()
         if field.direct
             parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
 
         doc = Docs.findOne parent._id
         if doc

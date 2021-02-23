@@ -46,8 +46,8 @@ Template.post_card.onRendered ->
 Template.post_card.helpers
     card_class: ->
         if Meteor.userId()
-            if @read_ids 
-                if Meteor.userId() in @read_ids
+            if @viewer_ids 
+                if Meteor.userId() in @viewer_ids
                     'link'
                 else
                     'raised link'
@@ -80,7 +80,7 @@ Template.user_post_small.events
         Meteor.call 'log_view', @_id, ->
         if Meteor.userId()
             Docs.update @_id,
-                $addToSet:read_ids:Meteor.userId()
+                $addToSet:viewer_ids:Meteor.userId()
         Meteor.users.update @_author_id,
             $inc:points:1
 Template.home.events
@@ -97,7 +97,7 @@ Template.home.events
     'click .mark_read': (e,t)->
         if Meteor.userId()
             Docs.update @_id,
-                $addToSet:read_ids:Meteor.userId()
+                $addToSet:viewer_ids:Meteor.userId()
             Meteor.users.update @_author_id,
                 $inc:points:1
     'keyup .search_tag': (e,t)->

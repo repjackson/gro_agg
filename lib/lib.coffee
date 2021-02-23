@@ -95,7 +95,7 @@ Docs.helpers
     is_anonymous: -> @published is 0
     is_private: -> @published is -1
     is_read: ->
-        @read_ids and Meteor.userId() in @read_ids
+        @viewer_ids and Meteor.userId() in @viewer_ids
 
 
     upvoters: ->

@@ -179,7 +179,9 @@ Template.registerHelper 'lowered_title', ()->
         if @data.title
             @data.title.toLowerCase()
 
-
+Template.registerHelper 'parent', () ->
+    Docs.findOne 
+        _id:@parent_id
 Template.registerHelper 'template_parent', () ->
     # console.log Template.parentData()
     Template.parentData()

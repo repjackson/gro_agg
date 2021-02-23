@@ -88,14 +88,14 @@ Template.nav.helpers
         Docs.find( 
             model:'message'
             recipient_id:Meteor.userId()
-            read_ids:$nin:[Meteor.userId()]
+            viewer_ids:$nin:[Meteor.userId()]
         ).count()
 Template.topbar.helpers
     recent_alerts: ->
         Docs.find 
             model:'message'
             recipient_id:Meteor.userId()
-            read_ids:$nin:[Meteor.userId()]
+            viewer_ids:$nin:[Meteor.userId()]
         , sort:_timestamp:-1
         
 Template.recent_alert.events
@@ -116,39 +116,3 @@ Template.topbar.events
 
         
         
-# Template.left_sidebar.events
-#     # 'click .toggle_sidebar': ->
-#     #     $('.ui.sidebar')
-#     #         .sidebar('setting', 'transition', 'push')
-#     #         .sidebar('toggle')
-#     'click .toggle_admin': ->
-#         if 'admin' in Meteor.user().roles
-#             Meteor.users.update Meteor.userId(),
-#                 $pull:'roles':'admin'
-#         else
-#             Meteor.users.update Meteor.userId(),
-#                 $addToSet:'roles':'admin'
-#     'click .toggle_dev': ->
-#         if 'dev' in Meteor.user().roles
-#             Meteor.users.update Meteor.userId(),
-#                 $pull:'roles':'dev'
-#         else
-#             Meteor.users.update Meteor.userId(),
-#                 $addToSet:'roles':'dev'
-                
-            
-#     'click .add_gift': ->
-#         # user = Meteor.users.findOne(username:@username)
-#         new_gift_id =
-#             Docs.insert
-#                 model:'gift'
-#                 recipient_id: @_id
-#         Router.go "/debit/#{new_gift_id}/edit"
-
-#     'click .add_request': ->
-#         # user = Meteor.users.findOne(username:@username)
-#         new_id =
-#             Docs.insert
-#                 model:'request'
-#                 recipient_id: @_id
-#         Router.go "/request/#{new_id}/edit"

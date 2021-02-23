@@ -38,6 +38,7 @@ template(name='profile_layout')
                                 |log out
                         if is_dev
                             .ui.small.inline.header #{_id}
+                            +print_this
                         unless is_current_user
                             if currentUser
                                 // div
@@ -62,7 +63,7 @@ template(name='profile_layout')
                                 .item #{awardee_karma} awardee karma
                                 .item #{awarder_karma} awarder karma
                                 .item created {{ufrom created_utc}}
-                                
+                               
                     .twelve.wide.column
                         a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
                             i.large.dashboard.icon
@@ -105,22 +106,23 @@ template(name='profile_layout')
 
 
 template(name='user_friend_button')
-    if is_friend
-        .ui.black.animated.fade.button.unfriend(title='unfriend')
-            .hidden.content
-                i.minus.large.icon
-                |unfriend
-            .visible.content
-                i.checkmark.large.icon
-                |friends
-    else
-        .ui.animated.fade.basic.button.friend(title='friend')
-            .hidden.content
-                i.plus.large.icon
-                |friend
-            .visible.content
-                i.user.plus.large.icon
-                |friend
+    unless is_current_user
+        if is_friend
+            .ui.black.animated.fade.button.unfriend(title='unfriend')
+                .hidden.content
+                    i.minus.large.icon
+                    |unfriend
+                .visible.content
+                    i.checkmark.large.icon
+                    |friend
+        else
+            .ui.animated.fade.basic.button.friend(title='friend')
+                .hidden.content
+                    i.plus.large.icon
+                    |friend
+                .visible.content
+                    i.user.plus.large.icon
+                    |friend
 
 
 template(name='user_dashboard')
@@ -237,7 +239,7 @@ template(name='user_posts')
     .ui.header 
         i.newspaper.icon
         |posts
-    .ui.link.list
+    .ui.link.selection.animated.list.scrolling
         each posts
             a.ui.item(href="/p/#{_id}") 
                 .content
@@ -250,7 +252,7 @@ template(name='user_vault')
     .ui.header 
         i.lock.icon
         |private posts
-    .ui.link.list
+    .ui.link.list.scrolling
         each private_posts
             a.ui.item(href="/p/#{_id}") 
                 if image_id
@@ -269,18 +271,18 @@ template(name='user_tips')
     .ui.header 
         i.donate.icon
         |tips
-    .ui.link.list
+    .ui.link.list.scrolling
         each tips
             a.ui.item(href="/p/#{parent_id}") 
                 if parent.image_id
-                    a(href="/p/#{_id}/view")
+                    a(href="/p/#{_id}")
                         img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                 if parent.image_link
                     img(src=parent.image_link)
                 .content
                     .header #{parent.title} 
                     .header #{amount} 
-                    |#{parent.when}
+                    |#{parent.when} #{when}
                     each parent.seven_tags
                         .ui.mini.basic.label #{this}
 
@@ -289,7 +291,7 @@ template(name='user_comments')
     .ui.header 
         i.comment.icon
         |comments
-    .ui.link.list
+    .ui.link.selection.animated.list.scrolling
         each comments
             a.ui.item(href="/p/#{parent_id}") 
                 .content

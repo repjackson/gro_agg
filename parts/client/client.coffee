@@ -90,5 +90,5 @@ Template.nav.helpers
     #     Docs.find( 
     #         model:'message'
     #         recipient_id:Meteor.userId()
-    #         read_ids:$nin:[Meteor.userId()]
+    #         viewer_ids:$nin:[Meteor.userId()]
     #     ).count()

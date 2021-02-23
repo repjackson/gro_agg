@@ -188,7 +188,7 @@ template(name='post_card')
             //     |#{author}
             if in_dev
                 +print_this
-            each read_ids
+            each viewer_ids
                 .ui.label #{this}
         .content
             if is_author
@@ -242,7 +242,7 @@ template(name='post_item')
             //     |#{author}
             if in_dev
                 +print_this
-            each read_ids
+            each viewer_ids
                 .ui.label #{this}
         .content
             if is_author

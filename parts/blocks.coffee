@@ -317,7 +317,7 @@ if Meteor.isClient
         'click .mark_read': (e,t)->
             Docs.update @_id,
                 $inc:views:1
-            unless @read_ids and Meteor.userId() in @read_ids
+            unless @viewer_ids and Meteor.userId() in @viewer_ids
                 Meteor.call 'mark_read', @_id, ->
                     # $(e.currentTarget).closest('.comment').transition('pulse')
                     $('.unread_icon').transition('pulse')
@@ -328,11 +328,11 @@ if Meteor.isClient
                 # $(e.currentTarget).closest('.comment').transition('pulse')
                 $('.unread_icon').transition('pulse')
     Template.viewing.helpers
-        viewed_by: -> Meteor.userId() in @read_ids
+        viewed_by: -> Meteor.userId() in @viewer_ids
         readers: ->
             readers = []
-            if @read_ids
-                for reader_id in @read_ids
+            if @viewer_ids
+                for reader_id in @viewer_ids
                     unless reader_id is @_author_id
                         readers.push Meteor.users.findOne reader_id
             readers

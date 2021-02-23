@@ -3,21 +3,31 @@ template(name='user_friends')
     .ui.stackable.grid
         .two.column.row
             .column
-                .ui.small.header connected to
-                .ui.middle.aligned.selection.animated.large.list.smallscroll
+                .ui.small.header friends with
+                .ui.middle.aligned.selection.animated.list
+                    each current_user.friend_ids
+                        +user_friend
                     each friends
                         +user_segment
             .column
-                .ui.small.header connected by
+                .ui.small.header friended by
                 .ui.middle.aligned.selection.animated.large.list.smallscroll
-                    each friends_with
+                    each friended_by
                         +user_segment
-            .column
-                .ui.small.header not connected to
-                .ui.middle.aligned.selection.animated.small.list.smallscroll
-                    each nonfriends
-                        +user_item
+            // .column
+            //     .ui.small.header not connected to
+            //     .ui.middle.aligned.selection.animated.small.list.smallscroll
+            //         each nonfriends
+            //             +user_item
 
+template(name='user_friend')
+    a.ui.item(href="/u/#{user.username}/")
+        if user.profile_image_id
+            img.ui.avatar.image.superzoom(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
+        //- .visible.content
+        |#{user.shortname}
+        // |@#{user.username}
+        // +user_status user
 
 template(name='user_segment')
     a.item(href="/u/#{username}")

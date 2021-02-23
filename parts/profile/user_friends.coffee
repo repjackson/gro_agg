@@ -13,8 +13,14 @@ if Meteor.isClient
     Template.user_friends.helpers
         friends: ->
             current_user = Meteor.users.findOne Router.current().params.username
-            Meteor.users.find
-                _id:$in: current_user.friend_ids
+            if current_user
+                Meteor.users.find
+                    _id:$in: current_user.friend_ids
+        friended_by: ->
+            current_user = Meteor.users.findOne Router.current().params.username
+            if current_user
+                Meteor.users.find
+                    friend_ids:$in: [current_user._id]
         nonfriends: ->
             Meteor.users.find
                 _id:$nin:Meteor.user().friend_ids
@@ -23,7 +29,10 @@ if Meteor.isClient
     Template.registerHelper 'is_friend', () ->
         Meteor.user() and Meteor.user().friend_ids and @_id in Meteor.user().friend_ids
 
-    Template.user_friend_button.helpers
+    Template.user_friend.onCreated ->
+        @autorun => Meteor.subscribe 'user_from_id', @data
+    Template.user_friend.helpers
+        user: -> Meteor.users.findOne @valueOf()
 
 
     Template.user_friend_button.events
