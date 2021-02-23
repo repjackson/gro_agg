@@ -3,19 +3,19 @@ template(name='nav')
         // a.icon.item.toggle_sidebar.no_blink
         //     i.bars.icon
     
-        a.icon.item.blink.clear.penny.add_global_karma(href="/" class="{{isActiveRoute regex='home'}}")
+        a.icon.item.blink.clear(href="/" class="{{isActiveRoute regex='home'}}")
             i.yin.yang.large.icon
-        a.icon.item.blink.clear.penny.add_global_karma(href="/stats" class="{{isActiveRoute 'stats'}}")
+        a.icon.item.blink.clear(href="/stats" class="{{isActiveRoute 'stats'}}")
             i.line.chart.icon
-        a.icon.item.blink.clear.penny.add_global_karma(href="/love" class="{{isActiveRoute 'love'}}")
+        a.icon.item.blink.clear(href="/love" class="{{isActiveRoute 'love'}}")
             i.heart.outline.icon
         if currentUser
-            a.icon.item.blink.clear.penny.add_global_karma(href="/users" class="{{isActiveRoute 'users'}}")
+            a.icon.item.blink.clear(href="/users" class="{{isActiveRoute 'users'}}")
                 i.users.icon
-        .item.add_global_karma(title='session karma')
+        .item(title='session karma')
             i.grey.lightning.icon
             |#{session_clicks}
-        .item.add_global_karma(title='global karma')
+        .item(title='global karma')
             i.grey.globe.icon
             |#{global_karma}
         .item
@@ -26,7 +26,7 @@ template(name='nav')
                 .icon.item
                     i.code.icon
             .right.menu
-                a.icon.item.add_post.penny.add_global_karma
+                a.icon.item.add_post
                     i.plus.icon
             
                 if unread_count
@@ -39,9 +39,9 @@ template(name='nav')
                         i.outline.bell.icon
                 // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
                 //     i.inbox.icon
-                a.icon.item.penny.add_global_karma(href="/u/#{currentUser.username}/credit" class="{{isActivePath 'user_credit'}}" title="#{user.username} credit")
+                a.icon.item(href="/u/#{currentUser.username}/credit" class="{{isActivePath 'user_credit'}}" title="#{user.username} credit")
                     strong #{currentUser.points}
-                a.item.penny.add_global_karma(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
+                a.item(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
                     if currentUser.profile_image_id
                         if is_admin
                             i.shield.icon(title='admin mode on')
@@ -50,7 +50,7 @@ template(name='nav')
                     else 
                         i.user.icon
                     strong.mobile.hidden #{currentUser.name}
-                a.icon.item.toggle_rightbar.no_blink.penny.add_global_karma
+                a.icon.item.toggle_rightbar.no_blink
                     i.bars.icon
             
         else
@@ -84,9 +84,6 @@ template(name='recent_alert')
             
 template(name='right_sidebar')
     .ui.right.sidebar.vertical.borderless.inverted.menu
-        // a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_layout'}}")
-        //     img.ui.avatar.compact.image(src="{{c.url 'one_logo' height=200 width=200 gravity='face' crop='fill'}}")
-        //     |#{currentUser.name}
         a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/" class="{{isActiveRoute 'user_dashboard'}}")
             | dashboard (#{currentUser.points}p)
             i.dashboard.icon
@@ -94,6 +91,15 @@ template(name='right_sidebar')
         a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/credits" class="{{isActiveRoute 'user_credits'}}")
             | #{currentUser.total_credit_amount}p received
             i.chevron.down.icon
+        a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/posts" class="{{isActiveRoute 'user_posts'}}")
+            | #{currentUser.total_credit_amount} posts
+            i.newspaper.icon
+        a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/comments" class="{{isActiveRoute 'user_comments'}}")
+            | #{currentUser.total_credit_amount} comments
+            i.comment.icon
+        a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/tips" class="{{isActiveRoute 'user_tips'}}")
+            | #{_amount} tips
+            i.donate.icon
         a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/debits" class="{{isActiveRoute 'user_sent'}}")
             | #{currentUser.total_debit_amount}p sent
             i.chevron.up.icon

@@ -8,30 +8,6 @@ Router.route '/p/:doc_id/edit', (->
     @render 'post_edit'
     ), name:'post_edit'
 
-Router.route '/p/:doc_id/view', (->
-    @layout 'layout'
-    @render 'post_view'
-    ), name:'post_view'
-
-Template.post_edit.onCreated ->
-    @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-Template.post_view.onCreated ->
-    Session.set('session_clicks', Session.get('session_clicks')+2)
-    
-    Meteor.call 'log_view', Router.current().params.doc_id, ->
-    @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-
-Template.post_view.helpers
-    reflections: ->
-        Docs.find
-            model:'reflection'
-            parent_id:Router.current().params.doc_id
-
-
-Template.post_view.events
-    'click .search_dao': ->
-        picked_tags.clear()
-        Router.go '/'
 
 Template.nav.onCreated ->
     Session.setDefault('session_clicks', 0)

@@ -24,10 +24,27 @@ if Meteor.isClient
         @render 'user_tips'
         ), name:'user_tips'
 
+    Template.user_vault.onCreated ->
+        @autorun -> Meteor.subscribe 'user_vault', Router.current().params.username
+    Template.user_vault.helpers
+        private_posts: -> 
+            user = Meteor.users.findOne(username:Router.current().params.username)
+
+            Docs.find 
+                model:'post'
+                is_private:true
+                _author_id:user._id
+   
+   
     Template.user_comments.onCreated ->
         @autorun -> Meteor.subscribe 'user_comments', Router.current().params.username
     Template.user_comments.helpers
         comments: -> Docs.find model:'comment'
+   
+    Template.user_tips.onCreated ->
+        @autorun -> Meteor.subscribe 'user_tips', Router.current().params.username
+    Template.user_tips.helpers
+        tips: -> Docs.find model:'tip'
 
     Template.user_posts.onCreated ->
         @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username
@@ -35,9 +52,11 @@ if Meteor.isClient
         posts: -> Docs.find model:'post'
 
 
-    Template.user_dashboard.onCreated ->
+    Template.profile_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_post_count', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_comment_count', Router.current().params.username
+  
+    Template.user_dashboard.onCreated ->
         @autorun -> Meteor.subscribe 'user_tips_received_count', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_tips_sent_count', Router.current().params.username
         
@@ -167,7 +186,8 @@ if Meteor.isClient
     Template.profile_layout.helpers
         route_slug: -> "user_#{@slug}"
         user: -> Meteor.users.findOne username:Router.current().params.username
-
+        user_comment_count: -> Counts.get 'user_comment_count'
+        user_post_count: -> Counts.get 'user_post_count'
 
     Template.profile_layout.events
         'click a.select_term': ->
@@ -221,7 +241,6 @@ if Meteor.isClient
             Meteor.call 'calc_user_stats', user._id, ->
             Meteor.call 'calc_user_tags', user._id, ->
     
-    Template.profile_layout.events
         'click .send': ->
             user = Meteor.users.findOne(username:Router.current().params.username)
             if Meteor.userId() is user._id
@@ -274,6 +293,25 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.publish 'user_tips', (username)->
+        user = Meteor.users.findOne username:username
+        match = {
+            model:'tip'
+            _author_id:user._id
+        }
+        Docs.find match,
+            limit:20
+    
+    Meteor.publish 'user_vault', (username)->
+        user = Meteor.users.findOne username:username
+        match = {
+            model:'post'
+            is_private:true
+            _author_id:user._id
+        }
+        Docs.find match,
+            limit:20
+    
     Meteor.publish 'user_feed_items', (username)->
         user = Meteor.users.findOne username:username
         match = {

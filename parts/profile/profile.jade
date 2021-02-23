@@ -69,9 +69,11 @@ template(name='profile_layout')
                             span dashboard
                         a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} posts")
                             i.newspaper.large.icon
+                            |#{user_post_count}
                             span posts
                         a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/comments" class="{{isActiveRoute 'user_comments'}}" title="#{user.username} comments")
                             i.chat.large.icon
+                            |#{user_comment_count}
                             span comments
                         a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
                             i.large.chevron.down.icon
@@ -82,6 +84,9 @@ template(name='profile_layout')
                         a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/credit" class="{{isActiveRoute 'user_credit'}}" title="#{user.username} credit")
                             i.large.dollar.icon
                             span credit
+                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/tips" class="{{isActiveRoute 'user_tips'}}" title="#{user.username} tips")
+                            i.donate.large.icon
+                            span tips
                         a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
                             i.users.large.icon
                             span friends
@@ -239,6 +244,44 @@ template(name='user_posts')
                     .header #{title} 
                     |#{when}
                     each seven_tags 
+                        .ui.mini.basic.label #{this}
+
+template(name='user_vault')
+    .ui.header 
+        i.lock.icon
+        |private posts
+    .ui.link.list
+        each private_posts
+            a.ui.item(href="/p/#{_id}") 
+                if image_id
+                    a(href="/p/#{_id}/view")
+                        img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                if image_link
+                    img(src=image_link)
+                .content
+                    .header #{title} 
+                    |#{when}
+                    each seven_tags 
+                        .ui.mini.basic.label #{this}
+
+
+template(name='user_tips')
+    .ui.header 
+        i.donate.icon
+        |tips
+    .ui.link.list
+        each tips
+            a.ui.item(href="/p/#{parent_id}") 
+                if parent.image_id
+                    a(href="/p/#{_id}/view")
+                        img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                if parent.image_link
+                    img(src=parent.image_link)
+                .content
+                    .header #{parent.title} 
+                    .header #{amount} 
+                    |#{parent.when}
+                    each parent.seven_tags
                         .ui.mini.basic.label #{this}
 
 
