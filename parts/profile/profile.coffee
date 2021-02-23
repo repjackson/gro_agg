@@ -109,7 +109,7 @@ if Meteor.isClient
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find 
                 model:'debit'
-                target_user_id:current_user._id
+                target_id:current_user._id
         user_karma_sent: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find 

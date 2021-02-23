@@ -150,11 +150,11 @@ template(name='user_dashboard')
                 .ui.fluid.icon.input
                     i.plus.icon
                     input.add_feed_item(type='text' placeholder='add to feed (-10p)')
-                .ui.circular.icon.button 
+                .ui.circular.icon.small.basic.disabled.button 
                     i.gift.icon
-                .ui.circular.icon.button 
+                .ui.circular.icon.small.basic.disabled.button 
                     i.photo.icon
-                .ui.circular.icon.button 
+                .ui.circular.icon.small.basic.disabled.button 
                     i.hand.holding.icon
                 .ui.feed
                     each feed_items 
@@ -171,13 +171,20 @@ template(name='user_dashboard')
                                     a.like 
                                         i.like.icon
                 if currentUser
-                    .ui.header karma sent
+                    .ui.header 
+                        i.chevron.up.icon
+                        |karma sent
                     .ui.large.list
                         each user_karma_sent
                             .item #{title} #{amount} #{points} #{when}
-                    .ui.header karma received
-                    each user_karma_received
-                            .item #{title} #{amount} #{points} #{when}
+                    .ui.header 
+                        i.chevron.down.icon
+                        |karma received
+                    .ui.large.list
+                        each user_karma_received
+                            .item 
+                                .header #{title}
+                                |#{description} #{amount} #{points} #{when}
                 
                     // .ui.small.header 
                     //     label goto/create group
