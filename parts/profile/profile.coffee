@@ -24,9 +24,18 @@ if Meteor.isClient
         @render 'user_tips'
         ), name:'user_tips'
 
-    Template.user_dashboard.onCreated ->
+    Template.user_comments.onCreated ->
+        @autorun -> Meteor.subscribe 'user_comments', Router.current().params.username
+    Template.user_comments.helpers
+        comments: -> Docs.find model:'comment'
+
+    Template.user_posts.onCreated ->
         @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_commentss', Router.current().params.username
+    Template.user_posts.helpers
+        posts: -> Docs.find model:'post'
+
+
+    Template.user_dashboard.onCreated ->
         @autorun -> Meteor.subscribe 'user_post_count', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_comment_count', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_tips_received_count', Router.current().params.username

@@ -234,9 +234,23 @@ template(name='user_posts')
         |posts
     .ui.link.list
         each posts
-            a.ui.item(href="/love/#{_id}/view") 
+            a.ui.item(href="/p/#{_id}") 
                 .content
                     .header #{title} 
+                    |#{when}
+                    each seven_tags 
+                        .ui.mini.basic.label #{this}
+
+
+template(name='user_comments')
+    .ui.header 
+        i.comment.icon
+        |comments
+    .ui.link.list
+        each comments
+            a.ui.item(href="/p/#{parent_id}") 
+                .content
+                    .header #{body} 
                     |#{when}
                     each five_tags 
                         .ui.mini.basic.label #{this}
