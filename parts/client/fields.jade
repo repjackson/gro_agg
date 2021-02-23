@@ -502,8 +502,8 @@ template(name='datetime_view')
 
 template(name='array_edit')
     .spacer
-    if i
-        i.grey.icon(class=i)
+    if icon
+        i.grey.icon(class=icon)
         // +icon name=icon cl='ui avatar image'
     .ui.inline.header
         |#{field_value.length}
@@ -520,7 +520,7 @@ template(name='array_edit')
     if field_value
         each field_value
             if currentUser
-                .ui.large.basic.label.touch_element
+                .ui.basic.label.touch_element
                     i.delete.icon.remove_element
                     |#{this}
                 // .ui.compact.button.pick_tag

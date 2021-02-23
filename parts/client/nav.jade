@@ -7,6 +7,8 @@ template(name='nav')
             i.yin.yang.large.icon
         a.icon.item.blink.clear(href="/stats" class="{{isActiveRoute 'stats'}}")
             i.line.chart.icon
+        a.icon.item.blink.clear.go_shop(href="/" class="{{isActiveRoute 'shop'}}")
+            i.line.shop.icon
         a.icon.item.blink.clear(href="/love" class="{{isActiveRoute 'love'}}")
             i.heart.outline.icon
         if currentUser

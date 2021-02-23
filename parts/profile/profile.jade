@@ -299,6 +299,10 @@ template(name='user_comments')
                     |#{when}
                     each five_tags 
                         .ui.mini.basic.label #{this}
+                    +voting_small
+                    if is_author
+                        +remove_icon
+                    
 
 
 

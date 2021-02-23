@@ -11,7 +11,6 @@ Template.post_edit.onCreated ->
     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 Template.post_view.onCreated ->
     Session.set('session_clicks', Session.get('session_clicks')+2)
-    
     Meteor.call 'log_view', Router.current().params.doc_id, ->
     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 

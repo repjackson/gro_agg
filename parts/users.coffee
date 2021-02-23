@@ -14,6 +14,10 @@ if Meteor.isClient
             selected_user_tags.array() 
             selected_user_levels.array()
 
+    Template.session_set.helpers
+        session_set_class: -> if Session.equals(@key,@value) then 'black' else 'basic'
+    Template.session_set.events
+        'click .set_value': -> Session.set(@key, @value)
     Template.users.helpers
         users: ->
             match = {}
@@ -35,12 +39,12 @@ if Meteor.isClient
             #         levels:$in:['member']
             #     )
 
-    Template.member_card.helpers
+    Template.user_card.helpers
         credit_ratio: ->
             unless @debit_count is 0
                 @debit_count/@debit_count
 
-    Template.member_card.events
+    Template.user_card.events
         'click .calc_points': ->
             Meteor.call 'calc_user_points', @_id, ->
         'click .debit': ->

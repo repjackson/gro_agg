@@ -9,8 +9,10 @@ if Meteor.isClient
         ), name:'user_debits'
 
     Template.user_sent.onCreated ->
+        
         # @autorun -> Meteor.subscribe 'user_model_docs', 'debit', Router.current().params.username
         @autorun => Meteor.subscribe 'user_sent', Router.current().params.username
+        @autorun => Meteor.subscribe 'all_users', Router.current().params.username
 
     Template.user_sent.events
         'keyup .new_debit': (e,t)->
@@ -35,10 +37,6 @@ if Meteor.isClient
             },
                 sort:_timestamp:-1
 
-        slots: ->
-            Docs.find
-                model:'slot'
-                _author_id: Router.current().params.user_id
 
 
 if Meteor.isServer
@@ -49,3 +47,4 @@ if Meteor.isServer
             _author_id: user._id
         }, 
             limit:42
+            sort:_timestamp:-1
