@@ -91,9 +91,6 @@ Template.registerHelper 'fixed', (number)->
     # (number*100).toFixed()
 
 
-Template.registerHelper 'session_is', (key)->
-    Session.get(key)
-
 Template.registerHelper 'is_loading', -> Session.get 'loading'
 Template.registerHelper 'long_time', (input)-> 
     moment(input).format("h:mm a")

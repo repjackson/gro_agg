@@ -10,6 +10,11 @@ if Meteor.isClient
 
 
     Template.users.onCreated ->
+        Session.setDefault('sort_users_direction', -1)
+        Session.setDefault('sort_users_key', 'points')
+        Session.setDefault('view_users', 'grid')
+        Session.setDefault('view_limit', 10)
+        
         @autorun -> Meteor.subscribe 'selected_users', 
             selected_user_tags.array() 
             selected_user_levels.array()
@@ -25,7 +30,10 @@ if Meteor.isClient
                 match.levels = $in:['member']
             if selected_user_tags.array().length > 0 then match.tags = $all: selected_user_tags.array()
             Meteor.users.find match,
-                sort:points:-1
+                sort:
+                    "#{Session.get('sort_users_key')}":"#{Session.get('sort_users_direction')}"
+                limit: 
+                    parseInt(Session.get("view_limit"))
             # if Meteor.user()
             #     if 'admin' in Meteor.user().roles
             #         Meteor.users.find()

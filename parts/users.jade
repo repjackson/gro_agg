@@ -5,20 +5,31 @@ template(name='users')
         .twelve.wide.column
             +session_set key='view_users' value='grid' icon='th' 
             +session_set key='view_users' value='list' icon='list'
+            +session_set key='sort_users_direction' value='-1' icon='chevron down'
+            +session_set key='sort_users_direction' value='1' icon='chevron up'
+            +session_set key='sort_users_key' value='points' icon='coins'
+            +session_set key='sort_users_key' value='created_date' icon='clock'
+            // +session_set key='view_limit' value=1
+            +session_set key='view_limit' value=10
+            +session_set key='view_limit' value=20
+            +session_set key='view_limit' value=50
             .scrolling
-                if session_is 'view_users' 'grid'
+                if skv_is 'view_users' 'grid'
                     .ui.stackable.three.cards
                         each users
                             +user_card
-                else
-                    each users
-                        +user_item
-                        div
+                else if session_is 'view_users' 'list'
+                    .ui.large.list
+                        each users
+                            +user_item
+                            div
 
 template(name='session_set')
     .ui.icon.button.set_value(class=session_set_class)
-        i.icon(class=icon)
-
+        if icon
+            i.icon(class=icon)
+        else 
+            |#{value}
 template(name='user_cloud')
     i.shield.blue.large.icon
     if selected_user_levels
