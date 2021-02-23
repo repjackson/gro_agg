@@ -3,6 +3,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_dashboard'
         ), name:'user_dashboard'
+    Router.route '/user/:username', (->
+        @layout 'profile_layout'
+        @render 'user_dashboard'
+        ), name:'user_dashboard_long'
     Router.route '/u/:username/comments', (->
         @layout 'profile_layout'
         @render 'user_comments'

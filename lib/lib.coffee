@@ -33,7 +33,7 @@ Meteor.methods
         if Meteor.userId()
             Docs.update({_id:doc_id},{$addToSet:{viewer_ids:Meteor.userId()}}, ->)
             Meteor.users.update({_id:Meteor.userId()},{$inc:{points:1}},->)
-        if doc._author_id
+        if doc and doc._author_id
             Meteor.users.update({_id:doc._author_id},{$inc:points:2},->)
         Meteor.call 'add_global_karma', ->
 

@@ -85,6 +85,9 @@ template(name='profile_layout')
                         a.ui.basic.button.select_term.no_blink(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
                             i.users.large.icon
                             span friends
+                        a.ui.basic.button.select_term.no_blink(href="/u/#{username}/vault" class="{{isActiveRoute 'user_vault'}}" title="#{user.username} friends")
+                            i.lock.large.icon
+                            span vault
                         if is_dev
                             +print_this
                         .ui.hidden.divider
@@ -131,14 +134,14 @@ template(name='user_dashboard')
                     //             |#{name}
                     //- .ui.icon.button.refresh_user_stats(title='refresh stats')
                     //-     i.refresh.icon
-                    .ui.big.basic.label #{user_post_count} posts x 10p = #{post_points}p
-                    i.big.minus.icon
-                    .ui.big.basic.label #{user_comment_count} comments x 1p
-                    i.big.minus.icon
-                    .ui.big.basic.label #{user_comment_count} tips sent totaling #{tips_sent_amount}
-                    i.big.plus.icon
-                    .ui.big.basic.label #{tips_received_count} tips received totaling #{tips_received_amount}
-                    i.big.equals.icon
+                    .ui.basic.label #{user_post_count} posts x 10p = #{post_points}p
+                    i.minus.icon
+                    .ui.basic.label #{user_comment_count} comments x 1p
+                    i.minus.icon
+                    .ui.basic.label #{user_comment_count} tips sent totaling #{tips_sent_amount}
+                    i.plus.icon
+                    .ui.basic.label #{tips_received_count} tips received totaling #{tips_received_amount}
+                    i.equals.icon
                     .ui.big.basic.label #{points}p
                     .ui.header 
                         i.chat.icon
@@ -146,10 +149,13 @@ template(name='user_dashboard')
                     .smallscroll
                         each comments    
                             +user_comment_small
-                        
-                    .ui.header 
+                    div
+                    .ui.inline.header 
                         i.newspaper.icon
                         |posts
+                    +session_select key='post_sort_key' value='viewer_ids' icon='eye'
+                    +session_select key='post_sort_key' value='points' icon='thumbs up'
+                    +session_select key='post_sort_key' value='_timestamp' icon='clock'
                     .ui.link.list.smallscroll
                         each posts
                             +user_post_small
@@ -193,6 +199,11 @@ template(name='user_dashboard')
             .column
                 +user_bookmarks_widget
 
+template(name='session_select')
+    .ui.icon.circular.button
+        i.icon(class=icon)
+
+
 template(name='user_posts')
     .ui.header 
         i.newspaper.icon
@@ -200,9 +211,11 @@ template(name='user_posts')
     .ui.link.list
         each posts
             a.ui.item(href="/love/#{_id}/view") 
-                |#{title} #{when}
-                each tags 
-                    .ui.mini.basic.label #{this}
+                .content
+                    .header #{title} 
+                    |#{when}
+                    each five_tags 
+                        .ui.mini.basic.label #{this}
 
 
 
@@ -217,8 +230,9 @@ template(name='user_comment_small')
 template(name='user_post_small')
     .ui.fluid.link.card.mark_read.pad
         .content
-            a.ui.item(href="/p/#{_id}/view") 
-                |#{title} #{when}
+            a.header(href="/p/#{_id}/view") 
+                |#{title}
+            |#{when}
             if image_link
                 a.view_post(href="/p/#{_id}/view" class=post_header_class)
                     img.ui.rounded.inline.zoomer.image.zoomer(src=image_link)    
@@ -227,12 +241,15 @@ template(name='user_post_small')
             each viewer_ids
                 .ui.label #{this}
             |#{points}
-            each tags
+            each five_tags
                 .ui.small.basic.label #{this}
             +doc_emotion_small        
             // +skve k='view_preview' v='preview' l=' ' i='caret down'
             // if skv_is 'view_preview' 'preview'
-            +print_this
+            a.ui.large.icon.circular.button(href="/p/#{_id}/view") 
+                i.chevron.right.icon
+            if in_dev
+                +print_this
 
 template(name='user_bookmarks_widget')
     a.ui.header(href="/u/#{username}/bookmarks")

@@ -7,10 +7,10 @@ if Meteor.isClient
         @layout 'user_edit_layout'
         @render 'user_edit_info'
         ), name:'user_edit_info'
-    Router.route '/u/:username/edit/badges', (->
+    Router.route '/u/:username/edit/bookmarks', (->
         @layout 'user_edit_layout'
-        @render 'user_edit_badges'
-        ), name:'user_edit_badges'
+        @render 'user_edit_bookmarks'
+        ), name:'user_edit_bookmarks'
     Router.route '/u/:username/edit/payment', (->
         @layout 'user_edit_layout'
         @render 'user_edit_payment'
@@ -19,10 +19,10 @@ if Meteor.isClient
         @layout 'user_edit_layout'
         @render 'user_edit_account'
         ), name:'user_edit_account'
-    Router.route '/u/:username/edit/food', (->
+    Router.route '/u/:username/edit/vault', (->
         @layout 'user_edit_layout'
-        @render 'user_edit_food'
-        ), name:'user_edit_food'
+        @render 'user_edit_vault'
+        ), name:'user_edit_vault'
 
     Template.user_edit_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
@@ -134,3 +134,117 @@ if Meteor.isClient
             current_user = Meteor.users.findOne username:Router.current().params.username
             Meteor.call 'verify_email', current_user._id, @address, ->
                 alert 'verification email sent'
+
+
+
+
+if Meteor.isClient
+    Router.route '/u/:username/edit/alerts', (->
+        @layout 'user_edit_layout'
+        @render 'user_edit_alerts'
+        ), name:'user_edit_alerts'
+
+
+    Template.user_edit_alerts.onCreated ->
+        @autorun => Meteor.subscribe 'user_edit_alerts', Router.current().params.username
+        # @autorun => Meteor.subscribe 'model_docs', 'picture'
+        @autorun => Meteor.subscribe 'model_docs', 'transaction'
+
+    Template.user_edit_alerts.events
+        'keyup .new_picture': (e,t)->
+            if e.which is 13
+                val = $('.new_picture').val()
+                console.log val
+                target_user = Meteor.users.findOne(username:Router.current().params.username)
+                Docs.insert
+                    model:'picture'
+                    body: val
+                    target_user_id: target_user._id
+
+
+
+    Template.user_edit_alerts.helpers
+        user_edit_alerts: ->
+            target_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find
+                model:'picture'
+                target_user_id: target_user._id
+
+        transactions: ->
+            target_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find {
+                model:'transaction'
+                _author_id: target_user._id
+            }, 
+                sort:
+                    _timestamp:-1
+
+if Meteor.isServer
+    Meteor.publish 'user_edit_alerts', (username)->
+        Docs.find
+            model:'picture'
+
+
+
+
+if Meteor.isClient
+    Router.route '/u/:username/edit/privacy', (->
+        @layout 'user_edit_layout'
+        @render 'user_edit_privacy'
+        ), name:'user_edit_privacy'
+
+    Template.user_edit_privacy.onRendered ->
+
+    Template.user_edit_privacy.events
+        'click .logout_other_clients': -> 
+            Meteor.logoutOtherClients ->
+                $('body').toast({
+                    class: 'success',
+                    message: "logged out other clients"
+                })
+
+    
+        'click .force_logout': ->
+            current_user = Meteor.users.findOne username:Router.current().params.username
+            Meteor.users.update current_user._id,
+                $set:'services.resume.loginTokens':[]
+
+    
+        'click .add_five_credits': ->
+            console.log Template.instance()
+            if confirm 'add 5 credits?'
+                Session.set('topup_amount',5)
+                Template.instance().checkout.open
+                    name: 'credit deposit'
+                    # email:Meteor.user().emails[0].address
+                    description: 'wc top up'
+                    amount: 500
+
+
+
+
+
+            # Swal.fire({
+            #     title: 'add 5 credits?'
+            #     text: "this will charge you $5"
+            #     icon: 'question'
+            #     showCancelButton: true,
+            #     confirmButtonText: 'confirm'
+            #     cancelButtonText: 'cancel'
+            # }).then((result)=>
+            #     if result.value
+            #         Session.set('topup_amount',5)
+            #         Template.instance().checkout.open
+            #             name: 'credit deposit'
+            #             # email:Meteor.user().emails[0].address
+            #             description: 'wc top up'
+            #             amount: 5
+            #
+            #         # Meteor.users.update @_author_id,
+            #         #     $inc:credit:@order_price
+            #         Swal.fire(
+            #             'topup initiated',
+            #             ''
+            #             'success'
+            #         )
+            # )
