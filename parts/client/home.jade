@@ -98,11 +98,11 @@ template(name='home')
         div(class=main_column_class)
             // .ui.disabled.button shared with me
             if skv_is 'view_sidebar' false
-                .ui.icon.compact.basic.button.enable_sidebar
-                    i.caret.right.icon
+                .ui.icon.compact.basic.circular.button.enable_sidebar
+                    i.ellipsis.vertical.icon
             else
-                .ui.icon.compact.basic.button.disable_sidebar
-                    i.caret.left.icon
+                .ui.icon.compact.active.circular.button.disable_sidebar
+                    i.ellipsis.vertical.icon
             if skv_is 'sort_direction' 1
                 .ui.icon.compact.basic.button.sort_down
                     i.caret.down.icon
@@ -121,19 +121,17 @@ template(name='home')
                     i.minus.icon
                 // i.line.chart.icon
             if skv_is 'view_layout' 'grid'
-                .ui.compact.large.icon.black.basic.button.set_grid(class=grid_class) 
+                .ui.compact.large.icon.black.button.set_grid(class=grid_class) 
                     i.th.icon
             else
                 .ui.compact.large.icon.basic.button.set_grid(class=grid_class) 
                     i.th.icon
             if skv_is 'view_layout' 'list'
-                .ui.compact.black.icon.large.basic.button.set_list(class=list_class)
+                .ui.compact.black.icon.large.button.set_list(class=list_class)
                     i.list.icon
-                    // |list
             else
                 .ui.compact.large.icon.basic.button.set_list(class=list_class)
                     i.list.icon
-                    // |list
             .ui.circular.icon.basic.button.skip_left
                 i.chevron.left.icon
             .ui.circular.icon.basic.button.skip_right
@@ -145,8 +143,13 @@ template(name='home')
             .ui.icon.button
                 i.chat.icon            
             .ui.stackable.two.cards.scrolling
-                each posts
-                    +post_card
+                if skv_is 'view_layout' 'grid'
+                    each posts
+                        +post_card
+                else 
+                    .ui.divided.link.items
+                        each posts
+                            +post_item
 
 template(name='post_card')
     .ui.card.mark_read.penny.add_global_karma(class=card_class)
@@ -168,6 +171,55 @@ template(name='post_card')
             |#{when}
             a(href="/p/#{_id}/view")
                 |!{content}
+            +voting_full
+            // .ui.tiny.icon.input
+            //     i.grey.tag.icon
+            //     input.add_tag(type='text' placeholder='+')
+            // each tags
+            //     +flat_tag_picker
+                // .ui.small.compact.button.pick_flat_tag #{this}
+            // each timestamp_tags
+            //     .ui.small.compact.button.pick_flat_time #{this}
+            if location
+                i.grey.marker.icon
+                |#{location}
+            // if author
+            //     i.grey.user.outline.icon
+            //     |#{author}
+            each read_ids
+                .ui.label #{this}
+        .content
+            if is_author
+                i.large.lock.link.circular.grey.icon.make_private
+            else if in_dev
+                i.large.lock.link.circular.grey.icon.make_private
+            a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
+                |#{views}
+                i.chevron.right.large.icon
+                                
+                                
+template(name='post_item')
+    .ui.item.mark_read.penny.add_global_karma(class=card_class)
+        if image_link
+            a(href="/p/#{_id}/view")
+                img.ui.zoomer.small.image(src=image_link)
+        if image_id
+            a(href="/p/#{_id}/view")
+                img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+        if youtube_id
+            a(href="/p/#{_id}/view")
+                i.massive.youtube.link.icon
+            // +youtube_view key='youtube_id' label='youtube id' direct=true
+
+        .content.smallscroll
+            a.ui.header(href="/p/#{_id}/view") #{title}
+            div
+            i.thumbs.up.link.outline.icon.upvote
+            |#{points}
+            i.thumbs.down.link.outline.icon.downvote
+            |#{when}
+            // a(href="/p/#{_id}/view")
+            //     |!{content}
             +voting_full
             // .ui.tiny.icon.input
             //     i.grey.tag.icon
