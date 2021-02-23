@@ -15,15 +15,15 @@ Template.body.events
         Meteor.call 'add_global_karma', ->
         Session.set('session_clicks', Session.get('session_clicks')+2)
 
-    'click a': ->
-        if Meteor.userId()
-            Meteor.users.update Meteor.userId(),
-                $inc:points:2
-        if @_author_id
-            Meteor.users.update @_author_id,
-                $inc:points:2
-        Meteor.call 'add_global_karma', ->
-        Session.set('session_clicks', Session.get('session_clicks')+2)
+    # 'click a': ->
+        # if Meteor.userId()
+        #     Meteor.users.update Meteor.userId(),
+        #         $inc:points:2
+        # if @_author_id
+        #     Meteor.users.update @_author_id,
+        #         $inc:points:2
+        # Meteor.call 'add_global_karma', ->
+        # Session.set('session_clicks', Session.get('session_clicks')+2)
     
     # 'click body': ->
     #     if Meteor.userId()

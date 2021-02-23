@@ -64,28 +64,28 @@ template(name='profile_layout')
                                 .item created {{ufrom created_utc}}
                                 
                     .twelve.wide.column
-                        a.ui.basic.button.select_term.no_blink(href="/u/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
+                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
                             i.large.dashboard.icon
                             span dashboard
-                        a.ui.basic.button.select_term.no_blink(href="/u/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} posts")
+                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} posts")
                             i.newspaper.large.icon
                             span posts
-                        a.ui.basic.button.select_term.no_blink(href="/u/#{username}/comments" class="{{isActiveRoute 'user_comments'}}" title="#{user.username} comments")
+                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/comments" class="{{isActiveRoute 'user_comments'}}" title="#{user.username} comments")
                             i.chat.large.icon
                             span comments
-                        a.ui.basic.button.select_term.no_blink(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
+                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
                             i.large.chevron.down.icon
                             span pts received
-                        a.ui.basic.button.select_term.no_blink(href="/u/#{username}/sent" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
+                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/sent" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
                             i.large.gift.icon
                             span pts sent
-                        a.ui.basic.button.select_term.no_blink(href="/u/#{username}/credit" class="{{isActiveRoute 'user_credit'}}" title="#{user.username} credit")
+                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/credit" class="{{isActiveRoute 'user_credit'}}" title="#{user.username} credit")
                             i.large.dollar.icon
                             span credit
-                        a.ui.basic.button.select_term.no_blink(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
+                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
                             i.users.large.icon
                             span friends
-                        a.ui.basic.button.select_term.no_blink(href="/u/#{username}/vault" class="{{isActiveRoute 'user_vault'}}" title="#{user.username} friends")
+                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/vault" class="{{isActiveRoute 'user_vault'}}" title="#{user.username} friends")
                             i.lock.large.icon
                             span vault
                         if is_dev

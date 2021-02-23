@@ -15,6 +15,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_posts'
         ), name:'user_posts'
+    Router.route '/u/:username/vault', (->
+        @layout 'profile_layout'
+        @render 'user_vault'
+        ), name:'user_vault'
     Router.route '/u/:username/tips', (->
         @layout 'profile_layout'
         @render 'user_tips'
