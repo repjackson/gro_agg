@@ -33,10 +33,11 @@ Meteor.methods
         if Meteor.userId()
             Docs.update doc_id,
                 $addToSet:viewer_ids:Meteor.userId()
-        Meteor.users.update doc._author_id,
-            $inc:points:2
-        Meteor.users.update Meteor.userId(),
-            $inc:points:1
+            Meteor.users.update Meteor.userId(),
+                $inc:points:1
+        if doc._author_id
+            Meteor.users.update doc._author_id,
+                $inc:points:2
         Meteor.call 'add_global_karma', ->
         Session.set('session_clicks', Session.get('session_clicks')+2)
 
@@ -188,6 +189,8 @@ Meteor.methods
                         points:2
                 Meteor.users.update Meteor.userId(),
                     $inc:points:1
+                Meteor.call 'add_global_karma', ->
+                Session.set('session_clicks', Session.get('session_clicks')+2)
             else if doc.upvoter_ids and Meteor.userId() in doc.upvoter_ids
                 Docs.update doc._id,
                     $pull: 
@@ -199,6 +202,8 @@ Meteor.methods
                         points:-1
                 Meteor.users.update Meteor.userId(),
                     $inc:points:1
+                Meteor.call 'add_global_karma', ->
+                Session.set('session_clicks', Session.get('session_clicks')+2)
             else
                 Docs.update doc._id,
                     $addToSet: 
@@ -214,6 +219,8 @@ Meteor.methods
                 $inc:points:1
             Meteor.users.update doc._author_id,
                 $inc:points:1
+            Meteor.call 'add_global_karma', ->
+            Session.set('session_clicks', Session.get('session_clicks')+2)
         else
             Docs.update doc._id,
                 $inc:
@@ -223,6 +230,8 @@ Meteor.methods
                 $inc:anon_points:1
             Meteor.users.update Meteor.userId(),
                 $inc:points:1
+            Meteor.call 'add_global_karma', ->
+            Session.set('session_clicks', Session.get('session_clicks')+2)
 
     downvote: (doc)->
         if Meteor.userId()
@@ -241,6 +250,9 @@ Meteor.methods
                         upvotes:-1
                 Meteor.users.update Meteor.userId(),
                     $inc:points:1
+                Meteor.call 'add_global_karma', ->
+                Session.set('session_clicks', Session.get('session_clicks')+2)
+                    
             else if doc.downvoter_ids and Meteor.userId() in doc.downvoter_ids
                 Docs.update doc._id,
                     $pull: 
@@ -252,6 +264,9 @@ Meteor.methods
                         downvotes:-1
                 Meteor.users.update Meteor.userId(),
                     $inc:points:1
+                Meteor.call 'add_global_karma', ->
+                Session.set('session_clicks', Session.get('session_clicks')+2)
+                    
             else
                 Docs.update doc._id,
                     $addToSet: 
@@ -265,6 +280,9 @@ Meteor.methods
                     $inc:points:1
             Meteor.users.update doc._author_id,
                 $inc:points:-1
+            Meteor.call 'add_global_karma', ->
+            Session.set('session_clicks', Session.get('session_clicks')+2)
+                
         else
             Docs.update doc._id,
                 $inc:
@@ -272,4 +290,5 @@ Meteor.methods
                     anon_downvotes:1
             Meteor.users.update doc._author_id,
                 $inc:anon_points:-1
-            
+            Meteor.call 'add_global_karma', ->
+            Session.set('session_clicks', Session.get('session_clicks')+2)

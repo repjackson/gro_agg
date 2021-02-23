@@ -155,6 +155,22 @@ Meteor.publish 'posts', (
         sort:_timestamp:-1
         # sort: "#{sk}":-1
         # skip:skip*20
+        fields:
+            title:1
+            content:1
+            tags:1
+            upvoter_ids:1
+            image_link:1
+            url:1
+            youtube_id:1
+            _timestamp:1
+            _timestamp_tags:1
+            views:1
+            viewer_ids:1
+            _author_username:1
+            downvoter_ids:1
+            _author_id:1
+            model:1
     
     
 # Meteor.methods    
@@ -217,7 +233,7 @@ Meteor.publish 'dao_tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:20 }
+        { $limit:25 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     tag_cloud.forEach (tag, i) ->

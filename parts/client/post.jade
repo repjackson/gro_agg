@@ -1,13 +1,13 @@
 template(name='post_view')
     with current_doc
-        .ui.stackable.grid
+        .ui.stackable.padded.grid
             .row 
-                .twelve.wide.column
+                .twelve.wide.column.scrolling
                     .ui.header #{title}
                     if image_link
                         +image_link_view key='image_link' direct=true
                     if image_id
-                        img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                        img.ui.fluid.rounded.image.no_left(src="{{c.url image_id }}" class=currentUser.invert_class)
                     if youtube_id
                         .no_left
                             +youtube_view key='youtube_id' label='youtube id' direct=true
@@ -20,7 +20,7 @@ template(name='post_view')
                     .spacer
                     +comments
                     div
-                .four.wide.column
+                .four.wide.column.scrolling
                     a.ui.large.icon.basic.circular.button(href="/")
                         i.chevron.left.large.icon
                     | #{views} views

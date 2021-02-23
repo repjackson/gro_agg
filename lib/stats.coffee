@@ -41,7 +41,7 @@ Meteor.methods
         gs = 
             Docs.findOne 
                 model:'global_stats'
-        console.log gs
+        # console.log gs
         if gs
             Docs.update gs._id,
                 $inc:global_karma:1
