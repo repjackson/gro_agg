@@ -16,6 +16,8 @@ Router.route '/p/:doc_id/view', (->
 Template.post_edit.onCreated ->
     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 Template.post_view.onCreated ->
+    Session.set('session_clicks', Session.get('session_clicks')+2)
+    
     Meteor.call 'log_view', Router.current().params.doc_id, ->
     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
@@ -61,6 +63,7 @@ Template.home.onCreated ->
 Template.post_card.onRendered ->
     # console.log @
     Meteor.call 'log_view', @data._id, ->
+    Session.set('session_clicks', Session.get('session_clicks')+2)
 
 
 
@@ -169,7 +172,7 @@ Template.home.events
             
             
     Template.tag_picker.onCreated ->
-        @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+        # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
     Template.tag_picker.helpers
         picker_class: ()->
             term = 
@@ -218,7 +221,7 @@ Template.home.events
             
     
     Template.unpick_tag.onCreated ->
-        @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
+        # @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
         
     Template.unpick_tag.helpers
         term: ->

@@ -60,7 +60,7 @@ template(name='post_edit')
                         i.checkmark.big.green.icon
                     .ui.inline.header 
                         i.pencil.icon
-                        |edit love post
+                        |edit post
                     i.large.link.red.remove.icon.delete_post
                     +image_edit key='image_id' label='image' direct=true
                     div 
@@ -71,6 +71,7 @@ template(name='post_edit')
                     // +raw_edit key='raw' label='raw' direct=true
                     +boolean_edit key='private' label='private' direct=true
                     // +text_edit key='group' label='group' direct=true
+                    
                 .twelve.wide.column.scrolling
                     +text_edit key='title' label='title' direct=true
                     +html_edit key='content' label='content' direct=true

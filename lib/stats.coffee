@@ -64,18 +64,6 @@ if Meteor.isServer
         # if picked_tags.length
         Counts.publish this, 'reflection_count', Docs.find(match)
         return undefined
-    Meteor.publish 'reflection_count', (
-        # picked_tags
-        # toggle
-        )->
-        match = {
-            model:'reflection'
-        }
-    
-        # match.tags = $all:picked_tags
-        # if picked_tags.length
-        Counts.publish this, 'reflection_count', Docs.find(match)
-        return undefined
     
     Meteor.publish 'comment_count', (
         # picked_tags

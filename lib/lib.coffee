@@ -39,7 +39,6 @@ Meteor.methods
             Meteor.users.update doc._author_id,
                 $inc:points:2
         Meteor.call 'add_global_karma', ->
-        Session.set('session_clicks', Session.get('session_clicks')+2)
 
 
 

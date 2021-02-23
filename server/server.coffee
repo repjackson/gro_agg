@@ -113,6 +113,7 @@ Meteor.publish 'doc_count', (
     picked_locations
     picked_times
     )->
+    @unblock()
     match = {
         model:'post'
         is_private:$ne:true
@@ -135,6 +136,8 @@ Meteor.publish 'posts', (
     sort_direction
     skip=0
     )->
+        
+    @unblock()
     self = @
     match = {
         model:'post'
@@ -160,6 +163,7 @@ Meteor.publish 'posts', (
             content:1
             tags:1
             upvoter_ids:1
+            image_id:1
             image_link:1
             url:1
             youtube_id:1
@@ -233,7 +237,7 @@ Meteor.publish 'dao_tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     tag_cloud.forEach (tag, i) ->
@@ -251,7 +255,7 @@ Meteor.publish 'dao_tags', (
         # { $match: _id: $nin: picked_location }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:20 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     location_cloud.forEach (location, i) ->
@@ -269,7 +273,7 @@ Meteor.publish 'dao_tags', (
         # { $match: _id: $nin: picked_time }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:20 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     # console.log match
@@ -289,7 +293,7 @@ Meteor.publish 'dao_tags', (
         # { $match: _id: $nin: picked_time }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:20 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     # console.log match
@@ -310,7 +314,7 @@ Meteor.publish 'dao_tags', (
         { $match: _id: $nin: picked_authors }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:20 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     author_cloud.forEach (author, i) ->
