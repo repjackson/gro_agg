@@ -29,13 +29,16 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_tips_sent_count', Router.current().params.username
         
         # @autorun -> Meteor.subscribe 'user_debits', Router.current().params.username
-        # @autorun -> Meteor.subscribe 'user_child_referrals', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_feed_items', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_requests', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_completed_requests', Router.current().params.username
         # @autorun -> Meteor.subscribe 'user_event_tickets', Router.current().params.username
         # @autorun -> Meteor.subscribe 'model_docs', 'event'
         # @autorun -> Meteor.subscribe 'all_users'
         
+    Template.user_dashboard.onCreated ->
+        # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+        @autorun => Meteor.subscribe('user_feed_items',Router.current().params.username)
     Template.user_dashboard.events
         'click .user_credit_segment': ->
             Router.go "/debit/#{@_id}/view"
@@ -46,9 +49,22 @@ if Meteor.isClient
         'click .user_checkin_segment': ->
             Router.go "/drink/#{@drink_id}/view"
             
-            
+        'keyup .add_feed_item': (e,t)->
+            if e.which is 13
+                val = $('.add_feed_item').val()
+                console.log val
+                target_user = Meteor.users.findOne(username:Router.current().params.username)
+                Docs.insert
+                    model:'feed_item'
+                    body: val
+                    target_user_id: target_user._id
+                    target_user_username: target_user.username
+                val = $('.add_feed_item').val('')
+
             
     Template.user_dashboard.helpers
+        feed_items: -> Docs.find model:'feed_item'
+    
         user_post_count: -> Counts.get 'user_post_count'
         post_points: -> Counts.get('user_post_count')*10
         user_comment_count: -> Counts.get 'user_comment_count'
@@ -139,9 +155,6 @@ if Meteor.isClient
         route_slug: -> "user_#{@slug}"
         user: -> Meteor.users.findOne username:Router.current().params.username
 
-    Template.user_dashboard.onCreated ->
-        # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
-        @autorun => Meteor.subscribe('model_docs', 'group_bookmark')
 
     Template.profile_layout.events
         'click a.select_term': ->
@@ -248,6 +261,14 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.publish 'user_feed_items', (username)->
+        user = Meteor.users.findOne username:username
+        match = {
+            model:'feed_item'
+            target_user_id:user._id
+        }
+        Docs.find match
+    
     Meteor.publish 'user_post_count', (username)->
         user = Meteor.users.findOne username:username
         match = {

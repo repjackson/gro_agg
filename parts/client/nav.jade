@@ -37,8 +37,8 @@ template(name='nav')
                 else
                     a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
                         i.outline.bell.icon
-                a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
-                    i.inbox.icon
+                // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
+                //     i.inbox.icon
                 a.icon.item.penny.add_global_karma(href="/u/#{currentUser.username}/credit" class="{{isActivePath 'user_credit'}}" title="#{user.username} credit")
                     strong #{currentUser.points}
                 a.item.penny.add_global_karma(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")

@@ -76,7 +76,7 @@ template(name='profile_layout')
                         a.ui.basic.button.select_term.no_blink(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
                             i.large.chevron.down.icon
                             span pts received
-                        a.ui.basic.button.select_term.no_blink(href="/u/#{username}/debits" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
+                        a.ui.basic.button.select_term.no_blink(href="/u/#{username}/sent" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
                             i.large.gift.icon
                             span pts sent
                         a.ui.basic.button.select_term.no_blink(href="/u/#{username}/credit" class="{{isActiveRoute 'user_credit'}}" title="#{user.username} credit")
@@ -122,7 +122,31 @@ template(name='user_dashboard')
     .ui.stackable.grid
         .row
             .sixteen.wide.column
+                .ui.fluid.icon.input
+                    i.plus.icon
+                    input.add_feed_item(type='text' placeholder='add to feed (-10p)')
+                .ui.circular.icon.button 
+                    i.gift.icon
+                .ui.circular.icon.button 
+                    i.photo.icon
+                .ui.circular.icon.button 
+                    i.hand.holding.icon
+                .ui.feed
+                    each feed_items 
+                        .event 
+                            .label 
+                                img.ui.avatar.compact.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                            .content
+                                .summary
+                                    a.user #{_author.username}
+                                    |#{body}
+                                    .date
+                                        |#{when}
+                                .meta 
+                                    a.like 
+                                        i.like.icon
                 if currentUser
+                
                     // .ui.small.header 
                     //     label goto/create group
                     // .ui.input

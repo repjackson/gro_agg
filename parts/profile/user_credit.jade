@@ -6,7 +6,8 @@ template(name='user_credit')
     .ui.header total topup count #{current_user.topup_count}
     .ui.padded.stackable.two.column.grid
         .column
-            .scrolling
+            .smallscroll
+                .ui.header dollar debits
                 each received_dollar_debits
                     .ui.segment
                         if recipient.profile_image_id
@@ -25,7 +26,8 @@ template(name='user_credit')
                             if is_admin
                                 +remove_button
         .column
-            .scrolling
+            .smallscroll
+                .ui.header dollar debits
                 each sent_dollar_debits
                     .ui.segment
                         if recipient.profile_image_id

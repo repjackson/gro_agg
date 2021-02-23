@@ -186,6 +186,8 @@ template(name='post_card')
             // if author
             //     i.grey.user.outline.icon
             //     |#{author}
+            if in_dev
+                +print_this
             each read_ids
                 .ui.label #{this}
         .content
@@ -224,17 +226,22 @@ template(name='post_item')
             // .ui.tiny.icon.input
             //     i.grey.tag.icon
             //     input.add_tag(type='text' placeholder='+')
-            // each tags
-            //     +flat_tag_picker
+            each five_tags
+                +flat_tag_picker
                 // .ui.small.compact.button.pick_flat_tag #{this}
-            // each timestamp_tags
-            //     .ui.small.compact.button.pick_flat_time #{this}
+            if skv_is 'view_detail' true
+                each timestamp_tags
+                    .ui.small.compact.button.pick_flat_time #{this}
             if location
                 i.grey.marker.icon
                 |#{location}
+            if currentUser
+                |#{_author_username}
             // if author
             //     i.grey.user.outline.icon
             //     |#{author}
+            if in_dev
+                +print_this
             each read_ids
                 .ui.label #{this}
         .content

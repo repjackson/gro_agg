@@ -11,19 +11,23 @@ template(name='user_sent')
         .ui.basic.label #{title}
             small #{count}
         
-    .ui.stackable.cards.scrolling
+    .ui.list.scrolling
         each sent_items
-            .ui.card
+            .ui.item
                 .content
-                    .header
+                    .inline.header
                         strong #{amount}pt
                         | to 
                         if recipient.profile_image_id
                             img.ui.avatar.image(src="{{c.url recipient.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                         |#{recipient.shortname}
+                    strong #{price}
                     small #{when}
-                    div
+                    // div
                     |#{description}
-                    div
+                    // div
                     each tags
                         .ui.mini.basic.label #{this}
+                    |#{seller_username}
+                    if in_dev
+                        +print_this

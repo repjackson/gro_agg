@@ -70,11 +70,8 @@ Docs.before.insert (userId, doc)->
     return
     
     
+Docs.helpers
     when: -> moment(@_timestamp).fromNow()
-    site_doc: ->
-        Docs.findOne 
-            model:'stack_site'
-            name:@site
     seven_tags: ->
         if @tags
             @tags[..7]
@@ -99,11 +96,6 @@ Docs.before.insert (userId, doc)->
     is_private: -> @published is -1
     is_read: ->
         @read_ids and Meteor.userId() in @read_ids
-
-    enabled_features: () ->
-        Docs.find
-            model:'feature'
-            _id:$in:@enabled_feature_ids
 
 
     upvoters: ->
