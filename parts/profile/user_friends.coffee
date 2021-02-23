@@ -5,7 +5,8 @@ if Meteor.isClient
         ), name:'user_friends'
     
     Template.user_friends.onCreated ->
-        @autorun => Meteor.subscribe 'user_friends'
+        @autorun => Meteor.subscribe 'all_users'
+        @autorun => Meteor.subscribe 'friends'
 
 
 
@@ -19,9 +20,10 @@ if Meteor.isClient
                 _id:$nin:Meteor.user().friend_ids
 
 
+    Template.registerHelper 'is_friend', () ->
+        Meteor.user() and Meteor.user().friend_ids and @_id in Meteor.user().friend_ids
+
     Template.user_friend_button.helpers
-        is_friend: ->
-            Meteor.user() and Meteor.user().friend_ids and @_id in Meteor.user().friend_ids
 
 
     Template.user_friend_button.events
@@ -44,3 +46,14 @@ if Meteor.isClient
                     assigned_username:current_user.username
 
                 t.$('.assign_earn').val('')
+
+
+
+if Meteor.isServer
+    Meteor.publish 'friends', ()->
+        Meteor.users.find {},
+            fields:
+                username:1
+                tags:1
+                profile_image_id:1
+                nickname:1

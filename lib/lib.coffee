@@ -2,6 +2,7 @@
 @results = new Meteor.Collection 'results'
 @Tags = new Meteor.Collection 'tags'
 @User_tags = new Meteor.Collection 'user_tags'
+@Terms = new Meteor.Collection 'terms'
 @Level_results = new Meteor.Collection 'level_results'
 # @Tag_results = new Meteor.Collection 'tag_results'
 Router.configure

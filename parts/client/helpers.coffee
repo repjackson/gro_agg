@@ -1,3 +1,5 @@
+@selected_tags = new ReactiveArray []
+
 Template.registerHelper 'is_positive', () ->
     # console.log @doc_sentiment_score
     if @doc_sentiment_score
@@ -25,6 +27,10 @@ Template.registerHelper 'selected_emotions', () -> selected_emotions.array()
     
 Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 
+    
+Template.registerHelper 'i_have_points', ->
+    Meteor.user().points > 0
+    
     
 Template.registerHelper 'trunc', (input) ->
     input[0..350]

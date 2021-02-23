@@ -4,24 +4,32 @@ template(name='user_friends')
         .two.column.row
             .column
                 .ui.small.header connected to
-                .ui.middle.aligned.selection.animated.large.list
+                .ui.middle.aligned.selection.animated.large.list.smallscroll
                     each friends
                         +user_segment
             .column
                 .ui.small.header connected by
-                .ui.middle.aligned.selection.animated.large.list
+                .ui.middle.aligned.selection.animated.large.list.smallscroll
                     each friends_with
                         +user_segment
+            .column
+                .ui.small.header not connected to
+                .ui.middle.aligned.selection.animated.small.list.smallscroll
+                    each nonfriends
+                        +user_item
 
 
 template(name='user_segment')
     a.item(href="/u/#{username}")
-        img.ui.avatar.image(src="{{c.url image_id gravity='face' crop='fit'}}")
+        img.ui.avatar.image(src="{{c.url profile_image_id gravity='face' crop='fit'}}")
         .content
-            .header
+            .ui.inline.header
                 |#{name}
-                small #{points}
-            .description
-                each tags
-                    .ui.basic.label #{this}
+            small #{points}
+            unless is_friend
+                .ui.button.add_friend
+                    i.plus.icon
+            // .description
+                // each tags
+                //     .ui.basic.label #{this}
 

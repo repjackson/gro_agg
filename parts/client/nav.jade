@@ -18,7 +18,8 @@ template(name='nav')
         .item.add_global_karma(title='global karma')
             i.grey.globe.icon
             |#{global_karma}
-        +status
+        .item
+            +status
     
         if currentUser
             if is_dev 
@@ -28,16 +29,16 @@ template(name='nav')
                 a.icon.item.add_post.penny.add_global_karma
                     i.plus.icon
             
-                // if unread_count
-                //     a.item.alerts.select_term(href="#" class=alert_toggle_class)
-                //         i.bell.icon
-                //         if unread_count
-                //             |#{unread_count}
-                // else
-                //     a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
-                //         i.outline.bell.icon
-                // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
-                //     i.inbox.icon
+                if unread_count
+                    a.item.alerts.select_term(href="#" class=alert_toggle_class)
+                        i.bell.icon
+                        if unread_count
+                            |#{unread_count}
+                else
+                    a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+                        i.outline.bell.icon
+                a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
+                    i.inbox.icon
                 a.icon.item.penny.add_global_karma(href="/u/#{currentUser.username}/credit" class="{{isActivePath 'user_credit'}}" title="#{user.username} credit")
                     strong #{currentUser.points}
                 a.item.penny.add_global_karma(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")

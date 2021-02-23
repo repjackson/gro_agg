@@ -8,7 +8,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_model_docs', 'message', Router.current().params.username
         @autorun => Meteor.subscribe 'my_received_messages'
         @autorun => Meteor.subscribe 'my_sent_messages'
-        # @autorun => Meteor.subscribe 'inbox', Router.current().params.username
+        @autorun => Meteor.subscribe 'all_users'
         @autorun => Meteor.subscribe 'model_docs', 'stat'
 
     Template.inbox.events

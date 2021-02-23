@@ -122,7 +122,13 @@ Meteor.publish 'latest_debits', ()->
 
 
 Meteor.publish 'all_users', ()->
-    # Meteor.users.find()
+    Meteor.users.find({},
+        fields:
+            username:1
+            profile_image_id:1
+            friend_ids:1
+            points:1
+    )
 
 
 
