@@ -25,6 +25,9 @@ template(name='profile_layout')
                         .ui.basic.label {{to_percent one_ratio}}% ratio
                         .ui.basic.label #{flow_volume} volume
                         .ui.basic.label #{profile_views} views
+                        +user_follow_button
+                        .ui.button.join
+                            |join
                         if is_admin
                             a.ui.basic.button(href="/u/#{username}/edit" title='admin edit account')
                                 i.shield.large.icon
@@ -49,10 +52,6 @@ template(name='profile_layout')
                                 span tip
                         if i_have_points
                             .ui.basic.button.send(title='send points')
-                                i.red.gift.large.icon
-                                span send pts
-                        else
-                            .ui.disabled.basic.button(title='send points')
                                 i.red.gift.large.icon
                                 span send pts
                         with data
@@ -124,6 +123,25 @@ template(name='user_friend_button')
                     i.user.plus.large.icon
                     |friend
 
+template(name='user_follow_button')
+    unless is_current_user
+        if is_following
+            .ui.black.animated.fade.button.unfollow(title='unfollow')
+                .hidden.content
+                    i.minus.large.icon
+                    |unfollow
+                .visible.content
+                    i.checkmark.large.icon
+                    |follow
+        else
+            .ui.animated.fade.basic.button.follow(title='follow')
+                .hidden.content
+                    i.plus.large.icon
+                    |follow
+                .visible.content
+                    i.user.plus.large.icon
+                    |follow
+
 
 template(name='user_dashboard')
     .ui.stackable.grid
@@ -153,6 +171,13 @@ template(name='user_dashboard')
                                     a.like 
                                         i.like.icon
                 if currentUser
+                    .ui.header karma sent
+                    .ui.large.list
+                        each user_karma_sent
+                            .item #{title} #{amount} #{points} #{when}
+                    .ui.header karma received
+                    each user_karma_received
+                            .item #{title} #{amount} #{points} #{when}
                 
                     // .ui.small.header 
                     //     label goto/create group

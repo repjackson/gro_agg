@@ -57,6 +57,34 @@ if Meteor.isClient
                 t.$('.assign_earn').val('')
 
 
+    Template.user_follow_button.onCreated ->
+        @autorun => Meteor.subscribe 'user_from_id', @data
+    Template.user_follow_button.helpers
+        user: -> Meteor.users.findOne @valueOf()
+
+
+    Template.user_follow_button.events
+        'click .follow':->
+            Meteor.users.update Meteor.userId(),
+                $addToSet: follow_ids:@_id
+        'click .unfollow':->
+            Meteor.users.update Meteor.userId(),
+                $pull: follow_ids:@_id
+
+        'keyup .assign_earn': (e,t)->
+            if e.which is 13
+                post = t.$('.assign_earn').val().trim()
+                # console.log post
+                current_user = Meteor.users.findOne Router.current().params.username
+                Docs.insert
+                    body:post
+                    model:'earn'
+                    assigned_user_id:current_user._id
+                    assigned_username:current_user.username
+
+                t.$('.assign_earn').val('')
+
+
 
 if Meteor.isServer
     Meteor.publish 'friends', ()->

@@ -34,7 +34,7 @@ if Meteor.isClient
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find {
                 model:'message'
-                recipient_id: Meteor.userId()
+                target_id: Meteor.userId()
                 # target_user_id: target_user._id
             },
                 sort:_timestamp:-1

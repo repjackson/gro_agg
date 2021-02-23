@@ -432,7 +432,7 @@ Meteor.methods
         if direction is 'debit'
             match._author_id = user_id
         if direction is 'credit'
-            match.recipient_id = user_id
+            match.target_id = user_id
 
         console.log 'found debits', Docs.find(match).count()
         # if omega.selected_tags.length > 0

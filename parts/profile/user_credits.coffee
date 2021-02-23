@@ -18,7 +18,7 @@ if Meteor.isClient
         #         Docs.insert
         #             model:'credit'
         #             body: val
-        #             recipient_id: target_user._id
+        #             target_id: target_user._id
 
 
 
@@ -27,7 +27,7 @@ if Meteor.isClient
             target_user = Meteor.users.findOne({username:Router.current().params.username})
             Docs.find {
                 model:'debit'
-                recipient_id: target_user._id
+                target_id: target_user._id
             },
                 sort:_timestamp:-1
 
@@ -36,7 +36,7 @@ if Meteor.isClient
             target_user = Meteor.users.findOne({username:Router.current().params.username})
             Docs.find {
                 model:'debit'
-                recipient_id: target_user._id
+                target_id: target_user._id
             },
                 sort:_timestamp:-1
 
@@ -48,4 +48,4 @@ if Meteor.isServer
         user = Meteor.users.findOne username:username
         Docs.find
             model:'debit'
-            recipient_id:user._id
+            target_id:user._id

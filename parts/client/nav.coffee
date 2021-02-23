@@ -87,14 +87,14 @@ Template.nav.helpers
     unread_count: ->
         Docs.find( 
             model:'message'
-            recipient_id:Meteor.userId()
+            target_id:Meteor.userId()
             viewer_ids:$nin:[Meteor.userId()]
         ).count()
 Template.topbar.helpers
     recent_alerts: ->
         Docs.find 
             model:'message'
-            recipient_id:Meteor.userId()
+            target_id:Meteor.userId()
             viewer_ids:$nin:[Meteor.userId()]
         , sort:_timestamp:-1
         

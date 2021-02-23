@@ -42,9 +42,9 @@ if Meteor.isClient
     Template.message_edit.helpers
         recipient: ->
             message = Docs.findOne Router.current().params.doc_id
-            if message.recipient_id
+            if message.target_id
                 Meteor.users.findOne
-                    _id: message.recipient_id
+                    _id: message.target_id
         members: ->
             message = Docs.findOne Router.current().params.doc_id
             Meteor.users.find 
@@ -52,7 +52,7 @@ if Meteor.isClient
                 _id: $ne: Meteor.userId()
         # subtotal: ->
         #     message = Docs.findOne Router.current().params.doc_id
-        #     message.amount*message.recipient_ids.length
+        #     message.amount*message.target_ids.length
         
         point_max: ->
             if Meteor.user().username is 'one'
@@ -63,16 +63,16 @@ if Meteor.isClient
         can_submit: ->
             true
             message = Docs.findOne Router.current().params.doc_id
-            message.description and message.recipient_id
+            message.description and message.target_id
     Template.message_edit.events
         'click .add_recipient': ->
             Docs.update Router.current().params.doc_id,
                 $set:
-                    recipient_id:@_id
+                    target_id:@_id
         'click .remove_recipient': ->
             Docs.update Router.current().params.doc_id,
                 $unset:
-                    recipient_id:1
+                    target_id:1
         'keyup .new_element': (e,t)->
             if e.which is 13
                 element_val = t.$('.new_element').val().toLowerCase().trim()
@@ -167,7 +167,7 @@ if Meteor.isServer
     Meteor.methods
         send_message: (message_id)->
             message = Docs.findOne message_id
-            recipient = Meteor.users.findOne message.recipient_id
+            recipient = Meteor.users.findOne message.target_id
             sender = Meteor.users.findOne message._author_id
 
             console.log 'sending message', message

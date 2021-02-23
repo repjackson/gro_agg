@@ -60,7 +60,7 @@ if Meteor.isClient
             new_debit_id =
                 Docs.insert
                     model:'debit'
-                    recipient_id: @_id
+                    target_id: @_id
             Router.go "/debit/#{new_debit_id}/edit"
 
         'click .request': ->
@@ -68,7 +68,7 @@ if Meteor.isClient
             new_id =
                 Docs.insert
                     model:'request'
-                    recipient_id: @_id
+                    target_id: @_id
             Router.go "/request/#{new_id}/edit"
 
     Template.addtoset_user.helpers

@@ -15,7 +15,7 @@ if Meteor.isClient
         'keyup .new_debit': (e,t)->
             if e.which is 13
                 val = $('.new_debit').val()
-                console.log val
+                # console.log val
                 target_user = Meteor.users.findOne(username:Router.current().params.username)
                 Docs.insert
                     model:'debit'
@@ -29,7 +29,7 @@ if Meteor.isClient
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find {
                 model:'dollar_debit'
-                recipient_id: current_user._id
+                target_id: current_user._id
                 # target_user_id: target_user._id
             },
                 sort:_timestamp:-1
@@ -50,7 +50,7 @@ if Meteor.isServer
         user = Meteor.users.findOne username:username
         Docs.find
             model:'dollar_debit'
-            recipient_id:user._id
+            target_id:user._id
     
     Meteor.publish 'sent_dollar_debits', (username)->
         user = Meteor.users.findOne username:username
@@ -226,7 +226,7 @@ if Meteor.isServer
             # credits = Docs.find({
             #     model:'debit'
             #     amount:$exists:true
-            #     recipient_id:user_id})
+            #     target_id:user_id})
             # credit_count = credits.count()
             # total_credit_amount = 0
             # for credit in credits.fetch()

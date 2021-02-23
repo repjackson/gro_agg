@@ -200,7 +200,7 @@ Meteor.methods
     #     credits = Docs.find({
     #         model:'debit'
     #         amount:$exists:true
-    #         recipient_id:user_id})
+    #         target_id:user_id})
     #     credit_count = credits.count()
     #     total_credit_amount = 0
     #     for credit in credits.fetch()

@@ -65,9 +65,6 @@ template(name='post_edit')
                     +image_edit key='image_id' label='image' direct=true
                     div 
                     +array_edit key='tags' label='tags' direct=true
-                    +link_edit key='link' label='link' direct=true
-                    +array_edit key='time_tags' label='time tags' icon='clock' direct=true
-                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     // +raw_edit key='raw' label='raw' direct=true
                     +boolean_edit key='private' label='private' direct=true
                     // +text_edit key='group' label='group' direct=true
@@ -78,6 +75,7 @@ template(name='post_edit')
                     +boolean_edit key='has_image_link' icon='image' label='image link'
                     +boolean_edit key='has_image_upload' icon='image' label='image upload'
                     +boolean_edit key='has_youtube' icon='youtube' label='youtube'
+                    +boolean_edit key='has_link' icon='link' label='link'
                     if has_title
                         +text_edit key='title' label='title' direct=true
                     if has_html
@@ -86,4 +84,10 @@ template(name='post_edit')
                         +image_link_edit key='image_link' direct=true
                     if has_youtube
                         +youtube_edit key='youtube_id' label='youtube id' direct=true
+                    if has_link
+                        +link_edit key='link' label='link' direct=true
+                    if has_location_tags
+                        +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                    if has_time_tags
+                        +array_edit key='time_tags' label='time tags' icon='clock' direct=true
             

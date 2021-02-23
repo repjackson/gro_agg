@@ -59,6 +59,8 @@ if Meteor.isClient
     Template.user_dashboard.onCreated ->
         @autorun -> Meteor.subscribe 'user_tips_received_count', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_tips_sent_count', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_karma_sent', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_karma_received', Router.current().params.username
         
         # @autorun -> Meteor.subscribe 'user_debits', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_feed_items', Router.current().params.username
@@ -103,6 +105,16 @@ if Meteor.isClient
         user_tips_sent_count: -> Counts.get 'user_tips_sent_count'
         user_tips_received_count: -> Counts.get 'user_tips_received_count'
 
+        user_karma_received: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find 
+                model:'debit'
+                target_user_id:current_user._id
+        user_karma_sent: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find 
+                model:'debit'
+                _author_id:current_user._id
         user_referred: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Meteor.users.find 
@@ -127,7 +139,7 @@ if Meteor.isClient
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find {
                 model:'debit'
-                recipient_id: current_user._id
+                target_id: current_user._id
             }, 
                 sort: _timestamp:-1
                 limit: 10
@@ -253,7 +265,7 @@ if Meteor.isClient
                     Docs.insert
                         model:'debit'
                         amount:1
-                        recipient_id: user._id
+                        target_id: user._id
             Router.go "/debit/#{new_debit_id}/edit"
 
 
@@ -275,7 +287,7 @@ if Meteor.isClient
         #         new_id =
         #             Docs.insert
         #                 model:'request'
-        #                 recipient_id: user._id
+        #                 target_id: user._id
         #                 amount:1
         #     Router.go "/request/#{new_id}/edit"
     
@@ -293,6 +305,28 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.publish 'user_karma_received', (username)->
+        user = Meteor.users.findOne username:username
+        match = {
+            model:'debit'
+            target_id:user._id
+        }
+        Docs.find match,
+            limit:20
+            sort:
+                _timestamp:-1
+    
+    Meteor.publish 'user_karma_sent', (username)->
+        user = Meteor.users.findOne username:username
+        match = {
+            model:'debit'
+            _author_id:user._id
+        }
+        Docs.find match,
+            limit:20
+            sort:
+                _timestamp:-1
+    
     Meteor.publish 'user_tips', (username)->
         user = Meteor.users.findOne username:username
         match = {
@@ -673,7 +707,7 @@ if Meteor.isServer
             # credits = Docs.find({
             #     model:'debit'
             #     amount:$exists:true
-            #     recipient_id:user_id})
+            #     target_id:user_id})
             # credit_count = credits.count()
             # total_credit_amount = 0
             # for credit in credits.fetch()

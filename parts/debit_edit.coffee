@@ -9,6 +9,8 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'recipient_from_debit_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'all_users', Router.current().params.doc_id
+       
         @autorun => @subscribe 'tag_results',
             # Router.current().params.doc_id
             selected_tags.array()
@@ -26,9 +28,9 @@ if Meteor.isClient
             Tags.find()
         recipient: ->
             debit = Docs.findOne Router.current().params.doc_id
-            if debit.recipient_id
+            if debit.target_id
                 Meteor.users.findOne
-                    _id: debit.recipient_id
+                    _id: debit.target_id
         members: ->
             debit = Docs.findOne Router.current().params.doc_id
             Meteor.users.find({
@@ -40,7 +42,7 @@ if Meteor.isClient
                 })
         # subtotal: ->
         #     debit = Docs.findOne Router.current().params.doc_id
-        #     debit.amount*debit.recipient_ids.length
+        #     debit.amount*debit.target_ids.length
         
         point_max: ->
             if Meteor.user().username is 'one'
@@ -50,16 +52,16 @@ if Meteor.isClient
         
         can_submit: ->
             debit = Docs.findOne Router.current().params.doc_id
-            debit.amount and debit.recipient_id
+            debit.amount and debit.target_id
     Template.debit_edit.events
         'click .add_recipient': ->
             Docs.update Router.current().params.doc_id,
                 $set:
-                    recipient_id:@_id
+                    target_id:@_id
         'click .remove_recipient': ->
             Docs.update Router.current().params.doc_id,
                 $unset:
-                    recipient_id:1
+                    target_id:1
         'keyup .new_tag': _.throttle((e,t)->
             query = $('.new_tag').val()
             if query.length > 0
@@ -169,7 +171,7 @@ if Meteor.isServer
     Meteor.methods
         send_debit: (debit_id)->
             debit = Docs.findOne debit_id
-            recipient = Meteor.users.findOne debit.recipient_id
+            recipient = Meteor.users.findOne debit.target_id
             debiter = Meteor.users.findOne debit._author_id
 
             console.log 'sending debit', debit

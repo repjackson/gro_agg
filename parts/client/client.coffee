@@ -89,6 +89,6 @@ Template.nav.helpers
     # unread_count: ->
     #     Docs.find( 
     #         model:'message'
-    #         recipient_id:Meteor.userId()
+    #         target_id:Meteor.userId()
     #         viewer_ids:$nin:[Meteor.userId()]
     #     ).count()

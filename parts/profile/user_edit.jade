@@ -24,9 +24,6 @@ template(name='user_edit_layout')
                             a.ui.basic.button(href="/u/#{current_user.username}/edit/privacy" class="{{isActiveRoute 'user_edit_privacy'}}") 
                                 i.lock.privacy.icon 
                                 | privacy
-                            a.ui.basic.button(href="/u/#{current_user.username}/edit/membership" class="{{isActiveRoute 'user_edit_membership'}}" title='membership') 
-                                i.shield.icon
-                                | membership
                         .twelve.wide.column
                             +yield
 
