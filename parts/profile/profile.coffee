@@ -65,7 +65,7 @@ if Meteor.isClient
     Template.user_bounties.onCreated ->
         @autorun -> Meteor.subscribe 'user_bounties', Router.current().params.username
     Template.user_bounties.helpers
-        requests: -> Docs.find model:'request'
+        bountys: -> Docs.find model:'bounty'
 
 
     Template.profile_layout.onCreated ->
@@ -148,7 +148,7 @@ if Meteor.isClient
         user_credits: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find {
-                model:'request'
+                model:'bounty'
                 target_id: current_user._id
             }, 
                 sort: _timestamp:-1
@@ -307,21 +307,7 @@ if Meteor.isClient
                     model:'dollar_debit'
             Router.go "/dollar_debit/#{new_debit_id}/edit"
 
-        # 'click .request': ->
-        #     user = Meteor.users.findOne(username:@username)
-        #     if Meteor.userId() is user._id
-        #         new_id =
-        #             Docs.insert
-        #                 model:'request'
-        #                 amount:1
-        #     else    
-        #         new_id =
-        #             Docs.insert
-        #                 model:'request'
-        #                 target_id: user._id
-        #                 amount:1
-        #     Router.go "/request/#{new_id}/edit"
-    
+
         # 'click .recalc_user_cloud': ->
         #     Meteor.call 'recalc_user_cloud', Router.current().params.username, ->
 
@@ -350,7 +336,7 @@ if Meteor.isServer
     Meteor.publish 'user_bounties', (username)->
         user = Meteor.users.findOne username:username
         match = {
-            model:'requesst'
+            model:'bounty'
             _author_id:user._id
         }
         Docs.find match,
@@ -743,9 +729,9 @@ if Meteor.isServer
             #     # published:true
             # })
             # post_count = posts.count()
-            # total_request_amount = 0
-            # for request in requested.fetch()
-            #     total_request_amount += request.point_bounty
+            # total_bounty_amount = 0
+            # for bounty in bountyed.fetch()
+            #     total_bounty_amount += bounty.point_bounty
             
             
             # credits = Docs.find({
@@ -766,12 +752,12 @@ if Meteor.isServer
             # average_debit_per_student = total_debit_amount/student_count
             # flow_volume = Math.abs(total_credit_amount)+Math.abs(total_debit_amount)
             # flow_volumne =+ total_fulfilled_amount
-            # flow_volumne =+ total_request_amount
+            # flow_volumne =+ total_bounty_amount
             
             
-            # points = total_credit_amount-total_debit_amount+total_fulfilled_amount-total_request_amount
+            # points = total_credit_amount-total_debit_amount+total_fulfilled_amount-total_bounty_amount
             # points =+ total_fulfilled_amount
-            # points =- total_request_amount
+            # points =- total_bounty_amount
             
             # if total_debit_amount is 0 then total_debit_amount++
             # if total_credit_amount is 0 then total_credit_amount++

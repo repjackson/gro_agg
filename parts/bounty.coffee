@@ -5,7 +5,7 @@ if Meteor.isClient
         ), name:'bounties'
     
 
-    Router.route '/bounty/:doc_id/view', (->
+    Router.route '/b/:doc_id', (->
         @layout 'layout'
         @render 'bounty_view'
         ), name:'bounty_view'
@@ -32,6 +32,13 @@ if Meteor.isClient
                 parent_id:Router.current().params.doc_id
             Router.go "/bounty/#{new_id}/edit"
             
+    Template.user_bounties.helpers
+        bounties: ->
+            Docs.find 
+                model:'bounty'
+                # parent_id:Router.current().params.doc_id
+                
+                
             
     Template.bounties.helpers
         bounty_docs: ->

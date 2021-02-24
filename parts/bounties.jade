@@ -2,14 +2,16 @@ template(name='bounty_view')
     with current_doc
         .ui.stackable.padded.grid
             .centered.row 
-                .five.wide.column
+                .four.wide.column
                     a(href="/u/#{_author.username}") 
+                        .ui.header from
                         img.ui.centered.pointer.zoomer.image(src="{{c.url _author.profile_image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                         .ui.large.center.aligned.header.pointer.zoomer
                             |#{_author.name}
-                .five.wide.column
+                .six.wide.column
                     .ui.huge.center.aligned.header
-                        |#{amount}pts
+                        i.hand.holding.icon
+                        |#{amount}p
                     if is_dev
                         +remove_button
                     .f14
@@ -29,13 +31,12 @@ template(name='bounty_view')
                     .spacer
                     +comments
                     //- +array_view key='location_tags' label='location_tags' direct=true
-                .five.wide.column
+                .four.wide.column
                     a(href="/u/#{target.username}")
+                        .ui.header to
                         img.ui.centered.fluid.pointer.zoomer.image(src="{{c.url target.profile_image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                         .ui.large.center.aligned.header.pointer.zoomer
                             |#{target.name}
-                            
-
 
 
 template(name='bounty_edit')
@@ -98,7 +99,7 @@ template(name='bounty_edit')
                         .ui.big.basic.label
                             i.delete.icon.remove_element
                             |#{this}
-                    if suggestions
+                    if suggestions.length
                         .ui.small.inline.header suggestions
                     each suggestions
                         a.ui.large.basic.button.select_term(href='#')
@@ -136,9 +137,9 @@ template(name='user_bounties')
         i.plus.icon
     .ui.link.list.scrolling
         each bounties
-            a.ui.item(href="/p/#{parent_id}") 
+            a.ui.item(href="/b/#{_id}") 
                 if parent.image_id
-                    a(href="/p/#{_id}")
+                    a(href="/b/#{_id}")
                         img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                 if parent.image_link
                     img(src=parent.image_link)
