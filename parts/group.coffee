@@ -10,14 +10,34 @@ if Meteor.isClient
         @render 'group_view'
         ), name:'group_view'
 
+    Router.route '/group/:name', (->
+        @layout 'layout'
+        @render 'group_view'
+        ), name:'group_view_name'
+    
+    Router.route '/g/:name', (->
+        @layout 'layout'
+        @render 'group_view'
+        ), name:'group_view_name_short'
+    
+
     Template.group_view.onCreated ->
+        Session.setDefault('view_section', 'posts')
+        # @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'group_by_name', Router.current().params.name
+        @autorun => Meteor.subscribe 'group_docs', Router.current().params.name
+        @autorun => Meteor.subscribe 'group_members',Router.current().params.name
         @autorun => Meteor.subscribe 'product_from_group_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'all_users'
-        
-    Template.group_view.onRendered ->
+        # @autorun => Meteor.subscribe 'group_template_from_group_id', Router.current().params.doc_id
 
+    Template.group_edit.onCreated ->
+        @autorun => Meteor.subscribe 'group_by_name', Router.current().params.name
+        @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id
+        # @autorun => Meteor.subscribe 'model_docs', 'feature'
+        
 
 
 if Meteor.isServer
@@ -29,7 +49,7 @@ if Meteor.isServer
             
             
 if Meteor.isClient
-    Router.route '/group/:doc_id/edit', (->
+    Router.route '/g/:doc_id/edit', (->
         @layout 'layout'
         @render 'group_edit'
         ), name:'group_edit'
@@ -190,7 +210,7 @@ if Meteor.isClient
                             position: 'top-end',
                             timer: 1000
                         )
-                        Router.go "/group/#{@_id}/view"
+                        Router.go "/g/#{@_id}/view"
             )
 
 
@@ -214,19 +234,6 @@ if Meteor.isServer
             
             
 if Meteor.isClient
-    Router.route '/group/:name', (->
-        @layout 'layout'
-        @render 'group_view'
-        ), name:'group_view'
-    Router.route '/group/:name/edit', (->
-        @layout 'layout'
-        @render 'group_edit'
-        ), name:'group_edit'
-    Router.route '/groups/', (->
-        @layout 'layout'
-        @render 'groups'
-        ), name:'groups'
-    
     Template.groups.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'group'
     Template.groups.helpers
@@ -235,20 +242,11 @@ if Meteor.isClient
                 model:'group'
             }, sort:_timestamp:-1)
     
+    @selected_group_tags = new ReactiveArray []
+    @selected_group_location_tags = new ReactiveArray []
+    @selected_group_time_tags = new ReactiveArray []
+    @selected_group_people_tags = new ReactiveArray []
         
-        
-    Template.group_view.onCreated ->
-        Session.setDefault('view_section', 'posts')
-        # @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'group_by_name', Router.current().params.name
-        # @autorun => Meteor.subscribe 'model_docs', 'feature'
-        @autorun => Meteor.subscribe 'group_members',Router.current().params.name
-        # @autorun => Meteor.subscribe 'group_template_from_group_id', Router.current().params.doc_id
-
-    Template.group_edit.onCreated ->
-        @autorun => Meteor.subscribe 'group_by_name', Router.current().params.name
-        @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id
-        # @autorun => Meteor.subscribe 'model_docs', 'feature'
         
 
     Template.registerHelper 'is_member', ()->
@@ -264,10 +262,6 @@ if Meteor.isClient
             Session.get('group_limit')
             Session.get('group_sort_key')
             Session.get('group_sort_direction')
-    @selected_group_tags = new ReactiveArray []
-    @selected_group_location_tags = new ReactiveArray []
-    @selected_group_time_tags = new ReactiveArray []
-    @selected_group_people_tags = new ReactiveArray []
 
     Template.group_posts.onCreated ->
         @autorun -> Meteor.subscribe('group_tags', 
@@ -296,9 +290,19 @@ if Meteor.isClient
             Docs.find({
                 model:'post'
                 group:Router.current().params.name
-                published:true
+                # published:true
             }, sort:_timestamp:-1)
     
+        grid_class: -> if Session.equals('group_view_layout', 'grid') then 'black' else 'basic'
+        list_class: -> if Session.equals('group_view_layout', 'list') then 'black' else 'basic'
+    Template.group_view.onRendered ->
+        @autorun => Meteor.subscribe 'group_members', Router.current().params.name
+    Template.group_view.events
+        'click .create_group': ->
+            # console.log 'creating'
+            Docs.insert 
+                model:'group'
+                name:Router.current().params.name
 
     Template.group_post_card.events
         'click .pick_tag': -> selected_group_tags.push @valueOf()
@@ -337,16 +341,16 @@ if Meteor.isClient
   
             
     Template.group_edit.events
-        'click .enable_feature': ->
-            console.log @
-            Docs.update Router.current().params.doc_id,
-                $addToSet: 
-                    enabled_feature_ids:@_id
+        # 'click .enable_feature': ->
+        #     console.log @
+        #     Docs.update Router.current().params.doc_id,
+        #         $addToSet: 
+        #             enabled_feature_ids:@_id
     
-        'click .disable_feature': ->
-            Docs.update Router.current().params.doc_id,
-                $pull: 
-                    enabled_feature_ids:@_id
+        # 'click .disable_feature': ->
+        #     Docs.update Router.current().params.doc_id,
+        #         $pull: 
+        #             enabled_feature_ids:@_id
     
         'click .delete_item': ->
             if confirm 'delete item?'
@@ -355,7 +359,7 @@ if Meteor.isClient
         'click .submit': ->
             if confirm 'confirm?'
                 Meteor.call 'send_group', @_id, =>
-                    Router.go "/group/#{@_id}/view"
+                    Router.go "/g/#{@_id}/view"
 
     Template.group_membership.helpers
         members: ->
@@ -386,6 +390,7 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'group_tags', (
+        name
         selected_group_tags, 
         selected_group_location_tags, 
         selected_group_time_tags, 
@@ -393,7 +398,7 @@ if Meteor.isServer
         limit
         )->
         self = @
-        match = {model:'post', group:'jpfam', published:true}
+        match = {model:'post', group:name, published:true}
         if selected_group_tags.length > 0 then match.tags = $all: selected_group_tags
         if selected_group_location_tags.length > 0 then match.location_tags = $all: selected_group_location_tags
         if selected_group_time_tags.length > 0 then match.time_tags = $all: selected_group_time_tags
@@ -481,7 +486,7 @@ if Meteor.isServer
         sort_key='_timestamp'
         sort_direction=-1
         )->
-        match = {model:'post', group:'jpfam', published:true}
+        match = {model:'post', group:name}
         if selected_group_tags.length > 0 then match.tags = $all: selected_group_tags
         if selected_group_location_tags.length > 0 then match.location_tags = $all: selected_group_location_tags
         if selected_group_time_tags.length > 0 then match.time_tags = $all: selected_group_time_tags
@@ -579,7 +584,7 @@ if Meteor.isClient
                 $set:published:true
             if confirm 'confirm?'
                 Meteor.call 'send_group', @_id, =>
-                    Router.go "/group/#{@_id}/view"
+                    Router.go "/g/#{@_id}/view"
 
 
     # Template.group_edit.helpers
@@ -587,15 +592,15 @@ if Meteor.isClient
     #         Meteor.users.find 
     #             levels:$in:['steward']
 if Meteor.isClient
-    Template.tribe_posts.onRendered ->
-        Session.setDefault('tribe_view_layout', 'list')
+    Template.group_posts.onRendered ->
+        Session.setDefault('group_view_layout', 'list')
 
-    Template.tribe_selector.onCreated ->
+    Template.group_selector.onCreated ->
         # console.log @
         if @data.name
             @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
     
-    Template.tribe_selector.helpers
+    Template.group_selector.helpers
         selector_class: ()->
             term = 
                 Docs.findOne 
@@ -614,24 +619,24 @@ if Meteor.isClient
                 title:@name.toLowerCase()
 
 
-    Template.tribe_posts.events
+    Template.group_posts.events
         'click .create_post': ->
             new_id = Docs.insert
                 model:'post'
-                tribe:Router.current().params.name
-            Router.go "/post/#{new_id}/edit"
-        'click .sort_timestamp': (e,t)-> Session.set('tribe_sort_key','_timestamp')
+                group:Router.current().params.name
+            Router.go "/p/#{new_id}/edit"
+        'click .sort_timestamp': (e,t)-> Session.set('group_sort_key','_timestamp')
         'click .unview_bounties': (e,t)-> Session.set('view_bounties',0)
         'click .view_bounties': (e,t)-> Session.set('view_bounties',1)
         'click .unview_unanswered': (e,t)-> Session.set('view_unanswered',0)
         'click .view_unanswered': (e,t)-> Session.set('view_unanswered',1)
-        'click .sort_down': (e,t)-> Session.set('tribe_sort_direction',-1)
-        'click .sort_up': (e,t)-> Session.set('tribe_sort_direction',1)
+        'click .sort_down': (e,t)-> Session.set('group_sort_direction',-1)
+        'click .sort_up': (e,t)-> Session.set('group_sort_direction',1)
         'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
-        'click .limit_10': (e,t)-> Session.set('tribe_limit',10)
-        'click .limit_1': (e,t)-> Session.set('tribe_limit',1)
-        'click .set_grid': (e,t)-> Session.set('tribe_view_layout', 'grid')
-        'click .set_list': (e,t)-> Session.set('tribe_view_layout', 'list')
+        'click .limit_10': (e,t)-> Session.set('group_limit',10)
+        'click .limit_1': (e,t)-> Session.set('group_limit',1)
+        'click .set_grid': (e,t)-> Session.set('group_view_layout', 'grid')
+        'click .set_list': (e,t)-> Session.set('group_view_layout', 'list')
         'keyup .search_site': (e,t)->
             # search = $('.search_site').val().toLowerCase().trim()
             search = $('.search_site').val().trim()
@@ -646,29 +651,18 @@ if Meteor.isClient
                     Meteor.call 'search_stack', Router.current().params.site, search, ->
                         Session.set('loading',false)
 
-    Template.tribe_posts.helpers
-        grid_class: -> if Session.equals('tribe_view_layout', 'grid') then 'black' else 'basic'
-        list_class: -> if Session.equals('tribe_view_layout', 'list') then 'black' else 'basic'
-    Template.tribe_view.onRendered ->
-        @autorun => Meteor.subscribe 'tribe_members', Router.current().params.name
-    Template.tribe_view.events
-        'click .create_tribe': ->
-            # console.log 'creating'
-            Docs.insert 
-                model:'tribe'
-                name:Router.current().params.name
-    Template.tribe_edit.helpers
-        enabled_features: ->
-            tribe = Docs.findOne Router.current().params.doc_id
-            Docs.find 
-                model:'feature'
-                _id:$in:tribe.enabled_feature_ids
-        disabled_features: ->
-            tribe = Docs.findOne Router.current().params.doc_id
-            if tribe.enabled_feature_ids
-                Docs.find 
-                    model:'feature'
-                    _id:$nin:tribe.enabled_feature_ids
-            else
-                Docs.find 
-                    model:'feature'
+    Template.group_edit.helpers
+        # enabled_features: ->
+        #     group = Docs.findOne Router.current().params.doc_id
+        #     Docs.find 
+        #         model:'feature'
+        #         _id:$in:group.enabled_feature_ids
+        # disabled_features: ->
+        #     group = Docs.findOne Router.current().params.doc_id
+        #     if group.enabled_feature_ids
+        #         Docs.find 
+        #             model:'feature'
+        #             _id:$nin:group.enabled_feature_ids
+        #     else
+        #         Docs.find 
+        #             model:'feature'

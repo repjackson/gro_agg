@@ -545,3 +545,68 @@ Template.single_user_edit.events
             # Meteor.call 'unassign_user', page_doc._id, @
 
 
+Template.multi_user_edit.onCreated ->
+    @user_results = new ReactiveVar
+Template.multi_user_edit.helpers
+    user_results: -> 
+        Template.instance().user_results.get()
+Template.multi_user_edit.events
+    'click .clear_results': (e,t)->
+        t.user_results.set null
+    'keyup #multi_user_select_input': (e,t)->
+        search_value = $(e.currentTarget).closest('#multi_user_select_input').val().trim()
+        if e.which is 8
+            t.user_results.set null
+        else if search_value and search_value.length > 1
+            Meteor.call 'lookup_user', search_value, @role_filter, (err,res)=>
+                if err then console.error err
+                else
+                    # console.log res 
+                    t.user_results.set res
+    'click .select_user': (e,t) ->
+        page_doc = Docs.findOne Router.current().params.doc_id
+        val = t.$('.edit_text').val()
+        field = Template.currentData()
+
+        if field.direct
+            parent = Template.parentData()
+        else
+            parent = Template.parentData(5)
+
+        doc = Docs.findOne parent._id
+        user = Meteor.users.findOne parent._id
+        if doc
+            Docs.update parent._id,
+                $addToSet:"#{field.key}":@_id
+        else if user
+            Meteor.users.update parent._id,
+                $addToSet:"#{field.key}":@_id
+
+
+        t.user_results.set null
+        $('#multi_user_select_input').val ''
+        # Docs.update page_doc._id,
+        #     $set: assignment_timestamp:Date.now()
+
+    'click .pull_user': ->
+        if confirm "remove #{@username}?"
+            page_doc = Docs.findOne Router.current().params.doc_id
+            parent = Template.parentData()
+            doc = Docs.findOne parent._id
+            user = Meteor.users.findOne parent._id
+            field = Template.currentData()
+            
+            # console.log @
+            # console.log Template.currentData()
+            # console.log Template.parentData()
+            # console.log Template.parentData(2)
+            # console.log Template.parentData(3)
+            
+            if doc
+                Docs.update parent._id,
+                    $pull:"#{field.key}":@_id
+            else if user
+                Meteor.users.update parent._id,
+                    $pull:"#{field.key}":@_id
+            # Meteor.call 'unassign_user', page_doc._id, @
+

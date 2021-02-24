@@ -7,24 +7,24 @@ template(name='groups')
                     
                     
 template(name='group_item')
-    a.card(href="/group/#{name}/view")
+    a.card(href="/g/#{name}/view")
         if image
-            a(href="/group/#{name}/view")
+            a(href="/g/#{name}/view")
                 img.ui.image(src="{{c.url image height=500 width=500 gravity='face' crop='fill'}}")
         .content
-            a.ui.header(href="/group/#{_id}/view") #{title}
+            a.ui.header(href="/g/#{_id}/view") #{title}
         
 template(name='group_card')
     .ui.card
         if image_id
-            a.image(href="/group/#{name}")
+            a.image(href="/g/#{name}")
                 img.ui.image.zoom(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         .content
-            a.ui.header(href="/group/#{name}") #{title}
+            a.ui.header(href="/g/#{name}") #{title}
             if private
                 i.large.lock.icon(title='private')
             each tags
-                .ui.circular.basic.label #{this}
+                .ui.basic.label #{this}
             i.chess.king.icon
             |#{group_leader_ids.length} leaders
             i.chess.queen.icon
@@ -80,7 +80,7 @@ template(name='group_edit')
         .ui.stackable.padded.grid
             .row 
                 .six.wide.column
-                    a.ui.green.circular.button(href="/group/#{name}" title='save')
+                    a.ui.green.button(href="/g/#{name}" title='save')
                         i.checkmark.big.icon
                         |save
                     .ui.small.inline.header 
@@ -95,6 +95,7 @@ template(name='group_edit')
                     +image_edit key='image_id' label='image' direct=true
                 .ten.wide.column
                     +text_edit key='title' label='title' direct=true
+                    +text_edit key='name' label='shortname' direct=true
                     // +icon_edit key='icon' label='icon' direct=true
                     +html_edit key='description' label='description' direct=true
                     div 
@@ -107,7 +108,7 @@ template(name='group_edit')
                             |#{title}
                     .ui.header disabled features
                     each disabled_features
-                        .ui.basic.circular.button.enable_feature
+                        .ui.basic.button.enable_feature
                             |#{title}
 
 
@@ -120,7 +121,7 @@ template(name='group_view')
         .ui.stackable.grid
             .row 
                 .twelve.wide.column
-                    a.ui.circular.basic.icon.button(href="/groups" title='groups')
+                    a.ui.basic.icon.button(href="/groups" title='groups')
                         i.chevron.left.icon
                         i.big.fire.icon
                         // |groups
@@ -128,20 +129,23 @@ template(name='group_view')
                         img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}")
                         |#{title}
                     if is_admin 
-                        a.ui.circular.icon.button(href="/m/group/#{_id}/edit" title='edit group instance')
+                        a.ui.icon.button(href="/g/#{_id}/edit" title='edit group instance')
                             i.pencil.large.icon
-                    +skve k='view_section' v='posts' l='posts' i='content'
+                    // +skve k='view_section' v='posts' l='posts' i='content'
                     // +skve k='view_section' v='events' l='events' i='calendar'
                     // +skve k='view_section' v='chat' l='chat' i='chat outline'
-                    +skve k='view_section' v='members' l='members' i='users'
-                    +skve k='view_section' v='stats' l='stats' i='line chart'
+                    // +skve k='view_section' v='members' l='members' i='users'
+                    // +skve k='view_section' v='stats' l='stats' i='line chart'
                     // div
-                    if skv_is 'view_section' 'posts'
-                        +group_posts
-                    if skv_is 'view_section' 'members'
-                        div
-                        +group_membership
+                    +group_posts
+                    // if skv_is 'view_section' 'posts'
+                    // if skv_is 'view_section' 'members'
+                    //     div
                 .four.wide.column
+                    if can_edit
+                        a.ui.icon.button(href="/g/#{_id}/edit")
+                            i.pencil.icon
+                    +group_membership
                     if is_admin 
                         +print_this
                     +html_view key='description' label='description' direct=true
@@ -161,43 +165,43 @@ template(name='group_posts')
     .ui.stackable.grid    
         .sixteen.wide.column
             if currentUser
-                .ui.circular.icon.basic.button.create_post
+                .ui.icon.basic.button.create_post
                     i.plus.green.large.icon
             i.tags.icon
             if selected_group_tags
-                // #clear_tags.ui.black.circular.icon.compact.button
+                // #clear_tags.ui.black.icon.compact.button
                 //     i.remove.icon
                 each selected_group_tags
-                    .unselect_tag.ui.black.circular.compact.button
+                    .unselect_tag.ui.black.compact.button
                         strong #{this}
             each all_tags
                 // +group_selector
-                .ui.compact.circular.small.basic.tertiary.button.say.select_tag(class=cloud_tag_class) 
+                .ui.compact.small.basic.tertiary.button.say.select_tag(class=cloud_tag_class) 
                     strong #{this.name}
             // div
             i.large.marker.icon
             if selected_group_location_tags
-                // #clear_location_tags.ui.black.circular.icon.compact.button
+                // #clear_location_tags.ui.black.icon.compact.button
                 //     i.remove.icon
                 each selected_group_location_tags
-                    .unselect_location_tag.ui.black.circular.compact.button
+                    .unselect_location_tag.ui.black.compact.button
                         strong #{this}
             each all_location_tags
                 // +group_selector
-                .ui.compact.circular.small.basic.tertiary.button.say.select_location_tag(class=cloud_tag_class) 
+                .ui.compact.small.basic.tertiary.button.say.select_location_tag(class=cloud_tag_class) 
                     +group_selector
                     strong #{this.name}
             // div
             i.large.clock.icon
             if selected_group_time_tags
-                // #clear_time_tags.ui.black.circular.icon.compact.button
+                // #clear_time_tags.ui.black.icon.compact.button
                 //     i.remove.icon
                 each selected_group_time_tags
-                    .unselect_time_tag.ui.black.circular.compact.button
+                    .unselect_time_tag.ui.black.compact.button
                         strong #{this}
             each all_time_tags
                 // +group_selector
-                .ui.compact.circular.small.basic.tertiary.button.say.select_time_tag(class=cloud_tag_class) 
+                .ui.compact.small.basic.tertiary.button.say.select_time_tag(class=cloud_tag_class) 
                     // if term
                     //     if term.watson.metadata.image
                     //         img.ui.avatar.image.zoomer(src=term.watson.metadata.image)
@@ -206,13 +210,13 @@ template(name='group_posts')
             // div
             i.large.users.icon
             if selected_group_people_tags
-                // #clear_people_tags.ui.black.circular.icon.compact.button
+                // #clear_people_tags.ui.black.icon.compact.button
                 //     i.remove.icon
                 each selected_group_people_tags
-                    .unselect_people_tag.ui.black.circular.compact.button
+                    .unselect_people_tag.ui.black.compact.button
                         strong #{this}
             each all_people_tags
-                .ui.compact.circular.small.basic.tertiary.button.say.select_people_tag(class=cloud_tag_class) 
+                .ui.compact.small.basic.tertiary.button.say.select_people_tag(class=cloud_tag_class) 
                     strong #{this.name}
             // div
             .ui.inline.header #{q_count}
@@ -256,20 +260,20 @@ template(name='group_posts')
             //         i.minus.large.icon
             //         // |simple
             //     // i.line.chart.icon
-            .ui.icon.compact.circular.large.button.set_grid(class=grid_class) 
+            .ui.icon.compact.large.button.set_grid(class=grid_class) 
                 i.th.large.icon
-            .ui.icon.compact.circular.large.button.set_list(class=list_class)
+            .ui.icon.compact.large.button.set_list(class=list_class)
                 i.list.large.icon
                     
             .scrolling
-                if skv_is 'group_view_layout' 'grid'
-                    .ui.grid 
-                        each posts
-                            +group_post_card_small
-                else if skv_is 'group_view_layout' 'list'
+                // if skv_is 'group_view_layout' 'grid'
+                .ui.grid 
                     each posts
                         +group_post_card
-                        .ui.divider
+                // else if skv_is 'group_view_layout' 'list'
+                //     each posts
+                //         +group_post_card
+                //         .ui.divider
         
 template(name='group_selector')
     if term
@@ -283,69 +287,49 @@ template(name='group_selector')
         
         
         
-template(name='group_post_card_small')
-    .four.wide.column
-        // .ui.segment
-        a(href="/post/#{_id}/view") 
-            img.ui.fluid.rounded.superzoom.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-        a.ui.header(href="/post/#{_id}/view") 
-            |#{title}
-        // i.large.tag.icon(title='tags')
-        // each tags
-        //     .ui.basic.small.compact.button.pick(class=tag_selector_class) #{this}
-        // i.large.marker.icon(title='location tags')
-        // each location_tags
-        //     .ui.basic.small.compact.button.pick_location(class=tag_selector_class) #{this}
-        // i.large.clock.icon(title='time tags')
-        // each time_tags
-        //     .ui.basic.small.compact.button.pick_time(class=tag_selector_class) #{this}
-        // i.large.users.icon(title='users tags')
-        // each people_tags
-        //     .ui.basic.small.compact.button.pick_person(class=tag_selector_class) #{this}
-    
-        // | !{body}
-        // if is_admin
-        //     +remove_button
-        //     +print_this
-        
-        // //- div
-        // +author_info
-        // +creation_info
-        // | #{_views} views
-        // each _viewer_usernames
-        //     .ui.label #{this}
-        // +voting_full
-    
-    
 template(name='group_post_card')
-    // .ui.segment
-    a(href="/post/#{_id}/view") 
-        img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-    a.ui.header(href="/post/#{_id}/view") 
-        |#{title}
-    i.large.tag.icon(title='tags')
-    each tags
-        .ui.basic.small.compact.button.pick(class=tag_selector_class) #{this}
-    i.large.marker.icon(title='location tags')
-    each location_tags
-        .ui.basic.small.compact.button.pick_location(class=tag_selector_class) #{this}
-    i.large.clock.icon(title='time tags')
-    each time_tags
-        .ui.basic.small.compact.button.pick_time(class=tag_selector_class) #{this}
-    i.large.users.icon(title='users tags')
-    each people_tags
-        .ui.basic.small.compact.button.pick_person(class=tag_selector_class) #{this}
-
-    | !{body}
-    if is_admin
-        +remove_button
-        +print_this
-    
-    //- div
-    +author_info
-    +creation_info
-    | #{_views} views
-    each _viewer_usernames
-        .ui.label #{this}
-    +voting_full
-                            
+    .ui.card
+        .content
+            // .ui.segment
+            a(href="/p/#{_id}/view") 
+                img.ui.fluid.rounded.superzoom.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+            a.ui.header(href="/p/#{_id}/view") 
+                |#{title}
+            | !{body}
+            | !{content}
+            // i.large.tag.icon(title='tags')
+            each ten_tags
+                .ui.basic.small.compact.button.pick(class=tag_selector_class) #{this}
+            i.large.marker.icon(title='location tags')
+            each location_tags
+                .ui.basic.small.compact.button.pick_location(class=tag_selector_class) #{this}
+            i.large.clock.icon(title='time tags')
+            each time_tags
+                .ui.basic.small.compact.button.pick_time(class=tag_selector_class) #{this}
+            i.large.users.icon(title='users tags')
+            each people_tags
+                .ui.basic.small.compact.button.pick_person(class=tag_selector_class) #{this}
+        
+            if is_admin
+                +remove_button
+                +print_this
+            
+            // //- div
+            +author_info
+            +creation_info
+            | #{_views} views
+            // each _viewer_usernames
+            //     .ui.label #{this}
+            +voting_full
+            if in_dev
+                +print_this
+            each viewer_ids
+                .ui.label #{this}
+        .content
+            // if is_author
+            //     i.large.lock.link.circular.grey.icon.make_private
+            // else if in_dev
+            //     i.large.lock.link.circular.grey.icon.make_private
+            a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
+                |#{views}
+                i.chevron.right.large.icon

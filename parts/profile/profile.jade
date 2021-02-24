@@ -310,9 +310,9 @@ template(name='user_groups')
         i.plus.icon
     .ui.link.list.scrolling
         each groups
-            a.ui.item(href="/p/#{_id}") 
+            a.ui.item(href="/g/#{name}") 
                 if image_id
-                    a(href="/p/#{_id}/view")
+                    a(href="/g/#{name}/")
                         img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                 if image_link
                     img(src=image_link)

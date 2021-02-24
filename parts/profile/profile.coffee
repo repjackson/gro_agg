@@ -41,6 +41,7 @@ if Meteor.isClient
    
    
     Template.user_groups.onCreated ->
+        @autorun -> Meteor.subscribe 'user_group_admin', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_group', Router.current().params.username
     Template.user_groups.helpers
         groups: -> 
@@ -389,6 +390,18 @@ if Meteor.isServer
             model:'group'
             # is_private:true
             member_ids:$in:[user._id]
+        }
+        Docs.find match,
+            limit:20
+            sort:
+                _timestamp:-1
+    
+    Meteor.publish 'user_group_admin', (username)->
+        user = Meteor.users.findOne username:username
+        match = {
+            model:'group'
+            # is_private:true
+            leader_ids:$in:[user._id]
         }
         Docs.find match,
             limit:20

@@ -171,6 +171,17 @@ Template.registerHelper 'current_doc', () ->
     else if found_doc_by_slug
         found_doc_by_slug
 
+Template.registerHelper 'current_group', () ->
+    found_doc_by_id = Docs.findOne Router.current().params.doc_id
+    found_doc_by_name = 
+        Docs.findOne 
+            model:'group'
+            name:Router.current().params.name
+    if found_doc_by_id
+        found_doc_by_id
+    else if found_doc_by_name
+        found_doc_by_name
+
 Template.registerHelper 'lowered_title', ()-> 
     if @data
         if @data.title

@@ -23,11 +23,13 @@ template(name='post_view')
                 .four.wide.column.scrolling
                     a.ui.large.icon.basic.button(href="/")
                         i.chevron.left.large.icon
+                    if group
+                        a.ui.large.button(href="/g/#{group}")
+                            |#{group}
                     | #{views} views
                     +array_edit key='tags' label='tags' direct=true
                     // +voting_full
                     +link_view key='link' label='link' direct=true
-
                     +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     if can_edit 
