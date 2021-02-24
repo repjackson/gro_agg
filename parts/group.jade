@@ -101,7 +101,7 @@ template(name='group_edit')
                     div 
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     +print_this
-                    +boolean_edit key='private' label='private' direct=true
+                    +boolean_edit key='is_private' label='private' direct=true
                     .ui.header enabled features
                     each enabled_features
                         .ui.active.button.disable_feature
@@ -273,7 +273,7 @@ template(name='group_posts')
                     
             .scrolling
                 // if skv_is 'group_view_layout' 'grid'
-                .ui.grid 
+                .ui.stackable.centered.cards 
                     each posts
                         +group_post_card
                 // else if skv_is 'group_view_layout' 'list'
@@ -297,6 +297,8 @@ template(name='group_post_card')
     .ui.card
         .content
             // .ui.segment
+            if youtube_id
+                +youtube_view key='youtube_id' direct=true
             a(href="/p/#{_id}/view") 
                 img.ui.fluid.rounded.superzoom.image(src="{{c.url image_id }}" class=currentUser.invert_class)
             a.ui.header(href="/p/#{_id}/view") 
