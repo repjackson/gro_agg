@@ -303,25 +303,6 @@ template(name='user_posts')
                         .ui.mini.basic.label #{this}
                     +author_info
 
-template(name='user_groups')
-    .ui.header 
-        i.users.icon
-        |groups
-    .ui.icon.button.add_group
-        i.plus.icon
-    .ui.link.list.scrolling
-        each groups
-            a.ui.item(href="/g/#{name}") 
-                if image_id
-                    a(href="/g/#{name}/")
-                        img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-                if image_link
-                    img(src=image_link)
-                .content
-                    .header #{title} 
-                    |#{when}
-                    each seven_tags 
-                        .ui.mini.basic.label #{this}
 
 template(name='user_vault')
     .ui.header 

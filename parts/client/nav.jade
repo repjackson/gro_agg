@@ -102,6 +102,9 @@ template(name='right_sidebar')
         a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/tips" class="{{isActiveRoute 'user_tips'}}")
             | #{_amount} tips
             i.donate.icon
+        a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/groups" class="{{isActiveRoute 'user_groups'}}")
+            | groups
+            i.fire.icon
         a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/friends" class="{{isActiveRoute 'user_friends'}}")
             | friends
             i.users.icon

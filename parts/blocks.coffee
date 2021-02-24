@@ -80,21 +80,40 @@ if Meteor.isClient
                 $pull:follower_ids:Meteor.userId()
 #
 #
+
+    Template.session_key_value.events
+        'click .set_session_value': ->
+            console.log @
+            if Session.equals(@key,@value)
+                Session.set(@key, null)
+            else
+                Session.set(@key, @value)
+
+    Template.session_key_value.helpers
+        button_class: ->
+            console.log @
+            if Session.equals(@key, @value) then 'active' else 'basic'
+
+
 #
-#     Template.session_key_value.events
-#         'click .set_session_value': ->
-#             console.log @
-#             if Session.equals(@key,@value)
-#                 Session.set(@key, null)
-#             else
-#                 Session.set(@key, @value)
-#
-#     Template.session_key_value.helpers
-#         button_class: ->
-#             console.log @
-#             if Session.equals(@key, @value) then 'active' else 'basic'
-#
-#
+    Template.registerHelper 'is_editing_this', () ->
+        Session.equals('is_editing_id', @_id)
+        
+        
+    Template.session_edit_toggle.events
+        'click .toggle_edit': ->
+            console.log @
+            if Session.equals('is_editing_id', @_id)
+                Session.set('is_editing_id', null)
+            else
+                Session.set('is_editing_id', @_id)
+
+    Template.session_edit_toggle.helpers
+        toggle_button_class: ->
+            # console.log @
+            if Session.equals('is_editing_id', @_id) then 'black' else 'basic'
+
+
 #
 #
 #

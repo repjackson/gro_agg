@@ -26,7 +26,7 @@ template(name='group_card')
             each tags
                 .ui.basic.label #{this}
             i.chess.king.icon
-            |#{group_leader_ids.length} leaders
+            |#{group_admin_ids.length} admins
             i.chess.queen.icon
             |#{group_member_ids.length} members
         
@@ -63,7 +63,7 @@ template(name='group_member_item')
         a.ui.tiny.image
             img.ui.rounded.image(src="{{c.url profile_image_id height=300 width=300 gravity='face' crop='fill'}}")
         .content
-            a.header(href="/user/#{username}") #{username}
+            a.header(href="/u/#{username}") #{username}
             .description
                 |#{stats.points} points
                 .ui.basic.button.tip
@@ -90,7 +90,7 @@ template(name='group_edit')
                         small (#{name})
                     .ui.icon.button.delete_item(title='delete group')
                         i.large.remove.icon
-                    +multi_user_edit key='leader_ids' label='group leaders' direct=true
+                    +multi_user_edit key='admin_ids' label='group admins' direct=true
                     +multi_user_edit key='member_ids' label='group members' direct=true
                     +image_edit key='image_id' label='image' direct=true
                 .ten.wide.column
@@ -102,14 +102,14 @@ template(name='group_edit')
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     +print_this
                     +boolean_edit key='is_private' label='private' direct=true
-                    .ui.header enabled features
-                    each enabled_features
-                        .ui.active.button.disable_feature
-                            |#{title}
-                    .ui.header disabled features
-                    each disabled_features
-                        .ui.basic.button.enable_feature
-                            |#{title}
+                    // .ui.header enabled features
+                    // each enabled_features
+                    //     .ui.active.button.disable_feature
+                    //         |#{title}
+                    // .ui.header disabled features
+                    // each disabled_features
+                    //     .ui.basic.button.enable_feature
+                    //         |#{title}
 
 
 
@@ -118,53 +118,50 @@ template(name='group_view')
         .ui.center.aligned.basic.segment
             i.massive.loading.yin.yang.link.icon.create_group
     with current_group
-        if is_private
-            // if is_member
-            if currentUser
-                .ui.stackable.grid
-                    .row 
-                        .twelve.wide.column
-                            a.ui.basic.icon.button(href="/groups" title='groups')
-                                i.chevron.left.icon
-                                i.big.fire.icon
-                                // |groups
-                            .ui.inline.header 
-                                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}")
-                                |#{title}
-                            if is_admin 
-                                a.ui.icon.button(href="/g/#{_id}/edit" title='edit group instance')
-                                    i.pencil.large.icon
-                            // +skve k='view_section' v='posts' l='posts' i='content'
-                            // +skve k='view_section' v='events' l='events' i='calendar'
-                            // +skve k='view_section' v='chat' l='chat' i='chat outline'
-                            // +skve k='view_section' v='members' l='members' i='users'
-                            // +skve k='view_section' v='stats' l='stats' i='line chart'
-                            // div
-                            +group_posts
-                            // if skv_is 'view_section' 'posts'
-                            // if skv_is 'view_section' 'members'
-                            //     div
-                        .four.wide.column
-                            if can_edit
-                                a.ui.icon.button(href="/g/#{_id}/edit")
-                                    i.pencil.icon
-                            +group_membership
-                            if is_admin 
-                                +print_this
-                            +html_view key='description' label='description' direct=true
-                            +multi_user_view key='leader_ids' label='group admins' direct=true
-                            +multi_user_view key='member_ids' label='group members' direct=true
-                            each members
-                                a.ui.header(href="/user/#{username}")
-                                    img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
-                                    |#{username}
-                            div 
-                            +array_view key='tags' label='tags' direct=true
-            else
-                .ui.basic.center.aligned.segment
-                    a.ui.large.button(href='/login')
-                        |login
-                    |to view group
+        .ui.stackable.grid
+            .row 
+                .twelve.wide.column
+                    a.ui.basic.icon.button(href="/groups" title='groups')
+                        i.chevron.left.icon
+                        i.big.fire.icon
+                        // |groups
+                    .ui.inline.header 
+                        img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}")
+                        |#{title}
+                    if is_admin 
+                        a.ui.icon.button(href="/g/#{_id}/edit" title='edit group instance')
+                            i.pencil.large.icon
+                    // +skve k='view_section' v='posts' l='posts' i='content'
+                    // +skve k='view_section' v='events' l='events' i='calendar'
+                    // +skve k='view_section' v='chat' l='chat' i='chat outline'
+                    // +skve k='view_section' v='members' l='members' i='users'
+                    // +skve k='view_section' v='stats' l='stats' i='line chart'
+                    // div
+                    +group_posts
+                    // if skv_is 'view_section' 'posts'
+                    // if skv_is 'view_section' 'members'
+                    //     div
+                .four.wide.column
+                    if can_edit
+                        a.ui.icon.button(href="/g/#{_id}/edit")
+                            i.pencil.icon
+                    +group_membership
+                    if is_admin 
+                        +print_this
+                    +html_view key='description' label='description' direct=true
+                    +multi_user_view key='admin_ids' label='group admins' direct=true
+                    +multi_user_view key='member_ids' label='group members' direct=true
+                    each members
+                        a.ui.header(href="/u/#{username}")
+                            img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                            |#{username}
+                    div 
+                    +array_view key='tags' label='tags' direct=true
+    // else
+    //     .ui.basic.center.aligned.segment
+    //         a.ui.large.button(href='/login')
+    //             |login
+    //         |to view group
 
 
 template(name='group_posts')
@@ -291,6 +288,45 @@ template(name='group_selector')
         // else
         small #{count}
         
+template(name='user_groups')
+    .ui.inline.header 
+        i.users.icon
+        |groups
+    .ui.icon.button.add_group
+        i.plus.icon
+    .ui.stackable.two.column.grid
+        .column
+            .ui.header member of
+            .ui.link.selection.animated.list.scrolling
+                each groups_member
+                    a.ui.item(href="/g/#{name}") 
+                        if image_id
+                            a(href="/g/#{name}/")
+                                img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                        if image_link
+                            img(src=image_link)
+                        .content
+                            .ui.header #{title} 
+                            |#{when}
+                            each seven_tags 
+                                .ui.mini.basic.label #{this}
+        .column
+            .ui.header 
+                i.shield.icon
+                |admin of
+            .ui.link.selection.animated.list.scrolling
+                each groups_admin
+                    a.ui.item(href="/g/#{name}") 
+                        if image_id
+                            a(href="/g/#{name}/")
+                                img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                        if image_link
+                            img(src=image_link)
+                        .content
+                            .ui.header #{title} 
+                            |#{when}
+                            each seven_tags 
+                                .ui.mini.basic.label #{this}
         
         
 template(name='group_post_card')
@@ -299,9 +335,9 @@ template(name='group_post_card')
             // .ui.segment
             if youtube_id
                 +youtube_view key='youtube_id' direct=true
-            a(href="/p/#{_id}/view") 
+            a.blink(href="/p/#{_id}/view") 
                 img.ui.fluid.rounded.superzoom.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-            a.ui.header(href="/p/#{_id}/view") 
+            a.ui.header.blink(href="/p/#{_id}/view") 
                 |#{title}
             | !{body}
             | !{content}

@@ -51,13 +51,9 @@ if Meteor.isClient
 
 
 
-if Meteor.isServer
-    Meteor.publish 'product_from_group_id', (group_id)->
-        group = Docs.findOne group_id
-        Docs.find 
-            _id:group.product_id
-            
-            
+
+
+
             
 if Meteor.isClient
     Router.route '/g/:doc_id/edit', (->
@@ -264,6 +260,7 @@ if Meteor.isClient
 
     Template.group_posts.onCreated ->
         @autorun -> Meteor.subscribe('group_tags', 
+            Router.current().params.name,
             selected_group_tags.array(), 
             selected_group_location_tags.array()
             selected_group_time_tags.array()
@@ -294,6 +291,8 @@ if Meteor.isClient
     
         grid_class: -> if Session.equals('group_view_layout', 'grid') then 'black' else 'basic'
         list_class: -> if Session.equals('group_view_layout', 'list') then 'black' else 'basic'
+   
+   
     Template.group_view.onRendered ->
         @autorun => Meteor.subscribe 'group_members', Router.current().params.name
     Template.group_view.events
@@ -335,6 +334,36 @@ if Meteor.isClient
         'click .unselect_people_tag': -> selected_group_people_tags.remove @valueOf()
         'click #clear_people_tags': -> selected_group_people_tags.clear()
 
+        'click .create_post': ->
+            new_id = Docs.insert
+                model:'post'
+                group:Router.current().params.name
+            Router.go "/p/#{new_id}/edit"
+        'click .sort_timestamp': (e,t)-> Session.set('group_sort_key','_timestamp')
+        'click .unview_bounties': (e,t)-> Session.set('view_bounties',0)
+        'click .view_bounties': (e,t)-> Session.set('view_bounties',1)
+        'click .unview_unanswered': (e,t)-> Session.set('view_unanswered',0)
+        'click .view_unanswered': (e,t)-> Session.set('view_unanswered',1)
+        'click .sort_down': (e,t)-> Session.set('group_sort_direction',-1)
+        'click .sort_up': (e,t)-> Session.set('group_sort_direction',1)
+        'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
+        'click .limit_10': (e,t)-> Session.set('group_limit',10)
+        'click .limit_1': (e,t)-> Session.set('group_limit',1)
+        'click .set_grid': (e,t)-> Session.set('group_view_layout', 'grid')
+        'click .set_list': (e,t)-> Session.set('group_view_layout', 'list')
+        'keyup .search_site': (e,t)->
+            # search = $('.search_site').val().toLowerCase().trim()
+            search = $('.search_site').val().trim()
+            if e.which is 13
+                if search.length > 0
+                    window.speechSynthesis.cancel()
+                    window.speechSynthesis.speak new SpeechSynthesisUtterance search
+                    selected_tags.push search
+                    $('.search_site').val('')
+    
+                    Session.set('loading',true)
+                    Meteor.call 'search_stack', Router.current().params.site, search, ->
+                        Session.set('loading',false)
 
   
   
@@ -396,8 +425,9 @@ if Meteor.isServer
         selected_group_people_tags, 
         limit
         )->
+        console.log 'group tags'
         self = @
-        match = {model:'post', group:name, published:true}
+        match = {model:'post', group:name}
         if selected_group_tags.length > 0 then match.tags = $all: selected_group_tags
         if selected_group_location_tags.length > 0 then match.location_tags = $all: selected_group_location_tags
         if selected_group_time_tags.length > 0 then match.time_tags = $all: selected_group_time_tags
@@ -492,7 +522,7 @@ if Meteor.isServer
         if selected_group_people_tags.length > 0 then match.people_tags = $all: selected_group_people_tags
 
         Docs.find match,
-            limit:25
+            limit:10
             sort:
                 "#{sort_key}":sort_direction
             # limit:limit
@@ -618,50 +648,64 @@ if Meteor.isClient
                 title:@name.toLowerCase()
 
 
-    Template.group_posts.events
-        'click .create_post': ->
-            new_id = Docs.insert
-                model:'post'
-                group:Router.current().params.name
-            Router.go "/p/#{new_id}/edit"
-        'click .sort_timestamp': (e,t)-> Session.set('group_sort_key','_timestamp')
-        'click .unview_bounties': (e,t)-> Session.set('view_bounties',0)
-        'click .view_bounties': (e,t)-> Session.set('view_bounties',1)
-        'click .unview_unanswered': (e,t)-> Session.set('view_unanswered',0)
-        'click .view_unanswered': (e,t)-> Session.set('view_unanswered',1)
-        'click .sort_down': (e,t)-> Session.set('group_sort_direction',-1)
-        'click .sort_up': (e,t)-> Session.set('group_sort_direction',1)
-        'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
-        'click .limit_10': (e,t)-> Session.set('group_limit',10)
-        'click .limit_1': (e,t)-> Session.set('group_limit',1)
-        'click .set_grid': (e,t)-> Session.set('group_view_layout', 'grid')
-        'click .set_list': (e,t)-> Session.set('group_view_layout', 'list')
-        'keyup .search_site': (e,t)->
-            # search = $('.search_site').val().toLowerCase().trim()
-            search = $('.search_site').val().trim()
-            if e.which is 13
-                if search.length > 0
-                    window.speechSynthesis.cancel()
-                    window.speechSynthesis.speak new SpeechSynthesisUtterance search
-                    selected_tags.push search
-                    $('.search_site').val('')
-    
-                    Session.set('loading',true)
-                    Meteor.call 'search_stack', Router.current().params.site, search, ->
-                        Session.set('loading',false)
 
-    Template.group_edit.helpers
-        # enabled_features: ->
-        #     group = Docs.findOne Router.current().params.doc_id
-        #     Docs.find 
-        #         model:'feature'
-        #         _id:$in:group.enabled_feature_ids
-        # disabled_features: ->
-        #     group = Docs.findOne Router.current().params.doc_id
-        #     if group.enabled_feature_ids
-        #         Docs.find 
-        #             model:'feature'
-        #             _id:$nin:group.enabled_feature_ids
-        #     else
-        #         Docs.find 
-        #             model:'feature'
+    Template.user_groups.onCreated ->
+        @autorun -> Meteor.subscribe 'user_group_admin', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_group', Router.current().params.username
+        @autorun -> Meteor.subscribe 'authored_groups', Router.current().params.username
+    Template.user_groups.helpers
+        groups_member: -> 
+            user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find 
+                model:'group'
+                # member_ids:$in:[Meteor.userId()]   
+        groups_admin: -> 
+            user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find 
+                model:'group'
+                admin_ids:$in:[Meteor.userId()]   
+    
+    Template.user_groups.events
+        'click .add_group': ->
+            new_id = 
+                Docs.insert 
+                    model:'group'
+            Router.go "/g/#{new_id}/edit"
+   
+
+if Meteor.isServer
+    # Meteor.publish 'authored_groups', (username)->
+    #     user = Meteor.users.findOne username:username
+    #     match = {
+    #         model:'group'
+    #         _author_id:Meteor.userId()
+    #         # is_private:true
+    #         # member_ids:$in:[user._id]
+    #     }
+    #     Docs.find match,
+    #         limit:20
+    #         sort:
+    #             _timestamp:-1
+    Meteor.publish 'user_groups', (username)->
+        user = Meteor.users.findOne username:username
+        match = {
+            model:'group'
+            # is_private:true
+            member_ids:$in:[user._id]
+        }
+        Docs.find match,
+            limit:20
+            sort:
+                _timestamp:-1
+    
+    Meteor.publish 'user_group_admin', (username)->
+        user = Meteor.users.findOne username:username
+        match = {
+            model:'group'
+            # is_private:true
+            leader_ids:$in:[user._id]
+        }
+        Docs.find match,
+            limit:20
+            sort:
+                _timestamp:-1

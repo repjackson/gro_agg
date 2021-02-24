@@ -57,8 +57,9 @@ Meteor.publish 'recipient_from_gift_id', (gift_id)->
 Meteor.publish 'author_from_doc_id', (doc_id)->
     # console.log 'pulling doc'
     doc = Docs.findOne doc_id
-    Meteor.users.find
-        _id:doc._author_id
+    if doc
+        Meteor.users.find
+            _id:doc._author_id
 
 Meteor.publish 'user_from_id', (user_id)->
     Meteor.users.find

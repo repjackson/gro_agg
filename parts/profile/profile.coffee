@@ -40,25 +40,6 @@ if Meteor.isClient
                 _author_id:user._id
    
    
-    Template.user_groups.onCreated ->
-        @autorun -> Meteor.subscribe 'user_group_admin', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_group', Router.current().params.username
-    Template.user_groups.helpers
-        groups: -> 
-            user = Meteor.users.findOne(username:Router.current().params.username)
-
-            Docs.find 
-                model:'group'
-                member_ids:$in:[Meteor.userId()]   
-    
-    Template.user_groups.events
-        'click .add_group': ->
-            new_id = 
-                Docs.insert 
-                    model:'group'
-            Router.go "/group/#{new_id}/edit"
-   
-   
    
    
     Template.user_comments.onCreated ->
@@ -190,7 +171,10 @@ if Meteor.isClient
             Docs.find {
                 model:'post'
                 _author_id:user._id
-            }, sort:search_amount:-1
+            }, 
+                sort:
+                    search_amount:-1
+                limit:10
         tips: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.find {
@@ -384,29 +368,6 @@ if Meteor.isServer
             sort:
                 _timestamp:-1
     
-    Meteor.publish 'user_groups', (username)->
-        user = Meteor.users.findOne username:username
-        match = {
-            model:'group'
-            # is_private:true
-            member_ids:$in:[user._id]
-        }
-        Docs.find match,
-            limit:20
-            sort:
-                _timestamp:-1
-    
-    Meteor.publish 'user_group_admin', (username)->
-        user = Meteor.users.findOne username:username
-        match = {
-            model:'group'
-            # is_private:true
-            leader_ids:$in:[user._id]
-        }
-        Docs.find match,
-            limit:20
-            sort:
-                _timestamp:-1
     
     Meteor.publish 'user_feed_items', (username)->
         user = Meteor.users.findOne username:username

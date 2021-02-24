@@ -20,12 +20,16 @@ template(name='post_view')
                     .spacer
                     +comments
                     div
+                    +requests
                 .four.wide.column.scrolling
-                    a.ui.large.icon.basic.button(href="/")
-                        i.chevron.left.large.icon
                     if group
-                        a.ui.large.button(href="/g/#{group}")
+                        a.ui.large.basic.button(href="/g/#{group}")
+                            i.chevron.left.large.icon
                             |#{group}
+                    else
+                        a.ui.large.icon.basic.button(href="/")
+                            i.chevron.left.large.icon
+                            i.large.home.icon
                     | #{views} views
                     +array_edit key='tags' label='tags' direct=true
                     // +voting_full
@@ -50,7 +54,27 @@ template(name='post_view')
                         // i.large.thumbs.down.icon.anon_votedown
                         
                     
-                    
+   
+template(name='requests')
+    .ui.header requests
+    .ui.icon.button.add_request
+        i.plus.icon
+    each request_docs
+        +request
+    
+    
+template(name='request')
+    .ui.segment
+        if is_author
+            +session_edit_toggle
+            if is_editing_this
+                +text_edit key='description' direct=true
+                +number_edit key='karma_bounty' direct=true
+        .ui.inline.header #{description}
+        .ui.inline.header #{karma_bounty}
+        +print_this
+        +author_info
+    
                     
                     
 template(name='post_edit')
