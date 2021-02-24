@@ -304,8 +304,8 @@ if Meteor.isClient
             # user = Meteor.users.findOne(username:@username)
             new_debit_id =
                 Docs.insert
-                    model:'dollar_debit'
-            Router.go "/dollar_debit/#{new_debit_id}/edit"
+                    model:'debit'
+            Router.go "/debit/#{new_debit_id}/edit"
 
 
         # 'click .recalc_user_cloud': ->

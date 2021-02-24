@@ -107,30 +107,21 @@ template(name='bounty_edit')
                             //     img.ui.mini.rounded.inline.image(src="{{c.url image height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{title}
                 .five.wide.center.aligned.column
-                    .ui.big.header #{amount}pts
+                    .ui.big.header #{amount}p
                     .ui.big.input
                         input.point_amount(type='number' value=amount min='1' max=point_max)
                     div
-                    // +key_value_edit key='amount' value=10
-                    // +key_value_edit key='amount' value=50
-                    // +key_value_edit key='amount' value=100
-                    // +key_value_edit key='amount' value=
-                    // +key_value_edit key='amount' value=55
                     .spacer
                     .ui.center.aligned.basic.segment
                         if can_submit
                             .ui.green.huge.button.submit
                                 i.large.send.icon
                                 |send
-                        else 
-                            .ui.green.huge.disabled.button
-                                i.send.large.icon
-                                |send
 
 
 
 template(name='user_bounties')
-    .ui.header 
+    .ui.inline.header 
         i.donate.icon
         |bounties
     .ui.circular.icon.button.add_bounty
@@ -144,15 +135,17 @@ template(name='user_bounties')
                 if parent.image_link
                     img(src=parent.image_link)
                 .content
-                    .header #{parent.title} 
+                    .header #{title} 
                     .header #{karma} 
-                    |#{parent.when} #{when}
+                    |#{when} #{when}
                     each parent.seven_tags
                         .ui.mini.basic.label #{this}
 
 
 template(name='bounties')
-    .ui.header bounties
+    .ui.inline.header
+        i.hand.holding.icon
+        |bounties
     .ui.icon.button.add_bounty
         i.plus.icon
     each bounty_docs

@@ -23,11 +23,11 @@ template(name='post_view')
                     +bounties
                 .four.wide.column.scrolling
                     if group
-                        a.ui.large.basic.button(href="/g/#{group}")
+                        a.ui.large.button(href="/g/#{group}")
                             i.chevron.left.large.icon
                             |#{group}
                     else
-                        a.ui.large.icon.basic.button(href="/")
+                        a.ui.large.icon.button(href="/")
                             i.chevron.left.large.icon
                             i.large.home.icon
                     | #{views} views
@@ -37,17 +37,16 @@ template(name='post_view')
                     +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     if can_edit 
-                        a.ui.icon.basic.button(href="/p/#{_id}/edit")
+                        a.ui.icon.button(href="/p/#{_id}/edit")
                             i.big.pencil.icon
                     i.large.eye.icon
                     each viewer_ids
                         +user_info
-                    .ui.header tip
                     +tip
-                    .ui.header anon vote
-                    i.large.thumbs.up.icon.anon_voteup
-                    i.large.thumbs.down.icon.anon_votedown
-                    .ui.header user vote
+                    // .ui.header anon vote
+                    // i.large.thumbs.up.icon.anon_voteup
+                    // i.large.thumbs.down.icon.anon_votedown
+                    .ui.inline.header user vote
                     if currentUser
                         +voting_full
                         // i.large.thumbs.up.icon.voteup
@@ -62,7 +61,7 @@ template(name='post_edit')
         .ui.stackable.grid
             .row
                 .four.wide.column.scrolling
-                    a.ui.icon.basic.big.button(href="/p/#{_id}/view" title='save')
+                    a.ui.icon.big.button(href="/p/#{_id}/view" title='save')
                         i.checkmark.big.green.icon
                     .ui.inline.header 
                         i.pencil.icon

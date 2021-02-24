@@ -9,8 +9,10 @@ template(name='debit_view')
                             |#{_author.name}
                 .five.wide.column
                     .ui.huge.center.aligned.header
+                        |#{title}
                         |#{amount}pts
                     if is_dev
+                        +print_this
                         +remove_button
                     .f14
                         |#{description}
@@ -30,10 +32,10 @@ template(name='debit_view')
                     +comments
                     //- +array_view key='location_tags' label='location_tags' direct=true
                 .five.wide.column
-                    a(href="/u/#{recipient.username}")
-                        img.ui.centered.fluid.pointer.zoomer.image(src="{{c.url recipient.profile_image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                    a(href="/u/#{target.username}")
+                        img.ui.centered.fluid.pointer.zoomer.image(src="{{c.url target.profile_image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                         .ui.large.center.aligned.header.pointer.zoomer
-                            |#{recipient.name}
+                            |#{target.name}
                             
 
 
@@ -52,14 +54,14 @@ template(name='debit_edit')
                             img.ui.small.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{_author.name}
                     .ui.segment
-                        .ui.header recipient
-                        with recipient
-                            i.large.remove.link.icon.remove_recipient
+                        .ui.header target
+                        with target
+                            i.large.remove.link.icon.remove_target
                             a.pointer(href="/u/#{name}")
                                 img.ui.tiny.inline.image(src="{{c.url profile_image_id height=400 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                                 .ui.inline.header #{name}
                                 .ui.small.grey.inline.header #{points}
-                        unless recipient
+                        unless target
                             .ui.divider
                             // i.large.user.plus.icon
                             +single_user_edit key='target_id' label='search member' icon='user plus' direct=true
@@ -67,7 +69,7 @@ template(name='debit_edit')
                             //     i.search.icon
                             //     input.search_username(type='text' placeholder='username')
                             // each members
-                            //     .ui.compact.basic.button.add_recipient
+                            //     .ui.compact.basic.button.add_target
                             //         // i.plus.icon
                             //         img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             //         |#{name}
@@ -107,18 +109,9 @@ template(name='debit_edit')
                     .ui.big.input
                         input.point_amount(type='number' value=amount min='1' max=point_max)
                     div
-                    // +key_value_edit key='amount' value=10
-                    // +key_value_edit key='amount' value=50
-                    // +key_value_edit key='amount' value=100
-                    // +key_value_edit key='amount' value=
-                    // +key_value_edit key='amount' value=55
                     .spacer
                     .ui.center.aligned.basic.segment
                         if can_submit
                             .ui.green.huge.button.submit
                                 i.big.send.icon
-                                |send
-                        else 
-                            .ui.green.huge.disabled.button
-                                i.send.big.icon
                                 |send

@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.fluid.attached.borderless.inverted.large.menu.hscroll
+    .ui.fluid.attached.borderless.inverted.big.menu.hscroll
         // a.icon.item.toggle_sidebar.no_blink
         //     i.bars.icon
     
@@ -85,7 +85,7 @@ template(name='recent_alert')
             
             
 template(name='right_sidebar')
-    .ui.right.sidebar.vertical.borderless.inverted.menu
+    .ui.right.sidebar.vertical.borderless.inverted.big.menu
         a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/" class="{{isActiveRoute 'user_dashboard'}}")
             | dashboard (#{currentUser.points}p)
             i.dashboard.icon

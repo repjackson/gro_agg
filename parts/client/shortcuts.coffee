@@ -39,13 +39,13 @@ globalHotkeys.add
 	combo: "d s"
 	callback: ->
         model = Docs.findOne Router.current().params.doc_id
-        Router.go "/m/#{model.slug}"
+        Router.go "/#{model.slug}"
 
 globalHotkeys.add
 	combo: "d e"
 	callback: ->
         doc = Docs.findOne Router.current().params.doc_id
-        Router.go "/m/#{doc.model}/#{doc._id}/edit"
+        Router.go "/#{doc.model}/#{doc._id}/edit"
 
 
 globalHotkeys.add
@@ -113,7 +113,7 @@ globalHotkeys.add
         current_model = Docs.findOne
             model:'model'
             slug: Router.current().params.model_slug
-        Router.go "/m/#{current_model.slug}/#{Router.current().params.doc_id}/view"
+        Router.go "/#{current_model.slug}/#{Router.current().params.doc_id}/view"
 globalHotkeys.add
 	combo: "g u"
 	callback: ->
@@ -121,7 +121,7 @@ globalHotkeys.add
         Session.set 'loading', true
         Meteor.call 'set_facets', model_slug, ->
             Session.set 'loading', false
-        Router.go "/m/#{model_slug}/"
+        Router.go "/#{model_slug}/"
 globalHotkeys.add
 	combo: "g p"
 	callback: -> Router.go "/u/#{Meteor.user().username}"
@@ -158,9 +158,9 @@ globalHotkeys.add
                         $set:
                             first_name:first_name
                             last_name:last_name
-                    Router.go "/m/#{model.slug}/#{res}/edit"
+                    Router.go "/#{model.slug}/#{res}/edit"
         else
             new_doc_id = Docs.insert
                 model:model.slug
-            Router.go "/m/#{model.slug}/#{new_doc_id}/edit"
+            Router.go "/#{model.slug}/#{new_doc_id}/edit"
 	

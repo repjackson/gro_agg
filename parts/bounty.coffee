@@ -20,7 +20,7 @@ if Meteor.isClient
 
     Template.bounties.events
         'click .add_bounty': ->
-            Docs.insert 
+            new_id = Docs.insert 
                 model:'bounty'
                 parent_id:Router.current().params.doc_id
             Router.go "/bounty/#{new_id}/edit"

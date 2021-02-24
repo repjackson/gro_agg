@@ -1,41 +1,39 @@
 template(name='profile_layout')
     +nav
     .ui.bottom.attached.pushable.segment
-        // +topbar
-        // +left_sidebar
         +right_sidebar
-                
         #main_area.global_container.pusher
             with user
                 .ui.stackable.padded.grid
                     .four.wide.column
                         span.mobile.only
                             a(href="/u/#{username}/")
-                                img.ui.centered.tiny.inline.spaced.rounded.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
+                                img.ui.centered.tiny.inline.spaced.rounded.image.zoomer.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
                         span.mobile.hidden
                             a(href="/u/#{username}/")
-                                img.ui.centered.fluid.rounded.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
+                                img.ui.centered.fluid.rounded.image.zoomer.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
                         a.ui.header.refresh_user_stats(href="/u/#{username}") 
                             |#{name}
                         // div
                         a.ui.small.header.refresh_user_stats(href="/u/#{username}") 
                             |@#{username}
                         .ui.inline.header() #{points}pts
-                        .ui.basic.label {{to_percent one_ratio}}% ratio
-                        .ui.basic.label #{flow_volume} volume
-                        .ui.basic.label #{profile_views} views
+                        // .ui.label {{to_percent one_ratio}}% ratio
+                        // .ui.label #{flow_volume} volume
+                        .ui.small.inline.header #{boops}
+                        .ui.label #{profile_views} views
                         +user_follow_button
                         .ui.button.join
                             |join
                         if is_admin
-                            a.ui.basic.button(href="/u/#{username}/edit" title='admin edit account')
+                            a.ui.button(href="/u/#{username}/edit" title='admin edit account')
                                 i.shield.large.icon
                                 |account
                         if is_current_user
-                            a.ui.basic.button(href="/u/#{username}/edit" title='edit your account')
+                            a.ui.button(href="/u/#{username}/edit" title='edit your account')
                                 i.cog.icon
                                 |account
-                            a.ui.basic.button.logout(href="#" title='log out')
+                            a.ui.button.logout(href="#" title='log out')
                                 i.sign.out.icon
                                 |log out
                         if is_dev
@@ -46,11 +44,11 @@ template(name='profile_layout')
                                 // div
                                 +user_friend_button 
                         unless is_current_user
-                            .ui.basic.button.tip(title='send tip')
+                            .ui.button.tip(title='send tip')
                                 i.large.dollar.green.icon
                                 span tip
                         if i_have_points
-                            .ui.basic.button.send(title='send points')
+                            .ui.button.send(title='send points')
                                 i.red.gift.large.icon
                                 span send pts
                         with data
@@ -84,6 +82,12 @@ template(name='profile_layout')
                             a.ui.compact.button.select_term.no_blink(href="/u/#{username}/credit" class="{{isActiveRoute 'user_credit'}}" title="#{user.username} credit")
                                 i.large.dollar.icon
                                 span credit
+                            a.ui.compact.button.select_term.no_blink(href="/u/#{username}/upvoted" class="{{isActiveRoute 'user_upvoted'}}" title="#{user.username} upvoted")
+                                i.large.chevron.up.icon
+                                span upvoted
+                            a.ui.compact.button.select_term.no_blink(href="/u/#{username}/downvoted" class="{{isActiveRoute 'user_downvoted'}}" title="#{user.username} downvoted")
+                                i.large.chevron.down.icon
+                                span downvoted
                             a.ui.compact.button.select_term.no_blink(href="/u/#{username}/tips" class="{{isActiveRoute 'user_tips'}}" title="#{user.username} tips")
                                 i.donate.large.icon
                                 span tips
@@ -121,7 +125,7 @@ template(name='user_friend_button')
                     i.checkmark.large.icon
                     |friend
         else
-            .ui.animated.fade.basic.button.friend(title='friend')
+            .ui.animated.fade.button.friend(title='friend')
                 .hidden.content
                     i.plus.large.icon
                     |friend
@@ -140,7 +144,7 @@ template(name='user_follow_button')
                     i.checkmark.large.icon
                     |follow
         else
-            .ui.animated.fade.basic.button.follow(title='follow')
+            .ui.animated.fade.button.follow(title='follow')
                 .hidden.content
                     i.plus.large.icon
                     |follow
@@ -156,11 +160,11 @@ template(name='user_dashboard')
                 .ui.fluid.icon.input
                     i.plus.icon
                     input.add_feed_item(type='text' placeholder='add to feed (-10p)')
-                .ui.circular.icon.small.basic.disabled.button 
+                .ui.circular.icon.small.disabled.button 
                     i.gift.icon
-                .ui.circular.icon.small.basic.disabled.button 
+                .ui.circular.icon.small.disabled.button 
                     i.photo.icon
-                .ui.circular.icon.small.basic.disabled.button 
+                .ui.circular.icon.small.disabled.button 
                     i.hand.holding.icon
                 .ui.feed
                     each feed_items 
@@ -187,7 +191,7 @@ template(name='user_dashboard')
                                 small(title='debit count') (#{debit_count}x)
                                 small(title='rank') ##{global_debit_count_rank}
                             each debit_tags
-                                .ui.small.basic.label #{title} 
+                                .ui.small.label #{title} 
                                     // small #{count}
                             .ui.list.selection.animated.smallscroll
                                 each user_karma_sent
@@ -202,7 +206,7 @@ template(name='user_dashboard')
                                 small(title='received count') (#{credit_count}x) 
                                 small(title='rank') ##{global_credit_count_rank}
                             each credit_tags
-                                .ui.small.basic.label #{title}
+                                .ui.small.label #{title}
                             .ui.selection.animated.list.smallscroll
                                 each user_karma_received
                                     a.item(href="/debit/#{_id}/view")
@@ -216,21 +220,21 @@ template(name='user_dashboard')
                     // .ui.input
                     //     input.goto_group(type='text' placeholder='name')
                     // each group_bookmarks
-                    //     .ui.basic.large.label
+                    //     .ui.large.label
                     //         i.remove.icon.remove_group
                     //         span.pointer.click_group
                     //             |#{name}
                     //- .ui.icon.button.refresh_user_stats(title='refresh stats')
                     //-     i.refresh.icon
-                    .ui.basic.label #{user_post_count} posts x 10p = #{post_points}p
+                    .ui.label #{user_post_count} posts x 10p = #{post_points}p
                     i.minus.icon
-                    .ui.basic.label #{user_comment_count} comments x 1p
+                    .ui.label #{user_comment_count} comments x 1p
                     i.minus.icon
-                    .ui.basic.label #{user_comment_count} tips sent totaling #{tips_sent_amount}
+                    .ui.label #{user_comment_count} tips sent totaling #{tips_sent_amount}
                     i.plus.icon
-                    .ui.basic.label #{tips_received_count} tips received totaling #{tips_received_amount}
+                    .ui.label #{tips_received_count} tips received totaling #{tips_received_amount}
                     i.equals.icon
-                    .ui.big.basic.label #{points}p
+                    .ui.big.label #{points}p
                     .ui.header 
                         i.chat.icon
                         |comments
@@ -288,7 +292,7 @@ template(name='user_posts')
                     .header #{title} 
                     |#{when}
                     each seven_tags 
-                        .ui.mini.basic.label #{this}
+                        .ui.mini.label #{this}
                     +author_info
 
 
@@ -308,7 +312,7 @@ template(name='user_vault')
                     .header #{title} 
                     |#{when}
                     each seven_tags 
-                        .ui.mini.basic.label #{this}
+                        .ui.mini.label #{this}
 
 
 template(name='user_tips')
@@ -328,7 +332,7 @@ template(name='user_tips')
                     .header #{amount} 
                     |#{parent.when} #{when}
                     each parent.seven_tags
-                        .ui.mini.basic.label #{this}
+                        .ui.mini.label #{this}
 
 
 
@@ -344,7 +348,7 @@ template(name='user_comments')
                     .header #{body} 
                     |#{when}
                     each five_tags 
-                        .ui.mini.basic.label #{this}
+                        .ui.mini.label #{this}
                     +voting_small
                     if is_author
                         +remove_icon
@@ -356,7 +360,7 @@ template(name='user_tip_small')
     a.ui.item(href="/tip/#{_id}/view") 
         |#{title} #{when} #{amount} #{parent_id}
         each tags 
-            .ui.mini.basic.label #{this}
+            .ui.mini.label #{this}
 
 template(name='user_comment_small')
     |#{body}
@@ -377,7 +381,7 @@ template(name='user_group')
                 .ui.label #{this}
             |#{points}
             each five_tags
-                .ui.small.basic.label #{this}
+                .ui.small.label #{this}
             +doc_emotion_small        
             // +skve k='view_preview' v='preview' l=' ' i='caret down'
             // if skv_is 'view_preview' 'preview'
@@ -402,7 +406,7 @@ template(name='user_post_small')
                 .ui.label #{this}
             |#{points}
             each five_tags
-                .ui.small.basic.label #{this}
+                .ui.small.label #{this}
             +doc_emotion_small        
             // +skve k='view_preview' v='preview' l=' ' i='caret down'
             // if skv_is 'view_preview' 'preview'
@@ -416,7 +420,7 @@ template(name='user_bookmarks_widget')
         i.bookmark.icon(title='bookmark tags')
         |bookmarks
     each bookmark_tags
-        .ui.small.basic.label #{title} 
+        .ui.small.label #{title} 
     div
     .medscroll.ui.segments
         each user_bookmark_docs
@@ -437,7 +441,7 @@ template(name='user_credit_segment')
         |#{description}
         div
         each tags
-            .ui.mini.basic.label #{this}
+            .ui.mini.label #{this}
 
 
 template(name='user_debit_segment')
@@ -453,4 +457,4 @@ template(name='user_debit_segment')
         |#{description}
         div
         each tags
-            .ui.mini.basic.label #{this}
+            .ui.mini.label #{this}
