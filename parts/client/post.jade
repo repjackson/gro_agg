@@ -62,7 +62,6 @@ template(name='post_edit')
                         i.pencil.icon
                         | post
                     i.large.link.remove.icon.delete_post
-                    +image_edit key='image_id' label='image' direct=true
                     div 
                     +array_edit key='tags' label='tags' direct=true
                     // +raw_edit key='raw' label='raw' direct=true
@@ -76,6 +75,7 @@ template(name='post_edit')
                     +boolean_edit key='has_image_upload' icon='image' label='image upload'
                     +boolean_edit key='has_youtube' icon='youtube' label='youtube'
                     +boolean_edit key='has_link' icon='link' label='link'
+                    +boolean_edit key='can_buy' icon='shop' label='can buy'
                     if has_title
                         +text_edit key='title' label='title' direct=true
                     if has_html
@@ -90,4 +90,8 @@ template(name='post_edit')
                         +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     if has_time_tags
                         +array_edit key='time_tags' label='time tags' icon='clock' direct=true
-            
+                    if has_image_upload
+                        +image_edit key='image_id' label='image' direct=true
+                    if can_buy
+                        +text_edit key='unit_name' label='unit name'
+                        +number_edit key='karma_price' label='karma price'

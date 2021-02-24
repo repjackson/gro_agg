@@ -64,33 +64,36 @@ template(name='profile_layout')
                                 .item created {{ufrom created_utc}}
                                
                     .twelve.wide.column
-                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
+                        a.ui.compact.button.select_term.no_blink(href="/u/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
                             i.large.dashboard.icon
                             span dashboard
-                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} posts")
+                        a.ui.compact.button.select_term.no_blink(href="/u/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} posts")
                             i.newspaper.large.icon
                             |#{user_post_count}
                             span posts
-                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/comments" class="{{isActiveRoute 'user_comments'}}" title="#{user.username} comments")
+                        a.ui.compact.button.select_term.no_blink(href="/u/#{username}/comments" class="{{isActiveRoute 'user_comments'}}" title="#{user.username} comments")
                             i.chat.large.icon
                             |#{user_comment_count}
                             span comments
-                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
+                        a.ui.compact.button.select_term.no_blink(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
                             i.large.chevron.down.icon
                             span pts received
-                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/sent" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
+                        a.ui.compact.button.select_term.no_blink(href="/u/#{username}/sent" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
                             i.large.gift.icon
                             span pts sent
-                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/credit" class="{{isActiveRoute 'user_credit'}}" title="#{user.username} credit")
+                        a.ui.compact.button.select_term.no_blink(href="/u/#{username}/credit" class="{{isActiveRoute 'user_credit'}}" title="#{user.username} credit")
                             i.large.dollar.icon
                             span credit
-                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/tips" class="{{isActiveRoute 'user_tips'}}" title="#{user.username} tips")
+                        a.ui.compact.button.select_term.no_blink(href="/u/#{username}/tips" class="{{isActiveRoute 'user_tips'}}" title="#{user.username} tips")
                             i.donate.large.icon
                             span tips
-                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
+                        a.ui.compact.button.select_term.no_blink(href="/u/#{username}/groups" class="{{isActiveRoute 'user_groups'}}" title="#{user.username} groups")
+                            i.users.large.icon
+                            span groups
+                        a.ui.compact.button.select_term.no_blink(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
                             i.users.large.icon
                             span friends
-                        a.ui.basic.compact.button.select_term.no_blink(href="/u/#{username}/vault" class="{{isActiveRoute 'user_vault'}}" title="#{user.username} friends")
+                        a.ui.compact.button.select_term.no_blink(href="/u/#{username}/vault" class="{{isActiveRoute 'user_vault'}}" title="#{user.username} friends")
                             i.lock.large.icon
                             span vault
                         if is_dev
@@ -177,14 +180,17 @@ template(name='user_dashboard')
                     .ui.large.list
                         each user_karma_sent
                             .item #{title} #{amount} #{points} #{when}
+                                +target_info
                     .ui.header 
                         i.chevron.down.icon
                         |karma received
                     .ui.large.list
                         each user_karma_received
                             .item 
-                                .header #{title}
-                                |#{description} #{amount} #{points} #{when}
+                                .header #{points}: #{title}
+                                |#{description} #{amount} 
+                                .meta #{when}
+                                +author_info
                 
                     // .ui.small.header 
                     //     label goto/create group
@@ -213,6 +219,13 @@ template(name='user_dashboard')
                         each comments    
                             +user_comment_small
                     div
+                    .ui.header 
+                        i.users.icon
+                        |groups
+                    .smallscroll
+                        each groups    
+                            +user_group
+                    div
                     .ui.inline.header 
                         i.newspaper.icon
                         |posts
@@ -240,9 +253,9 @@ template(name='user_dashboard')
                 each credit_tags
                     .ui.small.basic.label #{title}
                         // small #{count}
-                .medscroll.ui.segments
-                    each user_credits
-                        +user_credit_segment
+                // .medscroll.ui.segments
+                //     each user_credits
+                //         +user_credit_segment
             .column
                 a.ui.inline.spaced.header(href="/u/#{username}/debits")
                     i.chevron.up.icon
@@ -256,9 +269,9 @@ template(name='user_dashboard')
                         // small #{count}
     
                 div
-                .medscroll.ui.segments
-                    each user_debits
-                        +user_debit_segment
+                // .medscroll.ui.segments
+                //     each user_debits
+                //         +user_debit_segment
             .column
                 +user_bookmarks_widget
 
@@ -274,6 +287,35 @@ template(name='user_posts')
     .ui.link.selection.animated.list.scrolling
         each posts
             a.ui.item(href="/p/#{_id}") 
+                .content
+                    if image_link
+                        +image_link_view key='image_link' direct=true
+                    if image_id
+                        img.ui.fluid.rounded.image.no_left(src="{{c.url image_id }}" class=currentUser.invert_class)
+                    if youtube_id
+                        .no_left
+                            +youtube_view key='youtube_id' label='youtube id' direct=true
+                
+                    .header #{title} 
+                    |#{when}
+                    each seven_tags 
+                        .ui.mini.basic.label #{this}
+                    +author_info
+
+template(name='user_groups')
+    .ui.header 
+        i.users.icon
+        |groups
+    .ui.icon.button.add_group
+        i.plus.icon
+    .ui.link.list.scrolling
+        each groups
+            a.ui.item(href="/p/#{_id}") 
+                if image_id
+                    a(href="/p/#{_id}/view")
+                        img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                if image_link
+                    img(src=image_link)
                 .content
                     .header #{title} 
                     |#{when}
@@ -346,6 +388,33 @@ template(name='user_tip_small')
 
 template(name='user_comment_small')
     |#{body}
+    
+    
+template(name='user_group')
+    .ui.fluid.link.card.mark_read.pad
+        .content
+            a.header(href="/p/#{_id}/view") 
+                |#{title}
+            |#{when}
+            if image_link
+                a.view_post(href="/p/#{_id}/view" class=post_header_class)
+                    img.ui.rounded.inline.zoomer.image.zoomer(src=image_link)    
+            // |!{content}
+            i.grey.eye.icon
+            each viewer_ids
+                .ui.label #{this}
+            |#{points}
+            each five_tags
+                .ui.small.basic.label #{this}
+            +doc_emotion_small        
+            // +skve k='view_preview' v='preview' l=' ' i='caret down'
+            // if skv_is 'view_preview' 'preview'
+            a.ui.large.icon.circular.button(href="/p/#{_id}/view") 
+                i.chevron.right.icon
+            if in_dev
+                +print_this
+                
+                
 template(name='user_post_small')
     .ui.fluid.link.card.mark_read.pad
         .content

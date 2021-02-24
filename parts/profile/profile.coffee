@@ -23,6 +23,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_tips'
         ), name:'user_tips'
+    Router.route '/u/:username/groups', (->
+        @layout 'profile_layout'
+        @render 'user_groups'
+        ), name:'user_groups'
 
     Template.user_vault.onCreated ->
         @autorun -> Meteor.subscribe 'user_vault', Router.current().params.username
@@ -34,6 +38,26 @@ if Meteor.isClient
                 model:'post'
                 is_private:true
                 _author_id:user._id
+   
+   
+    Template.user_groups.onCreated ->
+        @autorun -> Meteor.subscribe 'user_group', Router.current().params.username
+    Template.user_groups.helpers
+        groups: -> 
+            user = Meteor.users.findOne(username:Router.current().params.username)
+
+            Docs.find 
+                model:'group'
+                member_ids:$in:[Meteor.userId()]   
+    
+    Template.user_groups.events
+        'click .add_group': ->
+            new_id = 
+                Docs.insert 
+                    model:'group'
+            Router.go "/group/#{new_id}/edit"
+   
+   
    
    
     Template.user_comments.onCreated ->
@@ -140,6 +164,15 @@ if Meteor.isClient
             Docs.find {
                 model:'debit'
                 target_id: current_user._id
+            }, 
+                sort: _timestamp:-1
+                limit: 10
+      
+        user_groups: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find {
+                model:'group'
+                member_ids: $in:[current_user._id]
             }, 
                 sort: _timestamp:-1
                 limit: 10
@@ -344,6 +377,18 @@ if Meteor.isServer
             model:'post'
             is_private:true
             _author_id:user._id
+        }
+        Docs.find match,
+            limit:20
+            sort:
+                _timestamp:-1
+    
+    Meteor.publish 'user_groups', (username)->
+        user = Meteor.users.findOne username:username
+        match = {
+            model:'group'
+            # is_private:true
+            member_ids:$in:[user._id]
         }
         Docs.find match,
             limit:20

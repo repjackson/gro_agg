@@ -315,6 +315,13 @@ template(name='author_info')
             if profile_image_id
                 img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
             |by #{username}
+            
+template(name='target_info')
+    with target
+        a.ui.compact.basic.button(href="/u/#{username}")
+            if profile_image_id
+                img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
+            |by #{username}
 
 template(name='creation_info')
     .ui.small.inline.header #{when}
