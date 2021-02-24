@@ -55,26 +55,6 @@ template(name='post_view')
                         
                     
    
-template(name='bounties')
-    .ui.header bounties
-    .ui.icon.button.add_bounty
-        i.plus.icon
-    each bounty_docs
-        +bounty
-    
-    
-template(name='bounty')
-    .ui.segment
-        if is_author
-            +session_edit_toggle
-            if is_editing_this
-                +text_edit key='description' direct=true
-                +number_edit key='karma_bounty' direct=true
-        .ui.inline.header #{description}
-        .ui.inline.header #{karma_bounty}
-        +print_this
-        +author_info
-    
                     
                     
 template(name='post_edit')

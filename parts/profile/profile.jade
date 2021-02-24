@@ -1,5 +1,4 @@
 template(name='profile_layout')
-    +status
     +nav
     .ui.bottom.attached.pushable.segment
         // +topbar
@@ -332,25 +331,6 @@ template(name='user_tips')
                         .ui.mini.basic.label #{this}
 
 
-
-template(name='user_bounties')
-    .ui.header 
-        i.donate.icon
-        |bounties
-    .ui.link.list.scrolling
-        each bounties
-            a.ui.item(href="/p/#{parent_id}") 
-                if parent.image_id
-                    a(href="/p/#{_id}")
-                        img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-                if parent.image_link
-                    img(src=parent.image_link)
-                .content
-                    .header #{parent.title} 
-                    .header #{karma} 
-                    |#{parent.when} #{when}
-                    each parent.seven_tags
-                        .ui.mini.basic.label #{this}
 
 
 template(name='user_comments')

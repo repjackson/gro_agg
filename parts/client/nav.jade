@@ -105,8 +105,8 @@ template(name='right_sidebar')
         a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/groups" class="{{isActiveRoute 'user_groups'}}")
             | groups
             i.fire.icon
-        a.ui.compact.button.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/bounties" class="{{isActiveRoute 'user_bounties'}}" title="#{user.username} bounties")
-            i.hand.holding.large.icon
+        a.ui.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/bounties" class="{{isActiveRoute 'user_bounties'}}" title="#{user.username} bounties")
+            i.hand.holding.icon
             span bounties
         a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/friends" class="{{isActiveRoute 'user_friends'}}")
             | friends

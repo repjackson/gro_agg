@@ -1,0 +1,172 @@
+template(name='bounty_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .centered.row 
+                .five.wide.column
+                    a(href="/u/#{_author.username}") 
+                        img.ui.centered.pointer.zoomer.image(src="{{c.url _author.profile_image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                        .ui.large.center.aligned.header.pointer.zoomer
+                            |#{_author.name}
+                .five.wide.column
+                    .ui.huge.center.aligned.header
+                        |#{amount}pts
+                    if is_dev
+                        +remove_button
+                    .f14
+                        |#{description}
+                    .spacer
+                    +image_view key='image_id' label='image' direct=true
+                    div 
+                    if tags
+                        i.tags.icon
+                        each tags 
+                            .ui.big.basic.label #{this}
+                    +voting_full
+                    .ui.small.header
+                        i.clock.icon
+                        | #{when}
+                    .spacer
+                    .spacer
+                    +comments
+                    //- +array_view key='location_tags' label='location_tags' direct=true
+                .five.wide.column
+                    a(href="/u/#{target.username}")
+                        img.ui.centered.fluid.pointer.zoomer.image(src="{{c.url target.profile_image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                        .ui.large.center.aligned.header.pointer.zoomer
+                            |#{target.name}
+                            
+
+
+
+template(name='bounty_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row 
+                .sixteen.wide.column
+                    .ui.header edit bounty
+            .row 
+                .five.wide.column
+                    .ui.large.fluid.basic.button.cancel_bounty
+                        i.large.remove.red.icon
+                        |cancel
+                    .ui.segment
+                        .ui.inline.grey.header author
+                        .ui.inline.header
+                            img.ui.small.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                            |#{_author.name}
+                    .ui.segment
+                        .ui.header target
+                        with target
+                            i.large.remove.link.icon.remove_target
+                            a.pointer(href="/u/#{name}")
+                                img.ui.tiny.inline.image(src="{{c.url profile_image_id height=400 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                                .ui.inline.header #{name}
+                                .ui.small.grey.inline.header #{points}
+                        unless target
+                            .ui.divider
+                            // i.large.user.plus.icon
+                            +single_user_edit key='target_id' label='search member' icon='user plus' direct=true
+                            // .ui.icon.input
+                            //     i.search.icon
+                            //     input.search_username(type='text' placeholder='username')
+                            // each members
+                            //     .ui.compact.basic.button.add_target
+                            //         // i.plus.icon
+                            //         img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                            //         |#{name}
+                            //         small #{points}p
+                    +date_edit key='date' label='date' direct=true   
+                    +time_edit key='time' label='time' direct=true   
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                .six.wide.column
+                    +textarea_edit key='description' label='description' direct=true
+                    +image_edit key='image_id' label='image' direct=true
+                    div 
+                    div
+                    .ui.inline.header
+                        i.tag.red.icon
+                        |tags
+                    .ui.input
+                        input.new_tag(type='text' placeholder='+' autocomplete="off")
+                        //- +clear_value                
+                    each terms 
+                        a.ui.large.basic.button.select_term(href='#')
+                            if image
+                                img.ui.mini.rounded.inline.image(src="{{c.url image height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                            |#{title}
+                    each tags
+                        .ui.big.basic.label
+                            i.delete.icon.remove_element
+                            |#{this}
+                    if suggestions
+                        .ui.small.inline.header suggestions
+                    each suggestions
+                        a.ui.large.basic.button.select_term(href='#')
+                            // if image
+                            //     img.ui.mini.rounded.inline.image(src="{{c.url image height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                            |#{title}
+                .five.wide.center.aligned.column
+                    .ui.big.header #{amount}pts
+                    .ui.big.input
+                        input.point_amount(type='number' value=amount min='1' max=point_max)
+                    div
+                    // +key_value_edit key='amount' value=10
+                    // +key_value_edit key='amount' value=50
+                    // +key_value_edit key='amount' value=100
+                    // +key_value_edit key='amount' value=
+                    // +key_value_edit key='amount' value=55
+                    .spacer
+                    .ui.center.aligned.basic.segment
+                        if can_submit
+                            .ui.green.huge.button.submit
+                                i.large.send.icon
+                                |send
+                        else 
+                            .ui.green.huge.disabled.button
+                                i.send.large.icon
+                                |send
+
+
+
+template(name='user_bounties')
+    .ui.header 
+        i.donate.icon
+        |bounties
+    .ui.circular.icon.button.add_bounty
+        i.plus.icon
+    .ui.link.list.scrolling
+        each bounties
+            a.ui.item(href="/p/#{parent_id}") 
+                if parent.image_id
+                    a(href="/p/#{_id}")
+                        img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                if parent.image_link
+                    img(src=parent.image_link)
+                .content
+                    .header #{parent.title} 
+                    .header #{karma} 
+                    |#{parent.when} #{when}
+                    each parent.seven_tags
+                        .ui.mini.basic.label #{this}
+
+
+template(name='bounties')
+    .ui.header bounties
+    .ui.icon.button.add_bounty
+        i.plus.icon
+    each bounty_docs
+        +bounty
+    
+    
+template(name='bounty')
+    .ui.segment
+        if is_author
+            +session_edit_toggle
+            if is_editing_this
+                +text_edit key='description' direct=true
+                +number_edit key='karma_bounty' direct=true
+        .ui.inline.header #{description}
+        .ui.inline.header #{karma_bounty}
+        +print_this
+        +author_info
+    
