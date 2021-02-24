@@ -15,12 +15,12 @@ if Meteor.isClient
         # Session.set('session_clicks', Session.get('session_clicks')+2)
         Meteor.call 'log_view', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'post_requests', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'post_bounties', Router.current().params.doc_id
     
     Template.post_view.helpers
-        request_docs: ->
+        bounty_docs: ->
             Docs.find
-                model:'request'
+                model:'bounty'
                 parent_id:Router.current().params.doc_id
     
     
@@ -38,25 +38,25 @@ if Meteor.isClient
             Router.go '/'
     
     
-    Template.requests.events
-        'click .add_request': ->
+    Template.bounties.events
+        'click .add_bounty': ->
             Docs.insert 
-                model:'request'
+                model:'bounty'
                 parent_id:Router.current().params.doc_id
     
-    Template.requests.helpers
-        request_docs: ->
+    Template.bounties.helpers
+        bounty_docs: ->
             Docs.find 
-                model:'request'
+                model:'bounty'
                 parent_id:Router.current().params.doc_id
                 
                 
                 
                 
 if Meteor.isServer
-    Meteor.publish 'post_requests', (doc_id)->
+    Meteor.publish 'post_bounties', (doc_id)->
         found_doc = Docs.findOne doc_id
         if found_doc
             Docs.find 
-                model:'request'
+                model:'bounty'
                 parent_id:doc_id

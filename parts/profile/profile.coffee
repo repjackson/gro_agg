@@ -23,6 +23,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_tips'
         ), name:'user_tips'
+    Router.route '/u/:username/bounties', (->
+        @layout 'profile_layout'
+        @render 'user_bounties'
+        ), name:'user_bounties'
     Router.route '/u/:username/groups', (->
         @layout 'profile_layout'
         @render 'user_groups'
@@ -58,6 +62,12 @@ if Meteor.isClient
         posts: -> Docs.find model:'post'
 
 
+    Template.user_bounties.onCreated ->
+        @autorun -> Meteor.subscribe 'user_bounties', Router.current().params.username
+    Template.user_bounties.helpers
+        requests: -> Docs.find model:'request'
+
+
     Template.profile_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_post_count', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_comment_count', Router.current().params.username
@@ -67,15 +77,9 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_tips_sent_count', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_karma_sent', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_karma_received', Router.current().params.username
-        
-        # @autorun -> Meteor.subscribe 'user_debits', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_feed_items', Router.current().params.username
-        # @autorun -> Meteor.subscribe 'user_requests', Router.current().params.username
-        # @autorun -> Meteor.subscribe 'user_completed_requests', Router.current().params.username
-        # @autorun -> Meteor.subscribe 'user_event_tickets', Router.current().params.username
-        # @autorun -> Meteor.subscribe 'model_docs', 'event'
-        # @autorun -> Meteor.subscribe 'all_users'
-        
+
+
     Template.user_dashboard.onCreated ->
         # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
         @autorun => Meteor.subscribe('user_feed_items',Router.current().params.username)
@@ -141,6 +145,15 @@ if Meteor.isClient
             }, 
                 limit: 10
                 sort: _timestamp:-1
+        user_credits: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find {
+                model:'request'
+                target_id: current_user._id
+            }, 
+                sort: _timestamp:-1
+                limit: 10
+      
         user_credits: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find {
@@ -333,6 +346,18 @@ if Meteor.isServer
             limit:20
             sort:
                 _timestamp:-1
+    
+    Meteor.publish 'user_bounties', (username)->
+        user = Meteor.users.findOne username:username
+        match = {
+            model:'requesst'
+            _author_id:user._id
+        }
+        Docs.find match,
+            limit:20
+            sort:
+                _timestamp:-1
+    
     
     Meteor.publish 'user_karma_sent', (username)->
         user = Meteor.users.findOne username:username

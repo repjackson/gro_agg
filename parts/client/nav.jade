@@ -14,12 +14,12 @@ template(name='nav')
         if currentUser
             a.icon.item.blink.clear(href="/users" class="{{isActiveRoute 'users'}}")
                 i.users.icon
-        .item(title='session karma')
-            i.grey.lightning.icon
-            |#{session_clicks}
-        .item(title='global karma')
-            i.grey.globe.icon
-            |#{global_karma}
+        // .item(title='session karma')
+        //     i.grey.lightning.icon
+        //     |#{session_clicks}
+        // .item(title='global karma')
+        //     i.grey.globe.icon
+        //     |#{global_karma}
         .item
             +status
     
@@ -105,6 +105,9 @@ template(name='right_sidebar')
         a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/groups" class="{{isActiveRoute 'user_groups'}}")
             | groups
             i.fire.icon
+        a.ui.compact.button.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/bounties" class="{{isActiveRoute 'user_bounties'}}" title="#{user.username} bounties")
+            i.hand.holding.large.icon
+            span bounties
         a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/friends" class="{{isActiveRoute 'user_friends'}}")
             | friends
             i.users.icon

@@ -20,7 +20,7 @@ template(name='post_view')
                     .spacer
                     +comments
                     div
-                    +requests
+                    +bounties
                 .four.wide.column.scrolling
                     if group
                         a.ui.large.basic.button(href="/g/#{group}")
@@ -55,15 +55,15 @@ template(name='post_view')
                         
                     
    
-template(name='requests')
-    .ui.header requests
-    .ui.icon.button.add_request
+template(name='bounties')
+    .ui.header bounties
+    .ui.icon.button.add_bounty
         i.plus.icon
-    each request_docs
-        +request
+    each bounty_docs
+        +bounty
     
     
-template(name='request')
+template(name='bounty')
     .ui.segment
         if is_author
             +session_edit_toggle
