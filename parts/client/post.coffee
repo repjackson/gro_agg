@@ -21,6 +21,14 @@ Template.post_view.helpers
             parent_id:Router.current().params.doc_id
 
 
+Template.post_edit.events
+    'click .delete_post': ->
+        if confirm 'delete post? cannot be undone'
+            Docs.remove @_id
+            if @group
+                Router.go "/g/#{@group}"
+            else 
+                Router.go "/"
 Template.post_view.events
     'click .search_dao': ->
         picked_tags.clear()

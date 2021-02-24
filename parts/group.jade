@@ -118,47 +118,53 @@ template(name='group_view')
         .ui.center.aligned.basic.segment
             i.massive.loading.yin.yang.link.icon.create_group
     with current_group
-        .ui.stackable.grid
-            .row 
-                .twelve.wide.column
-                    a.ui.basic.icon.button(href="/groups" title='groups')
-                        i.chevron.left.icon
-                        i.big.fire.icon
-                        // |groups
-                    .ui.inline.header 
-                        img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}")
-                        |#{title}
-                    if is_admin 
-                        a.ui.icon.button(href="/g/#{_id}/edit" title='edit group instance')
-                            i.pencil.large.icon
-                    // +skve k='view_section' v='posts' l='posts' i='content'
-                    // +skve k='view_section' v='events' l='events' i='calendar'
-                    // +skve k='view_section' v='chat' l='chat' i='chat outline'
-                    // +skve k='view_section' v='members' l='members' i='users'
-                    // +skve k='view_section' v='stats' l='stats' i='line chart'
-                    // div
-                    +group_posts
-                    // if skv_is 'view_section' 'posts'
-                    // if skv_is 'view_section' 'members'
-                    //     div
-                .four.wide.column
-                    if can_edit
-                        a.ui.icon.button(href="/g/#{_id}/edit")
-                            i.pencil.icon
-                    +group_membership
-                    if is_admin 
-                        +print_this
-                    +html_view key='description' label='description' direct=true
-                    +multi_user_view key='leader_ids' label='group admins' direct=true
-                    +multi_user_view key='member_ids' label='group members' direct=true
-                    each members
-                        a.ui.header(href="/user/#{username}")
-                            img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
-                            |#{username}
-                    div 
-                    +array_view key='tags' label='tags' direct=true
-                    
-
+        if is_private
+            // if is_member
+            if currentUser
+                .ui.stackable.grid
+                    .row 
+                        .twelve.wide.column
+                            a.ui.basic.icon.button(href="/groups" title='groups')
+                                i.chevron.left.icon
+                                i.big.fire.icon
+                                // |groups
+                            .ui.inline.header 
+                                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}")
+                                |#{title}
+                            if is_admin 
+                                a.ui.icon.button(href="/g/#{_id}/edit" title='edit group instance')
+                                    i.pencil.large.icon
+                            // +skve k='view_section' v='posts' l='posts' i='content'
+                            // +skve k='view_section' v='events' l='events' i='calendar'
+                            // +skve k='view_section' v='chat' l='chat' i='chat outline'
+                            // +skve k='view_section' v='members' l='members' i='users'
+                            // +skve k='view_section' v='stats' l='stats' i='line chart'
+                            // div
+                            +group_posts
+                            // if skv_is 'view_section' 'posts'
+                            // if skv_is 'view_section' 'members'
+                            //     div
+                        .four.wide.column
+                            if can_edit
+                                a.ui.icon.button(href="/g/#{_id}/edit")
+                                    i.pencil.icon
+                            +group_membership
+                            if is_admin 
+                                +print_this
+                            +html_view key='description' label='description' direct=true
+                            +multi_user_view key='leader_ids' label='group admins' direct=true
+                            +multi_user_view key='member_ids' label='group members' direct=true
+                            each members
+                                a.ui.header(href="/user/#{username}")
+                                    img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                                    |#{username}
+                            div 
+                            +array_view key='tags' label='tags' direct=true
+            else
+                .ui.basic.center.aligned.segment
+                    a.ui.large.button(href='/login')
+                        |login
+                    |to view group
 
 
 template(name='group_posts')

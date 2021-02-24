@@ -142,6 +142,7 @@ Meteor.publish 'posts', (
     match = {
         model:'post'
         is_private:$ne:true
+        group:$exists:false
     }
     if sort_key
         sk = sort_key

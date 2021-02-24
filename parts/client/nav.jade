@@ -54,11 +54,11 @@ template(name='nav')
                     strong.mobile.hidden #{currentUser.name}
                 a.icon.item.toggle_rightbar.no_blink
                     i.bars.icon
-            
         else
-            // a.icon.item(href="/register" title='login')
-            //     i.user.plus.large.icon nbjj vbnhjukiop
-            a.icon.item(href="/login" title='login')
+            a.icon.item(href="/register" title='login')
+                i.user.plus.large.icon
+            a.item(href="/login" title='login')
+                |login
                 i.chevron.right.large.icon
 
 

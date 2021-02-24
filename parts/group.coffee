@@ -34,10 +34,21 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'group_template_from_group_id', Router.current().params.doc_id
 
     Template.group_edit.onCreated ->
-        @autorun => Meteor.subscribe 'group_by_name', Router.current().params.name
+        # @autorun => Meteor.subscribe 'group_by_name', Router.current().params.name
         @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'model_docs', 'feature'
-        
+        @autorun => Meteor.subscribe 'recipient_from_group_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'all_users', Router.current().params.doc_id
+       
+        @autorun => @subscribe 'tag_results',
+            # Router.current().params.doc_id
+            selected_tags.array()
+            Session.get('searching')
+            Session.get('current_query')
+            Session.get('dummy')
+
 
 
 if Meteor.isServer
@@ -55,18 +66,6 @@ if Meteor.isClient
         ), name:'group_edit'
         
         
-    Template.group_edit.onCreated ->
-        @autorun => Meteor.subscribe 'recipient_from_group_id', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'all_users', Router.current().params.doc_id
-       
-        @autorun => @subscribe 'tag_results',
-            # Router.current().params.doc_id
-            selected_tags.array()
-            Session.get('searching')
-            Session.get('current_query')
-            Session.get('dummy')
         
     Template.group_edit.onRendered ->
 
@@ -493,9 +492,9 @@ if Meteor.isServer
         if selected_group_people_tags.length > 0 then match.people_tags = $all: selected_group_people_tags
 
         Docs.find match,
-            limit:10
-            # sort:
-            #     "#{sort_key}":sort_direction
+            limit:25
+            sort:
+                "#{sort_key}":sort_direction
             # limit:limit
     Meteor.publish 'group_by_name', (name)->
         Docs.find
