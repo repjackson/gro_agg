@@ -121,7 +121,7 @@ template(name='right_sidebar')
         // a.item.toggle_nightmode.toggle_rightbar.no_blink(href="#")
         //     i.lightbulb.icon
         //     |dark mode
-        a.item.logout(href="/u/#{currentUser.username}/messages" class="{{isActiveRoute 'user_messages'}}" )
+        a.item.logout
             |logout
             if is_logging_out
                 i.refresh.loading.icon

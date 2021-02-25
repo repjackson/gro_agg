@@ -126,20 +126,42 @@ template(name='user_bounties')
         |bounties
     .ui.circular.icon.button.add_bounty
         i.plus.icon
-    .ui.link.list.scrolling
-        each bounties
-            a.ui.item(href="/b/#{_id}") 
-                if parent.image_id
-                    a(href="/b/#{_id}")
-                        img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-                if parent.image_link
-                    img(src=parent.image_link)
-                .content
-                    .header #{title} 
-                    .header #{karma} 
-                    |#{when} #{when}
-                    each parent.seven_tags
-                        .ui.mini.basic.label #{this}
+    
+    
+    .ui.stackable.two.column.grid
+        .column
+            .ui.link.large.selection.list.scrolling
+                each bounties
+                    a.ui.item(href="/b/#{_id}") 
+                        if parent.image_id
+                            a(href="/b/#{_id}")
+                                img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                        if parent.image_link
+                            img(src=parent.image_link)
+                        .content
+                            .header #{title} 
+                            .header #{karma} 
+                            |#{when}
+                            each parent.seven_tags
+                                .ui.mini.basic.label #{this}
+                        +print_this
+        .column
+            .ui.link.large.selection.list.scrolling
+                .ui.link.large.selection.list.scrolling
+                    each bounties
+                        a.ui.item(href="/b/#{_id}") 
+                            if parent.image_id
+                                a(href="/b/#{_id}")
+                                    img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                            if parent.image_link
+                                img(src=parent.image_link)
+                            .content
+                                .header #{title} 
+                                .header #{karma} 
+                                |#{when}
+                                each parent.seven_tags
+                                    .ui.mini.basic.label #{this}
+                            +print_this
 
 
 template(name='bounties')

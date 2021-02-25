@@ -1,6 +1,6 @@
 template(name='stats')
     .ui.padded.grid
-        .ui.sixteen.wide.column
+        .ui.eight.wide.column
             .ui.header 
                 i.line.chart.icon
                 |stats
@@ -25,3 +25,9 @@ template(name='stats')
             .ui.header 
                 i.newspaper.icon
                 |#{post_count} posts
+                
+        .eight.wide.column
+            if currentUser
+                .ui.header logins
+                each global_events
+                    .ui.header #{_author.username} #{when}

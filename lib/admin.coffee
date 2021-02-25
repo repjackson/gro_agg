@@ -12,6 +12,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'tip_count'
         @autorun => Meteor.subscribe 'post_count'
         @autorun => Meteor.subscribe 'global_stats'
+        @autorun => Meteor.subscribe 'model_docs', 'global_event'
         
         
     Template.nav.helpers
@@ -22,6 +23,10 @@ if Meteor.isClient
             if gs
                 gs.global_karma
     Template.stats.helpers
+        global_events: ->
+            Docs.find
+                model:'global_event'
+                
         global_karma: ->
             gs = 
                 Docs.findOne 

@@ -214,10 +214,10 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
     
     Template.profile_layout.onRendered ->
-        Meteor.setTimeout ->
-            $('.no_blink')
-                .popup()
-        , 1000
+        # Meteor.setTimeout ->
+        #     $('.no_blink')
+        #         .popup()
+        # , 1000
         user = Meteor.users.findOne(username:Router.current().params.username)
         Meteor.setTimeout ->
             if user

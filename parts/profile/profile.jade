@@ -5,7 +5,7 @@ template(name='profile_layout')
         #main_area.global_container.pusher
             with user
                 .ui.stackable.padded.grid
-                    .four.wide.column
+                    .three.wide.column
                         span.mobile.only
                             a(href="/u/#{username}/")
                                 img.ui.centered.tiny.inline.spaced.rounded.image.zoomer.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
@@ -60,7 +60,7 @@ template(name='profile_layout')
                                 .item #{awarder_karma} awarder karma
                                 .item created {{ufrom created_utc}}
                                
-                    .twelve.wide.column
+                    .thirteen.wide.column
                         a.ui.compact.button.select_term.no_blink(href="/u/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
                             i.large.dashboard.icon
                             span dashboard
@@ -82,7 +82,7 @@ template(name='profile_layout')
                             a.ui.compact.button.select_term.no_blink(href="/u/#{username}/credit" class="{{isActiveRoute 'user_credit'}}" title="#{user.username} credit")
                                 i.large.dollar.icon
                                 span credit
-                            a.ui.compact.button.select_term.no_blink(href="/u/#{username}/upvoted" class="{{isActiveRoute 'user_upvoted'}}" title="#{user.username} upvoted")
+                            a.ui.compact.disabled.button.select_term.no_blink(href="/u/#{username}/upvoted" class="{{isActiveRoute 'user_upvoted'}}" title="#{user.username} upvoted")
                                 i.large.chevron.up.icon
                                 span upvoted
                             a.ui.compact.button.select_term.no_blink(href="/u/#{username}/downvoted" class="{{isActiveRoute 'user_downvoted'}}" title="#{user.username} downvoted")
@@ -157,7 +157,7 @@ template(name='user_dashboard')
     .ui.stackable.grid
         .row
             .sixteen.wide.column
-                .ui.fluid.icon.input
+                .ui.icon.input
                     i.plus.icon
                     input.add_feed_item(type='text' placeholder='add to feed (-10p)')
                 .ui.circular.icon.small.disabled.button 

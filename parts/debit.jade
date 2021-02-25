@@ -4,11 +4,12 @@ template(name='debit_view')
             .centered.row 
                 .five.wide.column
                     a(href="/u/#{_author.username}") 
-                        img.ui.centered.pointer.zoomer.image(src="{{c.url _author.profile_image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                        img.ui.centered.pointer.zoomer.image.blink(src="{{c.url _author.profile_image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                         .ui.large.center.aligned.header.pointer.zoomer
                             |#{_author.name}
                 .five.wide.column
                     .ui.huge.center.aligned.header
+                        |#{price} #{points}
                         |#{title}
                         |#{amount}pts
                     if is_dev
@@ -33,7 +34,7 @@ template(name='debit_view')
                     //- +array_view key='location_tags' label='location_tags' direct=true
                 .five.wide.column
                     a(href="/u/#{target.username}")
-                        img.ui.centered.fluid.pointer.zoomer.image(src="{{c.url target.profile_image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                        img.ui.centered.fluid.pointer.zoomer.image.blink(src="{{c.url target.profile_image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                         .ui.large.center.aligned.header.pointer.zoomer
                             |#{target.name}
                             

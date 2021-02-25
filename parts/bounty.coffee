@@ -23,14 +23,14 @@ if Meteor.isClient
             new_id = Docs.insert 
                 model:'bounty'
                 parent_id:Router.current().params.doc_id
-            Router.go "/bounty/#{new_id}/edit"
+            Router.go "/b/#{new_id}/edit"
             
     Template.user_bounties.events
         'click .add_bounty': ->
             new_id = Docs.insert 
                 model:'bounty'
                 parent_id:Router.current().params.doc_id
-            Router.go "/bounty/#{new_id}/edit"
+            Router.go "/b/#{new_id}/edit"
             
     Template.user_bounties.helpers
         bounties: ->
@@ -57,7 +57,7 @@ if Meteor.isServer
             
             
 if Meteor.isClient
-    Router.route '/bounty/:doc_id/edit', (->
+    Router.route '/b/:doc_id/edit', (->
         @layout 'layout'
         @render 'bounty_edit'
         ), name:'bounty_edit'
@@ -218,7 +218,7 @@ if Meteor.isClient
                             position: 'top-end',
                             timer: 1000
                         )
-                        Router.go "/bounty/#{@_id}/view"
+                        Router.go "/b/#{@_id}/view"
             )
 
 
