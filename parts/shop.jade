@@ -1,23 +1,30 @@
 template(name='shop')
     .ui.padded.stackable.grid 
         .row
-            .four.wide.column
+            .three.wide.column
                 .ui.header 
                     i.big.shop.icon
                     |shop
                 // .ui.basic.big.compact.circular.button.add_message
                 //     i.chat.blue.icon
                 //     |+ message
-            .six.wide.column
+            .thirteen.wide.column
                 .ui.header 
                     i.shop.icon
                     |available shop items
-                .ui.list
+                .ui.stackable.centered.cards
                     each shop_items
-                        .item
-                            img.ui.avatar.image(src="{{c.url recipient.profile_image_id height=100 width=200}}" class=currentUser.invert_class)
+                        .card
+                            img.ui.image(src="{{c.url image_id height=100 width=200}}" class=currentUser.invert_class)
+                            if image_link
+                                img.ui.image(src=image_link class=currentUser.invert_class)
                             .content
                                 .header
-                                    |#{title} #{when} to #{recipient.name} #{target.name} #{to.name}
+                                    |#{title} #{when} 
+                                +author_info
                                 |#{description} #{body}
                                 a(href="/message/#{_id}/view")
+                                .ui.header #{karma_price}p
+                                // if has_enough
+                                .ui.button.buy
+                                    |buy

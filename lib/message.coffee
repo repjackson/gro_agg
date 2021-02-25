@@ -34,13 +34,13 @@ if Meteor.isClient
         
         
     Template.message_edit.onCreated ->
-        @autorun => Meteor.subscribe 'recipient_from_message_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'target_from_message_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
 
     Template.message_edit.helpers
-        recipient: ->
+        target: ->
             message = Docs.findOne Router.current().params.doc_id
             if message.target_id
                 Meteor.users.findOne
@@ -65,11 +65,11 @@ if Meteor.isClient
             message = Docs.findOne Router.current().params.doc_id
             message.description and message.target_id
     Template.message_edit.events
-        'click .add_recipient': ->
+        'click .add_target': ->
             Docs.update Router.current().params.doc_id,
                 $set:
                     target_id:@_id
-        'click .remove_recipient': ->
+        'click .remove_target': ->
             Docs.update Router.current().params.doc_id,
                 $unset:
                     target_id:1
@@ -122,7 +122,7 @@ if Meteor.isClient
 if Meteor.isClient
     Template.message_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'recipient_from_message_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'target_from_message_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
     Template.message_edit.onRendered ->
 
@@ -167,7 +167,7 @@ if Meteor.isServer
     Meteor.methods
         send_message: (message_id)->
             message = Docs.findOne message_id
-            recipient = Meteor.users.findOne message.target_id
+            target = Meteor.users.findOne message.target_id
             sender = Meteor.users.findOne message._author_id
 
             console.log 'sending message', message

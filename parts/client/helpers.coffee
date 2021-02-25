@@ -269,7 +269,7 @@ Template.registerHelper 'is_current_user', () ->
 Template.registerHelper 'user_class', () ->
     if @online then 'user_online'
 
-Template.registerHelper 'recipient', () ->
+Template.registerHelper 'target', () ->
     Meteor.users.findOne @target_id
 Template.registerHelper 'target', () ->
     Meteor.users.findOne @target_id

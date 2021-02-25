@@ -36,7 +36,7 @@ if Meteor.isClient
         
         
     Template.debit_edit.onCreated ->
-        @autorun => Meteor.subscribe 'recipient_from_debit_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'target_from_debit_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'all_users', Router.current().params.doc_id
@@ -56,7 +56,7 @@ if Meteor.isClient
             Terms.find()
         suggestions: ->
             Tags.find()
-        recipient: ->
+        target: ->
             debit = Docs.findOne Router.current().params.doc_id
             if debit.target_id
                 Meteor.users.findOne
@@ -84,11 +84,11 @@ if Meteor.isClient
             debit = Docs.findOne Router.current().params.doc_id
             debit.amount and debit.target_id
     Template.debit_edit.events
-        'click .add_recipient': ->
+        'click .add_target': ->
             Docs.update Router.current().params.doc_id,
                 $set:
                     target_id:@_id
-        'click .remove_recipient': ->
+        'click .remove_target': ->
             Docs.update Router.current().params.doc_id,
                 $unset:
                     target_id:1
@@ -199,11 +199,11 @@ if Meteor.isServer
     Meteor.methods
         send_debit: (debit_id)->
             debit = Docs.findOne debit_id
-            recipient = Meteor.users.findOne debit.target_id
+            target = Meteor.users.findOne debit.target_id
             debiter = Meteor.users.findOne debit._author_id
 
             console.log 'sending debit', debit
-            Meteor.call 'recalc_one_stats', recipient._id, ->
+            Meteor.call 'recalc_one_stats', target._id, ->
             Meteor.call 'recalc_one_stats', debit._author_id, ->
     
             Docs.update debit_id,

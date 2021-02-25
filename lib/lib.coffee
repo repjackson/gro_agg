@@ -87,7 +87,7 @@ Docs.helpers
 
     _author: -> Meteor.users.findOne @_author_id
     _buyer: -> Meteor.users.findOne @buyer_id
-    recipient: ->
+    target: ->
         Meteor.users.findOne @target_id
     
     is_visible: -> @published in [0,1]

@@ -10,12 +10,12 @@ template(name='user_credit')
                 .ui.header dollar debits
                 each received_dollar_debits
                     .ui.segment
-                        if recipient.profile_image_id
-                            img.ui.avatar.image(src="{{c.url recipient.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                        if target.profile_image_id
+                            img.ui.avatar.image(src="{{c.url target.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                         .ui.header $#{dollar_amount}
                         |to
-                        a(href="/u/#{recipient.username}")
-                            |#{recipient.username}
+                        a(href="/u/#{target.username}")
+                            |#{target.username}
                         .content
                             a(href="/dollar_debit/#{_id}/view")
                                 |#{when} 
@@ -30,12 +30,12 @@ template(name='user_credit')
                 .ui.header dollar debits
                 each sent_dollar_debits
                     .ui.segment
-                        if recipient.profile_image_id
-                            img.ui.avatar.image(src="{{c.url recipient.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                        if target.profile_image_id
+                            img.ui.avatar.image(src="{{c.url target.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                         strong $#{dollar_amount}
                         |to
-                        a(href="/u/#{recipient.username}")
-                            |#{recipient.username}
+                        a(href="/u/#{target.username}")
+                            |#{target.username}
                         .content
                             a(href="/dollar_debit/#{_id}/view")
                                 |#{when} 

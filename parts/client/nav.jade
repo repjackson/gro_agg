@@ -6,14 +6,14 @@ template(name='nav')
         a.icon.item.blink.clear(href="/" class="{{isActiveRoute regex='home'}}")
             i.yin.yang.large.icon
         a.icon.item.blink.clear(href="/stats" class="{{isActiveRoute 'stats'}}")
-            i.line.chart.icon
+            i.line.chart.large.icon
         a.icon.item.blink.clear.go_shop(href="/shop" class="{{isActiveRoute 'shop'}}")
-            i.line.shop.icon
+            i.line.shop.large.icon
         a.icon.item.blink.clear(href="/love" class="{{isActiveRoute 'love'}}")
-            i.heart.outline.icon
+            i.heart.outline.large.icon
         if currentUser
             a.icon.item.blink.clear(href="/users" class="{{isActiveRoute 'users'}}")
-                i.users.icon
+                i.users.large.icon
         // .item(title='session karma')
         //     i.grey.lightning.icon
         //     |#{session_clicks}

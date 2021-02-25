@@ -48,7 +48,7 @@ Meteor.publish 'user_model_docs', (model,username)->
         model:model
         _author_id:user._id
 
-Meteor.publish 'recipient_from_gift_id', (gift_id)->
+Meteor.publish 'target_from_gift_id', (gift_id)->
     # console.log 'pulling doc'
     gift = Docs.findOne gift_id
     Meteor.users.find

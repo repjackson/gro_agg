@@ -17,13 +17,13 @@ template(name='message_view')
                         img.ui.rounded.small.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                         .ui.header 
                             |#{_author.name}
-                    a(href="/user/#{recipient.username}")
+                    a(href="/user/#{target.username}")
                         .ui.header
                             i.chevron.down.icon
-                            |recipient
-                        img.ui.rounded.small.image(src="{{c.url recipient.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                            |target
+                        img.ui.rounded.small.image(src="{{c.url target.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                         .ui.header
-                            |#{recipient.name}
+                            |#{target.name}
                 .six.wide.column
                     if can_edit
                         +remove_button
@@ -60,14 +60,14 @@ template(name='message_edit')
                             img.ui.small.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                             |#{_author.name}
                     .ui.segment
-                        .ui.header recipient
-                        with recipient
-                            i.large.remove.link.icon.remove_recipient
+                        .ui.header target
+                        with target
+                            i.large.remove.link.icon.remove_target
                             a.pointer(href="/user/#{name}")
                                 img.ui.tiny.inline.image(src="{{c.url profile_image_id height=400 width=400 gravity='face' crop='fill'}}")
                                 .ui.inline.header #{name}
                                 .ui.small.grey.inline.header #{points}
-                        unless recipient
+                        unless target
                             .ui.divider
                             +single_user_edit key='target_id' label='search member' icon='user plus' direct=true
 
@@ -76,7 +76,7 @@ template(name='message_edit')
                             // //     i.search.icon
                             // //     input.search_username(type='text' placeholder='username')
                             // each members
-                            //     .ui.compact.basic.button.add_recipient
+                            //     .ui.compact.basic.button.add_target
                             //         // i.plus.icon
                             //         img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                             //         |#{name}
