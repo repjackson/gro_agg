@@ -420,7 +420,11 @@ Meteor.methods
             $set:
                 credit_tags:credit_tags
 
-
+    mark_viewed: (doc_id)->
+        console.log doc_id
+        Docs.update doc_id,
+            $addToSet:
+                viewer_ids: Meteor.userId()
     omega: (user_id, direction)->
         user = Meteor.users.findOne user_id
         options = {

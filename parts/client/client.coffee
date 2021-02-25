@@ -9,11 +9,11 @@ Template.registerHelper 'youtube_parse', (url) ->
 Session.setDefault('loading', false)
 Template.body.events
     'click .set_main': -> Session.set('view_section','main')
-        
+
     'click .say_body': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
-        Meteor.call 'add_global_karma', ->
-        Session.set('session_clicks', Session.get('session_clicks')+2)
+        # Meteor.call 'add_global_karma', ->
+        # Session.set('session_clicks', Session.get('session_clicks')+2)
 
     # 'click a': ->
         # if Meteor.userId()

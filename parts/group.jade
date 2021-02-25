@@ -270,7 +270,7 @@ template(name='group_posts')
                     
             .scrolling
                 // if skv_is 'group_view_layout' 'grid'
-                .ui.stackable.centered.cards 
+                .ui.stackable.cards 
                     each posts
                         +group_post_card
                 // else if skv_is 'group_view_layout' 'list'

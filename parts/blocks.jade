@@ -123,7 +123,7 @@ template(name='comments')
 template(name='viewing')
     if currentUser
         unless viewed_by
-            .ui.icon.button.mark_read(title='mark read')
+            .ui.icon.button.mark_viewed(title='mark read')
                 i.eye.icon
         else 
             //- if is_dev

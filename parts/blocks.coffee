@@ -333,11 +333,11 @@ if Meteor.isClient
 #
 #
     Template.viewing.events
-        'click .mark_read': (e,t)->
+        'click .mark_viewed': (e,t)->
             Docs.update @_id,
                 $inc:views:1
             unless @viewer_ids and Meteor.userId() in @viewer_ids
-                Meteor.call 'mark_read', @_id, ->
+                Meteor.call 'mark_viewed', @_id, ->
                     # $(e.currentTarget).closest('.comment').transition('pulse')
                     $('.unread_icon').transition('pulse')
         'click .mark_unread': (e,t)->

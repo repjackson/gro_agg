@@ -86,12 +86,16 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_karma_sent', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_karma_received', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_feed_items', Router.current().params.username
-
-
-    Template.user_dashboard.onCreated ->
-        # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
-        @autorun => Meteor.subscribe('user_feed_items',Router.current().params.username)
     Template.user_dashboard.events
+        'click .mark_viewed': ->
+            console.log @
+            $('body').toast({
+                message: 'marked read'
+                class: 'success'
+            })
+            
+            Meteor.call 'mark_viewed', @_id, ->
+    
         'click .user_credit_segment': ->
             Router.go "/debit/#{@_id}/view"
             
@@ -115,8 +119,12 @@ if Meteor.isClient
 
             
     Template.user_dashboard.helpers
-        feed_items: -> Docs.find model:'feed_item'
-    
+        feed_items: -> 
+            Docs.find {
+                model:'feed_item'
+            },
+                sort:
+                    _timestamp:-1
         user_post_count: -> Counts.get 'user_post_count'
         post_points: -> Counts.get('user_post_count')*10
         user_comment_count: -> Counts.get 'user_comment_count'
@@ -241,6 +249,7 @@ if Meteor.isClient
         user_post_count: -> Counts.get 'user_post_count'
 
     Template.profile_layout.events
+    
         'click a.select_term': ->
             $('.profile_yield')
                 .transition('fade out', 200)
@@ -394,7 +403,8 @@ if Meteor.isServer
             model:'feed_item'
             target_user_id:user._id
         }
-        Docs.find match
+        Docs.find match,
+            sort:_timestamp:-1
     
     Meteor.publish 'user_post_count', (username)->
         user = Meteor.users.findOne username:username

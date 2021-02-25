@@ -3,6 +3,25 @@ if Meteor.isClient
         @layout 'layout'
         @render 'shop'
         ), name:'shop'
+    Router.route '/s/:doc_id/edit', (->
+        @layout 'layout'
+        @render 'shop_edit'
+        ), name:'shop_edit'
+    Router.route '/s/:doc_id', (->
+        @layout 'layout'
+        @render 'shop_view'
+        ), name:'shop_view'
+
+    Template.shop_view.onCreated ->
+        # @autorun => Meteor.subscribe 'product_from_shop_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+
+        
+    Template.shop_edit.onCreated ->
+        @autorun => Meteor.subscribe 'target_from_shop_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
     Template.shop.onCreated ->
         @autorun -> Meteor.subscribe 'products'

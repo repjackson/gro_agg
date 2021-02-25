@@ -76,7 +76,7 @@ Template.home.helpers
     main_column_class: -> if Session.get('view_sidebar') then 'ui twelve wide column' else 'ui sixteen wide column' 
         
 Template.user_post_small.events
-    'click .mark_read': (e,t)->
+    'click .mark_viewed': (e,t)->
         Meteor.call 'log_view', @_id, ->
         if Meteor.userId()
             Docs.update @_id,
@@ -94,7 +94,7 @@ Template.home.events
     'click .set_list': (e,t)-> Session.set('view_layout', 'list')
 
 
-    'click .mark_read': (e,t)->
+    'click .mark_viewed': (e,t)->
         if Meteor.userId()
             Docs.update @_id,
                 $addToSet:viewer_ids:Meteor.userId()

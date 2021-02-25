@@ -2,19 +2,19 @@ template(name='shop')
     .ui.padded.stackable.grid 
         .row
             .three.wide.column
-                .ui.header 
+                .ui.inline.header 
                     i.big.shop.icon
                     |shop
-                // .ui.basic.big.compact.circular.button.add_message
-                //     i.chat.blue.icon
-                //     |+ message
+                .ui.button.add_item
+                    i.shop.icon
+                    |+ item
             .thirteen.wide.column
                 .ui.header 
                     i.shop.icon
                     |available shop items
                 .ui.stackable.centered.cards
                     each shop_items
-                        .card
+                        a.card(href="/s/#{_id}")
                             img.ui.image(src="{{c.url image_id height=100 width=200}}" class=currentUser.invert_class)
                             if image_link
                                 img.ui.image(src=image_link class=currentUser.invert_class)
@@ -23,8 +23,107 @@ template(name='shop')
                                     |#{title} #{when} 
                                 +author_info
                                 |#{description} #{body}
-                                a(href="/message/#{_id}/view")
                                 .ui.header #{karma_price}p
                                 // if has_enough
                                 .ui.button.buy
                                     |buy
+
+                    
+template(name='shop_view')
+    with current_doc
+        .ui.stackable.grid
+            .row 
+                .twelve.wide.column.scrolling
+                    .ui.center.aligned.header #{title}
+                    if image_link
+                        +image_link_view key='image_link' direct=true
+                    if image_id
+                        img.ui.fluid.rounded.image.no_left(src="{{c.url image_id }}" class=currentUser.invert_class)
+                    if youtube_id
+                        .no_left
+                            +youtube_view key='youtube_id' label='youtube id' direct=true
+                    if raw 
+                        |!{raw}
+                    .say_this.say_body.f11
+                        |!{content}
+                    div 
+                    .spacer
+                    .spacer
+                    +comments
+                    div
+                    +bounties
+                .four.wide.column.scrolling
+                    a.ui.large.icon.button(href="/shop")
+                        i.chevron.left.large.icon
+                        i.large.shop.icon
+                    | #{views} views
+                    +array_edit key='tags' label='tags' direct=true
+                    // +voting_full
+                    +link_view key='link' label='link' direct=true
+                    +array_edit key='time_tags' label='time tags' icon='clock' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                    if can_edit 
+                        a.ui.icon.button(href="/s/#{_id}/edit")
+                            i.big.pencil.icon
+                    i.large.eye.icon
+                    each viewer_ids
+                        +user_info
+                    +tip
+                    // .ui.header anon vote
+                    // i.large.thumbs.up.icon.anon_voteup
+                    // i.large.thumbs.down.icon.anon_votedown
+                    .ui.inline.header user vote
+                    if currentUser
+                        +voting_full
+                        // i.large.thumbs.up.icon.voteup
+                        // i.large.thumbs.down.icon.anon_votedown
+                        
+                    
+   
+                    
+                    
+template(name='shop_edit')
+    with current_doc
+        .ui.stackable.grid
+            .row
+                .four.wide.column.scrolling
+                    a.ui.icon.big.button(href="/s/#{_id}/view" title='save')
+                        i.checkmark.big.green.icon
+                    .ui.inline.header 
+                        i.pencil.icon
+                        | shop
+                    i.large.link.remove.icon.delete_shop
+                    div 
+                    +array_edit key='tags' label='tags' direct=true
+                    // +raw_edit key='raw' label='raw' direct=true
+                    +boolean_edit key='private' label='private' direct=true
+                    +text_edit key='group' label='group' direct=true
+                    
+                .twelve.wide.column.scrolling
+                    +boolean_edit key='has_title' icon='text' label='title'
+                    +boolean_edit key='has_html' icon='content' label='content'
+                    +boolean_edit key='has_image_link' icon='image' label='image link'
+                    +boolean_edit key='has_image_upload' icon='image' label='image upload'
+                    +boolean_edit key='has_youtube' icon='youtube' label='youtube'
+                    +boolean_edit key='has_link' icon='link' label='link'
+                    +boolean_edit key='can_buy' icon='shop' label='can buy'
+                    if has_title
+                        +text_edit key='title' label='title' direct=true
+                    if has_html
+                        +html_edit key='content' label='content' direct=true
+                    if has_image_link
+                        +image_link_edit key='image_link' direct=true
+                    if has_youtube
+                        +youtube_edit key='youtube_id' label='youtube id' direct=true
+                    if has_link
+                        +link_edit key='link' label='link' direct=true
+                    if has_location_tags
+                        +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                    if has_time_tags
+                        +array_edit key='time_tags' label='time tags' icon='clock' direct=true
+                    if has_image_upload
+                        +image_edit key='image_id' label='image' direct=true
+                    if can_buy
+                        +text_edit key='unit_name' label='unit name'
+                        +number_edit key='karma_price' label='karma price'
+                        +number_edit key='inventory' label='inventory'

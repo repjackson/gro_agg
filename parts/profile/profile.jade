@@ -168,20 +168,7 @@ template(name='user_dashboard')
                     i.hand.holding.icon
                 .ui.feed
                     each feed_items 
-                        .event 
-                            .label 
-                                img.ui.avatar.compact.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                            .content
-                                .summary
-                                    a.user #{_author.username}
-                                    |#{body}
-                                    .date
-                                        |#{when}
-                                .meta 
-                                    +voting_small
-                                    i.lock.icon
-                                    i.remove.icon
-                                    i.share.icon
+                        +feed_item
                 if currentUser
                     .ui.two.column.stackable.grid
                         .column
@@ -269,6 +256,29 @@ template(name='user_dashboard')
         .three.column.row
             .column
                 +user_bookmarks_widget
+
+
+
+template(name='feed_item')
+    .event.mark_viewed(class=read_class)
+        .label 
+            img.ui.avatar.compact.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        .content
+            .summary
+                a.user #{_author.username}
+                |#{body}
+                .date
+                    |#{when}
+            .meta 
+                +voting_small
+                i.envelope.icon
+                i.lock.icon
+                i.remove.icon
+                i.share.icon
+
+
+
+
 
 template(name='session_select')
     .ui.icon.circular.button
@@ -369,7 +379,7 @@ template(name='user_comment_small')
     
     
 template(name='user_group')
-    .ui.fluid.link.card.mark_read.pad
+    .ui.fluid.link.card.mark_viewed.pad
         .content
             a.header(href="/p/#{_id}/view") 
                 |#{title}
@@ -394,7 +404,7 @@ template(name='user_group')
                 
                 
 template(name='user_post_small')
-    .ui.fluid.link.card.mark_read.pad
+    .ui.fluid.link.card.mark_viewed.pad
         .content
             a.header(href="/p/#{_id}/view") 
                 |#{title}

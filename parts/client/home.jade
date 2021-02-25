@@ -152,7 +152,7 @@ template(name='home')
                             +post_item
 
 template(name='post_card')
-    .ui.card.mark_read.penny.add_global_karma(class=card_class)
+    .ui.card.mark_viewed.penny.add_global_karma(class=card_class)
         if image_link
             a(href="/p/#{_id}/view")
                 img.ui.zoomer.image(src=image_link)
@@ -201,7 +201,7 @@ template(name='post_card')
                                 
                                 
 template(name='post_item')
-    .ui.item.mark_read.penny.add_global_karma(class=card_class)
+    .ui.item.mark_viewed.penny.add_global_karma(class=card_class)
         if image_link
             a(href="/p/#{_id}/view")
                 img.ui.zoomer.small.image(src=image_link)

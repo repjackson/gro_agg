@@ -43,8 +43,8 @@ if Meteor.isClient
         is_read: ->
             @viewer_ids and Meteor.userId() in @viewer_ids
     Template.toggle_view_icon.events
-        'click .mark_read': ->
-            Meteor.call 'mark_read', @_id, ->
+        'click .mark_viewed': ->
+            Meteor.call 'mark_viewed', @_id, ->
         'click .mark_unread': ->
             Meteor.call 'mark_unread', @_id, ->
             

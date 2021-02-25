@@ -34,7 +34,7 @@ body {
     transform: scale(1.5) !important;
 }
 
-.mark_read {
+.mark_viewed {
     animation: fadein .5s !important;
     animation: fadeout .5s; 
     transition: all .5s ease !important; 
@@ -100,6 +100,10 @@ html {
   width: 100% !important;
 }
 
+.unread {
+  filter: drop-shadow(0px 0px 1px black);    
+
+}
 .shadowed {
   filter: drop-shadow(0px 0px 1px black);    
 

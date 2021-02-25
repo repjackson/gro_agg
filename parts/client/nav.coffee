@@ -99,11 +99,11 @@ Template.topbar.helpers
         , sort:_timestamp:-1
         
 Template.recent_alert.events
-    'click .mark_read': (e,t)->
+    'click .mark_viewed': (e,t)->
         # console.log @
         # console.log $(e.currentTarget).closest('.alert')
         # $(e.currentTarget).closest('.alert').transition('slide left')
-        Meteor.call 'mark_read', @_id, ->
+        Meteor.call 'mark_viewed', @_id, ->
             
         # Meteor.setTimeout ->
         # , 500

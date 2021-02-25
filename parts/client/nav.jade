@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.fluid.attached.borderless.inverted.big.menu.hscroll
+    .ui.fluid.attached.borderless.inverted.large.menu.hscroll
         // a.icon.item.toggle_sidebar.no_blink
         //     i.bars.icon
     
@@ -23,11 +23,11 @@ template(name='nav')
         .item
             +status
     
-        if currentUser
-            if is_dev 
-                .icon.item
-                    i.code.icon
-            .right.menu
+        if is_dev 
+            .icon.item
+                i.code.icon
+        .right.menu
+            if currentUser
                 a.icon.item.add_post
                     i.plus.icon
             
@@ -54,12 +54,12 @@ template(name='nav')
                     strong.mobile.hidden #{currentUser.name}
                 a.icon.item.toggle_rightbar.no_blink
                     i.bars.icon
-        else
-            a.icon.item(href="/register" title='login')
-                i.user.plus.large.icon
-            a.item(href="/login" title='login')
-                |login
-                i.chevron.right.large.icon
+            else
+                a.icon.item(href="/register" title='login')
+                    i.user.plus.large.icon
+                a.item(href="/login" title='login')
+                    |login
+                    i.chevron.right.large.icon
 
 
 template(name='topbar')
@@ -74,7 +74,7 @@ template(name='topbar')
 template(name='recent_alert')        
     .item.alert
         .right.floated.content
-            i.eye.link.icon.mark_read(title='mark read')
+            i.eye.link.icon.mark_viewed(title='mark read')
         img.ui.avatar.image(src="{{c.url author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
         .content
             .header
@@ -85,7 +85,7 @@ template(name='recent_alert')
             
             
 template(name='right_sidebar')
-    .ui.right.sidebar.vertical.borderless.inverted.big.menu
+    .ui.right.sidebar.vertical.borderless.inverted.large.menu
         a.item.toggle_rightbar.no_blink(href="/u/#{currentUser.username}/" class="{{isActiveRoute 'user_dashboard'}}")
             | dashboard (#{currentUser.points}p)
             i.dashboard.icon

@@ -8,6 +8,12 @@ Template.registerHelper 'is_positive', () ->
 Template.registerHelper 'sentiment_class', () ->
     if @sentiment_avg > 0 then 'green' else 'red'
 Template.registerHelper 'sv', (key) -> Session.get(key)
+Template.registerHelper 'read_class', () ->
+    if @viewer_ids and Meteor.userId() in @viewer_ids
+        ''
+    else 
+        'unread'
+
 Template.registerHelper 'sentence_color', () ->
     switch @tones[0].tone_id
         when 'sadness' then 'blue'
