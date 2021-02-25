@@ -37,7 +37,7 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'group_by_name', Router.current().params.name
         @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'model_docs', 'feature'
-        @autorun => Meteor.subscribe 'recipient_from_group_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'target_from_group_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'all_users', Router.current().params.doc_id
@@ -71,7 +71,7 @@ if Meteor.isClient
             Terms.find()
         suggestions: ->
             Tags.find()
-        recipient: ->
+        target: ->
             group = Docs.findOne Router.current().params.doc_id
             if group.target_id
                 Meteor.users.findOne
@@ -99,11 +99,11 @@ if Meteor.isClient
             group = Docs.findOne Router.current().params.doc_id
             group.amount and group.target_id
     Template.group_edit.events
-        'click .add_recipient': ->
+        'click .add_target': ->
             Docs.update Router.current().params.doc_id,
                 $set:
                     target_id:@_id
-        'click .remove_recipient': ->
+        'click .remove_target': ->
             Docs.update Router.current().params.doc_id,
                 $unset:
                     target_id:1
@@ -214,11 +214,11 @@ if Meteor.isServer
     Meteor.methods
         send_group: (group_id)->
             group = Docs.findOne group_id
-            recipient = Meteor.users.findOne group.target_id
+            target = Meteor.users.findOne group.target_id
             grouper = Meteor.users.findOne group._author_id
 
             console.log 'sending group', group
-            Meteor.call 'recalc_one_stats', recipient._id, ->
+            Meteor.call 'recalc_one_stats', target._id, ->
             Meteor.call 'recalc_one_stats', group._author_id, ->
     
             Docs.update group_id,

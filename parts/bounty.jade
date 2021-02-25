@@ -80,6 +80,9 @@ template(name='bounty_edit')
                     +time_edit key='time' label='time' direct=true   
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                 .six.wide.column
+                    i.big.eye.icon
+                    i.big.reply.icon
+                    i.big.thumbs.up.icon
                     +textarea_edit key='description' label='description' direct=true
                     +image_edit key='image_id' label='image' direct=true
                     div 
@@ -126,12 +129,10 @@ template(name='user_bounties')
         |bounties
     .ui.circular.icon.button.add_bounty
         i.plus.icon
-    
-    
     .ui.stackable.two.column.grid
         .column
             .ui.link.large.selection.list.scrolling
-                each bounties
+                each bounties_given
                     a.ui.item(href="/b/#{_id}") 
                         if parent.image_id
                             a(href="/b/#{_id}")
@@ -140,6 +141,7 @@ template(name='user_bounties')
                             img(src=parent.image_link)
                         .content
                             .header #{title} 
+                            .f12 #{description}
                             .header #{karma} 
                             |#{when}
                             each parent.seven_tags
@@ -148,7 +150,7 @@ template(name='user_bounties')
         .column
             .ui.link.large.selection.list.scrolling
                 .ui.link.large.selection.list.scrolling
-                    each bounties
+                    each bounties_offered
                         a.ui.item(href="/b/#{_id}") 
                             if parent.image_id
                                 a(href="/b/#{_id}")

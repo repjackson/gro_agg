@@ -1,0 +1,23 @@
+template(name='shop')
+    .ui.padded.stackable.grid 
+        .row
+            .four.wide.column
+                .ui.header 
+                    i.big.shop.icon
+                    |shop
+                // .ui.basic.big.compact.circular.button.add_message
+                //     i.chat.blue.icon
+                //     |+ message
+            .six.wide.column
+                .ui.header 
+                    i.shop.icon
+                    |available shop items
+                .ui.list
+                    each shop_items
+                        .item
+                            img.ui.avatar.image(src="{{c.url recipient.profile_image_id height=100 width=200}}" class=currentUser.invert_class)
+                            .content
+                                .header
+                                    |#{title} #{when} to #{recipient.name} #{target.name} #{to.name}
+                                |#{description} #{body}
+                                a(href="/message/#{_id}/view")

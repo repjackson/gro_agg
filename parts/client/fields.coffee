@@ -336,7 +336,7 @@ Template.float_edit.events
 Template.boolean_edit.helpers
     boolean_toggle_class: ->
         parent = Template.parentData()
-        if parent["#{@key}"] then 'active' else 'basic'
+        if parent["#{@key}"] then 'active' else ''
 
 
 Template.boolean_edit.events

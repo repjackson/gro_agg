@@ -33,11 +33,22 @@ if Meteor.isClient
             Router.go "/b/#{new_id}/edit"
             
     Template.user_bounties.helpers
-        bounties: ->
-            Docs.find 
+        bounties_given: ->
+            Docs.find {
                 model:'bounty'
+                _author_id:Meteor.userId()
                 # parent_id:Router.current().params.doc_id
-                
+            }, 
+                sort:
+                    _timestamp:-1
+        bounties_offered: ->
+            Docs.find {
+                model:'bounty'
+                target_id:Meteor.userId()
+                # parent_id:Router.current().params.doc_id
+            }, 
+                sort:
+                    _timestamp:-1
                 
             
     Template.bounties.helpers
@@ -64,7 +75,7 @@ if Meteor.isClient
         
         
     Template.bounty_edit.onCreated ->
-        @autorun => Meteor.subscribe 'recipient_from_bounty_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'target_from_bounty_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'all_users', Router.current().params.doc_id
@@ -84,7 +95,7 @@ if Meteor.isClient
             Terms.find()
         suggestions: ->
             Tags.find()
-        recipient: ->
+        target: ->
             bounty = Docs.findOne Router.current().params.doc_id
             if bounty.target_id
                 Meteor.users.findOne
@@ -112,11 +123,11 @@ if Meteor.isClient
             bounty = Docs.findOne Router.current().params.doc_id
             bounty.amount and bounty.target_id
     Template.bounty_edit.events
-        'click .add_recipient': ->
+        'click .add_target': ->
             Docs.update Router.current().params.doc_id,
                 $set:
                     target_id:@_id
-        'click .remove_recipient': ->
+        'click .remove_target': ->
             Docs.update Router.current().params.doc_id,
                 $unset:
                     target_id:1
@@ -227,11 +238,11 @@ if Meteor.isServer
     Meteor.methods
         send_bounty: (bounty_id)->
             bounty = Docs.findOne bounty_id
-            recipient = Meteor.users.findOne bounty.target_id
+            target = Meteor.users.findOne bounty.target_id
             bountyer = Meteor.users.findOne bounty._author_id
 
             console.log 'sending bounty', bounty
-            Meteor.call 'recalc_one_stats', recipient._id, ->
+            Meteor.call 'recalc_one_stats', target._id, ->
             Meteor.call 'recalc_one_stats', bounty._author_id, ->
     
             Docs.update bounty_id,

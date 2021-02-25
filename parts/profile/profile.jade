@@ -178,8 +178,10 @@ template(name='user_dashboard')
                                     .date
                                         |#{when}
                                 .meta 
-                                    a.like 
-                                        i.like.icon
+                                    +voting_small
+                                    i.lock.icon
+                                    i.remove.icon
+                                    i.share.icon
                 if currentUser
                     .ui.two.column.stackable.grid
                         .column
