@@ -72,21 +72,37 @@ if Meteor.isClient
                 
                 
     Template.shop_view.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'receipt'
+        @autorun => Meteor.subscribe 'product_receipts'
     
                 
     Template.shop_view.helpers
+        can_buy: ->
+            @inventory>0 and Meteor.user().points > @price
         receipts: ->
             Docs.find
                 model:'receipt'
+                parent_id:Router.current().params.doc_id
     Template.shop_view.events
+        'click .return': ->
+            if confirm 'return'
+                Docs.remove @_id
+                product = Docs.findOne Router.current().params.doc_id
+                Docs.update product._id, 
+                    $inc:inventory:1
+                Meteor.users.update Meteor.userId(),
+                    $inc:points:product.price
         'click .buy': ->
             if confirm 'buy'
                 Docs.insert 
                     parent_id:Router.current().params.doc_id
                     model:'receipt'
+                    purchase_price:@price
                 Docs.update @_id, 
                     $inc:inventory:-1
+                Meteor.users.update Meteor.userId(),
+                    $inc:points:-@price
+
+
 
     Template.shop.events
         'click .add_item': ->
@@ -101,6 +117,10 @@ if Meteor.isServer
             model:'shop'
             # can_buy: true
             
+    Meteor.publish 'product_receipts', (doc_id)->
+        Docs.find 
+            model:'receipt'
+            parent_id:doc_id            
 
     
     Meteor.publish 'shop_count', (
