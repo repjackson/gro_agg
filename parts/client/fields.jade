@@ -677,19 +677,20 @@ template(name='boolean_edit')
         //-     else
         //-         |no
 template(name='boolean_view')
-    div(title=title)
+    span(title=title)
         .ui.inline.grey.small.header
             if icon
                 //- i.grey.icon(class=icon)
                 +icon name=icon cl='ui inline mini image'
-            if title
-                |#{title}
-            else if label
-                |#{label}
-            else if key
-                |#{key}
-            else
-                |#{this}
+            unless icon_only
+                if title
+                    |#{title}
+                else if label
+                    |#{label}
+                else if key
+                    |#{key}
+                else
+                    |#{this}
         if field_value
             i.large.green.checkmark.icon
         else

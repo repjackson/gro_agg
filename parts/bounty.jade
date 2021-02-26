@@ -147,13 +147,29 @@ template(name='user_bounties')
                         if parent.image_link
                             img(src=parent.image_link)
                         .content
-                            .header #{title} 
-                            .f12 #{description}
-                            .header #{karma} 
-                            |#{when}
-                            each parent.seven_tags
-                                .ui.mini.basic.label #{this}
-                        +print_this
+                            if is_author
+                                +session_edit_toggle
+                                if is_editing_this
+                                    +text_edit key='description' direct=true
+                                    +number_edit key='karma_bounty' direct=true
+                            .ui.inline.header #{description}
+                            .ui.inline.header #{karma_bounty}
+                            +boolean_view key='require_view' label='view' icon='eye'
+                            +boolean_view key='require_vote' label='vote' icon='thumbs up'
+                            +boolean_view key='require_reply' label='reply' icon='reply'
+                            if require_view
+                                +boolean_view key='view_requirement_met' label='view requirement met' 
+                            if require_vote
+                                +boolean_view key='vote_requirement_met' label='vote requirement met' 
+                            if require_reply
+                                +boolean_view key='reply_requirement_met' label='reply requirement met' 
+                            +target_info
+                            +print_this
+                            +author_info
+                            .ui.label #{status}
+                            a.ui.icon.basic.circular.button(href="/b/#{_id}")
+                                i.chevron.right.icon
+                            +print_this
         .column
             .ui.link.large.selection.list.scrolling
                 .ui.link.large.selection.list.scrolling
@@ -165,12 +181,29 @@ template(name='user_bounties')
                             if parent.image_link
                                 img(src=parent.image_link)
                             .content
-                                .header #{title} 
-                                .header #{karma} 
-                                |#{when}
-                                each parent.seven_tags
-                                    .ui.mini.basic.label #{this}
-                            +print_this
+                                if is_author
+                                    +session_edit_toggle
+                                    if is_editing_this
+                                        +text_edit key='description' direct=true
+                                        +number_edit key='karma_bounty' direct=true
+                                .ui.inline.header #{description}
+                                .ui.inline.header #{karma_bounty}
+                                +boolean_view key='require_view' label='view' icon='eye'
+                                +boolean_view key='require_vote' label='vote' icon='thumbs up'
+                                +boolean_view key='require_reply' label='reply' icon='reply'
+                                if require_view
+                                    +boolean_view key='view_requirement_met' label='view requirement met' 
+                                if require_vote
+                                    +boolean_view key='vote_requirement_met' label='vote requirement met' 
+                                if require_reply
+                                    +boolean_view key='reply_requirement_met' label='reply requirement met' 
+                                +target_info
+                                +print_this
+                                +author_info
+                                .ui.label #{status}
+                                a.ui.icon.basic.circular.button(href="/b/#{_id}")
+                                    i.chevron.right.icon
+                                +print_this
 
 
 template(name='bounties')
@@ -201,6 +234,31 @@ template(name='bounty')
             +boolean_view key='vote_requirement_met' label='vote requirement met' 
         if require_reply
             +boolean_view key='reply_requirement_met' label='reply requirement met' 
+        +target_info
+        +print_this
+        +author_info
+        .ui.label #{status}
+        a.ui.icon.basic.circular.button(href="/b/#{_id}")
+            i.chevron.right.icon
+    
+template(name='bounty_small')
+    .ui.item
+        if is_author
+            +session_edit_toggle
+            if is_editing_this
+                +text_edit key='description' direct=true
+                +number_edit key='karma_bounty' direct=true
+        .ui.inline.header #{description}
+        .ui.inline.header #{karma_bounty}
+        // +boolean_view key='require_view' label='view' icon='eye' icon_only=true
+        // +boolean_view key='require_vote' label='vote' icon='thumbs up' icon_only=true
+        // +boolean_view key='require_reply' label='reply' icon='reply' icon_only=true
+        if require_view
+            +boolean_view key='view_requirement_met' label='view requirement met' icon_only=true icon='eye'
+        if require_vote
+            +boolean_view key='vote_requirement_met' label='vote requirement met' icon_only=true icon='thumbs up'
+        if require_reply
+            +boolean_view key='reply_requirement_met' label='reply requirement met' icon_only=true icon='reply'
         +target_info
         +print_this
         +author_info

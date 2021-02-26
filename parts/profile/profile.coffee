@@ -121,14 +121,20 @@ if Meteor.isClient
             
     Template.user_dashboard.helpers
         bounties_from: -> 
+            target_user = Meteor.users.findOne(username:Router.current().params.username)
+            
             Docs.find {
                 model:'bounty'
+                _author_id:target_user._id
             },
                 sort:
                     _timestamp:-1
         bounties_to: -> 
+            target_user = Meteor.users.findOne(username:Router.current().params.username)
+            
             Docs.find {
                 model:'bounty'
+                target_id:target_user._id
             },
                 sort:
                     _timestamp:-1

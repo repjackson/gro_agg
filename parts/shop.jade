@@ -53,18 +53,18 @@ template(name='shop_view')
                     div
                     +bounties
                 .four.wide.column.scrolling
-                    a.ui.large.icon.button(href="/shop")
+                    a.ui.circular.basic.large.icon.button(href="/shop")
                         i.chevron.left.large.icon
                         i.large.shop.icon
                     | #{views} views
+                    if can_edit 
+                        a.ui.icon.large.circular.basic.button(href="/s/#{_id}/edit")
+                            i.big.pencil.icon
                     +array_edit key='tags' label='tags' direct=true
                     // +voting_full
                     +link_view key='link' label='link' direct=true
                     +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    if can_edit 
-                        a.ui.icon.button(href="/s/#{_id}/edit")
-                            i.big.pencil.icon
                     i.large.eye.icon
                     each viewer_ids
                         +user_info
@@ -87,7 +87,7 @@ template(name='shop_edit')
         .ui.stackable.grid
             .row
                 .four.wide.column.scrolling
-                    a.ui.icon.big.button(href="/s/#{_id}/view" title='save')
+                    a.ui.icon.big.button(href="/s/#{_id}" title='save')
                         i.checkmark.big.green.icon
                     .ui.inline.header 
                         i.pencil.icon

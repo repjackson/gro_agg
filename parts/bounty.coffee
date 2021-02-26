@@ -204,7 +204,7 @@ if Meteor.isClient
                 $set:"#{@key}":val
     
     
-        'blur .point_amount': (e,t)->
+        'change .point_amount': (e,t)->
             # console.log @
             val = parseInt t.$('.point_amount').val()
             Docs.update Router.current().params.doc_id,
