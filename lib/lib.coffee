@@ -45,7 +45,6 @@ Docs.before.insert (userId, doc)->
     timestamp = Date.now()
     doc._timestamp = timestamp
     doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
-# 
     doc._app = 'dao'
     if Meteor.user()
         doc._author_id = Meteor.userId()
@@ -178,6 +177,7 @@ Meteor.methods
                         points:2
                 Meteor.users.update Meteor.userId(),
                     $inc:points:1
+        
                 # Meteor.call 'add_global_karma', ->
                 # Session.set('session_clicks', Session.get('session_clicks')+2)
             else if doc.upvoter_ids and Meteor.userId() in doc.upvoter_ids
@@ -221,6 +221,20 @@ Meteor.methods
                 $inc:points:1
             # Meteor.call 'add_global_karma', ->
             # Session.set('session_clicks', Session.get('session_clicks')+2)
+        found_bounty = Docs.findOne
+            model:'bounty'
+            status:$ne:'complete'
+            require_vote:true
+            vote_requirement_met:$ne:true
+            target_id:Meteor.userId()
+        if found_bounty
+            Docs.update found_bounty._id,
+                $set:vote_requirement_met: true
+            if Meteor.isClient
+                $('body').toast({
+                    class: 'success',
+                    message: "vote requirement met"
+                })
 
     downvote: (doc)->
         if Meteor.userId()
@@ -281,3 +295,18 @@ Meteor.methods
                 $inc:anon_points:-1
             # Meteor.call 'add_global_karma', ->
             # Session.set('session_clicks', Session.get('session_clicks')+2)
+        found_bounty = Docs.findOne
+            model:'bounty'
+            status:$ne:'complete'
+            require_vote:true
+            vote_requirement_met:$ne:true
+            target_id:Meteor.userId()
+        if found_bounty
+            Docs.update found_bounty._id,
+                $set:
+                    vote_requirement_met: true
+            if Meteor.isClient
+                $('body').toast({
+                    class: 'success',
+                    message: "vote requirement met"
+                })

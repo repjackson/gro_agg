@@ -61,6 +61,21 @@ if Meteor.isClient
                     parent_model:parent.model
                     body:comment
                 t.$('.add_comment').val('')
+                found_bounty = Docs.findOne
+                    model:'bounty'
+                    status:$ne:'complete'
+                    require_reply:true
+                    reply_requirement_met:$ne:true
+                    target_id:Meteor.userId()
+                if found_bounty
+                    Docs.update found_bounty._id,
+                        $set:
+                            reply_requirement_met: true
+                    if Meteor.isClient
+                        $('body').toast({
+                            class: 'success',
+                            message: "reply requirement met"
+                        })
 
         'click .remove_comment': ->
             if confirm 'Confirm remove comment'

@@ -195,7 +195,12 @@ template(name='bounty')
         +boolean_view key='require_view' label='view' icon='eye'
         +boolean_view key='require_vote' label='vote' icon='thumbs up'
         +boolean_view key='require_reply' label='reply' icon='reply'
-        +boolean_view key='view_requirement_met' label='view requirement met'
+        if require_view
+            +boolean_view key='view_requirement_met' label='view requirement met' 
+        if require_vote
+            +boolean_view key='vote_requirement_met' label='vote requirement met' 
+        if require_reply
+            +boolean_view key='reply_requirement_met' label='reply requirement met' 
         +target_info
         +print_this
         +author_info
