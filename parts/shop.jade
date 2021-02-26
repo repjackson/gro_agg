@@ -5,28 +5,52 @@ template(name='shop')
                 .ui.inline.header 
                     i.big.shop.icon
                     |shop
-                .ui.button.add_item
+                .ui.large.icon.basic.circular.button.add_item
                     i.shop.icon
                     |+ item
+                // i.large.clock.icon
+                // i.large.thumbs.up.icon
+                .ui.icon.transparent.input
+                    // if is_loading
+                    //     i.yin.yang.loading.icon
+                    // else
+                    i.search.icon
+                    input.search_tag(type='text' value=query)
+                    // .ui.label #{this}
+                
+                if picked_tags
+                    // if many_tags
+                    //     a#clear_tags.ui.red.invert.icon.compact.button.pick_term
+                    //         i.remove.icon
+                    each picked_tags
+                        +unpick_tag
+                each result_tags
+                    // .ui.label #{this}
+                    +tag_picker
+                        
             .thirteen.wide.column
                 .ui.header 
                     i.shop.icon
                     |available shop items
                 .ui.stackable.centered.cards
                     each shop_items
-                        a.card(href="/s/#{_id}")
-                            img.ui.image(src="{{c.url image_id height=100 width=200}}" class=currentUser.invert_class)
-                            if image_link
-                                img.ui.image(src=image_link class=currentUser.invert_class)
-                            .content
-                                .header
-                                    |#{title} #{when} 
-                                +author_info
-                                |#{description} #{body}
-                                .ui.header #{karma_price}p
-                                // if has_enough
-                                .ui.button.buy
-                                    |buy
+                        +shop_item
+                        
+template(name='shop_item')
+    a.card(href="/s/#{_id}")
+        img.ui.image(src="{{c.url image_id height=100 width=200}}" class=currentUser.invert_class)
+        if image_link
+            img.ui.image(src=image_link class=currentUser.invert_class)
+        .content
+            .header
+                |#{title} #{when} 
+            +author_info
+            |#{description} #{body}
+            .ui.inline.header #{karma_price}p
+            // if has_enough
+            if can_buy
+                .ui.circular.basic.button.buy
+                    |buy
 
                     
 template(name='shop_view')

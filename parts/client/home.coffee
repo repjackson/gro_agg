@@ -39,7 +39,7 @@ Template.home.onCreated ->
 Template.post_card.onRendered ->
     # console.log @
     Meteor.call 'log_view', @data._id, ->
-    Session.set('session_clicks', Session.get('session_clicks')+2)
+    # Session.set('session_clicks', Session.get('session_clicks')+2)
 
 
 
