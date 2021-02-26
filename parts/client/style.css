@@ -466,8 +466,8 @@ img:active {
 }
 .zoomer:hover {
     transition: all .15s ease !important; 
-    /*text-shadow: 0 0 3px grey !important;*/
-    /*filter: drop-shadow(0px 0px 3px white);    */
+    text-shadow: 0 0 3px grey !important;
+    filter: drop-shadow(0px 0px 3px white);    
     z-index: 1000 !important;
     /*animation: fadein .25s !important;*/
     transform: scale(1.05) !important;

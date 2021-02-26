@@ -79,7 +79,7 @@ template(name='profile_layout')
                             a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/sent" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
                                 i.large.gift.icon
                                 // span pts sent
-                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/credit" class="{{isActiveRoute 'user_credit'}}" title="#{user.username} credit")
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/received" class="{{isActiveRoute 'user_received'}}" title="#{user.username} received")
                                 i.large.dollar.icon
                                 // span credit
                             a.ui.disabled.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/upvoted" class="{{isActiveRoute 'user_upvoted'}}" title="#{user.username} upvoted")
@@ -97,12 +97,13 @@ template(name='profile_layout')
                             a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/bounties" class="{{isActiveRoute 'user_bounties'}}" title="#{user.username} bounties")
                                 i.hand.holding.large.icon
                                 // span bounties
-                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
-                                i.users.large.icon
-                                // span friends
-                            a.ui.basic.circular.large.icon.button.select_term.no_blink(href="/u/#{username}/vault" class="{{isActiveRoute 'user_vault'}}" title="#{user.username} friends")
-                                i.lock.large.icon
-                                // span vault
+                            if is_current_user
+                                a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
+                                    i.users.large.icon
+                                    // span friends
+                                a.ui.basic.circular.large.icon.button.select_term.no_blink(href="/u/#{username}/vault" class="{{isActiveRoute 'user_vault'}}" title="#{user.username} friends")
+                                    i.lock.large.icon
+                                    // span vault
                         if is_dev
                             +print_this
                         .ui.hidden.divider

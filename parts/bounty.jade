@@ -103,10 +103,13 @@ template(name='bounty_view')
                     +boolean_view key='require_vote' label='vote' icon='thumbs up'
                     +boolean_view key='require_reply' label='reply' icon='reply'
                     if parent
-                        a.ui.header(href="/p/#{parent._id}") parent #{parent.title}
+                        a.ui.header(href="/p/#{parent._id}") #{parent.title}
                     .ui.huge.center.aligned.header
                         i.hand.holding.icon
                         |#{amount}p
+                    if is_author
+                        a.ui.icon.button(href='/b/#{_id}/edit')
+                            i.pencil.icon
                     if is_dev
                         +remove_button
                     .f14
