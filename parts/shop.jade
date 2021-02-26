@@ -76,7 +76,13 @@ template(name='shop_view')
                     +comments
                     div
                     +bounties
+                    div
+                    each receipts
+                        .ui.header #{when}
                 .four.wide.column.scrolling
+                    .ui.large.green.button.buy
+                        |buy
+                    .ui.header #{inventory}
                     a.ui.circular.basic.large.icon.button(href="/shop")
                         i.chevron.left.large.icon
                         i.large.shop.icon

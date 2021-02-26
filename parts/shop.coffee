@@ -69,6 +69,25 @@ if Meteor.isClient
             Docs.find 
                 model:'shop'
                 # can_buy:true
+                
+                
+    Template.shop_view.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'receipt'
+    
+                
+    Template.shop_view.helpers
+        receipts: ->
+            Docs.find
+                model:'receipt'
+    Template.shop_view.events
+        'click .buy': ->
+            if confirm 'buy'
+                Docs.insert 
+                    parent_id:Router.current().params.doc_id
+                    model:'receipt'
+                Docs.update @_id, 
+                    $inc:inventory:-1
+
     Template.shop.events
         'click .add_item': ->
             new_shop_id =
