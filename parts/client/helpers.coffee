@@ -315,7 +315,7 @@ Template.registerHelper 'is_dev', () ->
 
 Template.registerHelper 'is_author', () ->
     # if @_author_id and Meteor.userId()
-    @_author_id is Meteor.userId()
+    Meteor.userId() and @_author_id is Meteor.userId()
 
 Template.registerHelper '_author', () ->
     # if @_author_id and Meteor.userId()

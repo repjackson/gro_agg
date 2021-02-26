@@ -29,9 +29,11 @@ template(name='shop')
                     +tag_picker
                         
             .thirteen.wide.column
-                .ui.header 
+                .ui.inline.header 
                     i.shop.icon
                     |available shop items
+                .ui.input
+                    input(type='text' )
                 .ui.stackable.centered.cards
                     each shop_items
                         +shop_item

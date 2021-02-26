@@ -10,6 +10,9 @@ if Meteor.isClient
         @render 'bounty_view'
         ), name:'bounty_view'
 
+    Template.bounties.onCreated ->
+        # @autorun => Meteor.subscribe 'product_from_bounty_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'model_docs', 'bounty'
     Template.bounty_view.onCreated ->
         # @autorun => Meteor.subscribe 'product_from_bounty_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
@@ -17,8 +20,20 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'parent_doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'all_users'
         
+        
+        
+    
+    Template.bounties.helpers
+        result_tags: -> results.find(model:'bounty_tag')
+
+        bounty_docs: ->
+            Docs.find 
+                model:'bounty'
+                # can_buy:true
+                 
+        
     Template.bounty_view.onRendered ->
-    Template.bounties.onRendered ->
+    Template.post_bounties.onRendered ->
         Meteor.setTimeout ->
             found_bounty = Docs.findOne
                 model:'bounty'
@@ -36,7 +51,7 @@ if Meteor.isClient
                 })
           
         ,500
-    Template.bounties.events
+    Template.post_bounties.events
         'click .add_bounty': ->
             new_id = Docs.insert 
                 model:'bounty'
@@ -69,7 +84,7 @@ if Meteor.isClient
                     _timestamp:-1
                 
             
-    Template.bounties.helpers
+    Template.post_bounties.helpers
         bounty_docs: ->
             Docs.find 
                 model:'bounty'

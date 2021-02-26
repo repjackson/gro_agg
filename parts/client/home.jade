@@ -188,8 +188,10 @@ template(name='post_card')
             //     |#{author}
             if in_dev
                 +print_this
-            each viewer_ids
-                .ui.label #{this}
+            if currentUser
+                each viewer_ids
+                    +user_info
+                    // .ui.label #{this}
         .content
             if is_author
                 i.large.lock.link.circular.grey.icon.make_private

@@ -1,3 +1,46 @@
+template(name='bounties')
+    .ui.padded.stackable.grid 
+        .row
+            .three.wide.column
+                .ui.inline.header 
+                    i.big.bounties.icon
+                    |bounties
+                .ui.large.icon.basic.circular.button.add_item
+                    i.bounties.icon
+                    |+ item
+                // i.large.clock.icon
+                // i.large.thumbs.up.icon
+                .ui.icon.transparent.input
+                    // if is_loading
+                    //     i.yin.yang.loading.icon
+                    // else
+                    i.search.icon
+                    input.search_tag(type='text' value=query)
+                    // .ui.label #{this}
+                
+                if picked_tags
+                    // if many_tags
+                    //     a#clear_tags.ui.red.invert.icon.compact.button.pick_term
+                    //         i.remove.icon
+                    each picked_tags
+                        +unpick_tag
+                each result_tags
+                    // .ui.label #{this}
+                    +tag_picker
+                        
+            .thirteen.wide.column
+                .ui.header 
+                    i.bounties.icon
+                    |available bounties items
+                .ui.input
+                    input(type='text' )
+                .ui.stackable.centered.cards
+                    each bounty_docs
+                        +bounty
+                        
+
+
+
 template(name='bounty_view')
     with current_doc
         .ui.stackable.padded.grid
@@ -206,7 +249,7 @@ template(name='user_bounties')
                                 +print_this
 
 
-template(name='bounties')
+template(name='post_bounties')
     .ui.inline.header
         i.hand.holding.icon
         |bounties
