@@ -175,11 +175,11 @@ template(name='user_dashboard')
                         .ui.divided.list
                             each bounties_from
                                 .ui.item
-                                    if is_author
-                                        +session_edit_toggle
-                                        if is_editing_this
-                                            +text_edit key='description' direct=true
-                                            +number_edit key='karma_bounty' direct=true
+                                    // if is_author
+                                    //     +session_edit_toggle
+                                    //     if is_editing_this
+                                    //         +text_edit key='description' direct=true
+                                    //         +number_edit key='karma_bounty' direct=true
                                     .ui.inline.header #{description}
                                     .ui.inline.header #{karma_bounty}
                                     // +boolean_view key='require_view' label='view' icon='eye' icon_only=true
@@ -192,17 +192,14 @@ template(name='user_dashboard')
                                     if require_reply
                                         +boolean_view key='reply_requirement_met' label='reply requirement met' icon_only=true icon='reply'
                                     +target_info
-                                    +print_this
-                                    +author_info
+                                    if is_admin
+                                        +print_this
                                     .ui.label #{status}
                                     a.ui.icon.basic.circular.button(href="/b/#{_id}")
                                         i.chevron.right.icon
-                                a.item(href="/b/#{_id}")
-                                    |#{when} 
-                                    +print_this
-                                a.item(href="/b/#{_id}")
-                                    |#{when} 
-                                    +print_this
+                                    a.item(href="/b/#{_id}")
+                                        |#{when} 
+                                        +print_this
                     .column.smallscroll
                         .ui.header bounties to
                         .ui.divided.list

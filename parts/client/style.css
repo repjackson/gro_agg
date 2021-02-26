@@ -753,18 +753,18 @@ input {
 
 
 .button,.card,.image,.header,p,img,.say,.pointer, .item{
-    animation: fadein .25s !important;
+    animation: fadein .5s !important;
     -webkit-transition: opacity .5s ease-in !important;
     -webkit-transition: opacity .5s ease-out; 
-    animation: fadeout .25s; 
+    animation: fadeout .5s; 
 }
 
 
 .icon:not(.loading){
-    animation: fadein .25s !important;
+    animation: fadein .5s !important;
     transition: all .5s ease !important;
     /* -webkit-transition: opacity .15s ease-out; */
-    animation: fadeout .25s; 
+    animation: fadeout .5s; 
 }
 
 

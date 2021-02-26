@@ -64,6 +64,12 @@ Meteor.publish 'author_from_doc_id', (doc_id)->
 Meteor.publish 'user_from_id', (user_id)->
     Meteor.users.find
         _id:user_id
+        
+        
+Meteor.publish 'post_tips', (post_id)->
+    Docs.find 
+        model:'tip'
+        parent_id:post_id
 
 Meteor.publish 'doc_comments', (doc_id)->
     Docs.find

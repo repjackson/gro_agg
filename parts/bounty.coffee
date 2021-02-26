@@ -31,7 +31,13 @@ if Meteor.isClient
                 model:'bounty'
                 # can_buy:true
                  
-        
+    Template.bounties.events
+        'click .add_bounty': ->
+            new_id =
+                Docs.insert
+                    model:'bounty'
+            Router.go "/b/#{new_id}/edit"
+
     Template.bounty_view.onRendered ->
     Template.post_bounties.onRendered ->
         Meteor.setTimeout ->

@@ -92,8 +92,10 @@ template(name='tip')
             |tip 1p
     |#{tip_total} total
     each tips
-        .ui.header #{amount} #{_author_username}
-        
+        .ui.header #{amount} 
+        |#{_author_username}
+        if is_admin
+            +remove_icon
         
 template(name='comments')
     div
@@ -103,11 +105,13 @@ template(name='comments')
     .ui.comments
         each doc_comments
             .comment
-                a.avatar
-                    img.ui.avatar.image(src="{{c.url _author.profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
+                unless anon
+                    a.avatar
+                        img.ui.avatar.image(src="{{c.url _author.profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
                 .content
-                    a.author(href="/u/#{_author_username}")
-                        |#{_author_username}
+                    unless anon
+                        a.author(href="/u/#{_author_username}")
+                            |#{_author_username}
                     .metadata
                         span.date #{when}
                     .text
@@ -117,8 +121,15 @@ template(name='comments')
                             +remove_icon
                         // else
                         +voting_small
+                        +anon_toggle
 
 
+template(name='anon_toggle')
+    if anon
+        i.lock.link.icon.toggle(title='show user info')
+    else
+        i.users.link.icon.toggle(title='hide author info')
+    
 
 template(name='viewing')
     if currentUser
@@ -401,7 +412,11 @@ template(name='voting_tiny')
 template(name='voting_full')
     // unless is_author
     i.thumbs.up.large.big.link.icon.upvote(class=upvote_class title='upvote')
+    if up_label
+        |#{up_label}
     i.thumbs.down.large.big.link.icon.downvote(class=downvote_class title='downvote')
+    if down_label
+        |#{down_label}
     if points
         |&nbsp;
         span(title='points') #{points} pts

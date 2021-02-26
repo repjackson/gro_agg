@@ -2,6 +2,17 @@ if Meteor.isClient
     Template.print_this.events
         'click .print_this': ->
             console.log @
+            
+    Template.anon_toggle.events
+        'click .toggle':->
+            if @anon
+                Docs.update @_id,
+                    $set:anon:false
+            else
+                Docs.update @_id,
+                    $set:anon:true
+            
+            
 #
 #
 #

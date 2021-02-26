@@ -20,7 +20,7 @@ template(name='post_view')
                     .spacer
                     +comments
                     div
-                    +bounties
+                    +post_bounties
                 .four.wide.column.scrolling
                     if group
                         a.ui.large.basic.button(href="/g/#{group}")
@@ -46,7 +46,7 @@ template(name='post_view')
                     // .ui.header anon vote
                     // i.large.thumbs.up.icon.anon_voteup
                     // i.large.thumbs.down.icon.anon_votedown
-                    .ui.inline.header user vote
+                    // .ui.inline.header user vote
                     if currentUser
                         +voting_full
                         // i.large.thumbs.up.icon.voteup
