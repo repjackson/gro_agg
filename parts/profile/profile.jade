@@ -23,19 +23,19 @@ template(name='profile_layout')
                         .ui.small.inline.header #{boops}
                         .ui.label #{profile_views} views
                         +user_follow_button
-                        .ui.button.join
-                            |join
+                        // .ui.button.join
+                        //     |join
                         if is_admin
-                            a.ui.button(href="/u/#{username}/edit" title='admin edit account')
+                            a.ui.circular.icon.basic.button(href="/u/#{username}/edit" title='admin edit account')
                                 i.shield.large.icon
-                                |account
+                                // |account
                         if is_current_user
-                            a.ui.button(href="/u/#{username}/edit" title='edit your account')
+                            a.ui.circular.basic.icon.button(href="/u/#{username}/edit" title='edit your account')
                                 i.cog.icon
-                                |account
-                            a.ui.button.logout(href="#" title='log out')
+                                // |account
+                            a.ui.circular.icon.basic.button.logout(href="#" title='log out')
                                 i.sign.out.icon
-                                |log out
+                                // |log out
                         if is_dev
                             .ui.small.inline.header #{_id}
                             +print_this
@@ -61,48 +61,48 @@ template(name='profile_layout')
                                 .item created {{ufrom created_utc}}
                                
                     .thirteen.wide.column
-                        a.ui.compact.button.select_term.no_blink(href="/u/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
+                        a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
                             i.large.dashboard.icon
-                            span dashboard
+                            // span dashboard
                         if currentUser
-                            a.ui.compact.button.select_term.no_blink(href="/u/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} posts")
+                            a.ui.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} posts")
                                 i.newspaper.large.icon
                                 |#{user_post_count}
-                                span posts
-                            a.ui.compact.button.select_term.no_blink(href="/u/#{username}/comments" class="{{isActiveRoute 'user_comments'}}" title="#{user.username} comments")
+                                // span posts
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/comments" class="{{isActiveRoute 'user_comments'}}" title="#{user.username} comments")
                                 i.chat.large.icon
                                 |#{user_comment_count}
-                                span comments
-                            a.ui.compact.button.select_term.no_blink(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
+                                // span comments
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
                                 i.large.chevron.down.icon
-                                span pts received
-                            a.ui.compact.button.select_term.no_blink(href="/u/#{username}/sent" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
+                                // span pts received
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/sent" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
                                 i.large.gift.icon
-                                span pts sent
-                            a.ui.compact.button.select_term.no_blink(href="/u/#{username}/credit" class="{{isActiveRoute 'user_credit'}}" title="#{user.username} credit")
+                                // span pts sent
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/credit" class="{{isActiveRoute 'user_credit'}}" title="#{user.username} credit")
                                 i.large.dollar.icon
-                                span credit
-                            a.ui.compact.disabled.button.select_term.no_blink(href="/u/#{username}/upvoted" class="{{isActiveRoute 'user_upvoted'}}" title="#{user.username} upvoted")
+                                // span credit
+                            a.ui.disabled.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/upvoted" class="{{isActiveRoute 'user_upvoted'}}" title="#{user.username} upvoted")
                                 i.large.chevron.up.icon
-                                span upvoted
-                            a.ui.compact.button.select_term.no_blink(href="/u/#{username}/downvoted" class="{{isActiveRoute 'user_downvoted'}}" title="#{user.username} downvoted")
+                                // span upvoted
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/downvoted" class="{{isActiveRoute 'user_downvoted'}}" title="#{user.username} downvoted")
                                 i.large.chevron.down.icon
-                                span downvoted
-                            a.ui.compact.button.select_term.no_blink(href="/u/#{username}/tips" class="{{isActiveRoute 'user_tips'}}" title="#{user.username} tips")
+                                // span downvoted
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/tips" class="{{isActiveRoute 'user_tips'}}" title="#{user.username} tips")
                                 i.donate.large.icon
-                                span tips
-                            a.ui.compact.button.select_term.no_blink(href="/u/#{username}/groups" class="{{isActiveRoute 'user_groups'}}" title="#{user.username} groups")
+                                // span tips
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/groups" class="{{isActiveRoute 'user_groups'}}" title="#{user.username} groups")
                                 i.users.large.icon
-                                span groups
-                            a.ui.compact.button.select_term.no_blink(href="/u/#{username}/bounties" class="{{isActiveRoute 'user_bounties'}}" title="#{user.username} bounties")
+                                // span groups
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/bounties" class="{{isActiveRoute 'user_bounties'}}" title="#{user.username} bounties")
                                 i.hand.holding.large.icon
-                                span bounties
-                            a.ui.compact.button.select_term.no_blink(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
+                                // span bounties
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
                                 i.users.large.icon
-                                span friends
-                            a.ui.compact.button.select_term.no_blink(href="/u/#{username}/vault" class="{{isActiveRoute 'user_vault'}}" title="#{user.username} friends")
+                                // span friends
+                            a.ui.basic.circular.large.icon.button.select_term.no_blink(href="/u/#{username}/vault" class="{{isActiveRoute 'user_vault'}}" title="#{user.username} friends")
                                 i.lock.large.icon
-                                span vault
+                                // span vault
                         if is_dev
                             +print_this
                         .ui.hidden.divider
@@ -262,7 +262,7 @@ template(name='user_dashboard')
 template(name='feed_item')
     .event.mark_viewed(class=read_class)
         .label 
-            img.ui.avatar.compact.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+            img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         .content
             .summary
                 a.user #{_author.username}
@@ -273,7 +273,7 @@ template(name='feed_item')
                 +voting_small
                 i.envelope.icon
                 i.lock.icon
-                i.remove.icon
+                +remove_icon
                 i.share.icon
 
 

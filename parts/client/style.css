@@ -1,6 +1,6 @@
 body {
   /* font-family: 'Raleway', sans-serif !important; */
-  /*font-family: 'Ubuntu', sans-serif !important; */
+  font-family: 'Ubuntu', sans-serif !important; 
   /* font-family: 'Lato+Mono', sans-serif !important; */
   /* font-family: 'Lato', sans-serif !important; */
   /*font-size: 100% !important; */
@@ -406,7 +406,7 @@ a.goto_article {
     /*animation: fadein .25s !important;*/
     /*animation: fadeout .25s; */
     /*transition: all .15s ease !important; */
-    cursor: help !important;
+    /*cursor: help !important;*/
     /*color: black !important; */
     /*transform: scale(1.01) !important;*/
 }

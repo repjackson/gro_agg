@@ -118,6 +118,9 @@ Meteor.publish 'doc_count', (
         model:'post'
         is_private:$ne:true
     }
+    unless Meteor.userId()
+        match.privacy='public'
+
         
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     if picked_authors.length > 0 then match.author = $all:picked_authors
@@ -144,6 +147,9 @@ Meteor.publish 'posts', (
         is_private:$ne:true
         group:$exists:false
     }
+    unless Meteor.userId()
+        match.privacy='public'
+    
     if sort_key
         sk = sort_key
     else
@@ -223,6 +229,10 @@ Meteor.publish 'dao_tags', (
         is_private:$ne:true
         # sublove:sublove
     }
+
+
+    unless Meteor.userId()
+        match.privacy='public'
 
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     if picked_authors.length > 0 then match.author = $all:picked_authors

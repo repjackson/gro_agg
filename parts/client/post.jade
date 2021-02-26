@@ -23,11 +23,11 @@ template(name='post_view')
                     +bounties
                 .four.wide.column.scrolling
                     if group
-                        a.ui.large.button(href="/g/#{group}")
+                        a.ui.large.basic.button(href="/g/#{group}")
                             i.chevron.left.large.icon
                             |#{group}
                     else
-                        a.ui.large.icon.button(href="/")
+                        a.ui.large.icon.circular.basic.button(href="/")
                             i.chevron.left.large.icon
                             i.large.home.icon
                     | #{views} views
@@ -72,7 +72,10 @@ template(name='post_edit')
                     // +raw_edit key='raw' label='raw' direct=true
                     +boolean_edit key='private' label='private' direct=true
                     +text_edit key='group' label='group' direct=true
-                    
+                    +key_value_edit k='privacy' v='public' i='users'
+                    +key_value_edit k='privacy' v='private' i='lock'
+                    if key_value 'privacy' 'private'
+                        +key_value_edit k='private_setting' v='friends' i='users'
                 .twelve.wide.column.scrolling
                     +boolean_edit key='has_title' icon='text' label='title'
                     +boolean_edit key='has_html' icon='content' label='content'

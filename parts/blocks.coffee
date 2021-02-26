@@ -476,14 +476,14 @@ if Meteor.isClient
             # console.log 'hi'
             # parent = Docs.findOne Router.current().params.doc_id
             Docs.update parent._id,
-                $set: "#{@key}": @value
+                $set: "#{@k}": @v
 
     Template.key_value_edit.helpers
         set_key_value_class: ->
             # parent = Docs.findOne Router.current().params.doc_id
             parent = Template.parentData()
             # console.log parent
-            if parent["#{@key}"] is @value then 'active' else 'basic'
+            if parent["#{@k}"] is @v then 'active' else 'basic'
     
     Template.user_key_value_edit.events
         'click .set_key_value': ->
