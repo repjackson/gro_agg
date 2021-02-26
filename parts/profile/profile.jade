@@ -48,8 +48,8 @@ template(name='profile_layout')
                                 i.large.dollar.green.icon
                                 span tip
                         if i_have_points
-                            .ui.button.send(title='send points')
-                                i.red.gift.large.icon
+                            .ui.basic.button.send(title='send points')
+                                i.gift.large.icon
                                 span send pts
                         with data
                             .ui.list
@@ -169,6 +169,16 @@ template(name='user_dashboard')
                 .ui.feed
                     each feed_items 
                         +feed_item
+                .ui.two.column.stackable.grid
+                    .column
+                        .ui.header bounties from
+                        .ui.list
+                            each bounties_from
+                                a.item(href="/b/#{_id}")
+                                    |#{when} 
+                                    +print_this
+                    .column
+                        .ui.header bounties to
                 if currentUser
                     .ui.two.column.stackable.grid
                         .column
@@ -185,6 +195,8 @@ template(name='user_dashboard')
                             .ui.list.selection.animated.smallscroll
                                 each user_karma_sent
                                     a.item(href="/debit/#{_id}/view") #{title} #{amount} #{points} #{when}, #{description}
+                                        each tags
+                                            .ui.small.basic.label #{this}
                                         +target_info
                         .column
                             a.ui.inline.header(href="/u/#{username}/credits")
@@ -202,6 +214,8 @@ template(name='user_dashboard')
                                         .header #{points}: #{title}
                                         |#{description} #{amount} 
                                         small #{when}
+                                        each tags
+                                            .ui.small.basic.label #{this}
                                         +author_info
                         
                     // .ui.small.header 

@@ -14,10 +14,28 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'product_from_bounty_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'parent_doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'all_users'
         
     Template.bounty_view.onRendered ->
-
+    Template.bounties.onRendered ->
+        Meteor.setTimeout ->
+            found_bounty = Docs.findOne
+                model:'bounty'
+                status:$ne:'complete'
+                require_view:true
+                view_requirement_met:$ne:true
+                target_id:Meteor.userId()
+            if found_bounty
+                Docs.update found_bounty._id,
+                    $set:
+                        view_requirement_met: true
+                $('body').toast({
+                    class: 'success',
+                    message: "view requirement met"
+                })
+          
+        ,500
     Template.bounties.events
         'click .add_bounty': ->
             new_id = Docs.insert 
@@ -78,6 +96,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'target_from_bounty_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'parent_doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'all_users', Router.current().params.doc_id
        
         @autorun => @subscribe 'tag_results',
@@ -229,7 +248,7 @@ if Meteor.isClient
                             position: 'top-end',
                             timer: 1000
                         )
-                        Router.go "/b/#{@_id}/view"
+                        Router.go "/b/#{@_id}"
             )
 
 
@@ -242,8 +261,8 @@ if Meteor.isServer
             bountyer = Meteor.users.findOne bounty._author_id
 
             console.log 'sending bounty', bounty
-            Meteor.call 'recalc_one_stats', target._id, ->
-            Meteor.call 'recalc_one_stats', bounty._author_id, ->
+            Meteor.call 'calc_user_stats', target._id, ->
+            Meteor.call 'calc_user_stats', bounty._author_id, ->
     
             Docs.update bounty_id,
                 $set:

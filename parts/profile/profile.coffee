@@ -86,6 +86,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_karma_sent', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_karma_received', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_feed_items', Router.current().params.username
+        @autorun -> Meteor.subscribe 'model_docs', 'bounty'
     Template.user_dashboard.events
         'click .mark_viewed': ->
             console.log @
@@ -119,6 +120,18 @@ if Meteor.isClient
 
             
     Template.user_dashboard.helpers
+        bounties_from: -> 
+            Docs.find {
+                model:'bounty'
+            },
+                sort:
+                    _timestamp:-1
+        bounties_to: -> 
+            Docs.find {
+                model:'bounty'
+            },
+                sort:
+                    _timestamp:-1
         feed_items: -> 
             Docs.find {
                 model:'feed_item'

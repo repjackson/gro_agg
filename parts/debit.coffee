@@ -180,6 +180,13 @@ if Meteor.isClient
                 confirmButtonText: 'confirm'
                 cancelButtonText: 'cancel'
                 reverseButtons: true
+                animation:false
+                showClass:
+                    popup: 'swal2-noanimation',
+                    backdrop: 'swal2-noanimation'
+                hideClass:
+                    popup: '',
+                    backdrop: ''
             }).then((result)=>
                 if result.value
                     Meteor.call 'send_debit', @_id, =>
@@ -203,8 +210,8 @@ if Meteor.isServer
             debiter = Meteor.users.findOne debit._author_id
 
             console.log 'sending debit', debit
-            Meteor.call 'recalc_one_stats', target._id, ->
-            Meteor.call 'recalc_one_stats', debit._author_id, ->
+            Meteor.call 'calc_user_stats', target._id, ->
+            Meteor.call 'calc_user_stats', debit._author_id, ->
     
             Docs.update debit_id,
                 $set:

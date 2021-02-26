@@ -3,10 +3,6 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_sent'
         ), name:'user_sent'
-    Router.route '/u/:username/received', (->
-        @layout 'profile_layout'
-        @render 'user_sent'
-        ), name:'user_debits'
 
     Template.user_sent.onCreated ->
         

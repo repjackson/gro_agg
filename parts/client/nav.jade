@@ -7,11 +7,11 @@ template(name='nav')
             i.yin.yang.large.icon
         a.icon.item.blink.clear(href="/stats" class="{{isActiveRoute 'stats'}}")
             i.line.chart.large.icon
-        a.icon.item.blink.clear.go_shop(href="/shop" class="{{isActiveRoute 'shop'}}")
-            i.line.shop.large.icon
         a.icon.item.blink.clear(href="/love" class="{{isActiveRoute 'love'}}")
             i.heart.outline.large.icon
         if currentUser
+            a.icon.item.blink.clear.go_shop(href="/shop" class="{{isActiveRoute 'shop'}}")
+                i.line.shop.large.icon
             a.icon.item.blink.clear(href="/users" class="{{isActiveRoute 'users'}}")
                 i.users.large.icon
         // .item(title='session karma')

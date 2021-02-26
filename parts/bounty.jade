@@ -9,6 +9,12 @@ template(name='bounty_view')
                         .ui.large.center.aligned.header.pointer.zoomer
                             |#{_author.name}
                 .six.wide.column
+                    .ui.inline.header requirement
+                    +boolean_view key='require_view' label='view' icon='eye'
+                    +boolean_view key='require_vote' label='vote' icon='thumbs up'
+                    +boolean_view key='require_reply' label='reply' icon='reply'
+                    if parent
+                        a.ui.header(href="/p/#{parent._id}") parent #{parent.title}
                     .ui.huge.center.aligned.header
                         i.hand.holding.icon
                         |#{amount}p
@@ -80,9 +86,10 @@ template(name='bounty_edit')
                     +time_edit key='time' label='time' direct=true   
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                 .six.wide.column
-                    i.big.eye.icon
-                    i.big.reply.icon
-                    i.big.thumbs.up.icon
+                    .ui.inline.header requirement
+                    +boolean_edit key='require_view' label='view' icon='eye'
+                    +boolean_edit key='require_vote' label='vote' icon='thumbs up'
+                    +boolean_edit key='require_reply' label='reply' icon='reply'
                     +textarea_edit key='description' label='description' direct=true
                     +image_edit key='image_id' label='image' direct=true
                     div 
@@ -185,6 +192,14 @@ template(name='bounty')
                 +number_edit key='karma_bounty' direct=true
         .ui.inline.header #{description}
         .ui.inline.header #{karma_bounty}
+        +boolean_view key='require_view' label='view' icon='eye'
+        +boolean_view key='require_vote' label='vote' icon='thumbs up'
+        +boolean_view key='require_reply' label='reply' icon='reply'
+        +boolean_view key='view_requirement_met' label='view requirement met'
+        +target_info
         +print_this
         +author_info
+        .ui.label #{status}
+        a.ui.icon.basic.circular.button(href="/b/#{_id}")
+            i.chevron.right.icon
     

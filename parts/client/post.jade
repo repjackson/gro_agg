@@ -30,15 +30,15 @@ template(name='post_view')
                         a.ui.large.icon.circular.basic.button(href="/")
                             i.chevron.left.large.icon
                             i.large.home.icon
+                    if can_edit 
+                        a.ui.icon.large.basic.circular.button(href="/p/#{_id}/edit")
+                            i.big.pencil.icon
                     | #{views} views
                     +array_edit key='tags' label='tags' direct=true
                     // +voting_full
                     +link_view key='link' label='link' direct=true
                     +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    if can_edit 
-                        a.ui.icon.button(href="/p/#{_id}/edit")
-                            i.big.pencil.icon
                     i.large.eye.icon
                     each viewer_ids
                         +user_info

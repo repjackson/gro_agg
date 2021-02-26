@@ -218,8 +218,8 @@ if Meteor.isServer
             grouper = Meteor.users.findOne group._author_id
 
             console.log 'sending group', group
-            Meteor.call 'recalc_one_stats', target._id, ->
-            Meteor.call 'recalc_one_stats', group._author_id, ->
+            Meteor.call 'calc_user_stats', target._id, ->
+            Meteor.call 'calc_user_stats', group._author_id, ->
     
             Docs.update group_id,
                 $set:
@@ -670,6 +670,7 @@ if Meteor.isClient
             new_id = 
                 Docs.insert 
                     model:'group'
+                    admin_ids:[Meteor.userId()]
             Router.go "/g/#{new_id}/edit"
    
 
@@ -703,7 +704,7 @@ if Meteor.isServer
         match = {
             model:'group'
             # is_private:true
-            leader_ids:$in:[user._id]
+            admin_ids:$in:[user._id]
         }
         Docs.find match,
             limit:20

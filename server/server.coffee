@@ -106,6 +106,12 @@ Meteor.publish 'stats', ()->
         model:'stats'
 
 
+Meteor.publish 'parent_doc', (doc_id)->
+    doc = Docs.findOne doc_id
+    Docs.find 
+        _id:doc.parent_id
+
+
 
 Meteor.publish 'doc_count', (
     picked_tags

@@ -170,13 +170,13 @@ Template.image_edit.events
                     console.error 'Error uploading', err
                 else
                     doc = Docs.findOne parent._id
+                    user = Meteor.users.findOne parent._id
                     if doc
                         Docs.update parent._id,
                             $set:"#{@key}":res.public_id
-        Meteor.users.update Meteor.userId(),
-            $inc:points:1
-        Meteor.call 'add_global_karma', ->
-        Session.set('session_clicks', Session.get('session_clicks')+2)
+                    else if user
+                        Meteor.users.update parent._id,
+                            $set:"#{@key}":res.public_id
 
     'blur .cloudinary_id': (e,t)->
         cloudinary_id = t.$('.cloudinary_id').val()
@@ -188,17 +188,19 @@ Template.image_edit.events
     'click #remove_photo': ->
         parent = Template.parentData()
 
-        if confirm 'Remove Photo?'
+        if confirm 'remove photo?'
             # Docs.update parent._id,
             #     $unset:"#{@key}":1
             doc = Docs.findOne parent._id
+            user = Meteor.users.findOne parent._id
             if doc
                 Docs.update parent._id,
                     $unset:"#{@key}":1
-        Meteor.users.update Meteor.userId(),
-            $inc:points:1
-
-
+            else if user
+                Meteor.users.update parent._id,
+                    $unset:"#{@key}":1
+                    
+            
 
 
 
