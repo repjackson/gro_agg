@@ -8,15 +8,15 @@ Template.nav.onRendered ->
     Meteor.setTimeout ->
         $('.menu .item')
             .popup()
-        # $('.ui.left.sidebar')
-        #     .sidebar({
-        #         context: $('.bottom.segment')
-        #         transition:'overlay'
-        #         exclusive:true
-        #         duration:200
-        #         scrollLock:true
-        #     })
-        #     .sidebar('attach events', '.toggle_sidebar')
+        $('.ui.left.sidebar')
+            .sidebar({
+                context: $('.bottom.segment')
+                transition:'overlay'
+                exclusive:true
+                duration:200
+                scrollLock:true
+            })
+            .sidebar('attach events', '.toggle_sidebar')
     , 1000
     Meteor.setTimeout ->
         $('.ui.right.sidebar')
@@ -30,7 +30,7 @@ Template.nav.onRendered ->
             .sidebar('attach events', '.toggle_rightbar')
     , 1000
 
-Template.right_sidebar.events
+Template.rightbar.events
     'click .logout': ->
         Session.set 'logging_out', true
         Meteor.logout ->
@@ -79,9 +79,9 @@ Template.nav.events
         
     'click .clear_tags': -> picked_tags.clear()
 
-Template.topbar.onCreated ->
-    @autorun => Meteor.subscribe 'my_received_messages'
-    @autorun => Meteor.subscribe 'my_sent_messages'
+# Template.topbar.onCreated ->
+#     @autorun => Meteor.subscribe 'my_received_messages'
+#     @autorun => Meteor.subscribe 'my_sent_messages'
 
 Template.nav.helpers
     unread_count: ->
@@ -90,13 +90,13 @@ Template.nav.helpers
             target_id:Meteor.userId()
             viewer_ids:$nin:[Meteor.userId()]
         ).count()
-Template.topbar.helpers
-    recent_alerts: ->
-        Docs.find 
-            model:'message'
-            target_id:Meteor.userId()
-            viewer_ids:$nin:[Meteor.userId()]
-        , sort:_timestamp:-1
+# Template.topbar.helpers
+#     recent_alerts: ->
+#         Docs.find 
+#             model:'message'
+#             target_id:Meteor.userId()
+#             viewer_ids:$nin:[Meteor.userId()]
+#         , sort:_timestamp:-1
         
 Template.recent_alert.events
     'click .mark_viewed': (e,t)->

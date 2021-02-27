@@ -1,7 +1,7 @@
 template(name='profile_layout')
     +nav
     .ui.bottom.attached.pushable.segment
-        +right_sidebar
+        +rightbar
         #main_area.global_container.pusher
             with user
                 .ui.stackable.padded.grid
@@ -21,8 +21,8 @@ template(name='profile_layout')
                         // .ui.label {{to_percent one_ratio}}% ratio
                         // .ui.label #{flow_volume} volume
                         .ui.small.inline.header #{boops}
-                        .ui.label #{profile_views} views
-                        +user_follow_button
+                        .ui.basic.label #{profile_views} views
+                        // +user_follow_button
                         // .ui.button.join
                         //     |join
                         if is_admin
@@ -43,10 +43,6 @@ template(name='profile_layout')
                             if currentUser
                                 // div
                                 +user_friend_button 
-                        unless is_current_user
-                            .ui.button.tip(title='send tip')
-                                i.large.dollar.green.icon
-                                span tip
                         if i_have_points
                             .ui.basic.button.send(title='send points')
                                 i.gift.large.icon
@@ -126,7 +122,7 @@ template(name='user_friend_button')
                     i.checkmark.large.icon
                     |friend
         else
-            .ui.animated.fade.button.friend(title='friend')
+            .ui.animated.fade.basic.circular.button.friend(title='friend')
                 .hidden.content
                     i.plus.large.icon
                     |friend
