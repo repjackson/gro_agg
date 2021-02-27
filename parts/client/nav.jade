@@ -43,7 +43,7 @@ template(name='nav')
                         i.outline.bell.icon
                 // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
                 //     i.inbox.icon
-                a.icon.item(href="/u/#{currentUser.username}/credit" class="{{isActivePath 'user_credit'}}" title="#{user.username} credit")
+                a.icon.item(href="/u/#{currentUser.username}/received" class="{{isActivePath 'user_received'}}" title="#{user.username} received")
                     strong #{currentUser.points}
                 a.item(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
                     if currentUser.profile_image_id

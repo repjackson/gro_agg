@@ -331,7 +331,7 @@ template(name='user_groups')
         
 template(name='group_post_card')
     .ui.card
-        .content
+        .content.smallscroll
             // .ui.segment
             if youtube_id
                 +youtube_view key='youtube_id' direct=true
@@ -344,15 +344,18 @@ template(name='group_post_card')
             // i.large.tag.icon(title='tags')
             each ten_tags
                 .ui.basic.small.compact.button.pick(class=tag_selector_class) #{this}
-            i.large.marker.icon(title='location tags')
-            each location_tags
-                .ui.basic.small.compact.button.pick_location(class=tag_selector_class) #{this}
-            i.large.clock.icon(title='time tags')
-            each time_tags
-                .ui.basic.small.compact.button.pick_time(class=tag_selector_class) #{this}
-            i.large.users.icon(title='users tags')
-            each people_tags
-                .ui.basic.small.compact.button.pick_person(class=tag_selector_class) #{this}
+            if location_tags
+                i.large.marker.icon(title='location tags')
+                each location_tags
+                    .ui.basic.small.compact.button.pick_location(class=tag_selector_class) #{this}
+            if time_tags
+                i.large.clock.icon(title='time tags')
+                each time_tags
+                    .ui.basic.small.compact.button.pick_time(class=tag_selector_class) #{this}
+            if people_tags
+                i.large.users.icon(title='users tags')
+                each people_tags
+                    .ui.basic.small.compact.button.pick_person(class=tag_selector_class) #{this}
         
             if is_admin
                 +remove_button
@@ -377,3 +380,5 @@ template(name='group_post_card')
             a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
                 |#{views}
                 i.chevron.right.large.icon
+        .content
+            +comments
