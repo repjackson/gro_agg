@@ -1,207 +1,207 @@
-// template(name='reddit_page')
-//     with current_doc
-//         .ui.stackable.grid
-//             .twelve.wide.column
-//                 a.ui.basic.button.goto_sub(href="/r/#{data.subreddit}")
-//                     i.chevron.left.icon
-//                     |#{data.subreddit}
-//                 span.ui.pointer.text.f13.zoomer(class=post_header_class)
-//                     .ui.label #{data.ups}
-//                     |!{data.title} #{data.link_title}
-//                 | {{ufrom data.created}}
-//                 .ui.basic.button.get_post permalink #{permalink}
-//                 div
-//                 +skve k='view_section' v='main' l='main' i='content'
-//                 // +skve k='view_section' v='comments' l='comments' i='comment'
-//                 +skve k='view_section' v='watson' l='emotion' i='dna'
-//                 if tone
-//                     +skve k='view_section' v='tone' l='tone' i='smile grey'
-//                 // +skve k='view_section' v='tags' l='tags' i='tags'
-//                 +skve k='view_section' v='related' l='related' i='fork'
-//                 +skve k='view_section' v='preview' l='preview' i='content'
-//                 // if skv_is 'view_section' 'main'
-//                 .scrolling
-//                     // if skv_is 'view_section' 'main'
-//                     if data.is_reddit_media_domain
-//                         img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
-//                     else if watson.metadata.image
-//                         img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
-//                     if is_youtube
-//                         div
-//                         // .ui.fluid.embed
-//                         //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
-//                         iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-//                     else if embed
-//                         span.f11.full
-//                             |!{embed}
-//                     if data.link_url
-//                         img.ui.image.pointer.call_visual(src=data.link_url)
-//                     div
-//                     span.f12.say !{data.html}
-//                     // if parsed_selftext_html
-//                     //     .ui.segment
-//                     //         |!{parsed_selftext_html}
-//                     if data.selftext
-//                         // .ui.segment
-//                         .f12.say
-//                             |{{#markdown}} {{data.selftext}} {{/markdown}}
-//                     else if data.body
-//                         div
-//                         .f12.say
-//                             |{{nl2br data.body}}
-//                     else if data.body_html
-//                         div
-//                         .f12.say
-//                             |!{data.body_html}
-//                     else if watson.analyzed_text
-//                         .say.f12
-//                             |{{nl2br watson.analyzed_text}}
-//                     // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-//                     .spacer
-//                     // img(src=url)
-//                     // div(style='position:relative; padding-bottom:calc(125.00% + 44px)')
-//                     //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
-//                     // .rounded
-//                     //     |!{embed}
-//                     if skv_is 'view_section' 'watson'
-//                         +watson_view
-//                         +watson_full
-//                     if skv_is 'view_section' 'related'
-//                         +post_related
-//                         +related_questions
-//                     if skv_is 'view_section' 'tone'
-//                         +tone
-//                         // +skve k='view_section' v='money' l='money' i='money'
-//                         // if skv_is 'view_section'
-//                     if skv_is 'view_section' 'preview'
-//                         iframe(width="100%" height="800" src=data.url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
-//                     // +convert
-//                     // .spacer
-//                     // if skv_is 'view_section' 'tags'
-//                     // if skv_is 'view_section' 'comments'
-//                     +rcomments_tab
-//             .four.wide.column
-//                 a.ui.basic.fluid.button(href=data.url target="_window" title=data.url) 
-//                     i.external.icon
-//                     |url
-//                 .ui.large.basic.label
-//                     | #{data.domain}
-//                 unless data.is_reddit_media_domain    
-//                     if data.thumbnail
-//                         img.ui.fluid.rounded.image.pointer.call_thumbnail.zoomer(src=data.thumbnail)
-//                 // .ui.header #{data.domain}
-//                 a.ui.basic.button(href="https://www.reddit.com#{data.permalink}" target="_window") 
-//                     i.external.grey.icon
-//                     |r/#{data.subreddit}
-//                 .spacer
-//                 // a.ui.basic.button(href="https://www.reddit.com/u/#{author}" target='_window')
-//                 a.ui.basic.button.goto_ruser(href="/ruser/#{data.author}")
-//                     i.user.outline.icon
-//                     |#{data.author}
-//                 +call_watson id=_id key='data.url' durl=data.url mode='url'
-//                 if in_dev
-//                     +print_this
-//                 if watson
-//                     +doc_emotion
-//                     unless tone
-//                         +call_tone    
-//                 // a.ui.large.basic.label(href=data.url target='_window')
-//                 //     | #{data.url}
-//                 if in_dev
-//                     .ui.small.header reddit_id #{data.reddit_id}
-//                 .ui.basic.label
-//                     i.comment.outline.icon
-//                     |#{data.comment_count}
-//                 .ui.basic.label
-//                     i.thumbs.up.outline.icon
-//                     |#{data.ups}
-//                 |{{to_percent data.upvote_ratio}}%
-//                 .ui.small.inline.header #{data.num_crossposts} crossposts
-//                 |#{tags.length}
-//                 each tags
-//                     +flat_sub_tag_selector
+template(name='reddit_page')
+    with current_doc
+        .ui.stackable.grid
+            .twelve.wide.column
+                a.ui.basic.button.goto_sub(href="/r/#{data.subreddit}")
+                    i.chevron.left.icon
+                    |#{data.subreddit}
+                span.ui.pointer.text.f13.zoomer(class=post_header_class)
+                    .ui.label #{data.ups}
+                    |!{data.title} #{data.link_title}
+                | {{ufrom data.created}}
+                .ui.basic.button.get_post permalink #{permalink}
+                div
+                +skve k='view_section' v='main' l='main' i='content'
+                // +skve k='view_section' v='comments' l='comments' i='comment'
+                +skve k='view_section' v='watson' l='emotion' i='dna'
+                if tone
+                    +skve k='view_section' v='tone' l='tone' i='smile grey'
+                // +skve k='view_section' v='tags' l='tags' i='tags'
+                +skve k='view_section' v='related' l='related' i='fork'
+                +skve k='view_section' v='preview' l='preview' i='content'
+                // if skv_is 'view_section' 'main'
+                .scrolling
+                    // if skv_is 'view_section' 'main'
+                    if data.is_reddit_media_domain
+                        img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
+                    else if watson.metadata.image
+                        img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
+                    if is_youtube
+                        div
+                        // .ui.fluid.embed
+                        //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
+                        iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                    else if embed
+                        span.f11.full
+                            |!{embed}
+                    if data.link_url
+                        img.ui.image.pointer.call_visual(src=data.link_url)
+                    div
+                    span.f12.say !{data.html}
+                    // if parsed_selftext_html
+                    //     .ui.segment
+                    //         |!{parsed_selftext_html}
+                    if data.selftext
+                        // .ui.segment
+                        .f12.say
+                            |{{#markdown}} {{data.selftext}} {{/markdown}}
+                    else if data.body
+                        div
+                        .f12.say
+                            |{{nl2br data.body}}
+                    else if data.body_html
+                        div
+                        .f12.say
+                            |!{data.body_html}
+                    else if watson.analyzed_text
+                        .say.f12
+                            |{{nl2br watson.analyzed_text}}
+                    // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                    .spacer
+                    // img(src=url)
+                    // div(style='position:relative; padding-bottom:calc(125.00% + 44px)')
+                    //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
+                    // .rounded
+                    //     |!{embed}
+                    if skv_is 'view_section' 'watson'
+                        +watson_view
+                        +watson_full
+                    if skv_is 'view_section' 'related'
+                        +post_related
+                        +related_questions
+                    if skv_is 'view_section' 'tone'
+                        +tone
+                        // +skve k='view_section' v='money' l='money' i='money'
+                        // if skv_is 'view_section'
+                    if skv_is 'view_section' 'preview'
+                        iframe(width="100%" height="800" src=data.url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
+                    // +convert
+                    // .spacer
+                    // if skv_is 'view_section' 'tags'
+                    // if skv_is 'view_section' 'comments'
+                    +rcomments_tab
+            .four.wide.column
+                a.ui.basic.fluid.button(href=data.url target="_window" title=data.url) 
+                    i.external.icon
+                    |url
+                .ui.large.basic.label
+                    | #{data.domain}
+                unless data.is_reddit_media_domain    
+                    if data.thumbnail
+                        img.ui.fluid.rounded.image.pointer.call_thumbnail.zoomer(src=data.thumbnail)
+                // .ui.header #{data.domain}
+                a.ui.basic.button(href="https://www.reddit.com#{data.permalink}" target="_window") 
+                    i.external.grey.icon
+                    |r/#{data.subreddit}
+                .spacer
+                // a.ui.basic.button(href="https://www.reddit.com/u/#{author}" target='_window')
+                a.ui.basic.button.goto_ruser(href="/ruser/#{data.author}")
+                    i.user.outline.icon
+                    |#{data.author}
+                +call_watson id=_id key='data.url' durl=data.url mode='url'
+                if in_dev
+                    +print_this
+                if watson
+                    +doc_emotion
+                    unless tone
+                        +call_tone    
+                // a.ui.large.basic.label(href=data.url target='_window')
+                //     | #{data.url}
+                if in_dev
+                    .ui.small.header reddit_id #{data.reddit_id}
+                .ui.basic.label
+                    i.comment.outline.icon
+                    |#{data.comment_count}
+                .ui.basic.label
+                    i.thumbs.up.outline.icon
+                    |#{data.ups}
+                |{{to_percent data.upvote_ratio}}%
+                .ui.small.inline.header #{data.num_crossposts} crossposts
+                |#{tags.length}
+                each tags
+                    +flat_sub_tag_selector
                 
                 
-// template(name='rcomments_tab')                
-//     .ui.horizontal.divider.get_post_comments
-//         i.grey.comment.outline.icon
-//         |#{rcomments.count} comments
-//     // .ui.items
-//     each rcomment_tags
-//         .ui.compact.button #{name}
-//             small #{count}
-//     .spacer
-//     each rcomments
-//         +rcomment
+template(name='rcomments_tab')                
+    .ui.horizontal.divider.get_post_comments
+        i.grey.comment.outline.icon
+        |#{rcomments.count} comments
+    // .ui.items
+    each rcomment_tags
+        .ui.compact.button #{name}
+            small #{count}
+    .spacer
+    each rcomments
+        +rcomment
                 
                 
 
-// template(name='rcomment')                
-//     .ui.grid.call_watson_comment
-//         .sixteen.wide.column
-//             .ui.small.inline.header {{data.score}}
-//             a.author.say(href="/ruser/#{data.author}") #{data.author}
-//             span.metadata 
-//                 span.date {{ufrom data.created}}
-//                 +doc_emotion_small
-//             .pointer.say(class=post_header_class)
-//                 |{{#markdown}} {{data.body}} {{/markdown}}
-//             .actions
-//                 each tags 
-//                     +flat_sub_tag_selector
-//                     // .ui.tiny.basic.label #/{this}
-//         if data.replies.data.children
-//             .ui.grid
-//                 each data.replies.data.children
-//                     .one.wide.column
-//                     .fifteen.wide.column
-//                         a.author(href="/ruser/#{data.author}") #{data.author}
-//                         .pointer.content.say
-//                             |{{#markdown}} {{data.body}} {{/markdown}}
-//                             // .text.say #{data.score} #{data.body}
-//             // if in_dev
-//             //     +print_this
+template(name='rcomment')                
+    .ui.grid.call_watson_comment
+        .sixteen.wide.column
+            .ui.small.inline.header {{data.score}}
+            a.author.say(href="/ruser/#{data.author}") #{data.author}
+            span.metadata 
+                span.date {{ufrom data.created}}
+                +doc_emotion_small
+            .pointer.say(class=post_header_class)
+                |{{#markdown}} {{data.body}} {{/markdown}}
+            .actions
+                each tags 
+                    +flat_sub_tag_selector
+                    // .ui.tiny.basic.label #/{this}
+        if data.replies.data.children
+            .ui.grid
+                each data.replies.data.children
+                    .one.wide.column
+                    .fifteen.wide.column
+                        a.author(href="/ruser/#{data.author}") #{data.author}
+                        .pointer.content.say
+                            |{{#markdown}} {{data.body}} {{/markdown}}
+                            // .text.say #{data.score} #{data.body}
+            // if in_dev
+            //     +print_this
                 
                 
                 
-// template(name='post_related')
-//     .ui.header related
-//     .ui.list
-//         each related_posts
-//             a.item.say.pointer.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class) 
-//                 if data.is_reddit_media_domain
-//                     a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-//                         img.ui.small.rounded.image.toggle_view(src=data.url)
-//                 else if watson.metadata.image
-//                     a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-//                         img.ui.rounded.small.inline.image.toggle_view(src=watson.metadata.image)
-//                 else if data.thumbnail
-//                     a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-//                         img.ui.rounded.small.inline.image(src=data.thumbnail)    
+template(name='post_related')
+    .ui.header related
+    .ui.list
+        each related_posts
+            a.item.say.pointer.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class) 
+                if data.is_reddit_media_domain
+                    a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                        img.ui.small.rounded.image.toggle_view(src=data.url)
+                else if watson.metadata.image
+                    a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                        img.ui.rounded.small.inline.image.toggle_view(src=watson.metadata.image)
+                else if data.thumbnail
+                    a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+                        img.ui.rounded.small.inline.image(src=data.thumbnail)    
             
-//                 .ui.inline.small.header !{data.title} #{data.link_title}
-//                 .ui.basic.label #{data.ups}
-//                 .ui.label #{subreddit}
-//                 each tags
-//                     .ui.mini.basic.label #{this}        
+                .ui.inline.small.header !{data.title} #{data.link_title}
+                .ui.basic.label #{data.ups}
+                .ui.label #{subreddit}
+                each tags
+                    .ui.mini.basic.label #{this}        
                     
-// template(name='related_questions')
-//     .ui.header related questions
-//     .ui.list
-//         each qs
-//             a.item.say.pointer.zoomer.set_main(href="/s/#{site}/q/#{question_id}" class=post_header_class) 
-//                 if data.is_reddit_media_domain
-//                     a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
-//                         img.ui.small.rounded.image.toggle_view(src=data.url)
-//                 else if watson.metadata.image
-//                     a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
-//                         img.ui.rounded.small.inline.image.toggle_view(src=watson.metadata.image)
-//                 else if data.thumbnail
-//                     a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
-//                         img.ui.rounded.small.inline.image(src=data.thumbnail)    
+template(name='related_questions')
+    .ui.header related questions
+    .ui.list
+        each qs
+            a.item.say.pointer.zoomer.set_main(href="/s/#{site}/q/#{question_id}" class=post_header_class) 
+                if data.is_reddit_media_domain
+                    a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
+                        img.ui.small.rounded.image.toggle_view(src=data.url)
+                else if watson.metadata.image
+                    a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
+                        img.ui.rounded.small.inline.image.toggle_view(src=watson.metadata.image)
+                else if data.thumbnail
+                    a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
+                        img.ui.rounded.small.inline.image(src=data.thumbnail)    
             
-//                 .ui.inline.small.header !{title}
-//                 .ui.basic.label #{score}
-//                 .ui.label #{site}
-//                 each tags
-//                     .ui.mini.basic.label #{this}
+                .ui.inline.small.header !{title}
+                .ui.basic.label #{score}
+                .ui.label #{site}
+                each tags
+                    .ui.mini.basic.label #{this}

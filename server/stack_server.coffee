@@ -159,7 +159,7 @@ Meteor.methods
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
                 for item in parsed.items
-                    console.log 'found item', item
+                    # console.log 'found item', item
                     found = 
                         Docs.findOne
                             model:'stack_answer'

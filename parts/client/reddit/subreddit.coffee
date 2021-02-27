@@ -1,18 +1,18 @@
-# @selected_sub_tags = new ReactiveArray []
-# @selected_subreddit_domain = new ReactiveArray []
-# @selected_subreddit_time_tags = new ReactiveArray []
-# @selected_subreddit_authors = new ReactiveArray []
+@selected_sub_tags = new ReactiveArray []
+@selected_subreddit_domain = new ReactiveArray []
+@selected_subreddit_time_tags = new ReactiveArray []
+@selected_subreddit_authors = new ReactiveArray []
 
 
-# Router.route '/r/:subreddit', (->
-#     @layout 'layout'
-#     @render 'subreddit'
-#     ), name:'subreddit'
+Router.route '/r/:subreddit', (->
+    @layout 'layout'
+    @render 'subreddit'
+    ), name:'subreddit'
 
-# Router.route '/r/:subreddit/post/:doc_id', (->
-#     @layout 'layout'
-#     @render 'reddit_page'
-#     ), name:'reddit_page'
+Router.route '/r/:subreddit/post/:doc_id', (->
+    @layout 'layout'
+    @render 'reddit_page'
+    ), name:'reddit_page'
 
 
 # Template.subreddit_best.onCreated ->
@@ -39,139 +39,139 @@
 #             limit:7
             
             
-# Template.subreddit.onCreated ->
-#     Session.setDefault('subreddit_view_layout', 'grid')
-#     Session.setDefault('sort_key', 'data.created')
-#     Session.setDefault('sort_direction', -1)
-#     # Session.setDefault('location_query', null)
-#     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-#     # @autorun => Meteor.subscribe 'subrzeddit_user_count', Router.current().params.subreddit
-#     @autorun => Meteor.subscribe 'subreddit_by_param', Router.current().params.subreddit
-#     @autorun => Meteor.subscribe 'sub_docs_by_name', 
-#         Router.current().params.subreddit
-#         selected_sub_tags.array()
-#         selected_subreddit_domain.array()
-#         selected_subreddit_time_tags.array()
-#         selected_subreddit_authors.array()
-#         Session.get('sort_key')
-#         Session.get('sort_direction')
+Template.subreddit.onCreated ->
+    # Session.setDefault('subreddit_view_layout', 'grid')
+    # Session.setDefault('sort_key', 'data.created')
+    # Session.setDefault('sort_direction', -1)
+    # Session.setDefault('location_query', null)
+    # @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    # @autorun => Meteor.subscribe 'subrzeddit_user_count', Router.current().params.subreddit
+    @autorun => Meteor.subscribe 'subreddit_by_param', Router.current().params.subreddit
+    # @autorun => Meteor.subscribe 'sub_docs_by_name', 
+    #     Router.current().params.subreddit
+    #     # selected_sub_tags.array()
+    #     # selected_subreddit_domain.array()
+    #     # selected_subreddit_time_tags.array()
+    #     # selected_subreddit_authors.array()
+    #     # Session.get('sort_key')
+    #     # Session.get('sort_direction')
   
-#     @autorun => Meteor.subscribe 'sub_doc_count', 
-#         Router.current().params.subreddit
-#         selected_sub_tags.array()
-#         selected_subreddit_domain.array()
-#         selected_subreddit_time_tags.array()
-#         selected_subreddit_authors.array()
+    # @autorun => Meteor.subscribe 'sub_doc_count', 
+    #     Router.current().params.subreddit
+    #     selected_sub_tags.array()
+    #     selected_subreddit_domain.array()
+    #     selected_subreddit_time_tags.array()
+    #     selected_subreddit_authors.array()
 
-#     @autorun => Meteor.subscribe 'subreddit_result_tags',
-#         Router.current().params.subreddit
-#         selected_sub_tags.array()
-#         selected_subreddit_domain.array()
-#         selected_subreddit_time_tags.array()
-#         selected_subreddit_authors.array()
-#         Session.get('toggle')
-#     Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
+    # @autorun => Meteor.subscribe 'subreddit_result_tags',
+    #     Router.current().params.subreddit
+    #     selected_sub_tags.array()
+    #     selected_subreddit_domain.array()
+    #     selected_subreddit_time_tags.array()
+    #     selected_subreddit_authors.array()
+    #     Session.get('toggle')
+    # Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
 
-#     Meteor.call 'log_subreddit_view', Router.current().params.subreddit, ->
-#     @autorun => Meteor.subscribe 'agg_sentiment_subreddit',
-#         Router.current().params.subreddit
-#         selected_sub_tags.array()
-#         ()->Session.set('ready',true)
+    # Meteor.call 'log_subreddit_view', Router.current().params.subreddit, ->
+    # @autorun => Meteor.subscribe 'agg_sentiment_subreddit',
+    #     Router.current().params.subreddit
+    #     selected_sub_tags.array()
+    #     ()->Session.set('ready',true)
 
-# Template.subreddit_doc_item.events
-#     'click .view_post': (e,t)-> 
-#         Session.set('view_section','main')
-#         # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
-#         # Router.go "/subreddit/#{@subreddit}/post/#{@_id}"
+Template.subreddit_doc_item.events
+    'click .view_post': (e,t)-> 
+        Session.set('view_section','main')
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
+        # Router.go "/subreddit/#{@subreddit}/post/#{@_id}"
 
-# Template.subreddit_doc_item.onRendered ->
-#     # console.log @
-#     # unless @data.watson
-#     #     Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
+Template.subreddit_doc_item.onRendered ->
+    # console.log @
+    # unless @data.watson
+    #     Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
 
-# Template.subreddit_post_card_small.onRendered ->
-#     # console.log @
-#     # unless @data.watson
-#     #     Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
-#     # unless @data.time_tags
-#     #     Meteor.call 'tagify_time_rpost',@data._id,=>
+Template.subreddit_post_card_small.onRendered ->
+    # console.log @
+    # unless @data.watson
+    #     Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
+    # unless @data.time_tags
+    #     Meteor.call 'tagify_time_rpost',@data._id,=>
 
 
-# Template.subreddit.events
-#     'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
-#     'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
-#     'click .sort_up': (e,t)-> Session.set('sort_direction',1)
-#     'click .limit_10': (e,t)-> Session.set('limit',10)
-#     'click .limit_1': (e,t)-> Session.set('limit',1)
+Template.subreddit.events
+    'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
+    'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
+    'click .sort_up': (e,t)-> Session.set('sort_direction',1)
+    'click .limit_10': (e,t)-> Session.set('limit',10)
+    'click .limit_1': (e,t)-> Session.set('limit',1)
 
-#     'click .sort_created': -> 
-#         Session.set('sort_key', 'data.created')
-#         Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
-#     'click .sort_ups': -> 
-#         Session.set('sort_key', 'data.ups')
-#         Meteor.call 'get_sub_best', Router.current().params.subreddit, ->
-#     'click .download': ->
-#         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
+    'click .sort_created': -> 
+        Session.set('sort_key', 'data.created')
+        Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
+    'click .sort_ups': -> 
+        Session.set('sort_key', 'data.ups')
+        Meteor.call 'get_sub_best', Router.current().params.subreddit, ->
+    'click .download': ->
+        Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
     
-#     'click .pull_latest': ->
-#         # console.log 'latest'
-#         Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
-#     'click .get_info': ->
-#         # console.log 'dl'
-#         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
-#     'click .set_grid': (e,t)-> Session.set('subreddit_view_layout', 'grid')
-#     'click .set_list': (e,t)-> Session.set('subreddit_view_layout', 'list')
+    'click .pull_latest': ->
+        # console.log 'latest'
+        Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
+    'click .get_info': ->
+        # console.log 'dl'
+        Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
+    'click .set_grid': (e,t)-> Session.set('subreddit_view_layout', 'grid')
+    'click .set_list': (e,t)-> Session.set('subreddit_view_layout', 'list')
 
-#     'keyup .search_subreddit': (e,t)->
-#         val = $('.search_subreddit').val()
-#         Session.set('sub_doc_query', val)
-#         if e.which is 13 
-#             selected_sub_tags.push val
-#             # window.speechSynthesis.speak new SpeechSynthesisUtterance val
+    'keyup .search_subreddit': (e,t)->
+        val = $('.search_subreddit').val()
+        Session.set('sub_doc_query', val)
+        if e.which is 13 
+            selected_sub_tags.push val
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance val
 
-#             $('.search_subreddit').val('')
-#             Session.set('loading',true)
-#             Meteor.call 'search_subreddit', Router.current().params.subreddit, val, ->
-#                 Session.set('loading',false)
-#                 Session.set('sub_doc_query', null)
+            $('.search_subreddit').val('')
+            Session.set('loading',true)
+            Meteor.call 'search_subreddit', Router.current().params.subreddit, val, ->
+                Session.set('loading',false)
+                Session.set('sub_doc_query', null)
             
-# Template.subreddit.helpers
-#     domain_selector_class: ->
-#         if @name in selected_subreddit_domain.array() then 'blue' else 'basic'
-#     sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
-#     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
-#     subreddit_result_tags: -> results.find(model:'subreddit_result_tag')
-#     subreddit_domain_tags: -> results.find(model:'subreddit_domain_tag')
-#     subreddit_time_tags: -> results.find(model:'subreddit_time_tag')
+Template.subreddit.helpers
+    domain_selector_class: ->
+        if @name in selected_subreddit_domain.array() then 'blue' else 'basic'
+    sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
+    sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
+    subreddit_result_tags: -> results.find(model:'subreddit_result_tag')
+    subreddit_domain_tags: -> results.find(model:'subreddit_domain_tag')
+    subreddit_time_tags: -> results.find(model:'subreddit_time_tag')
 
-#     selected_sub_tags: -> selected_sub_tags.array()
+    selected_sub_tags: -> selected_sub_tags.array()
     
-#     subreddit_doc: ->
-#         Docs.findOne
-#             model:'subreddit'
-#             # "data.display_name":Router.current().params.subreddit
-#             name:Router.current().params.subreddit
-#     sub_docs: ->
-#         Docs.find({
-#             model:'rpost'
-#             subreddit:Router.current().params.subreddit
-#         },
-#             sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
-#             limit:20)
-#     emotion_avg: -> results.findOne(model:'emotion_avg')
+    subreddit_doc: ->
+        Docs.findOne
+            model:'subreddit'
+            # "data.display_name":Router.current().params.subreddit
+            name:Router.current().params.subreddit
+    sub_docs: ->
+        Docs.find({
+            model:'rpost'
+            subreddit:Router.current().params.subreddit
+        },
+            sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+            limit:20)
+    emotion_avg: -> results.findOne(model:'emotion_avg')
 
-#     sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
-#     sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
-#     emotion_avg: -> results.findOne(model:'emotion_avg')
+    sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
+    sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
+    emotion_avg: -> results.findOne(model:'emotion_avg')
 
-#     post_count: -> Counts.get('sub_doc_counter')
+    post_count: -> Counts.get('sub_doc_counter')
 
 
             
 
 
 # Template.sub_tag_selector.onCreated ->
-#     @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
+#     # @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
 # Template.sub_tag_selector.helpers
 #     selector_class: ()->
 #         term = 
@@ -217,8 +217,7 @@
         
 
 # Template.sub_unpick_tag.onCreated ->
-    
-#     @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
+#     # @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
     
 # Template.sub_unpick_tag.helpers
 #     term: ->
@@ -236,7 +235,7 @@
     
 
 # Template.flat_sub_tag_selector.onCreated ->
-#     @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
+#     # @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
 # Template.flat_sub_tag_selector.helpers
 #     selector_class: ()->
 #         term = 
