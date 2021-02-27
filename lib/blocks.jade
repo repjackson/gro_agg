@@ -115,36 +115,11 @@ template(name='creation_info')
     .ui.small.inline.header #{when}
 
 
-        //-     +user_info
-template(name='doc_array_togggle')
-    if currentUser
-        .ui.button.toggle(class=doc_array_toggle_class title=label)
-            if in_list
-                if remove_icon
-                    i.large.icon(class=remove_icon)
-                |#{remove_label}
-            else
-                if add_icon
-                    i.large.icon(class=add_icon)
-                |#{add_label}
-            |#{label}
-        //- each list_users
-        //-     +user_info
-template(name='bookmark_button')
-    if currentUser
-        .ui.icon.compact.button.toggle(class=bookmark_button_class title=label)
-            if bookmarked
-                |bookmarked
-                //- i.large.icon(class=remove_icon)
-            else
-                |bookmark
-                //- i.large.icon(class=add_icon)
-        //- each list_users
-        //-     +user_info
+
 template(name='voting')
     i.thumbs.up.large.link.icon.upvote(class=upvote_class title='upvote')
     i.thumbs.down.large.link.icon.downvote(class=downvote_class title='downvote')
-    if is_dev
+    if in_dev
         +number_edit key='points' label='edit points' direct=true
     if points
         strong #{points} pts
@@ -152,19 +127,6 @@ template(name='voting')
         strong #{anon_points} anon pts
     
 
-
-template(name='voting_full')
-    // unless is_author
-    i.thumbs.up.large.big.link.icon.upvote(class=upvote_class title='upvote')
-    if up_label
-        |#{up_label}
-    i.thumbs.down.large.big.link.icon.downvote(class=downvote_class title='downvote')
-    if down_label
-        |#{down_label}
-    if points
-        |&nbsp;
-        span(title='points') #{points} pts
-        //- .ui.large.basic.label(title='anon points') #{anon_points} anon pts
 
 
 template(name='remove_button')
@@ -177,8 +139,6 @@ template(name='remove_icon')
 template(name='toggle_button')
     .ui.icon.toggle.basic.button(title=label)
         i.icon(class=icon)
-    each selected
-        |#{username}
 
 
 

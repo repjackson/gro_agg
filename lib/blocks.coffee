@@ -65,7 +65,7 @@ if Meteor.isClient
 
     Template.session_key_value.events
         'click .set_session_value': ->
-            console.log @
+            # console.log @
             if Session.equals(@key,@value)
                 Session.set(@key, null)
             else
@@ -73,7 +73,7 @@ if Meteor.isClient
 
     Template.session_key_value.helpers
         button_class: ->
-            console.log @
+            # console.log @
             if Session.equals(@key, @value) then 'active' else 'basic'
 
 
@@ -84,7 +84,7 @@ if Meteor.isClient
         
     Template.session_edit_toggle.events
         'click .toggle_edit': ->
-            console.log @
+            # console.log @
             if Session.equals('is_editing_id', @_id)
                 Session.set('is_editing_id', null)
             else
@@ -107,17 +107,6 @@ if Meteor.isClient
             # $(e.currentTarget).closest('.button').transition('pulse',200)
             Meteor.call 'downvote', @, ->
 #
-    Template.voting_full.events
-        'click .upvote': (e,t)->
-            # $(e.currentTarget).closest('.button').transition('pulse',200)
-            Meteor.call 'upvote', @, ->
-        'click .downvote': (e,t)->
-            # $(e.currentTarget).closest('.button').transition('pulse',200)
-            Meteor.call 'downvote', @, ->
-
-
-
-
 #
 #
     Template.remove_button.events
