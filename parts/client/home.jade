@@ -1,339 +1,339 @@
-template(name='home')
-    .ui.padded.stackable.grid
-        .sixteen.wide.column.scrolling             
-            // i.large.clock.icon
-            // i.large.thumbs.up.icon
-            .ui.icon.transparent.input
-                // if is_loading
-                //     i.yin.yang.loading.icon
-                // else
-                i.search.icon
-                input.search_tag(type='text' value=query)
-                // .ui.label #{this}
+// template(name='home')
+//     .ui.padded.stackable.grid
+//         .sixteen.wide.column.scrolling             
+//             // i.large.clock.icon
+//             // i.large.thumbs.up.icon
+//             .ui.icon.transparent.input
+//                 // if is_loading
+//                 //     i.yin.yang.loading.icon
+//                 // else
+//                 i.search.icon
+//                 input.search_tag(type='text' value=query)
+//                 // .ui.label #{this}
             
-            if picked_tags
-                // if many_tags
-                //     a#clear_tags.ui.red.invert.icon.compact.button.pick_term
-                //         i.remove.icon
-                each picked_tags
-                    +unpick_tag
-            each result_tags
-                // .ui.label #{this}
-                +tag_picker
-        if skv_is 'view_sidebar' true
-            .four.wide.column.scrolling       
-                if location_results.count
-                    i.big.marker.icon
-                each picked_locations
-                    a.unpick_location.ui.large.compact.button(href='#')
-                        strong #{this}
-                each location_results
-                    if name
-                        .ui.tiny.compact.basic.button.pick_location #{name}
-                div
-                i.big.user.icon
-                each picked_authors
-                    a.unpick_author.ui.large.compact.button(href='#')
-                        strong #{this}
-                each author_results
-                    if name
-                        .ui.tiny.compact.basic.button.pick_author #{name}
-                div
-                i.clock.big.icon
-                each picked_times
-                    a.unpick_time.ui.large.large.compact.button(href='#')
-                        strong #{this}
-                each time_results
-                    .ui.tiny.compact.basic.button.pick_time #{name}
-                .ui.inline.header 
-                    |#{post_counter}
-                // +alpha
-                each picked_locations
-                    a.unpick_location_tag.ui.black.large.compact.button(href='#')
-                        | #{this}
-                if location_tags
-                    i.big.marker.grey.icon
-                    each location_tags
-                        .ui.compact.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
-                            | #{name}
-                if Locations
-                    div
-                    .ui.small.grey.inline.header
-                        i.marker.grey.icon
-                        |locations
-                    each locations
-                        +tag_picker
-                        // .ui.link.label.pick_Location #{name}
-                if HealthConditions
-                    div
-                    .ui.small.grey.inline.header
-                        i.doctor.icon
-                        |health conditions
-                    each HealthConditions
-                        +tag_picker
-                        // .ui.link.label.pick_healthcondition #{name}
-                if Persons
-                    .spacer
-                    .ui.small.grey.inline.header
-                        i.user.icon
-                        |people
-                    each Persons
-                        +tag_picker
-                        // .ui.label.pick_person #{name}
-                if Organizations
-                    .spacer
-                    .ui.small.grey.inline.header
-                        i.building.icon
-                        |organizations
-                    each Organizations
-                        +tag_picker
-                        // .ui.label.pick_organization #{name}
-                if Companies
-                    .ui.small.grey.inline.header
-                        i.building.icon
-                        |companies
-                    each companies
-                        .ui.label.pick_company #{name}                        
+//             if picked_tags
+//                 // if many_tags
+//                 //     a#clear_tags.ui.red.invert.icon.compact.button.pick_term
+//                 //         i.remove.icon
+//                 each picked_tags
+//                     +unpick_tag
+//             each result_tags
+//                 // .ui.label #{this}
+//                 +tag_picker
+//         if skv_is 'view_sidebar' true
+//             .four.wide.column.scrolling       
+//                 if location_results.count
+//                     i.big.marker.icon
+//                 each picked_locations
+//                     a.unpick_location.ui.large.compact.button(href='#')
+//                         strong #{this}
+//                 each location_results
+//                     if name
+//                         .ui.tiny.compact.basic.button.pick_location #{name}
+//                 div
+//                 i.big.user.icon
+//                 each picked_authors
+//                     a.unpick_author.ui.large.compact.button(href='#')
+//                         strong #{this}
+//                 each author_results
+//                     if name
+//                         .ui.tiny.compact.basic.button.pick_author #{name}
+//                 div
+//                 i.clock.big.icon
+//                 each picked_times
+//                     a.unpick_time.ui.large.large.compact.button(href='#')
+//                         strong #{this}
+//                 each time_results
+//                     .ui.tiny.compact.basic.button.pick_time #{name}
+//                 .ui.inline.header 
+//                     |#{post_counter}
+//                 // +alpha
+//                 each picked_locations
+//                     a.unpick_location_tag.ui.black.large.compact.button(href='#')
+//                         | #{this}
+//                 if location_tags
+//                     i.big.marker.grey.icon
+//                     each location_tags
+//                         .ui.compact.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+//                             | #{name}
+//                 if Locations
+//                     div
+//                     .ui.small.grey.inline.header
+//                         i.marker.grey.icon
+//                         |locations
+//                     each locations
+//                         +tag_picker
+//                         // .ui.link.label.pick_Location #{name}
+//                 if HealthConditions
+//                     div
+//                     .ui.small.grey.inline.header
+//                         i.doctor.icon
+//                         |health conditions
+//                     each HealthConditions
+//                         +tag_picker
+//                         // .ui.link.label.pick_healthcondition #{name}
+//                 if Persons
+//                     .spacer
+//                     .ui.small.grey.inline.header
+//                         i.user.icon
+//                         |people
+//                     each Persons
+//                         +tag_picker
+//                         // .ui.label.pick_person #{name}
+//                 if Organizations
+//                     .spacer
+//                     .ui.small.grey.inline.header
+//                         i.building.icon
+//                         |organizations
+//                     each Organizations
+//                         +tag_picker
+//                         // .ui.label.pick_organization #{name}
+//                 if Companies
+//                     .ui.small.grey.inline.header
+//                         i.building.icon
+//                         |companies
+//                     each companies
+//                         .ui.label.pick_company #{name}                        
                                 
-        div(class=main_column_class)
-            // .ui.disabled.button shared with me
-            if skv_is 'view_sidebar' false
-                .ui.icon.compact.basic.circular.button.enable_sidebar
-                    i.ellipsis.vertical.icon
-            else
-                .ui.icon.compact.active.circular.button.disable_sidebar
-                    i.ellipsis.vertical.icon
-            if skv_is 'sort_direction' 1
-                .ui.icon.compact.basic.button.sort_down
-                    i.caret.down.icon
-            else
-                .ui.icon.compact.basic.button.sort_up
-                    i.caret.up.icon
-            .ui.compact.large.icon.basic.button.sort_created(class=sort_created_class)
-                i.clock.icon
-            .ui.compact.large.icon.basic.button.sort_ups(class=sort_ups_class)
-                i.thumbs.up.icon
-            if skv_is 'view_detail' true
-                .ui.black.large.icon.compact.basic.button.toggle_detail
-                    i.list.icon
-            else
-                .ui.compact.large.icon.basic.button.toggle_detail
-                    i.minus.icon
-                // i.line.chart.icon
-            if skv_is 'view_layout' 'grid'
-                .ui.compact.large.icon.black.button.set_grid(class=grid_class) 
-                    i.th.icon
-            else
-                .ui.compact.large.icon.basic.button.set_grid(class=grid_class) 
-                    i.th.icon
-            if skv_is 'view_layout' 'list'
-                .ui.compact.black.icon.large.button.set_list(class=list_class)
-                    i.list.icon
-            else
-                .ui.compact.large.icon.basic.button.set_list(class=list_class)
-                    i.list.icon
-            .ui.circular.icon.basic.button.skip_left
-                i.chevron.left.icon
-            .ui.circular.icon.basic.button.skip_right
-                i.chevron.right.icon
-            .ui.icon.button
-                i.film.icon
-            .ui.icon.button
-                i.picture.icon
-            .ui.icon.button
-                i.chat.icon            
-            .ui.stackable.three.cards.scrolling
-                if skv_is 'view_layout' 'grid'
-                    each posts
-                        if key_value_is 'model' 'rpost'
-                            +rpost_card
-                        else
-                            +post_card
-                else 
-                    .ui.divided.link.items
-                        each posts
-                            +post_item
+//         div(class=main_column_class)
+//             // .ui.disabled.button shared with me
+//             if skv_is 'view_sidebar' false
+//                 .ui.icon.compact.basic.circular.button.enable_sidebar
+//                     i.ellipsis.vertical.icon
+//             else
+//                 .ui.icon.compact.active.circular.button.disable_sidebar
+//                     i.ellipsis.vertical.icon
+//             if skv_is 'sort_direction' 1
+//                 .ui.icon.compact.basic.button.sort_down
+//                     i.caret.down.icon
+//             else
+//                 .ui.icon.compact.basic.button.sort_up
+//                     i.caret.up.icon
+//             .ui.compact.large.icon.basic.button.sort_created(class=sort_created_class)
+//                 i.clock.icon
+//             .ui.compact.large.icon.basic.button.sort_ups(class=sort_ups_class)
+//                 i.thumbs.up.icon
+//             if skv_is 'view_detail' true
+//                 .ui.black.large.icon.compact.basic.button.toggle_detail
+//                     i.list.icon
+//             else
+//                 .ui.compact.large.icon.basic.button.toggle_detail
+//                     i.minus.icon
+//                 // i.line.chart.icon
+//             if skv_is 'view_layout' 'grid'
+//                 .ui.compact.large.icon.black.button.set_grid(class=grid_class) 
+//                     i.th.icon
+//             else
+//                 .ui.compact.large.icon.basic.button.set_grid(class=grid_class) 
+//                     i.th.icon
+//             if skv_is 'view_layout' 'list'
+//                 .ui.compact.black.icon.large.button.set_list(class=list_class)
+//                     i.list.icon
+//             else
+//                 .ui.compact.large.icon.basic.button.set_list(class=list_class)
+//                     i.list.icon
+//             .ui.circular.icon.basic.button.skip_left
+//                 i.chevron.left.icon
+//             .ui.circular.icon.basic.button.skip_right
+//                 i.chevron.right.icon
+//             .ui.icon.button
+//                 i.film.icon
+//             .ui.icon.button
+//                 i.picture.icon
+//             .ui.icon.button
+//                 i.chat.icon            
+//             .ui.stackable.three.cards.scrolling
+//                 if skv_is 'view_layout' 'grid'
+//                     each posts
+//                         if key_value_is 'model' 'rpost'
+//                             +rpost_card
+//                         else
+//                             +post_card
+//                 else 
+//                     .ui.divided.link.items
+//                         each posts
+//                             +post_item
 
-template(name='post_card')
-    .ui.card.mark_viewed.penny.add_global_karma(class=card_class)
-        if image_link
-            a(href="/p/#{_id}/view")
-                img.ui.zoomer.image(src=image_link)
-        if image_id
-            a(href="/p/#{_id}/view")
-                img.ui.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-        if youtube_id
-            +youtube_view key='youtube_id' label='youtube id' direct=true
+// template(name='post_card')
+//     .ui.card.mark_viewed.penny.add_global_karma(class=card_class)
+//         if image_link
+//             a(href="/p/#{_id}/view")
+//                 img.ui.zoomer.image(src=image_link)
+//         if image_id
+//             a(href="/p/#{_id}/view")
+//                 img.ui.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+//         if youtube_id
+//             +youtube_view key='youtube_id' label='youtube id' direct=true
 
-        .content.smallscroll
-            a.ui.header(href="/p/#{_id}/view") #{title}
-            div
-            i.thumbs.up.link.outline.icon.upvote
-            |#{points}
-            i.thumbs.down.link.outline.icon.downvote
-            |#{when}
-            a(href="/p/#{_id}/view")
-                |!{content}
-            +voting_full
-            // .ui.tiny.icon.input
-            //     i.grey.tag.icon
-            //     input.add_tag(type='text' placeholder='+')
-            // each tags
-            //     +flat_tag_picker
-                // .ui.small.compact.button.pick_flat_tag #{this}
-            // each timestamp_tags
-            //     .ui.small.compact.button.pick_flat_time #{this}
-            if location
-                i.grey.marker.icon
-                |#{location}
-            // if author
-            //     i.grey.user.outline.icon
-            //     |#{author}
-            if in_dev
-                +print_this
-            if currentUser
-                each viewer_ids
-                    +user_info
-                    // .ui.label #{this}
-        .content
-            if is_author
-                i.large.lock.link.circular.grey.icon.make_private
-            else if is_admin
-                i.large.lock.link.circular.grey.icon.make_private
-            a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
-                |#{views}
-                i.chevron.right.large.icon
+//         .content.smallscroll
+//             a.ui.header(href="/p/#{_id}/view") #{title}
+//             div
+//             i.thumbs.up.link.outline.icon.upvote
+//             |#{points}
+//             i.thumbs.down.link.outline.icon.downvote
+//             |#{when}
+//             a(href="/p/#{_id}/view")
+//                 |!{content}
+//             +voting_full
+//             // .ui.tiny.icon.input
+//             //     i.grey.tag.icon
+//             //     input.add_tag(type='text' placeholder='+')
+//             // each tags
+//             //     +flat_tag_picker
+//                 // .ui.small.compact.button.pick_flat_tag #{this}
+//             // each timestamp_tags
+//             //     .ui.small.compact.button.pick_flat_time #{this}
+//             if location
+//                 i.grey.marker.icon
+//                 |#{location}
+//             // if author
+//             //     i.grey.user.outline.icon
+//             //     |#{author}
+//             if in_dev
+//                 +print_this
+//             if currentUser
+//                 each viewer_ids
+//                     +user_info
+//                     // .ui.label #{this}
+//         .content
+//             if is_author
+//                 i.large.lock.link.circular.grey.icon.make_private
+//             else if is_admin
+//                 i.large.lock.link.circular.grey.icon.make_private
+//             a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
+//                 |#{views}
+//                 i.chevron.right.large.icon
            
            
-template(name='rpost_card')
-    .center.aligned.column.smallscroll
-        .content.card_small.invert
-            i.large.reddit.icon
-            // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
-            // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
-            a.ui.invert.header.thin.title.zoomer(href=url target='_window')
-                |!{title} #{lowered_title}
-                |#{lowered_title}
-            span.ui.text {{ufrom data.created}}
-            .spacer
-            if embed
-                span.rounded.full
-                    |!{embed}
-                div
-            else if is_image
-                a(href=url target='_window')
-                    img.ui.fluid.rounded.image.zoomer.toggle_view(src=url)
-            else if data.thumbnail_width
-                a(href=url target='_window')
-                    img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
-            unless simple
-                i.circular.chevron.down.icon.dl.invert
-                span.invert
-                    |#{ups}
-                    i.thumbs.up.outline.icon
-                    |#{comment_count}
-                    i.chat.outline.icon
-                with subreddit
-                    +flat_tag_picker
-                    // .ui.basic.label #{this}
-                each five_tags
-                    +flat_tag_picker
-                a.ui.icon.compact.circular.basic.button(href="https://www.reddit.com#{permalink}" target='_window' title=domain)
-                    // |#{domain}
-                    i.external.icon
-                // div
-                .ui.tiny.invert.transparent.left.icon.input
-                    i.tag.icon
-                    input.add_tag(type='text' placeholder='...')
-            .ui.hidden.divider   
-            if data.selftext_html
-                unless simple
-                    span.invert.smallscroll
-                        |{{#markdown}} !{data.selftext_html} {{/markdown}}
-            +print_this    
-            i.reddit.icon.get_post
+// template(name='rpost_card')
+//     .center.aligned.column.smallscroll
+//         .content.card_small.invert
+//             i.large.reddit.icon
+//             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
+//             // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
+//             a.ui.invert.header.thin.title.zoomer(href=url target='_window')
+//                 |!{title} #{lowered_title}
+//                 |#{lowered_title}
+//             span.ui.text {{ufrom data.created}}
+//             .spacer
+//             if embed
+//                 span.rounded.full
+//                     |!{embed}
+//                 div
+//             else if is_image
+//                 a(href=url target='_window')
+//                     img.ui.fluid.rounded.image.zoomer.toggle_view(src=url)
+//             else if data.thumbnail_width
+//                 a(href=url target='_window')
+//                     img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
+//             unless simple
+//                 i.circular.chevron.down.icon.dl.invert
+//                 span.invert
+//                     |#{ups}
+//                     i.thumbs.up.outline.icon
+//                     |#{comment_count}
+//                     i.chat.outline.icon
+//                 with subreddit
+//                     +flat_tag_picker
+//                     // .ui.basic.label #{this}
+//                 each five_tags
+//                     +flat_tag_picker
+//                 a.ui.icon.compact.circular.basic.button(href="https://www.reddit.com#{permalink}" target='_window' title=domain)
+//                     // |#{domain}
+//                     i.external.icon
+//                 // div
+//                 .ui.tiny.invert.transparent.left.icon.input
+//                     i.tag.icon
+//                     input.add_tag(type='text' placeholder='...')
+//             .ui.hidden.divider   
+//             if data.selftext_html
+//                 unless simple
+//                     span.invert.smallscroll
+//                         |{{#markdown}} !{data.selftext_html} {{/markdown}}
+//             +print_this    
+//             i.reddit.icon.get_post
                                    
            
                                 
-template(name='post_item')
-    .ui.item.mark_viewed.penny.add_global_karma(class=card_class)
-        if image_link
-            a(href="/p/#{_id}/view")
-                img.ui.zoomer.small.image(src=image_link)
-        if image_id
-            a(href="/p/#{_id}/view")
-                img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-        if youtube_id
-            a(href="/p/#{_id}/view")
-                i.massive.youtube.link.icon
-            // +youtube_view key='youtube_id' label='youtube id' direct=true
+// template(name='post_item')
+//     .ui.item.mark_viewed.penny.add_global_karma(class=card_class)
+//         if image_link
+//             a(href="/p/#{_id}/view")
+//                 img.ui.zoomer.small.image(src=image_link)
+//         if image_id
+//             a(href="/p/#{_id}/view")
+//                 img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+//         if youtube_id
+//             a(href="/p/#{_id}/view")
+//                 i.massive.youtube.link.icon
+//             // +youtube_view key='youtube_id' label='youtube id' direct=true
 
-        .content.smallscroll
-            a.ui.header(href="/p/#{_id}/view") #{title}
-            div
-            i.thumbs.up.link.outline.icon.upvote
-            |#{points}
-            i.thumbs.down.link.outline.icon.downvote
-            |#{when}
-            // a(href="/p/#{_id}/view")
-            //     |!{content}
-            +voting_full
-            // .ui.tiny.icon.input
-            //     i.grey.tag.icon
-            //     input.add_tag(type='text' placeholder='+')
-            each five_tags
-                +flat_tag_picker
-                // .ui.small.compact.button.pick_flat_tag #{this}
-            if skv_is 'view_detail' true
-                each timestamp_tags
-                    .ui.small.compact.button.pick_flat_time #{this}
-            if location
-                i.grey.marker.icon
-                |#{location}
-            if currentUser
-                |#{_author_username}
-            // if author
-            //     i.grey.user.outline.icon
-            //     |#{author}
-            if in_dev
-                +print_this
-            each viewer_ids
-                .ui.label #{this}
-        .content
-            if is_author
-                i.large.lock.link.circular.grey.icon.make_private
-            else if in_dev
-                i.large.lock.link.circular.grey.icon.make_private
-            a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
-                |#{views}
-                i.chevron.right.large.icon
+//         .content.smallscroll
+//             a.ui.header(href="/p/#{_id}/view") #{title}
+//             div
+//             i.thumbs.up.link.outline.icon.upvote
+//             |#{points}
+//             i.thumbs.down.link.outline.icon.downvote
+//             |#{when}
+//             // a(href="/p/#{_id}/view")
+//             //     |!{content}
+//             +voting_full
+//             // .ui.tiny.icon.input
+//             //     i.grey.tag.icon
+//             //     input.add_tag(type='text' placeholder='+')
+//             each five_tags
+//                 +flat_tag_picker
+//                 // .ui.small.compact.button.pick_flat_tag #{this}
+//             if skv_is 'view_detail' true
+//                 each timestamp_tags
+//                     .ui.small.compact.button.pick_flat_time #{this}
+//             if location
+//                 i.grey.marker.icon
+//                 |#{location}
+//             if currentUser
+//                 |#{_author_username}
+//             // if author
+//             //     i.grey.user.outline.icon
+//             //     |#{author}
+//             if in_dev
+//                 +print_this
+//             each viewer_ids
+//                 .ui.label #{this}
+//         .content
+//             if is_author
+//                 i.large.lock.link.circular.grey.icon.make_private
+//             else if in_dev
+//                 i.large.lock.link.circular.grey.icon.make_private
+//             a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
+//                 |#{views}
+//                 i.chevron.right.large.icon
                                 
                                 
-template(name='tag_picker')
-    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    .ui.compact.tertiary.button.zoomer.pick_tag.penny.add_global_karma(title="#{count} results" class="#{picker_class} #{thinking_class}")
-        if term
-            if term.watson.metadata.image
-                img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
-        strong #{name}
-        // if in_dev
-        //     small #{count}
+// template(name='tag_picker')
+//     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
+//     .ui.compact.tertiary.button.zoomer.pick_tag.penny.add_global_karma(title="#{count} results" class="#{picker_class} #{thinking_class}")
+//         if term
+//             if term.watson.metadata.image
+//                 img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
+//         strong #{name}
+//         // if in_dev
+//         //     small #{count}
         
-template(name='unpick_tag')
-    a.unpick_tag.ui.large.black.compact.button.no_blink.penny.add_global_karma(href='#')
-        if term
-            if term.watson.metadata.image
-                img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
-        strong #{this}
+// template(name='unpick_tag')
+//     a.unpick_tag.ui.large.black.compact.button.no_blink.penny.add_global_karma(href='#')
+//         if term
+//             if term.watson.metadata.image
+//                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
+//         strong #{this}
 
         
         
-template(name='flat_tag_picker')
-    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    .ui.compact.tiny.button.zoomer.pick_flat_tag.penny.add_global_karma(title="#{count} results" class="#{picker_class} #{thinking_class}")
-        // if term
-        //     if term.watson.metadata.image
-        //         img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
-        | #{this}
-        // if in_dev
-        //     small #{count}
+// template(name='flat_tag_picker')
+//     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
+//     .ui.compact.tiny.button.zoomer.pick_flat_tag.penny.add_global_karma(title="#{count} results" class="#{picker_class} #{thinking_class}")
+//         // if term
+//         //     if term.watson.metadata.image
+//         //         img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+//         | #{this}
+//         // if in_dev
+//         //     small #{count}

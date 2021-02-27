@@ -148,6 +148,7 @@ Meteor.methods
             model:'stack_question'
             question_id:parseInt(qid)
             site:site
+        console.log 'getting answer'
         url = "https://api.stackexchange.com/2.2/questions/#{qid}/answers?order=desc&sort=activity&site=#{site}&filter=!9_bDE(fI5&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -158,10 +159,11 @@ Meteor.methods
             .then(Meteor.bindEnvironment((data)->
                 parsed = JSON.parse(data)
                 for item in parsed.items
+                    console.log 'found item', item
                     found = 
                         Docs.findOne
                             model:'stack_answer'
-                            # question_id:item.question_id
+                            question_id:item.question_id
                             answer_id:item.answer_id
                     # if found
                     #     Docs.update found._id,
@@ -683,12 +685,12 @@ Meteor.publish 'related_questions', (post_id)->
     
 Meteor.publish 'site_q_count', (
     site
-    picked_tags
+    # picked_tags
     )->
         
     match = {model:'stack_question'}
     match.site = site
-    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    # if picked_tags.length > 0 then match.tags = $all:picked_tags
     Counts.publish this, 'site_q_counter', Docs.find(match)
     return undefined
     

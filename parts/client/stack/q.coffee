@@ -11,18 +11,18 @@ Template.registerHelper 'current_q', () ->
 Template.q.onCreated ->
     # @autorun => Meteor.subscribe 'doc', Router.current().params.qid
     @autorun => Meteor.subscribe 'qid', Router.current().params.site, Router.current().params.qid
-    @autorun => Meteor.subscribe 'q_a', Router.current().params.site, Router.current().params.qid
-    @autorun => Meteor.subscribe 'q_c', Router.current().params.site, Router.current().params.qid
+    # @autorun => Meteor.subscribe 'q_a', Router.current().params.site, Router.current().params.qid
+    # @autorun => Meteor.subscribe 'q_c', Router.current().params.site, Router.current().params.qid
     @autorun => Meteor.subscribe 'question_doc_id', Router.current().params.site, Router.current().params.qid
-    @autorun => Meteor.subscribe 'related_questions', Router.current().params.site, Router.current().params.qid
-    @autorun => Meteor.subscribe 'linked_questions', Router.current().params.site, Router.current().params.qid
+    # @autorun => Meteor.subscribe 'related_questions', Router.current().params.site, Router.current().params.qid
+    # @autorun => Meteor.subscribe 'linked_questions', Router.current().params.site, Router.current().params.qid
     Session.setDefault('stack_section','main')
 
 Template.q.onRendered ->
-    Meteor.call 'get_question', Router.current().params.site, Router.current().params.qid,->
-    Meteor.call 'get_q_a', Router.current().params.site, Router.current().params.qid,->
+    # Meteor.call 'get_question', Router.current().params.site, Router.current().params.qid,->
+    # Meteor.call 'get_q_a', Router.current().params.site, Router.current().params.qid,->
     # Meteor.call 'call_watson', Router.current().params.qid,'link','stack',->
-    Meteor.call 'get_q_c', Router.current().params.site, Router.current().params.qid,->
+    # Meteor.call 'get_q_c', Router.current().params.site, Router.current().params.qid,->
     # Meteor.setTimeout ->
     #     $('.top').visibility
     #         onTopVisible: (calculations) ->
