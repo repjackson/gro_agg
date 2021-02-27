@@ -1,11 +1,3 @@
-Template.registerHelper 'youtube_parse', (url) ->
-    regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    match = @data.url.match(regExp)
-    if match && match[2].length == 11
-        match[2]
-    else
-        null
-   
 Session.setDefault('loading', false)
 Template.body.events
     'click .set_main': -> Session.set('view_section','main')
@@ -76,17 +68,3 @@ Router.route '/', (->
 
     
 
-Template.nav.events
-    'click .clear': ->
-        picked_tags.clear()
-    
-    # 'click .view_profile': ->
-    #     Meteor.call 'calc_user_points', Meteor.userId()
-        
-Template.nav.helpers
-    # unread_count: ->
-    #     Docs.find( 
-    #         model:'message'
-    #         target_id:Meteor.userId()
-    #         viewer_ids:$nin:[Meteor.userId()]
-    #     ).count()

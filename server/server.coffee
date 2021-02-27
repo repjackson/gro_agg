@@ -4,27 +4,6 @@ Docs.allow
     update: (userId, doc) -> userId
     remove: (userId, doc) -> userId
 
-Meteor.users.allow
-    insert: (user_id, doc, fields, modifier) ->
-        # user_id
-        true
-        # if user_id and doc._id == user_id
-        #     true
-    update: (user_id, doc, fields, modifier) ->
-        # user = Meteor.users.findOne user_id
-        # if user_id and 'dev' in user.roles
-        #     true
-        # else
-        #     if user_id and doc._id == user_id
-        true
-    remove: (user_id, doc, fields, modifier) ->
-        user = Meteor.users.findOne user_id
-        if user_id and 'dev' in user.roles
-            true
-        # if userId and doc._id == userId
-        #     true
-
-
 # Meteor.publish 'model_count', (
 #     model
 #     )->
@@ -101,10 +80,6 @@ Meteor.methods
     #                     Terms.update term._id,
     #                         $set:image:found_wiki_doc.watson.metadata.image
 
-Meteor.publish 'stats', ()->
-    Docs.find 
-        model:'stats'
-
 
 Meteor.publish 'parent_doc', (doc_id)->
     doc = Docs.findOne doc_id
@@ -160,8 +135,8 @@ Meteor.publish 'posts', (
     #     sk = sort_key
     # else
     #     sk = '_timestamp'
-    # if picked_tags.length > 0 then match.tags = $all:picked_tags
-    match.tags = $all:picked_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    # match.tags = $all:picked_tags
     # if picked_locations.length > 0 then match.location = $all:picked_locations
     # if picked_authors.length > 0 then match.author = $all:picked_authors
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
@@ -241,8 +216,8 @@ Meteor.publish 'dao_tags', (
     # unless Meteor.userId()
     #     match.privacy='public'
 
-    # if picked_tags.length > 0 then match.tags = $all:picked_tags
-    match.tags = $all:picked_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    # match.tags = $all:picked_tags
     # if picked_authors.length > 0 then match.author = $all:picked_authors
     # if picked_locations.length > 0 then match.location = $all:picked_locations
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times

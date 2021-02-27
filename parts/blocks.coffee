@@ -72,40 +72,10 @@ if Meteor.isClient
                     parent_model:parent.model
                     body:comment
                 t.$('.add_comment').val('')
-                found_bounty = Docs.findOne
-                    model:'bounty'
-                    status:$ne:'complete'
-                    require_reply:true
-                    reply_requirement_met:$ne:true
-                    target_id:Meteor.userId()
-                if found_bounty
-                    Docs.update found_bounty._id,
-                        $set:
-                            reply_requirement_met: true
-                    if Meteor.isClient
-                        $('body').toast({
-                            class: 'success',
-                            message: "reply requirement met"
-                        })
 
         'click .remove_comment': ->
             if confirm 'Confirm remove comment'
                 Docs.remove @_id
-
-    Template.follow.helpers
-        followers: ->
-            Meteor.users.find
-                _id: $in: @follower_ids
-        following: -> @follower_ids and Meteor.userId() in @follower_ids
-    Template.follow.events
-        'click .follow': ->
-            Docs.update @_id,
-                $addToSet:follower_ids:Meteor.userId()
-        'click .unfollow': ->
-            Docs.update @_id,
-                $pull:follower_ids:Meteor.userId()
-#
-#
 
     Template.session_key_value.events
         'click .set_session_value': ->
@@ -171,14 +141,6 @@ if Meteor.isClient
 #
 #
 #
-    Template.call_watson.events
-        'click .autotag': ->
-            doc = Docs.findOne Router.current().params.doc_id
-            console.log doc
-            console.log @
-    
-            Meteor.call 'call_watson', doc._id, @key, @mode
-#
     Template.voting_full.events
         'click .upvote': (e,t)->
             # $(e.currentTarget).closest('.button').transition('pulse',200)
@@ -189,40 +151,6 @@ if Meteor.isClient
 
 
 
-    Template.tip.onCreated ->
-        # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
-        @autorun => Meteor.subscribe('post_tips', Router.current().params.doc_id)
-
-    Template.tip.helpers
-        tips: ->
-            Docs.find 
-                model:'tip'
-                parent_id:@_id
-    Template.tip.events
-        'click .tip': ->
-            found_tip =
-                Docs.findOne 
-                    model:'tip'
-                    parent_id:@_id
-                    _author_id: Meteor.userId()
-            if found_tip
-                Docs.update found_tip._id,
-                    $inc:amount:1
-            else
-                Docs.insert 
-                    model:'tip'
-                    amount:1
-                    parent_id:@_id
-                    _author_id: Meteor.userId()
-                
-            Docs.update @_id, 
-                $inc:tip_total:1
-            Meteor.users.update Meteor.userId(),
-                $inc:points:-1
-            Meteor.users.update @_author_id,
-                $inc:points:1
-     
-            
 
 #
 #
@@ -258,27 +186,6 @@ if Meteor.isClient
 #
 #
 #
-
-    Template.user_info.onCreated ->
-        @autorun => Meteor.subscribe 'user_from_id', @data
-    Template.user_info.helpers
-        user: -> Meteor.users.findOne @valueOf()
-    
-    Template.user_info_small.onCreated ->
-        @autorun => Meteor.subscribe 'user_from_id', @data
-    Template.user_info_small.helpers
-        user: -> Meteor.users.findOne @valueOf()
-    
-    Template.user_info_tiny.onCreated ->
-        @autorun => Meteor.subscribe 'user_from_id', @data
-    Template.user_info_tiny.helpers
-        user: -> Meteor.users.findOne @valueOf()
-
-#
-    Template.user_avatar.onCreated ->
-        @autorun => Meteor.subscribe 'user_from_id', @data
-    Template.user_avatar.helpers
-        user: -> Meteor.users.findOne @valueOf()
 
 #
 #     Template.toggle_edit.events
@@ -384,19 +291,6 @@ if Meteor.isClient
 #
 #
 #
-#
-if Meteor.isClient
-    Template.email_validation_check.events
-        'click .send_verification': ->
-            console.log @
-            if confirm 'send verification email?'
-                Meteor.call 'verify_email', @_id, ->
-                    alert 'verification email sent'
-        'click .toggle_email_verified': ->
-            console.log @emails[0].verified
-            if @emails[0]
-                Meteor.users.update @_id,
-                    $set:"emails.0.verified":true
 #
 #
 #     Template.add_button.onCreated ->
@@ -511,20 +405,6 @@ if Meteor.isClient
             # console.log parent
             if parent["#{@k}"] is @v then 'active' else 'basic'
     
-    Template.user_key_value_edit.events
-        'click .set_key_value': ->
-            parent = Template.parentData()
-            # console.log 'hi'
-            # parent = Docs.findOne Router.current().params.doc_id
-            Meteor.users.update parent._id,
-                $set: "#{@key}": @value
-
-    Template.user_key_value_edit.helpers
-        set_key_value_class: ->
-            # parent = Docs.findOne Router.current().params.doc_id
-            parent = Template.parentData()
-            # console.log parent
-            if parent["#{@key}"] is @value then 'active' else 'basic'
 
     Template.session_edit_value_button.events
         'click .set_session_value': ->

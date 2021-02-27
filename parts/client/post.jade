@@ -20,7 +20,6 @@ template(name='post_view')
                     .spacer
                     +comments
                     div
-                    +post_bounties
                 .four.wide.column.scrolling
                     if group
                         a.ui.large.basic.button(href="/g/#{group}")
@@ -61,8 +60,8 @@ template(name='post_edit')
         .ui.stackable.grid
             .row
                 .four.wide.column.scrolling
-                    a.ui.icon.big.green.circular.button(href="/p/#{_id}/view" title='save')
-                        i.checkmark.big.icon
+                    a.ui.icon.big.button(href="/p/#{_id}/view" title='save')
+                        i.checkmark.big.green.icon
                     .ui.inline.header 
                         i.pencil.icon
                         | post

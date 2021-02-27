@@ -1,9 +1,5 @@
 @Docs = new Meteor.Collection 'docs'
 @results = new Meteor.Collection 'results'
-@Tags = new Meteor.Collection 'tags'
-@User_tags = new Meteor.Collection 'user_tags'
-@Terms = new Meteor.Collection 'terms'
-@Level_results = new Meteor.Collection 'level_results'
 # @Tag_results = new Meteor.Collection 'tag_results'
 Router.configure
     layoutTemplate: 'layout'
@@ -31,13 +27,6 @@ Meteor.methods
         # console.log 'logging view', doc_id
         Docs.update doc_id, 
             $inc:views:1
-        if Meteor.userId()
-            Docs.update({_id:doc_id},{$addToSet:{viewer_ids:Meteor.userId()}}, ->)
-            Meteor.users.update({_id:Meteor.userId()},{$inc:{points:1}},->)
-        if doc and doc._author_id
-            Meteor.users.update({_id:doc._author_id},{$inc:points:2},->)
-        Meteor.call 'add_global_karma', ->
-
 
 
 
@@ -46,9 +35,9 @@ Docs.before.insert (userId, doc)->
     doc._timestamp = timestamp
     doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
     doc._app = 'dao'
-    if Meteor.user()
-        doc._author_id = Meteor.userId()
-        doc._author_username = Meteor.user().username
+    # if Meteor.user()
+    #     doc._author_id = Meteor.userId()
+    #     doc._author_username = Meteor.user().username
 
     date = moment(timestamp).format('Do')
     weekdaynum = moment(timestamp).isoWeekday()
@@ -84,229 +73,7 @@ Docs.helpers
         if @tags
             @tags[..3]
 
-    _author: -> Meteor.users.findOne @_author_id
-    _buyer: -> Meteor.users.findOne @buyer_id
-    target: ->
-        Meteor.users.findOne @target_id
-    
     is_visible: -> @published in [0,1]
     is_published: -> @published is 1
     is_anonymous: -> @published is 0
     is_private: -> @published is -1
-    is_read: ->
-        @viewer_ids and Meteor.userId() in @viewer_ids
-
-
-    upvoters: ->
-        if @upvoter_ids
-            upvoters = []
-            for upvoter_id in @upvoter_ids
-                upvoter = Meteor.users.findOne upvoter_id
-                upvoters.push upvoter
-            upvoters
-    downvoters: ->
-        if @downvoter_ids
-            downvoters = []
-            for downvoter_id in @downvoter_ids
-                downvoter = Meteor.users.findOne downvoter_id
-                downvoters.push downvoter
-            downvoters    
-            
-            
-            
-Meteor.users.helpers
-    name: ->
-        if @nickname
-            "#{@nickname}"
-        else if @first_name
-            "#{@first_name} #{@last_name}"
-        else
-            "#{@username}"
-    shortname: ->
-        if @nickname
-            "#{@nickname}"
-        else if @first_name
-            "#{@first_name}"
-        else
-            "#{@username}"
-    email_address: -> if @emails and @emails[0] then @emails[0].address
-    email_verified: -> if @emails and @emails[0] then @emails[0].verified
-    first_five_tags: ->
-        if @tags
-            @tags[..5]
-    has_points: -> @points > 0
-    # is_tech_admin: ->
-    #     @_id in ['vwCi2GTJgvBJN5F6c','Dw2DfanyyteLytajt','LQEJBS6gHo3ibsJFu','YFPxjXCgjhMYEPADS','RWPa8zfANCJsczDcQ']
-
-
-Meteor.methods
-    pin: (doc)->
-        if doc.pinned_ids and Meteor.userId() in doc.pinned_ids
-            Docs.update doc._id,
-                $pull: pinned_ids: Meteor.userId()
-                $inc: pinned_count: -1
-        else
-            Docs.update doc._id,
-                $addToSet: pinned_ids: Meteor.userId()
-                $inc: pinned_count: 1
-
-    subscribe: (doc)->
-        if doc.subscribed_ids and Meteor.userId() in doc.subscribed_ids
-            Docs.update doc._id,
-                $pull: subscribed_ids: Meteor.userId()
-                $inc: subscribed_count: -1
-        else
-            Docs.update doc._id,
-                $addToSet: subscribed_ids: Meteor.userId()
-                $inc: subscribed_count: 1
-
-    upvote: (doc)->
-        if Meteor.userId()
-            if doc.downvoter_ids and Meteor.userId() in doc.downvoter_ids
-                Docs.update doc._id,
-                    $pull: 
-                        downvoter_ids:Meteor.userId()
-                        downvoter_usernames:Meteor.user().username
-                    $addToSet: 
-                        upvoter_ids:Meteor.userId()
-                        upvoter_usernames:Meteor.user().username
-                    $inc:
-                        credit:.02
-                        upvotes:1
-                        downvotes:-1
-                        points:2
-                Meteor.users.update Meteor.userId(),
-                    $inc:points:1
-        
-                # Meteor.call 'add_global_karma', ->
-                # Session.set('session_clicks', Session.get('session_clicks')+2)
-            else if doc.upvoter_ids and Meteor.userId() in doc.upvoter_ids
-                Docs.update doc._id,
-                    $pull: 
-                        upvoter_ids:Meteor.userId()
-                        upvoter_usernames:Meteor.user().username
-                    $inc:
-                        credit:-.01
-                        upvotes:-1
-                        points:-1
-                Meteor.users.update Meteor.userId(),
-                    $inc:points:1
-                # Meteor.call 'add_global_karma', ->
-                # Session.set('session_clicks', Session.get('session_clicks')+2)
-            else
-                Docs.update doc._id,
-                    $addToSet: 
-                        upvoter_ids:Meteor.userId()
-                        upvoter_usernames:Meteor.user().username
-                    $inc:
-                        points:1
-                        upvotes:1
-                        credit:.01
-                Meteor.users.update Meteor.userId(),
-                    $inc:points:1
-            Meteor.users.update Meteor.userId(),
-                $inc:points:1
-            Meteor.users.update doc._author_id,
-                $inc:points:1
-            # Meteor.call 'add_global_karma', ->
-            # Session.set('session_clicks', Session.get('session_clicks')+2)
-        else
-            Docs.update doc._id,
-                $inc:
-                    anon_credit:.01
-                    anon_upvotes:1
-            Meteor.users.update doc._author_id,
-                $inc:anon_points:1
-            Meteor.users.update Meteor.userId(),
-                $inc:points:1
-            # Meteor.call 'add_global_karma', ->
-            # Session.set('session_clicks', Session.get('session_clicks')+2)
-        found_bounty = Docs.findOne
-            model:'bounty'
-            status:$ne:'complete'
-            require_vote:true
-            vote_requirement_met:$ne:true
-            target_id:Meteor.userId()
-        if found_bounty
-            Docs.update found_bounty._id,
-                $set:vote_requirement_met: true
-            if Meteor.isClient
-                $('body').toast({
-                    class: 'success',
-                    message: "vote requirement met"
-                })
-
-    downvote: (doc)->
-        if Meteor.userId()
-            if doc.upvoter_ids and Meteor.userId() in doc.upvoter_ids
-                Docs.update doc._id,
-                    $pull: 
-                        upvoter_ids:Meteor.userId()
-                        upvoter_usernames:Meteor.user().username
-                    $addToSet: 
-                        downvoter_ids:Meteor.userId()
-                        downvoter_usernames:Meteor.user().username
-                    $inc:
-                        credit:-.02
-                        points:-2
-                        downvotes:1
-                        upvotes:-1
-                Meteor.users.update Meteor.userId(),
-                    $inc:points:1
-                # Meteor.call 'add_global_karma', ->
-                # Session.set('session_clicks', Session.get('session_clicks')+2)
-                    
-            else if doc.downvoter_ids and Meteor.userId() in doc.downvoter_ids
-                Docs.update doc._id,
-                    $pull: 
-                        downvoter_ids:Meteor.userId()
-                        downvoter_usernames:Meteor.user().username
-                    $inc:
-                        points:1
-                        credit:.01
-                        downvotes:-1
-                Meteor.users.update Meteor.userId(),
-                    $inc:points:1
-                # Meteor.call 'add_global_karma', ->
-                # Session.set('session_clicks', Session.get('session_clicks')+2)
-                    
-            else
-                Docs.update doc._id,
-                    $addToSet: 
-                        downvoter_ids:Meteor.userId()
-                        downvoter_usernames:Meteor.user().username
-                    $inc:
-                        points:-1
-                        credit:-.01
-                        downvotes:1
-                Meteor.users.update Meteor.userId(),
-                    $inc:points:1
-            Meteor.users.update doc._author_id,
-                $inc:points:-1
-            # Meteor.call 'add_global_karma', ->
-            # Session.set('session_clicks', Session.get('session_clicks')+2)
-                
-        else
-            Docs.update doc._id,
-                $inc:
-                    anon_credit:-1
-                    anon_downvotes:1
-            Meteor.users.update doc._author_id,
-                $inc:anon_points:-1
-            # Meteor.call 'add_global_karma', ->
-            # Session.set('session_clicks', Session.get('session_clicks')+2)
-        found_bounty = Docs.findOne
-            model:'bounty'
-            status:$ne:'complete'
-            require_vote:true
-            vote_requirement_met:$ne:true
-            target_id:Meteor.userId()
-        if found_bounty
-            Docs.update found_bounty._id,
-                $set:
-                    vote_requirement_met: true
-            if Meteor.isClient
-                $('body').toast({
-                    class: 'success',
-                    message: "vote requirement met"
-                })
