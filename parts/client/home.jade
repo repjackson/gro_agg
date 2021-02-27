@@ -135,7 +135,6 @@ template(name='post_card')
             |#{when}
             a(href="/p/#{_id}/view")
                 |!{content}
-            +voting_full
             // .ui.tiny.icon.input
             //     i.grey.tag.icon
             //     input.add_tag(type='text' placeholder='+')
@@ -154,9 +153,7 @@ template(name='post_card')
                 +print_this
                     // .ui.label #{this}
         .content
-            if is_author
-                i.large.lock.link.circular.grey.icon.make_private
-            else if is_admin
+            if in_dev
                 i.large.lock.link.circular.grey.icon.make_private
             a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
                 |#{views}

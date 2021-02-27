@@ -185,7 +185,7 @@ Template.home.events
             
             
     Template.tag_picker.onCreated ->
-        # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+        @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
     Template.tag_picker.helpers
         picker_class: ()->
             term = 
@@ -227,7 +227,7 @@ Template.home.events
             
     
     Template.unpick_tag.onCreated ->
-        # @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
+        @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
         
     Template.unpick_tag.helpers
         term: ->

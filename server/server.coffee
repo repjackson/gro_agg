@@ -1,8 +1,8 @@
 # tsqp-gebk-xhpz-eobp-agle
 Docs.allow
     insert: (userId, doc) -> true
-    update: (userId, doc) -> userId
-    remove: (userId, doc) -> userId
+    update: (userId, doc) -> true
+    remove: (userId, doc) -> false
 
 # Meteor.publish 'model_count', (
 #     model
@@ -125,7 +125,7 @@ Meteor.publish 'posts', (
     self = @
     match = {
         model:'post'
-        # is_private:$ne:true
+        is_private:$ne:true
         # group:$exists:false
     }
     # unless Meteor.userId()
@@ -143,8 +143,8 @@ Meteor.publish 'posts', (
 
     # console.log 'match',match
     Docs.find match,
-        limit:42
-        sort:_timestamp:-1
+        limit:20
+        sort:points:-1
         # sort: "#{sk}":-1
         # skip:skip*20
         # fields:
@@ -207,9 +207,7 @@ Meteor.publish 'dao_tags', (
     self = @
     match = {
         model:'post'
-        # model:'post'
-        # is_private:$ne:true
-        # sublove:sublove
+        is_private:$ne:true
     }
 
 
