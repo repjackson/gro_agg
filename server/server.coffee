@@ -160,7 +160,8 @@ Meteor.publish 'posts', (
     #     sk = sort_key
     # else
     #     sk = '_timestamp'
-    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    # if picked_tags.length > 0 then match.tags = $all:picked_tags
+    match.tags = $all:picked_tags
     # if picked_locations.length > 0 then match.location = $all:picked_locations
     # if picked_authors.length > 0 then match.author = $all:picked_authors
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
@@ -171,23 +172,23 @@ Meteor.publish 'posts', (
         sort:_timestamp:-1
         # sort: "#{sk}":-1
         # skip:skip*20
-        fields:
-            title:1
-            content:1
-            tags:1
-            upvoter_ids:1
-            image_id:1
-            image_link:1
-            url:1
-            youtube_id:1
-            _timestamp:1
-            _timestamp_tags:1
-            views:1
-            viewer_ids:1
-            _author_username:1
-            downvoter_ids:1
-            _author_id:1
-            model:1
+        # fields:
+        #     title:1
+        #     content:1
+        #     tags:1
+        #     upvoter_ids:1
+        #     image_id:1
+        #     image_link:1
+        #     url:1
+        #     youtube_id:1
+        #     _timestamp:1
+        #     _timestamp_tags:1
+        #     views:1
+        #     viewer_ids:1
+        #     _author_username:1
+        #     downvoter_ids:1
+        #     _author_id:1
+        #     model:1
     
     
 # Meteor.methods    
@@ -240,7 +241,8 @@ Meteor.publish 'dao_tags', (
     # unless Meteor.userId()
     #     match.privacy='public'
 
-    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    # if picked_tags.length > 0 then match.tags = $all:picked_tags
+    match.tags = $all:picked_tags
     # if picked_authors.length > 0 then match.author = $all:picked_authors
     # if picked_locations.length > 0 then match.location = $all:picked_locations
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times

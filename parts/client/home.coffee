@@ -10,7 +10,7 @@ Router.route '/p/:doc_id/edit', (->
 
 
 Template.nav.onCreated ->
-    Session.setDefault('session_clicks', 0)
+    # Session.setDefault('session_clicks', 0)
 Template.home.onCreated ->
     Session.setDefault('sort_key', '_timestamp')
     Session.setDefault('sort_direction', -1)
@@ -75,6 +75,9 @@ Template.home.helpers
     sidebar_class: -> if Session.get('view_sidebar') then 'ui four wide column' else 'hidden'
     main_column_class: -> if Session.get('view_sidebar') then 'ui twelve wide column' else 'ui sixteen wide column' 
         
+Template.rpost_card.events
+    'click .get_post': ->
+        Meteor.call 'get_reddit_post', @_id, ->
 Template.user_post_small.events
     'click .mark_viewed': (e,t)->
         Meteor.call 'log_view', @_id, ->
