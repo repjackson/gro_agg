@@ -28,10 +28,6 @@ Template.registerHelper 'selected_emotions', () -> selected_emotions.array()
 Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 
     
-Template.registerHelper 'i_have_points', ->
-    Meteor.user().points > 0
-    
-    
 Template.registerHelper 'trunc', (input) ->
     input[0..350]
         
@@ -133,10 +129,6 @@ Template.registerHelper 'global_subs_ready', () ->
 
 
 
-Template.registerHelper 'nl2br', (text)->
-    nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
-    new Spacebars.SafeString(nl2br)
-
 Template.registerHelper 'fixed0', (number)-> if number then number.toFixed().toLocaleString()
 Template.registerHelper 'fixed', (number)-> if number then number.toFixed(2)
 
@@ -149,16 +141,8 @@ Template.registerHelper 'comments', ()->
         parent_id:@_id
         
 
-
-Template.registerHelper 'user_class', () ->
-    if @online then 'user_online'
-
 Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
-
-
-
-Template.registerHelper 'is_logging_out', () -> Session.get('logging_out')
 
 
 Template.registerHelper 'current_doc', () ->

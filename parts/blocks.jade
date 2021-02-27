@@ -51,11 +51,6 @@ template(name='icon')
     //- img.ui.image(src="https://img.icons8.com/fluent/48/000000/#{name}.png" class=cl)
     // img.ui.image(src="https://img.icons8.com/cotton/48/000000/#{name}.png" class=cl)
     //- img.ui.image(src="https://img.icons8.com/office/48/000000/#{name}.png" class=cl)
-template(name='user_button')
-    a.ui.button(href="/u/#{username}")
-        img.ui.avatar.compact.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
-        |#{name}
-
 
 template(name='print_this')
     i.code.link.icon.print_this
@@ -85,23 +80,12 @@ template(name='session_toggle_button')
         i.large.icon(class=icon)
 
 
-template(name='tip')
-    unless template_parent.is_author
-        .ui.basic.button.tip
-            i.donate.icon
-            |tip 1p
-    |#{tip_total} total
-    each tips
-        .ui.header #{amount} 
-        |#{_author_username}
-        if is_admin
-            +remove_icon
         
 template(name='comments')
     div
     .ui.fluid.icon.input
-        i.plus.icon
-        input.add_comment(model='text' placeholder='comment (-1p from author, +1p to op')
+        i.chat.outline.icon
+        input.add_comment(model='text')
     .ui.comments
         each doc_comments
             .comment
@@ -114,8 +98,8 @@ template(name='comments')
                         if can_edit
                             +remove_icon
                         // else
-                        i.thumbs.up.icon
-                        i.thumbs.down.icon
+                        i.thumbs.up.outline.icon.upvote
+                        i.thumbs.down.outline.icon.downvote
     
 
 template(name='loading')

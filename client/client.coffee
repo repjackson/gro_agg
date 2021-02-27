@@ -27,9 +27,6 @@ Template.body.events
     #     Meteor.call 'add_global_karma', ->
     #     Session.set('session_clicks', Session.get('session_clicks')+1)
     
-    'click .add_global_karma': ->
-        Session.set('session_clicks', Session.get('session_clicks')+1)
-        Meteor.call 'add_global_karma', ->
     'click .shutup': ->
         window.speechSynthesis.cancel()
 

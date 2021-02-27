@@ -1,3 +1,84 @@
+Meteor.publish 'doc_by_id', (doc_id)->
+    Docs.find doc_id
+        
+Meteor.publish 'love', (doc_id)->
+    Docs.find
+        model:'love'
+        
+
+Meteor.publish 'wikis', (
+    w_query
+    picked_tags
+    )->
+    Docs.find({
+        model:'wikipedia'
+    },{ 
+        limit:10
+    })
+    
+
+
+Meteor.publish 'doc_by_title', (title)->
+    Docs.find({
+        title:title
+        model:'wikipedia'
+        "watson.metadata.image":$exists:true
+    }, {
+        fields:
+            title:1
+            "watson.metadata.image":1
+    })
+
+
+Meteor.publish 'comments', (doc_id)->
+    Docs.find
+        model:'comment'
+        parent_id:doc_id
+
+
+        
+
+Meteor.publish 'doc_comments', (doc_id)->
+    Docs.find
+        model:'comment'
+        parent_id:doc_id
+
+
+Meteor.publish 'children', (model, parent_id)->
+    match = {}
+    Docs.find
+        model:model
+        parent_id:parent_id
+
+Meteor.publish 'current_doc', (doc_id)->
+    console.log 'pulling doc'
+    Docs.find doc_id
+
+
+
+
+
+Meteor.publish 'model_docs', (model)->
+    # console.log 'pulling doc'
+    match = {model:model}
+    # if Meteor.user()
+    #     unless Meteor.user().roles and 'admin' in Meteor.user().roles
+    #         match.app = 'stand'
+    # else
+        # match.app = 'stand'
+    Docs.find match
+
+
+
+Meteor.publish 'doc', (doc_id)->
+    found_doc = Docs.findOne doc_id
+    if found_doc
+        Docs.find doc_id
+    else
+        Meteor.users.find doc_id
+        
+        
+        
 # tsqp-gebk-xhpz-eobp-agle
 Docs.allow
     insert: (userId, doc) -> true
@@ -229,7 +310,7 @@ Meteor.publish 'dao_tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:42 }
+        { $limit:33 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     tag_cloud.forEach (tag, i) ->
@@ -317,3 +398,4 @@ Meteor.publish 'dao_tags', (
     
     
     self.ready()
+        
