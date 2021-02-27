@@ -96,7 +96,7 @@ Meteor.publish 'doc_count', (
     )->
     @unblock()
     match = {
-        model:$in:['post','rpost']
+        model:'post'
         is_private:$ne:true
     }
     # unless Meteor.userId()
@@ -124,7 +124,7 @@ Meteor.publish 'posts', (
     # @unblock()
     self = @
     match = {
-        model:$in:['post','rpost']
+        model:'post'
         # is_private:$ne:true
         # group:$exists:false
     }
@@ -143,7 +143,7 @@ Meteor.publish 'posts', (
 
     # console.log 'match',match
     Docs.find match,
-        limit:10
+        limit:42
         sort:_timestamp:-1
         # sort: "#{sk}":-1
         # skip:skip*20
@@ -206,7 +206,7 @@ Meteor.publish 'dao_tags', (
     # @unblock()
     self = @
     match = {
-        model:$in:['post','rpost']
+        model:'post'
         # model:'post'
         # is_private:$ne:true
         # sublove:sublove
@@ -222,7 +222,7 @@ Meteor.publish 'dao_tags', (
     # if picked_locations.length > 0 then match.location = $all:picked_locations
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     doc_count = Docs.find(match).count()
-    console.log 'doc_count', doc_count
+    # console.log 'doc_count', doc_count
     tag_cloud = Docs.aggregate [
         { $match: match }
         { $project: "tags": 1 }
@@ -231,11 +231,11 @@ Meteor.publish 'dao_tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:20 }
+        { $limit:42 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     tag_cloud.forEach (tag, i) ->
-        console.log tag
+        # console.log tag
         self.added 'results', Random.id(),
             name: tag.name
             count: tag.count

@@ -21,14 +21,9 @@ template(name='post_view')
                     +comments
                     div
                 .four.wide.column.scrolling
-                    if group
-                        a.ui.large.basic.button(href="/g/#{group}")
-                            i.chevron.left.large.icon
-                            |#{group}
-                    else
-                        a.ui.large.icon.circular.basic.button(href="/")
-                            i.chevron.left.large.icon
-                            i.large.home.icon
+                    a.ui.large.icon.circular.basic.button(href="/")
+                        i.chevron.left.large.icon
+                        i.large.home.icon
                     if can_edit 
                         a.ui.icon.large.basic.circular.button(href="/p/#{_id}/edit")
                             i.big.pencil.icon
@@ -39,9 +34,6 @@ template(name='post_view')
                     +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     i.large.eye.icon
-                    each viewer_ids
-                        +user_info
-                    +tip
                     // .ui.header anon vote
                     // i.large.thumbs.up.icon.anon_voteup
                     // i.large.thumbs.down.icon.anon_votedown

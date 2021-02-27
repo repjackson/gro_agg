@@ -41,22 +41,10 @@ Template.post_card.onRendered ->
 
 
 
-Template.post_card.helpers
-    card_class: ->
-        if Meteor.userId()
-            if @viewer_ids 
-                if Meteor.userId() in @viewer_ids
-                    'link'
-                else
-                    'raised link'
-            else
-                'raised link'
-        else
-            'raised link'
 Template.home.helpers
     posts: ->
         Docs.find {
-            model:$in:['post','rpost']
+            model:'post'
         }, sort: _timestamp:-1
        
     picked_tags: -> picked_tags.array()
@@ -74,6 +62,10 @@ Template.home.helpers
     main_column_class: -> if Session.get('view_sidebar') then 'ui twelve wide column' else 'ui sixteen wide column' 
         
 Template.home.events
+    'click .add': ->
+        new_id = Docs.insert 
+            model:'post'
+        Router.go "/p/#{new_id}/edit"
     'click .enable_sidebar': (e,t)-> Session.set('view_sidebar',true)
     'click .disable_sidebar': (e,t)-> Session.set('view_sidebar',false)
     'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
@@ -85,11 +77,8 @@ Template.home.events
 
 
     'click .mark_viewed': (e,t)->
-        if Meteor.userId()
-            Docs.update @_id,
-                $addToSet:viewer_ids:Meteor.userId()
-            Meteor.users.update @_author_id,
-                $inc:points:1
+        Docs.update @_id,
+            $inc:views:1
     'keyup .search_tag': (e,t)->
          if e.which is 13
             val = t.$('.search_tag').val().trim().toLowerCase()
@@ -116,11 +105,6 @@ Template.home.events
             picked_tags.push val   
             t.$('.search_tag').val('')
             # Session.set('sub_doc_query', val)
-            Meteor.call 'search_reddit', picked_tags.array(), ->
-                Session.set('loading',false)
-            Meteor.setTimeout ->
-                Session.set('toggle',!Session.get('toggle'))
-            , 5000
 
 
 
@@ -165,11 +149,6 @@ Template.home.events
         picked_authors.push @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
 
-    'click .unpick_Location': ->
-        picked_Locations.remove @valueOf()
-    'click .pick_Location': ->
-        picked_Locations.push @name
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         
     'click .unpick_time_tag': ->
         group_picked_time_tags.remove @valueOf()
@@ -233,7 +212,7 @@ Template.home.events
             # results.update
             # console.log @
             # window.speechSynthesis.cancel()
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             # if @model is 'love_emotion'
             #     picked_emotions.push @name
             # else
@@ -245,14 +224,6 @@ Template.home.events
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
             # Session.set('love_loading',true)
-            Meteor.call 'search_reddit', picked_tags.array(), ->
-                Session.set('loading',false)
-                # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
-            Meteor.setTimeout ->
-                Session.set('toggle',!Session.get('toggle'))
-            , 5000
-
-            
             
     
     Template.unpick_tag.onCreated ->
