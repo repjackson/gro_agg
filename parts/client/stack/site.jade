@@ -1,0 +1,269 @@
+template(name='sq')
+    unless current_site
+        +loading
+    with current_site
+        .ui.stackable.grid
+            .row
+                .ui.twelve.wide.column
+                    img.ui.get_info.shadowed.ui.inline.image(src=logo_url )
+                    if selected_tags
+                        // if many_tags
+                        //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                        //         i.remove.icon
+                        each selected_tags
+                            +unpick_tag
+                    .ui.left.icon.input
+                        i.search.icon
+                        input.search_site(type='text')
+                    .smallscroll                    
+                        each site_tags
+                            +stack_tag_selector
+                    // if site_emotions.count
+                    //     +skve k='view_emotions' v=true l="emotions" i='smile' ionly=false
+                    //     if skv_is 'view_emotions' true
+                    //         i.grey.remove.link.icon.clear_emotions(title='emotions')
+                    each selected_emotions
+                        +unpick_tag
+                    div
+                    .ui.inline.header #{q_count}
+                    if skv_is 'sort_direction' 1
+                        .ui.icon.compact.basic.tertiary.button.sort_down
+                            i.caret.down.icon
+                    else
+                        .ui.icon.compact.basic.tertiary.button.sort_up
+                            i.caret.up.icon
+                    if skv_is 'view_bounties' 1
+                        .ui.compact.black.button.unview_bounties
+                            i.hand.holding.heart.icon
+                            | bounties
+                    else
+                        .ui.compact.basic.tertiary.button.view_bounties
+                            i.hand.holding.heart.icon
+                            | bounties
+                    if skv_is 'view_unanswered' 1
+                        .ui.compact.black.button.unview_unanswered
+                            i.checkmark.icon
+                            | unanswered
+                    else
+                        .ui.compact.basic.tertiary.button.view_unanswered
+                            i.question.icon
+                            | unanswered
+                    i.big.fire.link.icon
+                    .ui.compact.basic.small.tertiary.button.limit_1
+                        |1
+                    .ui.compact.basic.small.tertiary.button.limit_10
+                        |10
+                    .ui.icon.compact.large.basic.small.tertiary.button.sort_timestamp
+                        i.clock.icon
+                    .ui.icon.compact.large.basic.small.tertiary.button.set_points
+                        i.line.chart.icon
+                    if skv_is 'view_detail' true
+                        .ui.black.compact.icon.button.toggle_detail
+                            i.list.large.icon
+                            // |detail
+                    else
+                        .ui.compact.basic.large.icon.tertiary.button.toggle_detail
+                            i.minus.large.icon
+                            // |simple
+                        // i.line.chart.icon
+                    // .ui.icon.compact.large.button 
+                    //     i.th.icon
+                    // .ui.icon.compact.large.button 
+                    //     i.list.icon
+                    .medscroll
+                        each site_questions
+                            +s_q_item
+                            .ui.divider
+                .four.wide.column.scrollin
+                    each site_emotions
+                        // +stack_tag_selector
+                        .ui.large.label(title=count) #{name}
+                    // if site_person.count
+                    //     +skve k='view_people' v=true l="people" i='users' ionly=false
+                    //     if skv_is 'view_people' true
+                    each site_persons
+                        +stack_tag_selector
+                    // if site_organizations.count
+                    //     +skve k='view_orgs' v=true l="organisations" i='building' ionly=false
+                    //     if skv_is 'view_orgs' true
+                    each site_organizations
+                        +stack_tag_selector
+                    // if site_locations.count
+                    //     +skve k='view_locations' v=true l="locations" i='marker' ionly=false
+                    //     if skv_is 'view_locations' true
+                    each site_locations
+                        +stack_tag_selector
+                    // if site_companys.count
+                    //     +skve k='view_companies' v=true l="companies" i='briefcase' ionly=false
+                    //     if skv_is 'view_companies' true
+                    each site_companys
+                        +stack_tag_selector
+                    with emotion_avg
+                        // .ui.list
+                        //     .item {{ to_percent avg_sent_score}}% sentiment
+                        //     .item {{ to_percent avg_joy_score}}% joy
+                        //     .item {{ to_percent avg_anger_score}}% anger
+                        //     .item {{ to_percent avg_sadness_score}}% sad
+                        //     .item {{ to_percent avg_disgust_score}}% disgust
+                        //     .item {{ to_percent avg_fear_score}}% fear
+                        if kv_is 'doc_sentiment_label' 'positive'
+                            span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label}
+                                |&nbsp;
+                            div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+                        else if kv_is 'doc_sentiment_label' 'negative'
+                            span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  #{doc_sentiment_label} 
+                                |&nbsp;
+                            div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+                            
+                        span.say.ui.green.text(class="{{calculated_size avg_sent_score}}") {{ to_percent avg_sent_score }}% joy 
+                            |&nbsp;
+                        div.rounded(style="height:5px;width:{{to_percent avg_sent_score}}%;background-color:green" title="{{to_percent avg_sent_score}}% joy")
+              
+                        span.say.ui.green.text(class="{{calculated_size avg_joy_score}}") {{ to_percent avg_joy_score }}% joy 
+                            |&nbsp;
+                        div.rounded(style="height:5px;width:{{to_percent avg_joy_score}}%;background-color:green" title="{{to_percent avg_joy_score}}% joy")
+                        //- if above_50 'avg_sadness_score'
+                            //- .spacer
+                        span.say.ui.blue.text(class="{{calculated_size avg_sadness_score}}") {{ to_percent avg_sadness_score}}% sad 
+                            |&nbsp;
+                        div.rounded(style="height:5px;width:{{to_percent avg_sadness_score}}%;background-color:blue" title="{{to_percent avg_sadness_score}}% sad")
+                        //- if above_50 'avg_fear_score'
+                            //- .spacer
+                        span.say.ui.grey.text(class="{{calculated_size avg_fear_score}}") {{ to_percent avg_fear_score }}% fear 
+                            |&nbsp;
+                        div.rounded(style="height:5px;width:{{to_percent avg_fear_score}}%;background-color:grey" title="{{to_percent avg_fear_score}}% fear")
+                        //- if above_50 'avg_disgust_score'
+                            //- .spacer
+                        span.say.ui.orange.text(class="{{calculated_size avg_disgust_score}}") {{ to_percent avg_disgust_score }}% disgust 
+                            |&nbsp;
+                        div.rounded(style="height:5px;width:{{to_percent avg_disgust_score}}%;background-color:orange" title="{{to_percent avg_disgust_score}}% disgust")
+                        //- if above_50 'avg_anger_score'
+                            //- .spacer
+                        span.say.ui.red.text(class="{{calculated_size avg_anger_score}}") {{ to_percent avg_anger_score }}% anger 
+                            |&nbsp;
+                        div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
+
+                    a.ui.compact.basic.large.button.say(href="/s/#{api_site_parameter}/users")
+                        i.large.users.icon
+                        |users
+                    a.ui.compact.basic.large.button.say(href="/s/#{api_site_parameter}/privledges")
+                        i.large.edit.icon
+                        |privledges
+                    |#{current_sentiment} sent
+                    +alpha
+                    // +duck
+                    // a.ui.icon.button(href='/')
+                    //     i.large.home.icon
+                    // img.get_info.mobile.hidden.shadowed(src=high_resolution_icon_url )
+                    // img(src=icon_url)
+                    // .ui.segment(style="background-color:#{styling.tag_background_color}")
+                    .ui.small.list.mobile.hidden
+                        .item.say 
+                            strong #{audience}
+                        a.item.say(href=site_url target="_window")
+                            |#{site_url}
+                            i.external.icon
+                        .item.say open beta {{ufrom open_beta_date}}
+                        .item.say closed beta {{ufrom closed_beta_date}}
+                        if launch_date
+                            .item.say launched {{ufrom launch_date}}
+                        // .item.say state: #{site_state}
+                        // .item.say #{high_resolution_icon_url} high_resolution_icon_url
+                        // .item.say #{favicon_url} favicon_url
+                        // .item.say #{api_site_parameter} api
+                        // .item.say #{site_type} 
+                        .item.say main emotion: #{main_emotion}
+                        .item.say 
+                            i.grey.lightning.icon
+                            |{{commafy new_active_users}}
+                            |active users
+                        .item.say 
+                            i.grey.user.outline.icon
+                            |{{commafy total_users}} total users
+                        .item.say 
+                            i.grey.certificate.icon
+                            |{{commafy badges_per_minute}} badges/min
+                        .item.say
+                            i.grey.certificate.icon
+                            |{{commafy total_badges}} badges
+                        .item.say 
+                            i.grey.grey.thumbs.up.outline.icon
+                            |{{commafy total_votes}} votes
+                        .item.say 
+                            i.grey.chat.outline.icon
+                            |{{commafy total_comments}} comments
+                        .item.say 
+                            i.grey.reply.icon
+                            |{{commafy total_answers}} answers
+                        .item.say
+                            i.grey.reply.icon
+                            |#{answers_per_minute} answers/min
+                        .item.say
+                            i.grey.question.icon
+                            |{{commafy total_questions}} questions
+                        .item.say
+                            i.grey.question.icon
+                            |{{commafy questions_per_minute}} questions/min
+                        .item.say 
+                            i.grey.checkmark.icon
+                            |{{commafy total_accepted}} accepted
+                        .item.say 
+                            i.grey.exclamation.icon
+                            |{{commafy total_unanswered}} unanswered
+                        // .item api_revision: #{api_revision}
+                    // if in_dev
+                    //     +array_edit k='tags' d=true
+   
+   
+template(name='s_q_item')                  
+    .ui.item
+        // if watson.metadata.image
+        //     img.ui.avatar.invert.image(src=watson.metadata.image)    
+        .content
+            a.ui.inline.header.view_question.zoomer(href="/s/#{site}/q/#{question_id}" class=post_header_class)
+                strong #{score}
+                if is_answered
+                    i.green.checkmark.icon
+                |!{title} 
+            // .spacer
+            unless skv_is 'view_detail' true
+                if watson.analyzed_text
+                    span.pointer.view_question {{trunc watson.analyzed_text}}...
+            if skv_is 'view_detail' true
+                .say.pointer.goto_q !{body}
+                .ui.horizontal.list
+                    each tags
+                        +flat_tag_selector
+            .ui.horizontal.list
+                with owner
+                    a.ui.small.header.item(href="/s/#{../site}/u/#{user_id}")
+                        img.ui.avatar.image(src=profile_image)
+                        |!{display_name}
+                        small {{ commafy reputation }}
+                        small !{location}
+                // |#{_when}
+                if last_edit_date
+                    .item updated {{ufrom last_edit_date}}
+                if creation_date
+                    .item created {{ufrom creation_date}}
+            +doc_emotion_small
+                // .ui.label user_id #{user_id}
+            // .ui.divider
+template(name='stack_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.small.tertiary.compact.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong !{name}
+        // if in_dev
+        //     small #{count}
+template(name='flat_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.small.tertiary.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong #{this}
+        // if in_dev
+        //     small #{count}

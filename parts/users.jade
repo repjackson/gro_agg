@@ -47,7 +47,7 @@ template(name='user_cloud')
         #clear_tags.ui.primary.icon.compact.button
             i.remove.icon
         each selected_user_tags
-            .unselect_tag.ui.primary.compact.button
+            .unpick_tag.ui.primary.compact.button
                 strong #{this}
     each all_tags
         .ui.compact.basic.button.select_tag(class=cloud_tag_class) 

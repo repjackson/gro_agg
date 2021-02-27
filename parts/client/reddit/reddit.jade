@@ -13,7 +13,7 @@ template(name='reddit')
                 //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                 //         i.remove.icon
                 each selected_reddit_tags
-                    +reddit_unselect_tag
+                    +reddit_unpick_tag
             .ui.icon.input
                 i.search.icon
                 input.search_reddit(type='text' value=reddit_query)
@@ -317,7 +317,7 @@ template(name='reddit_tag_selector')
         // if in_dev
         //     small #{count}
         
-template(name='reddit_unselect_tag')
+template(name='reddit_unpick_tag')
     a.unselect_reddit_tag.ui.black.compact.button(href='#')
         if term
             if term.watson.metadata.image

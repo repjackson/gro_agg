@@ -134,7 +134,7 @@ if Meteor.isClient
 
     Template.user_cloud.events
         'click .select_tag': -> selected_user_tags.push @name
-        'click .unselect_tag': -> selected_user_tags.remove @valueOf()
+        'click .unpick_tag': -> selected_user_tags.remove @valueOf()
         'click #clear_tags': -> selected_user_tags.clear()
 
         'click .select_level': -> selected_user_levels.push @name

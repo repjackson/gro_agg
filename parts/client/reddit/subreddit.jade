@@ -18,7 +18,7 @@ template(name='subreddit')
                     //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                     //         i.remove.icon
                     each selected_sub_tags
-                        +sub_unselect_tag
+                        +sub_unpick_tag
                 .ui.icon.input
                     i.search.icon
                     input.search_subreddit(type='text')
@@ -84,13 +84,13 @@ template(name='subreddit')
                         i.list.large.icon
                 .scrolling
                     if sub_docs
-                        if skv_is 'subreddit_view_layout' 'grid'
-                            .ui.stackable.three.cards 
-                                each sub_docs
-                                    +subreddit_post_card_small
-                        else if skv_is 'subreddit_view_layout' 'list'
+                        // if skv_is 'subreddit_view_layout' 'grid'
+                        .ui.stackable.two.cards 
                             each sub_docs
-                                +subreddit_doc_item
+                                +subreddit_post_card_small
+                        // else if skv_is 'subreddit_view_layout' 'list'
+                        //     each sub_docs
+                        //         +subreddit_doc_item
                     else
                         .ui.basic.center.aligned.segment
                             i.big.loading.yin.yang.icon
@@ -351,7 +351,7 @@ template(name='sub_tag_selector')
         // if in_dev
         //     small #{count}
         
-template(name='sub_unselect_tag')
+template(name='sub_unpick_tag')
     a.unselect_sub_tag.ui.black.compact.button(href='#')
         if term
             if term.watson.metadata.image

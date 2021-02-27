@@ -268,18 +268,18 @@ Template.reddit_tag_selector.events
         
         
 
-Template.reddit_unselect_tag.onCreated ->
+Template.reddit_unpick_tag.onCreated ->
     
     @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
     
-Template.reddit_unselect_tag.helpers
+Template.reddit_unpick_tag.helpers
     term: ->
         found = 
             Docs.findOne 
                 # model:'wikipedia'
                 title:@valueOf().toLowerCase()
         found
-Template.reddit_unselect_tag.events
+Template.reddit_unpick_tag.events
     'click .unselect_reddit_tag': -> 
         Session.set('skip',0)
         # console.log @

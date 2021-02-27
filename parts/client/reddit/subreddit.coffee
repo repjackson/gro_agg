@@ -149,7 +149,8 @@ Template.subreddit.helpers
     subreddit_doc: ->
         Docs.findOne
             model:'subreddit'
-            "data.display_name":Router.current().params.subreddit
+            # "data.display_name":Router.current().params.subreddit
+            name:Router.current().params.subreddit
     sub_docs: ->
         Docs.find({
             model:'rpost'
@@ -215,18 +216,18 @@ Template.sub_tag_selector.events
         
         
 
-Template.sub_unselect_tag.onCreated ->
+Template.sub_unpick_tag.onCreated ->
     
     @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
     
-Template.sub_unselect_tag.helpers
+Template.sub_unpick_tag.helpers
     term: ->
         found = 
             Docs.findOne 
                 # model:'wikipedia'
                 title:@valueOf().toLowerCase()
         found
-Template.sub_unselect_tag.events
+Template.sub_unpick_tag.events
     'click .unselect_sub_tag': -> 
         Session.set('skip',0)
         console.log @

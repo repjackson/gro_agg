@@ -304,7 +304,7 @@ if Meteor.isClient
 
     Template.group_post_card.events
         'click .pick_tag': -> selected_group_tags.push @valueOf()
-        # 'click .unselect_tag': -> selected_group_tags.remove @valueOf()
+        # 'click .unpick_tag': -> selected_group_tags.remove @valueOf()
 
         'click .pick_location': -> selected_group_location_tags.push @valueOf()
         # 'click .unselect_location_tag': -> selected_group_location_tags.remove @valueOf()
@@ -319,7 +319,7 @@ if Meteor.isClient
 
     Template.group_posts.events
         'click .select_tag': -> selected_group_tags.push @name
-        'click .unselect_tag': -> selected_group_tags.remove @valueOf()
+        'click .unpick_tag': -> selected_group_tags.remove @valueOf()
         'click #clear_tags': -> selected_group_tags.clear()
 
         'click .select_location_tag': -> selected_group_location_tags.push @name
