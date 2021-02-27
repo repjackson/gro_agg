@@ -1,4 +1,4 @@
-@selected_tags = new ReactiveArray []
+@picked_tags = new ReactiveArray []
 
 Template.registerHelper 'is_positive', () ->
     # console.log @doc_sentiment_score
@@ -26,7 +26,7 @@ Template.registerHelper 'session_clicks', () -> Session.get('session_clicks')
 Template.registerHelper 'abs_percent', (num) -> 
     # console.l/og Math.abs(num*100)
     parseInt(Math.abs(num*100))
-Template.registerHelper 'selected_tags', () -> selected_tags.array()
+Template.registerHelper 'picked_tags', () -> picked_tags.array()
 Template.registerHelper 'selected_models', () -> selected_models.array()
 Template.registerHelper 'selected_groups', () -> selected_groups.array()
 Template.registerHelper 'selected_emotions', () -> selected_emotions.array()

@@ -54,11 +54,11 @@ template(name='su')
                         .ui.icon.button.get_site_users
                             i.refresh.icon
                 .twelve.wide.column
-                    if selected_tags
+                    if picked_tags
                         if many_tags
                             a#clear_tags.ui.black.invert.icon.compact.button.select_term
                                 i.remove.icon
-                        each selected_tags
+                        each picked_tags
                             +unpick_tag
                     .ui.left.icon.input(class="{{#if current_username_query}} focus {{/if}}")
                         if current_username_query

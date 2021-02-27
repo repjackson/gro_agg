@@ -439,18 +439,18 @@ Meteor.methods
             match.target_id = user_id
 
         console.log 'found debits', Docs.find(match).count()
-        # if omega.selected_tags.length > 0
+        # if omega.picked_tags.length > 0
         #     limit = 42
         # else
         # limit = 10
         # console.log 'omega_match', match
-        # { $match: tags:$all: omega.selected_tags }
+        # { $match: tags:$all: omega.picked_tags }
         pipe =  [
             { $match: match }
             { $project: tags: 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
-            # { $match: _id: $nin: omega.selected_tags }
+            # { $match: _id: $nin: omega.picked_tags }
             { $sort: count: -1, _id: 1 }
             { $limit: 10 }
             { $project: _id: 0, title: '$_id', count: 1 }

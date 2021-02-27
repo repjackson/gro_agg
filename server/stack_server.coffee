@@ -33,7 +33,7 @@ Meteor.publish 'site_by_param', (site)->
     
 
 Meteor.publish 'stack_docs', (
-    selected_tags
+    picked_tags
     view_mode
     emotion_mode
     # query=''
@@ -43,8 +43,8 @@ Meteor.publish 'stack_docs', (
     # if emotion_mode
     #     match.max_emotion_name = emotion_mode
 
-    if selected_tags.length > 0
-        match.tags = $all:selected_tags
+    if picked_tags.length > 0
+        match.tags = $all:picked_tags
     # match.model = 'wikipedia'
     # if selected_emotions.length > 0 then match.max_emotion_name = $all:selected_emotions
     
@@ -276,7 +276,7 @@ Meteor.methods
             )).catch((err)->
             )
 
-    search_stack: (site, query, selected_tags) ->
+    search_stack: (site, query, picked_tags) ->
         url = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=#{query}&site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
             url: url
@@ -632,7 +632,7 @@ Meteor.methods
     get_site_info: (site) ->
         # var url = 'https://api.stackexchange.com/2.2/sites';
         # url = 'http://api.stackexchange.com/2.1/questions?pagesize=1&fromdate=1356998400&todate=1359676800&order=desc&min=0&sort=votes&tagged=javascript&site=stackoverflow'
-        # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&tagged=#{selected_tags}&intitle=#{query}&site=stackoverflow"
+        # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&tagged=#{picked_tags}&intitle=#{query}&site=stackoverflow"
         # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&intitle=#{query}&site=stackoverflow"
         url = "https://api.stackexchange.com/2.2/info?site=#{site}&key=lPplyGlNUs)cIMOajW03aw(("
         options = {
@@ -668,21 +668,44 @@ Meteor.methods
             )).catch((err)->
             )
         
-        
+Meteor.publish 'related_questions', (post_id)->
+    post = Docs.findOne post_id
+    if post
+        related_cur = 
+            Docs.find({
+                model:'stack_question'
+                tags:$in:post.tags
+            },{ 
+                limit:10
+                sort:"score":-1
+            })
+        related_cur
+    
 Meteor.publish 'site_q_count', (
     site
-    selected_tags
+    picked_tags
     )->
         
     match = {model:'stack_question'}
     match.site = site
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
     Counts.publish this, 'site_q_counter', Docs.find(match)
     return undefined
+    
+    
+Meteor.publish 'qid', (
+    site
+    qid
+    )->
+        
+    match = {model:'stack_question'}
+    match.site = site
+    match.question_id = parseInt(qid)
+    Docs.find match
 
 Meteor.publish 's_q', (
     site
-    selected_tags
+    picked_tags
     selected_emotion
     sort_key
     sort_direction
@@ -699,16 +722,16 @@ Meteor.publish 's_q', (
         site:site
         }
         
-    if view_unanswered
-        match.is_answered = false
-    if view_bounties 
-        match.bounty = true
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
-    if selected_emotion.length > 0 
-        match.max_emotion_name = selected_emotion[0]
+    # if view_unanswered
+    #     match.is_answered = false
+    # if view_bounties 
+    #     match.bounty = true
+    # if picked_tags.length > 0 then match.tags = $all:picked_tags
+    # if selected_emotion.length > 0 
+    #     match.max_emotion_name = selected_emotion[0]
     if site
         Docs.find match, 
-            limit:20
+            limit:10
             sort:
                 score:sort_direction
                 # "#{sort_key}":sort_direction
@@ -716,7 +739,7 @@ Meteor.publish 's_q', (
 
 Meteor.publish 'site_tags', (
     site
-    selected_tags
+    picked_tags
     selected_emotion
     toggle
     view_bounties
@@ -733,7 +756,7 @@ Meteor.publish 'site_tags', (
         match.bounty = true
     if view_unanswered
         match.is_answered = false
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
     # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
     doc_count = Docs.find(match).count()
     console.log 'doc_count', doc_count
@@ -742,7 +765,7 @@ Meteor.publish 'site_tags', (
         { $project: "tags": 1 }
         { $unwind: "$tags" }
         { $group: _id: "$tags", count: $sum: 1 }
-        { $match: _id: $nin: selected_tags }
+        { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:20 }
@@ -755,93 +778,93 @@ Meteor.publish 'site_tags', (
             model:'site_tag'
     
     
-    site_Location_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "Location": 1 }
-        { $unwind: "$Location" }
-        { $group: _id: "$Location", count: $sum: 1 }
-        # { $match: _id: $nin: selected_Locations }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:7 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    site_Location_cloud.forEach (Location, i) ->
-        self.added 'results', Random.id(),
-            name: Location.name
-            count: Location.count
-            model:'site_Location'
+    # site_Location_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "Location": 1 }
+    #     { $unwind: "$Location" }
+    #     { $group: _id: "$Location", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_Locations }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:7 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # site_Location_cloud.forEach (Location, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: Location.name
+    #         count: Location.count
+    #         model:'site_Location'
   
   
-    site_Organization_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "Organization": 1 }
-        { $unwind: "$Organization" }
-        { $group: _id: "$Organization", count: $sum: 1 }
-        # { $match: _id: $nin: selected_Organizations }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:5 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    site_Organization_cloud.forEach (Organization, i) ->
-        self.added 'results', Random.id(),
-            name: Organization.name
-            count: Organization.count
-            model:'site_Organization'
+    # site_Organization_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "Organization": 1 }
+    #     { $unwind: "$Organization" }
+    #     { $group: _id: "$Organization", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_Organizations }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # site_Organization_cloud.forEach (Organization, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: Organization.name
+    #         count: Organization.count
+    #         model:'site_Organization'
   
   
-    site_Person_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "Person": 1 }
-        { $unwind: "$Person" }
-        { $group: _id: "$Person", count: $sum: 1 }
-        # { $match: _id: $nin: selected_Persons }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:5 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    site_Person_cloud.forEach (Person, i) ->
-        self.added 'results', Random.id(),
-            name: Person.name
-            count: Person.count
-            model:'site_Person'
+    # site_Person_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "Person": 1 }
+    #     { $unwind: "$Person" }
+    #     { $group: _id: "$Person", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_Persons }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # site_Person_cloud.forEach (Person, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: Person.name
+    #         count: Person.count
+    #         model:'site_Person'
   
   
-    site_Company_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "Company": 1 }
-        { $unwind: "$Company" }
-        { $group: _id: "$Company", count: $sum: 1 }
-        # { $match: _id: $nin: selected_Companys }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:5 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    site_Company_cloud.forEach (Company, i) ->
-        self.added 'results', Random.id(),
-            name: Company.name
-            count: Company.count
-            model:'site_Company'
+    # site_Company_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "Company": 1 }
+    #     { $unwind: "$Company" }
+    #     { $group: _id: "$Company", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_Companys }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # site_Company_cloud.forEach (Company, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: Company.name
+    #         count: Company.count
+    #         model:'site_Company'
   
   
-    site_emotion_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "max_emotion_name": 1 }
-        { $group: _id: "$max_emotion_name", count: $sum: 1 }
-        # { $match: _id: $nin: selected_emotions }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:5 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    site_emotion_cloud.forEach (emotion, i) ->
-        self.added 'results', Random.id(),
-            name: emotion.name
-            count: emotion.count
-            model:'site_emotion'
+    # site_emotion_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "max_emotion_name": 1 }
+    #     { $group: _id: "$max_emotion_name", count: $sum: 1 }
+    #     # { $match: _id: $nin: selected_emotions }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # site_emotion_cloud.forEach (emotion, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: emotion.name
+    #         count: emotion.count
+    #         model:'site_emotion'
   
   
     self.ready()
@@ -849,7 +872,7 @@ Meteor.publish 'site_tags', (
 
 
 Meteor.publish 'site_user_tags', (
-    selected_tags
+    picked_tags
     site
     user_query
     location_query
@@ -865,13 +888,13 @@ Meteor.publish 'site_user_tags', (
         site:site
         }
     doc_count = Docs.find(match).count()
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
     site_tag_cloud = Docs.aggregate [
         { $match: match }
         { $project: "tags": 1 }
         { $unwind: "$tags" }
         { $group: _id: "$tags", count: $sum: 1 }
-        { $match: _id: $nin: selected_tags }
+        { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:20 }
@@ -963,7 +986,7 @@ Meteor.publish 'stackusers_by_site', (
     site
     user_query
     location_query
-    selected_tags
+    picked_tags
     sort_key
     sort_direction
     limit
@@ -979,7 +1002,7 @@ Meteor.publish 'stackusers_by_site', (
         match.display_name = {$regex:"#{user_query}", $options:'i'}
     if location_query
         match.location = {$regex:"#{location_query}", $options:'i'}
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
     if site
         Docs.find match, 
             limit:20
@@ -991,35 +1014,35 @@ Meteor.publish 'stackusers_by_site', (
                         
                         
                 
-Meteor.publish 'stack_sites', (selected_tags=[], name_filter='')->
+Meteor.publish 'stack_sites', (picked_tags=[], name_filter='')->
     match = {model:'stack_site'}
     match.site_type = 'main_site'
-    if selected_tags.length > 0
-        match.tags = $all: selected_tags
+    if picked_tags.length > 0
+        match.tags = $all: picked_tags
     if name_filter.length > 0
         match.name = {$regex:"#{name_filter}", $options:'i'}
     Docs.find match,
         limit:300
         
-Meteor.publish 'stack_sites_small', (selected_tags=[], name_filter='')->
+Meteor.publish 'stack_sites_small', (picked_tags=[], name_filter='')->
     match = {model:'stack_site'}
-    match.site_type = 'main_site'
-    if selected_tags.length > 0
-        match.tags = $all: selected_tags
-    if name_filter.length > 0
-        match.name = {$regex:"#{name_filter}", $options:'i'}
+    # match.site_type = 'main_site'
+    # if picked_tags.length > 0
+    #     match.tags = $all: picked_tags
+    # if name_filter.length > 0
+    #     match.name = {$regex:"#{name_filter}", $options:'i'}
     Docs.find match,
         {
             limit:20
-            fields:
-                audience:1
-                logo_url:1
-                name:1
-                model:1
-                api_site_parameter:1
-                styling:1
-                total_answers:1
-                total_questions:1
+            # fields:
+            #     audience:1
+            #     logo_url:1
+            #     name:1
+            #     model:1
+            #     api_site_parameter:1
+            #     styling:1
+            #     total_answers:1
+            #     total_questions:1
         }
 
 
@@ -1028,7 +1051,7 @@ Meteor.publish 'stack_sites_small', (selected_tags=[], name_filter='')->
                         
                         
 Meteor.publish 'suser_tags', (
-    selected_tags
+    picked_tags
     # site
     # user_id
     # user_query
@@ -1042,13 +1065,13 @@ Meteor.publish 'suser_tags', (
         # "owner.user_id":parseInt(user_id)
         }
     doc_count = Docs.find(match).count()
-    if selected_tags.length > 0 then match.tags = $in:selected_tags
+    if picked_tags.length > 0 then match.tags = $in:picked_tags
     site_tag_cloud = Docs.aggregate [
         { $match: match }
         { $project: "tags": 1 }
         { $unwind: "$tags" }
         { $group: _id: "$tags", count: $sum: 1 }
-        { $match: _id: $nin: selected_tags }
+        { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:20 }
@@ -1065,7 +1088,7 @@ Meteor.publish 'suser_tags', (
     
 Meteor.publish 'agg_sentiment_site', (
     site
-    selected_tags
+    picked_tags
     )->
     # @unblock()
     self = @
@@ -1075,7 +1098,7 @@ Meteor.publish 'agg_sentiment_site', (
     }
         
     doc_count = Docs.find(match).count()
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
     emotion_avgs = Docs.aggregate [
         { $match: match }
         #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },

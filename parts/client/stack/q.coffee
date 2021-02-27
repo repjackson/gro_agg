@@ -3,6 +3,10 @@ Router.route '/s/:site/q/:qid', (->
     @render 'q'
     ), name:'q'
 
+Template.registerHelper 'current_q', () ->
+    Docs.findOne 
+        model:'stack_question'
+
 
 Template.q.onCreated ->
     # @autorun => Meteor.subscribe 'doc', Router.current().params.qid
@@ -119,8 +123,8 @@ Template.q.events
             
 
     'click .add_stack_tag': ->
-        selected_tags.clear()
-        selected_tags.push @valueOf()
+        picked_tags.clear()
+        picked_tags.push @valueOf()
         # if Session.equals('view_mode','stack')
         Router.go "/s/#{Router.current().params.site}"
         # Session.set('thinking',true)

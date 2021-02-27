@@ -1,0 +1,204 @@
+// template(name='love_view')
+//     with current_doc
+//         .ui.stackable.grid
+//             .row 
+//                 .four.wide.column
+//                     .ui.segmen
+//                         a.ui.large.icon.basic.circular.button(href="/love")
+//                             i.chevron.left.large.icon
+//                             i.big.heart.outline.icon
+//                         if can_edit
+//                             a.edit_group_post(href="/#{group}/p/#{_id}/edit" title='edit')
+//                                 i.large.link.pencil.icon
+//                         | #{views} views
+//                         +array_edit key='tags' label='tags' direct=true
+//                         // +voting_full
+//                         +link_view key='link' label='link' direct=true
+    
+//                         +array_edit key='time_tags' label='time tags' icon='clock' direct=true
+//                         +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+//                 .eight.wide.column.scrolling
+//                     .ui.big.inline.header #{l_value}
+//                     .ui.big.inline.header #{o_value}
+//                     .ui.big.inline.header #{v_value}
+//                     .ui.big.inline.header #{e_value}
+//                     if image_link
+//                         +image_link_view key='image_link' direct=true
+//                     if image_id
+//                         a(href="/#{group}")
+//                             img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+//                     if youtube_id
+//                         +youtube_view key='youtube_id' label='youtube id' direct=true
+//                     if raw 
+//                         |!{raw}
+//                     .say_this.say_body
+//                         |!{content}
+//                     div 
+//                     .spacer
+//                     .spacer
+//                     +comments
+//                     div
+//                     .ui.inline.header 
+//                         i.reply.icon
+//                         |reflections
+//                     .ui.circular.basic.large.button.add_reflection
+//                         i.plus.icon
+//                         |add
+//                     div
+//                     each reflections
+//                         a.ui.small.header(href="/reflection/#{_id}/view")  #{title} !{content}
+//                         .ui.divider
+//                 .four.wide.column
+//                     if can_edit 
+//                         a.ui.circular.icon.basic.button(href="/love/#{_id}/edit")
+//                             i.big.pencil.icon
+//                     i.large.eye.icon
+//                     each viewer_ids
+//                         +user_info
+//                     .ui.header tip
+//                     +tip
+//                     .ui.header anon vote
+//                     i.large.thumbs.up.icon.anon_voteup
+//                     i.large.thumbs.down.icon.anon_votedown
+//                     .ui.header user vote
+//                     if currentUser
+//                         +voting_full
+//                         // i.large.thumbs.up.icon.voteup
+//                         // i.large.thumbs.down.icon.anon_votedown
+                        
+//                     .ui.header related links
+//                     .ui.button.search_dao search in dao
+                    
+                    
+                    
+                    
+// template(name='love_edit')
+//     with current_doc
+//         .ui.stackable.padded.grid
+//             .row
+//                 .four.wide.column.scrolling
+//                     a.ui.icon.circular.basic.big.button(href="/love/#{_id}/view" title='save')
+//                         i.checkmark.big.green.icon
+//                     .ui.inline.header 
+//                         i.pencil.icon
+//                         |edit love post
+//                     i.large.link.red.remove.icon.delete_post
+//                     +image_edit key='image_id' label='image' direct=true
+//                     div 
+//                     +array_edit key='tags' label='tags' direct=true
+//                     +link_edit key='link' label='link' direct=true
+//                     +array_edit key='time_tags' label='time tags' icon='clock' direct=true
+//                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+//                     // +raw_edit key='raw' label='raw' direct=true
+//                     +boolean_edit key='private' label='private' direct=true
+//                     // +text_edit key='group' label='group' direct=true
+//                 .twelve.wide.column.scrolling
+//                     +text_edit key='l_value' label='l value' direct=true
+//                     +text_edit key='o_value' label='o value' direct=true
+//                     +text_edit key='v_value' label='v value' direct=true
+//                     +text_edit key='e_value' label='e value' direct=true
+//                     +html_edit key='content' label='content' direct=true
+//                     +image_link_edit key='image_link' direct=true
+//                     +youtube_edit key='youtube_id' label='youtube id' direct=true
+            
+            
+            
+
+// template(name='reflection_view')
+//     with current_doc
+//         .ui.stackable.grid
+//             .row 
+//                 .four.wide.column
+//                     .ui.segmen
+//                         a.ui.large.icon.basic.circular.button(href="/love/#{parent_id}/view")
+//                             i.chevron.up.large.icon
+//                             i.big.heart.outline.icon
+//                         // each tags
+//                         //     .ui.basic.circular.label #{this}
+//                         // div
+//                         // .ui.inline.grey.header {{from_now start_datetime}}
+                        
+//                         | #{views} views
+//                         +array_edit key='tags' label='tags' direct=true
+//                         // +voting_full
+//                         +link_view key='link' label='link' direct=true
+    
+//                         +array_edit key='time_tags' label='time tags' icon='clock' direct=true
+//                         +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+//                 .eight.wide.column.scrolling
+//                     with parent
+//                         .ui.big.inline.header #{l_value}
+//                         .ui.big.inline.header #{o_value}
+//                         .ui.big.inline.header #{v_value}
+//                         .ui.big.inline.header #{e_value}
+//                         if image_link
+//                             +image_link_view key='image_link' direct=true
+//                         if image_id
+//                             a(href="/#{group}")
+//                                 img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+//                         if youtube_id
+//                             +youtube_view key='youtube_id' label='youtube id' direct=true
+//                     .say_this.say_body.f12
+//                         |!{content}
+//                     div 
+//                     .spacer
+//                     .spacer
+//                     +comments
+//                     +watson_full
+//                 .four.wide.column
+//                     if can_edit
+//                         a.edit_group_post(href="/reflection/#{_id}/edit" title='edit')
+//                             i.large.link.pencil.icon
+//                     .ui.header viewed by
+//                     each viewer_ids
+//                         +user_info
+//                     .ui.header tip
+//                     +tip
+//                     .ui.header anon vote
+//                     i.large.thumbs.up.icon.anon_voteup
+//                     i.large.thumbs.down.icon.anon_votedown
+//                     .ui.header user vote
+//                     if currentUser
+//                         +voting_full
+//                         // i.large.thumbs.up.icon.voteup
+//                         // i.large.thumbs.down.icon.anon_votedown
+                        
+//                     // .ui.header related links
+//                     .ui.button.search_dao search in dao
+                    
+                    
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+                   
+// template(name='reflection_edit')
+//     with current_doc
+//         .ui.stackable.padded.grid
+//             .row
+//                 .four.wide.column.scrolling
+//                     a.ui.icon.circular.basic.big.button(href="/reflection/#{_id}/view" title='save')
+//                         i.checkmark.big.green.icon
+//                     .ui.inline.header 
+//                         i.pencil.icon
+//                         |edit reflection
+//                     i.large.link.red.remove.icon.delete_post
+//                     +image_edit key='image_id' label='image' direct=true
+//                     div 
+//                     +array_edit key='tags' label='tags' direct=true
+//                     +link_edit key='link' label='link' direct=true
+//                     +array_edit key='time_tags' label='time tags' icon='clock' direct=true
+//                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+//                     // +raw_edit key='raw' label='raw' direct=true
+//                     +boolean_edit key='private' label='private' direct=true
+//                     // +text_edit key='group' label='group' direct=true
+//                 .twelve.wide.column.scrolling
+//                     +html_edit key='content' label='content' direct=true
+//                     +image_link_edit key='image_link' direct=true
+//                     +youtube_edit key='youtube_id' label='youtube id' direct=true

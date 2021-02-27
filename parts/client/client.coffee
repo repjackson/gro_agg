@@ -75,8 +75,6 @@ Router.route '/', (->
 
 
     
-Template.nav.onCreated ->
-    @autorun => Meteor.subscribe 'me'
 
 Template.nav.events
     'click .clear': ->

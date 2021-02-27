@@ -1,8 +1,6 @@
 if Meteor.isClient
-    @selected_tags = new ReactiveArray []
-
     Template.cloud.onCreated ->
-        @autorun -> Meteor.subscribe('tags', selected_tags.array(), Template.currentData().filter, Template.currentData().limit)
+        @autorun -> Meteor.subscribe('tags', picked_tags.array(), Template.currentData().filter, Template.currentData().limit)
 
     Template.cloud.helpers
         all_tags: ->
@@ -32,16 +30,16 @@ if Meteor.isClient
         }
 
 
-        selected_tags: ->
+        picked_tags: ->
             # model = 'event'
             # console.log "selected_#{model}_tags"
-            selected_tags.array()
+            picked_tags.array()
 
 
     Template.cloud.events
-        'click .select_tag': -> selected_tags.push @name
-        'click .unselect_tag': -> selected_tags.remove @valueOf()
-        'click #clear_tags': -> selected_tags.clear()
+        'click .select_tag': -> picked_tags.push @name
+        'click .unselect_tag': -> picked_tags.remove @valueOf()
+        'click #clear_tags': -> picked_tags.clear()
 
         'keyup #search': (e,t)->
             e.preventDefault()
@@ -50,19 +48,19 @@ if Meteor.isClient
                 when 13 #enter
                     switch val
                         when 'clear'
-                            selected_tags.clear()
+                            picked_tags.clear()
                             $('#search').val ''
                         else
                             unless val.length is 0
-                                selected_tags.push val.toString()
+                                picked_tags.push val.toString()
                                 $('#search').val ''
                 when 8
                     if val.length is 0
-                        selected_tags.pop()
+                        picked_tags.pop()
 
         'autocompleteselect #search': (event, template, doc) ->
             # console.log 'selected ', doc
-            selected_tags.push doc.name
+            picked_tags.push doc.name
             $('#search').val ''
 
         'click #add': ->
@@ -71,10 +69,10 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'tags', (selected_tags, filter, limit)->
+    Meteor.publish 'tags', (picked_tags, filter, limit)->
         self = @
         match = {}
-        if selected_tags.length > 0 then match.tags = $all: selected_tags
+        if picked_tags.length > 0 then match.tags = $all: picked_tags
         if filter then match.model = filter
         if limit
             console.log 'limit', limit
@@ -86,7 +84,7 @@ if Meteor.isServer
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_tags }
+            { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $limit: calc_limit }
             { $project: _id: 0, name: '$_id', count: 1 }
