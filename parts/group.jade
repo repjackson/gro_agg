@@ -29,7 +29,8 @@ template(name='group_card')
             |#{group_admin_ids.length} admins
             i.chess.queen.icon
             |#{group_member_ids.length} members
-        
+            if is_admin
+                +remove_button
                     
                     
 template(name='group_membership')
@@ -302,7 +303,7 @@ template(name='user_groups')
                     a.ui.item(href="/g/#{name}") 
                         if image_id
                             a(href="/g/#{name}/")
-                                img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                                img.ui.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                         if image_link
                             img(src=image_link)
                         .content

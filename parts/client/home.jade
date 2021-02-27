@@ -195,7 +195,7 @@ template(name='post_card')
         .content
             if is_author
                 i.large.lock.link.circular.grey.icon.make_private
-            else if in_dev
+            else if is_admin
                 i.large.lock.link.circular.grey.icon.make_private
             a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
                 |#{views}

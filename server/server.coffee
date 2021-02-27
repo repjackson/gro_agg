@@ -115,13 +115,13 @@ Meteor.publish 'parent_doc', (doc_id)->
 
 Meteor.publish 'doc_count', (
     picked_tags
-    picked_authors
-    picked_locations
-    picked_times
+    # picked_authors
+    # picked_locations
+    # picked_times
     )->
     @unblock()
     match = {
-        model:'post'
+        model:$in:['post','rpost']
         is_private:$ne:true
     }
     # unless Meteor.userId()
@@ -129,41 +129,41 @@ Meteor.publish 'doc_count', (
 
         
     if picked_tags.length > 0 then match.tags = $all:picked_tags
-    if picked_authors.length > 0 then match.author = $all:picked_authors
-    if picked_locations.length > 0 then match.location = $all:picked_locations
-    if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
+    # if picked_authors.length > 0 then match.author = $all:picked_authors
+    # if picked_locations.length > 0 then match.location = $all:picked_locations
+    # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
 
     Counts.publish this, 'doc_count', Docs.find(match)
     return undefined
             
 Meteor.publish 'posts', (
     picked_tags
-    picked_times
-    picked_locations
-    picked_authors
-    sort_key
-    sort_direction
-    skip=0
+    # picked_times
+    # picked_locations
+    # picked_authors
+    # sort_key
+    # sort_direction
+    # skip=0
     )->
         
-    @unblock()
+    # @unblock()
     self = @
     match = {
-        model:'post'
-        is_private:$ne:true
-        group:$exists:false
+        model:$in:['post','rpost']
+        # is_private:$ne:true
+        # group:$exists:false
     }
     # unless Meteor.userId()
     #     match.privacy='public'
     
-    if sort_key
-        sk = sort_key
-    else
-        sk = '_timestamp'
+    # if sort_key
+    #     sk = sort_key
+    # else
+    #     sk = '_timestamp'
     if picked_tags.length > 0 then match.tags = $all:picked_tags
-    if picked_locations.length > 0 then match.location = $all:picked_locations
-    if picked_authors.length > 0 then match.author = $all:picked_authors
-    if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
+    # if picked_locations.length > 0 then match.location = $all:picked_locations
+    # if picked_authors.length > 0 then match.author = $all:picked_authors
+    # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
 
     # console.log 'match',match
     Docs.find match,
@@ -222,17 +222,17 @@ Meteor.publish 'posts', (
            
 Meteor.publish 'dao_tags', (
     picked_tags
-    picked_times
-    picked_locations
-    picked_authors
+    # picked_times
+    # picked_locations
+    # picked_authors
     # query=''
     )->
     # @unblock()
     self = @
     match = {
-        # model:$in:['post','rpost']
-        model:'post'
-        is_private:$ne:true
+        model:$in:['post','rpost']
+        # model:'post'
+        # is_private:$ne:true
         # sublove:sublove
     }
 
@@ -241,11 +241,11 @@ Meteor.publish 'dao_tags', (
     #     match.privacy='public'
 
     if picked_tags.length > 0 then match.tags = $all:picked_tags
-    if picked_authors.length > 0 then match.author = $all:picked_authors
-    if picked_locations.length > 0 then match.location = $all:picked_locations
-    if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
+    # if picked_authors.length > 0 then match.author = $all:picked_authors
+    # if picked_locations.length > 0 then match.location = $all:picked_locations
+    # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     doc_count = Docs.find(match).count()
-    # console.log 'doc_count', doc_count
+    console.log 'doc_count', doc_count
     tag_cloud = Docs.aggregate [
         { $match: match }
         { $project: "tags": 1 }
@@ -254,91 +254,91 @@ Meteor.publish 'dao_tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:33 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     tag_cloud.forEach (tag, i) ->
-        # console.log tag
+        console.log tag
         self.added 'results', Random.id(),
             name: tag.name
             count: tag.count
             model:'tag'
     
-    location_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "location_tags": 1 }
-        { $unwind: "$location_tags" }
-        { $group: _id: "$location_tags", count: $sum: 1 }
-        # { $match: _id: $nin: picked_location }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:10 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    location_cloud.forEach (location, i) ->
-        self.added 'results', Random.id(),
-            name: location.name
-            count: location.count
-            model:'location_tag'
+    # location_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "location_tags": 1 }
+    #     { $unwind: "$location_tags" }
+    #     { $group: _id: "$location_tags", count: $sum: 1 }
+    #     # { $match: _id: $nin: picked_location }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:10 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # location_cloud.forEach (location, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: location.name
+    #         count: location.count
+    #         model:'location_tag'
     
     
-    timestamp_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "timestamp_tags": 1 }
-        { $unwind: "$timestamp_tags" }
-        { $group: _id: "$timestamp_tags", count: $sum: 1 }
-        # { $match: _id: $nin: picked_time }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:10 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    # console.log match
-    timestamp_cloud.forEach (time, i) ->
-        # console.log 'time', time
-        self.added 'results', Random.id(),
-            name: time.name
-            count: time.count
-            model:'timestamp_tag'
+    # timestamp_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "timestamp_tags": 1 }
+    #     { $unwind: "$timestamp_tags" }
+    #     { $group: _id: "$timestamp_tags", count: $sum: 1 }
+    #     # { $match: _id: $nin: picked_time }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:10 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # # console.log match
+    # timestamp_cloud.forEach (time, i) ->
+    #     # console.log 'time', time
+    #     self.added 'results', Random.id(),
+    #         name: time.name
+    #         count: time.count
+    #         model:'timestamp_tag'
     
     
-    time_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "time_tags": 1 }
-        { $unwind: "$time_tags" }
-        { $group: _id: "$time_tags", count: $sum: 1 }
-        # { $match: _id: $nin: picked_time }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:10 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    # console.log match
-    timestamp_cloud.forEach (time, i) ->
-        # console.log 'time', time
-        self.added 'results', Random.id(),
-            name: time.name
-            count: time.count
-            model:'time_tag'
+    # time_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "time_tags": 1 }
+    #     { $unwind: "$time_tags" }
+    #     { $group: _id: "$time_tags", count: $sum: 1 }
+    #     # { $match: _id: $nin: picked_time }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:10 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # # console.log match
+    # timestamp_cloud.forEach (time, i) ->
+    #     # console.log 'time', time
+    #     self.added 'results', Random.id(),
+    #         name: time.name
+    #         count: time.count
+    #         model:'time_tag'
     
     
     
-    author_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "author": 1 }
-        # { $unwind: "$author" }
-        { $group: _id: "$author", count: $sum: 1 }
-        { $match: _id: $nin: picked_authors }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:10 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    author_cloud.forEach (author, i) ->
-        self.added 'results', Random.id(),
-            name: author.name
-            count: author.count
-            model:'author'
+    # author_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "author": 1 }
+    #     # { $unwind: "$author" }
+    #     { $group: _id: "$author", count: $sum: 1 }
+    #     { $match: _id: $nin: picked_authors }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:10 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # author_cloud.forEach (author, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: author.name
+    #         count: author.count
+    #         model:'author'
     
     
     self.ready()

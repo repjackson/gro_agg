@@ -17,22 +17,22 @@ Template.home.onCreated ->
     # Session.setDefault('location_query', null)
     @autorun => Meteor.subscribe 'dao_tags',
         picked_tags.array()
-        picked_times.array()
-        picked_locations.array()
-        picked_authors.array()
+        # picked_times.array()
+        # picked_locations.array()
+        # picked_authors.array()
     @autorun => Meteor.subscribe 'post_count', 
         picked_tags.array()
-        picked_times.array()
-        picked_locations.array()
-        picked_authors.array()
+        # picked_times.array()
+        # picked_locations.array()
+        # picked_authors.array()
     @autorun => Meteor.subscribe 'posts', 
         picked_tags.array()
-        picked_times.array()
-        picked_locations.array()
-        picked_authors.array()
-        Session.get('sort_key')
-        Session.get('sort_direction')
-        Session.get('skip_value')
+        # picked_times.array()
+        # picked_locations.array()
+        # picked_authors.array()
+        # Session.get('sort_key')
+        # Session.get('sort_direction')
+        # Session.get('skip_value')
 
 
 
@@ -58,7 +58,7 @@ Template.post_card.helpers
 Template.home.helpers
     posts: ->
         Docs.find {
-            model:'post'
+            model:$in:['post','rpost']
         }, sort: _timestamp:-1
        
     picked_tags: -> picked_tags.array()
@@ -104,9 +104,33 @@ Template.home.events
          if e.which is 13
             val = t.$('.search_tag').val().trim().toLowerCase()
             # window.speechSynthesis.speak new SpeechSynthesisUtterance val
+            $('.search_tag').transition('pulse')
+            $('.black').transition('pulse')
+            $('.seg .pick_tag').transition({
+                animation : 'pulse',
+                duration  : 500,
+                interval  : 300
+            })
+            $('.seg .black').transition({
+                animation : 'pulse',
+                duration  : 500,
+                interval  : 300
+            })
+            # $('.pick_tag').transition('pulse')
+            # $('.card_small').transition('shake')
+            $('.pushed .card_small').transition({
+                animation : 'pulse',
+                duration  : 500,
+                interval  : 300
+            })
             picked_tags.push val   
             t.$('.search_tag').val('')
             # Session.set('sub_doc_query', val)
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('loading',false)
+            Meteor.setTimeout ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 5000
 
 
 
@@ -225,18 +249,19 @@ Template.home.events
             # else
             # if @model is 'love_tag'
             picked_tags.push @name
-            $('.search_sublove').val('')
-            Session.set('skip_value',0)
+            # $('.search_sublove').val('')
+            # Session.set('skip_value',0)
     
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
             # Session.set('love_loading',true)
-            # Meteor.call 'search_love', @name, ->
-            #     Session.set('love_loading',false)
-            # Meteor.setTimeout( ->
-            #     Session.set('toggle',!Session.get('toggle'))
-            # , 5000)
-            
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('loading',false)
+                # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array()
+            Meteor.setTimeout ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 5000
+
             
             
     
