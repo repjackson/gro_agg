@@ -151,28 +151,28 @@ Template.home.events
 
         
     'click .unpick_time_tag': ->
-        group_picked_time_tags.remove @valueOf()
+        picked_time_tags.remove @valueOf()
     'click .pick_time_tag': ->
-        group_picked_time_tags.push @name
+        picked_time_tags.push @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         
         
     'click .unpick_timestamp_tag': ->
-        group_picked_timestamp_tags.remove @valueOf()
+        picked_timestamp_tags.remove @valueOf()
     'click .pick_timestamp_tag': ->
-        group_picked_timestamp_tags.push @name
+        picked_timestamp_tags.push @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         
     'click .unpick_location_tag': ->
-        group_picked_location_tags.remove @valueOf()
+        picked_location_tags.remove @valueOf()
     'click .pick_location_tag': ->
-        group_picked_location_tags.push @name
+        picked_location_tags.push @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
   
     'click .unpick_author': ->
-        group_picked_author_tags.remove @valueOf()
+        picked_author_tags.remove @valueOf()
     'click .pick_author': ->
-        group_picked_author_tags.push @name
+        picked_author_tags.push @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
     
      
