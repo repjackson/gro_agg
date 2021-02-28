@@ -46,7 +46,7 @@ Template.home.onCreated ->
 
 Template.post_card.onRendered ->
     # console.log @
-    Meteor.call 'log_view', @data._id, ->
+    # Meteor.call 'log_view', @data._id, ->
     # Session.set('session_clicks', Session.get('session_clicks')+2)
 
 
@@ -64,35 +64,35 @@ Template.home.helpers
     post_counter: -> Counts.get 'post_counter'
     
     result_tags: -> results.find(model:'tag')
-    author_results: -> results.find(model:'author')
-    location_results: -> results.find(model:'location_tag')
-    time_results: -> results.find(model:'time_tag')
+    # author_results: -> results.find(model:'author')
+    # location_results: -> results.find(model:'location_tag')
+    # time_results: -> results.find(model:'time_tag')
     
     sort_points_class: -> if Session.equals('sort_key','points') then 'black' else 'basic'
     sort_timestamp_class: -> if Session.equals('sort_key','_timestamp') then 'black' else 'basic'
-    video_class: -> if Session.get('view_videos') then 'black' else 'basic'
-    image_class: -> if Session.get('view_images') then 'black' else 'basic'
+    # video_class: -> if Session.get('view_videos') then 'black' else 'basic'
+    # image_class: -> if Session.get('view_images') then 'black' else 'basic'
     
-    sidebar_class: -> if Session.get('view_sidebar') then 'ui four wide column' else 'hidden'
-    main_column_class: -> if Session.get('view_sidebar') then 'ui twelve wide column' else 'ui sixteen wide column' 
+    # sidebar_class: -> if Session.get('view_sidebar') then 'ui four wide column' else 'hidden'
+    # main_column_class: -> if Session.get('view_sidebar') then 'ui twelve wide column' else 'ui sixteen wide column' 
         
 Template.home.events
     'click .add': ->
         new_id = Docs.insert 
             model:'post'
         Router.go "/p/#{new_id}/edit"
-    'click .enable_sidebar': (e,t)-> Session.set('view_sidebar',true)
-    'click .disable_sidebar': (e,t)-> Session.set('view_sidebar',false)
-    'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
+    # 'click .enable_sidebar': (e,t)-> Session.set('view_sidebar',true)
+    # 'click .disable_sidebar': (e,t)-> Session.set('view_sidebar',false)
+    # 'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
     'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
     'click .sort_up': (e,t)-> Session.set('sort_direction',1)
   
   
-    'click .view_videos': (e,t)-> Session.set('view_videos',!Session.get('view_videos'))
-    'click .view_images': (e,t)-> Session.set('view_images',!Session.get('view_images'))
+    # 'click .view_videos': (e,t)-> Session.set('view_videos',!Session.get('view_videos'))
+    # 'click .view_images': (e,t)-> Session.set('view_images',!Session.get('view_images'))
 
-    'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
-    'click .set_list': (e,t)-> Session.set('view_layout', 'list')
+    # 'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
+    # 'click .set_list': (e,t)-> Session.set('view_layout', 'list')
 
     'click .sort_points': (e,t)-> Session.set('sort_key', 'points')
     'click .sort_timestamp': (e,t)-> Session.set('sort_key', '_timestamp')
@@ -138,12 +138,6 @@ Template.home.events
         Docs.update @_id,
             $set:is_private:true
 
-    'click .upvote': ->
-        Docs.update @_id,
-            $inc:points:1
-    'click .downvote': ->
-        Docs.update @_id,
-            $inc:points:-1
     'keyup .add_tag': (e,t)->
         if e.which is 13
             new_tag = $(e.currentTarget).closest('.add_tag').val().toLowerCase().trim()
@@ -152,72 +146,23 @@ Template.home.events
             $(e.currentTarget).closest('.add_tag').val('')
             
             
-    'click .unpick_time': ->
-        picked_times.remove @valueOf()
-    'click .pick_time': ->
-        picked_times.push @name
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        
-    'click .pick_flat_time': ->
-        picked_times.push @valueOf()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        
-    'click .unpick_location': ->
-        picked_locations.remove @valueOf()
-    'click .pick_location': ->
-        picked_locations.push @name
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        
-    'click .unpick_author': ->
-        picked_authors.remove @valueOf()
-    'click .pick_author': ->
-        picked_authors.push @name
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-
-        
-    'click .unpick_time_tag': ->
-        picked_time_tags.remove @valueOf()
-    'click .pick_time_tag': ->
-        picked_time_tags.push @name
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        
-        
-    'click .unpick_timestamp_tag': ->
-        picked_timestamp_tags.remove @valueOf()
-    'click .pick_timestamp_tag': ->
-        picked_timestamp_tags.push @name
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        
-    'click .unpick_location_tag': ->
-        picked_location_tags.remove @valueOf()
-    'click .pick_location_tag': ->
-        picked_location_tags.push @name
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-  
-    # 'click .unpick_author': ->
-    #     picked_author_tags.remove @valueOf()
-    # 'click .pick_author': ->
-    #     picked_author_tags.push @name
-    #     # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-    
-     
             
     Template.tag_picker.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
     Template.tag_picker.helpers
-        picker_class: ()->
-            term = 
-                Docs.findOne 
-                    title:@name.toLowerCase()
-            if term
-                if term.max_emotion_name
-                    switch term.max_emotion_name
-                        when 'joy' then " basic green"
-                        when "anger" then " basic red"
-                        when "sadness" then " basic blue"
-                        when "disgust" then " basic orange"
-                        when "fear" then " basic grey"
-                        else "basic grey"
+        # picker_class: ()->
+        #     term = 
+        #         Docs.findOne 
+        #             title:@name.toLowerCase()
+        #     if term
+        #         if term.max_emotion_name
+        #             switch term.max_emotion_name
+        #                 when 'joy' then " basic green"
+        #                 when "anger" then " basic red"
+        #                 when "sadness" then " basic blue"
+        #                 when "disgust" then " basic orange"
+        #                 when "fear" then " basic grey"
+        #                 else "basic grey"
         term: ->
             res = 
                 Docs.findOne 
@@ -273,19 +218,19 @@ Template.home.events
     Template.flat_tag_picker.onCreated ->
         # @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
     Template.flat_tag_picker.helpers
-        picker_class: ()->
-            term = 
-                Docs.findOne 
-                    title:@valueOf().toLowerCase()
-            if term
-                if term.max_emotion_name
-                    switch term.max_emotion_name
-                        when 'joy' then " basic green"
-                        when "anger" then " basic red"
-                        when "sadness" then " basic blue"
-                        when "disgust" then " basic orange"
-                        when "fear" then " basic grey"
-                        else "basic grey"
+        # picker_class: ()->
+        #     term = 
+        #         Docs.findOne 
+        #             title:@valueOf().toLowerCase()
+        #     if term
+        #         if term.max_emotion_name
+        #             switch term.max_emotion_name
+        #                 when 'joy' then " basic green"
+        #                 when "anger" then " basic red"
+        #                 when "sadness" then " basic blue"
+        #                 when "disgust" then " basic orange"
+        #                 when "fear" then " basic grey"
+        #                 else "basic grey"
         term: ->
             Docs.findOne 
                 title:@valueOf().toLowerCase()

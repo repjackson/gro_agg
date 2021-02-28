@@ -30,44 +30,6 @@ Meteor.publish 'doc_by_title', (title)->
     })
 
 
-Meteor.publish 'comments', (doc_id)->
-    Docs.find
-        model:'comment'
-        parent_id:doc_id
-
-
-        
-
-Meteor.publish 'doc_comments', (doc_id)->
-    Docs.find
-        model:'comment'
-        parent_id:doc_id
-
-
-Meteor.publish 'children', (model, parent_id)->
-    match = {}
-    Docs.find
-        model:model
-        parent_id:parent_id
-
-Meteor.publish 'current_doc', (doc_id)->
-    console.log 'pulling doc'
-    Docs.find doc_id
-
-
-
-
-
-Meteor.publish 'model_docs', (model)->
-    # console.log 'pulling doc'
-    match = {model:model}
-    # if Meteor.user()
-    #     unless Meteor.user().roles and 'admin' in Meteor.user().roles
-    #         match.app = 'stand'
-    # else
-        # match.app = 'stand'
-    Docs.find match
-
 
 
 Meteor.publish 'doc', (doc_id)->
@@ -81,40 +43,10 @@ Meteor.publish 'doc', (doc_id)->
         
 # tsqp-gebk-xhpz-eobp-agle
 Docs.allow
-    insert: (userId, doc) -> true
-    update: (userId, doc) -> true
+    insert: (userId, doc) -> false
+    update: (userId, doc) -> false
     remove: (userId, doc) -> false
 
-# Meteor.publish 'model_count', (
-#     model
-#     )->
-#     match = {model:model}
-    
-#     Counts.publish this, 'model_counter', Docs.find(match)
-#     return undefined
-
-
-Meteor.methods
-    # hi: ->
-    # stringify_tags: ->
-    #     docs = Docs.find({
-    #         tags: $exists: true
-    #         tags_string: $exists: false
-    #     },{limit:1000})
-    #     for doc in docs.fetch()
-    #         # doc = Docs.findOne id
-    #         tags_string = doc.tags.toString()
-    #         Docs.update doc._id,
-    #             $set: tags_string:tags_string
-    #
-
-
-
-
-Meteor.publish 'parent_doc', (doc_id)->
-    doc = Docs.findOne doc_id
-    Docs.find 
-        _id:doc.parent_id
 
 
 
@@ -126,8 +58,8 @@ Meteor.publish 'doc_count', (
     )->
     @unblock()
     match = {
-        model:'post'
-        is_private:$ne:true
+        model:'rpost'
+        # is_private:$ne:true
     }
     # unless Meteor.userId()
     #     match.privacy='public'
@@ -156,8 +88,8 @@ Meteor.publish 'posts', (
     # @unblock()
     self = @
     match = {
-        model:$in:['post','rpost']
-        is_private:$ne:true
+        model:'rpost'
+        # is_private:$ne:true
         # group:$exists:false
     }
     # unless Meteor.userId()
@@ -169,84 +101,51 @@ Meteor.publish 'posts', (
         sk = 'points'
     # if picked_tags.length > 0 then match.tags = $all:picked_tags
     match.tags = $all:picked_tags
-    if picked_locations.length > 0 then match.location = $all:picked_locations
-    if picked_authors.length > 0 then match.author = $all:picked_authors
-    if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
-    if view_videos
-        match.youtube_id = $exists:true
-    if view_images
-        match.image_id = $exists:true
+    # if picked_locations.length > 0 then match.location = $all:picked_locations
+    # if picked_authors.length > 0 then match.author = $all:picked_authors
+    # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
+    # if view_videos
+    #     match.youtube_id = $exists:true
+    # if view_images
+    #     match.image_id = $exists:true
 
     # console.log 'match',match
     Docs.find match,
         limit:20
         sort: "#{sk}":-1
         # skip:skip*20
-        # fields:
-        #     title:1
-        #     content:1
-        #     body:1
-        #     description:1
-        #     tags:1
-        #     image_id:1
-        #     image_link:1
-        #     url:1
-        #     youtube_id:1
-        #     _timestamp:1
-        #     _timestamp_tags:1
-        #     views:1
-        #     points:1
-        #     anger_points:1
-        #     sad_points:1
-        #     joy_points:1
-        #     disgust_points:1
-        #     model:1
+        fields:
+            data:1
+            "data.thumbnail":1
+            "data.domain":1
+            "data.media":1
+            comment_count:1
+            title:1
+            reddit_id:1
+            ups:1
+            tags:1
+            url:1
+            _timestamp:1
+            _timestamp_tags:1
+            views:1
+            points:1
+            model:1
     
-    
-# Meteor.methods    
-    # tagify_love: (love)->
-    #     doc = Docs.findOne love
-    #     # moment(doc.date).fromNow()
-    #     # authorstamp = Date.now()
-
-    #     doc._authorstamp_long = moment(doc._authorstamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
-    #     # doc._app = 'love'
-    
-    #     date = moment(doc.date).format('Do')
-    #     weekdaynum = moment(doc.date).isoWeekday()
-    #     weekday = moment().isoWeekday(weekdaynum).format('dddd')
-    
-    #     hour = moment(doc.date).format('h')
-    #     minute = moment(doc.date).format('m')
-    #     ap = moment(doc.date).format('a')
-    #     month = moment(doc.date).format('MMMM')
-    #     year = moment(doc.date).format('YYYY')
-    
-    #     # doc.points = 0
-    #     # date_array = [ap, "hour #{hour}", "min #{minute}", weekday, month, date, year]
-    #     date_array = [ap, weekday, month, date, year]
-    #     if _
-    #         date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
-    #         doc._authorstamp_tags = date_array
-    #         # console.log 'love', date_array
-    #         Docs.update love, 
-    #             $set:addedauthors:date_array
     
            
 Meteor.publish 'dao_tags', (
     picked_tags
-    picked_times
-    picked_locations
-    picked_authors
-    query=''
-    view_videos
-    view_images
+    # picked_times
+    # picked_locations
+    # picked_authors
+    # query=''
+    # view_videos
+    # view_images
     )->
     # @unblock()
     self = @
     match = {
-        model:$in:['post','rpost']
-        is_private:$ne:true
+        model:'rpost'
     }
 
 
@@ -255,14 +154,14 @@ Meteor.publish 'dao_tags', (
 
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     # match.tags = $all:picked_tags
-    if picked_authors.length > 0 then match.author = $all:picked_authors
-    if picked_locations.length > 0 then match.location = $all:picked_locations
-    if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
+    # if picked_authors.length > 0 then match.author = $all:picked_authors
+    # if picked_locations.length > 0 then match.location = $all:picked_locations
+    # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     
-    if view_videos
-        match.youtube_id = $exists:true
-    if view_images
-        match.image_id = $exists:true
+    # if view_videos
+    #     match.youtube_id = $exists:true
+    # if view_images
+    #     match.image_id = $exists:true
     
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count

@@ -7,18 +7,6 @@ Router.configure
     loadingTemplate: 'splash'
     trackPageView: false
 
-if Meteor.isClient
-    # console.log $
-    $.cloudinary.config
-        cloud_name:"facet"
-
-if Meteor.isServer
-    # console.log Meteor.settings.private.cloudinary_key
-    # console.log Meteor.settings.private.cloudinary_secret
-    Cloudinary.config
-        cloud_name: 'facet'
-        api_key: Meteor.settings.private.cloudinary_key
-        api_secret: Meteor.settings.private.cloudinary_secret
 
 
 Meteor.methods
@@ -34,7 +22,7 @@ Docs.before.insert (userId, doc)->
     timestamp = Date.now()
     doc._timestamp = timestamp
     doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
-    doc._app = 'dao'
+    # doc._app = 'dao'
     # if Meteor.user()
     #     doc._author_id = Meteor.userId()
     #     doc._author_username = Meteor.user().username
@@ -73,7 +61,3 @@ Docs.helpers
         if @tags
             @tags[..3]
 
-    is_visible: -> @published in [0,1]
-    is_published: -> @published is 1
-    is_anonymous: -> @published is 0
-    is_private: -> @published is -1
