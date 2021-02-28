@@ -22,6 +22,9 @@ body {
 .full {
   max-width: 100% !important;
 }
+.search_tag {
+  margin: .5em !important;
+}
 .no_left {
   padding-left:0px !important;
   margin-left:0px !important;

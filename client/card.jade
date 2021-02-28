@@ -51,7 +51,7 @@ template(name='post_card')
             //     input.add_tag(type='text' placeholder='+')
             each five_tags
                 +flat_tag_picker
-            .ui.basic.button.pick_sub
+            .ui.basic.compact.button.pick_sub
                 |#{subreddit}
                 // .ui.small.button.pick_flat_tag #{this}
             // each timestamp_tags
@@ -62,6 +62,8 @@ template(name='post_card')
             if in_dev
                 +print_this
             |{{ufrom data.created}}
+            if watson
+                +doc_emotion_small
             // +voting
             // if in_dev
             //     i.large.lock.link.grey.icon.make_private

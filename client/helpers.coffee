@@ -44,6 +44,10 @@ Template.registerHelper 'has_thumbnail', ()->
 Template.registerHelper 'is_youtube', ()->
     @data and @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
  
+Template.registerHelper 'one_post', ()-> Counts.get('post_counter') is 1
+Template.registerHelper 'two_posts', ()-> Counts.get('post_counter') is 2
+Template.registerHelper 'two_posts', ()-> Counts.get('post_counter') is 3
+
   
 Template.registerHelper 'tag_term', () ->
     Docs.findOne 
@@ -120,11 +124,15 @@ Template.registerHelper 'nightmode_colum_class', (key, value) ->
     
 Template.registerHelper 'when', ()-> moment(@_timestamp).fromNow()
 Template.registerHelper 'seven_tags', ()-> 
-    if @tags
-        @tags[..7]
+    cleaned = _.difference(@tags, picked_tags.array())
+    # console.log cleaned
+    if cleaned
+        cleaned[..7]
 Template.registerHelper 'five_tags', ()-> 
-    if @tags
-        @tags[..5]
+    cleaned = _.difference(@tags, picked_tags.array())
+    # console.log cleaned
+    if cleaned
+        cleaned[..5]
 
 # Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 # Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")

@@ -2,7 +2,7 @@ template(name='post_view')
     with current_doc
         .ui.stackable.grid
             .row 
-                .twelve.wide.column.scrolling
+                .twelve.wide.column
                     a.ui.large.icon.basic.button(href="/")
                         i.chevron.left.large.icon
                         // i.large.home.icon
@@ -10,44 +10,46 @@ template(name='post_view')
                     if url
                         div
                         a.ui.center.aligned.small.header(href=url target='_window') #{url}
-                        
-                    if embed
-                        span.f11.full.invert
-                            |!{embed}
-                    else if is_image
-                        a.view_post(href="/" class=post_header_class)
-                            img.ui.fluid.rounded.image.toggle_view(src=data.url)
-                    else if data.is_reddit_media_domain
-                        img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
-                    else if watson.metadata.image
-                        img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
-                    else if is_youtube
+                    .scrolling
+                        if embed
+                            span.f11.full.invert
+                                |!{embed}
+                        else if is_image
+                            a.view_post(href="/" class=post_header_class)
+                                img.ui.fluid.rounded.image.toggle_view(src=data.url)
+                        else if data.is_reddit_media_domain
+                            img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
+                        else if watson.metadata.image
+                            img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
+                        else if is_youtube
+                            div
+                            // .ui.fluid.embed
+                            //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
+                            iframe.invert(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                        if preview_path
+                            img(src=preview_path)
+                        if data.link_url
+                            img.ui.image.pointer.call_visual(src=data.link_url)
+                        // if data.selftext
+                        //     .f12
+                        //         |!{data.selftext}
+                        div 
+                        if data.selftext_html
+                            .f12
+                                |!{data.selftext_html}
+                        div 
+                        .spacer
+                        .spacer
+                        // <blockquote class="reddit-card"><a href="https://www.reddit.com/r/iiiiiiitttttttttttt/comments/fgnubb/our_new_and_proprietary_database_backup_program/">Our new and proprietary database backup program uses almost 100% of the server's CPU and locks up most of the clients</a> from <a href="http://www.reddit.com/r/iiiiiiitttttttttttt">r/iiiiiiitttttttttttt</a></blockquote>
+                        // <script async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script>
                         div
-                        // .ui.fluid.embed
-                        //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
-                        iframe.invert(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                    if preview_path
-                        img(src=preview_path)
-                    if data.link_url
-                        img.ui.image.pointer.call_visual(src=data.link_url)
-                    // if data.selftext
-                    //     .f12
-                    //         |!{data.selftext}
-                    div 
-                    if data.selftext_html
-                        .f12
-                            |!{data.selftext_html}
-                    div 
-                    .spacer
-                    .spacer
-                    // <blockquote class="reddit-card"><a href="https://www.reddit.com/r/iiiiiiitttttttttttt/comments/fgnubb/our_new_and_proprietary_database_backup_program/">Our new and proprietary database backup program uses almost 100% of the server's CPU and locks up most of the clients</a> from <a href="http://www.reddit.com/r/iiiiiiitttttttttttt">r/iiiiiiitttttttttttt</a></blockquote>
-                    // <script async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script>
-                    div
-                    // div(style='position:relative; padding-bottom:177.63%;)')
-                    //     iframe(src='https://redgifs.com/ifr/TidyAliveCopperhead' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
-                    //     p
-                    //         a(href="https://redgifs.com/watch/tidyalivecopperhead")
-                    //             |via RedGIFs    
+                        // div(style='position:relative; padding-bottom:177.63%;)')
+                        //     iframe(src='https://redgifs.com/ifr/TidyAliveCopperhead' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
+                        //     p
+                        //         a(href="https://redgifs.com/watch/tidyalivecopperhead")
+                        //             |via RedGIFs    
+                        if watson
+                            +watson_full
                 .four.wide.column.scrolling
                     if has_thumbnail
                         img.ui.fluid.rounded.image.pointer.call_thumbnail(src=data.thumbnail)
@@ -73,5 +75,6 @@ template(name='post_view')
                     //     i.external.icon
                     //     |#{permalink}
                     +print_this
+                    +doc_emotion
                     
    
