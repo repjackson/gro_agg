@@ -1,8 +1,12 @@
 template(name='home')
     .ui.padded.stackable.grid
-        .sixteen.wide.center.aligned.column
+        .sixteen.wide.column(class=nightmode_class)
             // i.plus.link.icon.add
             if picked_tags
+                if skv_is 'nightmode' true
+                    i.moon.circular.link.icon.toggle_nightmode
+                else
+                    i.lightbulb.circular.link.icon.toggle_nightmode
                 .ui.icon.large.input
                     if is_loading
                         i.yin.yang.loading.large.icon
