@@ -109,6 +109,7 @@ Meteor.publish 'posts', (
             "data.media":1
             "data.link_url":1
             "data.is_reddit_media_domain":1
+            "data.url":1
             "data.selftext":1
             comment_count:1
             title:1
@@ -145,8 +146,8 @@ Meteor.publish 'dao_tags', (
     # unless Meteor.userId()
     #     match.privacy='public'
 
-    if picked_tags.length > 0 then match.tags = $all:picked_tags
-    # match.tags = $all:picked_tags
+    # if picked_tags.length > 0 then match.tags = $all:picked_tags
+    match.tags = $all:picked_tags
     # if picked_authors.length > 0 then match.author = $all:picked_authors
     # if picked_locations.length > 0 then match.location = $all:picked_locations
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
@@ -278,31 +279,12 @@ Meteor.methods
                         # added_tags.push data.subreddit.toLowerCase()
                         # added_tags.push data.author.toLowerCase()
                         added_tags = _.flatten(added_tags)
-                        reddit_post =
-                            reddit_id: data.id
-                            url: data.url
-                            domain: data.domain
-                            comment_count: data.num_comments
-                            permalink: data.permalink
-                            ups: data.ups
-                            points: data.ups
-                            title: data.title
-                            subreddit: data.subreddit
-                            group:data.subreddit
-                            group_lowered:data.subreddit.toLowerCase()
-                            # root: query
-                            # selftext: false
-                            # thumbnail: false
-                            tags: added_tags
-                            model:'rpost'
-                            # source:'reddit'
-                            data:data
                         existing = Docs.findOne 
                             model:'rpost'
                             url:data.url
                         if existing
-                            # if Meteor.isDevelopment
-                            #     console.log 'new search doc', reddit_post.title
+                            if Meteor.isDevelopment
+                                console.log 'new search doc', data.title
                             # if typeof(existing.tags) is 'string'
                             #     Doc.update
                             #         $unset: tags: 1
@@ -314,8 +296,27 @@ Meteor.methods
 
                             Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
                         unless existing
-                            # if Meteor.isDevelopment
-                            #     console.log 'new search doc', reddit_post.title
+                            reddit_post =
+                                reddit_id: data.id
+                                url: data.url
+                                domain: data.domain
+                                comment_count: data.num_comments
+                                permalink: data.permalink
+                                ups: data.ups
+                                points: data.ups
+                                title: data.title
+                                subreddit: data.subreddit
+                                group:data.subreddit
+                                group_lowered:data.subreddit.toLowerCase()
+                                # root: query
+                                # selftext: false
+                                # thumbnail: false
+                                tags: added_tags
+                                model:'rpost'
+                                # source:'reddit'
+                                data:data
+                            if Meteor.isDevelopment
+                                console.log 'new search doc', reddit_post.title
                             new_reddit_post_id = Docs.insert reddit_post
                             Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                 )

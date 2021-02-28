@@ -144,7 +144,7 @@ Template.home.events
             
             
 Template.tag_picker.onCreated ->
-    # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+    @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
 Template.tag_picker.helpers
     # picker_class: ()->
     #     term = 
@@ -176,7 +176,7 @@ Template.tag_picker.events
         #     picked_emotions.push @name
         # else
         # if @model is 'love_tag'
-        picked_tags.push @name
+        picked_tags.push @name.toLowerCase()
         # $('.search_sublove').val('')
         # Session.set('skip_value',0)
 

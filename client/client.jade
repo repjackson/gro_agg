@@ -98,14 +98,23 @@ template(name='home')
     .ui.padded.stackable.grid
         .sixteen.wide.column
             // i.plus.link.icon.add
-            .ui.icon.input
-                if is_loading
-                    i.yin.yang.loading.large.icon
-                else
-                    i.search.icon
-                input.search_tag(type='text' value=query)
-                // .ui.label #{this}
-            
+            if picked_tags
+                .ui.icon.input
+                    if is_loading
+                        i.yin.yang.loading.large.icon
+                    else
+                        i.search.icon
+                    input.search_tag(type='text' value=query)
+                    // .ui.label #{this}
+            else
+                .ui.center.aligned.basic.segment
+                    .ui.icon.massive.input
+                        if is_loading
+                            i.yin.yang.loading.large.icon
+                        else
+                            i.search.icon
+                        input.search_tag(type='text' value=query)
+                        // .ui.label #{this}
             if picked_tags
                 // if many_tags
                 //     a#clear_tags.ui.red.invert.icon.button.pick_term
@@ -122,16 +131,17 @@ template(name='home')
             // else
             //     .ui.icon.compact.active.button.disable_sidebar
             //         i.ellipsis.vertical.icon
-            if skv_is 'sort_direction' 1
-                .ui.icon.compact.basic.button.sort_down
-                    i.caret.down.icon
-            else
-                .ui.icon.compact.basic.button.sort_up
-                    i.caret.up.icon
-            .ui.large.icon.button.sort_timestamp(class=sort_timestamp_class)
-                i.clock.icon
-            .ui.large.icon.button.sort_points(class=sort_points_class)
-                i.thumbs.up.icon
+            if picked_tags
+                if skv_is 'sort_direction' 1
+                    .ui.icon.compact.basic.button.sort_down
+                        i.caret.down.icon
+                else
+                    .ui.icon.compact.basic.button.sort_up
+                        i.caret.up.icon
+                .ui.large.icon.button.sort_timestamp(class=sort_timestamp_class)
+                    i.clock.icon
+                .ui.large.icon.button.sort_points(class=sort_points_class)
+                    i.thumbs.up.icon
         // if skv_is 'view_sidebar' true
         //     .four.wide.column.scrolling       
         //         if location_results.count
@@ -214,7 +224,7 @@ template(name='post_card')
             // span.f11.full
             a.view_post(href="/p/#{_id}" class=post_header_class)
                 |!{embed}
-        else if is_image
+        if is_image
             a.view_post(href="/p/#{_id}" class=post_header_class)
                 img.ui.fluid.zoomer.rounded.image.toggle_view(src=data.url)
         else if data.is_reddit_media_domain
@@ -258,9 +268,9 @@ template(name='post_card')
                 // .ui.small.button.pick_flat_tag #{this}
             // each timestamp_tags
             //     .ui.small.button.pick_flat_time #{this}
-            if location
-                i.grey.marker.icon
-                |#{location}
+            // if location
+            //     i.grey.marker.icon
+            //     |#{location}
             if in_dev
                 +print_this
         .content
