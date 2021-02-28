@@ -12,9 +12,9 @@ template(name='post_view')
                         a.ui.center.aligned.small.header(href=url target='_window') #{url}
                     .scrolling
                         if embed
-                            span.f11.full.invert
+                            span.f11.full
                                 |!{embed}
-                        else if is_image
+                        if is_image
                             a.view_post(href="/" class=post_header_class)
                                 img.ui.fluid.rounded.image.toggle_view(src=data.url)
                         else if data.is_reddit_media_domain
@@ -37,6 +37,9 @@ template(name='post_view')
                         if data.selftext_html
                             .f12
                                 |!{data.selftext_html}
+                        if watson.analyzed_text
+                            .f12
+                                |!{watson.analyzed_text}
                         div 
                         .spacer
                         .spacer
@@ -48,8 +51,6 @@ template(name='post_view')
                         //     p
                         //         a(href="https://redgifs.com/watch/tidyalivecopperhead")
                         //             |via RedGIFs    
-                        if watson
-                            +watson_full
                 .four.wide.column.scrolling
                     if has_thumbnail
                         img.ui.fluid.rounded.image.pointer.call_thumbnail(src=data.thumbnail)
@@ -76,5 +77,8 @@ template(name='post_view')
                     //     |#{permalink}
                     +print_this
                     +doc_emotion
-                    
+                    if watson
+                        +watson_full
+                    +call_watson mode='reddit'
+                    +call_watson mode='url'
    

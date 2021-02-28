@@ -117,6 +117,10 @@ template(name='home')
                     i.picture.icon
                 .ui.icon.button.view_adult(class=adult_class)
                     i.fire.icon
+                .ui.icon.button.view_joy(class=joy_class)
+                    i.smile.green.icon
+                .ui.icon.button.view_anger(class=joy_class)
+                    i.smile.red.icon
                 // .ui.icon.button.view_commented
                 //     i.chat.icon            
                         
@@ -127,7 +131,7 @@ template(name='home')
                                 +post_card
                             
                     else if two_posts
-                        .ui.stackable.two.cards.scrolling
+                        .ui.stackable.two.centered.cards.scrolling
                             each posts
                                 +post_card
                     else if three_posts

@@ -144,7 +144,7 @@ Meteor.methods
                 categories:
                     explanation:true
                 emotion: {}
-                # metadata: {}
+                metadata: {}
                 # relations: {}
                 # semantic_roles: {}
                 sentiment: {}
@@ -177,11 +177,12 @@ Meteor.methods
                     params.returnAnalyzedText = true
                     params.clean = true
                     params.features.metadata = {}
-                when 'stack'
+                when 'reddit'
                     # params.url = doc["#{key}"]
-                    params.url = doc.link
+                    # params.url = doc.url
+                    params.url = "https://www.reddit.com#{doc.data.permalink}"
                     params.returnAnalyzedText = true
-                    params.features.metadata = {}
+                    # params.features.metadata = {}
                     params.clean = true
                 when 'video'
                     params.url = "https://www.reddit.com#{doc.data.permalink}"

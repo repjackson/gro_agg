@@ -155,14 +155,15 @@ Template.flat_tag_picker.events
         # results.update
         # window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-        unless @valueOf() in picked_tags.array()
-            picked_tags.push @valueOf()
+        unless @valueOf().toLowerCase() in picked_tags.array()
+            picked_tags.push @valueOf().toLowerCase()
 
         $('.search_tags').val('')
         url = new URL(window.location);
         url.searchParams.set('tags', picked_tags.array());
         window.history.pushState({}, '', url);
         document.title = picked_tags.array()
+        Router.go '/'
 
 
 

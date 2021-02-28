@@ -2,11 +2,11 @@
 
 Template.registerHelper 'picked_tags', () -> picked_tags.array()
     
-# Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
+Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 
     
-# Template.registerHelper 'trunc', (input) ->
-#     input[0..350]
+Template.registerHelper 'trunc', (input) ->
+    input[0..350]
         
 # Template.registerHelper 'calculated_size', (metric) ->
 #     # whole = parseInt(@["#{metric}"]*10)
@@ -57,8 +57,6 @@ Template.registerHelper 'tag_term', () ->
 
 
 # Template.registerHelper 'skip_is_zero', ()-> Session.equals('skip', 0)
-# Template.registerHelper 'one_post', ()-> Counts.get('result_counter') is 1
-# Template.registerHelper 'two_posts', ()-> Counts.get('result_counter') is 2
 # Template.registerHelper 'key_value', (key,value)-> @["#{key}"] is value
 
 

@@ -103,6 +103,10 @@ Template.keywords.onRendered ->
 #     'click #call_visual': ->
 #         Meteor.call 'call_visual', Router.current().params.doc_id, ->
 
+Template.call_watson.events
+    'click .autotag': ->
+        console.log 'calling'
+        Meteor.call 'call_watson', Router.current().params.doc_id, 'url', @mode, ->
 # Template.tone.events
 #     'click #call_tone': ->
 #         Meteor.call 'call_tone', Router.current().params.doc_id, ->
