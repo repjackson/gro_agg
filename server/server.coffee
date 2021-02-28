@@ -1,43 +1,31 @@
-Meteor.publish 'doc_by_id', (doc_id)->
-    Docs.find doc_id
-        
-Meteor.publish 'love', (doc_id)->
-    Docs.find
-        model:'love'
-        
-
-Meteor.publish 'wikis', (
-    w_query
-    picked_tags
-    )->
-    Docs.find({
-        model:'wikipedia'
-    },{ 
-        limit:10
-    })
+# Meteor.publish 'wikis', (
+#     w_query
+#     picked_tags
+#     )->
+#     Docs.find({
+#         model:'wikipedia'
+#     },{ 
+#         limit:10
+#     })
     
 
 
-Meteor.publish 'doc_by_title', (title)->
-    Docs.find({
-        title:title
-        model:'wikipedia'
-        "watson.metadata.image":$exists:true
-    }, {
-        fields:
-            title:1
-            "watson.metadata.image":1
-    })
+# Meteor.publish 'doc_by_title', (title)->
+#     Docs.find({
+#         title:title
+#         model:'wikipedia'
+#         "watson.metadata.image":$exists:true
+#     }, {
+#         fields:
+#             title:1
+#             "watson.metadata.image":1
+#     })
 
 
 
 
 Meteor.publish 'doc', (doc_id)->
-    found_doc = Docs.findOne doc_id
-    if found_doc
-        Docs.find doc_id
-    else
-        Meteor.users.find doc_id
+    Docs.find doc_id
         
         
         
@@ -75,14 +63,14 @@ Meteor.publish 'doc_count', (
             
 Meteor.publish 'posts', (
     picked_tags
-    picked_times
-    picked_locations
-    picked_authors
+    # picked_times
+    # picked_locations
+    # picked_authors
     sort_key
     sort_direction
     skip=0
-    view_videos
-    view_images
+    # view_videos
+    # view_images
     )->
         
     # @unblock()
@@ -121,8 +109,10 @@ Meteor.publish 'posts', (
             "data.media":1
             "data.link_url":1
             "data.is_reddit_media_domain":1
+            "data.selftext":1
             comment_count:1
             title:1
+            domain:1
             reddit_id:1
             ups:1
             tags:1
@@ -268,12 +258,12 @@ Meteor.publish 'dao_tags', (
 Meteor.methods  
     search_reddit: (query)->
         console.log 'searching reddit'
-        # @unblock()
+        @unblock()
         # res = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "http://reddit.com/search.json?q=#{query}&over_18=1&limit=100&include_facets=false&raw_json=1"
+        url = "http://reddit.com/search.json?q=#{query}&limit=50&include_facets=false&raw_json=1"
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,res)=>
         HTTP.get url,(err,res)=>
             if res.data.data.dist > 1
