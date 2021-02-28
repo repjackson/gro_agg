@@ -196,6 +196,12 @@ Template.search_shortcut.events
         url.searchParams.set('tags', picked_tags.array());
         window.history.pushState({}, '', url);
         document.title = picked_tags.array()
+        Session.set('loading',true)
+        Meteor.call 'search_reddit', picked_tags.array(), ->
+            Session.set('loading',false)
+        Meteor.setTimeout ->
+            Session.set('toggle', !Session.get('toggle'))
+        , 7000    
 
 Template.tag_picker.events
     'click .pick_tag': -> 
@@ -327,7 +333,7 @@ Template.registerHelper 'is_image', ()->
         false
 Template.registerHelper 'has_thumbnail', ()->
     # console.log @data.thumbnail
-    @thumbnail not in ['default', 'self']
+    @data.thumbnail not in ['default','self']
         # @data.thumbnail.length > 0 
 
 Template.registerHelper 'is_youtube', ()->

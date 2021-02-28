@@ -1,0 +1,69 @@
+template(name='post_card')
+    .card.smallscroll(class=card_class)
+        if embed
+            // span.f11.full
+            a.view_post.invert(href="/p/#{_id}" class=post_header_class)
+                |!{embed}
+        if is_image
+            a.view_post(href="/p/#{_id}" class=post_header_class)
+                img.ui.fluid.zoomer.rounded.image.toggle_view(src=data.url)
+            // else if data.is_reddit_media_domain
+            //     a.view_post(href="/p/#{_id}" class=post_header_class)
+            //         img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
+        else if has_thumbnail
+            a.view_post(href="/p/#{_id}" class=post_header_class)
+                img.ui.fluid.rounded.image.pointer.zoomer(src=data.thumbnail)
+        else if watson.metadata.image
+            img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
+        else if is_youtube
+            // .ui.fluid.embed
+            //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
+            iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+            div
+        if data.link_url
+            img.ui.image.pointer.call_visual(src=data.link_url)
+
+        // if image_link
+        //     a(href="/p/#{_id}")
+        //         img.ui.zoomer.image(src=image_link)
+        // if image_id
+        //     a(href="/p/#{_id}")
+        //         img.ui.zoomer.image(src="{{c.url image_id }}" )
+        // if youtube_id
+        //     +youtube_view key='youtube_id' label='youtube id'
+
+        .content.smallscroll
+            a.ui.small.header(href="/p/#{_id}") #{title}
+            div
+            // if data.selftext_html
+            //     a.f12(href="/p/#{_id}")
+            //         |!{data.selftext_html}
+            // else if data.selftext
+            //     a.f12.zoomer(href="/p/#{_id}")
+            //         |!{data.selftext}
+                    
+            //     |!{description}
+            //     |!{body}
+            // .ui.tiny.icon.input
+            //     i.grey.tag.icon
+            //     input.add_tag(type='text' placeholder='+')
+            each five_tags
+                +flat_tag_picker
+            .ui.basic.button.pick_sub
+                |#{subreddit}
+                // .ui.small.button.pick_flat_tag #{this}
+            // each timestamp_tags
+            //     .ui.small.button.pick_flat_time #{this}
+            // if location
+            //     i.grey.marker.icon
+            //     |#{location}
+            if in_dev
+                +print_this
+            |{{ufrom data.created}}
+            // +voting
+            // if in_dev
+            //     i.large.lock.link.grey.icon.make_private
+            // a.ui.icon.large.basic.button(href="/p/#{_id}")
+            //     |#{views}
+            //     i.chevron.right.large.icon
+        //   +comments

@@ -1,0 +1,131 @@
+template(name='home')
+    .ui.padded.stackable.grid
+        .sixteen.wide.center.aligned.column
+            // i.plus.link.icon.add
+            if picked_tags
+                .ui.icon.large.input
+                    if is_loading
+                        i.yin.yang.loading.large.icon
+                    else
+                        i.search.icon
+                    input.search_tag(type='text' value=query autofocus='' placeholder="#{post_counter} results")
+                    // .ui.label #{this}
+            else
+                .ui.center.aligned.basic.segment
+                    .ui.icon.massive.input
+                        i.search.large.icon
+                        input.search_tag(type='text' placeholder='search anything' autofocus='')
+                        // .ui.label #{this}
+                    .ui.small.header
+                        |welcome to dao, a search engine that learns.  click on tags to teach it about the combination of subjects.  
+                    +search_shortcut tag='math' icon='calculator'
+                    +search_shortcut tag='camping' icon='campground'
+                    +search_shortcut tag='business' icon='briefcase'
+                    +search_shortcut tag='environment' icon='leaf'
+                    +search_shortcut tag='money' icon='coins'
+                    +search_shortcut tag='cat' icon='cat'
+                    +search_shortcut tag='science' icon='flask'
+                    +search_shortcut tag='video' icon='video'
+                    +search_shortcut tag='medicine' icon='pills'
+                    +search_shortcut tag='covid' icon='radiation'
+            if picked_tags
+                // if many_tags
+                //     a#clear_tags.ui.red.invert.icon.button.pick_term
+                //         i.remove.icon
+                each picked_tags
+                    +unpick_tag
+            each result_tags
+                // .ui.label #{this}
+                +tag_picker
+            // .ui.disabled.button shared with me
+            // if skv_is 'view_sidebar' false
+            //     .ui.icon.basic.button.enable_sidebar
+            //         i.ellipsis.vertical.icon
+            // else
+            //     .ui.icon.active.button.disable_sidebar
+            //         i.ellipsis.vertical.icon
+            if picked_tags
+                if skv_is 'sort_direction' 1
+                    .ui.icon.basic.button.sort_down
+                        i.caret.down.icon
+                else
+                    .ui.icon.basic.button.sort_up
+                        i.caret.up.icon
+                .ui.large.icon.button.sort_timestamp(class=sort_timestamp_class)
+                    i.clock.icon
+                .ui.large.icon.button.sort_points(class=sort_points_class)
+                    i.thumbs.up.icon
+                // if skv_is 'view_layout' 'grid'
+                //     .ui.large.icon.black.button.set_grid(class=grid_class) 
+                //         i.th.icon
+                // else
+                //     .ui.large.icon.basic.button.set_grid(class=grid_class) 
+                //         i.th.icon
+                // if skv_is 'view_layout' 'list'
+                //     .ui.black.icon.large.button.set_list(class=list_class)
+                //         i.list.icon
+                // else
+                //     .ui.large.icon.basic.button.set_list(class=list_class)
+                //         i.list.icon
+                // if skv_is 'view_layout' 'grid'
+                .ui.stackable.four.cards.scrolling
+                    each posts
+                        +post_card
+                // else 
+                //     .ui.divided.link.items
+                //         each posts
+                //             +post_item
+                    
+        if skv_is 'view_sidebar' true
+            .four.wide.column.scrolling       
+                if location_results.count
+                    i.big.marker.icon
+                each picked_locations
+                    a.unpick_location.ui.large.button(href='#')
+                        strong #{this}
+                each location_results
+                    if name
+                        .ui.tiny.basic.button.pick_location #{name}
+                div
+                i.big.user.icon
+                each picked_authors
+                    a.unpick_author.ui.large.button(href='#')
+                        strong #{this}
+                each author_results
+                    if name
+                        .ui.tiny.basic.button.pick_author #{name}
+                div
+                i.clock.big.icon
+                each picked_times
+                    a.unpick_time.ui.large.large.button(href='#')
+                        strong #{this}
+                each time_results
+                    .ui.tiny.basic.button.pick_time #{name}
+                // +alpha
+                each picked_locations
+                    a.unpick_location_tag.ui.black.large.button(href='#')
+                        | #{this}
+                if location_tags
+                    i.big.marker.grey.icon
+                    each location_tags
+                        .ui.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+                            | #{name}
+                                
+            div(class=main_column_class)
+                if skv_is 'view_detail' true
+                    .ui.black.large.icon.basic.button.toggle_detail
+                        i.list.icon
+                else
+                    .ui.large.icon.basic.button.toggle_detail
+                        i.minus.icon
+                    // i.line.chart.icon
+                .ui.icon.basic.button.skip_left
+                    i.chevron.left.icon
+                .ui.icon.basic.button.skip_right
+                    i.chevron.right.icon
+                .ui.icon.button.view_videos(class=video_class)
+                    i.film.icon
+                .ui.icon.button.view_images(class=image_class)
+                    i.picture.icon
+                // .ui.icon.button.view_commented
+                //     i.chat.icon            
