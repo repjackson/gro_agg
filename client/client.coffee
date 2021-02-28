@@ -130,7 +130,7 @@ Template.home.events
                 Session.set('loading',false)
             Meteor.setTimeout ->
                 Session.set('toggle', !Session.get('toggle'))
-            , 7000    
+            , 10000    
             t.$('.search_tag').val('')
             t.$('.search_tag').focus()
             # Session.set('sub_doc_query', val)
@@ -193,7 +193,7 @@ Template.tag_picker.events
             Session.set('loading',false)
         Meteor.setTimeout ->
             Session.set('toggle', !Session.get('toggle'))
-        , 7000    
+        , 10000    
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
@@ -222,7 +222,7 @@ Template.unpick_tag.events
             Session.set('loading',false)
         Meteor.setTimeout ->
             Session.set('toggle', !Session.get('toggle'))
-        , 7000    
+        , 10000    
 
 
 Template.flat_tag_picker.onCreated ->
