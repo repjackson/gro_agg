@@ -127,8 +127,15 @@ template(name='home')
                         input.search_tag(type='text' placeholder='search anything' autofocus='')
                         // .ui.label #{this}
                     .ui.small.header
-                        |welcome to dao, the search engine that 'learns'.  click on tags to 'teach' about the combination of subjects.  
+                        |welcome to dao, a search engine that learns.  click on tags to teach it about the combination of subjects.  
                     +search_shortcut tag='math' icon='calculator'
+                    +search_shortcut tag='camping' icon='campground'
+                    +search_shortcut tag='business' icon='briefcase'
+                    +search_shortcut tag='environment' icon='leaf'
+                    +search_shortcut tag='money' icon='coins'
+                    +search_shortcut tag='cat' icon='cat'
+                    +search_shortcut tag='science' icon='flask'
+                    +search_shortcut tag='video' icon='video'
             if picked_tags
                 // if many_tags
                 //     a#clear_tags.ui.red.invert.icon.button.pick_term
@@ -329,7 +336,7 @@ template(name='unpick_tag')
         
 template(name='flat_tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    .ui.basic.small.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    .ui.basic.small.compact.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         // if term
         //     if term.watson.metadata.image
         //         img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    

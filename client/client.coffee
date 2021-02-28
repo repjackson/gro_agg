@@ -119,28 +119,33 @@ Template.home.events
             Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('loading',false)
             # window.speechSynthesis.speak new SpeechSynthesisUtterance val
-            # $('.search_tag').transition('pulse')
-            # $('.black').transition('pulse')
-            # $('.seg .pick_tag').transition({
-            #     animation : 'pulse',
-            #     duration  : 500,
-            #     interval  : 300
-            # })
-            # $('.seg .black').transition({
-            #     animation : 'pulse',
-            #     duration  : 500,
-            #     interval  : 300
-            # })
-            # $('.pick_tag').transition('pulse')
-            # $('.card_small').transition('shake')
-            # $('.pushed .card').transition({
-            #     animation : 'pulse',
-            #     duration  : 500,
-            #     interval  : 300
-            # })
+            $('.search_tag').transition('pulse')
+            $('.black').transition('pulse')
+            $('.seg .pick_tag').transition({
+                animation : 'pulse',
+                duration  : 500,
+                interval  : 300
+            })
+            $('.seg .black').transition({
+                animation : 'pulse',
+                duration  : 500,
+                interval  : 300
+            })
+            $('.pick_tag').transition('pulse')
+            $('.card_small').transition('shake')
+            $('.pushed .card').transition({
+                animation : 'pulse',
+                duration  : 500,
+                interval  : 300
+            })
             Meteor.setTimeout ->
                 Session.set('toggle', !Session.get('toggle'))
             , 7000    
+            url = new URL(window.location);
+            url.searchParams.set('tags', picked_tags.array());
+            window.history.pushState({}, '', url);
+            document.title = picked_tags.array()
+            
             t.$('.search_tag').val('')
             t.$('.search_tag').focus()
             # Session.set('sub_doc_query', val)
@@ -188,8 +193,9 @@ Template.search_shortcut.events
     'click .search_tag': ->
         picked_tags.push @tag.toLowerCase()
         url = new URL(window.location);
-        url.searchParams.set('foo', 'bar');
+        url.searchParams.set('tags', picked_tags.array());
         window.history.pushState({}, '', url);
+        document.title = picked_tags.array()
 
 Template.tag_picker.events
     'click .pick_tag': -> 
@@ -201,6 +207,8 @@ Template.tag_picker.events
         #     picked_emotions.push @name
         # else
         # if @model is 'love_tag'
+        lowered_name = @name.toLowerCase()
+
         picked_tags.push @name.toLowerCase()
         # $('.search_sublove').val('')
         # Session.set('skip_value',0)
@@ -212,9 +220,9 @@ Template.tag_picker.events
             Session.set('toggle', !Session.get('toggle'))
         , 7000    
         url = new URL(window.location);
-        url.searchParams.set('foo', 'bar');
+        url.searchParams.set('tags', picked_tags.array());
         window.history.pushState({}, '', url);
-
+        document.title = picked_tags.array()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         # Session.set('love_loading',true)
@@ -243,6 +251,10 @@ Template.unpick_tag.events
         Meteor.setTimeout ->
             Session.set('toggle', !Session.get('toggle'))
         , 7000    
+        url = new URL(window.location);
+        url.searchParams.set('tags', picked_tags.array());
+        window.history.pushState({}, '', url);
+        document.title = picked_tags.array()
 
 
 Template.flat_tag_picker.onCreated ->
@@ -272,6 +284,10 @@ Template.flat_tag_picker.events
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         picked_tags.push @valueOf()
         $('.search_tags').val('')
+        url = new URL(window.location);
+        url.searchParams.set('tags', picked_tags.array());
+        window.history.pushState({}, '', url);
+        document.title = picked_tags.array()
 
 
 
