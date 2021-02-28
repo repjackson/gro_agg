@@ -1,6 +1,6 @@
 template(name='home')
     .ui.padded.stackable.grid
-        .sixteen.wide.column(class=nightmode_class)
+        .sixteen.wide.column(class=nightmode_colum_class)
             // i.plus.link.icon.add
             if picked_tags
                 if skv_is 'nightmode' true
@@ -31,6 +31,7 @@ template(name='home')
                     +search_shortcut tag='science' icon='flask'
                     +search_shortcut tag='video' icon='video'
                     +search_shortcut tag='medicine' icon='pills'
+                    +search_shortcut tag='dog' icon='dog'
                     +search_shortcut tag='covid' icon='radiation'
             if picked_tags
                 // if many_tags

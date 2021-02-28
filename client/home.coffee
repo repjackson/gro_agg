@@ -7,17 +7,18 @@ Template.home.onCreated ->
     params = new URLSearchParams(window.location.search);
     
     tags = params.get("tags");
-    split = tags.split(',')
-    if tags.length > 0
-        for tag in split 
-            picked_tags.push tag
-        Session.set('loading',true)
-        Meteor.call 'search_reddit', picked_tags.array(), ->
-            Session.set('loading',false)
-        Meteor.setTimeout ->
-            Session.set('toggle', !Session.get('toggle'))
-        , 7000    
-        
+    if tags
+        split = tags.split(',')
+        if tags.length > 0
+            for tag in split 
+                picked_tags.push tag
+            Session.set('loading',true)
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('loading',false)
+            Meteor.setTimeout ->
+                Session.set('toggle', !Session.get('toggle'))
+            , 7000    
+            
     # console.log(name)
     
     Session.setDefault('sort_key', 'points')

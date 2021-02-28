@@ -84,6 +84,11 @@ Template.registerHelper 'skv_is', (key, value) ->
 
 Template.registerHelper 'kv_is', (key, value) ->
     @["#{key}"] is value
+Template.registerHelper 'nightmode_class', (key, value) ->
+    if Session.get('nightmode') then 'inverted'
+    # if Session.get('nightmode') then 'invert inverted'
+Template.registerHelper 'nightmode_colum_class', (key, value) ->
+    if Session.get('nightmode') then 'black'
 
 
 # Template.registerHelper 'template_subs_ready', () ->
