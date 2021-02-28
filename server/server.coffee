@@ -38,13 +38,13 @@ Docs.allow
 
 
 
-Meteor.publish 'doc_count', (
+Meteor.publish 'post_count', (
     picked_tags
     # picked_authors
     # picked_locations
     # picked_times
     )->
-    @unblock()
+    # @unblock()
     match = {
         model:'rpost'
         # is_private:$ne:true
@@ -53,12 +53,12 @@ Meteor.publish 'doc_count', (
     #     match.privacy='public'
 
         
-    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    match.tags = $all:picked_tags
     # if picked_authors.length > 0 then match.author = $all:picked_authors
     # if picked_locations.length > 0 then match.location = $all:picked_locations
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
 
-    Counts.publish this, 'doc_count', Docs.find(match)
+    Counts.publish this, 'post_counter', Docs.find(match)
     return undefined
             
 Meteor.publish 'posts', (
@@ -288,12 +288,12 @@ Meteor.methods
                             # if typeof(existing.tags) is 'string'
                             #     Doc.update
                             #         $unset: tags: 1
-                            Docs.update existing._id,
+                            Docs.update({_id:existing._id},{
                                 $addToSet: tags: $each: added_tags
                                 $set:
                                     data:data
                                     points:data.ups
-
+                            }, (res)-> console.log res)
                             Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
                         unless existing
                             reddit_post =
@@ -333,20 +333,22 @@ Meteor.methods
                     # console.error err
                 unless err
                     # console.log res.data[0].data.children[0].data
-                    rd = res.data[0].data.children[0].data
-                    Docs.update doc_id,
-                        $set:
-                            data: rd
-                            url: rd.url
-                            # reddit_image:rd.preview.images[0].source.url
-                            thumbnail: rd.thumbnail
-                            subreddit: rd.subreddit
-                            group:rd.subreddit
-                            author: rd.author
-                            domain: rd.domain
-                            is_video: rd.is_video
-                            ups: rd.ups
-                            # downs: rd.downs
-                            over_18: rd.over_18
-
+                    if res.data
+                        rd = res.data[0].data.children[0].data
+                        Docs.update doc_id,
+                            $set:
+                                data: rd
+                                url: rd.url
+                                # reddit_image:rd.preview.images[0].source.url
+                                thumbnail: rd.thumbnail
+                                subreddit: rd.subreddit
+                                group:rd.subreddit
+                                author: rd.author
+                                domain: rd.domain
+                                is_video: rd.is_video
+                                ups: rd.ups
+                                # downs: rd.downs
+                                over_18: rd.over_18
+                    # else 
+                    #     console.log res
         

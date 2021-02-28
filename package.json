@@ -1,14 +1,10 @@
 {
 	"dependencies": {
 		"@babel/runtime": "^7.10.4",
-		"bcrypt": "^5.0.0",
-		"ibm-watson": "^5.6.0",
-		"node-mailjet": "^3.3.1",
-		"request": "^2.88.2",
-		"request-promise": "^4.2.6"
+		"ibm-watson": "^5.6.0"
 	},
 	"scripts": {
-		"start": "MONGO_URL=mongodb+srv://daoadmin:daoadminpassword@cluster1-etul3.mongodb.net/daodb  meteor --settings settings.json --port $IP:$PORT",
+		"start": "MONGO_URL=mongodb+srv://daoadmin:daoadminpassword@@cluster0.etul3.mongodb.net/daodb  meteor --settings settings.json --port $IP:$PORT",
 		"local": "meteor --settings settings.json"
 	}
 }
