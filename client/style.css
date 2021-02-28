@@ -389,7 +389,7 @@ a.goto_article {
 }
 
 .ui.button:not(.circular) { 
-    border-radius: 15px !important; 
+    border-radius: 20px !important; 
 }
 .ui.button {
   margin: 2px !important;

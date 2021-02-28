@@ -57,7 +57,8 @@ Meteor.publish 'post_count', (
 
     if view_adult
         match["data.over_18"] = true
-
+    else 
+        match["data.over_18"] = false
     match.tags = $all:picked_tags
     # if picked_authors.length > 0 then match.author = $all:picked_authors
     # if picked_locations.length > 0 then match.location = $all:picked_locations
@@ -101,6 +102,8 @@ Meteor.publish 'posts', (
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     if view_adult
         match["data.over_18"] = true
+    else 
+        match["data.over_18"] = false
 
     if view_videos
         match["data.domain"] = $in: ['youtube.com','youtu.be','m.youtube.com','vimeo.com','v.redd.it']
@@ -110,7 +113,7 @@ Meteor.publish 'posts', (
 
     # console.log 'match',match
     Docs.find match,
-        limit:20
+        limit:10
         sort: "#{sk}":-1
         # skip:skip*20
         fields:
@@ -123,6 +126,8 @@ Meteor.publish 'posts', (
             "data.is_reddit_media_domain":1
             "data.created":1
             "data.url":1
+            "data.preview.images[0].source.url":1
+
             # "data.selftext":1
             subreddit:1
             # "data.selftext_html":1
@@ -165,12 +170,15 @@ Meteor.publish 'dao_tags', (
 
     # if picked_tags.length > 0 then match.tags = $all:picked_tags
     match.tags = $all:picked_tags
-    # if picked_authors.length > 0 then match.author = $all:picked_authors
-    # if picked_locations.length > 0 then match.location = $all:picked_locations
-    # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
+    if picked_authors.length > 0 then match.author = $all:picked_authors
+    if picked_locations.length > 0 then match.location = $all:picked_locations
+    if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     
     if view_adult
         match["data.over_18"] = true
+    else 
+        match["data.over_18"] = false
+        
     if view_videos
         match["data.domain"] = $in: ['youtube.com','youtu.be','m.youtube.com','vimeo.com','v.redd.it']
         
@@ -187,7 +195,7 @@ Meteor.publish 'dao_tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:20 }
+        { $limit:11 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     tag_cloud.forEach (tag, i) ->

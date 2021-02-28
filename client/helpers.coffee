@@ -33,6 +33,9 @@ Template.registerHelper 'is_image', ()->
         true
     else 
         false
+Template.registerHelper 'preview_path', ()->
+    if @data and @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+        @data.preview and @data.preview.images[0].source.url
 Template.registerHelper 'has_thumbnail', ()->
     # console.log @data.thumbnail
     @data.thumbnail not in ['default','self']

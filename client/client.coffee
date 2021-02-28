@@ -81,8 +81,8 @@ Template.tag_picker.events
         # else
         # if @model is 'love_tag'
         lowered_name = @name.toLowerCase()
-
-        picked_tags.push @name.toLowerCase()
+        unless lowered_name in picked_tags.array()
+            picked_tags.push lowered_name
         # $('.search_sublove').val('')
         # Session.set('skip_value',0)
 
@@ -155,7 +155,9 @@ Template.flat_tag_picker.events
         # results.update
         # window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-        picked_tags.push @valueOf()
+        unless @valueOf() in picked_tags.array()
+            picked_tags.push @valueOf()
+
         $('.search_tags').val('')
         url = new URL(window.location);
         url.searchParams.set('tags', picked_tags.array());
@@ -215,25 +217,6 @@ Template.registerHelper 'embed', ()->
 
 
     
-Router.route '/p/:doc_id', (->
-    @layout 'layout'
-    @render 'post_view'
-    ), name:'post_view_short'
-
-
-Template.post_view.onCreated ->
-    # Session.set('session_clicks', Session.get('session_clicks')+2)
-    # Meteor.call 'log_view', Router.current().params.doc_id, ->
-    @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-
-Template.post_view.helpers
-
-
-Template.post_view.events
-    'click .search_dao': ->
-        picked_tags.clear()
-        Router.go '/'
-
 
 
 

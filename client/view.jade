@@ -3,8 +3,12 @@ template(name='post_view')
         .ui.stackable.grid
             .row 
                 .twelve.wide.column.scrolling
-                    .ui.center.aligned.header #{title}
+                    a.ui.large.icon.basic.button(href="/")
+                        i.chevron.left.large.icon
+                        // i.large.home.icon
+                    .ui.center.aligned.inline.header #{title}
                     if url
+                        div
                         a.ui.center.aligned.small.header(href=url target='_window') #{url}
                         
                     if embed
@@ -22,6 +26,8 @@ template(name='post_view')
                         // .ui.fluid.embed
                         //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
                         iframe.invert(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                    if preview_path
+                        img(src=preview_path)
                     if data.link_url
                         img.ui.image.pointer.call_visual(src=data.link_url)
                     // if data.selftext
@@ -43,9 +49,6 @@ template(name='post_view')
                     //         a(href="https://redgifs.com/watch/tidyalivecopperhead")
                     //             |via RedGIFs    
                 .four.wide.column.scrolling
-                    a.ui.large.icon.basic.fluid.button(href="/")
-                        i.chevron.left.large.icon
-                        i.large.home.icon
                     if has_thumbnail
                         img.ui.fluid.rounded.image.pointer.call_thumbnail(src=data.thumbnail)
                     i.large.eye.icon
@@ -56,9 +59,13 @@ template(name='post_view')
                     .ui.large.label
                         i.globe.icon
                         |#{domain}
+                    .ui.fluid.button.search_sub
+                        |#{subreddit}
+                        i.search.icon
                     a.ui.fluid.button(href="https://www.reddit.com/r/#{subreddit}" target="_window")
                         i.reddit.icon
                         |#{subreddit}
+                        i.external.icon
                     a.ui.fluid.button(href="https://www.reddit.com/u/#{data.author}" target="_window")
                         i.users.icon
                         |#{data.author}

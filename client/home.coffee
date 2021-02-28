@@ -17,7 +17,10 @@ Template.home.onCreated ->
                 Session.set('loading',false)
             Meteor.setTimeout ->
                 Session.set('toggle', !Session.get('toggle'))
-            , 7000    
+            , 5000    
+            Meteor.setTimeout ->
+                Session.set('toggle', !Session.get('toggle'))
+            , 10000    
             
     # console.log(name)
     
@@ -100,7 +103,13 @@ Template.home.events
   
     'click .view_videos': (e,t)-> Session.set('view_videos',!Session.get('view_videos'))
     'click .view_images': (e,t)-> Session.set('view_images',!Session.get('view_images'))
-    'click .view_adult': (e,t)-> Session.set('view_adult',!Session.get('view_adult'))
+    'click .view_adult': (e,t)-> 
+        unless Session.get('view_adult')
+            if confirm 'view adult?'
+                Session.set('view_adult',true)
+        else
+            Session.set('view_adult',false)
+            # Session.set('view_adult',!Session.get('view_adult'))
 
     'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
     'click .set_list': (e,t)-> Session.set('view_layout', 'list')
@@ -143,7 +152,10 @@ Template.home.events
             })
             Meteor.setTimeout ->
                 Session.set('toggle', !Session.get('toggle'))
-            , 7000    
+            , 5000    
+            Meteor.setTimeout ->
+                Session.set('toggle', !Session.get('toggle'))
+            , 10000    
             url = new URL(window.location);
             url.searchParams.set('tags', picked_tags.array());
             window.history.pushState({}, '', url);
