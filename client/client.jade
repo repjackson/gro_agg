@@ -221,7 +221,7 @@ template(name='home')
             // .ui.icon.button.view_commented
             //     i.chat.icon            
             // if skv_is 'view_layout' 'grid'
-            .ui.stackable.four.centered.cards.scrollin
+            .ui.stackable.four.cards.scrollin
                 each posts
                     +post_card
             // else 
@@ -233,7 +233,7 @@ template(name='post_card')
     .card(class=card_class)
         if embed
             // span.f11.full
-            a.view_post.invert(href="/p/#{_id}" class=post_header_class)
+            a.view_post.invert.full(href="/p/#{_id}" class=post_header_class)
                 |!{embed}
         if is_image
             a.view_post(href="/p/#{_id}" class=post_header_class)
