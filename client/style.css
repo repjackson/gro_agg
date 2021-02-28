@@ -656,12 +656,12 @@ a.title, #title {
 
 .label {
   margin:1px !important;
-  /*border-radius: 10px !important; */
+  border-radius: 10px !important; 
 }
 
 input {
     /*margin: 10px !important;*/
-    /*border-radius: 10px !important; */
+    border-radius: 10px !important; 
 }
 
 ::-webkit-scrollbar {

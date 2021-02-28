@@ -41,7 +41,7 @@ Template.registerHelper 'has_thumbnail', ()->
         # @data.thumbnail.length > 0 
 
 Template.registerHelper 'is_youtube', ()->
-    @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+    @data and @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
 
 
     

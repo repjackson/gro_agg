@@ -167,8 +167,8 @@ Meteor.publish 'posts', (
         sk = sort_key
     else
         sk = 'points'
-    if picked_tags.length > 0 then match.tags = $all:picked_tags
-    # match.tags = $all:picked_tags
+    # if picked_tags.length > 0 then match.tags = $all:picked_tags
+    match.tags = $all:picked_tags
     if picked_locations.length > 0 then match.location = $all:picked_locations
     if picked_authors.length > 0 then match.author = $all:picked_authors
     if picked_times.length > 0 then match.timestamp_tags = $all:picked_times

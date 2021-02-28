@@ -48,6 +48,9 @@ template(name='post_view')
             .row 
                 .twelve.wide.column.scrolling
                     .ui.center.aligned.header #{title}
+                    if url
+                        a.ui.center.aligned.small.header(href=url target='_window') #{url}
+                        
                     if embed
                         span.f11.full
                             |!{embed}
@@ -106,6 +109,9 @@ template(name='post_view')
                             i.big.pencil.icon
                     i.large.eye.icon
                     | #{views} views
+                    if comment_count
+                        i.large.chat.icon
+                        | #{comment_count} views
                     +array_edit key='tags' label='tags' icon='tag'
                     +link_view key='link' label='link'
                     +array_edit key='time_tags' label='time tags' icon='clock'
@@ -118,54 +124,6 @@ template(name='post_view')
    
                     
                     
-template(name='post_edit')
-    with current_doc
-        .ui.stackable.grid
-            .row
-                .four.wide.column.scrolling
-                    a.ui.icon.big.button(href="/p/#{_id}" title='save')
-                        i.checkmark.big.green.icon
-                    .ui.inline.header 
-                        i.pencil.icon
-                        | post
-                    i.large.link.remove.icon.delete_post
-                    div
-                    +array_edit key='tags' label='tags' icon='tags'
-                    // +raw_edit key='raw' label='raw'
-                    +boolean_edit key='private' label='private'
-                    +text_edit key='group' label='group'
-                    +key_value_edit k='privacy' v='public' i='users'
-                    +key_value_edit k='privacy' v='private' i='lock'
-                    if key_value 'privacy' 'private'
-                        +key_value_edit k='private_setting' v='friends' i='users'
-                .twelve.wide.column.scrolling
-                    +boolean_edit key='has_title' icon='text' label='title'
-                    +boolean_edit key='has_html' icon='content' label='content'
-                    +boolean_edit key='has_image_link' icon='image' label='image link'
-                    +boolean_edit key='has_image_upload' icon='image' label='image upload'
-                    +boolean_edit key='has_youtube' icon='youtube' label='youtube'
-                    +boolean_edit key='has_link' icon='link' label='link'
-                    +boolean_edit key='can_buy' icon='shop' label='can buy'
-                    if has_title
-                        +text_edit key='title' label='title'
-                    if has_html
-                        +html_edit key='content' label='content'
-                    if has_image_link
-                        +image_link_edit key='image_link'
-                    if has_youtube
-                        +youtube_edit key='youtube_id' label='youtube id'
-                    if has_link
-                        +link_edit key='link' label='link'
-                    if has_location_tags
-                        +array_edit key='location_tags' label='location tags' icon='marker'
-                    if has_time_tags
-                        +array_edit key='time_tags' label='time tags' icon='clock'
-                    if has_image_upload
-                        +image_edit key='image_id' label='image'
-                    if can_buy
-                        +text_edit key='unit_name' label='unit name'
-                        +number_edit key='karma_price' label='karma price'
-                        
                         
 template(name='home')
     .ui.padded.stackable.grid
@@ -284,15 +242,18 @@ template(name='home')
 template(name='post_card')
     .ui.card.smallscroll(class=card_class)
         if embed
-            span.f11.full
+            // span.f11.full
+            a.view_post(href="/p/#{_id}" class=post_header_class)
                 |!{embed}
         else if is_image
             a.view_post(href="/p/#{_id}" class=post_header_class)
                 img.ui.fluid.zoomer.rounded.image.toggle_view(src=data.url)
         else if data.is_reddit_media_domain
-            img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
+            a.view_post(href="/p/#{_id}" class=post_header_class)
+                img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
         else if has_thumbnail
-            img.ui.fluid.rounded.image.pointer.call_thumbnail.zoomer(src=data.thumbnail)
+            a.view_post(href="/p/#{_id}" class=post_header_class)
+                img.ui.fluid.rounded.image.pointer.call_thumbnail.zoomer(src=data.thumbnail)
         // else if watson.metadata.image
         //     img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
         if is_youtube
