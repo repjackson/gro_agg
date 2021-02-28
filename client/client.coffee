@@ -132,6 +132,7 @@ Template.home.events
                 Session.set('toggle', !Session.get('toggle'))
             , 7000    
             t.$('.search_tag').val('')
+            t.$('.search_tag').focus()
             # Session.set('sub_doc_query', val)
 
 
