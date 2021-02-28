@@ -27,6 +27,7 @@ Template.home.onCreated ->
     # Session.setDefault('view_sidebar', -false)
     Session.setDefault('view_videos', -false)
     Session.setDefault('view_images', -false)
+    Session.setDefault('view_adult', -false)
     # Session.setDefault('location_query', null)
     @autorun => Meteor.subscribe 'dao_tags',
         picked_tags.array()
@@ -36,6 +37,7 @@ Template.home.onCreated ->
         picked_authors.array()
         Session.get('view_videos')
         Session.get('view_images')
+        Session.get('view_adult')
     @autorun => Meteor.subscribe 'post_count', 
         picked_tags.array()
         picked_times.array()
@@ -43,6 +45,7 @@ Template.home.onCreated ->
         picked_authors.array()
         Session.get('view_videos')
         Session.get('view_images')
+        Session.get('view_adult')
     @autorun => Meteor.subscribe 'posts', 
         picked_tags.array()
         Session.get('toggle')
@@ -54,6 +57,7 @@ Template.home.onCreated ->
         Session.get('skip_value')
         Session.get('view_videos')
         Session.get('view_images')
+        Session.get('view_adult')
 
 
 
@@ -81,6 +85,7 @@ Template.home.helpers
     sort_timestamp_class: -> if Session.equals('sort_key','_timestamp') then 'black' else 'basic'
     video_class: -> if Session.get('view_videos') then 'black' else 'basic'
     image_class: -> if Session.get('view_images') then 'black' else 'basic'
+    adult_class: -> if Session.get('view_adult') then 'black' else 'basic'
     
     # sidebar_class: -> if Session.get('view_sidebar') then 'ui four wide column' else 'hidden'
     # main_column_class: -> if Session.get('view_sidebar') then 'ui twelve wide column' else 'ui sixteen wide column' 
@@ -95,6 +100,7 @@ Template.home.events
   
     'click .view_videos': (e,t)-> Session.set('view_videos',!Session.get('view_videos'))
     'click .view_images': (e,t)-> Session.set('view_images',!Session.get('view_images'))
+    'click .view_adult': (e,t)-> Session.set('view_adult',!Session.get('view_adult'))
 
     'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
     'click .set_list': (e,t)-> Session.set('view_layout', 'list')

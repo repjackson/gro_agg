@@ -43,6 +43,9 @@ Meteor.publish 'post_count', (
     # picked_authors
     # picked_locations
     # picked_times
+    view_images
+    view_videos
+    view_adult
     )->
     # @unblock()
     match = {
@@ -52,7 +55,9 @@ Meteor.publish 'post_count', (
     # unless Meteor.userId()
     #     match.privacy='public'
 
-        
+    if view_adult
+        match["data.over_18"] = true
+
     match.tags = $all:picked_tags
     # if picked_authors.length > 0 then match.author = $all:picked_authors
     # if picked_locations.length > 0 then match.location = $all:picked_locations
@@ -72,6 +77,7 @@ Meteor.publish 'posts', (
     skip=0
     view_videos
     view_images
+    view_adult
     )->
         
     # @unblock()
@@ -93,11 +99,14 @@ Meteor.publish 'posts', (
     # if picked_locations.length > 0 then match.location = $all:picked_locations
     # if picked_authors.length > 0 then match.author = $all:picked_authors
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
+    if view_adult
+        match["data.over_18"] = true
+
     if view_videos
-        match["data.domain"] = $in: ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+        match["data.domain"] = $in: ['youtube.com','youtu.be','m.youtube.com','vimeo.com','v.redd.it']
         
     else if view_images
-        match["data.domain"] = $in: ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
+        match["data.domain"] = $in: ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','giphy.com']
 
     # console.log 'match',match
     Docs.find match,
@@ -142,6 +151,7 @@ Meteor.publish 'dao_tags', (
     query=''
     view_videos
     view_images
+    view_adult
     )->
     # @unblock()
     self = @
@@ -159,11 +169,13 @@ Meteor.publish 'dao_tags', (
     # if picked_locations.length > 0 then match.location = $all:picked_locations
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     
+    if view_adult
+        match["data.over_18"] = true
     if view_videos
-        match["data.domain"] = $in: ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+        match["data.domain"] = $in: ['youtube.com','youtu.be','m.youtube.com','vimeo.com','v.redd.it']
         
     else if view_images
-        match["data.domain"] = $in: ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
+        match["data.domain"] = $in: ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','giphy.com']
 
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
