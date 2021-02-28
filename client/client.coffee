@@ -12,10 +12,10 @@ Router.route '/p/:doc_id/edit', (->
 Template.home.onCreated ->
     Session.setDefault('sort_key', 'points')
     Session.setDefault('sort_direction', -1)
-    # Session.setDefault('view_layout', 'grid')
+    Session.setDefault('view_layout', 'grid')
     # Session.setDefault('view_sidebar', -false)
-    # Session.setDefault('view_videos', -false)
-    # Session.setDefault('view_images', -false)
+    Session.setDefault('view_videos', -false)
+    Session.setDefault('view_images', -false)
     # Session.setDefault('location_query', null)
     @autorun => Meteor.subscribe 'dao_tags',
         picked_tags.array()
@@ -54,6 +54,16 @@ Template.post_card.onRendered ->
     # Meteor.call 'log_view', @data._id, ->
     # Session.set('session_clicks', Session.get('session_clicks')+2)
 
+Template.post_card.events
+    'click .pick_sub': ->
+        Session.set('loading',true)
+        picked_tags.push @subreddit.toLowerCase()
+        Meteor.call 'search_reddit', picked_tags.array(), ->
+            Session.set('loading',false)
+        Meteor.setTimeout ->
+            Session.set('toggle', !Session.get('toggle'))
+        , 7000    
+
 
 
 Template.home.helpers
@@ -75,8 +85,8 @@ Template.home.helpers
     
     sort_points_class: -> if Session.equals('sort_key','points') then 'black' else 'basic'
     sort_timestamp_class: -> if Session.equals('sort_key','_timestamp') then 'black' else 'basic'
-    # video_class: -> if Session.get('view_videos') then 'black' else 'basic'
-    # image_class: -> if Session.get('view_images') then 'black' else 'basic'
+    video_class: -> if Session.get('view_videos') then 'black' else 'basic'
+    image_class: -> if Session.get('view_images') then 'black' else 'basic'
     
     # sidebar_class: -> if Session.get('view_sidebar') then 'ui four wide column' else 'hidden'
     # main_column_class: -> if Session.get('view_sidebar') then 'ui twelve wide column' else 'ui sixteen wide column' 
@@ -89,11 +99,11 @@ Template.home.events
     'click .sort_up': (e,t)-> Session.set('sort_direction',1)
   
   
-    # 'click .view_videos': (e,t)-> Session.set('view_videos',!Session.get('view_videos'))
-    # 'click .view_images': (e,t)-> Session.set('view_images',!Session.get('view_images'))
+    'click .view_videos': (e,t)-> Session.set('view_videos',!Session.get('view_videos'))
+    'click .view_images': (e,t)-> Session.set('view_images',!Session.get('view_images'))
 
-    # 'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
-    # 'click .set_list': (e,t)-> Session.set('view_layout', 'list')
+    'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
+    'click .set_list': (e,t)-> Session.set('view_layout', 'list')
 
     'click .sort_points': (e,t)-> Session.set('sort_key', 'points')
     'click .sort_timestamp': (e,t)-> Session.set('sort_key', '_timestamp')
@@ -104,33 +114,33 @@ Template.home.events
     'keyup .search_tag': (e,t)->
          if e.which is 13
             val = t.$('.search_tag').val().trim().toLowerCase()
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance val
-            $('.search_tag').transition('pulse')
-            $('.black').transition('pulse')
-            $('.seg .pick_tag').transition({
-                animation : 'pulse',
-                duration  : 500,
-                interval  : 300
-            })
-            $('.seg .black').transition({
-                animation : 'pulse',
-                duration  : 500,
-                interval  : 300
-            })
-            # $('.pick_tag').transition('pulse')
-            # $('.card_small').transition('shake')
-            $('.pushed .card_small').transition({
-                animation : 'pulse',
-                duration  : 500,
-                interval  : 300
-            })
-            picked_tags.push val   
             Session.set('loading',true)
+            picked_tags.push val   
             Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('loading',false)
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance val
+            # $('.search_tag').transition('pulse')
+            # $('.black').transition('pulse')
+            # $('.seg .pick_tag').transition({
+            #     animation : 'pulse',
+            #     duration  : 500,
+            #     interval  : 300
+            # })
+            # $('.seg .black').transition({
+            #     animation : 'pulse',
+            #     duration  : 500,
+            #     interval  : 300
+            # })
+            # $('.pick_tag').transition('pulse')
+            # $('.card_small').transition('shake')
+            # $('.pushed .card').transition({
+            #     animation : 'pulse',
+            #     duration  : 500,
+            #     interval  : 300
+            # })
             Meteor.setTimeout ->
                 Session.set('toggle', !Session.get('toggle'))
-            , 10000    
+            , 7000    
             t.$('.search_tag').val('')
             t.$('.search_tag').focus()
             # Session.set('sub_doc_query', val)
@@ -193,7 +203,7 @@ Template.tag_picker.events
             Session.set('loading',false)
         Meteor.setTimeout ->
             Session.set('toggle', !Session.get('toggle'))
-        , 10000    
+        , 7000    
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
@@ -222,7 +232,7 @@ Template.unpick_tag.events
             Session.set('loading',false)
         Meteor.setTimeout ->
             Session.set('toggle', !Session.get('toggle'))
-        , 10000    
+        , 7000    
 
 
 Template.flat_tag_picker.onCreated ->

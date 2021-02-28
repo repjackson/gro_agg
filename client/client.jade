@@ -118,7 +118,7 @@ template(name='home')
                         i.yin.yang.loading.large.icon
                     else
                         i.search.icon
-                    input.search_tag(type='text' value=query autofocus='')
+                    input.search_tag(type='text' value=query autofocus='' placeholder="#{post_counter} results")
                     // .ui.label #{this}
             else
                 .ui.center.aligned.basic.segment
@@ -126,6 +126,8 @@ template(name='home')
                         i.search.large.icon
                         input.search_tag(type='text' placeholder='search anything' autofocus='')
                         // .ui.label #{this}
+                    .ui.small.header
+                        |welcome to dao, the search engine that 'learns'.  click on tags to 'teach' about the combination of subjects.  
             if picked_tags
                 // if many_tags
                 //     a#clear_tags.ui.red.invert.icon.button.pick_term
@@ -153,8 +155,27 @@ template(name='home')
                     i.clock.icon
                 .ui.large.icon.button.sort_points(class=sort_points_class)
                     i.thumbs.up.icon
-                .ui.inline.header 
-                    |#{post_counter}
+                // if skv_is 'view_layout' 'grid'
+                //     .ui.large.icon.black.button.set_grid(class=grid_class) 
+                //         i.th.icon
+                // else
+                //     .ui.large.icon.basic.button.set_grid(class=grid_class) 
+                //         i.th.icon
+                // if skv_is 'view_layout' 'list'
+                //     .ui.black.icon.large.button.set_list(class=list_class)
+                //         i.list.icon
+                // else
+                //     .ui.large.icon.basic.button.set_list(class=list_class)
+                //         i.list.icon
+                // if skv_is 'view_layout' 'grid'
+                .ui.stackable.four.cards.scrolling
+                    each posts
+                        +post_card
+                // else 
+                //     .ui.divided.link.items
+                //         each posts
+                //             +post_item
+                    
         // if skv_is 'view_sidebar' true
         //     .four.wide.column.scrolling       
         //         if location_results.count
@@ -190,7 +211,7 @@ template(name='home')
         //                 .ui.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         //                     | #{name}
                                 
-        div(class=main_column_class)
+            div(class=main_column_class)
             // if skv_is 'view_detail' true
             //     .ui.black.large.icon.basic.button.toggle_detail
             //         i.list.icon
@@ -198,39 +219,19 @@ template(name='home')
             //     .ui.large.icon.basic.button.toggle_detail
             //         i.minus.icon
             //     // i.line.chart.icon
-            // if skv_is 'view_layout' 'grid'
-            //     .ui.large.icon.black.button.set_grid(class=grid_class) 
-            //         i.th.icon
-            // else
-            //     .ui.large.icon.basic.button.set_grid(class=grid_class) 
-            //         i.th.icon
-            // if skv_is 'view_layout' 'list'
-            //     .ui.black.icon.large.button.set_list(class=list_class)
-            //         i.list.icon
-            // else
-            //     .ui.large.icon.basic.button.set_list(class=list_class)
-            //         i.list.icon
             // .ui.icon.basic.button.skip_left
             //     i.chevron.left.icon
             // .ui.icon.basic.button.skip_right
             //     i.chevron.right.icon
-            // .ui.icon.button.view_videos(class=video_class)
-            //     i.film.icon
-            // .ui.icon.button.view_images(class=image_class)
-            //     i.picture.icon
+            .ui.icon.button.view_videos(class=video_class)
+                i.film.icon
+            .ui.icon.button.view_images(class=image_class)
+                i.picture.icon
             // .ui.icon.button.view_commented
             //     i.chat.icon            
-            // if skv_is 'view_layout' 'grid'
-            .ui.stackable.four.cards.scrollin
-                each posts
-                    +post_card
-            // else 
-            //     .ui.divided.link.items
-            //         each posts
-            //             +post_item
 
 template(name='post_card')
-    .card(class=card_class)
+    .card.full(class=card_class)
         if embed
             // span.f11.full
             a.view_post.invert.full(href="/p/#{_id}" class=post_header_class)
@@ -266,12 +267,12 @@ template(name='post_card')
         .content.smallscroll
             a.ui.small.header(href="/p/#{_id}") #{title}
             div
-            if data.selftext_html
-                a.f12(href="/p/#{_id}")
-                    |!{data.selftext_html}
-            else if data.selftext
-                a.f12.zoomer(href="/p/#{_id}")
-                    |!{data.selftext}
+            // if data.selftext_html
+            //     a.f12(href="/p/#{_id}")
+            //         |!{data.selftext_html}
+            // else if data.selftext
+            //     a.f12.zoomer(href="/p/#{_id}")
+            //         |!{data.selftext}
                     
             //     |!{description}
             //     |!{body}
@@ -280,6 +281,8 @@ template(name='post_card')
             //     input.add_tag(type='text' placeholder='+')
             each five_tags
                 +flat_tag_picker
+            .ui.basic.button.pick_sub
+                |#{subreddit}
                 // .ui.small.button.pick_flat_tag #{this}
             // each timestamp_tags
             //     .ui.small.button.pick_flat_time #{this}
@@ -297,6 +300,7 @@ template(name='post_card')
             //     i.chevron.right.large.icon
         //   +comments
            
+                                
                                 
                                 
 template(name='tag_picker')

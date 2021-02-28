@@ -105,7 +105,7 @@ Meteor.publish 'posts', (
         # skip:skip*20
         fields:
             _id:1
-            data:1
+            # data:1
             "data.thumbnail":1
             "data.domain":1
             "data.media":1
@@ -113,7 +113,9 @@ Meteor.publish 'posts', (
             "data.is_reddit_media_domain":1
             "data.created":1
             "data.url":1
-            "data.selftext":1
+            # "data.selftext":1
+            subreddit:1
+            # "data.selftext_html":1
             comment_count:1
             title:1
             domain:1
