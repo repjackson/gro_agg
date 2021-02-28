@@ -48,6 +48,35 @@ template(name='post_view')
             .row 
                 .twelve.wide.column.scrolling
                     .ui.center.aligned.header #{title}
+                    if embed
+                        span.f11.full
+                            |!{embed}
+                    else if is_image
+                        a.view_post(href="/" class=post_header_class)
+                            img.ui.fluid.rounded.image.toggle_view(src=data.url)
+                    else if data.is_reddit_media_domain
+                        img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
+                    else if has_thumbnail
+                        img.ui.fluid.rounded.image.pointer.call_thumbnail(src=data.thumbnail)
+                    // else if watson.metadata.image
+                    //     img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
+                    if is_youtube
+                        div
+                        // .ui.fluid.embed
+                        //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
+                        iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                    if data.link_url
+                        img.ui.image.pointer.call_visual(src=data.link_url)
+            
+                    if image_link
+                        a(href="/")
+                            img.ui.image(src=image_link)
+                    if image_id
+                        a(href="/")
+                            img.ui.zoomer.image(src="{{c.url image_id }}" )
+                    if youtube_id
+                        +youtube_view key='youtube_id' label='youtube id'
+                    
                     if image_link
                         +image_link_view key='image_link'
                     if image_id
@@ -258,7 +287,7 @@ template(name='post_card')
             span.f11.full
                 |!{embed}
         else if is_image
-            a.view_post(href="/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.view_post(href="/p/#{_id}" class=post_header_class)
                 img.ui.fluid.zoomer.rounded.image.toggle_view(src=data.url)
         else if data.is_reddit_media_domain
             img.ui.centered.rounded.image.pointer.call_visual(src=data.url)

@@ -13,10 +13,10 @@ Template.body.events
     'click .say': ->
         window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
         
-    'click .blink': ->
+    'click a': ->
         $('.global_container')
-            .transition('fade out', 150)
-            .transition('fade in', 150)
+            .transition('fade out', 500)
+            .transition('fade in', 500)
 
 
 Template.registerHelper 'embed', ()->
