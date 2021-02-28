@@ -264,7 +264,7 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "http://reddit.com/search.json?q=#{query}&limit=50&include_facets=false&raw_json=1"
+        url = "http://reddit.com/search.json?q=#{query}&limit=100&include_facets=false&raw_json=1"
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,res)=>
         HTTP.get url,(err,res)=>
             if res.data.data.dist > 1
@@ -327,7 +327,7 @@ Meteor.methods
         doc = Docs.findOne doc_id
         if doc.reddit_id
             # HTTP.get "http://reddit.com/by_id/t3_#{doc.reddit_id}.json&raw_json=1", (err,res)->
-            HTTP.get "https://www.reddit.com/comments/#{doc.reddit_id}/.json", (err,res)->
+            HTTP.get "https://www.reddit.com/comments/#{doc.reddit_id}/.json&raw_json=1", (err,res)->
                 if err
                     console.log 'error getting', doc.reddit_id
                     # console.error err

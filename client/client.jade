@@ -68,26 +68,40 @@ template(name='post_view')
                         iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                     if data.link_url
                         img.ui.image.pointer.call_visual(src=data.link_url)
-                    if data.selftext
+                    // if data.selftext
+                    //     .f12
+                    //         |!{data.selftext}
+                    div 
+                    if data.selftext_html
                         .f12
-                            |#{data.selftext}
+                            |!{data.selftext_html}
                     div 
                     .spacer
                     .spacer
                     div
                 .four.wide.column.scrolling
-                    if has_thumbnail
-                        img.ui.fluid.rounded.image.pointer.call_thumbnail(src=data.thumbnail)
-                    a.ui.large.icon.basic.button(href="/")
+                    a.ui.large.icon.basic.fluid.button(href="/")
                         i.chevron.left.large.icon
                         i.large.home.icon
+                    if has_thumbnail
+                        img.ui.fluid.rounded.image.pointer.call_thumbnail(src=data.thumbnail)
                     i.large.eye.icon
                     | #{views} views
                     if comment_count
-                        i.large.chat.icon
-                        | #{comment_count} views
-                    a.ui.fluid.button(href="www.reddit.com/r/#{subreddit}" target="_window")
+                        i.large.chat.outline.icon
+                        | #{comment_count} comments
+                    .ui.large.label
+                        i.globe.icon
+                        |#{domain}
+                    a.ui.fluid.button(href="https://www.reddit.com/r/#{subreddit}" target="_window")
+                        i.reddit.icon
                         |#{subreddit}
+                    a.ui.fluid.button(href="https://www.reddit.com/u/#{data.author}" target="_window")
+                        i.users.icon
+                        |#{data.author}
+                    // a.ui.fluid.button(href="https://www.reddit.com#{permalink}" target="_window")
+                    //     i.external.icon
+                    //     |#{permalink}
                     +print_this
                     
    
@@ -256,7 +270,7 @@ template(name='post_card')
             a.ui.small.header(href="/p/#{_id}") #{title}
             div
             if data.selftext
-                a.f11.zoomer(href="/p/#{_id}")
+                a.f12.zoomer(href="/p/#{_id}")
                     |!{data.selftext}
             //     |!{description}
             //     |!{body}
