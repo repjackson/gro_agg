@@ -19,6 +19,7 @@ Template.home.onCreated ->
     # Session.setDefault('location_query', null)
     @autorun => Meteor.subscribe 'dao_tags',
         picked_tags.array()
+        Session.get('toggle')
         # picked_times.array()
         # picked_locations.array()
         # picked_authors.array()
@@ -33,6 +34,7 @@ Template.home.onCreated ->
         # Session.get('view_images')
     @autorun => Meteor.subscribe 'posts', 
         picked_tags.array()
+        Session.get('toggle')
         # picked_times.array()
         # picked_locations.array()
         # picked_authors.array()
@@ -45,7 +47,10 @@ Template.home.onCreated ->
 
 
 Template.post_card.onRendered ->
-    # console.log @
+    # console.log @data
+    
+    unless @watson
+        Meteor.call 'call_watson', @data._id, ->
     # Meteor.call 'log_view', @data._id, ->
     # Session.set('session_clicks', Session.get('session_clicks')+2)
 
@@ -123,7 +128,9 @@ Template.home.events
             Session.set('loading',true)
             Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('loading',false)
-                
+            Meteor.setTimeout ->
+                Session.set('toggle', !Session.get('toggle'))
+            , 7000    
             t.$('.search_tag').val('')
             # Session.set('sub_doc_query', val)
 
@@ -134,12 +141,12 @@ Template.home.events
         Docs.update @_id,
             $set:is_private:true
 
-    'keyup .add_tag': (e,t)->
-        if e.which is 13
-            new_tag = $(e.currentTarget).closest('.add_tag').val().toLowerCase().trim()
-            Docs.update @_id,
-                $addToSet: tags:new_tag
-            $(e.currentTarget).closest('.add_tag').val('')
+    # 'keyup .add_tag': (e,t)->
+    #     if e.which is 13
+    #         new_tag = $(e.currentTarget).closest('.add_tag').val().toLowerCase().trim()
+    #         Docs.update @_id,
+    #             $addToSet: tags:new_tag
+    #         $(e.currentTarget).closest('.add_tag').val('')
             
             
             
@@ -183,6 +190,9 @@ Template.tag_picker.events
         Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
+        Meteor.setTimeout ->
+            Session.set('toggle', !Session.get('toggle'))
+        , 7000    
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
@@ -209,6 +219,9 @@ Template.unpick_tag.events
         Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
+        Meteor.setTimeout ->
+            Session.set('toggle', !Session.get('toggle'))
+        , 7000    
 
 
 Template.flat_tag_picker.onCreated ->
@@ -232,6 +245,7 @@ Template.flat_tag_picker.helpers
             title:@valueOf().toLowerCase()
 Template.flat_tag_picker.events
     'click .pick_flat_tag': -> 
+        console.log 'click', @valueOf()
         # results.update
         # window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()

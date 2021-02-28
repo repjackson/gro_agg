@@ -63,6 +63,7 @@ Meteor.publish 'post_count', (
             
 Meteor.publish 'posts', (
     picked_tags
+    toggle
     # picked_times
     # picked_locations
     # picked_authors
@@ -103,6 +104,7 @@ Meteor.publish 'posts', (
         sort: "#{sk}":-1
         # skip:skip*20
         fields:
+            _id:1
             data:1
             "data.thumbnail":1
             "data.domain":1
@@ -129,6 +131,7 @@ Meteor.publish 'posts', (
            
 Meteor.publish 'dao_tags', (
     picked_tags
+    toggle
     # picked_times
     # picked_locations
     # picked_authors
