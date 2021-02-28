@@ -10,7 +10,7 @@ template(name='post_view')
                     if url
                         div
                         a.ui.center.aligned.small.header(href=url target='_window') #{url}
-                    .scrolling
+                    .scrollin
                         if embed
                             span.f11.full
                                 |!{embed}
@@ -51,7 +51,8 @@ template(name='post_view')
                         //     p
                         //         a(href="https://redgifs.com/watch/tidyalivecopperhead")
                         //             |via RedGIFs    
-                .four.wide.column.scrolling
+                        +tone_view
+                .four.wide.column.scrollin
                     if has_thumbnail
                         img.ui.fluid.rounded.image.pointer.call_thumbnail(src=data.thumbnail)
                     i.large.eye.icon
@@ -75,6 +76,9 @@ template(name='post_view')
                     // a.ui.fluid.button(href="https://www.reddit.com#{permalink}" target="_window")
                     //     i.external.icon
                     //     |#{permalink}
+                    i.tag.icon
+                    each tags
+                        +flat_tag_picker
                     +print_this
                     +doc_emotion
                     if watson

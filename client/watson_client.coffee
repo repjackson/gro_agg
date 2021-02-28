@@ -107,9 +107,9 @@ Template.call_watson.events
     'click .autotag': ->
         console.log 'calling'
         Meteor.call 'call_watson', Router.current().params.doc_id, 'url', @mode, ->
-# Template.tone.events
-#     'click #call_tone': ->
-#         Meteor.call 'call_tone', Router.current().params.doc_id, ->
+Template.tone_view.events
+    'click #call_tone': ->
+        Meteor.call 'call_tone', Router.current().params.doc_id, 'watson.analyzed_text', 'html',->
 
 
 

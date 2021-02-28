@@ -50,18 +50,19 @@ Meteor.methods
     call_tone: (doc_id, key, mode)->
         self = @
         doc = Docs.findOne doc_id
-        # console.log key
-        # console.log mode
+        console.log key
+        console.log mode
         # if doc.html or doc.body
         #     # stringed = JSON.stringify(doc.html, null, 2)
         if mode is 'html'
             params =
-                toneInput:doc["#{key}"]
-                content_type:'text/html'
-        if mode is 'text'
-            params =
-                toneInput: { 'text': doc.body }
-                contentType: 'application/json'
+                # toneInput:doc["#{key}"]
+                toneInput:doc.watson.analyzed_text
+                contentType:'text/html'
+        # else if mode is 'text'
+        #     params =
+        #         toneInput: { 'text': doc.body }
+        #         contentType: 'application/json'
         # console.log 'params', params
         tone_analyzer.tone params, Meteor.bindEnvironment((err, response)->
             if err
