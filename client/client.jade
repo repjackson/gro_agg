@@ -15,9 +15,9 @@ head
     link(rel="manifest" href="/site.webmanifest")
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
 
-    // link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
-    // script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
-    // script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/en.js")
+    link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
+    script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/en.js")
 
     // script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
 
@@ -49,19 +49,19 @@ template(name='post_view')
                 .twelve.wide.column.scrolling
                     .ui.center.aligned.header #{title}
                     if image_link
-                        +image_link_view key='image_link' direct=true
+                        +image_link_view key='image_link'
                     if image_id
                         img.ui.fluid.rounded.image.no_left(src="{{c.url image_id }}" )
                     if youtube_id
                         .no_left
-                            +youtube_view key='youtube_id' label='youtube id' direct=true
+                            +youtube_view key='youtube_id' label='youtube id'
                     if raw 
                         |!{raw}
-                    .say_this.say_body.f11
+                    .say_this.say_body.f12
                         |!{content}
-                    .say_this.say_body.f11
+                    .say_this.say_body.f12
                         |!{description}
-                    .say_this.say_body.f11
+                    .say_this.say_body.f12
                         |!{body}
                     div 
                     .spacer
@@ -77,12 +77,13 @@ template(name='post_view')
                             i.big.pencil.icon
                     i.large.eye.icon
                     | #{views} views
-                    +array_edit key='tags' label='tags' direct=true
-                    +link_view key='link' label='link' direct=true
-                    +array_edit key='time_tags' label='time tags' icon='clock' direct=true
-                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    i.large.thumbs.up.icon.voteup
-                    i.large.thumbs.down.icon.anon_votedown
+                    +array_edit key='tags' label='tags' icon='tag'
+                    +link_view key='link' label='link'
+                    +array_edit key='time_tags' label='time tags' icon='clock'
+                    +array_edit key='location_tags' label='location tags' icon='marker'
+                    +voting
+                    // i.large.thumbs.up.icon.voteup
+                    // i.large.thumbs.down.icon.anon_votedown
                     +print_this
                     
    
@@ -100,10 +101,10 @@ template(name='post_edit')
                         | post
                     i.large.link.remove.icon.delete_post
                     div
-                    +array_edit key='tags' label='tags' direct=true
-                    // +raw_edit key='raw' label='raw' direct=true
-                    +boolean_edit key='private' label='private' direct=true
-                    +text_edit key='group' label='group' direct=true
+                    +array_edit key='tags' label='tags' icon='tags'
+                    // +raw_edit key='raw' label='raw'
+                    +boolean_edit key='private' label='private'
+                    +text_edit key='group' label='group'
                     +key_value_edit k='privacy' v='public' i='users'
                     +key_value_edit k='privacy' v='private' i='lock'
                     if key_value 'privacy' 'private'
@@ -117,21 +118,21 @@ template(name='post_edit')
                     +boolean_edit key='has_link' icon='link' label='link'
                     +boolean_edit key='can_buy' icon='shop' label='can buy'
                     if has_title
-                        +text_edit key='title' label='title' direct=true
+                        +text_edit key='title' label='title'
                     if has_html
-                        +html_edit key='content' label='content' direct=true
+                        +html_edit key='content' label='content'
                     if has_image_link
-                        +image_link_edit key='image_link' direct=true
+                        +image_link_edit key='image_link'
                     if has_youtube
-                        +youtube_edit key='youtube_id' label='youtube id' direct=true
+                        +youtube_edit key='youtube_id' label='youtube id'
                     if has_link
-                        +link_edit key='link' label='link' direct=true
+                        +link_edit key='link' label='link'
                     if has_location_tags
-                        +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                        +array_edit key='location_tags' label='location tags' icon='marker'
                     if has_time_tags
-                        +array_edit key='time_tags' label='time tags' icon='clock' direct=true
+                        +array_edit key='time_tags' label='time tags' icon='clock'
                     if has_image_upload
-                        +image_edit key='image_id' label='image' direct=true
+                        +image_edit key='image_id' label='image'
                     if can_buy
                         +text_edit key='unit_name' label='unit name'
                         +number_edit key='karma_price' label='karma price'
@@ -236,11 +237,11 @@ template(name='home')
                 i.chevron.left.icon
             .ui.circular.icon.basic.button.skip_right
                 i.chevron.right.icon
-            .ui.icon.button
+            .ui.icon.button.view_videos(class=video_class)
                 i.film.icon
-            .ui.icon.button
+            .ui.icon.button.view_images(class=image_class)
                 i.picture.icon
-            .ui.icon.button
+            .ui.icon.button.view_commented
                 i.chat.icon            
             .ui.stackable.three.cards.scrolling
                 if skv_is 'view_layout' 'grid'
@@ -260,7 +261,7 @@ template(name='post_card')
             a(href="/p/#{_id}")
                 img.ui.zoomer.image(src="{{c.url image_id }}" )
         if youtube_id
-            +youtube_view key='youtube_id' label='youtube id' direct=true
+            +youtube_view key='youtube_id' label='youtube id'
 
         .content.smallscroll
             a.ui.header(href="/p/#{_id}") #{title}
@@ -304,9 +305,9 @@ template(name='post_item')
         if youtube_id
             a(href="/p/#{_id}")
                 i.massive.youtube.link.icon
-            // +youtube_view key='youtube_id' label='youtube id' direct=true
+            // +youtube_view key='youtube_id' label='youtube id'
 
-        .content.smallscroll
+        .content
             a.ui.header(href="/p/#{_id}") #{title}
             div
             |#{when}
@@ -359,7 +360,7 @@ template(name='unpick_tag')
         
 template(name='flat_tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    .ui.compact.tiny.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    .ui.compact.basic.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         // if term
         //     if term.watson.metadata.image
         //         img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -487,7 +488,7 @@ template(name='voting')
     i.thumbs.up.large.link.outline.grey.icon.upvote(class=upvote_class title='upvote')
     i.thumbs.down.large.link.grey.outline.icon.downvote(class=downvote_class title='downvote')
     // if in_dev
-    //     +number_edit key='points' label='edit points' direct=true
+    //     +number_edit key='points' label='edit points'
     if points
         strong #{points} pts
     // if anon_points

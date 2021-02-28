@@ -194,12 +194,14 @@ Meteor.publish 'doc_count', (
             
 Meteor.publish 'posts', (
     picked_tags
-    # picked_times
-    # picked_locations
-    # picked_authors
-    # sort_key
-    # sort_direction
-    # skip=0
+    picked_times
+    picked_locations
+    picked_authors
+    sort_key
+    sort_direction
+    skip=0
+    view_videos
+    view_images
     )->
         
     # @unblock()
@@ -212,39 +214,40 @@ Meteor.publish 'posts', (
     # unless Meteor.userId()
     #     match.privacy='public'
     
-    # if sort_key
-    #     sk = sort_key
-    # else
-    #     sk = '_timestamp'
+    if sort_key
+        sk = sort_key
+    else
+        sk = 'points'
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     # match.tags = $all:picked_tags
-    # if picked_locations.length > 0 then match.location = $all:picked_locations
-    # if picked_authors.length > 0 then match.author = $all:picked_authors
-    # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
+    if picked_locations.length > 0 then match.location = $all:picked_locations
+    if picked_authors.length > 0 then match.author = $all:picked_authors
+    if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
+    if view_videos
+        match.youtube_id = $exists:true
+    if view_images
+        match.image_id = $exists:true
 
     # console.log 'match',match
     Docs.find match,
         limit:20
-        sort:points:-1
-        # sort: "#{sk}":-1
+        sort: "#{sk}":-1
         # skip:skip*20
-        # fields:
-        #     title:1
-        #     content:1
-        #     tags:1
-        #     upvoter_ids:1
-        #     image_id:1
-        #     image_link:1
-        #     url:1
-        #     youtube_id:1
-        #     _timestamp:1
-        #     _timestamp_tags:1
-        #     views:1
-        #     viewer_ids:1
-        #     _author_username:1
-        #     downvoter_ids:1
-        #     _author_id:1
-        #     model:1
+        fields:
+            title:1
+            content:1
+            body:1
+            description:1
+            tags:1
+            image_id:1
+            image_link:1
+            url:1
+            youtube_id:1
+            _timestamp:1
+            _timestamp_tags:1
+            views:1
+            viewer_ids:1
+            model:1
     
     
 # Meteor.methods    
@@ -279,10 +282,12 @@ Meteor.publish 'posts', (
            
 Meteor.publish 'dao_tags', (
     picked_tags
-    # picked_times
-    # picked_locations
-    # picked_authors
-    # query=''
+    picked_times
+    picked_locations
+    picked_authors
+    query=''
+    view_videos
+    view_images
     )->
     # @unblock()
     self = @
@@ -297,9 +302,15 @@ Meteor.publish 'dao_tags', (
 
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     # match.tags = $all:picked_tags
-    # if picked_authors.length > 0 then match.author = $all:picked_authors
-    # if picked_locations.length > 0 then match.location = $all:picked_locations
-    # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
+    if picked_authors.length > 0 then match.author = $all:picked_authors
+    if picked_locations.length > 0 then match.location = $all:picked_locations
+    if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
+    
+    if view_videos
+        match.youtube_id = $exists:true
+    if view_images
+        match.image_id = $exists:true
+    
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
     tag_cloud = Docs.aggregate [

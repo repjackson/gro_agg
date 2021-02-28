@@ -91,10 +91,10 @@ Template.html_edit.events
         parent = Template.parentData()
         Docs.update parent._id,
             $set:"#{@key}":html
-        $('body').toast({
-            class: 'success',
-            message: "saved"
-        })
+        # $('body').toast({
+        #     class: 'success',
+        #     message: "saved"
+        # })
 
     , 5000)
 
@@ -104,11 +104,8 @@ Template.html_edit.helpers
 
 Template.clear_value.events
     'click .clear_value': ->
-        if confirm "Clear #{@title} field?"
-            if @direct
-                parent = Template.parentData()
-            else
-                parent = Template.parentData(5)
+        if confirm "clear #{@title} field?"
+            parent = Template.parentData()
             doc = Docs.findOne parent._id
             if doc
                 Docs.update parent._id,
@@ -198,10 +195,7 @@ Template.array_edit.events
         if e.which is 13
             element_val = t.$('.new_element').val().trim().toLowerCase()
             if element_val.length>0
-                if @direct
-                    parent = Template.parentData()
-                else
-                    parent = Template.parentData(5)
+                parent = Template.parentData()
                 doc = Docs.findOne parent._id
                 if doc
                     Docs.update parent._id,
@@ -214,8 +208,7 @@ Template.array_edit.events
 
         element = @valueOf()
         field = Template.currentData()
-        if field.direct
-            parent = Template.parentData()
+        parent = Template.parentData()
 
         doc = Docs.findOne parent._id
         if doc

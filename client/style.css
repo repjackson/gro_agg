@@ -745,11 +745,11 @@ input {
   margin:0px !important;
 }
 .button:active{
-  border-radius: 7px !important;  
-   transition: all .5s !important; 
-  transform: translate(0, 1px) !important; 
-  /*zoom:105% !important;*/
-  /*-webkit-transform: translate(0, 1px) !important;*/
+    border-radius: 7px !important;  
+    transition: all .5s !important; 
+    transform: translate(0, 1px) !important; 
+    /*zoom:105% !important;*/
+    /*-webkit-transform: translate(0, 1px) !important;*/
 } 
 
 

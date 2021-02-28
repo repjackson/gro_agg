@@ -12,25 +12,34 @@ Router.route '/p/:doc_id/edit', (->
 Template.home.onCreated ->
     Session.setDefault('sort_key', '_timestamp')
     Session.setDefault('sort_direction', -1)
+    Session.setDefault('view_sidebar', -false)
+    Session.setDefault('view_videos', -false)
+    Session.setDefault('view_images', -false)
     # Session.setDefault('location_query', null)
     @autorun => Meteor.subscribe 'dao_tags',
         picked_tags.array()
-        # picked_times.array()
-        # picked_locations.array()
-        # picked_authors.array()
+        picked_times.array()
+        picked_locations.array()
+        picked_authors.array()
+        Session.get('view_videos')
+        Session.get('view_images')
     @autorun => Meteor.subscribe 'post_count', 
         picked_tags.array()
-        # picked_times.array()
-        # picked_locations.array()
-        # picked_authors.array()
+        picked_times.array()
+        picked_locations.array()
+        picked_authors.array()
+        Session.get('view_videos')
+        Session.get('view_images')
     @autorun => Meteor.subscribe 'posts', 
         picked_tags.array()
-        # picked_times.array()
-        # picked_locations.array()
-        # picked_authors.array()
-        # Session.get('sort_key')
-        # Session.get('sort_direction')
-        # Session.get('skip_value')
+        picked_times.array()
+        picked_locations.array()
+        picked_authors.array()
+        Session.get('sort_key')
+        Session.get('sort_direction')
+        Session.get('skip_value')
+        Session.get('view_videos')
+        Session.get('view_images')
 
 
 
@@ -57,7 +66,10 @@ Template.home.helpers
     author_results: -> results.find(model:'author')
     location_results: -> results.find(model:'location_tag')
     time_results: -> results.find(model:'time_tag')
-        
+    
+    video_class: -> if Session.get('view_videos') then 'black' else 'basic'
+    image_class: -> if Session.get('view_images') then 'black' else 'basic'
+    
     sidebar_class: -> if Session.get('view_sidebar') then 'ui four wide column' else 'hidden'
     main_column_class: -> if Session.get('view_sidebar') then 'ui twelve wide column' else 'ui sixteen wide column' 
         
@@ -71,14 +83,16 @@ Template.home.events
     'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
     'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
     'click .sort_up': (e,t)-> Session.set('sort_direction',1)
+    'click .view_videos': (e,t)-> Session.set('view_videos',!Session.get('view_videos'))
+    'click .view_images': (e,t)-> Session.set('view_images',!Session.get('view_images'))
 
     'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
     'click .set_list': (e,t)-> Session.set('view_layout', 'list')
 
 
-    'click .mark_viewed': (e,t)->
-        Docs.update @_id,
-            $inc:views:1
+    # 'click .mark_viewed': (e,t)->
+    #     Docs.update @_id,
+    #         $inc:views:1
     'keyup .search_tag': (e,t)->
          if e.which is 13
             val = t.$('.search_tag').val().trim().toLowerCase()
