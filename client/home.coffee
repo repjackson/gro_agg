@@ -10,7 +10,7 @@ Router.route '/p/:doc_id/edit', (->
 
 
 Template.home.onCreated ->
-    Session.setDefault('sort_key', '_timestamp')
+    Session.setDefault('sort_key', 'points')
     Session.setDefault('sort_direction', -1)
     Session.setDefault('view_sidebar', -false)
     Session.setDefault('view_videos', -false)
@@ -53,8 +53,8 @@ Template.post_card.onRendered ->
 Template.home.helpers
     posts: ->
         Docs.find {
-            model:'post'
-        }, sort: _timestamp:-1
+            model:$in:['post','rpost']
+        }, sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
        
     picked_tags: -> picked_tags.array()
     picked_locations: -> picked_locations.array()
@@ -67,6 +67,8 @@ Template.home.helpers
     location_results: -> results.find(model:'location_tag')
     time_results: -> results.find(model:'time_tag')
     
+    sort_points_class: -> if Session.equals('sort_key','points') then 'black' else 'basic'
+    sort_timestamp_class: -> if Session.equals('sort_key','_timestamp') then 'black' else 'basic'
     video_class: -> if Session.get('view_videos') then 'black' else 'basic'
     image_class: -> if Session.get('view_images') then 'black' else 'basic'
     
@@ -83,12 +85,16 @@ Template.home.events
     'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
     'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
     'click .sort_up': (e,t)-> Session.set('sort_direction',1)
+  
+  
     'click .view_videos': (e,t)-> Session.set('view_videos',!Session.get('view_videos'))
     'click .view_images': (e,t)-> Session.set('view_images',!Session.get('view_images'))
 
     'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
     'click .set_list': (e,t)-> Session.set('view_layout', 'list')
 
+    'click .sort_points': (e,t)-> Session.set('sort_key', 'points')
+    'click .sort_timestamp': (e,t)-> Session.set('sort_key', '_timestamp')
 
     # 'click .mark_viewed': (e,t)->
     #     Docs.update @_id,
@@ -117,6 +123,10 @@ Template.home.events
                 interval  : 300
             })
             picked_tags.push val   
+            Session.set('loading',true)
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('loading',false)
+                
             t.$('.search_tag').val('')
             # Session.set('sub_doc_query', val)
 
@@ -183,20 +193,13 @@ Template.home.events
         picked_location_tags.push @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
   
-    'click .unpick_author': ->
-        picked_author_tags.remove @valueOf()
-    'click .pick_author': ->
-        picked_author_tags.push @name
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+    # 'click .unpick_author': ->
+    #     picked_author_tags.remove @valueOf()
+    # 'click .pick_author': ->
+    #     picked_author_tags.push @name
+    #     # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
     
      
-    'keyup .search_love_tag': (e,t)->
-         if e.which is 13
-            val = t.$('.search_love_tag').val().trim().toLowerCase()
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance val
-            picked_tags.push val   
-            t.$('.search_love_tag').val('')
-            
             
     Template.tag_picker.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
@@ -235,6 +238,10 @@ Template.home.events
             # $('.search_sublove').val('')
             # Session.set('skip_value',0)
     
+            Session.set('loading',true)
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('loading',false)
+
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
             # Session.set('love_loading',true)
@@ -256,7 +263,11 @@ Template.home.events
             # console.log @
             picked_tags.remove @valueOf()
             # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
-        
+
+            Session.set('loading',true)
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('loading',false)
+
     
     Template.flat_tag_picker.onCreated ->
         # @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())

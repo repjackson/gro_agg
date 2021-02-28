@@ -142,11 +142,11 @@ template(name='home')
     .ui.padded.stackable.grid
         .sixteen.wide.column
             i.plus.circular.link.icon.add
-            .ui.icon.transparent.input
-                // if is_loading
-                //     i.yin.yang.loading.icon
-                // else
-                i.search.icon
+            .ui.icon.input
+                if is_loading
+                    i.yin.yang.loading.large.icon
+                else
+                    i.search.icon
                 input.search_tag(type='text' value=query)
                 // .ui.label #{this}
             
@@ -159,68 +159,68 @@ template(name='home')
             each result_tags
                 // .ui.label #{this}
                 +tag_picker
-        if skv_is 'view_sidebar' true
-            .four.wide.column.scrolling       
-                if location_results.count
-                    i.big.marker.icon
-                each picked_locations
-                    a.unpick_location.ui.large.compact.button(href='#')
-                        strong #{this}
-                each location_results
-                    if name
-                        .ui.tiny.compact.basic.button.pick_location #{name}
-                div
-                i.big.user.icon
-                each picked_authors
-                    a.unpick_author.ui.large.compact.button(href='#')
-                        strong #{this}
-                each author_results
-                    if name
-                        .ui.tiny.compact.basic.button.pick_author #{name}
-                div
-                i.clock.big.icon
-                each picked_times
-                    a.unpick_time.ui.large.large.compact.button(href='#')
-                        strong #{this}
-                each time_results
-                    .ui.tiny.compact.basic.button.pick_time #{name}
-                .ui.inline.header 
-                    |#{post_counter}
-                // +alpha
-                each picked_locations
-                    a.unpick_location_tag.ui.black.large.compact.button(href='#')
-                        | #{this}
-                if location_tags
-                    i.big.marker.grey.icon
-                    each location_tags
-                        .ui.compact.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
-                            | #{name}
+        // if skv_is 'view_sidebar' true
+        //     .four.wide.column.scrolling       
+        //         if location_results.count
+        //             i.big.marker.icon
+        //         each picked_locations
+        //             a.unpick_location.ui.large.compact.button(href='#')
+        //                 strong #{this}
+        //         each location_results
+        //             if name
+        //                 .ui.tiny.compact.basic.button.pick_location #{name}
+        //         div
+        //         i.big.user.icon
+        //         each picked_authors
+        //             a.unpick_author.ui.large.compact.button(href='#')
+        //                 strong #{this}
+        //         each author_results
+        //             if name
+        //                 .ui.tiny.compact.basic.button.pick_author #{name}
+        //         div
+        //         i.clock.big.icon
+        //         each picked_times
+        //             a.unpick_time.ui.large.large.compact.button(href='#')
+        //                 strong #{this}
+        //         each time_results
+        //             .ui.tiny.compact.basic.button.pick_time #{name}
+        //         .ui.inline.header 
+        //             |#{post_counter}
+        //         // +alpha
+        //         each picked_locations
+        //             a.unpick_location_tag.ui.black.large.compact.button(href='#')
+        //                 | #{this}
+        //         if location_tags
+        //             i.big.marker.grey.icon
+        //             each location_tags
+        //                 .ui.compact.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+        //                     | #{name}
                                 
         div(class=main_column_class)
             // .ui.disabled.button shared with me
-            if skv_is 'view_sidebar' false
-                .ui.icon.compact.basic.circular.button.enable_sidebar
-                    i.ellipsis.vertical.icon
-            else
-                .ui.icon.compact.active.circular.button.disable_sidebar
-                    i.ellipsis.vertical.icon
+            // if skv_is 'view_sidebar' false
+            //     .ui.icon.compact.basic.circular.button.enable_sidebar
+            //         i.ellipsis.vertical.icon
+            // else
+            //     .ui.icon.compact.active.circular.button.disable_sidebar
+            //         i.ellipsis.vertical.icon
             if skv_is 'sort_direction' 1
-                .ui.icon.compact.basic.button.sort_down
+                .ui.icon.compact.basic.circular.button.sort_down
                     i.caret.down.icon
             else
-                .ui.icon.compact.basic.button.sort_up
+                .ui.icon.compact.basic.circular.button.sort_up
                     i.caret.up.icon
-            .ui.compact.large.icon.basic.button.sort_created(class=sort_created_class)
+            .ui.compact.large.icon.circular.button.sort_timestamp_class(class=sort_timestamp_class)
                 i.clock.icon
-            .ui.compact.large.icon.basic.button.sort_ups(class=sort_ups_class)
+            .ui.compact.large.icon.circular.button.sort_points(class=sort_points_class)
                 i.thumbs.up.icon
-            if skv_is 'view_detail' true
-                .ui.black.large.icon.compact.basic.button.toggle_detail
-                    i.list.icon
-            else
-                .ui.compact.large.icon.basic.button.toggle_detail
-                    i.minus.icon
-                // i.line.chart.icon
+            // if skv_is 'view_detail' true
+            //     .ui.black.large.icon.compact.basic.button.toggle_detail
+            //         i.list.icon
+            // else
+            //     .ui.compact.large.icon.basic.button.toggle_detail
+            //         i.minus.icon
+            //     // i.line.chart.icon
             if skv_is 'view_layout' 'grid'
                 .ui.compact.large.icon.black.button.set_grid(class=grid_class) 
                     i.th.icon

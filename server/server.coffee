@@ -109,57 +109,6 @@ Meteor.methods
     #
 
 
-    # log_term: (term_title)->
-    #     found_term =
-    #         Terms.findOne
-    #             title:term_title
-    #     unless found_term
-    #         Terms.insert
-    #             title:term_title
-    #         # if Meteor.user()
-    #         #     Meteor.users.update({_id:Meteor.userId()},{$inc: karma: 1}, -> )
-    #     else
-    #         Terms.update({_id:found_term._id},{$inc: count: 1}, -> )
-    #         Meteor.call 'call_wiki', @term_title, =>
-    #             Meteor.call 'calc_term', @term_title, ->
-
-    # calc_term: (term_title)->
-    #     found_term =
-    #         Terms.findOne
-    #             title:term_title
-    #     unless found_term
-    #         Terms.insert
-    #             title:term_title
-    #     if found_term
-    #         found_term_docs =
-    #             Docs.find {
-    #                 model:'reddit'
-    #                 tags:$in:[term_title]
-    #             }, {
-    #                 sort:
-    #                     points:-1
-    #                     ups:-1
-    #                 limit:10
-    #             }
-
-
-
-    #         unless found_term.image
-    #             found_wiki_doc =
-    #                 Docs.findOne
-    #                     model:$in:['wikipedia']
-    #                     # model:$in:['wikipedia','reddit']
-    #                     title:term_title
-    #             found_reddit_doc =
-    #                 Docs.findOne
-    #                     model:$in:['reddit']
-    #                     "watson.metadata.image": $exists:true
-    #                     # model:$in:['wikipedia','reddit']
-    #                     title:term_title
-    #             if found_wiki_doc
-    #                 if found_wiki_doc.watson.metadata.image
-    #                     Terms.update term._id,
-    #                         $set:image:found_wiki_doc.watson.metadata.image
 
 
 Meteor.publish 'parent_doc', (doc_id)->
@@ -207,7 +156,7 @@ Meteor.publish 'posts', (
     # @unblock()
     self = @
     match = {
-        model:'post'
+        model:$in:['post','rpost']
         is_private:$ne:true
         # group:$exists:false
     }
@@ -230,7 +179,7 @@ Meteor.publish 'posts', (
 
     # console.log 'match',match
     Docs.find match,
-        limit:20
+        limit:10
         sort: "#{sk}":-1
         # skip:skip*20
         fields:
@@ -246,7 +195,11 @@ Meteor.publish 'posts', (
             _timestamp:1
             _timestamp_tags:1
             views:1
-            viewer_ids:1
+            points:1
+            anger_points:1
+            sad_points:1
+            joy_points:1
+            disgust_points:1
             model:1
     
     
@@ -292,7 +245,7 @@ Meteor.publish 'dao_tags', (
     # @unblock()
     self = @
     match = {
-        model:'post'
+        model:$in:['post','rpost']
         is_private:$ne:true
     }
 
@@ -321,7 +274,7 @@ Meteor.publish 'dao_tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:33 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     tag_cloud.forEach (tag, i) ->
@@ -409,4 +362,98 @@ Meteor.publish 'dao_tags', (
     
     
     self.ready()
+        
+Meteor.methods  
+    search_reddit: (query)->
+        console.log 'searching reddit'
+        # @unblock()
+        # res = HTTP.get("http://reddit.com/search.json?q=#{query}")
+        # if subreddit 
+        #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
+        # else
+        url = "http://reddit.com/search.json?q=#{query}&over_18=1&limit=100&include_facets=false&raw_json=1"
+        # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,res)=>
+        HTTP.get url,(err,res)=>
+            if res.data.data.dist > 1
+                _.each(res.data.data.children, (item)=>
+                    unless item.domain is "OneWordBan"
+                        data = item.data
+                        # console.log data
+                        len = 200
+                        added_tags = [query]
+                        # added_tags = [query]
+                        # added_tags.push data.domain.toLowerCase()
+                        # added_tags.push data.subreddit.toLowerCase()
+                        # added_tags.push data.author.toLowerCase()
+                        added_tags = _.flatten(added_tags)
+                        reddit_post =
+                            reddit_id: data.id
+                            url: data.url
+                            domain: data.domain
+                            comment_count: data.num_comments
+                            permalink: data.permalink
+                            ups: data.ups
+                            points: data.ups
+                            title: data.title
+                            subreddit: data.subreddit
+                            group:data.subreddit
+                            group_lowered:data.subreddit.toLowerCase()
+                            # root: query
+                            # selftext: false
+                            # thumbnail: false
+                            tags: added_tags
+                            model:'rpost'
+                            # source:'reddit'
+                            data:data
+                        existing = Docs.findOne 
+                            model:'rpost'
+                            url:data.url
+                        if existing
+                            # if Meteor.isDevelopment
+                            #     console.log 'new search doc', reddit_post.title
+                            # if typeof(existing.tags) is 'string'
+                            #     Doc.update
+                            #         $unset: tags: 1
+                            Docs.update existing._id,
+                                $addToSet: tags: $each: added_tags
+                                $set:
+                                    data:data
+                                    points:data.ups
+
+                            Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
+                        unless existing
+                            # if Meteor.isDevelopment
+                            #     console.log 'new search doc', reddit_post.title
+                            new_reddit_post_id = Docs.insert reddit_post
+                            Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
+                )
+   
+
+    get_reddit_post: (doc_id, reddit_id, root)->
+        @unblock()
+        doc = Docs.findOne doc_id
+        if doc.reddit_id
+            # HTTP.get "http://reddit.com/by_id/t3_#{doc.reddit_id}.json&raw_json=1", (err,res)->
+            HTTP.get "https://www.reddit.com/comments/#{doc.reddit_id}/.json", (err,res)->
+                if err
+                    console.log 'error getting', doc.reddit_id
+                    # console.error err
+                unless err
+                    # console.log res.data[0].data.children[0].data
+                    rd = res.data[0].data.children[0].data
+                    Docs.update doc_id,
+                        $set:
+                            data: rd
+                            url: rd.url
+                            # reddit_image:rd.preview.images[0].source.url
+                            thumbnail: rd.thumbnail
+                            subreddit: rd.subreddit
+                            group:rd.subreddit
+                            author: rd.author
+                            domain: rd.domain
+                            is_video: rd.is_video
+                            ups: rd.ups
+                            # downs: rd.downs
+                            over_18: rd.over_18
+
         
