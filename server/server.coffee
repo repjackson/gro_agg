@@ -182,25 +182,25 @@ Meteor.publish 'posts', (
         limit:10
         sort: "#{sk}":-1
         # skip:skip*20
-        fields:
-            title:1
-            content:1
-            body:1
-            description:1
-            tags:1
-            image_id:1
-            image_link:1
-            url:1
-            youtube_id:1
-            _timestamp:1
-            _timestamp_tags:1
-            views:1
-            points:1
-            anger_points:1
-            sad_points:1
-            joy_points:1
-            disgust_points:1
-            model:1
+        # fields:
+        #     title:1
+        #     content:1
+        #     body:1
+        #     description:1
+        #     tags:1
+        #     image_id:1
+        #     image_link:1
+        #     url:1
+        #     youtube_id:1
+        #     _timestamp:1
+        #     _timestamp_tags:1
+        #     views:1
+        #     points:1
+        #     anger_points:1
+        #     sad_points:1
+        #     joy_points:1
+        #     disgust_points:1
+        #     model:1
     
     
 # Meteor.methods    

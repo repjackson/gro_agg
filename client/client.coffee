@@ -17,7 +17,34 @@ Template.body.events
         $('.global_container')
             .transition('fade out', 150)
             .transition('fade in', 150)
-        
+
+
+Template.registerHelper 'embed', ()->
+    if @data and @data.media and @data.media.oembed and @data.media.oembed.html
+        dom = document.createElement('textarea')
+        # dom.innerHTML = doc.body
+        dom.innerHTML = @data.media.oembed.html
+        return dom.value
+        # Docs.update @_id,
+        #     $set:
+        #         parsed_selftext_html:dom.value
+
+
+Template.registerHelper 'is_image', ()->
+    if @data.domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
+        true
+    else 
+        false
+Template.registerHelper 'has_thumbnail', ()->
+    # console.log @data.thumbnail
+    @thumbnail not in ['default', 'self']
+        # @data.thumbnail.length > 0 
+
+Template.registerHelper 'is_youtube', ()->
+    @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+
+
+    
         
 # Template.say.events
 #     'click .quiet': (e,t)->
