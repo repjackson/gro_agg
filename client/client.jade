@@ -71,30 +71,6 @@ template(name='post_view')
                     if data.link_url
                         img.ui.image.pointer.call_visual(src=data.link_url)
             
-                    if image_link
-                        a(href="/")
-                            img.ui.image(src=image_link)
-                    if image_id
-                        a(href="/")
-                            img.ui.zoomer.image(src="{{c.url image_id }}" )
-                    if youtube_id
-                        +youtube_view key='youtube_id' label='youtube id'
-                    
-                    if image_link
-                        +image_link_view key='image_link'
-                    if image_id
-                        img.ui.fluid.rounded.image.no_left(src="{{c.url image_id }}" )
-                    if youtube_id
-                        .no_left
-                            +youtube_view key='youtube_id' label='youtube id'
-                    if raw 
-                        |!{raw}
-                    .say_this.say_body.f12
-                        |!{content}
-                    .say_this.say_body.f12
-                        |!{description}
-                    .say_this.say_body.f12
-                        |!{body}
                     div 
                     .spacer
                     .spacer
@@ -146,6 +122,23 @@ template(name='home')
             each result_tags
                 // .ui.label #{this}
                 +tag_picker
+            // .ui.disabled.button shared with me
+            // if skv_is 'view_sidebar' false
+            //     .ui.icon.basic.button.enable_sidebar
+            //         i.ellipsis.vertical.icon
+            // else
+            //     .ui.icon.compact.active.button.disable_sidebar
+            //         i.ellipsis.vertical.icon
+            if skv_is 'sort_direction' 1
+                .ui.icon.compact.basic.button.sort_down
+                    i.caret.down.icon
+            else
+                .ui.icon.compact.basic.button.sort_up
+                    i.caret.up.icon
+            .ui.large.icon.button.sort_timestamp(class=sort_timestamp_class)
+                i.clock.icon
+            .ui.large.icon.button.sort_points(class=sort_points_class)
+                i.thumbs.up.icon
         // if skv_is 'view_sidebar' true
         //     .four.wide.column.scrolling       
         //         if location_results.count
@@ -184,23 +177,6 @@ template(name='home')
         //                     | #{name}
                                 
         div(class=main_column_class)
-            // .ui.disabled.button shared with me
-            // if skv_is 'view_sidebar' false
-            //     .ui.icon.basic.button.enable_sidebar
-            //         i.ellipsis.vertical.icon
-            // else
-            //     .ui.icon.compact.active.button.disable_sidebar
-            //         i.ellipsis.vertical.icon
-            if skv_is 'sort_direction' 1
-                .ui.icon.compact.basic.button.sort_down
-                    i.caret.down.icon
-            else
-                .ui.icon.compact.basic.button.sort_up
-                    i.caret.up.icon
-            .ui.large.icon.button.sort_timestamp(class=sort_timestamp_class)
-                i.clock.icon
-            .ui.large.icon.button.sort_points(class=sort_points_class)
-                i.thumbs.up.icon
             // if skv_is 'view_detail' true
             //     .ui.black.large.icon.basic.button.toggle_detail
             //         i.list.icon

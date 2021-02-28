@@ -119,11 +119,14 @@ Meteor.publish 'posts', (
             "data.thumbnail":1
             "data.domain":1
             "data.media":1
+            "data.link_url":1
+            "data.is_reddit_media_domain":1
             comment_count:1
             title:1
             reddit_id:1
             ups:1
             tags:1
+            thumbnail:1
             url:1
             _timestamp:1
             _timestamp_tags:1

@@ -54,13 +54,13 @@ Template.post_card.onRendered ->
 Template.home.helpers
     posts: ->
         Docs.find {
-            model:$in:['post','rpost']
+            model:'rpost'
         }, sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
        
     picked_tags: -> picked_tags.array()
-    picked_locations: -> picked_locations.array()
-    picked_authors: -> picked_authors.array()
-    picked_times: -> picked_times.array()
+    # picked_locations: -> picked_locations.array()
+    # picked_authors: -> picked_authors.array()
+    # picked_times: -> picked_times.array()
     post_counter: -> Counts.get 'post_counter'
     
     result_tags: -> results.find(model:'tag')
@@ -77,10 +77,6 @@ Template.home.helpers
     # main_column_class: -> if Session.get('view_sidebar') then 'ui twelve wide column' else 'ui sixteen wide column' 
         
 Template.home.events
-    'click .add': ->
-        new_id = Docs.insert 
-            model:'post'
-        Router.go "/p/#{new_id}/edit"
     # 'click .enable_sidebar': (e,t)-> Session.set('view_sidebar',true)
     # 'click .disable_sidebar': (e,t)-> Session.set('view_sidebar',false)
     # 'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
