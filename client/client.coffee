@@ -1,7 +1,7 @@
 @picked_tags = new ReactiveArray []
-# @picked_times = new ReactiveArray []
-# @picked_locations = new ReactiveArray []
-# @picked_authors = new ReactiveArray []
+@picked_times = new ReactiveArray []
+@picked_locations = new ReactiveArray []
+@picked_authors = new ReactiveArray []
 
 Router.route '/p/:doc_id/edit', (->
     @layout 'layout'
@@ -193,18 +193,6 @@ Template.registerHelper 'embed', ()->
         #         parsed_selftext_html:dom.value
 
 
-Template.registerHelper 'is_image', ()->
-    if @data.domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
-        true
-    else 
-        false
-Template.registerHelper 'has_thumbnail', ()->
-    # console.log @data.thumbnail
-    @data.thumbnail not in ['default','self']
-        # @data.thumbnail.length > 0 
-
-Template.registerHelper 'is_youtube', ()->
-    @data and @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
 
 
     

@@ -64,14 +64,14 @@ Meteor.publish 'post_count', (
 Meteor.publish 'posts', (
     picked_tags
     toggle
-    # picked_times
-    # picked_locations
-    # picked_authors
+    picked_times
+    picked_locations
+    picked_authors
     sort_key
     sort_direction
     skip=0
-    # view_videos
-    # view_images
+    view_videos
+    view_images
     )->
         
     # @unblock()
@@ -93,10 +93,11 @@ Meteor.publish 'posts', (
     # if picked_locations.length > 0 then match.location = $all:picked_locations
     # if picked_authors.length > 0 then match.author = $all:picked_authors
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
-    # if view_videos
-    #     match.youtube_id = $exists:true
-    # if view_images
-    #     match.image_id = $exists:true
+    if view_videos
+        match["data.domain"] = $in: ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+        
+    else if view_images
+        match["data.domain"] = $in: ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
 
     # console.log 'match',match
     Docs.find match,
@@ -135,12 +136,12 @@ Meteor.publish 'posts', (
 Meteor.publish 'dao_tags', (
     picked_tags
     toggle
-    # picked_times
-    # picked_locations
-    # picked_authors
-    # query=''
-    # view_videos
-    # view_images
+    picked_times
+    picked_locations
+    picked_authors
+    query=''
+    view_videos
+    view_images
     )->
     # @unblock()
     self = @
@@ -158,11 +159,12 @@ Meteor.publish 'dao_tags', (
     # if picked_locations.length > 0 then match.location = $all:picked_locations
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     
-    # if view_videos
-    #     match.youtube_id = $exists:true
-    # if view_images
-    #     match.image_id = $exists:true
-    
+    if view_videos
+        match["data.domain"] = $in: ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+        
+    else if view_images
+        match["data.domain"] = $in: ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
+
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
     tag_cloud = Docs.aggregate [

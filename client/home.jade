@@ -18,7 +18,7 @@ template(name='home')
                 .ui.center.aligned.basic.segment
                     .ui.icon.massive.input
                         i.search.large.icon
-                        input.search_tag(type='text' placeholder='search anything' autofocus='')
+                        input.search_tag(type='text' placeholder='search' autofocus='')
                         // .ui.label #{this}
                     .ui.small.header
                         |welcome to dao, a search engine that learns.  click on tags to teach it about the combination of subjects.  
@@ -50,6 +50,7 @@ template(name='home')
             //     .ui.icon.active.button.disable_sidebar
             //         i.ellipsis.vertical.icon
             if picked_tags
+                div
                 if skv_is 'sort_direction' 1
                     .ui.icon.basic.button.sort_down
                         i.caret.down.icon
@@ -60,26 +61,44 @@ template(name='home')
                     i.clock.icon
                 .ui.large.icon.button.sort_points(class=sort_points_class)
                     i.thumbs.up.icon
-                // if skv_is 'view_layout' 'grid'
-                //     .ui.large.icon.black.button.set_grid(class=grid_class) 
-                //         i.th.icon
-                // else
-                //     .ui.large.icon.basic.button.set_grid(class=grid_class) 
-                //         i.th.icon
-                // if skv_is 'view_layout' 'list'
-                //     .ui.black.icon.large.button.set_list(class=list_class)
-                //         i.list.icon
-                // else
-                //     .ui.large.icon.basic.button.set_list(class=list_class)
-                //         i.list.icon
-                // if skv_is 'view_layout' 'grid'
-                .ui.stackable.four.cards.scrolling
-                    each posts
-                        +post_card
-                // else 
-                //     .ui.divided.link.items
-                //         each posts
-                //             +post_item
+                if skv_is 'view_layout' 'grid'
+                    .ui.large.icon.black.button.set_grid(class=grid_class) 
+                        i.th.icon
+                else
+                    .ui.large.icon.basic.button.set_grid(class=grid_class) 
+                        i.th.icon
+                if skv_is 'view_layout' 'list'
+                    .ui.black.icon.large.button.set_list(class=list_class)
+                        i.list.icon
+                else
+                    .ui.large.icon.basic.button.set_list(class=list_class)
+                        i.list.icon
+                if skv_is 'view_detail' true
+                    .ui.black.large.icon.basic.button.toggle_detail
+                        i.list.icon
+                else
+                    .ui.large.icon.basic.button.toggle_detail
+                        i.minus.icon
+                    // i.line.chart.icon
+                .ui.icon.basic.button.skip_left
+                    i.chevron.left.icon
+                .ui.icon.basic.button.skip_right
+                    i.chevron.right.icon
+                .ui.icon.button.view_videos(class=video_class)
+                    i.film.icon
+                .ui.icon.button.view_images(class=image_class)
+                    i.picture.icon
+                // .ui.icon.button.view_commented
+                //     i.chat.icon            
+                        
+                if skv_is 'view_layout' 'grid'
+                    .ui.stackable.four.cards.scrolling
+                        each posts
+                            +post_card
+                else 
+                    .ui.divided.link.items
+                        each posts
+                            +post_item
                     
         if skv_is 'view_sidebar' true
             .four.wide.column.scrolling       
@@ -116,21 +135,3 @@ template(name='home')
                         .ui.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
                             | #{name}
                                 
-            div(class=main_column_class)
-                if skv_is 'view_detail' true
-                    .ui.black.large.icon.basic.button.toggle_detail
-                        i.list.icon
-                else
-                    .ui.large.icon.basic.button.toggle_detail
-                        i.minus.icon
-                    // i.line.chart.icon
-                .ui.icon.basic.button.skip_left
-                    i.chevron.left.icon
-                .ui.icon.basic.button.skip_right
-                    i.chevron.right.icon
-                .ui.icon.button.view_videos(class=video_class)
-                    i.film.icon
-                .ui.icon.button.view_images(class=image_class)
-                    i.picture.icon
-                // .ui.icon.button.view_commented
-                //     i.chat.icon            

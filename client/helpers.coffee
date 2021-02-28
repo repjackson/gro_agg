@@ -28,7 +28,19 @@ Template.registerHelper 'picked_tags', () -> picked_tags.array()
 # Template.registerHelper 'connection', () -> Meteor.status()
 # Template.registerHelper 'connected', () -> Meteor.status().connected
     
-    
+Template.registerHelper 'is_image', ()->
+    if @data.domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','giphy.com']
+        true
+    else 
+        false
+Template.registerHelper 'has_thumbnail', ()->
+    # console.log @data.thumbnail
+    @data.thumbnail not in ['default','self']
+        # @data.thumbnail.length > 0 
+
+Template.registerHelper 'is_youtube', ()->
+    @data and @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+ 
   
 Template.registerHelper 'tag_term', () ->
     Docs.findOne 

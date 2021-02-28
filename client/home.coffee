@@ -31,24 +31,24 @@ Template.home.onCreated ->
     @autorun => Meteor.subscribe 'dao_tags',
         picked_tags.array()
         Session.get('toggle')
-        # picked_times.array()
-        # picked_locations.array()
-        # picked_authors.array()
-        # Session.get('view_videos')
-        # Session.get('view_images')
+        picked_times.array()
+        picked_locations.array()
+        picked_authors.array()
+        Session.get('view_videos')
+        Session.get('view_images')
     @autorun => Meteor.subscribe 'post_count', 
         picked_tags.array()
-        # picked_times.array()
-        # picked_locations.array()
-        # picked_authors.array()
-        # Session.get('view_videos')
-        # Session.get('view_images')
+        picked_times.array()
+        picked_locations.array()
+        picked_authors.array()
+        Session.get('view_videos')
+        Session.get('view_images')
     @autorun => Meteor.subscribe 'posts', 
         picked_tags.array()
         Session.get('toggle')
-        # picked_times.array()
-        # picked_locations.array()
-        # picked_authors.array()
+        picked_times.array()
+        picked_locations.array()
+        picked_authors.array()
         Session.get('sort_key')
         Session.get('sort_direction')
         Session.get('skip_value')
@@ -105,6 +105,9 @@ Template.home.events
     # 'click .mark_viewed': (e,t)->
     #     Docs.update @_id,
     #         $inc:views:1
+    'click .search_tag': (e,t)->
+        Session.set('toggle', !Session.get('toggle'))
+
     'keyup .search_tag': (e,t)->
          if e.which is 13
             val = t.$('.search_tag').val().trim().toLowerCase()
