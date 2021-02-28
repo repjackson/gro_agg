@@ -15,9 +15,9 @@ head
     link(rel="manifest" href="/site.webmanifest")
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
 
-    link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
-    script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
-    script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/en.js")
+    // link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
+    // script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
+    // script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/en.js")
 
     // script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
 
@@ -141,7 +141,7 @@ template(name='post_edit')
 template(name='home')
     .ui.padded.stackable.grid
         .sixteen.wide.column
-            i.plus.circular.link.icon.add
+            // i.plus.link.icon.add
             .ui.icon.input
                 if is_loading
                     i.yin.yang.loading.large.icon
@@ -199,20 +199,20 @@ template(name='home')
         div(class=main_column_class)
             // .ui.disabled.button shared with me
             // if skv_is 'view_sidebar' false
-            //     .ui.icon.basic.circular.button.enable_sidebar
+            //     .ui.icon.basic.button.enable_sidebar
             //         i.ellipsis.vertical.icon
             // else
-            //     .ui.icon.compact.active.circular.button.disable_sidebar
+            //     .ui.icon.compact.active.button.disable_sidebar
             //         i.ellipsis.vertical.icon
             if skv_is 'sort_direction' 1
-                .ui.icon.compact.basic.circular.button.sort_down
+                .ui.icon.compact.basic.button.sort_down
                     i.caret.down.icon
             else
-                .ui.icon.compact.basic.circular.button.sort_up
+                .ui.icon.compact.basic.button.sort_up
                     i.caret.up.icon
-            .ui.large.icon.circular.button.sort_timestamp(class=sort_timestamp_class)
+            .ui.large.icon.button.sort_timestamp(class=sort_timestamp_class)
                 i.clock.icon
-            .ui.large.icon.circular.button.sort_points(class=sort_points_class)
+            .ui.large.icon.button.sort_points(class=sort_points_class)
                 i.thumbs.up.icon
             // if skv_is 'view_detail' true
             //     .ui.black.large.icon.basic.button.toggle_detail
@@ -233,9 +233,9 @@ template(name='home')
             else
                 .ui.large.icon.basic.button.set_list(class=list_class)
                     i.list.icon
-            .ui.circular.icon.basic.button.skip_left
+            .ui.icon.basic.button.skip_left
                 i.chevron.left.icon
-            .ui.circular.icon.basic.button.skip_right
+            .ui.icon.basic.button.skip_right
                 i.chevron.right.icon
             .ui.icon.button.view_videos(class=video_class)
                 i.film.icon
@@ -253,7 +253,7 @@ template(name='home')
                         +post_item
 
 template(name='post_card')
-    .ui.card(class=card_class)
+    .ui.card.smallscroll(class=card_class)
         if embed
             span.f11.full
                 |!{embed}
@@ -283,7 +283,7 @@ template(name='post_card')
         if youtube_id
             +youtube_view key='youtube_id' label='youtube id'
 
-        .content.smallscroll
+        .content
             a.ui.header(href="/p/#{_id}") #{title}
             div
             a.f12.zoomer(href="/p/#{_id}")
@@ -293,7 +293,7 @@ template(name='post_card')
             // .ui.tiny.icon.input
             //     i.grey.tag.icon
             //     input.add_tag(type='text' placeholder='+')
-            each tags
+            each seven_tags
                 +flat_tag_picker
                 // .ui.small.button.pick_flat_tag #{this}
             // each timestamp_tags
@@ -305,13 +305,13 @@ template(name='post_card')
                 +print_this
         .content
             |#{when}
-            +voting
-            if in_dev
-                i.large.lock.link.circular.grey.icon.make_private
-            a.ui.icon.large.basic.circular.button(href="/p/#{_id}")
+            // +voting
+            // if in_dev
+            //     i.large.lock.link.grey.icon.make_private
+            a.ui.icon.large.basic.button(href="/p/#{_id}")
                 |#{views}
                 i.chevron.right.large.icon
-           +comments
+        //   +comments
            
                                 
 template(name='post_item')
@@ -353,7 +353,7 @@ template(name='post_item')
                 +print_this
         .content
             if in_dev
-                i.large.lock.link.circular.grey.icon.make_private
+                i.large.lock.link.grey.icon.make_private
             a.ui.icon.large.basic.button(href="/p/#{_id}")
                 |#{views}
                 i.chevron.right.large.icon
@@ -370,7 +370,7 @@ template(name='tag_picker')
         //     small #{count}
         
 template(name='unpick_tag')
-    a.unpick_tag.ui.large.black.button.no_blink(href='#')
+    a.unpick_tag.ui.black.image.big.label.no_blink(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.image.superzoom(src=term.watson.metadata.image)    
@@ -380,7 +380,7 @@ template(name='unpick_tag')
         
 template(name='flat_tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    .ui.basic.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    .ui.basic.small.compact.button.zoomer.pick_flat_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         // if term
         //     if term.watson.metadata.image
         //         img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -392,7 +392,7 @@ template(name='flat_tag_picker')
                         
 template(name='skve')
     // a.ui.image.big.link.label.set_session_v(class=calculated_class)
-    .ui.circular.basic.button.set_session_v.say(class=calculated_class title=t)
+    .ui.basic.button.set_session_v.say(class=calculated_class title=t)
         // if i
         if selected 
             // +i n=i cl='ui mini inline image'
@@ -533,7 +533,7 @@ template(name='toggle_button')
 
             
 template(name='key_value_edit')
-    a.ui.large.circular.button.set_key_value(class=set_key_value_class title=value href='#')
+    a.ui.large.button.set_key_value(class=set_key_value_class title=value href='#')
         if i
             // +icon name=icon cl='ui avatar image'
             i.icon(class=i)
