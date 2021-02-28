@@ -110,10 +110,10 @@ template(name='post_view')
                         
 template(name='home')
     .ui.padded.stackable.grid
-        .sixteen.wide.column
+        .sixteen.wide.center.aligned.column
             // i.plus.link.icon.add
             if picked_tags
-                .ui.icon.inverted.input
+                .ui.icon.large.input
                     if is_loading
                         i.yin.yang.loading.large.icon
                     else
@@ -122,7 +122,7 @@ template(name='home')
                     // .ui.label #{this}
             else
                 .ui.center.aligned.basic.segment
-                    .ui.icon.massive.inverted.input
+                    .ui.icon.massive.input
                         i.yin.yang.loading.large.icon
                         input.search_tag(type='text' value=query autofocus='')
                         // .ui.label #{this}
@@ -244,9 +244,9 @@ template(name='post_card')
         else if has_thumbnail
             a.view_post(href="/p/#{_id}" class=post_header_class)
                 img.ui.fluid.rounded.image.pointer.call_thumbnail.zoomer(src=data.thumbnail)
-        // else if watson.metadata.image
-        //     img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
-        if is_youtube
+            // else if watson.metadata.image
+            //     img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
+        else if is_youtube
             div
             // .ui.fluid.embed
             //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
