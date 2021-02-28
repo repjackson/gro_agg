@@ -98,7 +98,14 @@ Template.registerHelper 'kv_is', (key, value) ->
 # Template.registerHelper 'fixed', (number)-> if number then number.toFixed(2)
 
     
-    
+Template.registerHelper 'when', ()-> moment(@_timestamp).fromNow()
+Template.registerHelper 'seven_tags', ()-> 
+    if @tags
+        @tags[..7]
+Template.registerHelper 'five_tags', ()-> 
+    if @tags
+        @tags[..5]
+
 # Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 # Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 

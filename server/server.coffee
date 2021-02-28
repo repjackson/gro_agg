@@ -171,7 +171,7 @@ Meteor.publish 'dao_tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:7 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     tag_cloud.forEach (tag, i) ->
@@ -321,6 +321,30 @@ Meteor.methods
                                 data:data
                             if Meteor.isDevelopment
                                 console.log 'new search doc', reddit_post.title
+                            timestamp = Date.now()
+                            reddit_post._timestamp = timestamp
+                            reddit_post._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
+                            # doc._app = 'dao'
+                            # if Meteor.user()
+                            #     doc._author_id = Meteor.userId()
+                            #     doc._author_username = Meteor.user().username
+                        
+                            date = moment(timestamp).format('Do')
+                            weekdaynum = moment(timestamp).isoWeekday()
+                            weekday = moment().isoWeekday(weekdaynum).format('dddd')
+                        
+                            hour = moment(timestamp).format('h')
+                            minute = moment(timestamp).format('m')
+                            ap = moment(timestamp).format('a')
+                            month = moment(timestamp).format('MMMM')
+                            year = moment(timestamp).format('YYYY')
+                        
+                            # doc.points = 0
+                            # date_array = [ap, "hour #{hour}", "min #{minute}", weekday, month, date, year]
+                            date_array = [ap, weekday, month, date, year]
+                            if _
+                                date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
+                                reddit_post.timestamp_tags = date_array
                             new_reddit_post_id = Docs.insert reddit_post
                             Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                 )

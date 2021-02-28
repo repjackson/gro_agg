@@ -246,7 +246,7 @@ Template.flat_tag_picker.helpers
             title:@valueOf().toLowerCase()
 Template.flat_tag_picker.events
     'click .pick_flat_tag': -> 
-        console.log 'click', @valueOf()
+        # console.log 'click', @valueOf()
         # results.update
         # window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()

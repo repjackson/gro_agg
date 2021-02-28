@@ -123,8 +123,8 @@ template(name='home')
             else
                 .ui.center.aligned.basic.segment
                     .ui.icon.massive.input
-                        i.yin.yang.large.icon
-                        input.search_tag(type='text' value=query autofocus='')
+                        i.search.large.icon
+                        input.search_tag(type='text' placeholder='search anything' autofocus='')
                         // .ui.label #{this}
             if picked_tags
                 // if many_tags
@@ -221,7 +221,7 @@ template(name='home')
             // .ui.icon.button.view_commented
             //     i.chat.icon            
             // if skv_is 'view_layout' 'grid'
-            .ui.stackable.four.column.centered.grid.scrolling
+            .ui.stackable.four.centered.cards.scrollin
                 each posts
                     +post_card
             // else 
@@ -230,7 +230,7 @@ template(name='home')
             //             +post_item
 
 template(name='post_card')
-    .column(class=card_class)
+    .card(class=card_class)
         if embed
             // span.f11.full
             a.view_post.invert(href="/p/#{_id}" class=post_header_class)
@@ -244,8 +244,8 @@ template(name='post_card')
         else if has_thumbnail
             a.view_post(href="/p/#{_id}" class=post_header_class)
                 img.ui.fluid.rounded.image.pointer.call_thumbnail.zoomer(src=data.thumbnail)
-            // else if watson.metadata.image
-            //     img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
+        else if watson.metadata.image
+            img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
         else if is_youtube
             div
             // .ui.fluid.embed
@@ -263,7 +263,7 @@ template(name='post_card')
         // if youtube_id
         //     +youtube_view key='youtube_id' label='youtube id'
 
-        .content
+        .content.smallscroll
             a.ui.small.header(href="/p/#{_id}") #{title}
             div
             if data.selftext_html
@@ -278,7 +278,7 @@ template(name='post_card')
             // .ui.tiny.icon.input
             //     i.grey.tag.icon
             //     input.add_tag(type='text' placeholder='+')
-            each seven_tags
+            each five_tags
                 +flat_tag_picker
                 // .ui.small.button.pick_flat_tag #{this}
             // each timestamp_tags
@@ -288,14 +288,13 @@ template(name='post_card')
             //     |#{location}
             if in_dev
                 +print_this
-        .content
             |{{ufrom data.created}}
             // +voting
             // if in_dev
             //     i.large.lock.link.grey.icon.make_private
-            a.ui.icon.large.basic.button(href="/p/#{_id}")
-                |#{views}
-                i.chevron.right.large.icon
+            // a.ui.icon.large.basic.button(href="/p/#{_id}")
+            //     |#{views}
+            //     i.chevron.right.large.icon
         //   +comments
            
                                 
