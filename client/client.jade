@@ -243,25 +243,27 @@ template(name='home')
                 i.picture.icon
             .ui.icon.button.view_commented
                 i.chat.icon            
-            .ui.stackable.three.cards.scrolling
-                if skv_is 'view_layout' 'grid'
+            if skv_is 'view_layout' 'grid'
+                .ui.stackable.four.cards.scrolling
                     each posts
                         +post_card
-                else 
-                    .ui.divided.link.items
-                        each posts
-                            +post_item
+            else 
+                .ui.divided.link.items
+                    each posts
+                        +post_item
 
 template(name='post_card')
-    .ui.card.mark_viewed(class=card_class)
-        unless data.is_reddit_media_domain    
-            if has_thumbnail
-                img.ui.fluid.rounded.image.pointer.call_thumbnail.zoomer(src=data.thumbnail)
-        if is_image
+    .ui.card(class=card_class)
+        if embed
+            span.f11.full
+                |!{embed}
+        else if is_image
             a.view_post(href="/#{subreddit}/post/#{_id}" class=post_header_class)
                 img.ui.fluid.zoomer.rounded.image.toggle_view(src=data.url)
         else if data.is_reddit_media_domain
             img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
+        else if has_thumbnail
+            img.ui.fluid.rounded.image.pointer.call_thumbnail.zoomer(src=data.thumbnail)
         // else if watson.metadata.image
         //     img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
         if is_youtube
@@ -269,9 +271,6 @@ template(name='post_card')
             // .ui.fluid.embed
             //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
             iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-        else if embed
-            span.f11.full
-                |!{embed}
         if data.link_url
             img.ui.image.pointer.call_visual(src=data.link_url)
 

@@ -12,6 +12,7 @@ Router.route '/p/:doc_id/edit', (->
 Template.home.onCreated ->
     Session.setDefault('sort_key', 'points')
     Session.setDefault('sort_direction', -1)
+    Session.setDefault('view_layout', 'grid')
     Session.setDefault('view_sidebar', -false)
     Session.setDefault('view_videos', -false)
     Session.setDefault('view_images', -false)
