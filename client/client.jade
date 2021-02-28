@@ -230,10 +230,10 @@ template(name='home')
             //             +post_item
 
 template(name='post_card')
-    .column.smallscroll(class=card_class)
+    .column(class=card_class)
         if embed
             // span.f11.full
-            a.view_post(href="/p/#{_id}" class=post_header_class)
+            a.view_post.invert(href="/p/#{_id}" class=post_header_class)
                 |!{embed}
         if is_image
             a.view_post(href="/p/#{_id}" class=post_header_class)
