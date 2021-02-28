@@ -111,6 +111,7 @@ Meteor.publish 'posts', (
             "data.media":1
             "data.link_url":1
             "data.is_reddit_media_domain":1
+            "data.created":1
             "data.url":1
             "data.selftext":1
             comment_count:1
