@@ -128,6 +128,7 @@ template(name='home')
                         // .ui.label #{this}
                     .ui.small.header
                         |welcome to dao, the search engine that 'learns'.  click on tags to 'teach' about the combination of subjects.  
+                    +search_shortcut tag='math' icon='calculator'
             if picked_tags
                 // if many_tags
                 //     a#clear_tags.ui.red.invert.icon.button.pick_term
@@ -230,11 +231,15 @@ template(name='home')
             // .ui.icon.button.view_commented
             //     i.chat.icon            
 
+template(name='search_shortcut')
+    i.big.circular.link.icon.search_tag(class=icon title=tag)
+
+
 template(name='post_card')
-    .card.full(class=card_class)
+    .card.smallscroll(class=card_class)
         if embed
             // span.f11.full
-            a.view_post.invert.full(href="/p/#{_id}" class=post_header_class)
+            a.view_post.invert(href="/p/#{_id}" class=post_header_class)
                 |!{embed}
         if is_image
             a.view_post(href="/p/#{_id}" class=post_header_class)

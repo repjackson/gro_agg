@@ -184,6 +184,13 @@ Template.tag_picker.helpers
         # console.log res
         res
             
+Template.search_shortcut.events
+    'click .search_tag': ->
+        picked_tags.push @tag.toLowerCase()
+        url = new URL(window.location);
+        url.searchParams.set('foo', 'bar');
+        window.history.pushState({}, '', url);
+
 Template.tag_picker.events
     'click .pick_tag': -> 
         # results.update
@@ -204,6 +211,9 @@ Template.tag_picker.events
         Meteor.setTimeout ->
             Session.set('toggle', !Session.get('toggle'))
         , 7000    
+        url = new URL(window.location);
+        url.searchParams.set('foo', 'bar');
+        window.history.pushState({}, '', url);
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
