@@ -28,6 +28,11 @@ Meteor.publish 'post_count', (
     Counts.publish this, 'post_counter', Docs.find(match)
     return undefined
             
+Meteor.publish 'post_rcomments', (doc_id)->
+    doc = Docs.findOne doc_id
+    Docs.find
+        model:'rcomment'
+        # parent_id:doc.
 Meteor.publish 'posts', (
     picked_tags
     toggle

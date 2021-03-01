@@ -15,8 +15,8 @@ template(name='post_view')
                             i.content.icon
                             |main
                         a.item.no_blink.set_emotion
-                            i.smile.outline.icon
-                            |emotions
+                            i.line.chart.icon
+                            |stats
                         a.item.no_blink.set_cleaned
                             i.broom.icon
                             |cleaned
@@ -59,11 +59,13 @@ template(name='post_view')
                             if watson.analyzed_text
                                 .f12
                                     |!{watson.analyzed_text}
-                    if skv_is 'post_view_mode' 'emotion'
+                    if skv_is 'post_view_mode' 'stats'
                         if watson
                             +watson_full
                     
                     if skv_is 'post_view_mode' 'tone'
+                        .scrolling
+                            +tone_view
                         // <blockquote class="reddit-card"><a href="https://www.reddit.com/r/iiiiiiitttttttttttt/comments/fgnubb/our_new_and_proprietary_database_backup_program/">Our new and proprietary database backup program uses almost 100% of the server's CPU and locks up most of the clients</a> from <a href="http://www.reddit.com/r/iiiiiiitttttttttttt">r/iiiiiiitttttttttttt</a></blockquote>
                         // <script async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script>
                         // div(style='position:relative; padding-bottom:177.63%;)')
@@ -71,7 +73,11 @@ template(name='post_view')
                         //     p
                         //         a(href="https://redgifs.com/watch/tidyalivecopperhead")
                         //             |via RedGIFs    
-                        +tone_view
+                    if skv_is 'post_view_mode' 'comments'
+                        .ui.button.get_comments
+                            |get
+                        each rcomments
+                            .ui.header #{body}, #{_timestamp}
                 .four.wide.column.scrollin
                     if watson.metadata.image
                         img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
@@ -99,16 +105,13 @@ template(name='post_view')
                     a.ui.fluid.basic.button(href="https://www.reddit.com/u/#{data.author}" target="_window")
                         i.users.icon
                         |#{data.author}
-                    // a.ui.fluid.button(href="https://www.reddit.com#{permalink}" target="_window")
-                    //     i.external.icon
-                    //     |#{permalink}
+                    +doc_emotion
                     i.tag.icon
                     each tags
                         +flat_tag_picker
                         |,
                         |&nbsp;
                     +print_this
-                    +doc_emotion
                     +call_watson mode='reddit'
                     +call_watson mode='url'
    

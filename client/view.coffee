@@ -8,16 +8,22 @@ Template.post_view.onCreated ->
     Session.set('post_view_mode', 'main')
     Meteor.call 'log_view', Router.current().params.doc_id, ->
     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    @autorun => Meteor.subscribe 'post_rcomments', Router.current().params.doc_id
     
 
 Template.post_view.helpers
-    
+    rcomments: ->
+        Docs.find 
+            model:'rcomment'
 
 Template.post_view.events
+    'click .get_comments': ->
+        Meteor.call 'get_post_comments', @subreddit, Router.current().params.doc_id, ->
+    
     'click .set_main': ->
         Session.set('post_view_mode', 'main')
-    'click .set_emotion': ->
-        Session.set('post_view_mode', 'emotion')
+    'click .set_stats': ->
+        Session.set('post_view_mode', 'stats')
     'click .set_tone': ->
         Session.set('post_view_mode', 'tone')
     'click .set_cleaned': ->
