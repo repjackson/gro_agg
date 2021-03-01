@@ -79,7 +79,7 @@ Meteor.publish 'posts', (
 
     # console.log 'match',match
     Docs.find match,
-        limit:20
+        limit:30
         sort: "#{sk}":-1
         # skip:skip*20
         fields:
@@ -161,7 +161,7 @@ Meteor.publish 'dao_tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:11 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     tag_cloud.forEach (tag, i) ->
