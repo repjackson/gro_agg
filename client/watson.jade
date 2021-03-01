@@ -260,9 +260,9 @@ template(name='tone_view')
                     each tags 
                         .ui.label #{this}
     unless tone                
-        #call_tone.ui.icon.button
-            i.refresh.icon
-
+        #call_tone.ui.big.button
+            i.download.icon
+            |analyze tone
 
 template(name='watson_view')
     // +tone

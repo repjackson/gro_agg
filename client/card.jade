@@ -64,6 +64,11 @@ template(name='post_card')
             |{{ufrom data.created}}
             if watson
                 +doc_emotion_small
+            i.thumbs.up.outline.grey.zoomer.link.icon.upvote
+            |#{points}
+            i.thumbs.down.outline.grey.zoomer.link.icon.downvote
+            i.chat.outline.grey.icon
+            |#{comment_count}
             // +voting
             // if in_dev
             //     i.large.lock.link.grey.icon.make_private

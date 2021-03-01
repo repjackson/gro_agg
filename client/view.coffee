@@ -5,14 +5,26 @@ Router.route '/p/:doc_id', (->
 
 
 Template.post_view.onCreated ->
-    # Session.set('session_clicks', Session.get('session_clicks')+2)
-    # Meteor.call 'log_view', Router.current().params.doc_id, ->
+    Session.set('post_view_mode', 'main')
+    Meteor.call 'log_view', Router.current().params.doc_id, ->
     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    
 
 Template.post_view.helpers
-
+    
 
 Template.post_view.events
+    'click .set_main': ->
+        Session.set('post_view_mode', 'main')
+    'click .set_emotion': ->
+        Session.set('post_view_mode', 'emotion')
+    'click .set_tone': ->
+        Session.set('post_view_mode', 'tone')
+    'click .set_cleaned': ->
+        Session.set('post_view_mode', 'cleaned')
+    
+    'click .set_comments': ->
+        Session.set('post_view_mode', 'comments')
     'click .search_sub': ->
         # picked_tags.clear()
         unless @subreddit.toLowerCase() in picked_tags.array()
