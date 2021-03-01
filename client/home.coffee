@@ -86,7 +86,7 @@ Template.home.helpers
     # time_results: -> results.find(model:'time_tag')
     
     sort_points_class: -> if Session.equals('sort_key','points') then 'black' else 'basic'
-    sort_timestamp_class: -> if Session.equals('sort_key','_timestamp') then 'black' else 'basic'
+    sort_created_class: -> if Session.equals('sort_key','data.created') then 'black' else 'basic'
     video_class: -> if Session.get('view_videos') then 'black' else 'basic'
     image_class: -> if Session.get('view_images') then 'black' else 'basic'
     adult_class: -> if Session.get('view_adult') then 'black' else 'basic'
@@ -116,7 +116,7 @@ Template.home.events
     'click .set_list': (e,t)-> Session.set('view_layout', 'list')
 
     'click .sort_points': (e,t)-> Session.set('sort_key', 'points')
-    'click .sort_timestamp': (e,t)-> Session.set('sort_key', '_timestamp')
+    'click .sort_created': (e,t)-> Session.set('sort_key', 'data.created')
 
     # 'click .mark_viewed': (e,t)->
     #     Docs.update @_id,

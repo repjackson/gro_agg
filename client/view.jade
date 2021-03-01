@@ -86,14 +86,17 @@ template(name='post_view')
                     .ui.large.label
                         i.globe.icon
                         |#{domain}
-                    .ui.fluid.button.search_sub
+                    .ui.fluid.basic.button.search_sub
+                        i.yin.yang.grey.icon
                         |#{subreddit}
-                        i.search.icon
-                    a.ui.fluid.button(href="https://www.reddit.com/r/#{subreddit}" target="_window")
+                    a.ui.fluid.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_window")
                         i.reddit.icon
                         |#{subreddit}
                         i.external.icon
-                    a.ui.fluid.button(href="https://www.reddit.com/u/#{data.author}" target="_window")
+                    a.ui.fluid.basic.button(href="https://www.reddit.com#{permalink}" target="_window")
+                        i.external.icon
+                        |post
+                    a.ui.fluid.basic.button(href="https://www.reddit.com/u/#{data.author}" target="_window")
                         i.users.icon
                         |#{data.author}
                     // a.ui.fluid.button(href="https://www.reddit.com#{permalink}" target="_window")
@@ -102,6 +105,8 @@ template(name='post_view')
                     i.tag.icon
                     each tags
                         +flat_tag_picker
+                        |,
+                        |&nbsp;
                     +print_this
                     +doc_emotion
                     +call_watson mode='reddit'
