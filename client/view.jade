@@ -88,8 +88,8 @@ template(name='post_view')
                     if watson.metadata.image
                         img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
 
-                    else if has_thumbnail
-                        img.ui.fluid.rounded.image.pointer.call_thumbnail(src=data.thumbnail)
+                    // else if has_thumbnail
+                    //     img.ui.fluid.rounded.image.pointer.call_thumbnail(src=data.thumbnail)
                     i.large.eye.icon
                     | #{views} views
                     if comment_count

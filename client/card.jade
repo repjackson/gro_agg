@@ -1,5 +1,5 @@
 template(name='post_card')
-    .card.smallscrol(class=nightmode_class)
+    .column.smallscrol(class=nightmode_class)
         if embed
             // span.f11.full
             a.view_post(href="/p/#{_id}" class=post_header_class)
@@ -49,9 +49,9 @@ template(name='post_card')
             // .ui.tiny.icon.input
             //     i.grey.tag.icon
             //     input.add_tag(type='text' placeholder='+')
-            each ten_tags
+            each seven_tags
                 +flat_tag_picker
-            .ui.compact.button.pick_sub
+            .ui.compact.small.basic.button.pick_sub
                 |#{subreddit}
                 // .ui.small.button.pick_flat_tag #{this}
             // each timestamp_tags

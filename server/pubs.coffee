@@ -79,7 +79,7 @@ Meteor.publish 'posts', (
 
     # console.log 'match',match
     Docs.find match,
-        limit:30
+        limit:20
         sort: "#{sk}":-1
         # skip:skip*20
         fields:

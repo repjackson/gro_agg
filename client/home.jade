@@ -140,59 +140,59 @@ template(name='home')
                 // .ui.hidden.divider
                 if skv_is 'view_layout' 'grid'
                     if one_post
-                        .ui.stackable.one.cards
+                        .ui.stackable.one.column.grid
                             each posts
                                 +post_card
                             
                     else if two_posts
-                        .ui.stackable.two.centered.cards
+                        .ui.stackable.two.centered.column.grid
                             each posts
                                 +post_card
                     else if three_posts
-                        .ui.stackable.three.cards
+                        .ui.stackable.three.column.grid
                             each posts
                                 +post_card
                     else
-                        .ui.stackable.four.cards
+                        .ui.stackable.four.column.grid
                             each posts
                                 +post_card
-                else 
-                    .ui.divided.link.items
-                        each posts
-                            +post_item
+                // else 
+                //     .ui.divided.link.items
+                //         each posts
+                //             +post_item
                     
-        if skv_is 'view_sidebar' true
-            .four.wide.column.scrolling       
-                if location_results.count
-                    i.big.marker.icon
-                each picked_locations
-                    a.unpick_location.ui.large.button(href='#')
-                        strong #{this}
-                each location_results
-                    if name
-                        .ui.tiny.button.pick_location #{name}
-                div
-                i.big.user.icon
-                each picked_authors
-                    a.unpick_author.ui.large.button(href='#')
-                        strong #{this}
-                each author_results
-                    if name
-                        .ui.tiny.button.pick_author #{name}
-                div
-                i.clock.big.icon
-                each picked_times
-                    a.unpick_time.ui.large.large.button(href='#')
-                        strong #{this}
-                each time_results
-                    .ui.tiny.button.pick_time #{name}
-                // +alpha
-                each picked_locations
-                    a.unpick_location_tag.ui.black.large.button(href='#')
-                        | #{this}
-                if location_tags
-                    i.big.marker.grey.icon
-                    each location_tags
-                        .ui.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
-                            | #{name}
+        // if skv_is 'view_sidebar' true
+        //     .four.wide.column.scrolling       
+        //         if location_results.count
+        //             i.big.marker.icon
+        //         each picked_locations
+        //             a.unpick_location.ui.large.button(href='#')
+        //                 strong #{this}
+        //         each location_results
+        //             if name
+        //                 .ui.tiny.button.pick_location #{name}
+        //         div
+        //         i.big.user.icon
+        //         each picked_authors
+        //             a.unpick_author.ui.large.button(href='#')
+        //                 strong #{this}
+        //         each author_results
+        //             if name
+        //                 .ui.tiny.button.pick_author #{name}
+        //         div
+        //         i.clock.big.icon
+        //         each picked_times
+        //             a.unpick_time.ui.large.large.button(href='#')
+        //                 strong #{this}
+        //         each time_results
+        //             .ui.tiny.button.pick_time #{name}
+        //         // +alpha
+        //         each picked_locations
+        //             a.unpick_location_tag.ui.black.large.button(href='#')
+        //                 | #{this}
+        //         if location_tags
+        //             i.big.marker.grey.icon
+        //             each location_tags
+        //                 .ui.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+        //                     | #{name}
                                 
