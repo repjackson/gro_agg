@@ -132,25 +132,25 @@ Template.home.events
             Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('loading',false)
             # window.speechSynthesis.speak new SpeechSynthesisUtterance val
-            $('.search_tag').transition('pulse')
-            $('.black').transition('pulse')
-            $('.seg .pick_tag').transition({
-                animation : 'pulse',
-                duration  : 500,
-                interval  : 300
-            })
-            $('.seg .black').transition({
-                animation : 'pulse',
-                duration  : 500,
-                interval  : 300
-            })
-            $('.pick_tag').transition('pulse')
-            $('.card_small').transition('shake')
-            $('.pushed .card').transition({
-                animation : 'pulse',
-                duration  : 500,
-                interval  : 300
-            })
+            # $('.search_tag').transition('pulse')
+            # $('.black').transition('pulse')
+            # $('.seg .pick_tag').transition({
+            #     animation : 'pulse',
+            #     duration  : 500,
+            #     interval  : 300
+            # })
+            # $('.seg .black').transition({
+            #     animation : 'pulse',
+            #     duration  : 500,
+            #     interval  : 300
+            # })
+            # $('.pick_tag').transition('pulse')
+            # $('.card_small').transition('shake')
+            # $('.pushed .card').transition({
+            #     animation : 'pulse',
+            #     duration  : 500,
+            #     interval  : 300
+            # })
             Meteor.setTimeout ->
                 Session.set('toggle', !Session.get('toggle'))
             , 5000    

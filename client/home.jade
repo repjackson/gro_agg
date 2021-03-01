@@ -148,14 +148,15 @@ template(name='home')
                         .ui.stackable.two.centered.column.grid
                             each posts
                                 +post_card
-                    else if three_posts
-                        .ui.stackable.three.column.grid
-                            each posts
-                                +post_card
                     else
-                        .ui.stackable.four.column.grid
+                        // else if three_posts
+                        .ui.stackable.three.column.grid.scrolling
                             each posts
                                 +post_card
+                    // else
+                    //     .ui.stackable.four.column.grid
+                    //         each posts
+                    //             +post_card
                 // else 
                 //     .ui.divided.link.items
                 //         each posts

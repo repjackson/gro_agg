@@ -6,11 +6,11 @@ template(name='post_view')
                     a.ui.large.icon.button(href="/")
                         i.chevron.left.large.icon
                         // i.large.home.icon
-                    .ui.center.aligned.inline.header #{title}
+                    .ui.center.aligned.inline.header(class=emotion_header_class) #{title}
                     if url
                         div
                         a.ui.center.aligned.small.header(href=url target='_window') #{url}
-                    .ui.five.item.stackable.menu
+                    .ui.five.item.stackable.menu(class=emotion_header_class)
                         a.item.no_blink.set_main 
                             i.content.icon
                             |main

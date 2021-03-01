@@ -93,7 +93,9 @@ Meteor.publish 'posts', (
             "data.created":1
             "data.url":1
             "data.preview.images[0].source.url":1
-
+            doc_sentiment_label:1
+            doc_sentiment_score:1
+            max_emotion_name:1
             # "data.selftext":1
             subreddit:1
             # "data.selftext_html":1
