@@ -3,14 +3,14 @@ template(name='post_view')
         .ui.stackable.grid
             .row 
                 .twelve.wide.column
-                    a.ui.large.icon.basic.button(href="/")
+                    a.ui.large.icon.button(href="/")
                         i.chevron.left.large.icon
                         // i.large.home.icon
                     .ui.center.aligned.inline.header #{title}
                     if url
                         div
                         a.ui.center.aligned.small.header(href=url target='_window') #{url}
-                    .ui.five.item.menu
+                    .ui.five.item.stackable.menu
                         a.item.no_blink.set_main 
                             i.content.icon
                             |main
@@ -98,17 +98,17 @@ template(name='post_view')
                     .ui.large.label
                         i.globe.icon
                         |#{domain}
-                    .ui.fluid.basic.button.search_sub
+                    .ui.fluid.button.search_sub
                         i.yin.yang.grey.icon
                         |#{subreddit}
-                    a.ui.fluid.basic.button(href="https://www.reddit.com/r/#{subreddit}" target="_window")
+                    a.ui.fluid.button(href="https://www.reddit.com/r/#{subreddit}" target="_window")
                         i.reddit.icon
                         |#{subreddit}
                         i.external.icon
-                    a.ui.fluid.basic.button(href="https://www.reddit.com#{permalink}" target="_window")
+                    a.ui.fluid.button(href="https://www.reddit.com#{permalink}" target="_window")
                         i.external.icon
                         |post
-                    a.ui.fluid.basic.button(href="https://www.reddit.com/u/#{data.author}" target="_window")
+                    a.ui.fluid.button(href="https://www.reddit.com/u/#{data.author}" target="_window")
                         i.users.icon
                         |#{data.author}
                     +doc_emotion
@@ -140,7 +140,7 @@ template(name='rcomment')
             .actions
                 each tags 
                     +flat_tag_picker
-                    // .ui.tiny.basic.label #/{this}
+                    // .ui.tiny.label #/{this}
         if data.replies.data.children
             .ui.grid
                 each data.replies.data.children
@@ -171,8 +171,8 @@ template(name='post_related')
                         img.ui.rounded.small.inline.image(src=data.thumbnail)    
             
                 .ui.inline.small.header !{data.title} #{data.link_title}
-                .ui.basic.label #{data.ups}
+                .ui.label #{data.ups}
                 .ui.label #{subreddit}
                 each tags
-                    .ui.mini.basic.label #{this}        
+                    .ui.mini.label #{this}        
                     

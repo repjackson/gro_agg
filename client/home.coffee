@@ -85,11 +85,11 @@ Template.home.helpers
     # location_results: -> results.find(model:'location_tag')
     # time_results: -> results.find(model:'time_tag')
     
-    sort_points_class: -> if Session.equals('sort_key','points') then 'black' else 'basic'
-    sort_created_class: -> if Session.equals('sort_key','data.created') then 'black' else 'basic'
-    video_class: -> if Session.get('view_videos') then 'black' else 'basic'
-    image_class: -> if Session.get('view_images') then 'black' else 'basic'
-    adult_class: -> if Session.get('view_adult') then 'black' else 'basic'
+    sort_points_class: -> if Session.equals('sort_key','points') then 'black' else ''
+    sort_created_class: -> if Session.equals('sort_key','data.created') then 'black' else ''
+    video_class: -> if Session.get('view_videos') then 'black' else ''
+    image_class: -> if Session.get('view_images') then 'black' else ''
+    adult_class: -> if Session.get('view_adult') then 'black' else ''
     
     # sidebar_class: -> if Session.get('view_sidebar') then 'ui four wide column' else 'hidden'
     # main_column_class: -> if Session.get('view_sidebar') then 'ui twelve wide column' else 'ui sixteen wide column' 

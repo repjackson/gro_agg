@@ -71,7 +71,7 @@ template(name='home')
                 +tag_picker
             // .ui.disabled.button shared with me
             // if skv_is 'view_sidebar' false
-            //     .ui.icon.basic.button.enable_sidebar
+            //     .ui.icon.button.enable_sidebar
             //         i.ellipsis.vertical.icon
             // else
             //     .ui.icon.active.button.disable_sidebar
@@ -79,10 +79,10 @@ template(name='home')
             if picked_tags
                 div
                 if skv_is 'sort_direction' 1
-                    .ui.icon.basic.button.sort_down
+                    .ui.icon.button.sort_down
                         i.caret.down.icon
                 else
-                    .ui.icon.basic.button.sort_up
+                    .ui.icon.button.sort_up
                         i.caret.up.icon
                 .ui.large.icon.button.sort_created(class=sort_created_class)
                     i.clock.icon
@@ -92,24 +92,24 @@ template(name='home')
                     .ui.large.icon.black.button.set_grid(class=grid_class) 
                         i.th.icon
                 else
-                    .ui.large.icon.basic.button.set_grid(class=grid_class) 
+                    .ui.large.icon.button.set_grid(class=grid_class) 
                         i.th.icon
                 if skv_is 'view_layout' 'list'
                     .ui.black.icon.large.button.set_list(class=list_class)
                         i.list.icon
                 else
-                    .ui.large.icon.basic.button.set_list(class=list_class)
+                    .ui.large.icon.button.set_list(class=list_class)
                         i.list.icon
                 if skv_is 'view_detail' true
-                    .ui.black.large.icon.basic.button.toggle_detail
+                    .ui.black.large.icon.button.toggle_detail
                         i.list.icon
                 else
-                    .ui.large.icon.basic.button.toggle_detail
+                    .ui.large.icon.button.toggle_detail
                         i.minus.icon
                     // i.line.chart.icon
-                .ui.icon.basic.button.skip_left
+                .ui.icon.button.skip_left
                     i.chevron.left.icon
-                .ui.icon.basic.button.skip_right
+                .ui.icon.button.skip_right
                     i.chevron.right.icon
                 .ui.icon.button.view_videos(class=video_class)
                     i.film.icon
@@ -117,23 +117,23 @@ template(name='home')
                     i.picture.icon
                 .ui.icon.button.view_adult(class=adult_class)
                     i.fire.icon
-                .ui.icon.basic.compact.button.view_joy(class=joy_class)
+                .ui.icon.compact.button.view_joy(class=joy_class)
                     i.smile.green.large.outline.icon
-                .ui.icon.basic.compact.button.view_anger(class=anger_class)
+                .ui.icon.compact.button.view_anger(class=anger_class)
                     i.frown.red.large.outline.icon
-                .ui.icon.basic.compact.button.view_fear(class=fear_class)
+                .ui.icon.compact.button.view_fear(class=fear_class)
                     i.black.frown.large.outline.icon
-                .ui.icon.basic.compact.button.view_disgust(class=disgust_class)
+                .ui.icon.compact.button.view_disgust(class=disgust_class)
                     i.orange.frown.large.outline.icon
-                .ui.icon.basic.compact.button.view_sadness(class=sadness_class)
+                .ui.icon.compact.button.view_sadness(class=sadness_class)
                     i.blue.frown.large.outline.icon
-                .ui.icon.basic.compact.button.limit_1(class=sadness_class)
+                .ui.icon.compact.button.limit_1(class=sadness_class)
                     |1
-                .ui.icon.basic.compact.button.limit_5(class=sadness_class)
+                .ui.icon.compact.button.limit_5(class=sadness_class)
                     |5
-                .ui.icon.basic.compact.button.limit_10(class=sadness_class)
+                .ui.icon.compact.button.limit_10(class=sadness_class)
                     |10
-                .ui.icon.basic.compact.button.limit_20(class=sadness_class)
+                .ui.icon.compact.button.limit_20(class=sadness_class)
                     |20
                 // .ui.icon.button.view_commented
                 //     i.chat.icon            
@@ -148,14 +148,14 @@ template(name='home')
                         .ui.stackable.two.centered.cards.scrolling
                             each posts
                                 +post_card
-                    else if three_posts
+                    else
                         .ui.stackable.three.cards.scrolling
                             each posts
                                 +post_card
-                    else
-                        .ui.stackable.four.cards.scrolling
-                            each posts
-                                +post_card
+                    // else
+                    //     .ui.stackable.four.cards.scrolling
+                    //         each posts
+                    //             +post_card
                 else 
                     .ui.divided.link.items
                         each posts
@@ -170,7 +170,7 @@ template(name='home')
                         strong #{this}
                 each location_results
                     if name
-                        .ui.tiny.basic.button.pick_location #{name}
+                        .ui.tiny.button.pick_location #{name}
                 div
                 i.big.user.icon
                 each picked_authors
@@ -178,14 +178,14 @@ template(name='home')
                         strong #{this}
                 each author_results
                     if name
-                        .ui.tiny.basic.button.pick_author #{name}
+                        .ui.tiny.button.pick_author #{name}
                 div
                 i.clock.big.icon
                 each picked_times
                     a.unpick_time.ui.large.large.button(href='#')
                         strong #{this}
                 each time_results
-                    .ui.tiny.basic.button.pick_time #{name}
+                    .ui.tiny.button.pick_time #{name}
                 // +alpha
                 each picked_locations
                     a.unpick_location_tag.ui.black.large.button(href='#')
