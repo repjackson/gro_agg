@@ -445,6 +445,7 @@ a:active {
 }
 
 img, .image {
+  border-radius:10px !important;
 }
 a.segment:active {
   transform: scale(.97) !important;
@@ -699,7 +700,7 @@ input {
     /*padding-left: 1em;*/
 }
 .scrolling{
-    max-height: 100vh !important;
+    max-height: 90vh !important;
     /*min-height: 50vh !important;*/
     /* padding: 5px !important;
     border-width: 1px !important;
@@ -710,7 +711,7 @@ input {
     /*z-index:1001;*/
     /*margin-top: 1em; */
     /*padding-top: .5em; */
-    padding-top: 2em !important;
+    /*padding-top: 2em !important;*/
     /*padding-left: 1em;*/
 }
 .forty {

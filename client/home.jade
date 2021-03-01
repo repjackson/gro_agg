@@ -1,6 +1,6 @@
 template(name='home')
-    .ui.padded.stackable.grid
-        .twelve.wide.column
+    .ui.stackable.padded.grid
+        .twelve.wide.column.scrolling
             if picked_tags
                 // if skv_is 'nightmode' true
                 //     i.moon.circular.link.icon.toggle_nightmode
@@ -66,23 +66,23 @@ template(name='home')
                     +search_shortcut tag='daoism' icon='yin yang'
                     +search_shortcut tag='car' icon='car'
                     +search_shortcut tag='tarot' icon='moon'
-                
-            if skv_is 'view_layout' 'grid'
-                if one_post
-                    .ui.stackable.one.column.grid
+            .scrolling
+                if skv_is 'view_layout' 'grid'
+                    // if one_post
+                    //     .ui.stackable.one.column.grid
+                    //         each posts
+                    //             +post_card
+                            
+                    // // else if two_posts
+                    // //     .ui.stackable.two.centered.column.grid
+                    // //         each posts
+                    // //             +post_card
+                    // else
+                        // else if three_posts
+                    .ui.stackable.two.column.grid.scrolling
                         each posts
                             +post_card
-                        
-                else if two_posts
-                    .ui.stackable.two.centered.column.grid
-                        each posts
-                            +post_card
-                else
-                    // else if three_posts
-                    .ui.stackable.three.column.grid.scrolling
-                        each posts
-                            +post_card
-        
+            
         .four.wide.column
             if skv_is 'view_sidebar' false
                 .ui.icon.button.enable_sidebar
@@ -113,13 +113,13 @@ template(name='home')
             else
                 .ui.large.icon.button.set_list(class=list_class)
                     i.list.icon
-            if skv_is 'view_detail' true
-                .ui.black.large.icon.button.toggle_detail
-                    i.list.icon
-            else
-                .ui.large.icon.button.toggle_detail
-                    i.minus.icon
-                // i.line.chart.icon
+            // if skv_is 'view_detail' true
+            //     .ui.black.large.icon.button.toggle_detail
+            //         i.list.icon
+            // else
+            //     .ui.large.icon.button.toggle_detail
+            //         i.minus.icon
+            //     // i.line.chart.icon
             .ui.icon.button.skip_left
                 i.chevron.left.icon
             .ui.icon.button.skip_right
