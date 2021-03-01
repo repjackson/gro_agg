@@ -1,0 +1,103 @@
+template(name='subs')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                // .smallscroll
+                if selected_subs_tags
+                    // if many_tags
+                    //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                    //         i.remove.icon
+                    each selected_subs_tags
+                        +subs_unselect_tag
+                .medscroll
+                    each subs_tags
+                        // .ui.label #{this}
+                        +subs_tag_selector
+                        // .ui.large.label(title=count) #{name}
+            .twelve.wide.column
+                .ui.inline.header #{sub_count}
+                .ui.inline.header
+                    i.reddit.icon
+                    |subreddits
+                // .ui.inline.header.search_subs
+                //     |#{subreddit_docs.count} subs
+                .ui.icon.input
+                    i.search.icon
+                    input.search_subs(type='text')
+                +skve k='view_sub_detail' v=true l='detail' i='chevron up'
+                +skve k='view_sub_detail' v=false l='simple' i='chevron down'
+                +skve k='sort_subs' v='subscribers' l='subscribers' i='users'
+                +skve k='sort_subs' v='name' l='name' i='title'
+                if can_skip_left
+                    .ui.icon.button.skip_left
+                        i.chevron.left.icon
+                // if can_skip_right
+                .ui.icon.button.skip_right
+                    i.chevron.right.icon 
+                .scrolling
+                    unless subreddit_docs.count
+                        .ui.center.aligned.basic.segment
+                            i.massive.yin.yang.grey.loading.icon
+                    each subreddit_docs
+                        +subreddit_doc
+
+
+template(name='subreddit_doc')
+    .ui.grid.rounded(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat; min-width: 100%; ")
+        // a.ui.tiny.image.goto_sub(href="/r/#{data.display_name}")
+        if skv_is 'view_sub_detail' true
+            .four.wide.column.goto_sub.seg
+                img.ui.rounded.zoomer.image(src=data.icon_img)
+        .twelve.wide.column.seg
+            a.ui.header.goto_sub(href="/r/#{data.display_name}")
+                img.ui.rounded.zoomer.image(src=data.header_img)
+                | !{data.title} 
+                small !{data.display_name}
+            a.ui.small.grey.header.goto_sub(href="/r/#{data.display_name}")
+                | !{data.header_title}
+            if skv_is 'view_sub_detail' true
+                // span.description !{data.public_description_html}
+                span.descriptionl.goto_sub !{data.public_description}
+                |created {{ufrom data.created}}
+                span.say
+                    // i.money.icon
+                    |#{data.advertiser_category}
+                .ui.label(title='active users')
+                    i.users.icon
+                    |#{data.accounts_active}
+                .ui.label(title='subscribers')
+                    i.edit.icon
+                    |#{data.subscribers}
+                each tags
+                    .ui.basic.small.label.goto_sub #{this}
+                if is_dev
+                    +print_this
+                    +remove_button
+
+
+template(name='subs_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.compact.tertiary.button.zoomer.select_subs_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong #{name}
+        // if in_dev
+        //     small #{count}
+        
+template(name='subs_unselect_tag')
+    a.unselect_subs_tag.ui.black.compact.button(href='#')
+        if term
+            if term.watson.metadata.image
+                img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
+        strong #{this}
+        
+template(name='flat_subs_tag_selector')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.tertiary.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong #{this}
+        // if in_dev
+        //     small #{count}

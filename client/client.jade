@@ -30,10 +30,18 @@ head
 
 
 template(name='layout')
+    +nav
     .global_container(class=nightmode_colum_class)
         +yield
 
             
+            
+template(name='nav')            
+    .ui.attached.fluid.two.item.inverted.menu
+        a.item(href="/")
+            i.home.icon
+        a.item(href="/users")
+            i.users.icon
 
 template(name='not_found')
     .ui.center.aligned.segment
