@@ -44,3 +44,11 @@ Template.post_view.events
         
         Router.go '/'
 
+Template.rcomment.onRendered ->
+    console.log @data
+    unless @data.watson
+        console.log 'calling watson on comment'
+        Meteor.call 'call_watson', @data._id,'data.body','comment',->
+    unless @data.time_tags
+        console.log 'calling watson on comment'
+        Meteor.call 'tagify_time_rpost', @data._id,->
