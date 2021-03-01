@@ -195,6 +195,10 @@ Meteor.methods
                     params.returnAnalyzedText = true
                     params.clean = true
                     params.features.metadata = {}
+                else 
+                    params.url = "https://www.reddit.com#{doc.data.permalink}"
+                    params.returnAnalyzedText = true
+                    params.clean = true
 
         # console.log 'params', params
 

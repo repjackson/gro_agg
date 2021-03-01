@@ -79,7 +79,7 @@ Meteor.publish 'posts', (
 
     # console.log 'match',match
     Docs.find match,
-        limit:20
+        limit:10
         sort: "#{sk}":-1
         # skip:skip*20
         fields:
@@ -97,6 +97,7 @@ Meteor.publish 'posts', (
             doc_sentiment_score:1
             max_emotion_name:1
             # "data.selftext":1
+            "watson.metadata":1
             subreddit:1
             # "data.selftext_html":1
             comment_count:1
