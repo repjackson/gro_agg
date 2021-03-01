@@ -151,12 +151,14 @@ Template.flat_tag_picker.helpers
             title:@valueOf().toLowerCase()
 Template.flat_tag_picker.events
     'click .pick_flat_tag': -> 
-        # console.log 'click', @valueOf()
+        console.log 'click', @valueOf()
         # results.update
         # window.speechSynthesis.cancel()
+        lowered = @valueOf().toLowerCase()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-        unless @valueOf().toLowerCase() in picked_tags.array()
-            picked_tags.push @valueOf().toLowerCase()
+        unless lowered in picked_tags.array()
+            picked_tags.push lowered
+        # picked_tags.clear()
 
         $('.search_tags').val('')
         url = new URL(window.location);
@@ -181,8 +183,8 @@ Template.body.events
         
     'click a': ->
         $('.global_container')
-            .transition('fade out', 500)
-            .transition('fade in', 500)
+            .transition('fade out', 250)
+            .transition('fade in', 250)
 
 
 Template.registerHelper 'embed', ()->

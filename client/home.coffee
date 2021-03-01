@@ -11,7 +11,8 @@ Template.home.onCreated ->
         split = tags.split(',')
         if tags.length > 0
             for tag in split 
-                picked_tags.push tag
+                unless tag in picked_tags.array()
+                    picked_tags.push tag
             Session.set('loading',true)
             Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('loading',false)
