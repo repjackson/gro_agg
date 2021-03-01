@@ -3,10 +3,10 @@ template(name='home')
         .sixteen.wide.column
             // i.plus.link.icon.add
             if picked_tags
-                if skv_is 'nightmode' true
-                    i.moon.circular.link.icon.toggle_nightmode
-                else
-                    i.lightbulb.circular.link.icon.toggle_nightmode
+                // if skv_is 'nightmode' true
+                //     i.moon.circular.link.icon.toggle_nightmode
+                // else
+                //     i.lightbulb.circular.link.icon.toggle_nightmode
                 .ui.icon.large.input
                     if is_loading
                         i.yin.yang.loading.large.icon
@@ -77,85 +77,85 @@ template(name='home')
             //     .ui.icon.active.button.disable_sidebar
             //         i.ellipsis.vertical.icon
             if picked_tags
-                div
-                if skv_is 'sort_direction' 1
-                    .ui.icon.button.sort_down
-                        i.caret.down.icon
-                else
-                    .ui.icon.button.sort_up
-                        i.caret.up.icon
-                .ui.large.icon.button.sort_created(class=sort_created_class)
-                    i.clock.icon
-                .ui.large.icon.button.sort_points(class=sort_points_class)
-                    i.thumbs.up.icon
-                if skv_is 'view_layout' 'grid'
-                    .ui.large.icon.black.button.set_grid(class=grid_class) 
-                        i.th.icon
-                else
-                    .ui.large.icon.button.set_grid(class=grid_class) 
-                        i.th.icon
-                if skv_is 'view_layout' 'list'
-                    .ui.black.icon.large.button.set_list(class=list_class)
-                        i.list.icon
-                else
-                    .ui.large.icon.button.set_list(class=list_class)
-                        i.list.icon
-                if skv_is 'view_detail' true
-                    .ui.black.large.icon.button.toggle_detail
-                        i.list.icon
-                else
-                    .ui.large.icon.button.toggle_detail
-                        i.minus.icon
-                    // i.line.chart.icon
-                .ui.icon.button.skip_left
-                    i.chevron.left.icon
-                .ui.icon.button.skip_right
-                    i.chevron.right.icon
-                .ui.icon.button.view_videos(class=video_class)
-                    i.film.icon
-                .ui.icon.button.view_images(class=image_class)
-                    i.picture.icon
-                .ui.icon.button.view_adult(class=adult_class)
-                    i.fire.icon
-                .ui.icon.compact.button.view_joy(class=joy_class)
-                    i.smile.green.large.outline.icon
-                .ui.icon.compact.button.view_anger(class=anger_class)
-                    i.frown.red.large.outline.icon
-                .ui.icon.compact.button.view_fear(class=fear_class)
-                    i.black.frown.large.outline.icon
-                .ui.icon.compact.button.view_disgust(class=disgust_class)
-                    i.orange.frown.large.outline.icon
-                .ui.icon.compact.button.view_sadness(class=sadness_class)
-                    i.blue.frown.large.outline.icon
-                .ui.icon.compact.button.limit_1(class=sadness_class)
-                    |1
-                .ui.icon.compact.button.limit_5(class=sadness_class)
-                    |5
-                .ui.icon.compact.button.limit_10(class=sadness_class)
-                    |10
-                .ui.icon.compact.button.limit_20(class=sadness_class)
-                    |20
+                // div
+                // if skv_is 'sort_direction' 1
+                //     .ui.icon.button.sort_down
+                //         i.caret.down.icon
+                // else
+                //     .ui.icon.button.sort_up
+                //         i.caret.up.icon
+                // .ui.large.icon.button.sort_created(class=sort_created_class)
+                //     i.clock.icon
+                // .ui.large.icon.button.sort_points(class=sort_points_class)
+                //     i.thumbs.up.icon
+                // if skv_is 'view_layout' 'grid'
+                //     .ui.large.icon.black.button.set_grid(class=grid_class) 
+                //         i.th.icon
+                // else
+                //     .ui.large.icon.button.set_grid(class=grid_class) 
+                //         i.th.icon
+                // if skv_is 'view_layout' 'list'
+                //     .ui.black.icon.large.button.set_list(class=list_class)
+                //         i.list.icon
+                // else
+                //     .ui.large.icon.button.set_list(class=list_class)
+                //         i.list.icon
+                // if skv_is 'view_detail' true
+                //     .ui.black.large.icon.button.toggle_detail
+                //         i.list.icon
+                // else
+                //     .ui.large.icon.button.toggle_detail
+                //         i.minus.icon
+                //     // i.line.chart.icon
+                // .ui.icon.button.skip_left
+                //     i.chevron.left.icon
+                // .ui.icon.button.skip_right
+                //     i.chevron.right.icon
+                // .ui.icon.button.view_videos(class=video_class)
+                //     i.film.icon
+                // .ui.icon.button.view_images(class=image_class)
+                //     i.picture.icon
+                // .ui.icon.button.view_adult(class=adult_class)
+                //     i.fire.icon
+                // .ui.icon.compact.button.view_joy(class=joy_class)
+                //     i.smile.green.large.outline.icon
+                // .ui.icon.compact.button.view_anger(class=anger_class)
+                //     i.frown.red.large.outline.icon
+                // .ui.icon.compact.button.view_fear(class=fear_class)
+                //     i.black.frown.large.outline.icon
+                // .ui.icon.compact.button.view_disgust(class=disgust_class)
+                //     i.orange.frown.large.outline.icon
+                // .ui.icon.compact.button.view_sadness(class=sadness_class)
+                //     i.blue.frown.large.outline.icon
+                // .ui.icon.compact.button.limit_1(class=sadness_class)
+                //     |1
+                // .ui.icon.compact.button.limit_5(class=sadness_class)
+                //     |5
+                // .ui.icon.compact.button.limit_10(class=sadness_class)
+                //     |10
+                // .ui.icon.compact.button.limit_20(class=sadness_class)
+                //     |20
                 // .ui.icon.button.view_commented
                 //     i.chat.icon            
-                        
+                // .ui.hidden.divider
                 if skv_is 'view_layout' 'grid'
                     if one_post
-                        .ui.stackable.one.cards.scrolling
+                        .ui.stackable.one.cards
                             each posts
                                 +post_card
                             
                     else if two_posts
-                        .ui.stackable.two.centered.cards.scrolling
+                        .ui.stackable.two.centered.cards
+                            each posts
+                                +post_card
+                    else if three_posts
+                        .ui.stackable.three.cards
                             each posts
                                 +post_card
                     else
-                        .ui.stackable.three.cards.scrolling
+                        .ui.stackable.four.cards
                             each posts
                                 +post_card
-                    // else
-                    //     .ui.stackable.four.cards.scrolling
-                    //         each posts
-                    //             +post_card
                 else 
                     .ui.divided.link.items
                         each posts

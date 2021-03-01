@@ -1,5 +1,5 @@
 template(name='post_card')
-    .card.smallscroll(class=nightmode_class)
+    .card.smallscrol(class=nightmode_class)
         if embed
             // span.f11.full
             a.view_post(href="/p/#{_id}" class=post_header_class)
@@ -35,7 +35,7 @@ template(name='post_card')
         //     +youtube_view key='youtube_id' label='youtube id'
 
         .content
-            a.ui.small.header(href="/p/#{_id}") #{title}
+            a.ui.header(href="/p/#{_id}") #{title}
             div
             // if data.selftext_html
             //     a.f12(href="/p/#{_id}")
@@ -49,9 +49,9 @@ template(name='post_card')
             // .ui.tiny.icon.input
             //     i.grey.tag.icon
             //     input.add_tag(type='text' placeholder='+')
-            each five_tags
+            each ten_tags
                 +flat_tag_picker
-            .ui.basic.compact.button.pick_sub
+            .ui.compact.button.pick_sub
                 |#{subreddit}
                 // .ui.small.button.pick_flat_tag #{this}
             // each timestamp_tags
@@ -62,17 +62,17 @@ template(name='post_card')
             if in_dev
                 +print_this
             |{{ufrom data.created}}
-            if watson
-                +doc_emotion_small
-            i.thumbs.up.outline.grey.zoomer.link.icon.upvote
-            |#{points}
-            i.thumbs.down.outline.grey.zoomer.link.icon.downvote
-            i.chat.outline.grey.icon
-            |#{comment_count}
+            // if watson
+            //     +doc_emotion_small
+            // i.thumbs.up.outline.grey.zoomer.link.icon.upvote
+            // |#{points}
+            // i.thumbs.down.outline.grey.zoomer.link.icon.downvote
+            // i.chat.outline.grey.icon
+            // |#{comment_count}
             // +voting
             // if in_dev
             //     i.large.lock.link.grey.icon.make_private
-            // a.ui.icon.large.basic.button(href="/p/#{_id}")
+            // a.ui.icon.large.button(href="/p/#{_id}")
             //     |#{views}
             //     i.chevron.right.large.icon
         //   +comments
