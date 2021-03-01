@@ -37,11 +37,13 @@ template(name='layout')
             
             
 template(name='nav')            
-    .ui.attached.fluid.two.item.inverted.menu
-        a.item(href="/")
-            i.home.icon
-        a.item(href="/users")
-            i.users.icon
+    .ui.attached.fluid.three.item.inverted.menu
+        a.icon.item(href="/")
+            i.search.large.icon
+        a.icon.item(href="/subs")
+            i.fire.large.icon
+        a.icon.item(href="/users")
+            i.users.large.icon
 
 template(name='not_found')
     .ui.center.aligned.segment

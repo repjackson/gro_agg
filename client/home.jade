@@ -1,7 +1,6 @@
 template(name='home')
     .ui.padded.stackable.grid
         .twelve.wide.column
-            // i.plus.link.icon.add
             if picked_tags
                 // if skv_is 'nightmode' true
                 //     i.moon.circular.link.icon.toggle_nightmode
@@ -20,9 +19,54 @@ template(name='home')
                 //         i.remove.icon
                 each picked_tags
                     +unpick_tag
-            each result_tags
-                // .ui.label #{this}
-                +tag_picker
+                each result_tags
+                    // .ui.label #{this}
+                    +tag_picker
+            else
+                .ui.center.aligned.basic.segment
+                    .ui.icon.massive.input
+                        i.search.large.icon
+                        input.search_tag(type='text' placeholder='search' autofocus='')
+                        // .ui.label #{this}
+                    +search_shortcut tag='math' icon='calculator'
+                    +search_shortcut tag='camping' icon='campground'
+                    +search_shortcut tag='business' icon='briefcase'
+                    +search_shortcut tag='environment' icon='leaf'
+                    +search_shortcut tag='money' icon='coins'
+                    +search_shortcut tag='cat' icon='cat'
+                    +search_shortcut tag='science' icon='flask'
+                    +search_shortcut tag='video' icon='video'
+                    +search_shortcut tag='gaming' icon='gamepad'
+                    +search_shortcut tag='pics' icon='images'
+                    +search_shortcut tag='medicine' icon='pills'
+                    +search_shortcut tag='chess' icon='chess'
+                    +search_shortcut tag='food' icon='food'
+                    +search_shortcut tag='beer' icon='beer'
+                    +search_shortcut tag='hotel' icon='bed'
+                    +search_shortcut tag='winter' icon='snowflake'
+                    +search_shortcut tag='photography' icon='camera'
+                    +search_shortcut tag='dog' icon='dog'
+                    +search_shortcut tag='covid' icon='radiation'
+                    +search_shortcut tag='cheese' icon='cheese'
+                    +search_shortcut tag='solar' icon='sun'
+                    +search_shortcut tag='women' icon='venus'
+                    +search_shortcut tag='men' icon='mars'
+                    +search_shortcut tag='dungeons & dragons' icon='dice d20'
+                    +search_shortcut tag='physics' icon='atom'
+                    +search_shortcut tag='law' icon='balance scale'
+                    +search_shortcut tag='books' icon='book'
+                    +search_shortcut tag='biking' icon='biking'
+                    +search_shortcut tag='news' icon='newspaper'
+                    +search_shortcut tag='music' icon='music'
+                    +search_shortcut tag='skiing' icon='skiing'
+                    +search_shortcut tag='pizza' icon='pizza slice'
+                    +search_shortcut tag='fish' icon='fish'
+                    +search_shortcut tag='gardening' icon='seedling'
+                    +search_shortcut tag='bible' icon='bible'
+                    +search_shortcut tag='daoism' icon='yin yang'
+                    +search_shortcut tag='car' icon='car'
+                    +search_shortcut tag='tarot' icon='moon'
+                
             if skv_is 'view_layout' 'grid'
                 if one_post
                     .ui.stackable.one.column.grid
