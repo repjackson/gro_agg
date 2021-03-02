@@ -22,7 +22,6 @@ mquandalle:jade
 underscore@1.0.10
 coffeescript
 fourseven:scss
-reactive-var@1.0.11
 constellation:console
 constellation:subscriptions
 constellation:session
@@ -30,5 +29,3 @@ babrahams:temple
 ecmascript@0.15.0
 tmeasday:publish-counts
 http
-markdown
-zimme:active-route

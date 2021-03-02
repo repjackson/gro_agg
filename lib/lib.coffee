@@ -3,7 +3,7 @@
 # @Tag_results = new Meteor.Collection 'tag_results'
 Router.configure
     layoutTemplate: 'layout'
-    notFoundTemplate: 'not_found'
+    notFoundTemplate: 'subs'
     loadingTemplate: 'splash'
     trackPageView: false
 

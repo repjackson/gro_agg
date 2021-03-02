@@ -36,6 +36,21 @@ template(name='layout')
 
             
             
+template(name='skve')
+    // a.ui.image.big.link.label.set_session_v(class=calculated_class)
+    .ui.zoomer.compact.circular.button.set_session_v(class=calculated_class title=t)
+        if i
+            i.icon(class=i)
+            // +i n=i cl='ui mini inline image'
+        unless ionly
+            if l
+                |#{l}
+            else 
+                |#{v}
+
+                        
+            
+            
 template(name='nav')            
     .ui.attached.fluid.three.item.inverted.borderless.menu
         a.icon.item(href="/subs" class="{{isActiveRoute 'subs'}}")

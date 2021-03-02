@@ -13,9 +13,9 @@ template(name='subs')
                         // .ui.label #{this}
                         a.zoomer.ui.compact.circular.basic.button.pick_sub_tag(title=count) #{name}
                     if skv_is 'nsfw' false
-                        +skve k='nsfw' v=true l='!'
+                        +skve k='nsfw' v=true l='--'
                     else if skv_is 'nsfw' true
-                        +skve k='nsfw' v=false l='!'
+                        +skve k='nsfw' v=false l='!!'
                    
 
             if picked_sub_tags
@@ -54,9 +54,9 @@ template(name='subs')
                     // .ui.icon.button.skip_right
                     //     i.chevron.right.icon 
                     if skv_is 'nsfw' false
-                        +skve k='nsfw' v=true l='!'
+                        +skve k='nsfw' v=true l='--'
                     else if skv_is 'nsfw' true
-                        +skve k='nsfw' v=false l='!'
+                        +skve k='nsfw' v=false l='!!'
                     .scrolling
                         unless subreddit_docs.count
                             .ui.center.aligned.basic.segment

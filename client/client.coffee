@@ -3,10 +3,10 @@
 @picked_locations = new ReactiveArray []
 @picked_authors = new ReactiveArray []
 
-Router.route '/p/:doc_id/edit', (->
+Router.route '/', (->
     @layout 'layout'
-    @render 'post_edit'
-    ), name:'post_edit'
+    @render 'subs'
+    ), name:'home'
 
 
 
@@ -81,6 +81,34 @@ Template.tag_picker.events
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         # Session.set('love_loading',true)
+    
+    
+Template.registerHelper 'skv_is', (key, value) ->
+    Session.equals key,value
+
+
+Template.skve.events
+    'click .set_session_v': ->
+        # if Session.equals(@k,@v)
+        #     Session.set(@k, null)
+        # else
+        Session.set(@k, @v)
+
+Template.skve.helpers
+    calculated_class: ->
+        res = ''
+        if @classes
+            res += @classes
+        if Session.get(@k)
+            if Session.equals(@k,@v)
+                res += ' large compact black'
+            else
+                # res += ' compact displaynone'
+                res += ' compact basic '
+            res
+        else
+            'basic '
+    selected: -> Session.equals(@k,@v)
         
 
 Template.unpick_tag.onCreated ->
