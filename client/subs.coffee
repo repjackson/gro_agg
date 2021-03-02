@@ -22,8 +22,8 @@ Template.subs.onCreated ->
         Session.get('sort_subs')
         Session.get('subs_sort_direction')
         Session.get('subs_limit')
-        Session.get('nsfw')
         Session.get('toggle')
+        Session.get('nsfw')
     )
     @autorun -> Meteor.subscribe('sub_count',
         Session.get('subreddit_query')
@@ -31,8 +31,8 @@ Template.subs.onCreated ->
     )
     @autorun => Meteor.subscribe 'subreddit_tags',
         picked_sub_tags.array()
-        Session.get('nsfw')
         Session.get('toggle')
+        Session.get('nsfw')
 
 Template.subreddit_doc.events
     # 'click .goto_sub': (e,t)->

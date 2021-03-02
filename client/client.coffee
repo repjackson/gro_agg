@@ -11,24 +11,6 @@ Router.route '/p/:doc_id/edit', (->
 
 
 
-Template.post_card.onRendered ->
-    # console.log @data
-    
-    # unless @watson
-    #     Meteor.call 'call_watson', @data._id, ->
-    # Meteor.call 'log_view', @data._id, ->
-    # Session.set('session_clicks', Session.get('session_clicks')+2)
-
-Template.post_card.events
-    'click .pick_sub': ->
-        Session.set('loading',true)
-        picked_tags.push @subreddit.toLowerCase()
-        Meteor.call 'search_reddit', picked_tags.array(), ->
-            Session.set('loading',false)
-        Meteor.setTimeout ->
-            Session.set('toggle', !Session.get('toggle'))
-        , 7000    
-
 
 
             

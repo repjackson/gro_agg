@@ -116,8 +116,8 @@ Meteor.publish 'subreddits', (
     sort_key='data.subscribers'
     sort_direction=-1
     limit=20
-    nsfw
     toggle
+    nsfw
     )->
     # console.log limit
     match = {model:'subreddit'}
