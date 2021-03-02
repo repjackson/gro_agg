@@ -9,10 +9,15 @@ Meteor.publish 'subreddit_by_param', (subreddit)->
 
 Meteor.methods
     search_subreddits: (search)->
+        console.log 'searching subs', search
         @unblock()
         HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1&nsfw=1&include_over_18=on&limit=100", (err,res)->
             if res.data.data.dist > 1
-                _.each(res.data.data.children[0..200], (item)=>
+                _.each(res.data.data.children[0..100], (item)=>
+                    console.log item.data.display_name
+                    added_tags = [search]
+                    added_tags = _.flatten(added_tags)
+                    console.log 'added tags', added_tags
                     found = 
                         Docs.findOne    
                             model:'subreddit'
@@ -20,12 +25,11 @@ Meteor.methods
                     if found
                         console.log 'found', search, item.data.display_name
                         Docs.update found._id, 
-                            $addToSet:
-                                tags:search.toLowerCase()
+                            $addToSet: tags: $each: added_tags
                     unless found
                         console.log 'not found', item.data.display_name
                         item.model = 'subreddit'
-                        item.tags = [search.toLowerCase()]
+                        item.tags = added_tags
                         Docs.insert item
                         
                 )
@@ -111,13 +115,15 @@ Meteor.publish 'subreddits', (
     picked_tags
     sort_key='data.subscribers'
     sort_direction=-1
+    limit=20
     )->
+    console.log limit
     match = {model:'subreddit'}
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     if query.length > 0
         match["data.display_name"] = {$regex:"#{query}", $options:'i'}
     Docs.find match,
-        limit:100
+        limit:parseInt(limit)
         sort: "#{sort_key}":sort_direction
         fields:
             model:1

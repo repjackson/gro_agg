@@ -379,8 +379,8 @@ body {
 
 /*.ui.button:not(.circular) { */
 /*}*/
-/*.ui.button {*/
-/*  margin: 2px !important;*/
+.ui.button {
+  margin: 2px !important;
   /*transition: height ..25s ease !important; */
   /* background-color: rgba(200, 200, 200, 0.2) !important; */
   /* padding: 12px !important; */
@@ -388,7 +388,7 @@ body {
   
   /* font-weight: lighter !important; */
   /* font-size: 120% !important; */
-/*  }*/
+  }
 /*  */
 /*.say {*/
     /*animation: fadein .225s !important;*/
@@ -649,9 +649,10 @@ body {
   margin:1px !important;
 }
 
-/*input {*/
+input {
+  border-radius: 10px !important;
     /*margin: 15px !important;*/
-/*}*/
+}
 
 /*::-webkit-scrollbar {*/
 /*  width: 0px !important;*/

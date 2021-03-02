@@ -16,11 +16,12 @@ Template.subs.onCreated ->
         Session.get('subreddit_query')
         picked_sub_tags.array()
         Session.get('sort_subs')
+        Session.get('subs_sort_direction')
+        Session.get('subs_limit')
     )
     @autorun -> Meteor.subscribe('sub_count',
         Session.get('subreddit_query')
         picked_sub_tags.array()
-        Session.get('sort_subs')
     )
     @autorun => Meteor.subscribe 'subreddit_tags',
         picked_sub_tags.array()
@@ -29,8 +30,10 @@ Template.subs.onCreated ->
 Template.subs.events
     'click .unpick_sub_tag':-> 
         picked_sub_tags.remove @valueOf()
+        Meteor.call 'search_subreddits', picked_sub_tags.array(), ->
     'click .pick_sub_tag':-> 
         picked_sub_tags.push @name
+        Meteor.call 'search_subreddits', picked_sub_tags.array(), ->
     'click .goto_sub': (e,t)->
         Meteor.call 'get_sub_latest', @data.display_name, ->
         Meteor.call 'get_sub_info', @data.display_name, ->
@@ -42,10 +45,10 @@ Template.subs.events
         val = $('.search_subreddits').val()
         Session.set('subreddit_query', val)
         if e.which is 13 
-            Meteor.call 'search_subreddits', val, ->
             $('.search_subreddits').val('')
             unless val in picked_sub_tags.array()
                 picked_sub_tags.push val 
+                Meteor.call 'search_subreddits', picked_sub_tags.array(), ->
             Session.set('subreddit_query', null)
             # Session.set('subreddit_query', null)
     # 'click .search_subs': ->
