@@ -116,10 +116,16 @@ Meteor.publish 'subreddits', (
     sort_key='data.subscribers'
     sort_direction=-1
     limit=20
+    nsfw
     toggle
     )->
-    console.log limit
+    # console.log limit
     match = {model:'subreddit'}
+    
+    if nsfw
+        match["data.over18"] = true
+    else 
+        match["data.over18"] = false
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     if query.length > 0
         match["data.display_name"] = {$regex:"#{query}", $options:'i'}
@@ -262,24 +268,20 @@ Meteor.publish 'sub_doc_count', (
 Meteor.publish 'subreddit_tags', (
     picked_tags
     toggle
-    view_adult=true
+    nsfw=false
     )->
     # @unblock()
     self = @
     match = {
         model:'subreddit'
     }
+    if nsfw
+        match["data.over18"] = true
+    else 
+        match["data.over18"] = false
 
-
-    # unless Meteor.userId()
-    #     match.privacy='public'
 
     if picked_tags.length > 0 then match.tags = $all:picked_tags
-    # match.tags = $all:picked_tags
-    # if view_adult
-    #     match["data.over_18"] = true
-    # else 
-    #     match["data.over_18"] = false
     if picked_tags.length > 0
         limit=42
     else 

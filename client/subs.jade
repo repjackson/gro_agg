@@ -42,6 +42,11 @@ template(name='subs')
                     +skve k='subs_limit' v=10 l='10'
                     +skve k='subs_limit' v=20 l='20'
                     +skve k='subs_limit' v=50 l='50'
+                    if skv_is 'nsfw' false
+                        +skve k='nsfw' v=true l='!'
+                    else if skv_is 'nsfw' true
+                        +skve k='nsfw' v=false l='!'
+                    
                     // if can_skip_left
                     //     .ui.icon.button.skip_left
                     //         i.chevron.left.icon
@@ -71,7 +76,7 @@ template(name='subreddit_doc')
             //     | !{data.header_title}
             // if skv_is 'view_sub_detail' true
             // span.description !{data.public_description_html}
-            span.descriptionl.pointer.goto_sub(style="color:#{data.primary_color}") !{data.public_description}
+            a.description(href="https://www.reddit.com/r/#{data.display_name}" target="_window" style="color:#{data.primary_color}") !{data.public_description}
             // |created {{ufrom data.created}}
             // span.say
             //     // i.money.icon

@@ -14,12 +14,15 @@ Template.subs.onCreated ->
     Session.setDefault('sort_key','data.created')
     Session.setDefault('subs_limit',10)
     Session.setDefault('toggle',false)
+    Session.setDefault('nsfw',false)
+    
     @autorun -> Meteor.subscribe('subreddits',
         Session.get('subreddit_query')
         picked_sub_tags.array()
         Session.get('sort_subs')
         Session.get('subs_sort_direction')
         Session.get('subs_limit')
+        Session.get('nsfw')
         Session.get('toggle')
     )
     @autorun -> Meteor.subscribe('sub_count',
@@ -28,14 +31,15 @@ Template.subs.onCreated ->
     )
     @autorun => Meteor.subscribe 'subreddit_tags',
         picked_sub_tags.array()
+        Session.get('nsfw')
         Session.get('toggle')
 
 Template.subreddit_doc.events
-    'click .goto_sub': (e,t)->
-        Meteor.call 'get_sub_latest', @data.display_name, ->
-        Meteor.call 'get_sub_info', @data.display_name, ->
-        Meteor.call 'calc_sub_tags', @data.display_name, ->
-        Session.set('view_section', 'main')
+    # 'click .goto_sub': (e,t)->
+    #     Meteor.call 'get_sub_latest', @data.display_name, ->
+    #     Meteor.call 'get_sub_info', @data.display_name, ->
+    #     Meteor.call 'calc_sub_tags', @data.display_name, ->
+    #     Session.set('view_section', 'main')
 Template.subs.events
     'click .unpick_sub_tag':-> 
         picked_sub_tags.remove @valueOf()
