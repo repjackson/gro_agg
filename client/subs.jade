@@ -63,7 +63,7 @@ template(name='subreddit_doc')
         a.ui.tiny.image.goto_sub(href="https://www.reddit.com/r/#{data.display_name}" target="_window")
             img.ui.zoomer.tiny.rounded.image(src=data.icon_img)
         .content.seg
-            a.ui.zoomer.header.goto_sub(href="https://www.reddit.com/r/#{data.display_name}" target="_window")
+            a.ui.zoomer.header.goto_sub(href="https://www.reddit.com/r/#{data.display_name}" target="_window" style="color:#{data.primary_color}")
                 // img.ui.zoomer.image(src=data.header_img)
                 | !{data.title} 
                 // small !{data.display_name}
@@ -71,7 +71,7 @@ template(name='subreddit_doc')
             //     | !{data.header_title}
             // if skv_is 'view_sub_detail' true
             // span.description !{data.public_description_html}
-            span.descriptionl.goto_sub !{data.public_description}
+            span.descriptionl.pointer.goto_sub(style="color:#{data.primary_color}") !{data.public_description}
             // |created {{ufrom data.created}}
             // span.say
             //     // i.money.icon

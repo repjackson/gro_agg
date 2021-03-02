@@ -30,6 +30,12 @@ Template.subs.onCreated ->
         picked_sub_tags.array()
         Session.get('toggle')
 
+Template.subreddit_doc.events
+    'click .goto_sub': (e,t)->
+        Meteor.call 'get_sub_latest', @data.display_name, ->
+        Meteor.call 'get_sub_info', @data.display_name, ->
+        Meteor.call 'calc_sub_tags', @data.display_name, ->
+        Session.set('view_section', 'main')
 Template.subs.events
     'click .unpick_sub_tag':-> 
         picked_sub_tags.remove @valueOf()
@@ -37,11 +43,6 @@ Template.subs.events
     'click .pick_sub_tag':-> 
         picked_sub_tags.push @name
         Meteor.call 'search_subreddits', picked_sub_tags.array(), ->
-    'click .goto_sub': (e,t)->
-        Meteor.call 'get_sub_latest', @data.display_name, ->
-        Meteor.call 'get_sub_info', @data.display_name, ->
-        Meteor.call 'calc_sub_tags', @data.display_name, ->
-        Session.set('view_section', 'main')
     'click .pull_latest': ->
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
     'click .search_subreddits': (e,t)->

@@ -131,6 +131,8 @@ Meteor.publish 'subreddits', (
             tags:1
             "data.display_name":1
             "data.title":1
+            "data.primary_color":1
+            "data.over18":1
             "data.header_title":1
             # "data.created":1
             "data.header_img":1
