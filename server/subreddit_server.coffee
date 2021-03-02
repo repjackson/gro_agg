@@ -278,7 +278,10 @@ Meteor.publish 'subreddit_tags', (
     #     match["data.over_18"] = true
     # else 
     #     match["data.over_18"] = false
-        
+    if picked_tags.length > 0
+        limit=42
+    else 
+        limit=200
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
     tag_cloud = Docs.aggregate [
@@ -289,7 +292,7 @@ Meteor.publish 'subreddit_tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:100 }
+        { $limit:limit }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     tag_cloud.forEach (tag, i) ->

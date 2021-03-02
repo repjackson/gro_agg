@@ -66,7 +66,7 @@ Template.subs.helpers
     subreddit_docs: ->
         Docs.find(
             model:'subreddit'
-        , {limit:100,sort:"#{Session.get('sort_key')}":-1})
+        , {limit:100,sort:"#{Session.get('sort_subs')}":-1})
     subreddit_tags: -> results.find(model:'subreddit_tag')
 
     picked_sub_tags: -> picked_sub_tags.array()
