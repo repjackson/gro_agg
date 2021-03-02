@@ -51,18 +51,6 @@ template(name='ruser')
                     a.ui.button(href="/user/#{username}/comments")
                         i.chat.outline.icon
                         |comments
-                    a.ui.button(href="/user/#{username}/upvoted")
-                        i.thumbs.up.outline.icon
-                        |upvoted
-                    a.ui.button(href="/user/#{username}/downvoted")
-                        i.thumbs.down.outline.icon
-                        |downvoted
-                    a.ui.button(href="/user/#{username}/hidden")
-                        i.eye.slash.icon
-                        |hidden
-                    a.ui.button(href="/user/#{username}/saved")
-                        i.save.icon
-                        |saved
                     div
                     if skv_is 'view_post_detail' true
                         .ui.black.tertiary.large.button.toggle_post_detail.agg

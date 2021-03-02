@@ -2,9 +2,9 @@
 # @selected_user_roles = new ReactiveArray []
 
 
-Router.route '/users', (->
-    @render 'users'
-    ), name:'users'
+Router.route '/rusers', (->
+    @render 'rusers'
+    ), name:'rusers'
 
 # Template.term_image.onCreated ->
 Template.rusers.onCreated ->
