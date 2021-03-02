@@ -162,7 +162,7 @@ Template.rusers.events
             if search.length > 0
                 # window.speechSynthesis.cancel()
                 # window.speechSynthesis.speak new SpeechSynthesisUtterance search
-                selected_tags.push search
+                picked_tags.push search
                 $('.search_site').val('')
 
                 # Meteor.call 'search_stack', Router.current().params.site, search, ->

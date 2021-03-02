@@ -72,17 +72,31 @@ Meteor.methods
 
 Meteor.publish 'sub_count', (
     query=''
-    selected_tags
+    picked_tags
     )->
         
     match = {model:'subreddit'}
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
     if query.length > 0
         match["data.display_name"] = {$regex:"#{query}", $options:'i'}
     Counts.publish this, 'sub_counter', Docs.find(match)
     return undefined
 
 
+Meteor.publish 'subreddits', (
+    query=''
+    selected_tags
+    sort_key='data.subscribers'
+    sort_direction=-1
+    )->
+    match = {model:'subreddit'}
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if query.length > 0
+        match["data.display_name"] = {$regex:"#{query}", $options:'i'}
+    Docs.find match,
+        limit:100
+        sort: "#{sort_key}":sort_direction
+        
         
         
 Meteor.publish 'sub_docs_by_name', (
@@ -115,7 +129,7 @@ Meteor.publish 'sub_docs_by_name', (
     
 Meteor.publish 'agg_sentiment_subreddit', (
     subreddit
-    selected_tags
+    picked_tags
     )->
     # @unblock()
     self = @
@@ -125,7 +139,7 @@ Meteor.publish 'agg_sentiment_subreddit', (
     }
         
     doc_count = Docs.find(match).count()
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
     emotion_avgs = Docs.aggregate [
         { $match: match }
         #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
@@ -153,11 +167,11 @@ Meteor.publish 'agg_sentiment_subreddit', (
 
 Meteor.publish 'sub_doc_count', (
     subreddit
-    selected_tags
+    picked_tags
     )->
         
     match = {model:'rpost'}
     match.subreddit = subreddit
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
     Counts.publish this, 'sub_doc_counter', Docs.find(match)
     return undefined

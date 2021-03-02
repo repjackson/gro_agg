@@ -148,7 +148,7 @@ Template.subreddit.events
         val = $('.search_subreddit').val()
         Session.set('sub_doc_query', val)
         if e.which is 13 
-            selected_tags.push val
+            picked_tags.push val
             window.speechSynthesis.speak new SpeechSynthesisUtterance val
 
             $('.search_subreddit').val('')
@@ -198,7 +198,7 @@ Template.sub_tag_selector.events
         $('.search_subreddit').val('')
         
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         Session.set('loading',true)
         Meteor.call 'search_subreddit', Router.current().params.subreddit, @name, ->
             Session.set('loading',false)
@@ -225,7 +225,7 @@ Template.sub_unselect_tag.events
         Session.set('skip',0)
         console.log @
         selected_subreddit_tags.remove @valueOf()
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
     
 
 Template.flat_sub_tag_selector.onCreated ->
