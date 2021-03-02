@@ -37,13 +37,13 @@ template(name='layout')
             
             
 template(name='nav')            
-    .ui.attached.fluid.three.item.inverted.menu.bottom_rounded
+    .ui.attached.fluid.three.item.inverted.borderless.menu
         a.icon.item(href="/subs" class="{{isActiveRoute 'subs'}}")
-            i.fire.large.icon
+            i.fire.icon
         a.icon.item(href="/" class="{{isActiveRoute 'home'}}")
-            i.yin.yang.large.icon
+            i.yin.yang.icon
         a.icon.item(href="/rusers" class="{{isActiveRoute 'rusers'}}")
-            i.users.large.icon
+            i.users.icon
 
 template(name='not_found')
     .ui.center.aligned.segment

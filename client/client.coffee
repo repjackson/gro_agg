@@ -14,8 +14,8 @@ Router.route '/p/:doc_id/edit', (->
 Template.post_card.onRendered ->
     # console.log @data
     
-    unless @watson
-        Meteor.call 'call_watson', @data._id, ->
+    # unless @watson
+    #     Meteor.call 'call_watson', @data._id, ->
     # Meteor.call 'log_view', @data._id, ->
     # Session.set('session_clicks', Session.get('session_clicks')+2)
 

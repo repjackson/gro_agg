@@ -8,6 +8,28 @@ Meteor.publish 'subreddit_by_param', (subreddit)->
 
 
 Meteor.methods
+    search_subreddits: (search)->
+        @unblock()
+        HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1&nsfw=1&include_over_18=on&limit=100", (err,res)->
+            if res.data.data.dist > 1
+                _.each(res.data.data.children[0..200], (item)=>
+                    found = 
+                        Docs.findOne    
+                            model:'subreddit'
+                            "data.display_name":item.data.display_name
+                    if found
+                        console.log 'found', search, item.data.display_name
+                        Docs.update found._id, 
+                            $addToSet:
+                                tags:search.toLowerCase()
+                    unless found
+                        console.log 'not found', item.data.display_name
+                        item.model = 'subreddit'
+                        item.tags = [search.toLowerCase()]
+                        Docs.insert item
+                        
+                )
+        
     get_sub_info: (subreddit)->
         @unblock()
         console.log 'getting info', subreddit
@@ -95,7 +117,7 @@ Meteor.publish 'subreddits', (
     if query.length > 0
         match["data.display_name"] = {$regex:"#{query}", $options:'i'}
     Docs.find match,
-        limit:20
+        limit:100
         sort: "#{sort_key}":sort_direction
         fields:
             model:1
@@ -103,6 +125,7 @@ Meteor.publish 'subreddits', (
             "data.display_name":1
             "data.title":1
             "data.header_title":1
+            "data.created":1
             "data.header_img":1
             "data.public_description":1
             "data.advertiser_category":1
@@ -258,7 +281,7 @@ Meteor.publish 'subreddit_tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:42 }
+        { $limit:100 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     tag_cloud.forEach (tag, i) ->
