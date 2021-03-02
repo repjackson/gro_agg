@@ -2,12 +2,18 @@ template(name='subs')
     .ui.stackable.padded.grid
         .row
             .four.wide.column
+                .ui.inline.header #{sub_count}
+                .ui.inline.header
+                    i.circular.users.big.icon
+                    |groups
+                // .ui.inline.header.search_subs
+                //     |#{subreddit_docs.count} subs
                 // .smallscroll
-                if selected_subs_tags
+                if picked_subs_tags
                     // if many_tags
                     //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                     //         i.remove.icon
-                    each selected_subs_tags
+                    each picked_subs_tags
                         +subs_unselect_tag
                 .medscroll
                     each subs_tags
@@ -15,12 +21,6 @@ template(name='subs')
                         +subs_tag_selector
                         // .ui.large.label(title=count) #{name}
             .twelve.wide.column
-                .ui.inline.header #{sub_count}
-                .ui.inline.header
-                    i.reddit.icon
-                    |subreddits
-                // .ui.inline.header.search_subs
-                //     |#{subreddit_docs.count} subs
                 .ui.icon.input
                     i.search.icon
                     input.search_subs(type='text')
@@ -47,7 +47,8 @@ template(name='subreddit_doc')
         // a.ui.tiny.image.goto_sub(href="/r/#{data.display_name}")
         if skv_is 'view_sub_detail' true
             .four.wide.column.goto_sub.seg
-                img.ui.rounded.zoomer.image(src=data.icon_img)
+                a.goto_sub(href="/r/#{data.display_name}")
+                    img.ui.rounded.zoomer.image(src=data.icon_img)
         .twelve.wide.column.seg
             a.ui.header.goto_sub(href="/r/#{data.display_name}")
                 img.ui.rounded.zoomer.image(src=data.header_img)
@@ -70,7 +71,7 @@ template(name='subreddit_doc')
                     |#{data.subscribers}
                 each tags
                     .ui.basic.small.label.goto_sub #{this}
-                if is_dev
+                if in_dev
                     +print_this
                     +remove_button
 

@@ -3,6 +3,8 @@ rp = require('request-promise');
 
 
 Meteor.methods
+    remove_doc: (doc_id)->
+        Docs.remove doc_id
     get_post_comments: (subreddit, doc_id)->
         @unblock()
         console.log 'getting post comments', subreddit, doc_id

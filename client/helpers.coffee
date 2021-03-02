@@ -156,15 +156,9 @@ Template.registerHelper 'current_doc', () ->
         found_doc_by_slug
 
 Template.registerHelper 'current_subreddit', () ->
-    found_doc_by_id = Docs.findOne Router.current().params.doc_id
-    found_doc_by_name = 
-        Docs.findOne 
-            model:'subreddit'
-            name:Router.current().params.subreddit
-    if found_doc_by_id
-        found_doc_by_id
-    else if found_doc_by_name
-        found_doc_by_name
+    Docs.findOne 
+        model:'subreddit'
+        "data.display_name":Router.current().params.subreddit
 
 # Template.registerHelper 'lowered_title', ()-> 
 #     if @data

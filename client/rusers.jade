@@ -8,10 +8,10 @@ template(name='rusers')
             .ui.small.fluid.icon.input
                 i.search.icon
                 input.search_tags(type='text')
-            if selected_ruser_tags
+            if picked_ruser_tags
                 // #clear_tags.ui.grey.icon.compact.circular.button
                 //     i.remove.icon
-                each selected_ruser_tags
+                each picked_ruser_tags
                     .unselect_ruser_tag.ui.black.compact.circular.button
                         strong !{this}
             each all_ruser_tags

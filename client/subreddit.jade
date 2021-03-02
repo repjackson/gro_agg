@@ -12,11 +12,11 @@ template(name='subreddit')
                     // img.ui.mini.inline.image(src=icon_img)
                 img.get_info.shadowed.ui.inline.image(src=logo_url )
                 .ui.inline.header.get_info #{data.display_name}
-                if selected_sub_tags
+                if picked_sub_tags
                     // if many_tags
                     //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                     //         i.remove.icon
-                    each selected_sub_tags
+                    each picked_sub_tags
                         +sub_unselect_tag
                 .ui.icon.input
                     i.search.icon

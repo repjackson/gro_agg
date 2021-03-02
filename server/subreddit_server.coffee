@@ -1,4 +1,5 @@
 Meteor.publish 'subreddit_by_param', (subreddit)->
+    console.log 'looking for', subreddit
     Docs.find
         model:'subreddit'
         "data.display_name":subreddit
@@ -85,12 +86,12 @@ Meteor.publish 'sub_count', (
 
 Meteor.publish 'subreddits', (
     query=''
-    selected_tags
+    picked_tags
     sort_key='data.subscribers'
     sort_direction=-1
     )->
     match = {model:'subreddit'}
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
     if query.length > 0
         match["data.display_name"] = {$regex:"#{query}", $options:'i'}
     Docs.find match,
@@ -101,8 +102,8 @@ Meteor.publish 'subreddits', (
         
 Meteor.publish 'sub_docs_by_name', (
     subreddit
-    selected_subreddit_tags
-    selected_subreddit_domains
+    picked_subreddit_tags
+    picked_subreddit_domains
     sort_key
     )->
     self = @
@@ -119,8 +120,8 @@ Meteor.publish 'sub_docs_by_name', (
     #     match.bounty = true
     # if view_unanswered
     #     match.is_answered = false
-    if selected_subreddit_tags.length > 0 then match.tags = $all:selected_subreddit_tags
-    if selected_subreddit_domains.length > 0 then match.domain = $all:selected_subreddit_domains
+    if picked_subreddit_tags.length > 0 then match.tags = $all:picked_subreddit_tags
+    if picked_subreddit_domains.length > 0 then match.domain = $all:picked_subreddit_domains
     # console.log sk
     Docs.find match,
         limit:20

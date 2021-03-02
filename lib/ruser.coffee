@@ -47,14 +47,14 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'ruser_result_tags',
             'rpost'
             Router.current().params.username
-            selected_subreddit_tags.array()
-            # selected_subreddit_domain.array()
+            picked_subreddit_tags.array()
+            # picked_subreddit_domain.array()
             Session.get('toggle')
         @autorun => Meteor.subscribe 'ruser_result_tags',
             'rcomment'
             Router.current().params.username
-            selected_subreddit_tags.array()
-            # selected_subreddit_domain.array()
+            picked_subreddit_tags.array()
+            # picked_subreddit_domain.array()
             Session.get('toggle')
 
     Template.ruser.onRendered ->

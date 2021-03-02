@@ -67,9 +67,9 @@ Meteor.methods
             # omega = Docs.findOne model:'omega_session'
             # doc_count = omega.total_doc_result_count
             # doc_count = omega.doc_result_ids.length
-            # unless omega.selected_doc_id in omega.doc_result_ids
+            # unless omega.picked_doc_id in omega.doc_result_ids
             #     Docs.update omega._id,
-            #         $set:selected_doc_id:omega.doc_result_ids[0]
+            #         $set:picked_doc_id:omega.doc_result_ids[0]
             filtered_agg_res = []
 
             for agg_tag in agg_res
@@ -326,14 +326,14 @@ Meteor.methods
 
 
 
-Meteor.publish 'selected_rusers', (
-    selected_ruser_tags
+Meteor.publish 'picked_rusers', (
+    picked_ruser_tags
     username_query
     )->
     match = {model:'ruser'}
     if username_query
         match.username = {$regex:"#{username_query}", $options: 'i'}
-    if selected_ruser_tags.length > 0 then match.tags = $all: selected_ruser_tags
+    if picked_ruser_tags.length > 0 then match.tags = $all: picked_ruser_tags
     Docs.find match,
         limit:20
         sort:
@@ -342,19 +342,19 @@ Meteor.publish 'selected_rusers', (
 
 
 Meteor.publish 'ruser_tags', (
-    selected_ruser_tags
+    picked_ruser_tags
     username_query
     # view_mode
     # limit
 )->
     self = @
     match = {model:'ruser'}
-    if selected_ruser_tags.length > 0 then match.tags = $all: selected_ruser_tags
+    if picked_ruser_tags.length > 0 then match.tags = $all: picked_ruser_tags
     if username_query    
         match.username = {$regex:"#{username_query}", $options: 'i'}
     # if location_query.length > 1 
     #     match.location = {$regex:"#{location_query}", $options: 'i'}
-    # if selected_user_location then match.location = selected_user_location
+    # if picked_user_location then match.location = picked_user_location
     # match.model = 'item'
     # if view_mode is 'users'
     #     match.bought = $ne:true
@@ -369,7 +369,7 @@ Meteor.publish 'ruser_tags', (
         { $project: "tags": 1 }
         { $unwind: "$tags" }
         { $group: _id: "$tags", count: $sum: 1 }
-        { $match: _id: $nin: selected_ruser_tags }
+        { $match: _id: $nin: picked_ruser_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit: 20 }
@@ -391,7 +391,7 @@ Meteor.publish 'ruser_result_tags', (
     model='rpost'
     username
     picked_tags
-    # selected_subreddit_domain
+    # picked_subreddit_domain
     # view_bounties
     # view_unanswered
     # query=''
@@ -407,8 +407,8 @@ Meteor.publish 'ruser_result_tags', (
     # if view_unanswered
     #     match.is_answered = false
     if picked_tags.length > 0 then match.tags = $all:picked_tags
-    # if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
-    # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
+    # if picked_subreddit_domain.length > 0 then match.domain = $all:picked_subreddit_domain
+    # if picked_emotion.length > 0 then match.max_emotion_name = picked_emotion
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
     rpost_tag_cloud = Docs.aggregate [
@@ -435,7 +435,7 @@ Meteor.publish 'ruser_result_tags', (
     #     { $project: "data.domain": 1 }
     #     # { $unwind: "$domain" }
     #     { $group: _id: "$data.domain", count: $sum: 1 }
-    #     # { $match: _id: $nin: selected_domains }
+    #     # { $match: _id: $nin: picked_domains }
     #     { $sort: count: -1, _id: 1 }
     #     { $match: count: $lt: doc_count }
     #     { $limit:7 }
@@ -453,7 +453,7 @@ Meteor.publish 'ruser_result_tags', (
     #     { $project: "Organization": 1 }
     #     { $unwind: "$Organization" }
     #     { $group: _id: "$Organization", count: $sum: 1 }
-    #     # { $match: _id: $nin: selected_Organizations }
+    #     # { $match: _id: $nin: picked_Organizations }
     #     { $sort: count: -1, _id: 1 }
     #     { $match: count: $lt: doc_count }
     #     { $limit:5 }
@@ -471,7 +471,7 @@ Meteor.publish 'ruser_result_tags', (
     #     { $project: "Person": 1 }
     #     { $unwind: "$Person" }
     #     { $group: _id: "$Person", count: $sum: 1 }
-    #     # { $match: _id: $nin: selected_Persons }
+    #     # { $match: _id: $nin: picked_Persons }
     #     { $sort: count: -1, _id: 1 }
     #     { $match: count: $lt: doc_count }
     #     { $limit:5 }
@@ -489,7 +489,7 @@ Meteor.publish 'ruser_result_tags', (
     #     { $project: "Company": 1 }
     #     { $unwind: "$Company" }
     #     { $group: _id: "$Company", count: $sum: 1 }
-    #     # { $match: _id: $nin: selected_Companys }
+    #     # { $match: _id: $nin: picked_Companys }
     #     { $sort: count: -1, _id: 1 }
     #     { $match: count: $lt: doc_count }
     #     { $limit:5 }
@@ -506,7 +506,7 @@ Meteor.publish 'ruser_result_tags', (
     #     { $match: match }
     #     { $project: "max_emotion_name": 1 }
     #     { $group: _id: "$max_emotion_name", count: $sum: 1 }
-    #     # { $match: _id: $nin: selected_emotions }
+    #     # { $match: _id: $nin: picked_emotions }
     #     { $sort: count: -1, _id: 1 }
     #     { $match: count: $lt: doc_count }
     #     { $limit:5 }

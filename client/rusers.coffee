@@ -1,5 +1,5 @@
-@selected_ruser_tags = new ReactiveArray []
-# @selected_user_roles = new ReactiveArray []
+@picked_ruser_tags = new ReactiveArray []
+# @picked_user_roles = new ReactiveArray []
 
 
 Router.route '/rusers', (->
@@ -8,18 +8,18 @@ Router.route '/rusers', (->
 
 # Template.term_image.onCreated ->
 Template.rusers.onCreated ->
-    Session.setDefault('selected_user_location',null)
+    Session.setDefault('picked_user_location',null)
     Session.setDefault('searching_location',null)
-    @autorun -> Meteor.subscribe 'selected_rusers', 
-        selected_ruser_tags.array() 
+    @autorun -> Meteor.subscribe 'picked_rusers', 
+        picked_ruser_tags.array() 
         Session.get('searching_username')
         Session.get('limit')
         Session.get('rusers_sort_key')
         Session.get('sort_direction')
     @autorun -> Meteor.subscribe('ruser_tags',
-        selected_ruser_tags.array()
+        picked_ruser_tags.array()
         Session.get('username_query')
-        # selected_user_roles.array()
+        # picked_user_roles.array()
         # Session.get('view_mode')
     )
 
@@ -38,7 +38,7 @@ Template.rusers.helpers
         match = {model:'ruser'}
         # unless 'admin' in Meteor.user().roles
         #     match.site = $in:['member']
-        if selected_ruser_tags.array().length > 0 then match.tags = $all: selected_ruser_tags.array()
+        if picked_ruser_tags.array().length > 0 then match.tags = $all: picked_ruser_tags.array()
         Docs.find match,
             sort:points:-1
         # if Meteor.user()
@@ -107,7 +107,7 @@ Template.ruser_karma_sort_button.helpers
 
 Template.rusers.helpers
     all_ruser_tags: -> results.find(model:'ruser_tag')
-    selected_ruser_tags: -> selected_ruser_tags.array()
+    picked_ruser_tags: -> picked_ruser_tags.array()
     # all_site: ->
     #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
     #     if 0 < user_count < 3 then site.find { count: $lt: user_count } else sites.find()
@@ -115,27 +115,27 @@ Template.rusers.helpers
     # all_sites: ->
     #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
     #     if 0 < user_count < 3 then User_sites.find { count: $lt: user_count } else User_sites.find()
-    # selected_user_sites: ->
+    # picked_user_sites: ->
     #     # model = 'event'
-    #     selected_user_sites.array()
+    #     picked_user_sites.array()
     # all_sites: ->
     #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
     #     if 0 < user_count < 3 then site_results.find { count: $lt: user_count } else site_results.find()
-    # selected_user_sites: ->
+    # picked_user_sites: ->
     #     # model = 'event'
-    #     selected_user_sites.array()
+    #     picked_user_sites.array()
 
 
         
 Template.ruser_small.events
     'click .add_tag': -> 
-        selected_ruser_tags.push @valueOf()
+        picked_ruser_tags.push @valueOf()
 Template.rusers.events
     'click .select_ruser_tag': -> 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        selected_ruser_tags.push @name
-    'click .unselect_ruser_tag': -> selected_ruser_tags.remove @valueOf()
-    'click #clear_tags': -> selected_ruser_tags.clear()
+        picked_ruser_tags.push @name
+    'click .unselect_ruser_tag': -> picked_ruser_tags.remove @valueOf()
+    'click #clear_tags': -> picked_ruser_tags.clear()
 
     'click .clear_username': (e,t)-> 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance "clear username"
@@ -149,7 +149,7 @@ Template.rusers.events
             if search.length > 0
                 # window.speechSynthesis.cancel()
                 # window.speechSynthesis.speak new SpeechSynthesisUtterance search
-                selected_ruser_tags.push search
+                picked_ruser_tags.push search
                 $('.search_tags').val('')
 
                 # Meteor.call 'search_stack', Router.current().params.site, search, ->

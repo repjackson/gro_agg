@@ -317,7 +317,7 @@ Meteor.publish 'rpost_comment_tags', (
     # if view_unanswered
     #     match.is_answered = false
     # if picked_tags.length > 0 then match.tags = $all:picked_tags
-    # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
+    # if picked_emotion.length > 0 then match.max_emotion_name = picked_emotion
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
     # console.log 'match', match
