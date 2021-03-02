@@ -1,6 +1,6 @@
 body {
   /*font-family: 'Raleway', sans-serif !important; */
-  /*font-family: 'Ubuntu', sans-serif !important; */
+  font-family: 'Ubuntu', sans-serif !important; 
   /*font-family: 'Lato+Mono', sans-serif !important; */
   /*font-family: 'Lato', sans-serif !important; */
   /*font-size: 100% !important; */
@@ -130,10 +130,10 @@ body {
 /*.displaynone {*/
 /*    display:none !important;*/
 /*}*/
-/*p {*/
-  /*font-family: 'Ubuntu', sans-serif !important;*/
+p {
+  font-family: 'Ubuntu', sans-serif !important;
 
-/*}*/
+}
 
 /*.chatpop {*/
 /*  display: block;*/

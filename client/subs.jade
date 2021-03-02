@@ -1,7 +1,7 @@
 template(name='subs')
     .ui.stackable.padded.grid
         .row
-            unless picked_sub_tags
+            unless picked_tags
                 .sixteen.wide.center.aligned.column
                     .ui.inline.header 
                         i.reddit.icon
@@ -18,18 +18,18 @@ template(name='subs')
                         +skve k='nsfw' v=false l='!!'
                    
 
-            if picked_sub_tags
+            if picked_tags
                 .four.wide.right.aligned.column
                     // .ui.inline.header #{sub_count}
                     i.reddit.big.icon
                     // .ui.inline.header.search_subs
                     //     |#{subreddit_docs.count} subs
                     // .smallscroll
-                    if picked_sub_tags
+                    if picked_tags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                         //         i.remove.icon
-                        each picked_sub_tags
+                        each picked_tags
                             .ui.black.circular.button.unpick_sub_tag #{this}
                     .ui.icon.input
                         i.search.icon
@@ -75,7 +75,7 @@ template(name='subreddit_doc')
             a.ui.zoomer.header.goto_sub(href="https://www.reddit.com/r/#{data.display_name}" target="_window" style="color:#{data.primary_color}")
                 // img.ui.zoomer.image(src=data.header_img)
                 | !{data.title} 
-                // small !{data.display_name}
+                small !{data.display_name}
             // a.ui.small.grey.header.goto_sub(href="/r/#{data.display_name}" target="_window")
             //     | !{data.header_title}
             // if skv_is 'view_sub_detail' true

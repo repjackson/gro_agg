@@ -1,13 +1,4 @@
-@picked_comment_tags = new ReactiveArray []
-@picked_sub_tags = new ReactiveArray []
-
-Router.route '/subs', (->
-    @layout 'layout'
-    @render 'subs'
-    ), name:'subs'
-
-
-
+@picked_tags = new ReactiveArray []
 
 Template.subs.onCreated ->
     Session.setDefault('subreddit_query',null)
@@ -18,7 +9,7 @@ Template.subs.onCreated ->
     
     @autorun -> Meteor.subscribe('subreddits',
         Session.get('subreddit_query')
-        picked_sub_tags.array()
+        picked_tags.array()
         Session.get('sort_subs')
         Session.get('subs_sort_direction')
         Session.get('subs_limit')
@@ -27,10 +18,10 @@ Template.subs.onCreated ->
     )
     @autorun -> Meteor.subscribe('sub_count',
         Session.get('subreddit_query')
-        picked_sub_tags.array()
+        picked_tags.array()
     )
     @autorun => Meteor.subscribe 'subreddit_tags',
-        picked_sub_tags.array()
+        picked_tags.array()
         Session.get('toggle')
         Session.get('nsfw')
 
@@ -42,13 +33,26 @@ Template.subreddit_doc.events
     #     Session.set('view_section', 'main')
 Template.subs.events
     'click .unpick_sub_tag':-> 
-        picked_sub_tags.remove @valueOf()
-        Meteor.call 'search_subreddits', picked_sub_tags.array(), ->
+        picked_tags.remove @valueOf()
+        Meteor.call 'search_subreddits', picked_tags.array(), ->
+        url = new URL(window.location);
+        url.searchParams.set('tags', picked_tags.array());
+        window.history.pushState({}, '', url);
+        document.title = picked_tags.array()
+        Meteor.setTimeout ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 7000
+            
     'click .pick_sub_tag':-> 
-        picked_sub_tags.push @name
-        Meteor.call 'search_subreddits', picked_sub_tags.array(), ->
-    'click .pull_latest': ->
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
+        picked_tags.push @name
+        Meteor.call 'search_subreddits', picked_tags.array(), ->
+        url = new URL(window.location);
+        url.searchParams.set('tags', picked_tags.array());
+        window.history.pushState({}, '', url);
+        document.title = picked_tags.array()
+        Meteor.setTimeout ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 7000
     'click .search_subreddits': (e,t)->
         Session.set('toggle',!Session.get('toggle'))
     'keyup .search_subreddits': (e,t)->
@@ -56,10 +60,15 @@ Template.subs.events
         Session.set('subreddit_query', val)
         if e.which is 13 
             $('.search_subreddits').val('')
-            unless val in picked_sub_tags.array()
-                picked_sub_tags.push val 
-                Meteor.call 'search_subreddits', picked_sub_tags.array(), ->
+            unless val in picked_tags.array()
+                picked_tags.push val 
+                Meteor.call 'search_subreddits', picked_tags.array(), ->
             Session.set('subreddit_query', null)
+            url = new URL(window.location);
+            url.searchParams.set('tags', picked_tags.array());
+            window.history.pushState({}, '', url);
+            document.title = picked_tags.array()
+            
             Meteor.setTimeout ->
                 Session.set('toggle',!Session.get('toggle'))
             , 7000
@@ -74,6 +83,6 @@ Template.subs.helpers
         , {limit:100,sort:"#{Session.get('sort_subs')}":-1})
     subreddit_tags: -> results.find(model:'subreddit_tag')
 
-    picked_sub_tags: -> picked_sub_tags.array()
+    picked_tags: -> picked_tags.array()
 
     sub_count: -> Counts.get('sub_counter')
