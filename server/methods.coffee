@@ -66,8 +66,8 @@ Meteor.methods
                             model:'rpost'
                             url:data.url
                         if existing
-                            if Meteor.isDevelopment
-                                console.log 'new search doc', data.title
+                            # if Meteor.isDevelopment
+                            #     console.log 'new search doc', data.title
                             # if typeof(existing.tags) is 'string'
                             #     Doc.update
                             #         $unset: tags: 1

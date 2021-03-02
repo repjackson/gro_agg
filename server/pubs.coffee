@@ -115,6 +115,46 @@ Meteor.publish 'posts', (
             model:1
     
     
+Meteor.publish 'rpost', (doc_id)->    
+    Docs.find doc_id,
+        fields:
+            _id:1
+            # data:1
+            "data.thumbnail":1
+            "data.domain":1
+            "data.media":1
+            "data.link_url":1
+            "data.is_reddit_media_domain":1
+            "data.created":1
+            "data.url":1
+            "data.preview.images[0].source.url":1
+            doc_sentiment_label:1
+            doc_sentiment_score:1
+            max_emotion_name:1
+            # "data.selftext":1
+            "watson.metadata":1
+            subreddit:1
+            joy_percent:1
+            fear_percent:1
+            sadness_percent:1
+            disgust_percent:1
+            anger_percent:1
+            "data.selftext_html":1
+            comment_count:1
+            title:1
+            domain:1
+            reddit_id:1
+            ups:1
+            tags:1
+            thumbnail:1
+            url:1
+            _timestamp:1
+            _timestamp_tags:1
+            views:1
+            points:1
+            model:1
+    
+    
            
 Meteor.publish 'dao_tags', (
     picked_tags

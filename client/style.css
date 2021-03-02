@@ -10,7 +10,7 @@ body {
   -webkit-font-smoothing: antialiased; 
   -moz-osx-font-smoothing: grayscale;
   
-  /*background: rgba(200,200,200,1) !important;*/
+  background: rgba(200,200,200,.1) !important;
   overscroll-behavior: none; 
   transition: all .25s ease !important;
   /*background: #0e0e44 !important; */

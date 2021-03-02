@@ -3,13 +3,18 @@ Router.route '/p/:doc_id', (->
     @render 'post_view'
     ), name:'post_view_short'
 
+@picked_comment_tags = new ReactiveArray()
 
 Template.post_view.onCreated ->
     Session.set('post_view_mode', 'main')
     Meteor.call 'log_view', Router.current().params.doc_id, ->
-    @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
+    @autorun => Meteor.subscribe 'rpost', Router.current().params.doc_id, ->
     @autorun => Meteor.subscribe 'rpost_comments', @subreddit, Router.current().params.doc_id, ->
-    @autorun => Meteor.subscribe 'rpost_comment_tags', @subreddit, Router.current().params.doc_id, ->
+    @autorun => Meteor.subscribe 'rpost_comment_tags', 
+        @subreddit, 
+        Router.current().params.doc_id
+        picked_comment_tags.array()
+        , ->
 
 Template.reddit_page.onCreated ->
     Session.set('post_view_mode', 'main')
