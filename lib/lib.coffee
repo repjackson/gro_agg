@@ -1,11 +1,6 @@
 @Docs = new Meteor.Collection 'docs'
 @results = new Meteor.Collection 'results'
 # @Tag_results = new Meteor.Collection 'tag_results'
-Router.configure
-    layoutTemplate: 'layout'
-    notFoundTemplate: 'subs'
-    loadingTemplate: 'splash'
-    trackPageView: false
 
 
 

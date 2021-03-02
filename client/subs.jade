@@ -11,7 +11,7 @@ template(name='subs')
                         input.search_subreddits(type='text' placeholder=sub_count autofocus='')
                     each subreddit_tags
                         // .ui.label #{this}
-                        a.zoomer.ui.compact.circular.basic.button.pick_sub_tag(title=count) #{name}
+                        a.zoomer.ui.compact.circular.button.pick_sub_tag(title=count) #{name}
                     if skv_is 'nsfw' false
                         +skve k='nsfw' v=true l='--'
                     else if skv_is 'nsfw' true
@@ -19,7 +19,7 @@ template(name='subs')
                    
 
             if picked_tags
-                .four.wide.right.aligned.column
+                .six.wide.right.aligned.column
                     // .ui.inline.header #{sub_count}
                     i.reddit.big.icon
                     // .ui.inline.header.search_subs
@@ -37,8 +37,8 @@ template(name='subs')
                     .medscroll
                         each subreddit_tags
                             // .ui.label #{this}
-                            a.zoomer.ui.compact.small.basic.circular.button.pick_sub_tag(title=count) #{name}
-                .twelve.wide.column
+                            a.zoomer.ui.compact.small.circular.button.pick_sub_tag(title=count) #{name}
+                .ten.wide.column
                     // +skve k='view_sub_detail' v=true l='detail' i='chevron up'
                     // +skve k='view_sub_detail' v=false l='simple' i='chevron down'
                     +skve k='sort_subs' v='data.subscribers' l='subscribers' i='users'
@@ -54,12 +54,12 @@ template(name='subs')
                     // .ui.icon.button.skip_right
                     //     i.chevron.right.icon 
                     if skv_is 'nsfw' false
-                        +skve k='nsfw' v=true l='--'
+                        +skve k='nsfw' v=true l='safe'
                     else if skv_is 'nsfw' true
-                        +skve k='nsfw' v=false l='!!'
+                        +skve k='nsfw' v=false l='nsfw'
                     .scrolling
                         unless subreddit_docs.count
-                            .ui.center.aligned.basic.segment
+                            .ui.center.aligned.segment
                                 i.massive.reddit.grey.loading.icon
                         .ui.items
                             each subreddit_docs
@@ -93,14 +93,14 @@ template(name='subreddit_doc')
             //     |#{data.subscribers}
             // if in_dev
             //     each tags
-            //         .ui.basic.small.label.goto_sub #{this}
+            //         .ui.small.label.goto_sub #{this}
             //     +print_this
             //     +remove_button
 
 
 template(name='subs_tag_selector')
-    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.basic.compact.tertiary.button.zoomer.select_subs_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.compact.tertiary.button.zoomer.select_subs_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -116,8 +116,8 @@ template(name='subs_unselect_tag')
         strong #{this}
         
 template(name='flat_subs_tag_selector')
-    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.basic.tertiary.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.tertiary.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    

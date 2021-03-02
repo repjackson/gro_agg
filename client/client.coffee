@@ -8,6 +8,26 @@ Router.route '/', (->
 Template.registerHelper 'skv_is', (key, value) ->
     Session.equals key,value
 
+Template.tag_picker.onCreated ->
+    if @data.name
+        @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
+Template.tag_picker.helpers
+    selector_class: ()->
+        term = 
+            Docs.findOne 
+                title:@name.toLowerCase()
+        if term
+            if term.max_emotion_name
+                switch term.max_emotion_name
+                    when 'joy' then ' basic green'
+                    when 'anger' then ' basic red'
+                    when 'sadness' then ' basic blue'
+                    when 'disgust' then ' basic orange'
+                    when 'fear' then ' basic grey'
+                    else 'basic'
+    term: ->
+        Docs.findOne 
+            title:@name.toLowerCase()
 
 Template.skve.events
     'click .set_session_v': ->
