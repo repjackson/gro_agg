@@ -1,6 +1,6 @@
 Router.route '/', (->
     @layout 'layout'
-    @render 'home'
+    @render 'subs'
     ), name:'home'
 
 Template.home.onCreated ->

@@ -116,6 +116,7 @@ Meteor.publish 'subreddits', (
     sort_key='data.subscribers'
     sort_direction=-1
     limit=20
+    toggle
     )->
     console.log limit
     match = {model:'subreddit'}
@@ -131,7 +132,7 @@ Meteor.publish 'subreddits', (
             "data.display_name":1
             "data.title":1
             "data.header_title":1
-            "data.created":1
+            # "data.created":1
             "data.header_img":1
             "data.public_description":1
             "data.advertiser_category":1
@@ -258,6 +259,7 @@ Meteor.publish 'sub_doc_count', (
 
 Meteor.publish 'subreddit_tags', (
     picked_tags
+    toggle
     view_adult=true
     )->
     # @unblock()

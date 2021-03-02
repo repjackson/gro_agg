@@ -12,12 +12,15 @@ Router.route '/subs', (->
 Template.subs.onCreated ->
     Session.setDefault('subreddit_query',null)
     Session.setDefault('sort_key','data.created')
+    Session.setDefault('subs_limit',10)
+    Session.setDefault('toggle',false)
     @autorun -> Meteor.subscribe('subreddits',
         Session.get('subreddit_query')
         picked_sub_tags.array()
         Session.get('sort_subs')
         Session.get('subs_sort_direction')
         Session.get('subs_limit')
+        Session.get('toggle')
     )
     @autorun -> Meteor.subscribe('sub_count',
         Session.get('subreddit_query')
@@ -41,8 +44,10 @@ Template.subs.events
         Session.set('view_section', 'main')
     'click .pull_latest': ->
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
+    'click .search_subreddits': (e,t)->
+        Session.set('toggle',!Session.get('toggle'))
     'keyup .search_subreddits': (e,t)->
-        val = $('.search_subreddits').val()
+        val = $('.search_subreddits').val().toLowerCase()
         Session.set('subreddit_query', val)
         if e.which is 13 
             $('.search_subreddits').val('')
@@ -50,6 +55,9 @@ Template.subs.events
                 picked_sub_tags.push val 
                 Meteor.call 'search_subreddits', picked_sub_tags.array(), ->
             Session.set('subreddit_query', null)
+            Meteor.setTimeout ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 7000
             # Session.set('subreddit_query', null)
     # 'click .search_subs': ->
     #     Meteor.call 'search_subreddits', 'news', ->

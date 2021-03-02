@@ -29,14 +29,14 @@ template(name='subs')
                         //         i.remove.icon
                         each picked_sub_tags
                             .ui.black.button.unpick_sub_tag #{this}
+                    .ui.icon.input
+                        i.search.icon
+                        input.search_subreddits(type='text' placeholder=sub_count)
                     .medscroll
                         each subreddit_tags
                             // .ui.label #{this}
                             a.zoomer.ui.compact.link.basic.circular.label.pick_sub_tag(title=count) #{name}
                 .twelve.wide.column
-                    .ui.icon.input
-                        i.search.icon
-                        input.search_subreddits(type='text' placeholder=sub_count)
                     // +skve k='view_sub_detail' v=true l='detail' i='chevron up'
                     // +skve k='view_sub_detail' v=false l='simple' i='chevron down'
                     +skve k='sort_subs' v='subscribers' l='subscribers' i='users'
@@ -63,18 +63,18 @@ template(name='subreddit_doc')
     .item(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat; min-width: 100%; ")
         // a.ui.tiny.image.goto_sub(href="/r/#{data.display_name}")
         a.ui.tiny.image.goto_sub(href="https://www.reddit.com/r/#{data.display_name}" target="_window")
-            img.ui.rounded.zoomer.tiny.image(src=data.icon_img)
+            img.ui.zoomer.tiny.rounded.image(src=data.icon_img)
         .content.seg
-            a.ui.header.goto_sub(href="https://www.reddit.com/r/#{data.display_name}" target="_window")
-                img.ui.rounded.zoomer.image(src=data.header_img)
+            a.ui.zoomer.header.goto_sub(href="https://www.reddit.com/r/#{data.display_name}" target="_window")
+                // img.ui.zoomer.image(src=data.header_img)
                 | !{data.title} 
-                small !{data.display_name}
+                // small !{data.display_name}
             // a.ui.small.grey.header.goto_sub(href="/r/#{data.display_name}" target="_window")
             //     | !{data.header_title}
             // if skv_is 'view_sub_detail' true
             // span.description !{data.public_description_html}
             span.descriptionl.goto_sub !{data.public_description}
-            |created {{ufrom data.created}}
+            // |created {{ufrom data.created}}
             // span.say
             //     // i.money.icon
             //     |#{data.advertiser_category}
