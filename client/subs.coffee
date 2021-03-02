@@ -1,6 +1,25 @@
 @picked_tags = new ReactiveArray []
 
 Template.subs.onCreated ->
+    params = new URLSearchParams(window.location.search);
+    
+    tags = params.get("tags");
+    if tags
+        split = tags.split(',')
+        if tags.length > 0
+            for tag in split 
+                unless tag in picked_tags.array()
+                    picked_tags.push tag
+            Session.set('loading',true)
+            Meteor.call 'search_subreddits', picked_tags.array(), ->
+                Session.set('loading',false)
+            Meteor.setTimeout ->
+                Session.set('toggle', !Session.get('toggle'))
+            , 5000    
+            Meteor.setTimeout ->
+                Session.set('toggle', !Session.get('toggle'))
+            , 10000    
+    
     Session.setDefault('subreddit_query',null)
     Session.setDefault('sort_key','data.created')
     Session.setDefault('subs_limit',10)
