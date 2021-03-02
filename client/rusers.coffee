@@ -7,7 +7,7 @@ Router.route '/users', (->
     ), name:'users'
 
 # Template.term_image.onCreated ->
-Template.users.onCreated ->
+Template.rusers.onCreated ->
     Session.setDefault('selected_user_location',null)
     Session.setDefault('searching_location',null)
     @autorun -> Meteor.subscribe 'selected_rusers', 
@@ -23,7 +23,7 @@ Template.users.onCreated ->
         # Session.get('view_mode')
     )
 
-Template.users.events
+Template.rusers.events
     'click .select_user': ->
         window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
@@ -32,7 +32,7 @@ Template.users.events
         Session.set('searching_username',val)
 
 
-Template.users.helpers
+Template.rusers.helpers
     current_username_query: -> Session.get('searching_username')
     users: ->
         match = {model:'ruser'}
@@ -105,7 +105,7 @@ Template.ruser_karma_sort_button.helpers
 
 
 
-Template.users.helpers
+Template.rusers.helpers
     all_ruser_tags: -> results.find(model:'ruser_tag')
     selected_ruser_tags: -> selected_ruser_tags.array()
     # all_site: ->
@@ -130,7 +130,7 @@ Template.users.helpers
 Template.ruser_small.events
     'click .add_tag': -> 
         selected_ruser_tags.push @valueOf()
-Template.users.events
+Template.rusers.events
     'click .select_ruser_tag': -> 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         selected_ruser_tags.push @name

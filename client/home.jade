@@ -1,6 +1,6 @@
 template(name='home')
     .ui.stackable.padded.grid
-        .twelve.wide.column.scrolling
+        .twelve.wide.column
             if picked_tags
                 // if skv_is 'nightmode' true
                 //     i.moon.circular.link.icon.toggle_nightmode
@@ -66,22 +66,21 @@ template(name='home')
                     +search_shortcut tag='daoism' icon='yin yang'
                     +search_shortcut tag='car' icon='car'
                     +search_shortcut tag='tarot' icon='moon'
-            .scrolling
-                if skv_is 'view_layout' 'grid'
-                    // if one_post
-                    //     .ui.stackable.one.column.grid
-                    //         each posts
-                    //             +post_card
-                            
-                    // // else if two_posts
-                    // //     .ui.stackable.two.centered.column.grid
-                    // //         each posts
-                    // //             +post_card
-                    // else
-                        // else if three_posts
-                    .ui.stackable.two.column.grid.scrolling
-                        each posts
-                            +post_card
+            if skv_is 'view_layout' 'grid'
+                // if one_post
+                //     .ui.stackable.one.column.grid
+                //         each posts
+                //             +post_card
+                        
+                // // else if two_posts
+                // //     .ui.stackable.two.centered.column.grid
+                // //         each posts
+                // //             +post_card
+                // else
+                    // else if three_posts
+                .ui.stackable.three.column.grid.scrolling
+                    each posts
+                        +post_card
             
         .four.wide.column
             if skv_is 'view_sidebar' false

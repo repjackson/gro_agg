@@ -103,6 +103,9 @@ template(name='post_view')
                     a.ui.fluid.button(href="https://www.reddit.com#{permalink}" target="_window")
                         i.external.icon
                         |post
+                    a.ui.fluid.button(href="/user/#{data.author}")
+                        i.users.icon
+                        |#{data.author}
                     a.ui.fluid.button(href="https://www.reddit.com/u/#{data.author}" target="_window")
                         i.users.icon
                         |#{data.author}

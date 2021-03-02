@@ -125,8 +125,8 @@ Template.registerHelper 'nightmode_colum_class', (key, value) ->
 
 
 
-# Template.registerHelper 'fixed0', (number)-> if number then number.toFixed().toLocaleString()
-# Template.registerHelper 'fixed', (number)-> if number then number.toFixed(2)
+Template.registerHelper 'fixed0', (number)-> if number then number.toFixed().toLocaleString()
+Template.registerHelper 'fixed', (number)-> if number then number.toFixed(2)
 
     
 Template.registerHelper 'when', ()-> moment(@_timestamp).fromNow()

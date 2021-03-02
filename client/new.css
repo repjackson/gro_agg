@@ -1,0 +1,37 @@
+.zoomer:hover {
+    transition: all .25s ease !important; 
+    /*text-shadow: 0 0 3px grey !important;*/
+    filter: drop-shadow(0px 0px 4px grey);    
+    z-index: 1000 !important;
+    animation: fadein .225s !important;
+    transform: scale(1.05) !important;
+    animation: fadein .225s !important;
+    animation: fadeout .225s;
+}
+
+
+.ui.image:active {
+  transform: scale(.97) !important;
+}
+
+
+.scrolling{
+    max-height: 90vh !important;
+    min-height: 50vh !important;
+    padding: 5px !important;
+    /*border-width: 1px !important;*/
+    /*border-color: grey !important;*/
+    /*border-style: solid !important;*/
+    overflow-y:scroll;
+    overflow-x:hidden;
+    z-index:1001;
+    /*margin-top: 1em; */
+    /*padding-top: .5em; */
+    /*padding-top: 2em !important;*/
+    /*padding-left: 1em;*/
+}
+
+
+::-webkit-scrollbar {
+  width: 1px !important;
+}
