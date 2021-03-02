@@ -66,3 +66,98 @@ Meteor.methods
                     # item.rdata = item.data
                     Docs.insert item
             )
+
+
+
+
+Meteor.publish 'sub_count', (
+    query=''
+    selected_tags
+    )->
+        
+    match = {model:'subreddit'}
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if query.length > 0
+        match["data.display_name"] = {$regex:"#{query}", $options:'i'}
+    Counts.publish this, 'sub_counter', Docs.find(match)
+    return undefined
+
+
+        
+        
+Meteor.publish 'sub_docs_by_name', (
+    subreddit
+    selected_subreddit_tags
+    selected_subreddit_domains
+    sort_key
+    )->
+    self = @
+    match = {
+        model:'rpost'
+        subreddit:subreddit
+    }
+    if sort_key
+        sk = sort_key
+    else
+        sk = 'data.created'
+    # if view_bounties
+    console.log 'sub match', match
+    #     match.bounty = true
+    # if view_unanswered
+    #     match.is_answered = false
+    if selected_subreddit_tags.length > 0 then match.tags = $all:selected_subreddit_tags
+    if selected_subreddit_domains.length > 0 then match.domain = $all:selected_subreddit_domains
+    # console.log sk
+    Docs.find match,
+        limit:20
+        sort: "#{sk}":-1
+    
+    
+Meteor.publish 'agg_sentiment_subreddit', (
+    subreddit
+    selected_tags
+    )->
+    # @unblock()
+    self = @
+    match = {
+        model:'rpost'
+        subreddit:subreddit
+    }
+        
+    doc_count = Docs.find(match).count()
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    emotion_avgs = Docs.aggregate [
+        { $match: match }
+        #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
+        { $group: 
+            _id:null
+            avg_sent_score: { $avg: "$doc_sentiment_score" }
+            avg_joy_score: { $avg: "$joy_percent" }
+            avg_anger_score: { $avg: "$anger_percent" }
+            avg_sadness_score: { $avg: "$sadness_percent" }
+            avg_disgust_score: { $avg: "$disgust_percent" }
+            avg_fear_score: { $avg: "$fear_percent" }
+        }
+    ]
+    emotion_avgs.forEach (res, i) ->
+        self.added 'results', Random.id(),
+            model:'emotion_avg'
+            avg_sent_score: res.avg_sent_score
+            avg_joy_score: res.avg_joy_score
+            avg_anger_score: res.avg_anger_score
+            avg_sadness_score: res.avg_sadness_score
+            avg_disgust_score: res.avg_disgust_score
+            avg_fear_score: res.avg_fear_score
+    self.ready()
+    
+
+Meteor.publish 'sub_doc_count', (
+    subreddit
+    selected_tags
+    )->
+        
+    match = {model:'rpost'}
+    match.subreddit = subreddit
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    Counts.publish this, 'sub_doc_counter', Docs.find(match)
+    return undefined

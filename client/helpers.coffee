@@ -74,7 +74,7 @@ Template.registerHelper 'tag_term', () ->
 Template.registerHelper 'is_loading', -> Session.get 'loading'
 # Template.registerHelper 'long_time', (input)-> 
 #     moment(input).format("h:mm a")
-# Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM Do h:mm a")
+Template.registerHelper 'long_date', (input)-> moment(input).format("dddd, MMMM Do h:mm a")
 # Template.registerHelper 'home_long_date', (input)-> moment(input).format("dd, MMM Do h:mm a")
 # Template.registerHelper 'short_date', (input)-> moment(input).format("dddd, MMMM Do")
 # Template.registerHelper 'med_date', (input)-> moment(input).format("MMM D 'YY")
