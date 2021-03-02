@@ -187,9 +187,9 @@ Template.registerHelper 'key_value_is', (key, value) ->
 
 
 
-# Template.registerHelper 'nl2br', (text)->
-#     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
-#     new Spacebars.SafeString(nl2br)
+Template.registerHelper 'nl2br', (text)->
+    nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
+    new Spacebars.SafeString(nl2br)
 
 
 Template.registerHelper 'dev', -> Meteor.isDevelopment

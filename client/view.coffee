@@ -11,6 +11,13 @@ Template.post_view.onCreated ->
     @autorun => Meteor.subscribe 'rpost_comments', @subreddit, Router.current().params.doc_id, ->
     @autorun => Meteor.subscribe 'rpost_comment_tags', @subreddit, Router.current().params.doc_id, ->
 
+Template.reddit_page.onCreated ->
+    Session.set('post_view_mode', 'main')
+    Meteor.call 'log_view', Router.current().params.doc_id, ->
+    @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
+    @autorun => Meteor.subscribe 'rpost_comments', @subreddit, Router.current().params.doc_id, ->
+    @autorun => Meteor.subscribe 'rpost_comment_tags', @subreddit, Router.current().params.doc_id, ->
+
 Template.post_view.helpers
     rcomments: ->
         Docs.find 

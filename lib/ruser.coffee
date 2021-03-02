@@ -32,12 +32,12 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'ruser_doc', Router.current().params.username
         @autorun => Meteor.subscribe 'ruser_comments', Router.current().params.username
   
-    Template.ruser_posts.helpers
-        user_comments: ->
-            Docs.find
-                model:'rcomment'
-                # subreddit:Router.current().params.subreddit
-                # "data.author":Router.current().params.username
+    Template.registerHelper 'ruser_posts', ()->
+        Docs.find
+            model:'rpost'
+            # author:Router.current().params.username
+        
+    
 
     Template.ruser.onCreated ->
         @autorun => Meteor.subscribe 'ruser_doc', Router.current().params.username
@@ -72,6 +72,16 @@ if Meteor.isClient
         
     Template.ruser.helpers
     Template.ruser_posts.helpers
+        user_comments: ->
+            Docs.find
+                model:'rcomment'
+                # subreddit:Router.current().params.subreddit
+                # "data.author":Router.current().params.username
+        # ruser_posts: ->
+        #     Docs.find
+        #         model:'rpost'
+        #         # subreddit:Router.current().params.subreddit
+        #         # "data.author":Router.current().params.username
     Template.ruser_doc_item.onRendered ->
         # console.log @
         unless @data.watson
@@ -113,9 +123,10 @@ if Meteor.isClient
             Meteor.call 'get_user_info', Router.current().params.username, ->
         
         'click .get_user_posts': ->
+            console.log 'click'
             Meteor.call 'get_user_posts', Router.current().params.username, ->
-            Meteor.call 'ruser_omega', Router.current().params.username, ->
-            Meteor.call 'rank_ruser', Router.current().params.username, ->
+            # Meteor.call 'ruser_omega', Router.current().params.username, ->
+            # Meteor.call 'rank_ruser', Router.current().params.username, ->
 
         # 'click .set_location': ->
         #     Session.set('location_query',@location)
@@ -183,21 +194,5 @@ if Meteor.isServer
             author:username
         , limit:limit
         
-#     Meteor.publish 'ruser_questions', (subreddit,user_id)->
-#         Docs.find { 
-#             model:'stack_question'
-#             "owner.user_id":parseInt(user_id)
-#         }, limit:10
-#     Meteor.publish 'ruser_answers', (subreddit,user_id)->
-#         Docs.find { 
-#             model:'stack_answer'
-#             "owner.user_id":parseInt(user_id)
-#         }, limit:10
-#     Meteor.publish 'ruser_tags', (subreddit,user_id)->
-#         Docs.find { 
-#             model:'stack_tag'
-#             user_id:parseInt(user_id)
-#         }, limit:10
-            
             
             

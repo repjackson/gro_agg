@@ -15,7 +15,7 @@ template(name='ruser')
             .row
                 .four.wide.column
                     img.ui.image(src=data.snoovatar_img)
-                    .ui.large.inline.header.get_user_posts(class=post_header_class)
+                    .ui.large.inline.header.pointer.get_user_posts(class=post_header_class)
                         |!{username} 
                         small(title='reputation') {{ commafy karma }}
                         // strong(title="#{site} rank") ##{site_rank} 
@@ -42,28 +42,28 @@ template(name='ruser')
                     +print_this
                     +ruser_top_emotions            
                 .twelve.wide.column
-                    // a.ui.button(href="/user/#{username}")
-                    //     i.dashboard.icon
-                    //     |overview
-                    // a.ui.button(href="/user/#{username}/posts")
-                    //     i.edit.icon
-                    //     |posts
-                    // a.ui.button(href="/user/#{username}/comments")
-                    //     i.chat.outline.icon
-                    //     |comments
-                    // a.ui.button(href="/user/#{username}/upvoted")
-                    //     i.thumbs.up.outline.icon
-                    //     |upvoted
-                    // a.ui.button(href="/user/#{username}/downvoted")
-                    //     i.thumbs.down.outline.icon
-                    //     |downvoted
-                    // a.ui.button(href="/user/#{username}/hidden")
-                    //     i.eye.slash.icon
-                    //     |hidden
-                    // a.ui.button(href="/user/#{username}/saved")
-                    //     i.save.icon
-                    //     |saved
-                    // div
+                    a.ui.button(href="/user/#{username}")
+                        i.dashboard.icon
+                        |overview
+                    a.ui.button(href="/user/#{username}/posts")
+                        i.edit.icon
+                        |posts
+                    a.ui.button(href="/user/#{username}/comments")
+                        i.chat.outline.icon
+                        |comments
+                    a.ui.button(href="/user/#{username}/upvoted")
+                        i.thumbs.up.outline.icon
+                        |upvoted
+                    a.ui.button(href="/user/#{username}/downvoted")
+                        i.thumbs.down.outline.icon
+                        |downvoted
+                    a.ui.button(href="/user/#{username}/hidden")
+                        i.eye.slash.icon
+                        |hidden
+                    a.ui.button(href="/user/#{username}/saved")
+                        i.save.icon
+                        |saved
+                    div
                     if skv_is 'view_post_detail' true
                         .ui.black.tertiary.large.button.toggle_post_detail.agg
                             i.post.icon

@@ -411,9 +411,10 @@ body {
   
 /*}*/
 
-/*.pointer:hover {*/
-/*    transition: all ..25s linear !important; */
-/*    cursor: pointer !important;*/
+.pointer:hover {
+    transition: all .25s linear !important; 
+    cursor: pointer !important;
+}
     /* color: black !important; */
     /* font-size: 130% !important; */
     /*zoom: 105% !important;*/
