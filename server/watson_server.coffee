@@ -210,6 +210,7 @@ Meteor.methods
                 if err.code is 400
                     # console.log 'crawl rejected by server', err
                     console.log 'crawl rejected by server'
+                    console.log err
                 unless err.code is 403
                     Docs.update doc_id,
                         $set:skip_watson:false

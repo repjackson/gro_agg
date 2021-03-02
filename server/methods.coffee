@@ -304,16 +304,19 @@ Meteor.methods
         
     search_subreddits: (search)->
         @unblock()
-        HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1&nsfw=1", (err,res)->
+        HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1&nsfw=1&include_over_18=on", (err,res)->
             if res.data.data.dist > 1
                 _.each(res.data.data.children[0..200], (item)=>
                     found = 
                         Docs.findOne    
                             model:'subreddit'
                             "data.display_name":item.data.display_name
-                    # if found
+                    if found
+                        console.log 'found'
                     unless found
+                        console.log 'not found', item.data.display_name
                         item.model = 'subreddit'
                         Docs.insert item
+                        
                 )
         

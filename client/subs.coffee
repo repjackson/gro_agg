@@ -42,8 +42,8 @@ Template.subs.events
             $('.search_subreddits').val('')
             picked_sub_tags.push val 
             # Session.set('subreddit_query', null)
-    'click .search_subs': ->
-        Meteor.call 'search_subreddits', 'news', ->
+    # 'click .search_subs': ->
+    #     Meteor.call 'search_subreddits', 'news', ->
              
 Template.subs.helpers
     subreddit_docs: ->

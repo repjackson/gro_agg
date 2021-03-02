@@ -97,7 +97,18 @@ Meteor.publish 'subreddits', (
     Docs.find match,
         limit:100
         sort: "#{sort_key}":sort_direction
-        
+        fields:
+            model:1
+            "data.display_name":1
+            "data.title":1
+            "data.header_title":1
+            "data.header_img":1
+            "data.public_description":1
+            "data.advertiser_category":1
+            "data.accounts_active":1
+            "data.subscribers":1
+            "data.banner_img":1
+            "data.icon_img":1
         
         
 Meteor.publish 'sub_docs_by_name', (
