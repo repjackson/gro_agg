@@ -759,12 +759,12 @@ body {
 /*}*/
 
 
-/*.inline {*/
-/*  display:inline !important;*/
-/*  padding-right: 5px !important;*/
-/*  margin-right: 0px !important;*/
-  /* margin: .5em !important;2 */
-/*}*/
+.inline {
+  display:inline !important;
+  /*padding-right: 5px !important;*/
+  /*margin-right: 0px !important;*/
+  /*margin: .5em !important;2 */
+}
 
 /*.ui.header{*/
 /*  transition: all .25s ease !important;*/

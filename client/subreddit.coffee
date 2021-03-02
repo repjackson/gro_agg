@@ -69,13 +69,14 @@ Template.subreddit.events
     'click .sort_ups': ->
         Session.set('sort_key', 'data.ups')
     'click .download': ->
+        console.log 'hi'
         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
     
     'click .pull_latest': ->
         # console.log 'latest'
         Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
     'click .get_info': ->
-        # console.log 'dl'
+        console.log 'dl'
         Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
             
     'keyup .search_subreddit': (e,t)->
