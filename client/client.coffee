@@ -1,16 +1,26 @@
+Router.configure
+    layoutTemplate: 'layout'
+    notFoundTemplate: 'subs'
+    loadingTemplate: 'splash'
+    trackPageView: false
+# 	progressTick: false
+# 	progressDelay: 100
+# Router.route '*', -> @render 'not_found'
+
 Router.route '/', (->
     @layout 'layout'
     @render 'subs'
-    ), name:'home'
+    ), name:'subs'
 
 
-    
+
+
 Template.registerHelper 'skv_is', (key, value) ->
     Session.equals key,value
 
 Template.tag_picker.onCreated ->
     if @data.name
-        @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
+        @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
 Template.tag_picker.helpers
     selector_class: ()->
         term = 

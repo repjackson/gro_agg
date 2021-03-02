@@ -51,27 +51,6 @@ Template.subreddit_doc.events
     #     Meteor.call 'calc_sub_tags', @data.display_name, ->
     #     Session.set('view_section', 'main')
 Template.subs.events
-    'click .unpick_sub_tag':-> 
-        picked_tags.remove @valueOf()
-        Meteor.call 'search_subreddits', picked_tags.array(), ->
-        url = new URL(window.location);
-        url.searchParams.set('tags', picked_tags.array());
-        window.history.pushState({}, '', url);
-        document.title = picked_tags.array()
-        Meteor.setTimeout ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 7000
-            
-    'click .pick_sub_tag':-> 
-        picked_tags.push @name
-        Meteor.call 'search_subreddits', picked_tags.array(), ->
-        url = new URL(window.location);
-        url.searchParams.set('tags', picked_tags.array());
-        window.history.pushState({}, '', url);
-        document.title = picked_tags.array()
-        Meteor.setTimeout ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 7000
     'click .search_subreddits': (e,t)->
         Session.set('toggle',!Session.get('toggle'))
     'keyup .search_subreddits': (e,t)->
@@ -105,3 +84,65 @@ Template.subs.helpers
     picked_tags: -> picked_tags.array()
 
     sub_count: -> Counts.get('sub_counter')
+    
+    
+    
+Template.unpick_tag.onCreated ->
+    @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
+    
+Template.unpick_tag.helpers
+    term: ->
+        found = 
+            Docs.findOne 
+                # model:'wikipedia'
+                title:@valueOf().toLowerCase()
+        found
+        
+Template.unpick_tag.events
+    'click .unpick':-> 
+        picked_tags.remove @valueOf()
+        Meteor.call 'search_subreddits', picked_tags.array(), ->
+        url = new URL(window.location);
+        url.searchParams.set('tags', picked_tags.array());
+        window.history.pushState({}, '', url);
+        document.title = picked_tags.array()
+        Meteor.setTimeout ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 7000
+    
+    
+    
+Template.tag_picker.onCreated ->
+    if @data.name
+        @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+Template.tag_picker.helpers
+    selector_class: ()->
+        term = 
+            Docs.findOne 
+                title:@name.toLowerCase()
+        if term
+            if term.max_emotion_name
+                switch term.max_emotion_name
+                    when 'joy' then ' basic green'
+                    when 'anger' then ' basic red'
+                    when 'sadness' then ' basic blue'
+                    when 'disgust' then ' basic orange'
+                    when 'fear' then ' basic grey'
+                    else 'basic'
+    term: ->
+        Docs.findOne 
+            title:@name.toLowerCase()
+Template.tag_picker.events
+    'click .pick_tag':-> 
+        picked_tags.push @name
+        Meteor.call 'search_subreddits', picked_tags.array(), ->
+        url = new URL(window.location);
+        url.searchParams.set('tags', picked_tags.array());
+        window.history.pushState({}, '', url);
+        document.title = picked_tags.array()
+        Meteor.setTimeout ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 7000
+        Meteor.call 'call_wiki', @name, ->
+
+    

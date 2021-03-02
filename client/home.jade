@@ -10,14 +10,13 @@ template(name='subs')
                         i.search.icon
                         input.search_subreddits(type='text' placeholder=sub_count autofocus='')
                     each subreddit_tags
+                        +tag_picker
                         // .ui.label #{this}
-                        a.zoomer.ui.compact.circular.button.pick_sub_tag(title=count) #{name}
+                        // a.zoomer.ui.compact.circular.button.pick_sub_tag(title=count) #{name}
                     if skv_is 'nsfw' false
                         +skve k='nsfw' v=true l='--'
                     else if skv_is 'nsfw' true
                         +skve k='nsfw' v=false l='!!'
-                   
-
             if picked_tags
                 .six.wide.right.aligned.column
                     // .ui.inline.header #{sub_count}
@@ -30,14 +29,16 @@ template(name='subs')
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                         //         i.remove.icon
                         each picked_tags
-                            .ui.black.circular.button.unpick_sub_tag #{this}
+                            +unpick_tag
+                            // .ui.black.circular.button.unpick_sub_tag #{this}
                     .ui.icon.input
                         i.search.icon
                         input.search_subreddits(type='text' placeholder=sub_count)
                     .medscroll
                         each subreddit_tags
+                            +tag_picker
                             // .ui.label #{this}
-                            a.zoomer.ui.compact.small.circular.button.pick_sub_tag(title=count) #{name}
+                            // a.zoomer.ui.compact.small.circular.button.pick_sub_tag(title=count) #{name}
                 .ten.wide.column
                     // +skve k='view_sub_detail' v=true l='detail' i='chevron up'
                     // +skve k='view_sub_detail' v=false l='simple' i='chevron down'
@@ -98,9 +99,17 @@ template(name='subreddit_doc')
             //     +remove_button
 
 
-template(name='subs_tag_selector')
+template(name='unpick_tag')
+    a.unpick.ui.black.compact.button(href='#')
+        if term
+            if term.watson.metadata.image
+                img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
+        strong #{this}
+
+
+template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.compact.tertiary.button.zoomer.select_subs_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.compact.tertiary.button.zoomer.pick_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    

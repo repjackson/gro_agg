@@ -41,7 +41,7 @@ Meteor.methods
         @unblock()
         self = @
         doc = Docs.findOne doc_id
-        # console.log 'calling', doc_id, key, mode
+        console.log 'calling', doc_id, key, mode
         # if doc.skip_watson is false
         # else
         params =
