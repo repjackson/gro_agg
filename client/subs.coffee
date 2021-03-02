@@ -14,12 +14,12 @@ Template.subs.onCreated ->
     Session.setDefault('sort_key','data.created')
     @autorun -> Meteor.subscribe('subreddits',
         Session.get('subreddit_query')
-        picked_tags.array()
+        picked_sub_tags.array()
         Session.get('sort_subs')
     )
     @autorun -> Meteor.subscribe('sub_count',
         Session.get('subreddit_query')
-        picked_tags.array()
+        picked_sub_tags.array()
         Session.get('sort_subs')
     )
     @autorun => Meteor.subscribe 'subreddit_tags',
@@ -27,6 +27,10 @@ Template.subs.onCreated ->
         Session.get('toggle')
 
 Template.subs.events
+    'click .unpick_sub_tag':-> 
+        picked_sub_tags.remove @valueOf()
+    'click .pick_sub_tag':-> 
+        picked_sub_tags.push @name
     'click .goto_sub': (e,t)->
         Meteor.call 'get_sub_latest', @data.display_name, ->
         Meteor.call 'get_sub_info', @data.display_name, ->
@@ -40,7 +44,9 @@ Template.subs.events
         if e.which is 13 
             Meteor.call 'search_subreddits', val, ->
             $('.search_subreddits').val('')
-            picked_sub_tags.push val 
+            unless val in picked_sub_tags.array()
+                picked_sub_tags.push val 
+            Session.set('subreddit_query', null)
             # Session.set('subreddit_query', null)
     # 'click .search_subs': ->
     #     Meteor.call 'search_subreddits', 'news', ->
@@ -49,7 +55,7 @@ Template.subs.helpers
     subreddit_docs: ->
         Docs.find(
             model:'subreddit'
-        , {limit:30,sort:"#{Session.get('sort_key')}":-1})
+        , {limit:100,sort:"#{Session.get('sort_key')}":-1})
     subreddit_tags: -> results.find(model:'subreddit_tag')
 
     picked_sub_tags: -> picked_sub_tags.array()

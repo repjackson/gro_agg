@@ -224,3 +224,48 @@ Meteor.publish 'sub_doc_count', (
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     Counts.publish this, 'sub_doc_counter', Docs.find(match)
     return undefined
+
+
+
+Meteor.publish 'subreddit_tags', (
+    picked_tags
+    view_adult=true
+    )->
+    # @unblock()
+    self = @
+    match = {
+        model:'subreddit'
+    }
+
+
+    # unless Meteor.userId()
+    #     match.privacy='public'
+
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    # match.tags = $all:picked_tags
+    # if view_adult
+    #     match["data.over_18"] = true
+    # else 
+    #     match["data.over_18"] = false
+        
+    doc_count = Docs.find(match).count()
+    # console.log 'doc_count', doc_count
+    tag_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "tags": 1 }
+        { $unwind: "$tags" }
+        { $group: _id: "$tags", count: $sum: 1 }
+        { $match: _id: $nin: picked_tags }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:10 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    tag_cloud.forEach (tag, i) ->
+        # console.log tag
+        self.added 'results', Random.id(),
+            name: tag.name
+            count: tag.count
+            model:'subreddit_tag'
+            
+    self.ready()

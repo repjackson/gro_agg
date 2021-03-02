@@ -4,28 +4,27 @@ template(name='subs')
             .four.wide.column
                 .ui.inline.header #{sub_count}
                 .ui.inline.header
-                    i.circular.users.big.icon
+                    i.circular.fire.big.icon
                     |groups
                 // .ui.inline.header.search_subs
                 //     |#{subreddit_docs.count} subs
                 // .smallscroll
-                if picked_subs_tags
+                if picked_sub_tags
                     // if many_tags
                     //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                     //         i.remove.icon
-                    each picked_subs_tags
-                        +subs_unselect_tag
+                    each picked_sub_tags
+                        .ui.black.button.unpick_sub_tag #{this}
                 .medscroll
-                    each subs_tags
+                    each subreddit_tags
                         // .ui.label #{this}
-                        +subs_tag_selector
-                        // .ui.large.label(title=count) #{name}
+                        .ui.large.label.pick_sub_tag(title=count) #{name}
             .twelve.wide.column
                 .ui.icon.input
                     i.search.icon
                     input.search_subreddits(type='text')
-                +skve k='view_sub_detail' v=true l='detail' i='chevron up'
-                +skve k='view_sub_detail' v=false l='simple' i='chevron down'
+                // +skve k='view_sub_detail' v=true l='detail' i='chevron up'
+                // +skve k='view_sub_detail' v=false l='simple' i='chevron down'
                 +skve k='sort_subs' v='subscribers' l='subscribers' i='users'
                 +skve k='sort_subs' v='name' l='name' i='title'
                 if can_skip_left
@@ -56,24 +55,24 @@ template(name='subreddit_doc')
                 small !{data.display_name}
             a.ui.small.grey.header.goto_sub(href="/r/#{data.display_name}")
                 | !{data.header_title}
-            if skv_is 'view_sub_detail' true
-                // span.description !{data.public_description_html}
-                span.descriptionl.goto_sub !{data.public_description}
-                |created {{ufrom data.created}}
-                span.say
-                    // i.money.icon
-                    |#{data.advertiser_category}
-                .ui.label(title='active users')
-                    i.users.icon
-                    |#{data.accounts_active}
-                .ui.label(title='subscribers')
-                    i.edit.icon
-                    |#{data.subscribers}
-                each tags
-                    .ui.basic.small.label.goto_sub #{this}
-                if in_dev
-                    +print_this
-                    +remove_button
+            // if skv_is 'view_sub_detail' true
+            // span.description !{data.public_description_html}
+            span.descriptionl.goto_sub !{data.public_description}
+            |created {{ufrom data.created}}
+            // span.say
+            //     // i.money.icon
+            //     |#{data.advertiser_category}
+            // .ui.label(title='active users')
+            //     i.users.icon
+            //     |#{data.accounts_active}
+            // .ui.label(title='subscribers')
+            //     i.edit.icon
+            //     |#{data.subscribers}
+            each tags
+                .ui.basic.small.label.goto_sub #{this}
+            if in_dev
+                +print_this
+                +remove_button
 
 
 template(name='subs_tag_selector')
