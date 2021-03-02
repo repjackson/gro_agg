@@ -74,10 +74,8 @@ template(name='subreddit')
                 .scrolling
                     if sub_docs
                         each sub_docs
-                            +subreddit_doc_item
-                            // .spacer
-                            .ui.divider
-                            // .spacer
+                            .ui.divided.items
+                                +subreddit_doc_item
                     else
                         .ui.basic.center.aligned.segment
                             i.big.loading.yin.yang.icon
@@ -174,7 +172,7 @@ template(name='subreddit')
    
    
 template(name='subreddit_doc_item')                  
-    .ui.ite.seg
+    .ui.item.seg
         unless skv_is 'view_detail' true
             // .ui.stackable.equal.width.compact.grid
             //     .row

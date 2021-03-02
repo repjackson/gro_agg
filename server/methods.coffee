@@ -312,10 +312,14 @@ Meteor.methods
                             model:'subreddit'
                             "data.display_name":item.data.display_name
                     if found
-                        console.log 'found'
+                        console.log 'found', search, item.data.display_name
+                        Docs.update found._id, 
+                            $addToSet:
+                                tags:search.toLowerCase()
                     unless found
                         console.log 'not found', item.data.display_name
                         item.model = 'subreddit'
+                        item.tags = [search.toLowerCase()]
                         Docs.insert item
                         
                 )

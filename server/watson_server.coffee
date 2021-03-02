@@ -204,20 +204,20 @@ Meteor.methods
 
 
         natural_language_understanding.analyze params, Meteor.bindEnvironment((err, response)=>
-            if err
-                # console.log 'watson error for', params.url
-                # console.log err
-                if err.code is 400
-                    # console.log 'crawl rejected by server', err
-                    console.log 'crawl rejected by server'
-                    console.log err
-                unless err.code is 403
-                    Docs.update doc_id,
-                        $set:skip_watson:false
-                    # console.log 'not html, flaggged doc for future skip', params.url
-                else
-                    console.log '403 error api key'
-            else
+            # if err
+            #     # console.log 'watson error for', params.url
+            #     # console.log err
+            #     if err.code is 400
+            #         # console.log 'crawl rejected by server', err
+            #         console.log 'crawl rejected by server'
+            #         # console.log err
+            #     unless err.code is 403
+            #         Docs.update doc_id,
+            #             $set:skip_watson:false
+            #         # console.log 'not html, flaggged doc for future skip', params.url
+            #     else
+            #         console.log '403 error api key'
+            unless err
                 # console.log 'analy text', response.analyzed_text
                 # console.log(JSON.stringify(response, null, 2));
                 # console.log 'adding watson info', doc.title

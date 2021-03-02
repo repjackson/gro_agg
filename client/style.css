@@ -98,14 +98,10 @@ body {
 /*  scroll-behavior: smooth;*/
 /*}*/
 
-/*.full {*/
-/*  max-width: inherit !important;*/
-/*  width: inherit !important;*/
-/*}*/
-/*.full {*/
-/*  max-width: 100% !important;*/
-/*  width: 100% !important;*/
-/*}*/
+.full {
+  max-width: inherit !important;
+  width: inherit !important;
+}
 
 /*.unread {*/
 /*  filter: drop-shadow(0px 0px 1px black);    */
