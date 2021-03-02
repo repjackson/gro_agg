@@ -18,7 +18,7 @@ template(name='subs')
                 .medscroll
                     each subreddit_tags
                         // .ui.label #{this}
-                        .ui.large.label.pick_sub_tag(title=count) #{name}
+                        a.zoomer.ui.large.circular.compact.link.label.pick_sub_tag(title=count) #{name}
             .twelve.wide.column
                 .ui.icon.input
                     i.search.icon
@@ -37,18 +37,17 @@ template(name='subs')
                     unless subreddit_docs.count
                         .ui.center.aligned.basic.segment
                             i.massive.yin.yang.grey.loading.icon
-                    each subreddit_docs
-                        +subreddit_doc
+                    .ui.items
+                        each subreddit_docs
+                            +subreddit_doc
 
 
 template(name='subreddit_doc')
-    .ui.grid.rounded(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat; min-width: 100%; ")
+    .item(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat; min-width: 100%; ")
         // a.ui.tiny.image.goto_sub(href="/r/#{data.display_name}")
-        if skv_is 'view_sub_detail' true
-            .four.wide.column.goto_sub.seg
-                a.goto_sub(href="/r/#{data.display_name}")
-                    img.ui.rounded.zoomer.image(src=data.icon_img)
-        .twelve.wide.column.seg
+        a.ui.tiny.image.goto_sub(href="/r/#{data.display_name}")
+            img.ui.rounded.zoomer.tiny.image(src=data.icon_img)
+        .content.seg
             a.ui.header.goto_sub(href="/r/#{data.display_name}")
                 img.ui.rounded.zoomer.image(src=data.header_img)
                 | !{data.title} 

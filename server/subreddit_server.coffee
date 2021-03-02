@@ -95,7 +95,7 @@ Meteor.publish 'subreddits', (
     if query.length > 0
         match["data.display_name"] = {$regex:"#{query}", $options:'i'}
     Docs.find match,
-        limit:100
+        limit:20
         sort: "#{sort_key}":sort_direction
         fields:
             model:1
@@ -258,7 +258,7 @@ Meteor.publish 'subreddit_tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:10 }
+        { $limit:42 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     tag_cloud.forEach (tag, i) ->

@@ -59,10 +59,10 @@ body {
 /*  border:0px !important;*/
 /*}*/
 .seg {
-  background: rgba(250,250,250,.75);
+  background: rgba(250,250,250,.85) !important;
   /*opacity: .5;*/
   /*padding:15px;*/
-  border-radius:10px !important;
+  /*border-radius:10px !important;*/
 }
 /*.pulsing {*/
     /*height: 250px; */
@@ -365,7 +365,8 @@ body {
 
 
 .rounded {
-  padding: 7px !important; 
+  /*padding: 7px !important; */
+  border-radius: 10px !important;
 }
 
 /*.card {*/
@@ -644,9 +645,9 @@ body {
 /*  height: 15px;*/
 /*}*/
 
-/*.label {*/
-/*  margin:1px !important;*/
-/*}*/
+.label {
+  margin:1px !important;
+}
 
 /*input {*/
     /*margin: 15px !important;*/

@@ -73,8 +73,8 @@ template(name='subreddit')
                 //     i.list.icon
                 .scrolling
                     if sub_docs
-                        each sub_docs
-                            .ui.divided.items
+                        .ui.three.cards
+                            each sub_docs
                                 +subreddit_doc_item
                     else
                         .ui.basic.center.aligned.segment
@@ -172,8 +172,8 @@ template(name='subreddit')
    
    
 template(name='subreddit_doc_item')                  
-    .ui.item.seg
-        unless skv_is 'view_detail' true
+    .card
+        .content
             // .ui.stackable.equal.width.compact.grid
             //     .row
             if embed
