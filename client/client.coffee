@@ -87,6 +87,13 @@ Template.skve.helpers
 Template.subs.onCreated ->
     params = new URLSearchParams(window.location.search);
     
+    nsfw = params.get("nsfw");
+    if nsfw
+        console.log nsfw
+        # if nsfw is 1
+        Session.set('nsfw',true)
+
+    
     tags = params.get("tags");
     if tags
         split = tags.split(',')
@@ -171,7 +178,21 @@ Template.subs.helpers
     sub_count: -> Counts.get('sub_counter')
     multiple_results: -> Counts.get('sub_counter')>1
     
-    
+Template.subreddit_doc.events 
+    'click .pick_tag': ->
+        picked_tags.push @valueOf()
+        Meteor.call 'search_subreddits', picked_tags.array(), ->
+        url = new URL(window.location);
+        url.searchParams.set('tags', picked_tags.array());
+        window.history.pushState({}, '', url);
+        document.title = picked_tags.array()
+        Meteor.setTimeout ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 7000
+
+Template.subreddit_doc.helpers    
+    seven_tags: ->
+        @tags[..7]
     
 Template.unpick_tag.onCreated ->
     @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())

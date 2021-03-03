@@ -11,7 +11,7 @@ body {
   -webkit-font-smoothing: antialiased; 
   -moz-osx-font-smoothing: grayscale;
   
-  background: rgba(200,200,200,.01) !important;
+  background: rgba(200,200,200,.3) !important;
   /*background: rgba(0,0,0,.9) !important;*/
   overscroll-behavior: none; 
   transition: all .25s ease !important;
@@ -28,10 +28,10 @@ body {
   /*margin: .5em !important;*/
 }
 .seg {
-  background: rgba(250,250,250,.85) !important;
+  background: rgba(250,250,250,.65) !important;
   /*opacity: .5;*/
-  /*padding:10px !important;*/
-  /*border-radius:5px !important;*/
+  padding:10px !important;
+  border-radius:5px !important;
 }
 
 .full {
@@ -165,7 +165,7 @@ p {
 }
 
 input {
-  border-radius: 20px !important;
+  /*border-radius: 20px !important;*/
     /*margin: 15px !important;*/
 }
 

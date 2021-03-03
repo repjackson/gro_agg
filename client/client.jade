@@ -30,15 +30,23 @@ head
 
 
 template(name='layout')
-    // +nav
+    +nav
     .global_container(class=nightmode_colum_class)
         +yield
 
-            
+template(name='nav')            
+    .ui.attached.fluid.inverted.menu
+        a.item(href="/") 
+            i.large.yin.yang.icon
+        .right.menu
+            a.item(href="/login")
+                i.sign.in.icon
+        
+        
             
 template(name='skve')
     // a.ui.image.big.link.label.set_session_v(class=calculated_class)
-    .ui.zoomer.compact.circular.button.set_session_v(class=calculated_class title=t)
+    .ui.zoomer.compact.button.set_session_v(class=calculated_class title=t)
         if i
             i.icon(class=i)
             // +i n=i cl='ui mini inline image'
@@ -55,20 +63,20 @@ template(name='subs')
         .row
             unless picked_tags
                 .sixteen.wide.center.aligned.column
-                    .ui.inline.header 
-                        i.reddit.icon
-                        |search subreddits
+                    // .ui.inline.header 
+                    //     i.reddit.icon
+                    //     |search subreddits
                     .ui.icon.large.input
                         i.search.icon
                         input.search_subreddits(type='text' placeholder=sub_count autofocus='')
                     each subreddit_tags
                         +tag_picker
                         // .ui.label #{this}
-                        // a.zoomer.ui.compact.circular.button.pick_sub_tag(title=count) #{name}
-                    if skv_is 'nsfw' false
-                        +skve k='nsfw' v=true l='safe'
-                    else if skv_is 'nsfw' true
-                        +skve k='nsfw' v=false l='nsfw'
+                        // a.zoomer.ui.compact.button.pick_sub_tag(title=count) #{name}
+                    // if skv_is 'nsfw' false
+                    //     +skve k='nsfw' v=true l='safe'
+                    // else if skv_is 'nsfw' true
+                    //     +skve k='nsfw' v=false l='nsfw'
             if picked_tags
                 .sixteen.wide.column
                     // .ui.inline.header #{sub_count}
@@ -82,7 +90,7 @@ template(name='subs')
                         //         i.remove.icon
                         each picked_tags
                             +unpick_tag
-                            // .ui.black.circular.button.unpick_sub_tag #{this}
+                            // .ui.black.button.unpick_sub_tag #{this}
                     // if multiple_results
                     .ui.icon.input
                         i.search.icon
@@ -90,7 +98,7 @@ template(name='subs')
                     each subreddit_tags
                         +tag_picker
                         // .ui.label #{this}
-                        // a.zoomer.ui.compact.small.circular.button.pick_sub_tag(title=count) #{name}
+                        // a.zoomer.ui.compact.small.button.pick_sub_tag(title=count) #{name}
                     // .sixteen.wide.column
                     // +skve k='view_sub_detail' v=true l='detail' i='chevron up'
                     // +skve k='view_sub_detail' v=false l='simple' i='chevron down'
@@ -118,20 +126,21 @@ template(name='subs')
                         .ui.large.link.list
                             each subreddit_docs
                                 +subreddit_doc
-                                .spacer
+                                // .spacer
                         unless subreddit_docs.count
                             |no results
 
 template(name='subreddit_doc')
     // a.card.rounded.zoomer(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat; min-width: 100%;" href="https://www.reddit.com/r/#{data.display_name}" target="_window")
-    a.item.rounded.zoomer(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat;" href="https://www.reddit.com/r/#{data.display_name}" target="_window")
-        // a.ui.tiny.image.goto_sub(href="/r/#{data.display_name}")
-        img.ui.rounded.tiny.inline.image(src=data.icon_img)
+    .item.rounded.zoomer(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat;" )
+        a(href="https://www.reddit.com/r/#{data.display_name}" target="_window")
+            img.ui.rounded.tiny.inline.image(src=data.icon_img)
+            // a.ui.tiny.image.goto_sub(href="/r/#{data.display_name}")
         .inline.content.seg
             // .ui.header.goto_sub(style="color:#{data.primary_color}")
-            .ui.inline.header.goto_sub()
-                if data.header_img
-                    img.ui.image(src=data.header_img)
+            a.ui.inline.header.goto_sub(href="https://www.reddit.com/r/#{data.display_name}" target="_window")
+                // if data.header_img
+                //     img.ui.image(src=data.header_img)
                 | !{data.title} 
                 small !{data.display_name}
             // a.ui.small.grey.header.goto_sub(href="/r/#{data.display_name}" target="_window")
@@ -139,7 +148,7 @@ template(name='subreddit_doc')
             // if skv_is 'view_sub_detail' true
             // span.description !{data.public_description_html}
             // a.description(style="color:#{data.primary_color}") !{data.public_description}
-            a.inline.description(style="color:black") !{data.public_description}
+            .inline.description(style="color:black") !{data.public_description}
             // |created {{ufrom data.created}}
             // span.say
             //     // i.money.icon
@@ -150,15 +159,15 @@ template(name='subreddit_doc')
             // .ui.label(title='subscribers')
             //     i.edit.icon
             //     |#{data.subscribers}
+            each seven_tags
+                .ui.small.compact.basic.button.pick_tag #{this}
             // if in_dev
-            //     each tags
-            //         .ui.small.label.goto_sub #{this}
             //     +print_this
             //     +remove_button
 
 
 template(name='unpick_tag')
-    a.unpick.ui.image.large.circular.label.black.button(href='#')
+    a.unpick.ui.image.large.label.black.button(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -167,7 +176,7 @@ template(name='unpick_tag')
 
 template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.image.large.circular.label.zoomer.pick_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.image.large.label.zoomer.pick_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
