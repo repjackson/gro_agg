@@ -10,20 +10,6 @@ Router.configure
 
 
 
-Template.search_shortcut.events
-    'click .search_tag': ->
-        picked_tags.push @tag.toLowerCase()
-        url = new URL(window.location);
-        url.searchParams.set('tags', picked_tags.array());
-        window.history.pushState({}, '', url);
-        document.title = picked_tags.array()
-        Session.set('loading',true)
-        Meteor.call 'search_reddit', picked_tags.array(), ->
-            Session.set('loading',false)
-        Meteor.setTimeout ->
-            Session.set('toggle', !Session.get('toggle'))
-        , 7000    
-
 
 Template.registerHelper 'skv_is', (key, value) ->
     Session.equals key,value

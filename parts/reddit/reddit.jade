@@ -1,7 +1,7 @@
 template(name='reddit')
     .ui.stackable.padded.grid
         .twelve.wide.column
-            if picked_tags
+            if picked_rtags
                 // if skv_is 'nightmode' true
                 //     i.moon.circular.link.icon.toggle_nightmode
                 // else
@@ -13,13 +13,13 @@ template(name='reddit')
                         i.search.icon
                     input.search_tag(type='text' value=query autofocus='' placeholder="#{post_counter} results")
                     // .ui.label #{this}
-            if picked_tags
+            if picked_rtags
                 // if many_tags
                 //     a#clear_tags.ui.red.invert.icon.button.pick_term
                 //         i.remove.icon
-                each picked_tags
-                    +unpick_tag
-                each result_tags
+                each picked_rtags
+                    +unpick_rtag
+                each result_rtags
                     // .ui.label #{this}
                     +rtag_picker
             else
@@ -69,32 +69,32 @@ template(name='reddit')
             // if skv_is 'view_layout' 'grid'
                 // if one_post
                 //     .ui.stackable.one.column.grid
-                //         each posts
+                //         each rposts
                 //             +post_card
                         
                 // // else if two_posts
                 // //     .ui.stackable.two.centered.column.grid
-                // //         each posts
+                // //         each rposts
                 // //             +post_card
                 // else
                     // else if three_posts
                 // .ui.stackable.three.column.grid.scrolling
-                //     each posts
+                //     each rposts
                 //         +post_card
             // img(src=data.banner_img)
             // img(src=banner_background_image)
             img.get_info.shadowed.ui.inline.image(src=logo_url )
             .ui.inline.header.get_info #{data.display_name}
-            if selected_reddit_tags
+            if picked_rtags
                 // if many_tags
                 //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                 //         i.remove.icon
-                each selected_reddit_tags
+                each picked_rtags
                     +unpick_rtag
             .ui.icon.input
                 i.search.icon
                 input.search_reddit(type='text' value=reddit_query)
-            each reddit_result_tags
+            each reddit_result_rtags
                 // .ui.label #{this}
                 +rtag_picker
                 // .ui.large.label(title=count) #{name}
@@ -159,217 +159,27 @@ template(name='reddit')
                 i.chevron.left.icon
             .ui.icon.button.skip_right
                 i.chevron.right.icon
-            .scrolling
-                if rdocs
-                    if skv_is 'reddit_view_layout' 'grid'
-                        .ui.centered.four.stackable.cards 
-                            each rdocs
-                                +reddit_post_card_small
-                    else if skv_is 'reddit_view_layout' 'list'
-                        each rdocs
-                            +reddit_doc_item
-                else
-                    .ui.basic.center.aligned.segment
-                        i.big.loading.yin.yang.icon
+        if skv_is 'view_sidebar' true
+            +reddit_leftbar
+        if picked_rtags
+            .ui.twelve.wide.column                
+                .scrolling
+                    if rposts
+                        if skv_is 'reddit_view_layout' 'grid'
+                            .ui.centered.four.stackable.cards 
+                                each rposts
+                                    +reddit_post_card
+                        else if skv_is 'reddit_view_layout' 'list'
+                            each rposts
+                                +reddit_post_item
+                    else
+                        .ui.basic.center.aligned.segment
+                            i.big.loading.yin.yang.icon
 
         .four.wide.column
-            if skv_is 'view_sidebar' false
-                .ui.icon.button.enable_sidebar
-                    i.ellipsis.vertical.icon
-            else
-                .ui.icon.active.button.disable_sidebar
-                    i.ellipsis.vertical.icon
-            // div
-            if skv_is 'sort_direction' 1
-                .ui.icon.button.sort_down
-                    i.caret.down.icon
-            else
-                .ui.icon.button.sort_up
-                    i.caret.up.icon
-            .ui.large.icon.button.sort_created(class=sort_created_class)
-                i.clock.icon
-            .ui.large.icon.button.sort_points(class=sort_points_class)
-                i.thumbs.up.icon
-            if skv_is 'view_layout' 'grid'
-                .ui.large.icon.black.button.set_grid(class=grid_class) 
-                    i.th.icon
-            else
-                .ui.large.icon.button.set_grid(class=grid_class) 
-                    i.th.icon
-            if skv_is 'view_layout' 'list'
-                .ui.black.icon.large.button.set_list(class=list_class)
-                    i.list.icon
-            else
-                .ui.large.icon.button.set_list(class=list_class)
-                    i.list.icon
-            // if skv_is 'view_detail' true
-            //     .ui.black.large.icon.button.toggle_detail
-            //         i.list.icon
-            // else
-            //     .ui.large.icon.button.toggle_detail
-            //         i.minus.icon
-            //     // i.line.chart.icon
-            .ui.icon.button.skip_left
-                i.chevron.left.icon
-            .ui.icon.button.skip_right
-                i.chevron.right.icon
-            .ui.icon.button.view_videos(class=video_class)
-                i.film.icon
-            .ui.icon.button.view_images(class=image_class)
-                i.picture.icon
-            .ui.icon.button.view_adult(class=adult_class)
-                i.fire.icon
-            .ui.icon.compact.button.view_joy(class=joy_class)
-                i.smile.green.large.outline.icon
-            .ui.icon.compact.button.view_anger(class=anger_class)
-                i.frown.red.large.outline.icon
-            .ui.icon.compact.button.view_fear(class=fear_class)
-                i.black.frown.large.outline.icon
-            .ui.icon.compact.button.view_disgust(class=disgust_class)
-                i.orange.frown.large.outline.icon
-            .ui.icon.compact.button.view_sadness(class=sadness_class)
-                i.blue.frown.large.outline.icon
-            .ui.icon.compact.button.limit_1(class=sadness_class)
-                |1
-            .ui.icon.compact.button.limit_5(class=sadness_class)
-                |5
-            .ui.icon.compact.button.limit_10(class=sadness_class)
-                |10
-            .ui.icon.compact.button.limit_20(class=sadness_class)
-                |20
-            .ui.icon.button.view_commented
-                i.chat.icon            
-                .ui.hidden.divider
-            if location_results.count
-                i.big.marker.icon
-            each picked_locations
-                a.unpick_location.ui.large.button(href='#')
-                    strong #{this}
-            each location_results
-                if name
-                    .ui.tiny.button.pick_location #{name}
-            div
-            i.big.user.icon
-            each picked_authors
-                a.unpick_author.ui.large.button(href='#')
-                    strong #{this}
-            each author_results
-                if name
-                    .ui.tiny.button.pick_author #{name}
-            div
-            i.clock.big.icon
-            each picked_times
-                a.unpick_time.ui.large.large.button(href='#')
-                    strong #{this}
-            each time_results
-                .ui.tiny.button.pick_time #{name}
-            // +alpha
-            each picked_locations
-                a.unpick_location_tag.ui.black.large.button(href='#')
-                    | #{this}
-            if location_tags
-                i.big.marker.grey.icon
-                each location_tags
-                    .ui.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
-                        | #{name}
-                        
-            img.ui.inline.image(src=data.header_img)
-            .ui.inline.header.pull_latest #{data.title}
-            // +alpha
-            .ui.inline.small.header 
-                i.reddit.icon
-                |subreddits
-            each reddit_subreddits
-                .ui.compact.basic.button.select_subreddit(class=subreddit_selector_class)
-                    |#{name} 
-                    small #{count}
-            .ui.inline.small.header domains
-            each reddit_domain_tags
-                .ui.compact.basic.button.select_domain(class=domain_selector_class)
-                    |#{name} 
-                    small #{count}
-            i.clock.icon            
-            each reddit_time_tags
-                .ui.compact.basic.button.select_time_tag(class=domain_selector_class)
-                    |#{name} 
-                    small #{count}
-            if in_dev
-                +print_this
-                // div
-            with emotion_avg
-                // .ui.list
-                //     .item {{ to_percent avg_sent_score}}% sentiment
-                //     .item {{ to_percent avg_joy_score}}% joy
-                //     .item {{ to_percent avg_anger_score}}% anger
-                //     .item {{ to_percent avg_sadness_score}}% sad
-                //     .item {{ to_percent avg_disgust_score}}% disgust
-                //     .item {{ to_percent avg_fear_score}}% fear
-                // if is_positive
-                //     span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% positive
-                //         |&nbsp;
-                //     div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
-                // else
-                //     span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  negative
-                //         |&nbsp;
-                //     div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
-                span.say.ui.green.text(class="{{calculated_size avg_sent_score}}") {{ to_percent avg_sent_score }}% sentiment 
-                    |&nbsp;
-                div.rounded(style="height:5px;width:{{to_percent avg_sent_score}}%;background-color:green" title="{{to_percent avg_sent_score}}% joy")
-                span.say.ui.green.text(class="{{calculated_size avg_joy_score}}") {{ to_percent avg_joy_score }}% joy 
-                    |&nbsp;
-                div.rounded(style="height:5px;width:{{to_percent avg_joy_score}}%;background-color:green" title="{{to_percent avg_joy_score}}% joy")
-                //- if above_50 'avg_sadness_score'
-                    //- .spacer
-                span.say.ui.blue.text(class="{{calculated_size avg_sadness_score}}") {{ to_percent avg_sadness_score}}% sad 
-                    |&nbsp;
-                div.rounded(style="height:5px;width:{{to_percent avg_sadness_score}}%;background-color:blue" title="{{to_percent avg_sadness_score}}% sad")
-                //- if above_50 'avg_fear_score'
-                    //- .spacer
-                span.say.ui.grey.text(class="{{calculated_size avg_fear_score}}") {{ to_percent avg_fear_score }}% fear 
-                    |&nbsp;
-                div.rounded(style="height:5px;width:{{to_percent avg_fear_score}}%;background-color:grey" title="{{to_percent avg_fear_score}}% fear")
-                //- if above_50 'avg_disgust_score'
-                    //- .spacer
-                span.say.ui.orange.text(class="{{calculated_size avg_disgust_score}}") {{ to_percent avg_disgust_score }}% disgust 
-                    |&nbsp;
-                div.rounded(style="height:5px;width:{{to_percent avg_disgust_score}}%;background-color:orange" title="{{to_percent avg_disgust_score}}% disgust")
-                //- if above_50 'avg_anger_score'
-                    //- .spacer
-                span.say.ui.red.text(class="{{calculated_size avg_anger_score}}") {{ to_percent avg_anger_score }}% anger 
-                    |&nbsp;
-                div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
-            
-            .ui.list.mobile.hidden
-                // .item.seg.say !{data.public_description}
-                // .item.seg.say 
-                //     |{{#markdown}} !{data.description} {{/markdown}}
-                // .item 
-                //     i.grey.lightning.icon
-                //     |#{active_user_count} activeusers
-                // .item 
-                //     i.grey.users.icon
-                //     |#{subscribers} subscribers
-                // // .item 
-                // //     strong #{audience}
-                // a.item(href=url target="_window")
-                //     |#{url}
-                //     i.external.icon
-                // .item
-                //     |#{advertiser_category} ad category
-                // .item #{dao_views} dao views    
-                // .item created {{ufrom created_utc}}
-                // .item state: #{reddit_state}
-                // // .item #{high_resolution_icon_url} high_resolution_icon_url
-                // // .item #{favicon_url} favicon_url
-                // // .item #{api_reddit_parameter} api
-                // .item #{reddit_type} reddit_type
-                // .item main emotion: #{main_emotion}
-                // .item 
-                //     i.grey.thumbs.up.outline.icon
-                //     |#{total_votes} votes
-                // .item #{comment_count} comments
+            +rrightbar
    
-template(name='reddit_post_card_small')
+template(name='reddit_post_card')
     .ui.card
         // .ui.stackable.equal.width.compact.grid
         //     .row
@@ -412,7 +222,7 @@ template(name='search_shortcut')
    
    
    
-template(name='reddit_doc_item')                  
+template(name='reddit_post_item')                  
     .ui.ite.seg
         unless skv_is 'view_detail' true
             // .ui.stackable.equal.width.compact.grid
@@ -499,7 +309,7 @@ template(name='unpick_rtag')
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
         strong #{this}
 
-        
+
         
 template(name='flat_pick_rtag')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
@@ -512,315 +322,11 @@ template(name='flat_pick_rtag')
         //     small #{count}
 
 
-// template(name='home')
-//     .ui.padded.stackable.grid
-//         .sixteen.wide.column.scrolling             
-//             // i.large.clock.icon
-//             // i.large.thumbs.up.icon
-//             .ui.icon.transparent.input
-//                 // if is_loading
-//                 //     i.yin.yang.loading.icon
-//                 // else
-//                 i.search.icon
-//                 input.search_tag(type='text' value=query)
-//                 // .ui.label #{this}
-            
-//             if picked_tags
-//                 // if many_tags
-//                 //     a#clear_tags.ui.red.invert.icon.compact.button.pick_term
-//                 //         i.remove.icon
-//                 each picked_tags
-//                     +unpick_tag
-//             each result_tags
-//                 // .ui.label #{this}
-//                 +rtag_picker
-//         if skv_is 'view_sidebar' true
-//             .four.wide.column.scrolling       
-//                 if location_results.count
-//                     i.big.marker.icon
-//                 each picked_locations
-//                     a.unpick_location.ui.large.compact.button(href='#')
-//                         strong #{this}
-//                 each location_results
-//                     if name
-//                         .ui.tiny.compact.basic.button.pick_location #{name}
-//                 div
-//                 i.big.user.icon
-//                 each picked_authors
-//                     a.unpick_author.ui.large.compact.button(href='#')
-//                         strong #{this}
-//                 each author_results
-//                     if name
-//                         .ui.tiny.compact.basic.button.pick_author #{name}
-//                 div
-//                 i.clock.big.icon
-//                 each picked_times
-//                     a.unpick_time.ui.large.large.compact.button(href='#')
-//                         strong #{this}
-//                 each time_results
-//                     .ui.tiny.compact.basic.button.pick_time #{name}
-//                 .ui.inline.header 
-//                     |#{post_counter}
-//                 // +alpha
-//                 each picked_locations
-//                     a.unpick_location_tag.ui.black.large.compact.button(href='#')
-//                         | #{this}
-//                 if location_tags
-//                     i.big.marker.grey.icon
-//                     each location_tags
-//                         .ui.compact.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
-//                             | #{name}
-//                 if Locations
-//                     div
-//                     .ui.small.grey.inline.header
-//                         i.marker.grey.icon
-//                         |locations
-//                     each locations
-//                         +rtag_picker
-//                         // .ui.link.label.pick_Location #{name}
-//                 if HealthConditions
-//                     div
-//                     .ui.small.grey.inline.header
-//                         i.doctor.icon
-//                         |health conditions
-//                     each HealthConditions
-//                         +rtag_picker
-//                         // .ui.link.label.pick_healthcondition #{name}
-//                 if Persons
-//                     .spacer
-//                     .ui.small.grey.inline.header
-//                         i.user.icon
-//                         |people
-//                     each Persons
-//                         +rtag_picker
-//                         // .ui.label.pick_person #{name}
-//                 if Organizations
-//                     .spacer
-//                     .ui.small.grey.inline.header
-//                         i.building.icon
-//                         |organizations
-//                     each Organizations
-//                         +rtag_picker
-//                         // .ui.label.pick_organization #{name}
-//                 if Companies
-//                     .ui.small.grey.inline.header
-//                         i.building.icon
-//                         |companies
-//                     each companies
-//                         .ui.label.pick_company #{name}                        
-                                
-//         div(class=main_column_class)
-//             // .ui.disabled.button shared with me
-//             if skv_is 'view_sidebar' false
-//                 .ui.icon.compact.basic.circular.button.enable_sidebar
-//                     i.ellipsis.vertical.icon
-//             else
-//                 .ui.icon.compact.active.circular.button.disable_sidebar
-//                     i.ellipsis.vertical.icon
-//             if skv_is 'sort_direction' 1
-//                 .ui.icon.compact.basic.button.sort_down
-//                     i.caret.down.icon
-//             else
-//                 .ui.icon.compact.basic.button.sort_up
-//                     i.caret.up.icon
-//             .ui.compact.large.icon.basic.button.sort_created(class=sort_created_class)
-//                 i.clock.icon
-//             .ui.compact.large.icon.basic.button.sort_ups(class=sort_ups_class)
-//                 i.thumbs.up.icon
-//             if skv_is 'view_detail' true
-//                 .ui.black.large.icon.compact.basic.button.toggle_detail
-//                     i.list.icon
-//             else
-//                 .ui.compact.large.icon.basic.button.toggle_detail
-//                     i.minus.icon
-//                 // i.line.chart.icon
-//             if skv_is 'view_layout' 'grid'
-//                 .ui.compact.large.icon.black.button.set_grid(class=grid_class) 
-//                     i.th.icon
-//             else
-//                 .ui.compact.large.icon.basic.button.set_grid(class=grid_class) 
-//                     i.th.icon
-//             if skv_is 'view_layout' 'list'
-//                 .ui.compact.black.icon.large.button.set_list(class=list_class)
-//                     i.list.icon
-//             else
-//                 .ui.compact.large.icon.basic.button.set_list(class=list_class)
-//                     i.list.icon
-//             .ui.circular.icon.basic.button.skip_left
-//                 i.chevron.left.icon
-//             .ui.circular.icon.basic.button.skip_right
-//                 i.chevron.right.icon
-//             .ui.icon.button
-//                 i.film.icon
-//             .ui.icon.button
-//                 i.picture.icon
-//             .ui.icon.button
-//                 i.chat.icon            
-//             .ui.stackable.three.cards.scrolling
-//                 if skv_is 'view_layout' 'grid'
-//                     each posts
-//                         if key_value_is 'model' 'rpost'
-//                             +rpost_card
-//                         else
-//                             +post_card
-//                 else 
-//                     .ui.divided.link.items
-//                         each posts
-//                             +post_item
 
-// template(name='post_card')
-//     .ui.card.mark_viewed.penny.add_global_karma(class=card_class)
-//         if image_link
-//             a(href="/p/#{_id}/view")
-//                 img.ui.zoomer.image(src=image_link)
-//         if image_id
-//             a(href="/p/#{_id}/view")
-//                 img.ui.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-//         if youtube_id
-//             +youtube_view key='youtube_id' label='youtube id' direct=true
-
-//         .content.smallscroll
-//             a.ui.header(href="/p/#{_id}/view") #{title}
-//             div
-//             i.thumbs.up.link.outline.icon.upvote
-//             |#{points}
-//             i.thumbs.down.link.outline.icon.downvote
-//             |#{when}
-//             a(href="/p/#{_id}/view")
-//                 |!{content}
-//             +voting_full
-//             // .ui.tiny.icon.input
-//             //     i.grey.tag.icon
-//             //     input.add_tag(type='text' placeholder='+')
-//             // each tags
-//             //     +flat_rtag_picker
-//                 // .ui.small.compact.button.pick_flat_tag #{this}
-//             // each timestamp_tags
-//             //     .ui.small.compact.button.pick_flat_time #{this}
-//             if location
-//                 i.grey.marker.icon
-//                 |#{location}
-//             // if author
-//             //     i.grey.user.outline.icon
-//             //     |#{author}
-//             if in_dev
-//                 +print_this
-//             if currentUser
-//                 each viewer_ids
-//                     +user_info
-//                     // .ui.label #{this}
-//         .content
-//             if is_author
-//                 i.large.lock.link.circular.grey.icon.make_private
-//             else if is_admin
-//                 i.large.lock.link.circular.grey.icon.make_private
-//             a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
-//                 |#{views}
-//                 i.chevron.right.large.icon
            
-           
-// template(name='rpost_card')
-//     .center.aligned.column.smallscroll
-//         .content.card_small.invert
-//             i.large.reddit.icon
-//             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
-//             // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
-//             a.ui.invert.header.thin.title.zoomer(href=url target='_window')
-//                 |!{title} #{lowered_title}
-//                 |#{lowered_title}
-//             span.ui.text {{ufrom data.created}}
-//             .spacer
-//             if embed
-//                 span.rounded.full
-//                     |!{embed}
-//                 div
-//             else if is_image
-//                 a(href=url target='_window')
-//                     img.ui.fluid.rounded.image.zoomer.toggle_view(src=url)
-//             else if data.thumbnail_width
-//                 a(href=url target='_window')
-//                     img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
-//             unless simple
-//                 i.circular.chevron.down.icon.dl.invert
-//                 span.invert
-//                     |#{ups}
-//                     i.thumbs.up.outline.icon
-//                     |#{comment_count}
-//                     i.chat.outline.icon
-//                 with subreddit
-//                     +flat_rtag_picker
-//                     // .ui.basic.label #{this}
-//                 each five_tags
-//                     +flat_rtag_picker
-//                 a.ui.icon.compact.circular.basic.button(href="https://www.reddit.com#{permalink}" target='_window' title=domain)
-//                     // |#{domain}
-//                     i.external.icon
-//                 // div
-//                 .ui.tiny.invert.transparent.left.icon.input
-//                     i.tag.icon
-//                     input.add_tag(type='text' placeholder='...')
-//             .ui.hidden.divider   
-//             if data.selftext_html
-//                 unless simple
-//                     span.invert.smallscroll
-//                         |{{#markdown}} !{data.selftext_html} {{/markdown}}
-//             +print_this    
-//             i.reddit.icon.get_post
                                    
            
                                 
-// template(name='post_item')
-//     .ui.item.mark_viewed.penny.add_global_karma(class=card_class)
-//         if image_link
-//             a(href="/p/#{_id}/view")
-//                 img.ui.zoomer.small.image(src=image_link)
-//         if image_id
-//             a(href="/p/#{_id}/view")
-//                 img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-//         if youtube_id
-//             a(href="/p/#{_id}/view")
-//                 i.massive.youtube.link.icon
-//             // +youtube_view key='youtube_id' label='youtube id' direct=true
-
-//         .content.smallscroll
-//             a.ui.header(href="/p/#{_id}/view") #{title}
-//             div
-//             i.thumbs.up.link.outline.icon.upvote
-//             |#{points}
-//             i.thumbs.down.link.outline.icon.downvote
-//             |#{when}
-//             // a(href="/p/#{_id}/view")
-//             //     |!{content}
-//             +voting_full
-//             // .ui.tiny.icon.input
-//             //     i.grey.tag.icon
-//             //     input.add_tag(type='text' placeholder='+')
-//             each five_tags
-//                 +flat_rtag_picker
-//                 // .ui.small.compact.button.pick_flat_tag #{this}
-//             if skv_is 'view_detail' true
-//                 each timestamp_tags
-//                     .ui.small.compact.button.pick_flat_time #{this}
-//             if location
-//                 i.grey.marker.icon
-//                 |#{location}
-//             if currentUser
-//                 |#{_author_username}
-//             // if author
-//             //     i.grey.user.outline.icon
-//             //     |#{author}
-//             if in_dev
-//                 +print_this
-//             each viewer_ids
-//                 .ui.label #{this}
-//         .content
-//             if is_author
-//                 i.large.lock.link.circular.grey.icon.make_private
-//             else if in_dev
-//                 i.large.lock.link.circular.grey.icon.make_private
-//             a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
-//                 |#{views}
-//                 i.chevron.right.large.icon
                                 
                                 
 template(name='rtag_picker')
@@ -833,12 +339,6 @@ template(name='rtag_picker')
         // if in_dev
         //     small #{count}
         
-// template(name='unpick_tag')
-//     a.unpick_tag.ui.large.black.compact.button.no_blink.penny.add_global_karma(href='#')
-//         if term
-//             if term.watson.metadata.image
-//                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
-//         strong #{this}
 
         
         
@@ -852,4 +352,280 @@ template(name='rtag_picker')
 //         // if in_dev
 //         //     small #{count}
 
+template(name='reddit_leftbar')
+    .four.wide.column.scrolling       
+        if location_results.count
+            i.big.marker.icon
+        each picked_locations
+            a.unpick_location.ui.large.compact.button(href='#')
+                strong #{this}
+        each location_results
+            if name
+                .ui.tiny.compact.basic.button.pick_location #{name}
+        div
+        i.big.user.icon
+        each picked_authors
+            a.unpick_author.ui.large.compact.button(href='#')
+                strong #{this}
+        each author_results
+            if name
+                .ui.tiny.compact.basic.button.pick_author #{name}
+        div
+        i.clock.big.icon
+        each picked_times
+            a.unpick_time.ui.large.large.compact.button(href='#')
+                strong #{this}
+        each time_results
+            .ui.tiny.compact.basic.button.pick_time #{name}
+        .ui.inline.header 
+            |#{post_counter}
+        // +alpha
+        each picked_locations
+            a.unpick_location_tag.ui.black.large.compact.button(href='#')
+                | #{this}
+        if location_tags
+            i.big.marker.grey.icon
+            each location_tags
+                .ui.compact.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+                    | #{name}
+        if Locations
+            div
+            .ui.small.grey.inline.header
+                i.marker.grey.icon
+                |locations
+            each locations
+                +rtag_picker
+                // .ui.link.label.pick_Location #{name}
+        if HealthConditions
+            div
+            .ui.small.grey.inline.header
+                i.doctor.icon
+                |health conditions
+            each HealthConditions
+                +rtag_picker
+                // .ui.link.label.pick_healthcondition #{name}
+        if Persons
+            .spacer
+            .ui.small.grey.inline.header
+                i.user.icon
+                |people
+            each Persons
+                +rtag_picker
+                // .ui.label.pick_person #{name}
+        if Organizations
+            .spacer
+            .ui.small.grey.inline.header
+                i.building.icon
+                |organizations
+            each Organizations
+                +rtag_picker
+                // .ui.label.pick_organization #{name}
+        if Companies
+            .ui.small.grey.inline.header
+                i.building.icon
+                |companies
+            each companies
+                .ui.label.pick_company #{name}                        
 
+
+template(name='rfilter_bar')
+    if skv_is 'view_sidebar' false
+        .ui.icon.button.enable_sidebar
+            i.ellipsis.vertical.icon
+    else
+        .ui.icon.active.button.disable_sidebar
+            i.ellipsis.vertical.icon
+    // div
+    if skv_is 'sort_direction' 1
+        .ui.icon.button.sort_down
+            i.caret.down.icon
+    else
+        .ui.icon.button.sort_up
+            i.caret.up.icon
+    .ui.large.icon.button.sort_created(class=sort_created_class)
+        i.clock.icon
+    .ui.large.icon.button.sort_points(class=sort_points_class)
+        i.thumbs.up.icon
+    if skv_is 'view_layout' 'grid'
+        .ui.large.icon.black.button.set_grid(class=grid_class) 
+            i.th.icon
+    else
+        .ui.large.icon.button.set_grid(class=grid_class) 
+            i.th.icon
+    if skv_is 'view_layout' 'list'
+        .ui.black.icon.large.button.set_list(class=list_class)
+            i.list.icon
+    else
+        .ui.large.icon.button.set_list(class=list_class)
+            i.list.icon
+    // if skv_is 'view_detail' true
+    //     .ui.black.large.icon.button.toggle_detail
+    //         i.list.icon
+    // else
+    //     .ui.large.icon.button.toggle_detail
+    //         i.minus.icon
+    //     // i.line.chart.icon
+    .ui.icon.button.skip_left
+        i.chevron.left.icon
+    .ui.icon.button.skip_right
+        i.chevron.right.icon
+    .ui.icon.button.view_videos(class=video_class)
+        i.film.icon
+    .ui.icon.button.view_images(class=image_class)
+        i.picture.icon
+    .ui.icon.button.view_adult(class=adult_class)
+        i.fire.icon
+    .ui.icon.compact.button.view_joy(class=joy_class)
+        i.smile.green.large.outline.icon
+    .ui.icon.compact.button.view_anger(class=anger_class)
+        i.frown.red.large.outline.icon
+    .ui.icon.compact.button.view_fear(class=fear_class)
+        i.black.frown.large.outline.icon
+    .ui.icon.compact.button.view_disgust(class=disgust_class)
+        i.orange.frown.large.outline.icon
+    .ui.icon.compact.button.view_sadness(class=sadness_class)
+        i.blue.frown.large.outline.icon
+    .ui.icon.compact.button.limit_1(class=sadness_class)
+        |1
+    .ui.icon.compact.button.limit_5(class=sadness_class)
+        |5
+    .ui.icon.compact.button.limit_10(class=sadness_class)
+        |10
+    .ui.icon.compact.button.limit_20(class=sadness_class)
+        |20
+    .ui.icon.button.view_commented
+        i.chat.icon            
+        .ui.hidden.divider
+
+
+
+
+template(name='rrightbar')
+    if location_results.count
+        i.big.marker.icon
+    each picked_locations
+        a.unpick_location.ui.large.button(href='#')
+            strong #{this}
+    each location_results
+        if name
+            .ui.tiny.button.pick_location #{name}
+    div
+    i.big.user.icon
+    each picked_authors
+        a.unpick_author.ui.large.button(href='#')
+            strong #{this}
+    each author_results
+        if name
+            .ui.tiny.button.pick_author #{name}
+    div
+    i.clock.big.icon
+    each picked_times
+        a.unpick_time.ui.large.large.button(href='#')
+            strong #{this}
+    each time_results
+        .ui.tiny.button.pick_time #{name}
+    // +alpha
+    each picked_locations
+        a.unpick_location_tag.ui.black.large.button(href='#')
+            | #{this}
+    if location_tags
+        i.big.marker.grey.icon
+        each location_tags
+            .ui.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+                | #{name}
+                
+    img.ui.inline.image(src=data.header_img)
+    .ui.inline.header.pull_latest #{data.title}
+    // +alpha
+    .ui.inline.small.header 
+        i.reddit.icon
+        |subreddits
+    each reddit_subreddits
+        .ui.compact.basic.button.select_subreddit(class=subreddit_selector_class)
+            |#{name} 
+            small #{count}
+    .ui.inline.small.header domains
+    each reddit_domain_tags
+        .ui.compact.basic.button.select_domain(class=domain_selector_class)
+            |#{name} 
+            small #{count}
+    i.clock.icon            
+    each reddit_time_tags
+        .ui.compact.basic.button.select_time_tag(class=domain_selector_class)
+            |#{name} 
+            small #{count}
+    if in_dev
+        +print_this
+        // div
+    with emotion_avg
+        // .ui.list
+        //     .item {{ to_percent avg_sent_score}}% sentiment
+        //     .item {{ to_percent avg_joy_score}}% joy
+        //     .item {{ to_percent avg_anger_score}}% anger
+        //     .item {{ to_percent avg_sadness_score}}% sad
+        //     .item {{ to_percent avg_disgust_score}}% disgust
+        //     .item {{ to_percent avg_fear_score}}% fear
+        // if is_positive
+        //     span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% positive
+        //         |&nbsp;
+        //     div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+        // else
+        //     span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  negative
+        //         |&nbsp;
+        //     div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+        span.say.ui.green.text(class="{{calculated_size avg_sent_score}}") {{ to_percent avg_sent_score }}% sentiment 
+            |&nbsp;
+        div.rounded(style="height:5px;width:{{to_percent avg_sent_score}}%;background-color:green" title="{{to_percent avg_sent_score}}% joy")
+        span.say.ui.green.text(class="{{calculated_size avg_joy_score}}") {{ to_percent avg_joy_score }}% joy 
+            |&nbsp;
+        div.rounded(style="height:5px;width:{{to_percent avg_joy_score}}%;background-color:green" title="{{to_percent avg_joy_score}}% joy")
+        //- if above_50 'avg_sadness_score'
+            //- .spacer
+        span.say.ui.blue.text(class="{{calculated_size avg_sadness_score}}") {{ to_percent avg_sadness_score}}% sad 
+            |&nbsp;
+        div.rounded(style="height:5px;width:{{to_percent avg_sadness_score}}%;background-color:blue" title="{{to_percent avg_sadness_score}}% sad")
+        //- if above_50 'avg_fear_score'
+            //- .spacer
+        span.say.ui.grey.text(class="{{calculated_size avg_fear_score}}") {{ to_percent avg_fear_score }}% fear 
+            |&nbsp;
+        div.rounded(style="height:5px;width:{{to_percent avg_fear_score}}%;background-color:grey" title="{{to_percent avg_fear_score}}% fear")
+        //- if above_50 'avg_disgust_score'
+            //- .spacer
+        span.say.ui.orange.text(class="{{calculated_size avg_disgust_score}}") {{ to_percent avg_disgust_score }}% disgust 
+            |&nbsp;
+        div.rounded(style="height:5px;width:{{to_percent avg_disgust_score}}%;background-color:orange" title="{{to_percent avg_disgust_score}}% disgust")
+        //- if above_50 'avg_anger_score'
+            //- .spacer
+        span.say.ui.red.text(class="{{calculated_size avg_anger_score}}") {{ to_percent avg_anger_score }}% anger 
+            |&nbsp;
+        div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
+    
+    .ui.list.mobile.hidden
+        // .item.seg.say !{data.public_description}
+        // .item.seg.say 
+        //     |{{#markdown}} !{data.description} {{/markdown}}
+        // .item 
+        //     i.grey.lightning.icon
+        //     |#{active_user_count} activeusers
+        // .item 
+        //     i.grey.users.icon
+        //     |#{subscribers} subscribers
+        // // .item 
+        // //     strong #{audience}
+        // a.item(href=url target="_window")
+        //     |#{url}
+        //     i.external.icon
+        // .item
+        //     |#{advertiser_category} ad category
+        // .item #{dao_views} dao views    
+        // .item created {{ufrom created_utc}}
+        // .item state: #{reddit_state}
+        // // .item #{high_resolution_icon_url} high_resolution_icon_url
+        // // .item #{favicon_url} favicon_url
+        // // .item #{api_reddit_parameter} api
+        // .item #{reddit_type} reddit_type
+        // .item main emotion: #{main_emotion}
+        // .item 
+        //     i.grey.thumbs.up.outline.icon
+        //     |#{total_votes} votes
+        // .item #{comment_count} comments

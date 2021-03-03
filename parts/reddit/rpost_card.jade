@@ -1,0 +1,47 @@
+template(name='rpost_card')
+    .center.aligned.column.smallscroll
+        .content.card_small.invert
+            i.large.reddit.icon
+            // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
+            // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
+            a.ui.invert.header.thin.title.zoomer(href=url target='_window')
+                |!{title} #{lowered_title}
+                |#{lowered_title}
+            span.ui.text {{ufrom data.created}}
+            .spacer
+            if embed
+                span.rounded.full
+                    |!{embed}
+                div
+            else if is_image
+                a(href=url target='_window')
+                    img.ui.fluid.rounded.image.zoomer.toggle_view(src=url)
+            else if data.thumbnail_width
+                a(href=url target='_window')
+                    img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
+            unless simple
+                i.circular.chevron.down.icon.dl.invert
+                span.invert
+                    |#{ups}
+                    i.thumbs.up.outline.icon
+                    |#{comment_count}
+                    i.chat.outline.icon
+                with subreddit
+                    +flat_rtag_picker
+                    // .ui.basic.label #{this}
+                each five_tags
+                    +flat_rtag_picker
+                a.ui.icon.compact.circular.basic.button(href="https://www.reddit.com#{permalink}" target='_window' title=domain)
+                    // |#{domain}
+                    i.external.icon
+                // div
+                .ui.tiny.invert.transparent.left.icon.input
+                    i.tag.icon
+                    input.add_tag(type='text' placeholder='...')
+            .ui.hidden.divider   
+            if data.selftext_html
+                unless simple
+                    span.invert.smallscroll
+                        |{{#markdown}} !{data.selftext_html} {{/markdown}}
+            +print_this    
+            i.reddit.icon.get_post

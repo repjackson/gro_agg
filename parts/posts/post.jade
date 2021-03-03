@@ -1,0 +1,103 @@
+// template(name='post_item')
+//     .ui.item.mark_viewed.penny.add_global_karma(class=card_class)
+//         if image_link
+//             a(href="/p/#{_id}/view")
+//                 img.ui.zoomer.small.image(src=image_link)
+//         if image_id
+//             a(href="/p/#{_id}/view")
+//                 img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+//         if youtube_id
+//             a(href="/p/#{_id}/view")
+//                 i.massive.youtube.link.icon
+//             // +youtube_view key='youtube_id' label='youtube id' direct=true
+
+//         .content.smallscroll
+//             a.ui.header(href="/p/#{_id}/view") #{title}
+//             div
+//             i.thumbs.up.link.outline.icon.upvote
+//             |#{points}
+//             i.thumbs.down.link.outline.icon.downvote
+//             |#{when}
+//             // a(href="/p/#{_id}/view")
+//             //     |!{content}
+//             +voting_full
+//             // .ui.tiny.icon.input
+//             //     i.grey.tag.icon
+//             //     input.add_tag(type='text' placeholder='+')
+//             each five_tags
+//                 +flat_rtag_picker
+//                 // .ui.small.compact.button.pick_flat_tag #{this}
+//             if skv_is 'view_detail' true
+//                 each timestamp_tags
+//                     .ui.small.compact.button.pick_flat_time #{this}
+//             if location
+//                 i.grey.marker.icon
+//                 |#{location}
+//             if currentUser
+//                 |#{_author_username}
+//             // if author
+//             //     i.grey.user.outline.icon
+//             //     |#{author}
+//             if in_dev
+//                 +print_this
+//             each viewer_ids
+//                 .ui.label #{this}
+//         .content
+//             if is_author
+//                 i.large.lock.link.circular.grey.icon.make_private
+//             else if in_dev
+//                 i.large.lock.link.circular.grey.icon.make_private
+//             a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
+//                 |#{views}
+//                 i.chevron.right.large.icon
+
+// template(name='post_card')
+//     .ui.card.mark_viewed.penny.add_global_karma(class=card_class)
+//         if image_link
+//             a(href="/p/#{_id}/view")
+//                 img.ui.zoomer.image(src=image_link)
+//         if image_id
+//             a(href="/p/#{_id}/view")
+//                 img.ui.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+//         if youtube_id
+//             +youtube_view key='youtube_id' label='youtube id' direct=true
+
+//         .content.smallscroll
+//             a.ui.header(href="/p/#{_id}/view") #{title}
+//             div
+//             i.thumbs.up.link.outline.icon.upvote
+//             |#{points}
+//             i.thumbs.down.link.outline.icon.downvote
+//             |#{when}
+//             a(href="/p/#{_id}/view")
+//                 |!{content}
+//             +voting_full
+//             // .ui.tiny.icon.input
+//             //     i.grey.tag.icon
+//             //     input.add_tag(type='text' placeholder='+')
+//             // each tags
+//             //     +flat_rtag_picker
+//                 // .ui.small.compact.button.pick_flat_tag #{this}
+//             // each timestamp_tags
+//             //     .ui.small.compact.button.pick_flat_time #{this}
+//             if location
+//                 i.grey.marker.icon
+//                 |#{location}
+//             // if author
+//             //     i.grey.user.outline.icon
+//             //     |#{author}
+//             if in_dev
+//                 +print_this
+//             if currentUser
+//                 each viewer_ids
+//                     +user_info
+//                     // .ui.label #{this}
+//         .content
+//             if is_author
+//                 i.large.lock.link.circular.grey.icon.make_private
+//             else if is_admin
+//                 i.large.lock.link.circular.grey.icon.make_private
+//             a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
+//                 |#{views}
+//                 i.chevron.right.large.icon
+           

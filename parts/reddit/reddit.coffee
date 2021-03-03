@@ -1,7 +1,6 @@
 if Meteor.isClient
     @picked_rtags = new ReactiveArray []
     @picked_subreddits = new ReactiveArray []
-    @picked_subreddit_tags = new ReactiveArray []
     @picked_subreddit_domain = new ReactiveArray []
     @picked_reddit_domain = new ReactiveArray []
     @picked_rtime_tags = new ReactiveArray []
@@ -22,7 +21,7 @@ if Meteor.isClient
         # Session.setDefault('location_query', null)
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'subrzeddit_user_count', Router.current().params.subreddit
-        @autorun => Meteor.subscribe 'rdocs', 
+        @autorun => Meteor.subscribe 'rposts', 
             picked_rtags.array()
             picked_subreddit_domain.array()
             picked_rtime_tags.array()
@@ -32,65 +31,59 @@ if Meteor.isClient
             Session.get('sort_direction')
             Session.get('reddit_skip_value')
       
-        @autorun => Meteor.subscribe 'reddit_doc_count', 
+        @autorun => Meteor.subscribe 'reddit_post_count', 
             Router.current().params.subreddit
             picked_rtags.array()
             picked_reddit_domain.array()
             picked_rtime_tags.array()
             picked_subreddits.array()
     
-        @autorun => Meteor.subscribe 'reddit_tags',
+        @autorun => Meteor.subscribe 'rtags',
             picked_rtags.array()
             picked_reddit_domain.array()
             picked_rtime_tags.array()
             picked_subreddits.array()
             picked_rauthors.array()
             Session.get('toggle')
-        Meteor.call 'get_reddit_latest', Router.current().params.subreddit, ->
+        # Meteor.call 'get_reddit_latest', Router.current().params.subreddit, ->
     
-        Meteor.call 'log_reddit_view', Router.current().params.subreddit, ->
-        @autorun => Meteor.subscribe 'agg_sentiment_subreddit',
-            Router.current().params.subreddit
-            picked_rtags.array()
-            ()->Session.set('ready',true)
+        # Meteor.call 'log_reddit_view', Router.current().params.subreddit, ->
+
+    Template.search_shortcut.events
+        'click .search_tag': ->
+            picked_rtags.push @tag.toLowerCase()
+            url = new URL(window.location);
+            url.searchParams.set('tags', picked_rtags.array());
+            window.history.pushState({}, '', url);
+            document.title = picked_rtags.array()
+            Session.set('loading',true)
+            Meteor.call 'search_reddit', picked_rtags.array(), ->
+                Session.set('loading',false)
+            Meteor.setTimeout ->
+                Session.set('toggle', !Session.get('toggle'))
+            , 7000    
+
+
+
     
-    Template.reddit_doc_item.events
+    Template.reddit_post_item.events
         'click .view_post': (e,t)-> 
             Session.set('view_section','main')
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
             # Router.go "/subreddit/#{@subreddit}/post/#{@_id}"
     
-    Template.reddit_doc_item.onRendered ->
+    Template.reddit_post_item.onRendered ->
         # console.log @
         # unless @data.watson
         #     Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
     
-    Template.reddit_post_card_small.onRendered ->
+    Template.reddit_post_card.onRendered ->
         # console.log @
         # unless @data.watson
         #     Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
         unless @time_tags
             Meteor.call 'tagify_time_rpost',@data._id,=>
     
-    Template.reddit_page.onCreated ->
-        @autorun -> Meteor.subscribe('doc', Router.current().params.doc_id)
-    Template.reddit_page.onRendered ->
-        Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
-    
-    Template.reddit_page.events
-        'click .goto_sub': -> 
-            Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
-                Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
-                Meteor.call 'log_subreddit_view', Router.current().params.subreddit, ->
-        'click .call_visual': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'url', ->
-        'click .call_meta': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'meta', ->
-        'click .call_thumbnail': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'thumb', ->
-        'click .goto_ruser': ->
-            doc = Docs.findOne Router.current().params.doc_id
-            Meteor.call 'get_user_info', doc.data.author, ->
-        'click .get_post': ->
-            Session.set('view_section','main')
-            Meteor.call 'get_reddit_post', Router.current().params.doc_id, @reddit_id, ->
     
     Template.reddit.events
         'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
@@ -177,7 +170,7 @@ if Meteor.isClient
         #     Docs.findOne
         #         model:'subreddit'
         #         "data.display_name":Router.current().params.subreddit
-        rdocs: ->
+        rposts: ->
             Docs.find({
                 model:'rpost'
                 # subreddit:Router.current().params.subreddit
@@ -190,7 +183,7 @@ if Meteor.isClient
         sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
         emotion_avg: -> results.findOne(model:'emotion_avg')
     
-        post_count: -> Counts.get('reddit_doc_counter')
+        post_count: -> Counts.get('reddit_post_counter')
     
     
                 
@@ -298,7 +291,7 @@ if Meteor.isClient
             
             
 if Meteor.isServer
-    Meteor.publish 'doc_count', (
+    Meteor.publish 'rpost_count', (
         picked_tags
         # picked_authors
         # picked_locations
@@ -318,7 +311,7 @@ if Meteor.isServer
         # if picked_locations.length > 0 then match.location = $all:picked_locations
         # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     
-        Counts.publish this, 'doc_count', Docs.find(match)
+        Counts.publish this, 'rpost_count', Docs.find(match)
         return undefined
                 
     Meteor.publish 'rposts', (
@@ -357,23 +350,23 @@ if Meteor.isServer
             sort:_timestamp:-1
             # sort: "#{sk}":-1
             # skip:skip*20
-            # fields:
-            #     title:1
-            #     content:1
-            #     tags:1
-            #     upvoter_ids:1
-            #     image_id:1
-            #     image_link:1
-            #     url:1
-            #     youtube_id:1
-            #     _timestamp:1
-            #     _timestamp_tags:1
-            #     views:1
-            #     viewer_ids:1
-            #     _author_username:1
-            #     downvoter_ids:1
-            #     _author_id:1
-            #     model:1
+            fields:
+                title:1
+                content:1
+                tags:1
+                upvoter_ids:1
+                image_id:1
+                image_link:1
+                url:1
+                youtube_id:1
+                _timestamp:1
+                _timestamp_tags:1
+                views:1
+                viewer_ids:1
+                _author_username:1
+                downvoter_ids:1
+                _author_id:1
+                model:1
         
         
     # Meteor.methods    
@@ -407,7 +400,7 @@ if Meteor.isServer
         
                
     Meteor.publish 'rtags', (
-        picked_tags
+        picked_rtags
         # picked_times
         # picked_locations
         # picked_authors
@@ -426,8 +419,8 @@ if Meteor.isServer
         # unless Meteor.userId()
         #     match.privacy='public'
     
-        # if picked_tags.length > 0 then match.tags = $all:picked_tags
-        match.tags = $all:picked_tags
+        # if picked_rtags.length > 0 then match.tags = $all:picked_rtags
+        match.tags = $all:picked_rtags
         # if picked_authors.length > 0 then match.author = $all:picked_authors
         # if picked_locations.length > 0 then match.location = $all:picked_locations
         # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
@@ -527,8 +520,8 @@ if Meteor.isServer
         #         count: author.count
         #         model:'author'
         
-        
         self.ready()
+        
 # @picked_tags = new ReactiveArray []
 # @picked_times = new ReactiveArray []
 # @picked_locations = new ReactiveArray []
@@ -540,71 +533,9 @@ if Meteor.isServer
 #     ), name:'post_edit'
 
 
-# Template.nav.onCreated ->
-#     # Session.setDefault('session_clicks', 0)
-# Template.home.onCreated ->
-#     Session.setDefault('sort_key', '_timestamp')
-#     Session.setDefault('sort_direction', -1)
-#     # Session.setDefault('location_query', null)
-#     @autorun => Meteor.subscribe 'rtags',
-#         picked_tags.array()
-#         # picked_times.array()
-#         # picked_locations.array()
-#         # picked_authors.array()
-#     @autorun => Meteor.subscribe 'post_count', 
-#         picked_tags.array()
-#         # picked_times.array()
-#         # picked_locations.array()
-#         # picked_authors.array()
-#     @autorun => Meteor.subscribe 'posts', 
-#         picked_tags.array()
-#         # picked_times.array()
-#         # picked_locations.array()
-#         # picked_authors.array()
-#         # Session.get('sort_key')
-#         # Session.get('sort_direction')
-#         # Session.get('skip_value')
 
 
 
-# Template.post_card.onRendered ->
-#     # console.log @
-#     Meteor.call 'log_view', @data._id, ->
-#     # Session.set('session_clicks', Session.get('session_clicks')+2)
-
-
-
-# Template.post_card.helpers
-#     card_class: ->
-#         if Meteor.userId()
-#             if @viewer_ids 
-#                 if Meteor.userId() in @viewer_ids
-#                     'link'
-#                 else
-#                     'raised link'
-#             else
-#                 'raised link'
-#         else
-#             'raised link'
-# Template.home.helpers
-#     posts: ->
-#         Docs.find {
-#             model:$in:['post','rpost']
-#         }, sort: _timestamp:-1
-       
-#     picked_tags: -> picked_tags.array()
-#     picked_locations: -> picked_locations.array()
-#     picked_authors: -> picked_authors.array()
-#     picked_times: -> picked_times.array()
-#     post_counter: -> Counts.get 'post_counter'
-    
-#     result_tags: -> results.find(model:'tag')
-#     author_results: -> results.find(model:'author')
-#     location_results: -> results.find(model:'location_tag')
-#     time_results: -> results.find(model:'time_tag')
-        
-#     sidebar_class: -> if Session.get('view_sidebar') then 'ui four wide column' else 'hidden'
-#     main_column_class: -> if Session.get('view_sidebar') then 'ui twelve wide column' else 'ui sixteen wide column' 
         
 # Template.rpost_card.events
 #     'click .get_post': ->
@@ -617,7 +548,7 @@ if Meteor.isServer
 #                 $addToSet:viewer_ids:Meteor.userId()
 #         Meteor.users.update @_author_id,
 #             $inc:points:1
-# Template.home.events
+# Template.reddit.events
 #     'click .enable_sidebar': (e,t)-> Session.set('view_sidebar',true)
 #     'click .disable_sidebar': (e,t)-> Session.set('view_sidebar',false)
 #     'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
@@ -849,7 +780,7 @@ if Meteor.isClient
     @picked_authors = new ReactiveArray []
     @picked_times = new ReactiveArray []
     
-    Template.home.onCreated ->
+    Template.reddit.onCreated ->
         params = new URLSearchParams(window.location.search);
         
         tags = params.get("tags");
@@ -911,7 +842,7 @@ if Meteor.isClient
     
     
     
-    Template.home.helpers
+    Template.reddit.helpers
         posts: ->
             Docs.find {
                 model:'rpost'
@@ -940,7 +871,7 @@ if Meteor.isClient
         # sidebar_class: -> if Session.get('view_sidebar') then 'ui four wide column' else 'hidden'
         # main_column_class: -> if Session.get('view_sidebar') then 'ui twelve wide column' else 'ui sixteen wide column' 
             
-    Template.home.events
+    Template.reddit.events
         # 'click .enable_sidebar': (e,t)-> Session.set('view_sidebar',true)
         # 'click .disable_sidebar': (e,t)-> Session.set('view_sidebar',false)
         # 'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
@@ -1295,120 +1226,6 @@ if Meteor.isServer
                                 Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                     )
         
-        calc_sub_tags: (subreddit)->
-            found = 
-                Docs.findOne(
-                    model:'subreddit'
-                    "data.display_name": subreddit
-                )
-            sub_tags = Meteor.call 'agg_sub_tags', subreddit
-            titles = _.pluck(sub_tags, 'title')
-            if found
-                Docs.update found._id, 
-                    $set:tags:titles
-            Meteor.call 'clear_blocklist_doc', found._id, ->
-    
-        agg_sub_tags: (subreddit)->
-            match = {model:'rpost', subreddit:subreddit}
-            total_doc_result_count =
-                Docs.find( match,
-                    {
-                        fields:
-                            _id:1
-                    }
-                ).count()
-            # limit=20
-            options = {
-                explain:false
-                allowDiskUse:true
-            }
-    
-            pipe =  [
-                { $match: match }
-                { $project: tags: 1 }
-                { $unwind: "$tags" }
-                { $group: _id: "$tags", count: $sum: 1 }
-                { $sort: count: -1, _id: 1 }
-                { $limit: 20 }
-                { $project: _id: 0, title: '$_id', count: 1 }
-            ]
-    
-            if pipe
-                agg = global['Docs'].rawCollection().aggregate(pipe,options)
-                # else
-                res = {}
-                if agg
-                    agg.toArray()
-                    # omega = Docs.findOne model:'omega_session'
-                    # Docs.update omega._id,
-                    #     $set:
-                    #         agg:agg.toArray()
-            else
-                return null
-    
-            
-            
-            
-        get_sub_info: (subreddit)->
-            @unblock()
-            console.log 'getting', subreddit
-            # if subreddit 
-            #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
-            # else
-            # url = "https://www.reddit.com/r/#{subreddit}/about.json?&raw_json=1&include_over_18=on"
-            url = "https://www.reddit.com/r/#{subreddit}/about.json?&raw_json=1"
-            HTTP.get url,(err,res)=>
-                if res.data.data
-                    console.log res.data.data
-                    existing = Docs.findOne 
-                        model:'subreddit'
-                        name:subreddit
-                        # "data.display_name":subreddit
-                    if existing
-                        console.log existing
-                        # if Meteor.isDevelopment
-                        # if typeof(existing.tags) is 'string'
-                        #     Doc.update
-                        #         $unset: tags: 1
-                        Docs.update existing._id,
-                            $set: data:res.data.data
-                    unless existing
-                        console.log 'not existing'
-                        sub = {}
-                        sub.model = 'subreddit'
-                        sub.name = subreddit
-                        sub.data = res.data.data
-                        new_reddit_post_id = Docs.insert sub
-                        # console.log existing
-        
-        get_sub_latest: (subreddit)->
-            @unblock()
-            # if subreddit 
-            #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
-            # else
-            url = "https://www.reddit.com/r/#{subreddit}.json?&raw_json=1&include_over_18=on&search_include_over_18=on&limit=100"
-            HTTP.get url,(err,res)=>
-                # if err
-                # if res 
-                # if res.data.data.dist > 1
-                _.each(res.data.data.children[0..100], (item)=>
-                    found = 
-                        Docs.findOne    
-                            model:'rpost'
-                            reddit_id:item.data.id
-                            # subreddit:item.data.id
-                    if found
-                        Docs.update found._id,
-                            $set:subreddit:item.data.subreddit
-                    unless found
-                        item.model = 'rpost'
-                        item.reddit_id = item.data.id
-                        item.author = item.data.author
-                        item.subreddit = item.data.subreddit
-                        # item.rdata = item.data
-                        Docs.insert item
-                )
-                
                 
         get_post_comments: (subreddit, doc_id)->
             @unblock()
@@ -1440,115 +1257,6 @@ if Meteor.isServer
                         Docs.insert item
                 )
         
-        get_user_posts: (username)->
-            # @unblock()s
-            # if subreddit 
-            #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
-            # else
-            url = "https://www.reddit.com/user/#{username}.json"
-            HTTP.get url,(err,res)=>
-                if res.data.data.dist > 0
-                    _.each(res.data.data.children[0..100], (item)=>
-                        found = 
-                            Docs.findOne    
-                                model:'rpost'
-                                reddit_id:item.data.id
-                                # subreddit:item.data.id
-                        # if found
-                        unless found
-                            item.model = 'rpost'
-                            item.reddit_id = item.data.id
-                            item.author = item.data.author
-                            item.subreddit = item.data.subreddit
-                            Docs.insert item
-                    )
-        
-        get_user_comments: (username)->
-            # @unblock()s
-            # if subreddit 
-            #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
-            # else
-            url = "https://www.reddit.com/user/#{username}/comments.json"
-            HTTP.get url,(err,res)=>
-                if res.data.data.dist > 0
-                    _.each(res.data.data.children[0..100], (item)=>
-                        found = 
-                            Docs.findOne    
-                                model:'rcomment'
-                                reddit_id:item.data.id
-                                # subreddit:item.data.id
-                        # if found
-                        unless found
-                            item.model = 'rcomment'
-                            item.reddit_id = item.data.id
-                            item.author = item.data.author
-                            item.subreddit = item.data.subreddit
-                            Docs.insert item
-                    )
-            
-                # for post in res.data.data.children
-                #     existing = 
-                #         Docs.findOne({
-                #             reddit_id: post.data.id
-                #             model:'reddit'
-                #         })
-                #     # continue
-                #     unless existing
-                #     #     # if Meteor.isDevelopment
-                #     #     # if typeof(existing.tags) is 'string'
-                #     #     #     Doc.update
-                #     #     #         $unset: tags: 1
-                #     #     # Docs.update existing._id,
-                #     #     #     $set: rdata:res.data.data
-                #     #     continue
-                #     # else
-                #     #     # new_post = {}
-                #     #     # new_post.model = 'reddit'
-                #     #     # new_post.data = post.data
-                #     #     # new_reddit_post_id = Docs.insert new_post
-                #     #     continue
-    
-            
-        get_user_info: (username)->
-            # @unblock()s
-            # if subreddit 
-            #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
-            # else
-            url = "https://www.reddit.com/user/#{username}/about.json"
-            # url = "https://www.reddit.com/user/hernannadal/about.json"
-            options = {
-                url: url
-                headers: 
-                    # 'accept-encoding': 'gzip'
-                    "User-Agent": "web:com.dao.af:v1.2.3 (by /u/dontlisten65)"
-                gzip: true
-            }
-            rp(options)
-                .then(Meteor.bindEnvironment((data)->
-                    parsed = JSON.parse(data)
-                    existing = Docs.findOne 
-                        model:'ruser'
-                        username:username
-                    if existing
-                        Docs.update existing._id,
-                            $set:   
-                                data:parsed.data
-                        # if Meteor.isDevelopment
-                        # if typeof(existing.tags) is 'string'
-                        # Docs.update existing._id,
-                        #     $set: rdata:res.data.data
-                    unless existing
-                        ruser = {}
-                        ruser.model = 'ruser'
-                        ruser.username = username
-                        # ruser.rdata = res.data.data
-                        new_reddit_post_id = Docs.insert ruser
-                )).catch((err)->
-                )
-            
-            # HTTP.get url,(err,res)=>
-            #     # if res.data.data
-    
         # reddit_all: ->
         #     total = 
         #         Docs.find({
@@ -1622,105 +1330,7 @@ if Meteor.isServer
         #                         # downs: rd.downs
         #                         over_18: rd.over_18
     
-        # search_subreddits: (search)->
-        #     @unblock()
-        #     HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1&nsfw=1", (err,res)->
-        #         if res.data.data.dist > 1
-        #             _.each(res.data.data.children[0..200], (item)=>
-        #                 found = 
-        #                     Docs.findOne    
-        #                         model:'subreddit'
-        #                         "data.display_name":item.data.display_name
-        #                 # if found
-        #                 unless found
-        #                     item.model = 'subreddit'
-        #                     Docs.insert item
-        #             )
-        search_subreddits: (search)->
-            # console.log 'searching subs', search
-            @unblock()
-            HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1&nsfw=1&include_over_18=on&limit=100", (err,res)->
-                if res.data.data.dist > 1
-                    _.each(res.data.data.children[0..100], (item)=>
-                        # console.log item.data.display_name
-                        added_tags = [search]
-                        added_tags = _.flatten(added_tags)
-                        # console.log 'added tags', added_tags
-                        found = 
-                            Docs.findOne    
-                                model:'subreddit'
-                                "data.display_name":item.data.display_name
-                        if found
-                            # console.log 'found', search, item.data.display_name
-                            Docs.update found._id, 
-                                $addToSet: tags: $each: added_tags
-                        unless found
-                            # console.log 'not found', item.data.display_name
-                            item.model = 'subreddit'
-                            item.tags = added_tags
-                            Docs.insert item
-                            
-                    )
             
-        get_sub_info: (subreddit)->
-            @unblock()
-            console.log 'getting info', subreddit
-            # if subreddit 
-            #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
-            # else
-            url = "https://www.reddit.com/r/#{subreddit}/about.json?&raw_json=1"
-            HTTP.get url,(err,res)=>
-                # console.log res.data.data
-                if res.data.data
-                    existing = Docs.findOne 
-                        model:'subreddit'
-                        "data.display_name":subreddit
-                    if existing
-                        # console.log 'existing', existing
-                        # if Meteor.isDevelopment
-                        # if typeof(existing.tags) is 'string'
-                        #     Doc.update
-                        #         $unset: tags: 1
-                        Docs.update existing._id,
-                            $set: data:res.data.data
-                    unless existing
-                        # console.log 'new sub', subreddit
-                        sub = {}
-                        sub.model = 'subreddit'
-                        sub.name = subreddit
-                        sub.data = res.data.data
-                        new_reddit_post_id = Docs.insert sub
-                  
-        search_subreddit: (subreddit,search)->
-            @unblock()
-            HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&raw_json=1&include_over_18=on&nsfw=1", (err,res)->
-                if res.data.data.dist > 1
-                    for item in res.data.data.children[0..3]
-                        id = item.data.id
-                        # Docs.insert d
-                        # found = 
-                        found = Docs.findOne({
-                            model:'rpost',
-                            "data.subreddit":item.data.subreddit
-                            # reddit_id:id
-                        })
-                        # continue
-                    # _.each(res.data.data.children[0..100], (item)=>
-                    #     id = item.data.id
-                    #     # if found
-                    #     #     Docs.update found._id, 
-                    #     #         $addToSet: tags: search
-                    #     #         $set:
-                    #     #             subreddit:item.data.subreddit
-                    #     # unless found
-                    #     #     item.model = 'rpost'
-                    #     #     item.reddit_id = item.data.id
-                    #     #     item.author = item.data.author
-                    #     #     item.subreddit = item.data.subreddit
-                    #     #     item.tags = [search]
-                    #     #     # item.rdata = item.data
-                    #     #     Docs.insert item
-                    # )
                     
             
         tagify_time_rpost: (doc_id)->
@@ -1751,11 +1361,6 @@ if Meteor.isServer
                     $set:time_tags:date_array
                             
     
-    Meteor.publish 'subreddit_by_param', (subreddit)->
-        Docs.find
-            model:'subreddit'
-            name:subreddit
-            # "data.display_name":subreddit
             
     Meteor.publish 'related_posts', (post_id)->
         post = Docs.findOne post_id
@@ -1779,378 +1384,15 @@ if Meteor.isServer
             model:'rcomment'
             parent_id:"t3_#{post.reddit_id}"
             
-    Meteor.publish 'subreddits', (
-        query=''
-        picked_tags
-        sort_key='data.subscribers'
-        skip=0
-        sort_direction=-1
-        )->
-        match = {model:'subreddit'}
-        if picked_tags.length > 0 then match.tags = $all:picked_tags
-        if query.length > 0
-            match["data.display_name"] = {$regex:"#{query}", $options:'i'}
-        Docs.find match,
-            limit:20
-            sort: "#{sort_key}":sort_direction
-            skip:skip*20
             
-    
-    Meteor.publish 'sub_count', (
-        query=''
-        picked_tags
-        )->
-            
-        match = {model:'subreddit'}
-        if picked_tags.length > 0 then match.tags = $all:picked_tags
-        if query.length > 0
-            match["data.display_name"] = {$regex:"#{query}", $options:'i'}
-        Counts.publish this, 'sub_counter', Docs.find(match)
-        return undefined
-    
-    
-            
-            
-    Meteor.publish 'sub_docs_by_name', (
-        subreddit
-        selected_subreddit_tags
-        selected_subreddit_domains
-        selected_subreddit_time_tags
-        selected_subreddit_authors
-        sort_key
-        )->
-        self = @
-        match = {
-            model:'rpost'
-            subreddit:subreddit
-        }
-        if sort_key
-            sk = sort_key
-        else
-            sk = 'data.created'
-        # if view_bounties
-        #     match.bounty = true
-        # if view_unanswered
-        #     match.is_answered = false
-        if selected_subreddit_tags.length > 0 then match.tags = $all:selected_subreddit_tags
-        if selected_subreddit_domains.length > 0 then match.domain = $all:selected_subreddit_domains
-        if selected_subreddit_time_tags.length > 0 then match.time_tags = $all:selected_subreddit_time_tags
-        if selected_subreddit_authors.length > 0 then match.authors = $all:selected_subreddit_authors
-        Docs.find match,
-            limit:20
-            sort: "#{sk}":-1
         
         
-    Meteor.publish 'agg_sentiment_subreddit', (
-        subreddit
-        picked_tags
-        )->
-        # @unblock()
-        self = @
-        match = {
-            model:'rpost'
-            subreddit:subreddit
-        }
-            
-        doc_count = Docs.find(match).count()
-        if picked_tags.length > 0 then match.tags = $all:picked_tags
-        emotion_avgs = Docs.aggregate [
-            { $match: match }
-            #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
-            { $group: 
-                _id:null
-                avg_sent_score: { $avg: "$doc_sentiment_score" }
-                avg_joy_score: { $avg: "$joy_percent" }
-                avg_anger_score: { $avg: "$anger_percent" }
-                avg_sadness_score: { $avg: "$sadness_percent" }
-                avg_disgust_score: { $avg: "$disgust_percent" }
-                avg_fear_score: { $avg: "$fear_percent" }
-            }
-        ]
-        emotion_avgs.forEach (res, i) ->
-            self.added 'results', Random.id(),
-                model:'emotion_avg'
-                avg_sent_score: res.avg_sent_score
-                avg_joy_score: res.avg_joy_score
-                avg_anger_score: res.avg_anger_score
-                avg_sadness_score: res.avg_sadness_score
-                avg_disgust_score: res.avg_disgust_score
-                avg_fear_score: res.avg_fear_score
-        self.ready()
-        
-    
-    Meteor.publish 'sub_doc_count', (
-        subreddit
-        picked_tags
-        selected_subreddit_domains
-        selected_subreddit_time_tags
-        )->
-            
-        match = {model:'rpost'}
-        match.subreddit = subreddit
-        if picked_tags.length > 0 then match.tags = $all:picked_tags
-        if selected_subreddit_domains.length > 0 then match.domain = $all:selected_subreddit_domains
-        if selected_subreddit_time_tags.length > 0 then match.time_tags = $all:selected_subreddit_time_tags
-        Counts.publish this, 'sub_doc_counter', Docs.find(match)
-        return undefined
     
     
-    Meteor.publish 'rpost_comment_tags', (
-        subreddit
-        parent_id
-        picked_tags
-        # view_bounties
-        # view_unanswered
-        # query=''
-        )->
-        # @unblock()
-        
-        parent = Docs.findOne parent_id
-        
-        self = @
-        match = {
-            model:'rcomment'
-            parent_id:"t3_#{parent.reddit_id}"
-        }
-        # if view_bounties
-        #     match.bounty = true
-        # if view_unanswered
-        #     match.is_answered = false
-        # if picked_tags.length > 0 then match.tags = $all:picked_tags
-        # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
-        doc_count = Docs.find(match).count()
-        rpost_comment_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "tags": 1 }
-            { $unwind: "$tags" }
-            { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: picked_tags }
-            { $sort: count: -1, _id: 1 }
-            { $match: count: $lt: doc_count }
-            { $limit:11 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ]
-        rpost_comment_cloud.forEach (tag, i) ->
-            self.added 'results', Random.id(),
-                name: tag.name
-                count: tag.count
-                model:'rpost_comment_tag'
-                
-        self.ready()
                 
         
-    Meteor.publish 'subreddit_result_tags', (
-        subreddit
-        selected_subreddit_tags
-        selected_subreddit_domain
-        selected_subreddit_time_tags
-        # view_bounties
-        # view_unanswered
-        # query=''
-        )->
-        # @unblock()
-        self = @
-        match = {
-            model:'rpost'
-            subreddit:subreddit
-        }
-        # if view_bounties
-        #     match.bounty = true
-        # if view_unanswered
-        #     match.is_answered = false
-        if selected_subreddit_tags.length > 0 then match.tags = $all:selected_subreddit_tags
-        if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
-        if selected_subreddit_time_tags.length > 0 then match.time_tags = $all:selected_subreddit_time_tags
-        # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
-        doc_count = Docs.find(match).count()
-        subreddit_tag_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "tags": 1 }
-            { $unwind: "$tags" }
-            { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_subreddit_tags }
-            { $sort: count: -1, _id: 1 }
-            { $match: count: $lt: doc_count }
-            { $limit:11 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ]
-        subreddit_tag_cloud.forEach (tag, i) ->
-            self.added 'results', Random.id(),
-                name: tag.name
-                count: tag.count
-                model:'subreddit_result_tag'
-        
-        
-        subreddit_domain_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "data.domain": 1 }
-            # { $unwind: "$domain" }
-            { $group: _id: "$data.domain", count: $sum: 1 }
-            # { $match: _id: $nin: selected_domains }
-            { $sort: count: -1, _id: 1 }
-            { $match: count: $lt: doc_count }
-            { $limit:7 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ]
-        subreddit_domain_cloud.forEach (domain, i) ->
-            self.added 'results', Random.id(),
-                name: domain.name
-                count: domain.count
-                model:'subreddit_domain_tag'
-      
-      
-        
-        subreddit_time_tag_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "time_tags": 1 }
-            { $unwind: "$time_tags" }
-            { $group: _id: "$time_tags", count: $sum: 1 }
-            # { $match: _id: $nin: selected_subreddit_time_tags }
-            { $sort: count: -1, _id: 1 }
-            { $match: count: $lt: doc_count }
-            { $limit:10 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ]
-        subreddit_time_tag_cloud.forEach (time_tag, i) ->
-            self.added 'results', Random.id(),
-                name: time_tag.name
-                count: time_tag.count
-                model:'subreddit_time_tag'
-      
-      
-        # subreddit_Organization_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "Organization": 1 }
-        #     { $unwind: "$Organization" }
-        #     { $group: _id: "$Organization", count: $sum: 1 }
-        #     # { $match: _id: $nin: selected_Organizations }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $match: count: $lt: doc_count }
-        #     { $limit:5 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ]
-        # subreddit_Organization_cloud.forEach (Organization, i) ->
-        #     self.added 'results', Random.id(),
-        #         name: Organization.name
-        #         count: Organization.count
-        #         model:'subreddit_Organization'
-      
-      
-        # subreddit_Person_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "Person": 1 }
-        #     { $unwind: "$Person" }
-        #     { $group: _id: "$Person", count: $sum: 1 }
-        #     # { $match: _id: $nin: selected_Persons }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $match: count: $lt: doc_count }
-        #     { $limit:5 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ]
-        # subreddit_Person_cloud.forEach (Person, i) ->
-        #     self.added 'results', Random.id(),
-        #         name: Person.name
-        #         count: Person.count
-        #         model:'subreddit_Person'
-      
-      
-        # subreddit_Company_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "Company": 1 }
-        #     { $unwind: "$Company" }
-        #     { $group: _id: "$Company", count: $sum: 1 }
-        #     # { $match: _id: $nin: selected_Companys }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $match: count: $lt: doc_count }
-        #     { $limit:5 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ]
-        # subreddit_Company_cloud.forEach (Company, i) ->
-        #     self.added 'results', Random.id(),
-        #         name: Company.name
-        #         count: Company.count
-        #         model:'subreddit_Company'
-      
-      
-        # subreddit_emotion_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "max_emotion_name": 1 }
-        #     { $group: _id: "$max_emotion_name", count: $sum: 1 }
-        #     # { $match: _id: $nin: selected_emotions }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $match: count: $lt: doc_count }
-        #     { $limit:5 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ]
-        # subreddit_emotion_cloud.forEach (emotion, i) ->
-        #     self.added 'results', Random.id(),
-        #         name: emotion.name
-        #         count: emotion.count
-        #         model:'subreddit_emotion'
-      
-      
-        self.ready()
     
         
-    Meteor.publish 'subs_tags', (
-        selected_subreddit_tags
-        selected_subreddit_domain
-        selected_subreddit_authors
-        # view_bounties
-        # view_unanswered
-        # query=''
-        )->
-        # @unblock()
-        self = @
-        match = {
-            model:'subreddit'
-            # subreddit:subreddit
-        }
-        # if view_bounties
-        #     match.bounty = true
-        # if view_unanswered
-        #     match.is_answered = false
-        if selected_subreddit_tags.length > 0 then match.tags = $all:selected_subreddit_tags
-        if selected_subreddit_authors.length > 0 then match.author = $all:selected_subreddit_authors
-        # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
-        doc_count = Docs.find(match).count()
-        sus_tag_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "tags": 1 }
-            { $unwind: "$tags" }
-            { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_subreddit_tags }
-            { $sort: count: -1, _id: 1 }
-            { $match: count: $lt: doc_count }
-            { $limit:42 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ]
-        sus_tag_cloud.forEach (tag, i) ->
-            self.added 'results', Random.id(),
-                name: tag.name
-                count: tag.count
-                model:'subs_tag'
-        
-        
-        subreddit_author_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "author": 1 }
-            # { $unwind: "$author" }
-            { $group: _id: "$author", count: $sum: 1 }
-            # { $match: _id: $nin: selected_authors }
-            { $sort: count: -1, _id: 1 }
-            { $match: count: $lt: doc_count }
-            { $limit:7 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ]
-        subreddit_author_cloud.forEach (author, i) ->
-            self.added 'results', Random.id(),
-                name: author.name
-                count: author.count
-                model:'subreddit_author_tag'
-      
-        self.ready()
-    
         
     Meteor.methods 
         log_subreddit_view: (name)->
@@ -2163,12 +1405,11 @@ if Meteor.isServer
                     
                     
                     
-    Meteor.publish 'rdocs', (
-        selected_reddit_tags
-        selected_subreddit_tags
-        selected_subreddit_domains
-        selected_reddit_subreddits
-        selected_reddit_authors
+    Meteor.publish 'rposts', (
+        picked_rtags
+        picked_subreddit_domains
+        picked_subreddits
+        picked_rauthors
         sort_key
         sort_direction
         skip=0
@@ -2185,114 +1426,13 @@ if Meteor.isServer
         #     match.bounty = true
         # if view_unanswered
         #     match.is_answered = false
-        if selected_reddit_tags.length > 0 then match.tags = $all:selected_reddit_tags
-        if selected_subreddit_tags.length > 0 then match.subreddit = $all:selected_subreddit_tags
-        if selected_subreddit_domains.length > 0 then match.domain = $all:selected_subreddit_domains
-        if selected_reddit_subreddits.length > 0 then match.subreddit = $all:selected_reddit_subreddits
-        if selected_reddit_authors.length > 0 then match.author = $all:selected_reddit_authors
+        if picked_rtags.length > 0 then match.tags = $all:picked_rtags
+        if picked_subreddit_domains.length > 0 then match.domain = $all:picked_subreddit_domains
+        if picked_subreddits.length > 0 then match.subreddit = $all:picked_subreddits
+        if picked_rauthors.length > 0 then match.author = $all:picked_rauthors
         Docs.find match,
             limit:20
             sort: "#{sk}":-1
             skip:skip*20
         
                
-    Meteor.publish 'reddit_tags', (
-        selected_reddit_tags
-        selected_subreddit_domain
-        selected_reddit_time_tags
-        selected_reddit_subreddits
-        selected_reddit_authors
-        # view_bounties
-        # view_unanswered
-        # query=''
-        )->
-        # @unblock()
-        self = @
-        match = {
-            model:'rpost'
-            # subreddit:subreddit
-        }
-        # if view_bounties
-        #     match.bounty = true
-        # if view_unanswered
-        #     match.is_answered = false
-        if selected_reddit_tags.length > 0 then match.tags = $all:selected_reddit_tags
-        if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
-        if selected_reddit_time_tags.length > 0 then match.domain = $all:selected_reddit_time_tags
-        if selected_reddit_subreddits.length > 0 then match.subreddit = $all:selected_reddit_subreddits
-        if selected_reddit_authors.length > 0 then match.author = $all:selected_reddit_authors
-        # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
-        doc_count = Docs.find(match).count()
-        reddit_tag_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "tags": 1 }
-            { $unwind: "$tags" }
-            { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_reddit_tags }
-            { $sort: count: -1, _id: 1 }
-            { $match: count: $lt: doc_count }
-            { $limit:20 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ]
-        reddit_tag_cloud.forEach (tag, i) ->
-            self.added 'results', Random.id(),
-                name: tag.name
-                count: tag.count
-                model:'reddit_tag'
-        
-        
-        reddit_domain_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "data.domain": 1 }
-            # { $unwind: "$domain" }
-            { $group: _id: "$data.domain", count: $sum: 1 }
-            # { $match: _id: $nin: selected_domains }
-            { $sort: count: -1, _id: 1 }
-            { $match: count: $lt: doc_count }
-            { $limit:10 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ]
-        reddit_domain_cloud.forEach (domain, i) ->
-            self.added 'results', Random.id(),
-                name: domain.name
-                count: domain.count
-                model:'reddit_domain_tag'
-        
-        
-        reddit_subreddits_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "data.subreddit": 1 }
-            # { $unwind: "$subreddit" }
-            { $group: _id: "$data.subreddit", count: $sum: 1 }
-            # { $match: _id: $nin: selected_subreddits }
-            { $sort: count: -1, _id: 1 }
-            { $match: count: $lt: doc_count }
-            { $limit:20 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ]
-        reddit_subreddits_cloud.forEach (subreddit, i) ->
-            self.added 'results', Random.id(),
-                name: subreddit.name
-                count: subreddit.count
-                model:'reddit_subreddit'
-        
-        
-        
-        reddit_time_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "time_tags": 1 }
-            { $unwind: "$time_tags" }
-            { $group: _id: "$time_tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_reddit_time_tags }
-            { $sort: count: -1, _id: 1 }
-            { $match: count: $lt: doc_count }
-            { $limit:10 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ]
-        reddit_time_cloud.forEach (time_tag, i) ->
-            self.added 'results', Random.id(),
-                name: time_tag.name
-                count: time_tag.count
-                model:'reddit_time_tag'
-      
-        self.ready()
