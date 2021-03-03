@@ -46,13 +46,6 @@ Docs.allow
     remove: (userId, doc) -> false
 
 
-Meteor.publish 'subreddit_by_param', (subreddit)->
-    console.log 'looking for', subreddit
-    Docs.find
-        model:'subreddit'
-        "data.display_name":subreddit
-        
-
 
 
 Meteor.methods
@@ -62,7 +55,7 @@ Meteor.methods
         HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1&nsfw=1&include_over_18=on&limit=100", (err,res)->
             if res.data.data.dist > 1
                 _.each(res.data.data.children[0..100], (item)=>
-                    console.log item.data.display_name
+                    # console.log item.data.display_name
                     added_tags = [search]
                     added_tags = _.flatten(added_tags)
                     console.log 'added tags', added_tags
@@ -71,11 +64,11 @@ Meteor.methods
                             model:'subreddit'
                             "data.display_name":item.data.display_name
                     if found
-                        console.log 'found', search, item.data.display_name
+                        # console.log 'found', search, item.data.display_name
                         Docs.update found._id, 
                             $addToSet: tags: $each: added_tags
                     unless found
-                        console.log 'not found', item.data.display_name
+                        # console.log 'not found', item.data.display_name
                         item.model = 'subreddit'
                         item.tags = added_tags
                         Docs.insert item
@@ -244,7 +237,6 @@ Meteor.publish 'subreddit_tags', (
             name: tag.name
             count: tag.count
             model:'subreddit_tag'
-            
     self.ready()
 
 
@@ -253,9 +245,10 @@ Meteor.publish 'doc_by_title', (title)->
         title:title
         model:'wikipedia'
     }, {
-        fields:
-            title:1
-            "watson.metadata.image":1
+        # fields:
+        #     title:1
+        #     watson:1
+        #     "watson.metadata.image":1
     })
 
 
@@ -271,13 +264,12 @@ Meteor.methods
             unless err
                 for term,i in response.data[1]
                     url = response.data[3][i]
-    
-    
                     found_doc =
                         Docs.findOne
                             url: url
                             model:'wikipedia'
                     if found_doc
+                        console.log 'found doc', found_doc
                         # Docs.update found_doc._id,
                         #     # $pull:
                         #     #     tags:'wikipedia'
@@ -286,6 +278,7 @@ Meteor.methods
                         unless found_doc.watson
                             Meteor.call 'call_watson', found_doc._id, 'url','url', ->
                     else
+                        console.log 'new doc'
                         new_wiki_id = Docs.insert
                             title:term.toLowerCase()
                             tags:[term.toLowerCase()]

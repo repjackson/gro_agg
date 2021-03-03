@@ -61,13 +61,14 @@ Meteor.methods
                 # categories:
                 #     explanation:false
                 emotion: {}
+                metadata: {}
                 # relations: {}
                 # semantic_roles: {}
                 sentiment: {}
         params.url = doc.url
         params.returnAnalyzedText = true
         params.clean = true
-        params.metadata = {}
+        # params.metadata = {}
         # console.log params
 
         natural_language_understanding.analyze params, Meteor.bindEnvironment((err, response)=>

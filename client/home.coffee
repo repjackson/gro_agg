@@ -132,6 +132,8 @@ Template.tag_picker.helpers
     term: ->
         Docs.findOne 
             title:@name.toLowerCase()
+
+
 Template.tag_picker.events
     'click .pick_tag':-> 
         picked_tags.push @name
