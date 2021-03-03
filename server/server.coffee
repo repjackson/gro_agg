@@ -58,7 +58,7 @@ Meteor.methods
                     # console.log item.data.display_name
                     added_tags = [search]
                     added_tags = _.flatten(added_tags)
-                    console.log 'added tags', added_tags
+                    # console.log 'added tags', added_tags
                     found = 
                         Docs.findOne    
                             model:'subreddit'
@@ -136,6 +136,7 @@ Meteor.publish 'subreddits', (
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     if query.length > 0
         match["data.display_name"] = {$regex:"#{query}", $options:'i'}
+    # console.log 'match', match
     Docs.find match,
         limit:parseInt(limit)
         sort: "#{sort_key}":sort_direction
@@ -158,42 +159,42 @@ Meteor.publish 'subreddits', (
         
         
     
-Meteor.publish 'agg_sentiment_subreddit', (
-    subreddit
-    picked_tags
-    )->
-    # @unblock()
-    self = @
-    match = {
-        model:'rpost'
-        subreddit:subreddit
-    }
+# Meteor.publish 'agg_sentiment_subreddit', (
+#     subreddit
+#     picked_tags
+#     )->
+#     # @unblock()
+#     self = @
+#     match = {
+#         model:'rpost'
+#         subreddit:subreddit
+#     }
         
-    doc_count = Docs.find(match).count()
-    if picked_tags.length > 0 then match.tags = $all:picked_tags
-    emotion_avgs = Docs.aggregate [
-        { $match: match }
-        #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
-        { $group: 
-            _id:null
-            avg_sent_score: { $avg: "$doc_sentiment_score" }
-            avg_joy_score: { $avg: "$joy_percent" }
-            avg_anger_score: { $avg: "$anger_percent" }
-            avg_sadness_score: { $avg: "$sadness_percent" }
-            avg_disgust_score: { $avg: "$disgust_percent" }
-            avg_fear_score: { $avg: "$fear_percent" }
-        }
-    ]
-    emotion_avgs.forEach (res, i) ->
-        self.added 'results', Random.id(),
-            model:'emotion_avg'
-            avg_sent_score: res.avg_sent_score
-            avg_joy_score: res.avg_joy_score
-            avg_anger_score: res.avg_anger_score
-            avg_sadness_score: res.avg_sadness_score
-            avg_disgust_score: res.avg_disgust_score
-            avg_fear_score: res.avg_fear_score
-    self.ready()
+#     doc_count = Docs.find(match).count()
+#     if picked_tags.length > 0 then match.tags = $all:picked_tags
+#     emotion_avgs = Docs.aggregate [
+#         { $match: match }
+#         #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
+#         { $group: 
+#             _id:null
+#             avg_sent_score: { $avg: "$doc_sentiment_score" }
+#             avg_joy_score: { $avg: "$joy_percent" }
+#             avg_anger_score: { $avg: "$anger_percent" }
+#             avg_sadness_score: { $avg: "$sadness_percent" }
+#             avg_disgust_score: { $avg: "$disgust_percent" }
+#             avg_fear_score: { $avg: "$fear_percent" }
+#         }
+#     ]
+#     emotion_avgs.forEach (res, i) ->
+#         self.added 'results', Random.id(),
+#             model:'emotion_avg'
+#             avg_sent_score: res.avg_sent_score
+#             avg_joy_score: res.avg_joy_score
+#             avg_anger_score: res.avg_anger_score
+#             avg_sadness_score: res.avg_sadness_score
+#             avg_disgust_score: res.avg_disgust_score
+#             avg_fear_score: res.avg_fear_score
+#     self.ready()
     
 
 
@@ -215,9 +216,9 @@ Meteor.publish 'subreddit_tags', (
 
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     if picked_tags.length > 0
-        limit=42
+        limit=33
     else 
-        limit=200
+        limit=100
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
     tag_cloud = Docs.aggregate [
@@ -245,10 +246,11 @@ Meteor.publish 'doc_by_title', (title)->
         title:title
         model:'wikipedia'
     }, {
-        # fields:
-        #     title:1
-        #     watson:1
-        #     "watson.metadata.image":1
+        fields:
+            title:1
+            max_emotion_name:1
+            # watson:1
+            "watson.metadata.image":1
     })
 
 

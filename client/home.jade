@@ -18,9 +18,9 @@ template(name='subs')
                     else if skv_is 'nsfw' true
                         +skve k='nsfw' v=false l='!!'
             if picked_tags
-                .six.wide.right.aligned.column
+                .sixteen.wide.middle.aligned.column
                     // .ui.inline.header #{sub_count}
-                    i.reddit.big.icon
+                    // i.reddit.big.icon
                     // .ui.inline.header.search_subs
                     //     |#{subreddit_docs.count} subs
                     // .smallscroll
@@ -34,19 +34,18 @@ template(name='subs')
                     .ui.icon.input
                         i.search.icon
                         input.search_subreddits(type='text' placeholder=sub_count)
-                    .medscroll
-                        each subreddit_tags
-                            +tag_picker
-                            // .ui.label #{this}
-                            // a.zoomer.ui.compact.small.circular.button.pick_sub_tag(title=count) #{name}
-                .ten.wide.column
+                    each subreddit_tags
+                        +tag_picker
+                        // .ui.label #{this}
+                        // a.zoomer.ui.compact.small.circular.button.pick_sub_tag(title=count) #{name}
+                    // .sixteen.wide.column
                     // +skve k='view_sub_detail' v=true l='detail' i='chevron up'
                     // +skve k='view_sub_detail' v=false l='simple' i='chevron down'
-                    +skve k='sort_subs' v='data.subscribers' l='subscribers' i='users'
-                    +skve k='sort_subs' v='data.title' l='name' i='header'
-                    +skve k='subs_limit' v=10 l='10'
-                    +skve k='subs_limit' v=20 l='20'
-                    +skve k='subs_limit' v=50 l='50'
+                    // +skve k='sort_subs' v='data.subscribers' l='subscribers' i='users'
+                    // +skve k='sort_subs' v='data.title' l='name' i='header'
+                    // +skve k='subs_limit' v=10 l='10'
+                    // +skve k='subs_limit' v=20 l='20'
+                    // +skve k='subs_limit' v=50 l='50'
                     
                     // if can_skip_left
                     //     .ui.icon.button.skip_left
@@ -60,20 +59,21 @@ template(name='subs')
                         +skve k='nsfw' v=false l='nsfw'
                     .scrolling
                         unless subreddit_docs.count
-                            .ui.center.aligned.segment
+                            .ui.center.aligned.basic.segment
                                 i.massive.reddit.grey.loading.icon
-                        .ui.items
+                        .ui.relaxed.items
                             each subreddit_docs
                                 +subreddit_doc
+                                .spacer
 
 
 template(name='subreddit_doc')
-    .item(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat; min-width: 100%; ")
+    a.item.rounded.zoomer(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat; min-width: 100%;" href="https://www.reddit.com/r/#{data.display_name}" target="_window")
         // a.ui.tiny.image.goto_sub(href="/r/#{data.display_name}")
-        a.ui.tiny.image.goto_sub(href="https://www.reddit.com/r/#{data.display_name}" target="_window")
+        .ui.tiny.image.goto_sub.zoomer
             img.ui.zoomer.tiny.rounded.image(src=data.icon_img)
-        .content.seg
-            a.ui.zoomer.header.goto_sub(href="https://www.reddit.com/r/#{data.display_name}" target="_window" style="color:#{data.primary_color}")
+        .content.seg.zoomer
+            .ui.zoomer.header.goto_sub(style="color:#{data.primary_color}")
                 // img.ui.zoomer.image(src=data.header_img)
                 | !{data.title} 
                 small !{data.display_name}
@@ -81,7 +81,7 @@ template(name='subreddit_doc')
             //     | !{data.header_title}
             // if skv_is 'view_sub_detail' true
             // span.description !{data.public_description_html}
-            a.description(href="https://www.reddit.com/r/#{data.display_name}" target="_window" style="color:#{data.primary_color}") !{data.public_description}
+            a.description.zoomer(style="color:#{data.primary_color}") !{data.public_description}
             // |created {{ufrom data.created}}
             // span.say
             //     // i.money.icon
@@ -100,7 +100,7 @@ template(name='subreddit_doc')
 
 
 template(name='unpick_tag')
-    a.unpick.ui.black.compact.button(href='#')
+    a.unpick.ui.black.image.large.circular.label.button(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -109,7 +109,7 @@ template(name='unpick_tag')
 
 template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.compact.tertiary.button.zoomer.pick_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.image.large.circular.basic.label.zoomer.pick_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    

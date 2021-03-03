@@ -54,7 +54,7 @@ Template.subs.events
     'click .search_subreddits': (e,t)->
         Session.set('toggle',!Session.get('toggle'))
     'keyup .search_subreddits': (e,t)->
-        val = $('.search_subreddits').val().toLowerCase()
+        val = $('.search_subreddits').val().toLowerCase().trim()
         Session.set('subreddit_query', val)
         if e.which is 13 
             $('.search_subreddits').val('')
