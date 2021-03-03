@@ -22,7 +22,7 @@ Template.subs.onCreated ->
     
     Session.setDefault('subreddit_query',null)
     Session.setDefault('sort_key','data.created')
-    Session.setDefault('subs_limit',10)
+    Session.setDefault('subs_limit',20)
     Session.setDefault('toggle',false)
     Session.setDefault('nsfw',false)
     

@@ -145,7 +145,7 @@ Meteor.publish 'subreddits', (
         match["data.display_name"] = {$regex:"#{query}", $options:'i'}
     # console.log 'match', match
     Docs.find match,
-        limit:parseInt(limit)
+        limit:42
         sort: "#{sort_key}":sort_direction
         fields:
             model:1
