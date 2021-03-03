@@ -1,0 +1,27 @@
+template(name='nav')
+    .ui.fluid.attached.borderless.inverted.three.item.menu.hscroll
+        a.icon.item.clear(href="/" class="{{isActiveRoute regex='home'}}")
+            i.heart.yin.yang.icon
+        // a.icon.item.clear(href="/stats" class="{{isActiveRoute 'stats'}}")
+        //     i.line..icon
+        if currentUser
+            if is_dev 
+                .icon.item
+                    i.code.icon
+            a.item(href="/u/#{currentUser.username}" class="{{isActiveRoute 'user_dashboard'}}")
+                if currentUser.profile_image_id
+                    if is_admin
+                        i.shield.icon(title='admin mode on')
+                    else
+                        img.ui.avatar.compact.image(src="{{c.url currentUser.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                else 
+                    i.user.icon
+                strong.mobile.hidden #{currentUser.name}
+                |#{currentUser.points}p
+        else
+            // a.icon.item(href="/register" title='login')
+            //     i.user.plus.large.icon
+            a.icon.item(href="/login" title='login')
+                i.chevron.right.large.icon
+
+
