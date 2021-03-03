@@ -6,7 +6,7 @@ template(name='subs')
                     .ui.inline.header 
                         i.reddit.icon
                         |search subreddits
-                    .ui.icon.input
+                    .ui.icon.large.input
                         i.search.icon
                         input.search_subreddits(type='text' placeholder=sub_count autofocus='')
                     each subreddit_tags
@@ -18,7 +18,7 @@ template(name='subs')
                     else if skv_is 'nsfw' true
                         +skve k='nsfw' v=false l='nsfw'
             if picked_tags
-                .sixteen.wide.middle.aligned.column
+                .sixteen.wide.column
                     // .ui.inline.header #{sub_count}
                     // i.reddit.big.icon
                     // .ui.inline.header.search_subs
@@ -31,9 +31,10 @@ template(name='subs')
                         each picked_tags
                             +unpick_tag
                             // .ui.black.circular.button.unpick_sub_tag #{this}
-                    .ui.icon.input
-                        i.search.icon
-                        input.search_subreddits(type='text' placeholder=sub_count)
+                    if multiple_results
+                        .ui.icon.input
+                            i.search.icon
+                            input.search_subreddits(type='text' placeholder=sub_count autofocus='')
                     each subreddit_tags
                         +tag_picker
                         // .ui.label #{this}
@@ -62,7 +63,7 @@ template(name='subs')
                             .ui.center.aligned.basic.segment
                                 i.massive.reddit.grey.loading.icon
                         // .ui.centered.five.stackable.cards
-                        .ui.centered.five.column.padded.grid
+                        .ui.centered.five.column.padded.stackable.grid
                             each subreddit_docs
                                 +subreddit_doc
                                 // .spacer
@@ -75,15 +76,18 @@ template(name='subreddit_doc')
         .ui.image.goto_sub.zoomer
             img.ui.zoomer.rounded.image(src=data.icon_img)
         .content.seg.zoomer
-            .ui.zoomer.header.goto_sub(style="color:#{data.primary_color}")
-                // img.ui.zoomer.image(src=data.header_img)
+            // .ui.zoomer.header.goto_sub(style="color:#{data.primary_color}")
+            .ui.zoomer.header.goto_sub()
+                if data.header_img
+                    img.ui.zoomer.image(src=data.header_img)
                 | !{data.title} 
                 small !{data.display_name}
             // a.ui.small.grey.header.goto_sub(href="/r/#{data.display_name}" target="_window")
             //     | !{data.header_title}
             // if skv_is 'view_sub_detail' true
             // span.description !{data.public_description_html}
-            a.description.zoomer(style="color:#{data.primary_color}") !{data.public_description}
+            // a.description.zoomer(style="color:#{data.primary_color}") !{data.public_description}
+            a.description.zoomer(style="color:black") !{data.public_description}
             // |created {{ufrom data.created}}
             // span.say
             //     // i.money.icon
@@ -102,7 +106,7 @@ template(name='subreddit_doc')
 
 
 template(name='unpick_tag')
-    a.unpick.ui.black.image.large.circular.label.button(href='#')
+    a.unpick.ui.image.large.circular.label.black.button(href='#')
         if term
             if term.watson.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
@@ -111,7 +115,7 @@ template(name='unpick_tag')
 
 template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.image.large.circular.basic.label.zoomer.pick_tag.invert(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.image.large.circular.label.zoomer.pick_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    

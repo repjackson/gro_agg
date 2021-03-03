@@ -184,7 +184,7 @@ Meteor.publish 'subreddit_tags', (
 
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     if picked_tags.length > 0
-        limit=25
+        limit=20
     else 
         limit=50
     doc_count = Docs.find(match).count()
