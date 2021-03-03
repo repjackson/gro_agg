@@ -1,0 +1,33 @@
+// template(name='stats')
+//     .ui.padded.grid
+//         .ui.eight.wide.column
+//             .ui.header 
+//                 i.line.chart.icon
+//                 |stats
+//             .ui.header 
+//                 i.yin.yang.icon
+//                 |#{global_karma} global karma
+//             .ui.header 
+//                 i.chat.icon
+//                 |#{comment_count} comments
+//             .ui.header 
+//                 i.reply.icon
+//                 |#{reflection_count} reflections
+//             .ui.header 
+//                 i.heart.outline.icon
+//                 |#{definition_count} definitions
+//             .ui.header 
+//                 i.users.icon
+//                 |#{user_count} users
+//             .ui.header 
+//                 i.donate.icon
+//                 |#{tip_count} tips
+//             .ui.header 
+//                 i.newspaper.icon
+//                 |#{post_count} posts
+                
+//         .eight.wide.column
+//             if currentUser
+//                 .ui.header logins
+//                 each global_events
+//                     .ui.header #{_author.username} #{when}

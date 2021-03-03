@@ -15,16 +15,41 @@ head
     link(rel="manifest" href="/site.webmanifest")
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
 
+    // link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
+    // script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
+    // script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/en.js")
 
     // script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
 
     link(rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css")
     script(src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js")
     // script(async src="https://www.googletagmanager.com/gtag/js?id=G-GLYPPRGJFQ")
-    script.
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    // script.
+    //     window.dataLayer = window.dataLayer || [];
+    //     function gtag(){dataLayer.push(arguments);}
+    //     gtag('js', new Date());
         
-        gtag('config', 'G-GLYPPRGJFQ');
+    //     gtag('config', 'G-GLYPPRGJFQ');
+
+
+template(name='layout')
+    +nav
+    .ui.bottom.attached.pushable.segment
+        // +topbar
+        +leftbar
+        +rightbar
+                
+        #main_area.global_container.pusher
+            +yield
+    
+    // .ui.bottom.attached.pushable.segment
+    //     #main_area.pusher(class=currentUser.invert_class)
+    
+
+            
+
+template(name='not_found')
+    .ui.center.aligned.basic.segment
+        a(href="/")
+            i.massive.yin.yang.grey.link.icon.pulse
 

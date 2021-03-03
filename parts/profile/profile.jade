@@ -1,0 +1,534 @@
+template(name='profile_layout')
+    +nav
+    .ui.bottom.attached.pushable.segment
+        +rightbar
+        #main_area.global_container.pusher
+            with user
+                .ui.stackable.padded.grid
+                    .three.wide.column
+                        span.mobile.only
+                            a(href="/u/#{username}/")
+                                img.ui.centered.tiny.inline.spaced.rounded.image.zoomer.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
+                        span.mobile.hidden
+                            a(href="/u/#{username}/")
+                                img.ui.centered.fluid.rounded.image.zoomer.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
+                        a.ui.header.refresh_user_stats(href="/u/#{username}") 
+                            |#{name}
+                        // div
+                        a.ui.small.header.refresh_user_stats(href="/u/#{username}") 
+                            |@#{username}
+                        .ui.inline.header() #{points}pts
+                        // .ui.label {{to_percent one_ratio}}% ratio
+                        // .ui.label #{flow_volume} volume
+                        .ui.small.inline.header #{boops}
+                        .ui.basic.label #{profile_views} views
+                        // +user_follow_button
+                        // .ui.button.join
+                        //     |join
+                        if is_admin
+                            a.ui.circular.icon.basic.button(href="/u/#{username}/edit" title='admin edit account')
+                                i.shield.large.icon
+                                // |account
+                        if is_current_user
+                            a.ui.circular.basic.icon.button(href="/u/#{username}/edit" title='edit your account')
+                                i.cog.icon
+                                // |account
+                            a.ui.circular.icon.basic.button.logout(href="#" title='log out')
+                                i.sign.out.icon
+                                // |log out
+                        if is_dev
+                            .ui.small.inline.header #{_id}
+                            +print_this
+                        unless is_current_user
+                            if currentUser
+                                // div
+                                +user_friend_button 
+                        if i_have_points
+                            .ui.basic.button.send(title='send points')
+                                i.gift.large.icon
+                                span send pts
+                        with data
+                            .ui.list
+                                .item #{total_karma} total karma
+                                .item #{comment_karma} comment karma
+                                .item #{link_karma} link karma
+                                .item #{awardee_karma} awardee karma
+                                .item #{awarder_karma} awarder karma
+                                .item created {{ufrom created_utc}}
+                               
+                    .thirteen.wide.column
+                        a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
+                            i.large.dashboard.icon
+                            // span dashboard
+                        if currentUser
+                            a.ui.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} posts")
+                                i.newspaper.large.icon
+                                |#{user_post_count}
+                                // span posts
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/comments" class="{{isActiveRoute 'user_comments'}}" title="#{user.username} comments")
+                                i.chat.large.icon
+                                |#{user_comment_count}
+                                // span comments
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
+                                i.large.chevron.down.icon
+                                // span pts received
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/sent" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
+                                i.large.gift.icon
+                                // span pts sent
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/received" class="{{isActiveRoute 'user_received'}}" title="#{user.username} received")
+                                i.large.dollar.icon
+                                // span credit
+                            a.ui.disabled.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/upvoted" class="{{isActiveRoute 'user_upvoted'}}" title="#{user.username} upvoted")
+                                i.large.chevron.up.icon
+                                // span upvoted
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/downvoted" class="{{isActiveRoute 'user_downvoted'}}" title="#{user.username} downvoted")
+                                i.large.chevron.down.icon
+                                // span downvoted
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/tips" class="{{isActiveRoute 'user_tips'}}" title="#{user.username} tips")
+                                i.donate.large.icon
+                                // span tips
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/groups" class="{{isActiveRoute 'user_groups'}}" title="#{user.username} groups")
+                                i.users.large.icon
+                                // span groups
+                            a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/bounties" class="{{isActiveRoute 'user_bounties'}}" title="#{user.username} bounties")
+                                i.hand.holding.large.icon
+                                // span bounties
+                            if is_current_user
+                                a.ui.icon.circular.basic.large.button.select_term.no_blink(href="/u/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
+                                    i.users.large.icon
+                                    // span friends
+                                a.ui.basic.circular.large.icon.button.select_term.no_blink(href="/u/#{username}/vault" class="{{isActiveRoute 'user_vault'}}" title="#{user.username} friends")
+                                    i.lock.large.icon
+                                    // span vault
+                        if is_dev
+                            +print_this
+                        .ui.hidden.divider
+                        .profile_yield
+                            +yield    
+                      
+
+
+
+
+
+template(name='user_friend_button')
+    unless is_current_user
+        if is_friend
+            .ui.black.animated.fade.button.unfriend(title='unfriend')
+                .hidden.content
+                    i.minus.large.icon
+                    |unfriend
+                .visible.content
+                    i.checkmark.large.icon
+                    |friend
+        else
+            .ui.animated.fade.basic.circular.button.friend(title='friend')
+                .hidden.content
+                    i.plus.large.icon
+                    |friend
+                .visible.content
+                    i.user.plus.large.icon
+                    |friend
+
+template(name='user_follow_button')
+    unless is_current_user
+        if is_following
+            .ui.black.animated.fade.button.unfollow(title='unfollow')
+                .hidden.content
+                    i.minus.large.icon
+                    |unfollow
+                .visible.content
+                    i.checkmark.large.icon
+                    |follow
+        else
+            .ui.animated.fade.button.follow(title='follow')
+                .hidden.content
+                    i.plus.large.icon
+                    |follow
+                .visible.content
+                    i.user.plus.large.icon
+                    |follow
+
+
+template(name='user_dashboard')
+    .ui.stackable.grid
+        .row
+            .sixteen.wide.column
+                .ui.icon.input
+                    i.plus.icon
+                    input.add_feed_item(type='text' placeholder='add to feed (-10p)')
+                .ui.circular.icon.small.disabled.button 
+                    i.gift.icon
+                .ui.circular.icon.small.disabled.button 
+                    i.photo.icon
+                .ui.circular.icon.small.disabled.button 
+                    i.hand.holding.icon
+                .ui.feed
+                    each feed_items 
+                        +feed_item
+                .ui.two.column.stackable.grid
+                    .column.smallscroll
+                        .ui.header bounties from
+                        .ui.divided.list
+                            each bounties_from
+                                .ui.item
+                                    // if is_author
+                                    //     +session_edit_toggle
+                                    //     if is_editing_this
+                                    //         +text_edit key='description' direct=true
+                                    //         +number_edit key='karma_bounty' direct=true
+                                    .ui.inline.header #{description}
+                                    .ui.inline.header #{karma_bounty}
+                                    // +boolean_view key='require_view' label='view' icon='eye' icon_only=true
+                                    // +boolean_view key='require_vote' label='vote' icon='thumbs up' icon_only=true
+                                    // +boolean_view key='require_reply' label='reply' icon='reply' icon_only=true
+                                    if require_view
+                                        +boolean_view key='view_requirement_met' label='view requirement met' icon_only=true icon='eye'
+                                    if require_vote
+                                        +boolean_view key='vote_requirement_met' label='vote requirement met' icon_only=true icon='thumbs up'
+                                    if require_reply
+                                        +boolean_view key='reply_requirement_met' label='reply requirement met' icon_only=true icon='reply'
+                                    +target_info
+                                    if is_admin
+                                        +print_this
+                                    .ui.label #{status}
+                                    a.ui.icon.basic.circular.button(href="/b/#{_id}")
+                                        i.chevron.right.icon
+                                    a.item(href="/b/#{_id}")
+                                        |#{when} 
+                                        +print_this
+                    .column.smallscroll
+                        .ui.header bounties to
+                        .ui.divided.list
+                            each bounties_to
+                                .ui.item
+                                    if is_author
+                                        +session_edit_toggle
+                                        if is_editing_this
+                                            +text_edit key='description' direct=true
+                                            +number_edit key='karma_bounty' direct=true
+                                    .ui.inline.header #{description}
+                                    .ui.inline.header #{karma_bounty}
+                                    // +boolean_view key='require_view' label='view' icon='eye' icon_only=true
+                                    // +boolean_view key='require_vote' label='vote' icon='thumbs up' icon_only=true
+                                    // +boolean_view key='require_reply' label='reply' icon='reply' icon_only=true
+                                    if require_view
+                                        +boolean_view key='view_requirement_met' label='view requirement met' icon_only=true icon='eye'
+                                    if require_vote
+                                        +boolean_view key='vote_requirement_met' label='vote requirement met' icon_only=true icon='thumbs up'
+                                    if require_reply
+                                        +boolean_view key='reply_requirement_met' label='reply requirement met' icon_only=true icon='reply'
+                                    +target_info
+                                    +print_this
+                                    +author_info
+                                    .ui.label #{status}
+                                    a.ui.icon.basic.circular.button(href="/b/#{_id}")
+                                        i.chevron.right.icon
+                                a.item(href="/b/#{_id}")
+                                    |#{when} 
+                                    +print_this
+                if currentUser
+                    .ui.two.column.stackable.grid
+                        .column
+                            a.ui.inline.spaced.header(href="/u/#{username}/debits")
+                                i.chevron.up.icon
+                                |karma sent
+                                |#{total_debit_amount}p
+                                // |sent
+                                small(title='debit count') (#{debit_count}x)
+                                small(title='rank') ##{global_debit_count_rank}
+                            each debit_tags
+                                .ui.small.label #{title} 
+                                    // small #{count}
+                            .ui.list.selection.animated.smallscroll
+                                each user_karma_sent
+                                    a.item(href="/debit/#{_id}/view") #{title} #{amount} #{points} #{when}, #{description}
+                                        each tags
+                                            .ui.small.basic.label #{this}
+                                        +target_info
+                        .column
+                            a.ui.inline.header(href="/u/#{username}/credits")
+                                i.chevron.down.large.icon
+                                |karma received
+                                |#{total_credit_amount}p
+                                // |received
+                                small(title='received count') (#{credit_count}x) 
+                                small(title='rank') ##{global_credit_count_rank}
+                            each credit_tags
+                                .ui.small.label #{title}
+                            .ui.selection.animated.list.smallscroll
+                                each user_karma_received
+                                    a.item(href="/debit/#{_id}/view")
+                                        .header #{points}: #{title}
+                                        |#{description} #{amount} 
+                                        small #{when}
+                                        each tags
+                                            .ui.small.basic.label #{this}
+                                        +author_info
+                        
+                    // .ui.small.header 
+                    //     label goto/create group
+                    // .ui.input
+                    //     input.goto_group(type='text' placeholder='name')
+                    // each group_bookmarks
+                    //     .ui.large.label
+                    //         i.remove.icon.remove_group
+                    //         span.pointer.click_group
+                    //             |#{name}
+                    //- .ui.icon.button.refresh_user_stats(title='refresh stats')
+                    //-     i.refresh.icon
+                    .ui.label #{user_post_count} posts x 10p = #{post_points}p
+                    i.minus.icon
+                    .ui.label #{user_comment_count} comments x 1p
+                    i.minus.icon
+                    .ui.label #{user_comment_count} tips sent totaling #{tips_sent_amount}
+                    i.plus.icon
+                    .ui.label #{tips_received_count} tips received totaling #{tips_received_amount}
+                    i.equals.icon
+                    .ui.big.label #{points}p
+                    .ui.header 
+                        i.chat.icon
+                        |comments
+                    .smallscroll
+                        each comments    
+                            +user_comment_small
+                    div
+                    .ui.header 
+                        i.users.icon
+                        |groups
+                    .smallscroll
+                        each groups    
+                            +user_group
+                    div
+                    .ui.inline.header 
+                        i.newspaper.icon
+                        |posts
+                    +session_select key='post_sort_key' value='viewer_ids' icon='eye'
+                    +session_select key='post_sort_key' value='points' icon='thumbs up'
+                    +session_select key='post_sort_key' value='_timestamp' icon='clock'
+                    .ui.link.list.smallscroll
+                        each posts
+                            +user_post_small
+                    .ui.header 
+                        i.donate.icon
+                        |tips
+                    .ui.link.list.smallscroll
+                        each tips
+                            +user_tip_small
+        .three.column.row
+            .column
+                +user_bookmarks_widget
+
+
+
+template(name='feed_item')
+    .event.mark_viewed(class=read_class)
+        .label 
+            img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        .content
+            .summary
+                a.user #{_author.username}
+                |#{body}
+                .date
+                    |#{when}
+            .meta 
+                +voting_small
+                i.envelope.icon
+                i.lock.icon
+                +remove_icon
+                i.share.icon
+
+
+
+
+
+template(name='session_select')
+    .ui.icon.circular.button
+        i.icon(class=icon)
+
+
+template(name='user_posts')
+    .ui.header 
+        i.newspaper.icon
+        |posts
+    .ui.link.selection.animated.list.scrolling
+        each posts
+            a.ui.item(href="/p/#{_id}") 
+                .content
+                    if image_link
+                        +image_link_view key='image_link' direct=true
+                    if image_id
+                        img.ui.fluid.rounded.image.no_left(src="{{c.url image_id }}" class=currentUser.invert_class)
+                    if youtube_id
+                        .no_left
+                            +youtube_view key='youtube_id' label='youtube id' direct=true
+                
+                    .header #{title} 
+                    |#{when}
+                    each seven_tags 
+                        .ui.mini.label #{this}
+                    +author_info
+
+
+template(name='user_vault')
+    .ui.header 
+        i.lock.icon
+        |private posts
+    .ui.link.list.scrolling
+        each private_posts
+            a.ui.item(href="/p/#{_id}") 
+                if image_id
+                    a(href="/p/#{_id}/view")
+                        img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                if image_link
+                    img(src=image_link)
+                .content
+                    .header #{title} 
+                    |#{when}
+                    each seven_tags 
+                        .ui.mini.label #{this}
+
+
+template(name='user_tips')
+    .ui.header 
+        i.donate.icon
+        |tips
+    .ui.link.list.scrolling
+        each tips
+            a.ui.item(href="/p/#{parent_id}") 
+                if parent.image_id
+                    a(href="/p/#{_id}")
+                        img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                if parent.image_link
+                    img(src=parent.image_link)
+                .content
+                    .header #{parent.title} 
+                    .header #{amount} 
+                    |#{parent.when} #{when}
+                    each parent.seven_tags
+                        .ui.mini.label #{this}
+
+
+
+
+template(name='user_comments')
+    .ui.header 
+        i.comment.icon
+        |comments
+    .ui.link.selection.animated.list.scrolling
+        each comments
+            a.ui.item(href="/p/#{parent_id}") 
+                .content
+                    .header #{body} 
+                    |#{when}
+                    each five_tags 
+                        .ui.mini.label #{this}
+                    +voting_small
+                    if is_author
+                        +remove_icon
+                    
+
+
+
+template(name='user_tip_small')
+    a.ui.item(href="/tip/#{_id}/view") 
+        |#{title} #{when} #{amount} #{parent_id}
+        each tags 
+            .ui.mini.label #{this}
+
+template(name='user_comment_small')
+    |#{body}
+    
+    
+template(name='user_group')
+    .ui.fluid.link.card.mark_viewed.pad
+        .content
+            a.header(href="/p/#{_id}/view") 
+                |#{title}
+            |#{when}
+            if image_link
+                a.view_post(href="/p/#{_id}/view" class=post_header_class)
+                    img.ui.rounded.inline.zoomer.image.zoomer(src=image_link)    
+            // |!{content}
+            i.grey.eye.icon
+            each viewer_ids
+                .ui.label #{this}
+            |#{points}
+            each five_tags
+                .ui.small.label #{this}
+            +doc_emotion_small        
+            // +skve k='view_preview' v='preview' l=' ' i='caret down'
+            // if skv_is 'view_preview' 'preview'
+            a.ui.large.icon.circular.button(href="/p/#{_id}/view") 
+                i.chevron.right.icon
+            if in_dev
+                +print_this
+                
+                
+template(name='user_post_small')
+    .ui.fluid.link.card.mark_viewed.pad
+        .content
+            a.header(href="/p/#{_id}/view") 
+                |#{title}
+            |#{when}
+            if image_link
+                a.view_post(href="/p/#{_id}/view" class=post_header_class)
+                    img.ui.rounded.inline.zoomer.image.zoomer(src=image_link)    
+            // |!{content}
+            i.grey.eye.icon
+            each viewer_ids
+                .ui.label #{this}
+            |#{points}
+            each five_tags
+                .ui.small.label #{this}
+            +doc_emotion_small        
+            // +skve k='view_preview' v='preview' l=' ' i='caret down'
+            // if skv_is 'view_preview' 'preview'
+            a.ui.large.icon.circular.button(href="/p/#{_id}/view") 
+                i.chevron.right.icon
+            if in_dev
+                +print_this
+
+template(name='user_bookmarks_widget')
+    a.ui.header(href="/u/#{username}/bookmarks")
+        i.bookmark.icon(title='bookmark tags')
+        |bookmarks
+    each bookmark_tags
+        .ui.small.label #{title} 
+    div
+    .medscroll.ui.segments
+        each user_bookmark_docs
+            .ui.header #{title}
+
+
+
+template(name='user_credit_segment')
+    .ui.segment.user_credit_segment.pointer.zoom
+        .header
+            strong #{amount}pt 
+            // |from 
+            if author.profile_image_id
+                img.ui.avatar.image(src="{{c.url author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+            |#{_author.shortname}
+        small #{when}
+        div
+        |#{description}
+        div
+        each tags
+            .ui.mini.label #{this}
+
+
+template(name='user_debit_segment')
+    .ui.segment.user_debit_segment.pointer.zoom
+        .header
+            strong #{amount}pt
+            | to 
+            if target.profile_image_id
+                img.ui.avatar.image(src="{{c.url target.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+            |#{target.shortname}
+        small #{when}
+        div
+        |#{description}
+        div
+        each tags
+            .ui.mini.label #{this}

@@ -23,7 +23,7 @@ template(name='login')
                 if logging_in
                     .spacer
                     .ui.fluid.big.basic.button.enter(title="login #{username}" class=enter_class)
-                        |login
+                        // |login
                         strong #{username}
                         |&nbsp;
                         i.sign.in.alternate.icon
@@ -48,22 +48,8 @@ template(name='register')
                         
                     // div
                     // +icon name='circled' cl='ui inline image'
-                    i.big.yin.yang.red.icon
+                    i.big.yin.yang.icon
                     .ui.big.inline.header register
-                //- if message
-                //-     h4.ui.center.aligned.header #{message}
-                // .ui.fluid.input(class=login_class)
-                //     input.last_name(type='text')
-                // .ui.small.inline.header 
-                //     i.mail.icon
-                //     |email
-                // .ui.fluid.icon.input(class=login_class)
-                //     //- if email_valid
-                //     if email_valid
-                //         i.checkmark.large.green.icon
-                //     else
-                //         i.ban.orange.large.icon
-                //     input.email_field(type='email')
                 .ui.header 
                     i.user.outline.icon
                     |username
@@ -104,8 +90,8 @@ template(name='register')
                         |register
                     // // .ui.small.header username "#{username}" found
                     a.ui.basic.fluid.button(href='/login') 
-                        i.right.chevron.icon
-                        // +icon name='internal' cl='ui inline image'
+                        // i.right.chevron.icon
+                        +icon name='internal' cl='ui inline image'
                         |login
                 // .ui.center.aligned.basic.segment    
                     // .ui.small.header by registering you agree to our 
@@ -116,3 +102,4 @@ template(name='register')
                     //         // i.chevron.right.icon
                     //         +icon name='internal'
                     //         |login
+                    

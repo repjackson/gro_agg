@@ -42,6 +42,11 @@ if Meteor.isClient
                         message: err.reason
                     })
                 else
+                    Docs.insert 
+                        model:'global_event'
+                        type:'login'
+                        user_id:Meteor.userId()
+                        username:Meteor.user().username
                     # console.log res
                     # if Meteor.user().roles and 'admin' in Meteor.user().roles
                     #     Router.go "/admin"

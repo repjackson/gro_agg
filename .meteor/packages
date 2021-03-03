@@ -30,3 +30,7 @@ constellation:session
 ecmascript@0.15.0
 tmeasday:publish-counts
 http
+lepozepo:cloudinary
+dburles:collection-helpers
+francocatena:status
+lamhieu:unblock

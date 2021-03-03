@@ -1,0 +1,124 @@
+template(name='su')
+    unless current_site
+        +loading
+    with current_site
+        .ui.stackable.grid
+            .row
+                .four.wide.column
+                    // a.ui.circular.icon.button(href='/')
+                    //     i.large.home.icon
+                    // img.ui.inline.image.shadowed(src=high_resolution_icon_url)
+                    img.shadowed(src=logo_url )
+                    // .ui.segment(style="background-color:#{styling.tag_background_color}")
+                    // .ui.label #{tag_background_color}: tag_background_color
+                    // .ui.label #{tag_foreground_color}: tag_foreground_color
+                    // .ui.label #{link_color}: link_color
+                    // .ui.header related sites
+                    // .ui.header !{name}
+                    // each related_sites
+                    //     .ui.small.header 
+                    //         i.fork.icon
+                    //         |#{name}
+                    //     .ui.list 
+                    //         .item relation: #{relation}
+                    //         .item api_site_parameter: #{api_site_parameter}
+                    //         .item site_url: #{site_url}
+                    // a(href="https://www.twitter.com/#{twitter_account}" target='_window' title=twitter_account)
+                    //     i.large.link.twitter.icon
+                    a.ui.large.basic.icon.circular.button(href=site_url)
+                        // |#{site_url}
+                        i.external.icon
+                    if in_dev
+                        +print_this
+                    a.ui.large.circular.basic.icon.button.say_title(href="/s/#{api_site_parameter}" title='site questions')
+                        i.question.large.icon
+                        // |questions
+                    // a.ui.large.disabled.circular.basic.button.say(href="/s/#{api_site_parameter}/tags")
+                    //     i.tag.icon
+                    //     |tags
+                    // a.ui.large.disabled.circular.basic.button.say_title(href="/s/#{api_site_parameter}/badges" title="hi there")
+                    //     i.certificate.icon
+                    //     |badges
+                    .ui.list.mobile.hidden
+                        .item #{launch_date} launch_date
+                        .item #{open_beta_date} open_beta_date
+                        .item #{closed_beta_date} closed_beta_date
+                        .item #{site_state} site_state
+                        // .item #{high_resolution_icon_url} high_resolution_icon_url
+                        // .item #{favicon_url} favicon_url
+                        .item !{audience}
+                        // .item #{api_site_parameter} api_site_parameter
+                        .item #{site_type} site_type
+                    // +array_edit k='tags' d=true
+                    if in_dev
+                        .ui.icon.button.get_site_users
+                            i.refresh.icon
+                .twelve.wide.column
+                    if picked_tags
+                        if many_tags
+                            a#clear_tags.ui.black.invert.icon.compact.button.select_term
+                                i.remove.icon
+                        each picked_tags
+                            +unpick_tag
+                    .ui.left.icon.input(class="{{#if current_username_query}} focus {{/if}}")
+                        if current_username_query
+                            i.remove.link.icon.clear_user
+                        else
+                            i.user.link.icon
+                        input.search_users(type='text' placeholder='username' val="{{session 'user_query'}}")
+                    .ui.left.icon.input(class="{{#if current_location_query}} focus {{/if}}")
+                        if skv_is 'ready' false
+                            i.loading.yin.yang.icon
+                        else if current_location_query
+                            i.remove.link.icon.clear_location
+                        else
+                            i.marker.link.icon.clear_location
+                        input.search_location(type='text' placeholder='location' value=current_location_query)
+                    each user_tags
+                        +stack_tag_selector
+                        // small #{count}
+                        // .ui.large.label(title=count) #{name} 
+                    if skv_is 'sort_direction' 1
+                        .ui.icon.compact.circular.button.sort_down
+                            i.caret.down.icon
+                    else
+                        .ui.icon.compact.circular.button.sort_up
+                            i.caret.up.icon
+                    .ui.inline.small.header 
+                        |#{stackusers.count} / #{user_count}
+                    .scrolling.ui.items
+                        each stackusers
+                            +stackuser_item
+                            
+                            
+template(name='stackuser_item')
+    .item
+        a.ui.small.image.say.zoomer(href="/s/#{site}/u/#{user_id}" class=post_header_class) 
+            img.ui.rounded.tiny.image(src=profile_image)
+        .content
+            a.ui.inline.header.say.zoomer(href="/s/#{site}/u/#{user_id}" class=post_header_class) 
+                |!{display_name}
+                small {{ commafy reputation }}
+            |!{about_me}
+            strong(title="#{site} rank") ##{site_rank} 
+            strong(title='global rank') ##{global_rank}
+            .ui.compact.circular.basic.button.description.set_location.say_location.zoomer
+                +term_image                                            
+                |!{location}
+            .ui.basic.label
+                small accessed
+                |{{ufrom last_access_date}}
+            each seven_tags
+                +flat_tag_selector
+                // .ui.small.tertiary.button #{this}
+            if website_url
+                a.ui.compact.small.basic.button(href=website_url target='_window')
+                    |#{website_url}
+                // .four.wide.center.aligned.column
+                //     .ui.header filter
+            +suser_top_emotions
+
+        
+        
+template(name='term_image')
+    |#{this_thing}
