@@ -38,6 +38,7 @@ Template.subs.onCreated ->
     @autorun -> Meteor.subscribe('sub_count',
         Session.get('subreddit_query')
         picked_tags.array()
+        Session.get('nsfw')
     )
     @autorun => Meteor.subscribe 'subreddit_tags',
         picked_tags.array()

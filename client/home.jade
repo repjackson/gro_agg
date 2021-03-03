@@ -14,9 +14,9 @@ template(name='subs')
                         // .ui.label #{this}
                         // a.zoomer.ui.compact.circular.button.pick_sub_tag(title=count) #{name}
                     if skv_is 'nsfw' false
-                        +skve k='nsfw' v=true l='--'
+                        +skve k='nsfw' v=true l='safe'
                     else if skv_is 'nsfw' true
-                        +skve k='nsfw' v=false l='!!'
+                        +skve k='nsfw' v=false l='nsfw'
             if picked_tags
                 .sixteen.wide.middle.aligned.column
                     // .ui.inline.header #{sub_count}

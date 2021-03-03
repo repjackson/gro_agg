@@ -50,7 +50,7 @@ Docs.allow
 
 Meteor.methods
     search_subreddits: (search)->
-        console.log 'searching subs', search
+        # console.log 'searching subs', search
         @unblock()
         HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1&nsfw=1&include_over_18=on&limit=100", (err,res)->
             if res.data.data.dist > 1
@@ -107,9 +107,16 @@ Meteor.methods
 Meteor.publish 'sub_count', (
     query=''
     picked_tags
+    nsfw
     )->
         
     match = {model:'subreddit'}
+    
+    if nsfw
+        match["data.over18"] = true
+    else 
+        match["data.over18"] = false
+    
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     if query.length > 0
         match["data.display_name"] = {$regex:"#{query}", $options:'i'}
@@ -159,45 +166,6 @@ Meteor.publish 'subreddits', (
         
         
     
-# Meteor.publish 'agg_sentiment_subreddit', (
-#     subreddit
-#     picked_tags
-#     )->
-#     # @unblock()
-#     self = @
-#     match = {
-#         model:'rpost'
-#         subreddit:subreddit
-#     }
-        
-#     doc_count = Docs.find(match).count()
-#     if picked_tags.length > 0 then match.tags = $all:picked_tags
-#     emotion_avgs = Docs.aggregate [
-#         { $match: match }
-#         #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
-#         { $group: 
-#             _id:null
-#             avg_sent_score: { $avg: "$doc_sentiment_score" }
-#             avg_joy_score: { $avg: "$joy_percent" }
-#             avg_anger_score: { $avg: "$anger_percent" }
-#             avg_sadness_score: { $avg: "$sadness_percent" }
-#             avg_disgust_score: { $avg: "$disgust_percent" }
-#             avg_fear_score: { $avg: "$fear_percent" }
-#         }
-#     ]
-#     emotion_avgs.forEach (res, i) ->
-#         self.added 'results', Random.id(),
-#             model:'emotion_avg'
-#             avg_sent_score: res.avg_sent_score
-#             avg_joy_score: res.avg_joy_score
-#             avg_anger_score: res.avg_anger_score
-#             avg_sadness_score: res.avg_sadness_score
-#             avg_disgust_score: res.avg_disgust_score
-#             avg_fear_score: res.avg_fear_score
-#     self.ready()
-    
-
-
 Meteor.publish 'subreddit_tags', (
     picked_tags
     toggle
