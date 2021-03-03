@@ -61,7 +61,8 @@ template(name='subs')
                         unless subreddit_docs.count
                             .ui.center.aligned.basic.segment
                                 i.massive.reddit.grey.loading.icon
-                        .ui.centered.five.cards
+                        // .ui.centered.five.stackable.cards
+                        .ui.centered.five.column.padded.grid
                             each subreddit_docs
                                 +subreddit_doc
                                 // .spacer
@@ -69,10 +70,10 @@ template(name='subs')
 
 template(name='subreddit_doc')
     // a.card.rounded.zoomer(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat; min-width: 100%;" href="https://www.reddit.com/r/#{data.display_name}" target="_window")
-    a.card.rounded.zoomer(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat;" href="https://www.reddit.com/r/#{data.display_name}" target="_window")
+    a.column.rounded.zoomer(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat;" href="https://www.reddit.com/r/#{data.display_name}" target="_window")
         // a.ui.tiny.image.goto_sub(href="/r/#{data.display_name}")
         .ui.image.goto_sub.zoomer
-            img.ui.zoomer.tiny.rounded.image(src=data.icon_img)
+            img.ui.zoomer.rounded.image(src=data.icon_img)
         .content.seg.zoomer
             .ui.zoomer.header.goto_sub(style="color:#{data.primary_color}")
                 // img.ui.zoomer.image(src=data.header_img)

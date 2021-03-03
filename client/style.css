@@ -14,7 +14,7 @@ body {
   background: rgba(200,200,200,.5) !important;
   /*background: rgba(0,0,0,.9) !important;*/
   overscroll-behavior: none; 
-  transition: all .5s ease !important;
+  transition: all 1s ease !important;
   /*background: #0e0e44 !important; */
 }
 /*.invert{*/
@@ -85,41 +85,41 @@ p {
 /*}*/
 .ui.button {
   margin: 2px !important;
-  /*transition: height ..5s ease !important; */
+  /*transition: height .1s ease !important; */
   }
 /*  */
 
 .pointer:hover {
-    transition: all .5s linear !important; 
+    transition: all 1s linear !important; 
     cursor: pointer !important;
 }
 
 .zoomer:hover {
-    transition: all .5s ease !important; 
+    transition: all 1s ease !important; 
     /*text-shadow: 0 0 3px grey !important;*/
     /*filter: drop-shadow(0px 0px 4px grey);    */
     /*z-index: 1000 !important;*/
-    transform: scale(1.02) !important;
-    /*animation: fadein .5s !important;*/
-    /*animation: fadeout .5s; */
+    transform: scale(1.03) !important;
+    /*animation: fadein 1s !important;*/
+    /*animation: fadeout 1s; */
 }
 .superzoom {
-    animation: fadeout .5s; 
-    transition: all .5s ease !important; 
+    animation: fadeout 1s; 
+    transition: all 1s ease !important; 
     z-index:1000 !important;
 }
 /*.superzoom:active {*/
 /*    transform: scale(1.5) !important;*/
 /*}*/
 .superzoom:hover {
-    transition: all .5s ease !important; 
+    transition: all 1s ease !important; 
     transform: scale(2) !important;
     /*transform: rotate(20deg) !important;*/
     z-index:1000 !important;
-    animation: fadein .5s !important;
-    -webkit-transition: opacity .5s ease-in !important;
-    -webkit-transition: opacity .5s ease-out; 
-    animation: fadeout .5s; 
+    animation: fadein 1s !important;
+    -webkit-transition: opacity 1s ease-in !important;
+    -webkit-transition: opacity 1s ease-out; 
+    animation: fadeout 1s; 
     
 }
 /*.inset {*/
@@ -171,18 +171,18 @@ input {
 
 
 .button,.card,.image,.header,p,img,.say,.pointer, .item, p, .f12{
-    animation: fadein .5s !important;
-    -webkit-transition: opacity .5s ease-in !important;
-    -webkit-transition: opacity .5s ease-out; 
-    animation: fadeout .5s; 
+    animation: fadein 1s !important;
+    -webkit-transition: opacity 1s ease-in !important;
+    -webkit-transition: opacity 1s ease-out; 
+    animation: fadeout 1s; 
 }
 
 
 .icon:not(.loading){
-    animation: fadein .5s !important;
-    transition: all .5s ease !important;
-     -webkit-transition: opacity .5s ease-out; 
-    animation: fadeout .5s; 
+    animation: fadein 1s !important;
+    transition: all 1s ease !important;
+     -webkit-transition: opacity 1s ease-out; 
+    animation: fadeout 1s; 
 }
 
 
@@ -201,7 +201,7 @@ input {
 }
 
 /*.ui.header{*/
-/*  transition: all .5s ease !important;*/
+/*  transition: all 1s ease !important;*/
   /* text-transform: capitalize !important; */
   /*font-family: 'Raleway', sans-serif !important; */
   /*font-family: 'Montserrat', sans-serif !important; */
@@ -217,7 +217,7 @@ input {
 }
 
 /*.result_column {*/
-  /* animation: fadein .5s; */
+  /* animation: fadein 1s; */
 /*}*/
 
 /*@media screen and (max-width: 1100px) {*/
@@ -312,7 +312,7 @@ input {
 /*}*/
 
 /*.circle-wrapper:active .circle {*/
-/*  animation: spin .5s linear infinite;*/
+/*  animation: spin 1s linear infinite;*/
 /*}*/
 
 /*@keyframes spin { */
@@ -329,7 +329,7 @@ input {
 
 
 .scrolling{
-    max-height: 90vh !important;
+    max-height: 85vh !important;
     min-height: 50vh !important;
     padding: 5px !important;
     /*border-width: 1px !important;*/

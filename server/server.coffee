@@ -145,7 +145,7 @@ Meteor.publish 'subreddits', (
         match["data.display_name"] = {$regex:"#{query}", $options:'i'}
     # console.log 'match', match
     Docs.find match,
-        limit:42
+        limit:50
         sort: "#{sort_key}":sort_direction
         fields:
             model:1
@@ -184,9 +184,9 @@ Meteor.publish 'subreddit_tags', (
 
     if picked_tags.length > 0 then match.tags = $all:picked_tags
     if picked_tags.length > 0
-        limit=33
+        limit=25
     else 
-        limit=100
+        limit=50
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
     tag_cloud = Docs.aggregate [
