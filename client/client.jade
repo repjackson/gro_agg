@@ -106,10 +106,10 @@ template(name='subs')
                     // // if can_skip_right
                     // .ui.icon.button.skip_right
                     //     i.chevron.right.icon 
-                    if skv_is 'nsfw' false
-                        +skve k='nsfw' v=true l='safe'
-                    else if skv_is 'nsfw' true
-                        +skve k='nsfw' v=false l='nsfw'
+                    // if skv_is 'nsfw' false
+                    //     +skve k='nsfw' v=true l='safe'
+                    // else if skv_is 'nsfw' true
+                    //     +skve k='nsfw' v=false l='nsfw'
                     .scrolling
                         unless Template.subscriptionsReady
                             .ui.center.aligned.basic.segment
@@ -118,7 +118,7 @@ template(name='subs')
                         .ui.large.link.list
                             each subreddit_docs
                                 +subreddit_doc
-                                // .spacer
+                                .spacer
                         unless subreddit_docs.count
                             |no results
 
@@ -126,10 +126,10 @@ template(name='subreddit_doc')
     // a.card.rounded.zoomer(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat; min-width: 100%;" href="https://www.reddit.com/r/#{data.display_name}" target="_window")
     a.item.rounded.zoomer(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat;" href="https://www.reddit.com/r/#{data.display_name}" target="_window")
         // a.ui.tiny.image.goto_sub(href="/r/#{data.display_name}")
-        img.ui.rounded.tiny.image(src=data.icon_img)
-        .content.seg
+        img.ui.rounded.tiny.inline.image(src=data.icon_img)
+        .inline.content.seg
             // .ui.header.goto_sub(style="color:#{data.primary_color}")
-            .ui.header.goto_sub()
+            .ui.inline.header.goto_sub()
                 if data.header_img
                     img.ui.image(src=data.header_img)
                 | !{data.title} 
@@ -139,7 +139,7 @@ template(name='subreddit_doc')
             // if skv_is 'view_sub_detail' true
             // span.description !{data.public_description_html}
             // a.description(style="color:#{data.primary_color}") !{data.public_description}
-            a.description(style="color:black") !{data.public_description}
+            a.inline.description(style="color:black") !{data.public_description}
             // |created {{ufrom data.created}}
             // span.say
             //     // i.money.icon

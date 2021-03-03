@@ -30,8 +30,8 @@ body {
 .seg {
   background: rgba(250,250,250,.85) !important;
   /*opacity: .5;*/
-  padding:10px !important;
-  border-radius:10px !important;
+  /*padding:10px !important;*/
+  /*border-radius:5px !important;*/
 }
 
 .full {
@@ -70,7 +70,7 @@ p {
 
 .rounded {
   /*padding: 7px !important; */
-  border-radius: 10px !important;
+  /*border-radius: 5px !important;*/
 }
 
 /*.card {*/
