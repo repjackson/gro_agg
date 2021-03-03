@@ -1,9 +1,86 @@
 template(name='reddit')
-    // unless current_subreddit
-    //     .ui.basic.center.aligned.segment
-    //         i.massive.yin.yang.loading.link.grey.icon.get_info.shadowed2
-    .ui.stackable.grid
-        .eleven.wide.column
+    .ui.stackable.padded.grid
+        .twelve.wide.column
+            if picked_tags
+                // if skv_is 'nightmode' true
+                //     i.moon.circular.link.icon.toggle_nightmode
+                // else
+                //     i.lightbulb.circular.link.icon.toggle_nightmode
+                .ui.icon.large.input
+                    if is_loading
+                        i.yin.yang.loading.large.icon
+                    else
+                        i.search.icon
+                    input.search_tag(type='text' value=query autofocus='' placeholder="#{post_counter} results")
+                    // .ui.label #{this}
+            if picked_tags
+                // if many_tags
+                //     a#clear_tags.ui.red.invert.icon.button.pick_term
+                //         i.remove.icon
+                each picked_tags
+                    +unpick_tag
+                each result_tags
+                    // .ui.label #{this}
+                    +rtag_picker
+            else
+                .ui.center.aligned.basic.segment
+                    .ui.icon.big.input
+                        i.search.large.icon
+                        input.search_tag(type='text' placeholder='search' autofocus='')
+                        // .ui.label #{this}
+                    +search_shortcut tag='math' icon='calculator'
+                    +search_shortcut tag='camping' icon='campground'
+                    +search_shortcut tag='business' icon='briefcase'
+                    +search_shortcut tag='environment' icon='leaf'
+                    +search_shortcut tag='money' icon='coins'
+                    +search_shortcut tag='cat' icon='cat'
+                    +search_shortcut tag='science' icon='flask'
+                    +search_shortcut tag='video' icon='video'
+                    +search_shortcut tag='gaming' icon='gamepad'
+                    +search_shortcut tag='pics' icon='images'
+                    +search_shortcut tag='medicine' icon='pills'
+                    +search_shortcut tag='chess' icon='chess'
+                    +search_shortcut tag='food' icon='food'
+                    +search_shortcut tag='beer' icon='beer'
+                    +search_shortcut tag='hotel' icon='bed'
+                    +search_shortcut tag='winter' icon='snowflake'
+                    +search_shortcut tag='photography' icon='camera'
+                    +search_shortcut tag='dog' icon='dog'
+                    +search_shortcut tag='covid' icon='radiation'
+                    +search_shortcut tag='cheese' icon='cheese'
+                    +search_shortcut tag='solar' icon='sun'
+                    +search_shortcut tag='women' icon='venus'
+                    +search_shortcut tag='men' icon='mars'
+                    +search_shortcut tag='dungeons & dragons' icon='dice d20'
+                    +search_shortcut tag='physics' icon='atom'
+                    +search_shortcut tag='law' icon='balance scale'
+                    +search_shortcut tag='books' icon='book'
+                    +search_shortcut tag='biking' icon='biking'
+                    +search_shortcut tag='news' icon='newspaper'
+                    +search_shortcut tag='music' icon='music'
+                    +search_shortcut tag='skiing' icon='skiing'
+                    +search_shortcut tag='pizza' icon='pizza slice'
+                    +search_shortcut tag='fish' icon='fish'
+                    +search_shortcut tag='gardening' icon='seedling'
+                    +search_shortcut tag='bible' icon='bible'
+                    +search_shortcut tag='daoism' icon='yin yang'
+                    +search_shortcut tag='car' icon='car'
+                    +search_shortcut tag='tarot' icon='moon'
+            // if skv_is 'view_layout' 'grid'
+                // if one_post
+                //     .ui.stackable.one.column.grid
+                //         each posts
+                //             +post_card
+                        
+                // // else if two_posts
+                // //     .ui.stackable.two.centered.column.grid
+                // //         each posts
+                // //             +post_card
+                // else
+                    // else if three_posts
+                // .ui.stackable.three.column.grid.scrolling
+                //     each posts
+                //         +post_card
             // img(src=data.banner_img)
             // img(src=banner_background_image)
             img.get_info.shadowed.ui.inline.image(src=logo_url )
@@ -13,13 +90,13 @@ template(name='reddit')
                 //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                 //         i.remove.icon
                 each selected_reddit_tags
-                    +reddit_unpick_tag
+                    +unpick_rtag
             .ui.icon.input
                 i.search.icon
                 input.search_reddit(type='text' value=reddit_query)
             each reddit_result_tags
                 // .ui.label #{this}
-                +reddit_tag_selector
+                +rtag_picker
                 // .ui.large.label(title=count) #{name}
             div
             .ui.inline.header #{post_count}
@@ -83,18 +160,119 @@ template(name='reddit')
             .ui.icon.button.skip_right
                 i.chevron.right.icon
             .scrolling
-                if reddit_docs
+                if rdocs
                     if skv_is 'reddit_view_layout' 'grid'
                         .ui.centered.four.stackable.cards 
-                            each reddit_docs
+                            each rdocs
                                 +reddit_post_card_small
                     else if skv_is 'reddit_view_layout' 'list'
-                        each reddit_docs
+                        each rdocs
                             +reddit_doc_item
                 else
                     .ui.basic.center.aligned.segment
                         i.big.loading.yin.yang.icon
-        .five.wide.column.scrolling.seg
+
+        .four.wide.column
+            if skv_is 'view_sidebar' false
+                .ui.icon.button.enable_sidebar
+                    i.ellipsis.vertical.icon
+            else
+                .ui.icon.active.button.disable_sidebar
+                    i.ellipsis.vertical.icon
+            // div
+            if skv_is 'sort_direction' 1
+                .ui.icon.button.sort_down
+                    i.caret.down.icon
+            else
+                .ui.icon.button.sort_up
+                    i.caret.up.icon
+            .ui.large.icon.button.sort_created(class=sort_created_class)
+                i.clock.icon
+            .ui.large.icon.button.sort_points(class=sort_points_class)
+                i.thumbs.up.icon
+            if skv_is 'view_layout' 'grid'
+                .ui.large.icon.black.button.set_grid(class=grid_class) 
+                    i.th.icon
+            else
+                .ui.large.icon.button.set_grid(class=grid_class) 
+                    i.th.icon
+            if skv_is 'view_layout' 'list'
+                .ui.black.icon.large.button.set_list(class=list_class)
+                    i.list.icon
+            else
+                .ui.large.icon.button.set_list(class=list_class)
+                    i.list.icon
+            // if skv_is 'view_detail' true
+            //     .ui.black.large.icon.button.toggle_detail
+            //         i.list.icon
+            // else
+            //     .ui.large.icon.button.toggle_detail
+            //         i.minus.icon
+            //     // i.line.chart.icon
+            .ui.icon.button.skip_left
+                i.chevron.left.icon
+            .ui.icon.button.skip_right
+                i.chevron.right.icon
+            .ui.icon.button.view_videos(class=video_class)
+                i.film.icon
+            .ui.icon.button.view_images(class=image_class)
+                i.picture.icon
+            .ui.icon.button.view_adult(class=adult_class)
+                i.fire.icon
+            .ui.icon.compact.button.view_joy(class=joy_class)
+                i.smile.green.large.outline.icon
+            .ui.icon.compact.button.view_anger(class=anger_class)
+                i.frown.red.large.outline.icon
+            .ui.icon.compact.button.view_fear(class=fear_class)
+                i.black.frown.large.outline.icon
+            .ui.icon.compact.button.view_disgust(class=disgust_class)
+                i.orange.frown.large.outline.icon
+            .ui.icon.compact.button.view_sadness(class=sadness_class)
+                i.blue.frown.large.outline.icon
+            .ui.icon.compact.button.limit_1(class=sadness_class)
+                |1
+            .ui.icon.compact.button.limit_5(class=sadness_class)
+                |5
+            .ui.icon.compact.button.limit_10(class=sadness_class)
+                |10
+            .ui.icon.compact.button.limit_20(class=sadness_class)
+                |20
+            .ui.icon.button.view_commented
+                i.chat.icon            
+                .ui.hidden.divider
+            if location_results.count
+                i.big.marker.icon
+            each picked_locations
+                a.unpick_location.ui.large.button(href='#')
+                    strong #{this}
+            each location_results
+                if name
+                    .ui.tiny.button.pick_location #{name}
+            div
+            i.big.user.icon
+            each picked_authors
+                a.unpick_author.ui.large.button(href='#')
+                    strong #{this}
+            each author_results
+                if name
+                    .ui.tiny.button.pick_author #{name}
+            div
+            i.clock.big.icon
+            each picked_times
+                a.unpick_time.ui.large.large.button(href='#')
+                    strong #{this}
+            each time_results
+                .ui.tiny.button.pick_time #{name}
+            // +alpha
+            each picked_locations
+                a.unpick_location_tag.ui.black.large.button(href='#')
+                    | #{this}
+            if location_tags
+                i.big.marker.grey.icon
+                each location_tags
+                    .ui.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+                        | #{name}
+                        
             img.ui.inline.image(src=data.header_img)
             .ui.inline.header.pull_latest #{data.title}
             // +alpha
@@ -228,6 +406,12 @@ template(name='reddit_post_card_small')
                 
             +print_this
    
+   
+template(name='search_shortcut')
+    i.big.link.icon.search_tag.zoomer(class=icon title=tag)
+   
+   
+   
 template(name='reddit_doc_item')                  
     .ui.ite.seg
         unless skv_is 'view_detail' true
@@ -268,7 +452,7 @@ template(name='reddit_doc_item')
                 small ({{long_date data.created}})
             .ui.label(title='domain') #{data.domain}
             // each tags
-            //     +flat_reddit_tag_selector
+            //     +flat_pick_rtag
             if in_dev
                 +print_this
             // if watson
@@ -299,7 +483,7 @@ template(name='reddit_doc_item')
             //         |!{data.body_html}
             
             each tags
-                +flat_reddit_tag_selector
+                +flat_pick_rtag
             if watson
                 +doc_emotion_small
             a.ui.inline.header(href="/ruser/#{data.author}")
@@ -307,17 +491,8 @@ template(name='reddit_doc_item')
     
 
 
-template(name='reddit_tag_selector')
-    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.basic.compact.tertiary.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-        if term
-            if term.watson.metadata.image
-                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
-        strong #{name}
-        // if in_dev
-        //     small #{count}
         
-template(name='reddit_unpick_tag')
+template(name='unpick_rtag')
     a.unselect_reddit_tag.ui.black.compact.button(href='#')
         if term
             if term.watson.metadata.image
@@ -326,7 +501,7 @@ template(name='reddit_unpick_tag')
 
         
         
-template(name='flat_reddit_tag_selector')
+template(name='flat_pick_rtag')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
     .ui.basic.tertiary.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
@@ -335,3 +510,346 @@ template(name='flat_reddit_tag_selector')
         strong #{this}
         // if in_dev
         //     small #{count}
+
+
+// template(name='home')
+//     .ui.padded.stackable.grid
+//         .sixteen.wide.column.scrolling             
+//             // i.large.clock.icon
+//             // i.large.thumbs.up.icon
+//             .ui.icon.transparent.input
+//                 // if is_loading
+//                 //     i.yin.yang.loading.icon
+//                 // else
+//                 i.search.icon
+//                 input.search_tag(type='text' value=query)
+//                 // .ui.label #{this}
+            
+//             if picked_tags
+//                 // if many_tags
+//                 //     a#clear_tags.ui.red.invert.icon.compact.button.pick_term
+//                 //         i.remove.icon
+//                 each picked_tags
+//                     +unpick_tag
+//             each result_tags
+//                 // .ui.label #{this}
+//                 +rtag_picker
+//         if skv_is 'view_sidebar' true
+//             .four.wide.column.scrolling       
+//                 if location_results.count
+//                     i.big.marker.icon
+//                 each picked_locations
+//                     a.unpick_location.ui.large.compact.button(href='#')
+//                         strong #{this}
+//                 each location_results
+//                     if name
+//                         .ui.tiny.compact.basic.button.pick_location #{name}
+//                 div
+//                 i.big.user.icon
+//                 each picked_authors
+//                     a.unpick_author.ui.large.compact.button(href='#')
+//                         strong #{this}
+//                 each author_results
+//                     if name
+//                         .ui.tiny.compact.basic.button.pick_author #{name}
+//                 div
+//                 i.clock.big.icon
+//                 each picked_times
+//                     a.unpick_time.ui.large.large.compact.button(href='#')
+//                         strong #{this}
+//                 each time_results
+//                     .ui.tiny.compact.basic.button.pick_time #{name}
+//                 .ui.inline.header 
+//                     |#{post_counter}
+//                 // +alpha
+//                 each picked_locations
+//                     a.unpick_location_tag.ui.black.large.compact.button(href='#')
+//                         | #{this}
+//                 if location_tags
+//                     i.big.marker.grey.icon
+//                     each location_tags
+//                         .ui.compact.small.button.zoomer.pick_location_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+//                             | #{name}
+//                 if Locations
+//                     div
+//                     .ui.small.grey.inline.header
+//                         i.marker.grey.icon
+//                         |locations
+//                     each locations
+//                         +rtag_picker
+//                         // .ui.link.label.pick_Location #{name}
+//                 if HealthConditions
+//                     div
+//                     .ui.small.grey.inline.header
+//                         i.doctor.icon
+//                         |health conditions
+//                     each HealthConditions
+//                         +rtag_picker
+//                         // .ui.link.label.pick_healthcondition #{name}
+//                 if Persons
+//                     .spacer
+//                     .ui.small.grey.inline.header
+//                         i.user.icon
+//                         |people
+//                     each Persons
+//                         +rtag_picker
+//                         // .ui.label.pick_person #{name}
+//                 if Organizations
+//                     .spacer
+//                     .ui.small.grey.inline.header
+//                         i.building.icon
+//                         |organizations
+//                     each Organizations
+//                         +rtag_picker
+//                         // .ui.label.pick_organization #{name}
+//                 if Companies
+//                     .ui.small.grey.inline.header
+//                         i.building.icon
+//                         |companies
+//                     each companies
+//                         .ui.label.pick_company #{name}                        
+                                
+//         div(class=main_column_class)
+//             // .ui.disabled.button shared with me
+//             if skv_is 'view_sidebar' false
+//                 .ui.icon.compact.basic.circular.button.enable_sidebar
+//                     i.ellipsis.vertical.icon
+//             else
+//                 .ui.icon.compact.active.circular.button.disable_sidebar
+//                     i.ellipsis.vertical.icon
+//             if skv_is 'sort_direction' 1
+//                 .ui.icon.compact.basic.button.sort_down
+//                     i.caret.down.icon
+//             else
+//                 .ui.icon.compact.basic.button.sort_up
+//                     i.caret.up.icon
+//             .ui.compact.large.icon.basic.button.sort_created(class=sort_created_class)
+//                 i.clock.icon
+//             .ui.compact.large.icon.basic.button.sort_ups(class=sort_ups_class)
+//                 i.thumbs.up.icon
+//             if skv_is 'view_detail' true
+//                 .ui.black.large.icon.compact.basic.button.toggle_detail
+//                     i.list.icon
+//             else
+//                 .ui.compact.large.icon.basic.button.toggle_detail
+//                     i.minus.icon
+//                 // i.line.chart.icon
+//             if skv_is 'view_layout' 'grid'
+//                 .ui.compact.large.icon.black.button.set_grid(class=grid_class) 
+//                     i.th.icon
+//             else
+//                 .ui.compact.large.icon.basic.button.set_grid(class=grid_class) 
+//                     i.th.icon
+//             if skv_is 'view_layout' 'list'
+//                 .ui.compact.black.icon.large.button.set_list(class=list_class)
+//                     i.list.icon
+//             else
+//                 .ui.compact.large.icon.basic.button.set_list(class=list_class)
+//                     i.list.icon
+//             .ui.circular.icon.basic.button.skip_left
+//                 i.chevron.left.icon
+//             .ui.circular.icon.basic.button.skip_right
+//                 i.chevron.right.icon
+//             .ui.icon.button
+//                 i.film.icon
+//             .ui.icon.button
+//                 i.picture.icon
+//             .ui.icon.button
+//                 i.chat.icon            
+//             .ui.stackable.three.cards.scrolling
+//                 if skv_is 'view_layout' 'grid'
+//                     each posts
+//                         if key_value_is 'model' 'rpost'
+//                             +rpost_card
+//                         else
+//                             +post_card
+//                 else 
+//                     .ui.divided.link.items
+//                         each posts
+//                             +post_item
+
+// template(name='post_card')
+//     .ui.card.mark_viewed.penny.add_global_karma(class=card_class)
+//         if image_link
+//             a(href="/p/#{_id}/view")
+//                 img.ui.zoomer.image(src=image_link)
+//         if image_id
+//             a(href="/p/#{_id}/view")
+//                 img.ui.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+//         if youtube_id
+//             +youtube_view key='youtube_id' label='youtube id' direct=true
+
+//         .content.smallscroll
+//             a.ui.header(href="/p/#{_id}/view") #{title}
+//             div
+//             i.thumbs.up.link.outline.icon.upvote
+//             |#{points}
+//             i.thumbs.down.link.outline.icon.downvote
+//             |#{when}
+//             a(href="/p/#{_id}/view")
+//                 |!{content}
+//             +voting_full
+//             // .ui.tiny.icon.input
+//             //     i.grey.tag.icon
+//             //     input.add_tag(type='text' placeholder='+')
+//             // each tags
+//             //     +flat_rtag_picker
+//                 // .ui.small.compact.button.pick_flat_tag #{this}
+//             // each timestamp_tags
+//             //     .ui.small.compact.button.pick_flat_time #{this}
+//             if location
+//                 i.grey.marker.icon
+//                 |#{location}
+//             // if author
+//             //     i.grey.user.outline.icon
+//             //     |#{author}
+//             if in_dev
+//                 +print_this
+//             if currentUser
+//                 each viewer_ids
+//                     +user_info
+//                     // .ui.label #{this}
+//         .content
+//             if is_author
+//                 i.large.lock.link.circular.grey.icon.make_private
+//             else if is_admin
+//                 i.large.lock.link.circular.grey.icon.make_private
+//             a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
+//                 |#{views}
+//                 i.chevron.right.large.icon
+           
+           
+// template(name='rpost_card')
+//     .center.aligned.column.smallscroll
+//         .content.card_small.invert
+//             i.large.reddit.icon
+//             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
+//             // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
+//             a.ui.invert.header.thin.title.zoomer(href=url target='_window')
+//                 |!{title} #{lowered_title}
+//                 |#{lowered_title}
+//             span.ui.text {{ufrom data.created}}
+//             .spacer
+//             if embed
+//                 span.rounded.full
+//                     |!{embed}
+//                 div
+//             else if is_image
+//                 a(href=url target='_window')
+//                     img.ui.fluid.rounded.image.zoomer.toggle_view(src=url)
+//             else if data.thumbnail_width
+//                 a(href=url target='_window')
+//                     img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
+//             unless simple
+//                 i.circular.chevron.down.icon.dl.invert
+//                 span.invert
+//                     |#{ups}
+//                     i.thumbs.up.outline.icon
+//                     |#{comment_count}
+//                     i.chat.outline.icon
+//                 with subreddit
+//                     +flat_rtag_picker
+//                     // .ui.basic.label #{this}
+//                 each five_tags
+//                     +flat_rtag_picker
+//                 a.ui.icon.compact.circular.basic.button(href="https://www.reddit.com#{permalink}" target='_window' title=domain)
+//                     // |#{domain}
+//                     i.external.icon
+//                 // div
+//                 .ui.tiny.invert.transparent.left.icon.input
+//                     i.tag.icon
+//                     input.add_tag(type='text' placeholder='...')
+//             .ui.hidden.divider   
+//             if data.selftext_html
+//                 unless simple
+//                     span.invert.smallscroll
+//                         |{{#markdown}} !{data.selftext_html} {{/markdown}}
+//             +print_this    
+//             i.reddit.icon.get_post
+                                   
+           
+                                
+// template(name='post_item')
+//     .ui.item.mark_viewed.penny.add_global_karma(class=card_class)
+//         if image_link
+//             a(href="/p/#{_id}/view")
+//                 img.ui.zoomer.small.image(src=image_link)
+//         if image_id
+//             a(href="/p/#{_id}/view")
+//                 img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+//         if youtube_id
+//             a(href="/p/#{_id}/view")
+//                 i.massive.youtube.link.icon
+//             // +youtube_view key='youtube_id' label='youtube id' direct=true
+
+//         .content.smallscroll
+//             a.ui.header(href="/p/#{_id}/view") #{title}
+//             div
+//             i.thumbs.up.link.outline.icon.upvote
+//             |#{points}
+//             i.thumbs.down.link.outline.icon.downvote
+//             |#{when}
+//             // a(href="/p/#{_id}/view")
+//             //     |!{content}
+//             +voting_full
+//             // .ui.tiny.icon.input
+//             //     i.grey.tag.icon
+//             //     input.add_tag(type='text' placeholder='+')
+//             each five_tags
+//                 +flat_rtag_picker
+//                 // .ui.small.compact.button.pick_flat_tag #{this}
+//             if skv_is 'view_detail' true
+//                 each timestamp_tags
+//                     .ui.small.compact.button.pick_flat_time #{this}
+//             if location
+//                 i.grey.marker.icon
+//                 |#{location}
+//             if currentUser
+//                 |#{_author_username}
+//             // if author
+//             //     i.grey.user.outline.icon
+//             //     |#{author}
+//             if in_dev
+//                 +print_this
+//             each viewer_ids
+//                 .ui.label #{this}
+//         .content
+//             if is_author
+//                 i.large.lock.link.circular.grey.icon.make_private
+//             else if in_dev
+//                 i.large.lock.link.circular.grey.icon.make_private
+//             a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
+//                 |#{views}
+//                 i.chevron.right.large.icon
+                                
+                                
+template(name='rtag_picker')
+    // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
+    .ui.compact.tertiary.button.zoomer.pick_tag.penny.add_global_karma(title="#{count} results" class="#{picker_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
+        strong #{name}
+        // if in_dev
+        //     small #{count}
+        
+// template(name='unpick_tag')
+//     a.unpick_tag.ui.large.black.compact.button.no_blink.penny.add_global_karma(href='#')
+//         if term
+//             if term.watson.metadata.image
+//                 img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
+//         strong #{this}
+
+        
+        
+// template(name='flat_rtag_picker')
+//     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
+//     .ui.compact.tiny.button.zoomer.pick_flat_tag.penny.add_global_karma(title="#{count} results" class="#{picker_class} #{thinking_class}")
+//         // if term
+//         //     if term.watson.metadata.image
+//         //         img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+//         | #{this}
+//         // if in_dev
+//         //     small #{count}
+
+
