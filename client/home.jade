@@ -1,30 +1,57 @@
 template(name='home')
     .ui.stackable.padded.grid
         .eight.wide.column
-            .ui.header Reddit
-            a.ui.icon.header(href='/reddit')
-                i.searchs.icon
-                |reddit search
-            a.ui.icon.header(href='/subs')
-                i.reddit.icon
-                |subreddits
-                
-            a.ui.icon.header(href='/rusers')
-                i.users.icon
-                |reddit users
-                
+            .ui.segment
+                .ui.header Reddit
+                a.ui.big.button(href='/reddit')
+                    i.search.icon
+                    |reddit search
+                a.ui.big.button(href='/subs')
+                    i.reddit.circular.icon
+                    |subreddits
+                    
+                a.ui.big.circular.button(href='/rusers')
+                    i.users.icon
+                    |reddit users
+                    
         .eight.wide.column
-            .ui.header Stack Exchange
-            a.ui.icon.header(href='/stack')
-                i.stack.exchange.icon
-                |stack exchange sites
-            a.ui.icon.header(href='/susers')
-                i.stack.exchange.icon
-                |stack exchange users
+            .ui.segment
+                .ui.header 
+                    i.stack.exchange.icon
+                    |Stack Exchange
+                a.ui.big.circular.button(href='/stack')
+                    i.stack.exchange.icon
+                    |stack exchange sites
+                a.ui.big.circular.button(href='/susers')
+                    i.stack.exchange.icon
+                    |stack exchange users
             
-        .ui.header 
-            i.food.icon
-            |food     
-            
+            a.ui.big.circular.button(href="/food")
+                i.food.icon
+                |food     
+            a.ui.big.circular.button(href="/tribes")
+                i.fire.icon
+                |tribes     
+            a.ui.big.circular.button(href="/tribes")
+                i.clock.icon
+                |rentals     
+            a.ui.big.circular.button(href="/tribes")
+                i.shop.icon
+                |products     
+            a.ui.big.circular.button(href="/tribes")
+                i.shop.icon
+                |services     
+            a.ui.big.circular.button(href="/school")
+                i.university.icon
+                |facet university     
+            a.ui.big.circular.button(href="/notecards")
+                i.clone.icon
+                |notecards     
+            a.ui.big.circular.button(href="/love")
+                i.heart.icon
+                |love     
+            .ui.segment
+                .ui.header 
+                |commerce
             
             
