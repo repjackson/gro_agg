@@ -10,18 +10,22 @@ Template.registerHelper 'current_q', () ->
 Template.q.onCreated ->
     # @autorun => Meteor.subscribe 'doc', Router.current().params.qid
     @autorun => Meteor.subscribe 'qid', Router.current().params.site, Router.current().params.qid
-    # @autorun => Meteor.subscribe 'q_a', Router.current().params.site, Router.current().params.qid
-    # @autorun => Meteor.subscribe 'q_c', Router.current().params.site, Router.current().params.qid
+    @autorun => Meteor.subscribe 'q_a', Router.current().params.site, Router.current().params.qid
+    @autorun => Meteor.subscribe 'q_c', Router.current().params.site, Router.current().params.qid
     @autorun => Meteor.subscribe 'question_doc_id', Router.current().params.site, Router.current().params.qid
-    # @autorun => Meteor.subscribe 'related_questions', Router.current().params.site, Router.current().params.qid
-    # @autorun => Meteor.subscribe 'linked_questions', Router.current().params.site, Router.current().params.qid
+    @autorun => Meteor.subscribe 'related_questions', Router.current().params.site, Router.current().params.qid
+    @autorun => Meteor.subscribe 'linked_questions', Router.current().params.site, Router.current().params.qid
     Session.setDefault('stack_section','main')
 
+Template.answer_item.onRendered ->
+    console.log @data
+    unless @watson
+        Meteor.call 'call_watson', @data._id,'body','text',->
 Template.q.onRendered ->
-    # Meteor.call 'get_question', Router.current().params.site, Router.current().params.qid,->
-    # Meteor.call 'get_q_a', Router.current().params.site, Router.current().params.qid,->
+    Meteor.call 'get_question', Router.current().params.site, Router.current().params.qid,->
+    Meteor.call 'get_q_a', Router.current().params.site, Router.current().params.qid,->
     # Meteor.call 'call_watson', Router.current().params.qid,'link','stack',->
-    # Meteor.call 'get_q_c', Router.current().params.site, Router.current().params.qid,->
+    Meteor.call 'get_q_c', Router.current().params.site, Router.current().params.qid,->
     # Meteor.setTimeout ->
     #     $('.top').visibility
     #         onTopVisible: (calculations) ->
@@ -36,21 +40,21 @@ Template.q.onRendered ->
     #             # updateTable calculations
     #     , 2000
 Template.q.helpers
-    # linked_questions: ->
-    #     question = Docs.findOne Router.current().params.qid
-    #     Docs.find({
-    #         model:'stack_question'
-    #         _id:question.linked_question_ids
-    #         site:Router.current().params.site
-    #     }, {
-    #         sort:score:-1
-    #     })
-    # related_questions: ->
-    #     question = Docs.findOne Router.current().params.qid
-    #     Docs.find 
-    #         model:'stack_question'
-    #         _id:question.related_question_ids
-    #         site:Router.current().params.site
+    linked_questions: ->
+        question = Docs.findOne Router.current().params.qid
+        Docs.find({
+            model:'stack_question'
+            _id:question.linked_question_ids
+            site:Router.current().params.site
+        }, {
+            sort:score:-1
+        })
+    related_questions: ->
+        question = Docs.findOne Router.current().params.qid
+        Docs.find 
+            model:'stack_question'
+            _id:question.related_question_ids
+            site:Router.current().params.site
     q_a: ->
         Docs.find({
             model:'stack_answer'

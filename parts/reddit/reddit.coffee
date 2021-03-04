@@ -381,57 +381,57 @@ if Meteor.isClient
             
             
     
-    # Template.unpick_tag.onCreated ->
-    #     @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
+    Template.unpick_tag.onCreated ->
+        @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
         
-    # Template.unpick_tag.helpers
-    #     term: ->
-    #         found = 
-    #             Docs.findOne 
-    #                 # model:'wikipedia'
-    #                 title:@valueOf().toLowerCase()
-    #         found
-    # Template.unpick_tag.events
-    #     'click .unselect_reddit_tag': -> 
-    #         Session.set('skip',0)
-    #         # console.log @
-    #         picked_rtags.remove @valueOf()
-    #         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+    Template.unpick_tag.helpers
+        term: ->
+            found = 
+                Docs.findOne 
+                    # model:'wikipedia'
+                    title:@valueOf().toLowerCase()
+            found
+    Template.unpick_tag.events
+        'click .unselect_reddit_tag': -> 
+            Session.set('skip',0)
+            # console.log @
+            picked_rtags.remove @valueOf()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         
     
-    # Template.flat_pick_rtag.onCreated ->
-    #     @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
-    # Template.flat_pick_rtag.helpers
-    #     selector_class: ()->
-    #         term = 
-    #             Docs.findOne 
-    #                 title:@valueOf().toLowerCase()
-    #         if term
-    #             if term.max_emotion_name
-    #                 switch term.max_emotion_name
-    #                     when 'joy' then " basic green"
-    #                     when "anger" then " basic red"
-    #                     when "sadness" then " basic blue"
-    #                     when "disgust" then " basic orange"
-    #                     when "fear" then " basic grey"
-    #                     else "basic grey"
-    #     term: ->
-    #         Docs.findOne 
-    #             title:@valueOf().toLowerCase()
-    # Template.flat_pick_rtag.events
-    #     'click .select_flat_tag': -> 
-    #         # results.update
-    #         # window.speechSynthesis.cancel()
-    #         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-    #         picked_rtags.push @valueOf()
-    #         Router.go "/r/#{Router.current().params.subreddit}/"
-    #         $('.search_subreddit').val('')
-    #         Session.set('loading',true)
-    #         Meteor.call 'search_subreddit', Router.current().params.subreddit, @valueOf(), ->
-    #             Session.set('loading',false)
-    #         Meteor.setTimeout( ->
-    #             Session.set('toggle',!Session.get('toggle'))
-    #         , 3000)
+    Template.flat_tag_picker.onCreated ->
+        @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
+    Template.flat_tag_picker.helpers
+        selector_class: ()->
+            term = 
+                Docs.findOne 
+                    title:@valueOf().toLowerCase()
+            if term
+                if term.max_emotion_name
+                    switch term.max_emotion_name
+                        when 'joy' then " basic green"
+                        when "anger" then " basic red"
+                        when "sadness" then " basic blue"
+                        when "disgust" then " basic orange"
+                        when "fear" then " basic grey"
+                        else "basic grey"
+        term: ->
+            Docs.findOne 
+                title:@valueOf().toLowerCase()
+    Template.flat_tag_picker.events
+        'click .select_flat_tag': -> 
+            # results.update
+            # window.speechSynthesis.cancel()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+            picked_rtags.push @valueOf()
+            Router.go "/r/#{Router.current().params.subreddit}/"
+            $('.search_subreddit').val('')
+            Session.set('loading',true)
+            Meteor.call 'search_subreddit', Router.current().params.subreddit, @valueOf(), ->
+                Session.set('loading',false)
+            Meteor.setTimeout( ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 3000)
             
             
             
