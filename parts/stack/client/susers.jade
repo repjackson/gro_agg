@@ -1,4 +1,4 @@
-template(name='su')
+template(name='susers')
     unless current_site
         +loading
     with current_site
@@ -109,7 +109,7 @@ template(name='stackuser_item')
                 small accessed
                 |{{ufrom last_access_date}}
             each seven_tags
-                +flat_tag_selector
+                +flat_tag_picker
                 // .ui.small.tertiary.button #{this}
             if website_url
                 a.ui.compact.small.basic.button(href=website_url target='_window')

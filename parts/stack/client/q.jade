@@ -87,7 +87,7 @@ template(name='q')
                                 small {{ commafy reputation }}
                         
                     each tags 
-                        +flat_tag_selector
+                        +flat_tag_picker
                         // .ui.basic.pointer.circular.tertiary.button.add_stack_tag.say.zoomer #{this}
                     a.ui.circular.icon.button(href=link target='_window' title=link)
                         // |#{link}
@@ -172,7 +172,7 @@ template(name='c_item')
             .ui.small.circular.basic.icon.button.call(title='analyze')
                 i.dna.icon
         each tags
-            +flat_tag_selector
+            +flat_tag_picker
             // .ui.tertiary.small.button.say #{this}
         +doc_emotion_small 
                 
@@ -214,7 +214,7 @@ template(name='answer_item')
             .ui.small.circular.basic.icon.button.call(title='analyze')
                 i.dna.icon
         each tags
-            +flat_tag_selector
+            +flat_tag_picker
             // .ui.tertiary.small.button.say #{this}
         +doc_emotion  
         .ui.basic.label #{watson.usage.text_characters} characters

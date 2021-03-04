@@ -297,9 +297,9 @@ Template.s_q_item.onRendered ->
 #         # , 5000)
    
 
-# Template.flat_tag_selector.onCreated ->
+# Template.flat_tag_picker.onCreated ->
 #     @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
-# Template.flat_tag_selector.helpers
+# Template.flat_tag_picker.helpers
 #     selector_class: ()->
 #         term = 
 #             Docs.findOne 
@@ -316,7 +316,7 @@ Template.s_q_item.onRendered ->
 #     term: ->
 #         Docs.findOne 
 #             title:@valueOf().toLowerCase()
-# Template.flat_tag_selector.events
+# Template.flat_tag_picker.events
 #     'click .select_flat_tag': -> 
 #         # results.update
 #         window.speechSynthesis.cancel()
