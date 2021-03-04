@@ -1,5 +1,9 @@
 template(name='reddit')
     .ui.stackable.padded.grid
+        .ui.menu
+            a.item(href="/subs")
+                i.fire.icon
+                |subs
         .twelve.wide.column
             if picked_rtags
                 // if skv_is 'nightmode' true
