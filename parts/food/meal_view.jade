@@ -1,0 +1,127 @@
+template(name='meal_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .middle.aligned.row
+                .four.wide.center.aligned.column
+                    a.ui.basic.circular.button(href="/m/meal")
+                        i.large.left.chevron.icon
+                        +icolor name='fire-element' classes='ui mini inline image'
+                        |whats cookin
+                .eight.wide.center.aligned.column
+                    .ui.large.header 
+                        //- small viewing
+                        h1 #{meal_dish.title}
+                        //- small meal
+                .four.wide.center.aligned.column
+                    if can_edit
+                        a.ui.large.basic.circular.button(href="/meal/#{_id}/edit")
+                            i.pencil.blue.icon
+                            |edit
+            .three.column.row
+                .column
+                    .ui.segment
+                        .ui.header 
+                            +icolor name='real-food-for-meals' classes='ui inline mini image'
+                            |dish
+                        //- a.ui.fluid.basic.button(href="/meals")
+                        //-     +icolor name='real-food-for-meals' classes='ui mini inline image'
+                        //-     |meals
+                        img.ui.fluid.image(src="{{c.url meal_dish.image_id width=400 height=400}}")
+                                
+                        a.ui.basic.circular.button(href="/dish/#{dish_id}/view")
+                            |view dish
+                        +array_view key='tags' direct=true
+                        //- +array_view key='ingredients' direct=true
+                        //- +array_view key='location_tags' direct=true
+                        div
+                        .ui.inline.header 
+                            small available 
+                            |{{from_now datetime_available}}:
+                        +html_view key='description' direct=true
+                        .ui.small.inline.header {{long_date datetime_available}}
+                        .ui.header 
+                            +icolor name='ingredients'
+                            |ingredients
+                        with meal_dish
+                            .ui.selection.animated.list
+                                each dish_ingredients
+                                    a.item(href="/ingredient/#{_id}/view")
+                                        img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
+                                        .content
+                                            .header
+                                                |#{title}
+                    .ui.dividing.header
+                        +icolor name='rules'
+                        |rules
+                .column
+                    .ui.header #{servings_amount} servings for sale
+                    .ui.header $#{price_per_serving}/serving
+                    .ui.inline.header
+                        if pickup
+                            i.green.checkmark.icon
+                        else 
+                            i.red.ban.icon
+                        |pickup
+                    +icolor name='doormat' classes='ui mini inline image'
+                    div
+                    .ui.inline.header 
+                        if delivery
+                            i.checkmark.green.icon
+                        else 
+                            i.red.ban.icon
+                        |delivery
+                    +icolor name='delivery' classes='ui mini inline image'
+                    
+                    .ui.header cook #{_author_username}
+                    with _author
+                        +user_card
+                    with current_doc
+                        +voting_full
+                        .ui.header similar meals
+                        .ui.header alerts
+                        |alergen alert
+                        |#{alergen_alert}
+                .column
+                    .ui.header #{servings_left} 
+                        if serving_unit
+                            |#{serving_unit}s
+                        else 
+                            |servings
+                        | left
+                    if can_order
+                        +order_button
+                    .ui.dividing.header 
+                        +icolor name='order-history'
+                        |orders
+                    each meal_orders
+                        .ui.segment(class=meal_order_class)
+                            .ui.inline.green.header
+                                |$#{order_price}
+                            a.ui.small.inline.header(href="/user/#{_author.username}" title='view profile')
+                                if _author.profile_image_id
+                                    img.ui.avatar.image(src="{{c.url _author.profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
+                                |#{_author.username}
+                            div
+                            .ui.small.inline.header
+                                | #{when} ({{long_date _timestamp}})
+                            a.ui.compact.circular.basic.button(href="/order/#{_id}/view")
+                                |view details
+                                i.right.chevron.icon
+                            if can_edit
+                                .ui.small.compact.basic.button.cancel_order
+                                    i.remove.red.icon
+                                    |cancel
+                    .ui.hidden.divider
+                    +comments
+                    
+
+
+template(name='order_button')
+    if servings_left
+        .ui.green.fluid.large.circular.button.order_meal
+            i.cart.plus.large.icon
+            |order #{serving_unit}
+    else 
+        .ui.teal.large.fluid.circular.button.join_waitlist
+            i.clock.large.icon
+            |join wait list
