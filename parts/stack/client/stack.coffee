@@ -43,7 +43,7 @@ Template.stack.helpers
 
 Template.stack.events
     'click .doc': ->
-    'click .dl': ->
+    'click .get_sites': ->
         Meteor.call 'stack_sites'
     'keyup .search_site_name': ->
         search = $('.search_site_name').val()

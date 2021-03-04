@@ -105,7 +105,7 @@ Template.sq.helpers
 
 Template.sq.events
     'click .goto_q': -> Router.go "/s/#{@site}/q/#{@question_id}"
-    'click .get_info': (e,t)-> 
+    'click .get_site_info': (e,t)-> 
         window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         Meteor.call 'get_site_info', Router.current().params.site, ->
     'click .view_question': (e,t)-> 

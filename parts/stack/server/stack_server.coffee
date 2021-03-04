@@ -1,4 +1,4 @@
-equest = require('request')
+request = require('request')
 rp = require('request-promise');
 
 
@@ -602,7 +602,7 @@ Meteor.methods
     #         )).catch((err)->
     #         )
 
-    sites: () ->
+    stack_sites: () ->
         for num in [1..40]
             url = "https://api.stackexchange.com/2.2/sites?pagesize=100&page=#{num}&key=lPplyGlNUs)cIMOajW03aw(("
             options = {
@@ -632,6 +632,7 @@ Meteor.methods
                 )
         
     get_site_info: (site) ->
+        console.log 'get site info', site
         # var url = 'https://api.stackexchange.com/2.2/sites';
         # url = 'http://api.stackexchange.com/2.1/questions?pagesize=1&fromdate=1356998400&todate=1359676800&order=desc&min=0&sort=votes&tagged=javascript&site=stackoverflow'
         # url = "http://api.stackexchange.com/2.1/questions?pagesize=10&order=desc&min=0&sort=votes&tagged=#{picked_tags}&intitle=#{query}&site=stackoverflow"
