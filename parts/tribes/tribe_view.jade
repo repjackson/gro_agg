@@ -4,7 +4,7 @@ template(name='tribe_layout')
         .ui.stackable.padded.grid
             .middle.aligned.row
                 .four.wide.center.aligned.column
-                    a.ui.circular.basic.button(href="/m/tribe")
+                    a.ui.basic.button(href="/m/tribe")
                         i.left.chevron.icon
                         +icolor name='log-cabin' classes='ui mini inline image'
                         |tribes
@@ -15,41 +15,41 @@ template(name='tribe_layout')
                         |#{title}
                 .four.wide.center.aligned.column 
                     if can_edit
-                        a.ui.circular.basic.icon.button(href="/tribe/#{_id}/edit")
+                        a.ui.basic.icon.button(href="/tribe/#{_id}/edit")
                             i.setting.large.icon
             .row
                 .sixteen.wide.column
-                    a.ui.basic.circular.compact.button(href="/tribe/#{slug}" class="{{isActiveRoute regex='tribe_dashboard'}}")
+                    a.ui.basic.compact.button(href="/tribe/#{slug}" class="{{isActiveRoute regex='tribe_dashboard'}}")
                         +ismall name='dashboard' classes='ui inline image'
                         |dashboard
-                    a.ui.basic.circular.compact.button(href="/tribe/#{slug}/members" class="{{isActiveRoute regex='tribe_members'}}")
+                    a.ui.basic.compact.button(href="/tribe/#{slug}/members" class="{{isActiveRoute regex='tribe_members'}}")
                         +ismall name='info' classes='ui inline image'
                         |members
-                    a.ui.basic.circular.compact.button(href="/tribe/#{slug}/credit" class="{{isActiveRoute regex='tribe_credit'}}")
+                    a.ui.basic.compact.button(href="/tribe/#{slug}/credit" class="{{isActiveRoute regex='tribe_credit'}}")
                         +ismall name='coins' classes='ui inline image'
                         |credit
-                    a.ui.basic.circular.compact.button(href="/tribe/#{slug}/meals" class="{{isActiveRoute regex='tribe_meals'}}")
+                    a.ui.basic.compact.button(href="/tribe/#{slug}/meals" class="{{isActiveRoute regex='tribe_meals'}}")
                         +ismall name='meal' classes='ui inline image'
                         |meals
-                    a.ui.basic.circular.compact.button(href="/tribe/#{slug}/dishes" class="{{isActiveRoute regex='tribe_dishes'}}")
+                    a.ui.basic.compact.button(href="/tribe/#{slug}/dishes" class="{{isActiveRoute regex='tribe_dishes'}}")
                         +ismall name='meal' classes='ui inline image'
                         |dishes
-                    a.ui.basic.circular.compact.button(href="/tribe/#{slug}/voting" class="{{isActiveRoute regex='tribe_voting'}}")
+                    a.ui.basic.compact.button(href="/tribe/#{slug}/voting" class="{{isActiveRoute regex='tribe_voting'}}")
                         +ismall name='elections' classes='ui inline image'
                         |voting
-                    a.ui.basic.circular.compact.button(href="/tribe/#{slug}/events" class="{{isActiveRoute regex='tribe_events'}}")
+                    a.ui.basic.compact.button(href="/tribe/#{slug}/events" class="{{isActiveRoute regex='tribe_events'}}")
                         +ismall name='calendar' classes='ui inline image'
                         |events
-                    a.ui.basic.circular.compact.button(href="/tribe/#{slug}/food" class="{{isActiveRoute regex='tribe_food'}}")
+                    a.ui.basic.compact.button(href="/tribe/#{slug}/food" class="{{isActiveRoute regex='tribe_food'}}")
                         +ismall name='food' classes='ui inline image'
                         |food
-                    //- a.ui.basic.circular.compact.button(href="/tribe/#{slug}/settings" class="{{isActiveRoute regex='tribe_settings'}}")
+                    //- a.ui.basic.compact.button(href="/tribe/#{slug}/settings" class="{{isActiveRoute regex='tribe_settings'}}")
                     //-     +ismall name='settings' classes='ui inline image'
                     //-     |settings
-                    a.ui.basic.circular.compact.button(href="/tribe/#{slug}/products" class="{{isActiveRoute regex='tribe_products'}}")
+                    a.ui.basic.compact.button(href="/tribe/#{slug}/products" class="{{isActiveRoute regex='tribe_products'}}")
                         +ismall name='shopping-cart' classes='ui inline image'
                         |products
-                    a.ui.basic.circular.compact.button(href="/tribe/#{slug}/services" class="{{isActiveRoute regex='tribe_services'}}")
+                    a.ui.basic.compact.button(href="/tribe/#{slug}/services" class="{{isActiveRoute regex='tribe_services'}}")
                         +ismall name='service-bell' classes='ui inline image'
                         |services
 
@@ -59,13 +59,13 @@ template(name='tribe_layout')
                     +array_view key='tags' icon='tags'
                     .spacer
                     if link
-                        a.ui.basic.circular.button(href=link target='_window')
+                        a.ui.basic.button(href=link target='_window')
                             i.external.icon
                             |view site
                         .spacer
                     div
                     .spacer
-                    a.ui.compact.basic.circular.button(href=address_link target='_window')
+                    a.ui.compact.basic.button(href=address_link target='_window')
                         i.marker.icon
                         |#{address}
                     +viewing
@@ -102,7 +102,7 @@ template(name='tribe_dashboard')
         .ui.selection.animated.list
             each tribe_dishes
                 a.item(href="/dish/#{_id}/view")
-                    img.ui.mini.circular.image(src="{{c.url image_id width=100 height=100}}")
+                    img.ui.mini.image(src="{{c.url image_id width=100 height=100}}")
                     .content
                         .header 
                             |#{title}

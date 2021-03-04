@@ -72,21 +72,3 @@ Router.route '/', (->
 
 
 @picked_tags = new ReactiveArray []
-
-
-    
-
-Template.nav.events
-    'click .clear': ->
-        picked_tags.clear()
-    
-    # 'click .view_profile': ->
-    #     Meteor.call 'calc_user_points', Meteor.userId()
-        
-Template.nav.helpers
-    # unread_count: ->
-    #     Docs.find( 
-    #         model:'message'
-    #         target_id:Meteor.userId()
-    #         viewer_ids:$nin:[Meteor.userId()]
-    #     ).count()

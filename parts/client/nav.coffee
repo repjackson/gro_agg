@@ -8,6 +8,8 @@ Template.nav.onRendered ->
     Meteor.setTimeout ->
         $('.menu .item')
             .popup()
+        $('.ui.dropdown')
+            .dropdown()
         $('.ui.left.sidebar')
             .sidebar({
                 context: $('.bottom.segment')

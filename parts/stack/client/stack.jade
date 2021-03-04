@@ -1,3 +1,4 @@
+template(name='site_users')
 template(name='stack')
     .ui.stackable.padded.grid
         .row
@@ -40,31 +41,31 @@ template(name='stack')
                                     |#{total_questions}
                                     i.question.grey.icon
                                     // span(style="color:#{styling.link_color}") !{audience}
-                // .ui.inline.header 
-                //     i.question.icon
-                //     |questions
-                // .ui.dropdown
-                //     span.text {{sv 'limit'}}
-                //     i.dropdown.icon
-                //     .menu 
-                    // .item 1
-                    // .item 5
-                    // .item 10
-                    // .item 20
-                        // |sort
-                // |view
-                // +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
-                // +skve k='view_mode' v='list' l='list' i='list' ionly=true
-                // if skv_is 'view_mode' 'list'
-                //     .ui.large.list 
-                //         each stack_docs
-                //             .item
-                //                 a.ui.small.header(href="/s/#{site}/doc/#{_id}")
-                //                     |#{title}
-                // else
-                //     .ui.cards
-                //         each stack_docs
-                //             +stack_card
+                .ui.inline.header 
+                    i.question.icon
+                    |questions
+                .ui.dropdown
+                    span.text {{sv 'limit'}}
+                    i.dropdown.icon
+                    .menu 
+                    .item 1
+                    .item 5
+                    .item 10
+                    .item 20
+                        |sort
+                |view
+                +skve k='view_mode' v='cards' l='cards' i='squared-menu' ionly=true
+                +skve k='view_mode' v='list' l='list' i='list' ionly=true
+                if skv_is 'view_mode' 'list'
+                    .ui.large.list 
+                        each stack_docs
+                            .item
+                                a.ui.small.header(href="/s/#{site}/doc/#{_id}")
+                                    |#{title}
+                else
+                    .ui.cards
+                        each stack_docs
+                            +stack_card
                         
                         
 template(name='stack_site_card')

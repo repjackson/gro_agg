@@ -28,7 +28,7 @@ template(name='dish_view')
         .ui.stackable.padded.grid
             .centered.middle.aligned.row
                 .four.wide.center.aligned.column
-                    a.ui.large.basic.circular.compact.button(href="/m/dish")
+                    a.ui.large.basic.compact.button(href="/m/dish")
                         i.left.chevron.icon
                         +icolor name='real-food-for-meals' classes='ui mini inline image'
                         |dishes
@@ -40,7 +40,7 @@ template(name='dish_view')
                         small dish
                 .four.wide.center.aligned.column
                     if can_edit
-                        a.ui.large.basic.circular.button(href="/dish/#{_id}/edit")
+                        a.ui.large.basic.button(href="/dish/#{_id}/edit")
                             i.pencil.blue.icon
                             |edit
             .six.wide.column

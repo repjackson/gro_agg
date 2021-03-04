@@ -27,11 +27,11 @@ template(name='post_view')
                             i.chevron.left.large.icon
                             |#{group}
                     else
-                        a.ui.large.icon.circular.basic.button(href="/")
+                        a.ui.large.icon.basic.button(href="/")
                             i.chevron.left.large.icon
                             i.large.home.icon
                     if can_edit 
-                        a.ui.icon.large.basic.circular.button(href="/p/#{_id}/edit")
+                        a.ui.icon.large.basic.button(href="/p/#{_id}/edit")
                             i.big.pencil.icon
                     | #{views} views
                     +array_edit key='tags' label='tags' direct=true
@@ -61,7 +61,7 @@ template(name='post_edit')
         .ui.stackable.grid
             .row
                 .four.wide.column.scrolling
-                    a.ui.icon.big.green.circular.button(href="/p/#{_id}/view" title='save')
+                    a.ui.icon.big.green.button(href="/p/#{_id}/view" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
                         i.pencil.icon

@@ -1036,7 +1036,7 @@ Meteor.publish 'stack_sites_small', (picked_tags=[], name_filter='')->
     #     match.name = {$regex:"#{name_filter}", $options:'i'}
     Docs.find match,
         {
-            limit:20
+            limit:100
             # fields:
             #     audience:1
             #     logo_url:1

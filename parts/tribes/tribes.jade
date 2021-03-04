@@ -15,5 +15,5 @@ template(name='tribe_card')
             if is_admin
                 .ui.small.header slug: #{slug}
             if can_edit
-                a.ui.circular.basic.icon.button(href="/tribe/#{_id}/edit")
+                a.ui.basic.icon.button(href="/tribe/#{_id}/edit")
                     i.pencil.blue.icon

@@ -5,7 +5,7 @@ template(name='bounties')
                 .ui.inline.header 
                     i.big.bounties.icon
                     |bounties
-                .ui.large.icon.basic.circular.button.add_bounty
+                .ui.large.icon.basic.button.add_bounty
                     i.plus.icon
                 // i.large.clock.icon
                 // i.large.thumbs.up.icon
@@ -31,10 +31,10 @@ template(name='bounties')
                 div(class=main_column_class)
                     // .ui.disabled.button shared with me
                     if skv_is 'view_sidebar' false
-                        .ui.icon.compact.basic.circular.button.enable_sidebar
+                        .ui.icon.compact.basic.button.enable_sidebar
                             i.ellipsis.vertical.icon
                     else
-                        .ui.icon.compact.active.circular.button.disable_sidebar
+                        .ui.icon.compact.active.button.disable_sidebar
                             i.ellipsis.vertical.icon
                     if skv_is 'sort_direction' 1
                         .ui.icon.compact.basic.button.sort_down
@@ -65,9 +65,9 @@ template(name='bounties')
                     else
                         .ui.compact.large.icon.basic.button.set_list(class=list_class)
                             i.list.icon
-                    .ui.circular.icon.basic.button.skip_left
+                    .ui.icon.basic.button.skip_left
                         i.chevron.left.icon
-                    .ui.circular.icon.basic.button.skip_right
+                    .ui.icon.basic.button.skip_right
                         i.chevron.right.icon
                     .ui.icon.button
                         i.film.icon
@@ -226,7 +226,7 @@ template(name='user_bounties')
     .ui.inline.header 
         i.donate.icon
         |bounties
-    .ui.circular.icon.button.add_bounty
+    .ui.icon.button.add_bounty
         i.plus.icon
     .ui.stackable.two.column.grid
         .column
@@ -259,7 +259,7 @@ template(name='user_bounties')
                             +print_this
                             +author_info
                             .ui.label #{status}
-                            a.ui.icon.basic.circular.button(href="/b/#{_id}")
+                            a.ui.icon.basic.button(href="/b/#{_id}")
                                 i.chevron.right.icon
                             +print_this
         .column
@@ -293,7 +293,7 @@ template(name='user_bounties')
                                 +print_this
                                 +author_info
                                 .ui.label #{status}
-                                a.ui.icon.basic.circular.button(href="/b/#{_id}")
+                                a.ui.icon.basic.button(href="/b/#{_id}")
                                     i.chevron.right.icon
                                 +print_this
 
@@ -330,7 +330,7 @@ template(name='bounty')
         +print_this
         +author_info
         .ui.label #{status}
-        a.ui.icon.basic.circular.button(href="/b/#{_id}")
+        a.ui.icon.basic.button(href="/b/#{_id}")
             i.chevron.right.icon
     
 template(name='bounty_small')
@@ -355,6 +355,6 @@ template(name='bounty_small')
         +print_this
         +author_info
         .ui.label #{status}
-        a.ui.icon.basic.circular.button(href="/b/#{_id}")
+        a.ui.icon.basic.button(href="/b/#{_id}")
             i.chevron.right.icon
     

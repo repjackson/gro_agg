@@ -466,6 +466,9 @@ img:active {
 .ui.image:active {
   transform: scale(.97) !important;
 }
+.menu {
+    z-index: -1000 !important;
+}
 .zoomer:hover {
     transition: all .15s ease !important; 
     text-shadow: 0 0 3px grey !important;
@@ -475,6 +478,10 @@ img:active {
     transform: scale(1.05) !important;
     /*animation: fadein .25s !important;*/
     /*animation: fadeout .25s; */
+}
+
+.menu > .item {
+  z-index: 1000 !important;
 }
 /*img.zoomer:hover {*/
 /*    transition: all ..5s ease !important; */

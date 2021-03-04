@@ -44,10 +44,10 @@ template(name='post_item')
                 .ui.label #{this}
         .content
             if is_author
-                i.large.lock.link.circular.grey.icon.make_private
+                i.large.lock.link.grey.icon.make_private
             else if in_dev
-                i.large.lock.link.circular.grey.icon.make_private
-            a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
+                i.large.lock.link.grey.icon.make_private
+            a.ui.icon.large.basic.button(href="/p/#{_id}/view")
                 |#{views}
                 i.chevron.right.large.icon
 
@@ -94,10 +94,10 @@ template(name='post_card')
                     // .ui.label #{this}
         .content
             if is_author
-                i.large.lock.link.circular.grey.icon.make_private
+                i.large.lock.link.grey.icon.make_private
             else if is_admin
-                i.large.lock.link.circular.grey.icon.make_private
-            a.ui.icon.large.basic.circular.button(href="/p/#{_id}/view")
+                i.large.lock.link.grey.icon.make_private
+            a.ui.icon.large.basic.button(href="/p/#{_id}/view")
                 |#{views}
                 i.chevron.right.large.icon
            

@@ -4,7 +4,7 @@ template(name='love_view')
             .row 
                 .four.wide.column
                     .ui.segmen
-                        a.ui.large.icon.basic.circular.button(href="/love")
+                        a.ui.large.icon.basic.button(href="/love")
                             i.chevron.left.large.icon
                             i.big.heart.outline.icon
                         if can_edit
@@ -41,7 +41,7 @@ template(name='love_view')
                     .ui.inline.header 
                         i.reply.icon
                         |reflections
-                    .ui.circular.basic.large.button.add_reflection
+                    .ui.basic.large.button.add_reflection
                         i.plus.icon
                         |add
                     div
@@ -50,7 +50,7 @@ template(name='love_view')
                         .ui.divider
                 .four.wide.column
                     if can_edit 
-                        a.ui.circular.icon.basic.button(href="/love/#{_id}/edit")
+                        a.ui.icon.basic.button(href="/love/#{_id}/edit")
                             i.big.pencil.icon
                     i.large.eye.icon
                     each viewer_ids
@@ -77,7 +77,7 @@ template(name='love_edit')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column.scrolling
-                    a.ui.icon.circular.basic.big.button(href="/love/#{_id}/view" title='save')
+                    a.ui.icon.basic.big.button(href="/love/#{_id}/view" title='save')
                         i.checkmark.big.green.icon
                     .ui.inline.header 
                         i.pencil.icon
@@ -110,11 +110,11 @@ template(name='reflection_view')
             .row 
                 .four.wide.column
                     .ui.segmen
-                        a.ui.large.icon.basic.circular.button(href="/love/#{parent_id}/view")
+                        a.ui.large.icon.basic.button(href="/love/#{parent_id}/view")
                             i.chevron.up.large.icon
                             i.big.heart.outline.icon
                         // each tags
-                        //     .ui.basic.circular.label #{this}
+                        //     .ui.basic.label #{this}
                         // div
                         // .ui.inline.grey.header {{from_now start_datetime}}
                         
@@ -183,7 +183,7 @@ template(name='reflection_edit')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column.scrolling
-                    a.ui.icon.circular.basic.big.button(href="/reflection/#{_id}/view" title='save')
+                    a.ui.icon.basic.big.button(href="/reflection/#{_id}/view" title='save')
                         i.checkmark.big.green.icon
                     .ui.inline.header 
                         i.pencil.icon

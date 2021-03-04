@@ -3,7 +3,7 @@ template(name='meal_view')
         .ui.stackable.padded.grid
             .middle.aligned.row
                 .four.wide.center.aligned.column
-                    a.ui.basic.circular.button(href="/m/meal")
+                    a.ui.basic.button(href="/m/meal")
                         i.large.left.chevron.icon
                         +icolor name='fire-element' classes='ui mini inline image'
                         |whats cookin
@@ -14,7 +14,7 @@ template(name='meal_view')
                         //- small meal
                 .four.wide.center.aligned.column
                     if can_edit
-                        a.ui.large.basic.circular.button(href="/meal/#{_id}/edit")
+                        a.ui.large.basic.button(href="/meal/#{_id}/edit")
                             i.pencil.blue.icon
                             |edit
             .three.column.row
@@ -28,7 +28,7 @@ template(name='meal_view')
                         //-     |meals
                         img.ui.fluid.image(src="{{c.url meal_dish.image_id width=400 height=400}}")
                                 
-                        a.ui.basic.circular.button(href="/dish/#{dish_id}/view")
+                        a.ui.basic.button(href="/dish/#{dish_id}/view")
                             |view dish
                         +array_view key='tags' direct=true
                         //- +array_view key='ingredients' direct=true
@@ -104,7 +104,7 @@ template(name='meal_view')
                             div
                             .ui.small.inline.header
                                 | #{when} ({{long_date _timestamp}})
-                            a.ui.compact.circular.basic.button(href="/order/#{_id}/view")
+                            a.ui.compact.basic.button(href="/order/#{_id}/view")
                                 |view details
                                 i.right.chevron.icon
                             if can_edit
@@ -118,11 +118,11 @@ template(name='meal_view')
 
 template(name='order_button')
     if servings_left
-        .ui.green.fluid.large.circular.button.order_meal
+        .ui.green.fluid.large.button.order_meal
             i.cart.plus.large.icon
             |order #{serving_unit}
     else 
-        .ui.teal.large.fluid.circular.button.join_waitlist
+        .ui.teal.large.fluid.button.join_waitlist
             i.clock.large.icon
             |join wait list
 
