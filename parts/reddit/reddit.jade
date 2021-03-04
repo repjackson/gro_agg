@@ -85,12 +85,6 @@ template(name='reddit')
             // img(src=banner_background_image)
             img.get_info.shadowed.ui.inline.image(src=logo_url )
             .ui.inline.header.get_info #{data.display_name}
-            if picked_rtags
-                // if many_tags
-                //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
-                //         i.remove.icon
-                each picked_rtags
-                    +unpick_rtag
             .ui.icon.input
                 i.search.icon
                 input.search_reddit(type='text' value=reddit_query)
@@ -98,69 +92,70 @@ template(name='reddit')
                 // .ui.label #{this}
                 +rtag_picker
                 // .ui.large.label(title=count) #{name}
-            div
-            .ui.inline.header #{post_count}
-            if skv_is 'sort_direction' 1
-                .ui.icon.compact.basic.tertiary.button.sort_down
-                    i.caret.down.icon
-            else
-                .ui.icon.compact.basic.tertiary.button.sort_up
-                    i.caret.up.icon
-            // if skv_is 'view_bounties' 1
-            //     .ui.compact.black.button.unview_bounties
-            //         i.hand.holding.heart.icon
-            //         | bounties
-            // else
-            //     .ui.compact.basic.tertiary.button.view_bounties
-            //         i.hand.holding.heart.icon
-            //         | bounties
-            // if skv_is 'view_unanswered' 1
-            //     .ui.compact.black.button.unview_unanswered
-            //         i.checkmark.icon
-            //         | unanswered
-            // else
-            //     .ui.compact.basic.tertiary.button.view_unanswered
-            //         i.question.icon
-            //         | unanswered
-            .ui.icon.button.show_hot(class=hot_class)
-                i.large.fire.icon
-            .ui.icon.button.show_best(class=best_class)
-                i.large.certificate.icon
-            .ui.icon.compact.large.basic.small.button.show_newest(class=sort_created_class)
-                i.large.clock.icon
-            .ui.compact.basic.small.tertiary.button.limit_1
-                |1
-            .ui.compact.basic.small.tertiary.button.limit_10
-                |10
-            if skv_is 'view_detail' true
-                .ui.black.compact.button.toggle_detail
-                    i.list.large.icon
-                    |detail
-            else
-                .ui.compact.basic.tertiary.button.toggle_detail
-                    i.minus.large.icon
-                    |simple
-                // i.line.chart.icon
-            if skv_is 'reddit_view_layout' 'grid'
-                .ui.compact.circular.large.button.set_grid(class=grid_class) 
-                    i.th.large.icon
-                    |grid
-            else
-                .ui.icon.compact.circular.large.button.set_grid(class=grid_class) 
-                    i.th.large.icon
-            if skv_is 'reddit_view_layout' 'list'
-                .ui.compact.circular.large.button.set_list(class=list_class)
-                    i.list.large.icon
-                    |list
-            else
-                .ui.icon.compact.circular.large.button.set_list(class=list_class)
-                    i.list.large.icon
-            .ui.icon.button.skip_left
-                i.chevron.left.icon
-            .ui.icon.button.skip_right
-                i.chevron.right.icon
-        if skv_is 'view_sidebar' true
-            +reddit_leftbar
+            if picked_rtags
+                div
+                .ui.inline.header #{post_count}
+                if skv_is 'sort_direction' 1
+                    .ui.icon.compact.basic.tertiary.button.sort_down
+                        i.caret.down.icon
+                else
+                    .ui.icon.compact.basic.tertiary.button.sort_up
+                        i.caret.up.icon
+                // if skv_is 'view_bounties' 1
+                //     .ui.compact.black.button.unview_bounties
+                //         i.hand.holding.heart.icon
+                //         | bounties
+                // else
+                //     .ui.compact.basic.tertiary.button.view_bounties
+                //         i.hand.holding.heart.icon
+                //         | bounties
+                // if skv_is 'view_unanswered' 1
+                //     .ui.compact.black.button.unview_unanswered
+                //         i.checkmark.icon
+                //         | unanswered
+                // else
+                //     .ui.compact.basic.tertiary.button.view_unanswered
+                //         i.question.icon
+                //         | unanswered
+                .ui.icon.button.show_hot(class=hot_class)
+                    i.large.fire.icon
+                .ui.icon.button.show_best(class=best_class)
+                    i.large.certificate.icon
+                .ui.icon.compact.large.basic.small.button.show_newest(class=sort_created_class)
+                    i.large.clock.icon
+                .ui.compact.basic.small.tertiary.button.limit_1
+                    |1
+                .ui.compact.basic.small.tertiary.button.limit_10
+                    |10
+                if skv_is 'view_detail' true
+                    .ui.black.compact.button.toggle_detail
+                        i.list.large.icon
+                        |detail
+                else
+                    .ui.compact.basic.tertiary.button.toggle_detail
+                        i.minus.large.icon
+                        |simple
+                    // i.line.chart.icon
+                if skv_is 'reddit_view_layout' 'grid'
+                    .ui.compact.circular.large.button.set_grid(class=grid_class) 
+                        i.th.large.icon
+                        |grid
+                else
+                    .ui.icon.compact.circular.large.button.set_grid(class=grid_class) 
+                        i.th.large.icon
+                if skv_is 'reddit_view_layout' 'list'
+                    .ui.compact.circular.large.button.set_list(class=list_class)
+                        i.list.large.icon
+                        |list
+                else
+                    .ui.icon.compact.circular.large.button.set_list(class=list_class)
+                        i.list.large.icon
+                .ui.icon.button.skip_left
+                    i.chevron.left.icon
+                .ui.icon.button.skip_right
+                    i.chevron.right.icon
+            if skv_is 'view_sidebar' true
+                +reddit_leftbar
         if picked_rtags
             .ui.twelve.wide.column                
                 .scrolling

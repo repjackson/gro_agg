@@ -2,6 +2,7 @@
 	"dependencies": {
 		"@babel/runtime": "^7.10.4",
 		"bcrypt": "^5.0.1",
+		"meteor-node-stubs": "^1.0.1",
 		"request": "^2.88.2",
 		"request-promise": "^4.2.6"
 	},
