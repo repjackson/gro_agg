@@ -4,8 +4,7 @@ Router.route '/s/:site/q/:qid', (->
     ), name:'q'
 
 Template.registerHelper 'current_q', () ->
-    Docs.findOne 
-        model:'stack_question'
+    doc = Docs.findOne model:'stack_question'
 
 
 Template.q.onCreated ->
@@ -101,9 +100,10 @@ Template.q.events
     'click .get_related': (e,t)->
         Meteor.call 'get_related_questions', Router.current().params.site, Router.current().params.qid,->
         console.log 'getting related'
-    'click .call_watson': (e,t)->
+    'click .call_watson_q': (e,t)->
+        doc = Docs.findOne model:'stack_question'
         window.speechSynthesis.speak new SpeechSynthesisUtterance 'analyzing'
-        Meteor.call 'call_watson', Router.current().params.qid,'link','stack',->
+        Meteor.call 'call_watson', doc._id,'link','stack',->
             
     'click .call_tone': (e,t)->
         Meteor.call 'call_tone', Router.current().params.qid,->

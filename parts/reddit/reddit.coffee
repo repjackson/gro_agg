@@ -335,9 +335,9 @@ if Meteor.isClient
                 
     
     
-    # Template.rtag_picker.onCreated ->
+    # Template.tag_picker.onCreated ->
     #     @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
-    # Template.rtag_picker.helpers
+    # Template.tag_picker.helpers
     #     selector_class: ()->
     #         term = 
     #             Docs.findOne 
@@ -356,7 +356,7 @@ if Meteor.isClient
     #             title:@name.toLowerCase()
                 
                 
-    # Template.rtag_picker.events
+    # Template.tag_picker.events
     #     'click .select_tag': -> 
     #         # results.update
     #         # console.log @
@@ -381,17 +381,17 @@ if Meteor.isClient
             
             
     
-    # Template.unpick_rtag.onCreated ->
+    # Template.unpick_tag.onCreated ->
     #     @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
         
-    # Template.unpick_rtag.helpers
+    # Template.unpick_tag.helpers
     #     term: ->
     #         found = 
     #             Docs.findOne 
     #                 # model:'wikipedia'
     #                 title:@valueOf().toLowerCase()
     #         found
-    # Template.unpick_rtag.events
+    # Template.unpick_tag.events
     #     'click .unselect_reddit_tag': -> 
     #         Session.set('skip',0)
     #         # console.log @

@@ -11,7 +11,7 @@ template(name='sq')
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                         //         i.remove.icon
                         each picked_tags
-                            +unpick_rtag
+                            +unpick_tag
                     .ui.left.icon.input
                         i.search.icon
                         input.search_site(type='text')
@@ -23,7 +23,7 @@ template(name='sq')
                     //     if skv_is 'view_emotions' true
                     //         i.grey.remove.link.icon.clear_emotions(title='emotions')
                     each selected_emotions
-                        +unpick_rtag
+                        +unpick_tag
                     div
                     .ui.inline.header #{q_count}
                     if skv_is 'sort_direction' 1

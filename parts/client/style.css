@@ -42,7 +42,9 @@ body {
     /*color: black !important; */
     /*transform: scale(1.5) !important;*/
 }
-
+.search_tag {
+  margin:10px !important;
+}
 a {
   /*color: black !important;*/
 }

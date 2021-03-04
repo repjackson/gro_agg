@@ -1,9 +1,5 @@
 template(name='reddit')
     .ui.stackable.padded.grid
-        .ui.menu
-            a.item(href="/subs")
-                i.fire.icon
-                |subs
         .twelve.wide.column
             if picked_rtags
                 // if skv_is 'nightmode' true
@@ -22,10 +18,10 @@ template(name='reddit')
                 //     a#clear_tags.ui.red.invert.icon.button.pick_term
                 //         i.remove.icon
                 each picked_rtags
-                    +unpick_rtag
+                    +unpick_tag
                 each result_rtags
                     // .ui.label #{this}
-                    +rtag_picker
+                    +tag_picker
             else
                 .ui.center.aligned.basic.segment
                     .ui.icon.big.input
@@ -87,14 +83,9 @@ template(name='reddit')
                 //         +post_card
             // img(src=data.banner_img)
             // img(src=banner_background_image)
-            img.get_info.shadowed.ui.inline.image(src=logo_url )
-            .ui.inline.header.get_info #{data.display_name}
-            .ui.icon.input
-                i.search.icon
-                input.search_reddit(type='text' value=reddit_query)
             each reddit_result_rtags
                 // .ui.label #{this}
-                +rtag_picker
+                +tag_picker
                 // .ui.large.label(title=count) #{name}
             if picked_rtags
                 div
@@ -301,7 +292,7 @@ template(name='reddit_post_item')
 
 
         
-template(name='unpick_rtag')
+template(name='unpick_tag')
     a.unselect_reddit_tag.ui.black.compact.button(href='#')
         if term
             if term.watson.metadata.image
@@ -310,15 +301,6 @@ template(name='unpick_rtag')
 
 
         
-template(name='flat_pick_rtag')
-    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.basic.tertiary.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
-        if term
-            if term.watson.metadata.image
-                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
-        strong #{this}
-        // if in_dev
-        //     small #{count}
 
 template(name='flat_tag_picker')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
@@ -338,7 +320,7 @@ template(name='flat_tag_picker')
                                 
                                 
                                 
-template(name='rtag_picker')
+template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
     .ui.compact.tertiary.button.zoomer.pick_tag.penny.add_global_karma(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
@@ -351,15 +333,6 @@ template(name='rtag_picker')
 
         
         
-// template(name='flat_rtag_picker')
-//     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-//     .ui.compact.tiny.button.zoomer.pick_flat_tag.penny.add_global_karma(title="#{count} results" class="#{picker_class} #{thinking_class}")
-//         // if term
-//         //     if term.watson.metadata.image
-//         //         img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
-//         | #{this}
-//         // if in_dev
-//         //     small #{count}
 
 template(name='reddit_leftbar')
     .four.wide.column.scrolling       
@@ -403,7 +376,7 @@ template(name='reddit_leftbar')
                 i.marker.grey.icon
                 |locations
             each locations
-                +rtag_picker
+                +tag_picker
                 // .ui.link.label.pick_Location #{name}
         if HealthConditions
             div
@@ -411,7 +384,7 @@ template(name='reddit_leftbar')
                 i.doctor.icon
                 |health conditions
             each HealthConditions
-                +rtag_picker
+                +tag_picker
                 // .ui.link.label.pick_healthcondition #{name}
         if Persons
             .spacer
@@ -419,7 +392,7 @@ template(name='reddit_leftbar')
                 i.user.icon
                 |people
             each Persons
-                +rtag_picker
+                +tag_picker
                 // .ui.label.pick_person #{name}
         if Organizations
             .spacer
@@ -427,7 +400,7 @@ template(name='reddit_leftbar')
                 i.building.icon
                 |organizations
             each Organizations
-                +rtag_picker
+                +tag_picker
                 // .ui.label.pick_organization #{name}
         if Companies
             .ui.small.grey.inline.header
