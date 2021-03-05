@@ -88,7 +88,7 @@ Template.body.events
 
 Router.route '/', (->
     @layout 'layout'
-    @render 'home'
+    @render 'reddit'
     ), name:'home'
 
 

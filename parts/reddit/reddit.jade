@@ -1,27 +1,23 @@
 template(name='reddit')
     .ui.stackable.grid
-        .twelve.wide.column
-            if picked_tags
-                // if skv_is 'nightmode' true
-                //     i.moon.link.icon.toggle_nightmode
-                // else
-                //     i.lightbulb.link.icon.toggle_nightmode
-                .ui.icon.large.input
-                    if is_loading
-                        i.yin.yang.loading.large.icon
-                    else
-                        i.search.icon
-                    input.search_tag(type='text' value=query autofocus='' placeholder="#{post_counter} results")
-                    // .ui.label #{this}
+        .sixteen.wide.column
+            // if skv_is 'nightmode' true
+            //     i.moon.link.icon.toggle_nightmode
+            // else
+            //     i.lightbulb.link.icon.toggle_nightmode
+            .ui.icon.large.input
+                if is_loading
+                    i.yin.yang.loading.large.icon
+                else
+                    i.search.icon
+                input.search_tag(type='text' value=query autofocus='' placeholder="#{post_counter} results")
+                // .ui.label #{this}
             if picked_tags
                 // if many_tags
                 //     a#clear_tags.ui.red.invert.icon.button.pick_term
                 //         i.remove.icon
                 each picked_tags
                     +unpick_tag
-                each result_rtags
-                    // .ui.label #{this}
-                    +tag_picker
             each result_tags
                 // .ui.label #{this}
                 +tag_picker
@@ -88,40 +84,33 @@ template(name='reddit')
                     i.chevron.left.icon
                 .ui.icon.button.skip_right
                     i.chevron.right.icon
-            if skv_is 'view_sidebar' true
-                +reddit_leftbar
-        if picked_tags
-            .ui.sixteen.wide.column                
-                .scrolling
-                    if skv_is 'view_layout' 'grid'
-                        if one_post
-                            .ui.stackable.one.column.grid
-                                each rposts
-                                    +post_card
-                                
-                        else if two_posts
-                            .ui.stackable.two.centered.column.grid
-                                each rposts
-                                    +post_card
-                        else
-                            else if three_posts
+        .ui.sixteen.wide.column                
+            .scrolling
+                if skv_is 'view_layout' 'grid'
+                    if one_post
+                        .ui.stackable.one.column.grid
+                            each rposts
+                                +post_card
+                            
+                    else if two_posts
+                        .ui.stackable.two.centered.column.grid
+                            each rposts
+                                +post_card
+                    else if three_posts
                         .ui.stackable.three.column.grid.scrolling
                             each rposts
                                 +post_card
-                    if rposts
-                        if skv_is 'reddit_view_layout' 'grid'
-                            .ui.centered.four.stackable.cards 
-                                each rposts
-                                    +reddit_post_card
-                        else if skv_is 'reddit_view_layout' 'list'
+                if rposts
+                    if skv_is 'reddit_view_layout' 'grid'
+                        .ui.centered.four.stackable.cards 
                             each rposts
-                                +reddit_post_item
-                    else
-                        .ui.basic.center.aligned.segment
-                            i.big.loading.yin.yang.icon
-
-        // .four.wide.column
-        //     +rrightbar
+                                +reddit_post_card
+                    else if skv_is 'reddit_view_layout' 'list'
+                        each rposts
+                            +reddit_post_item
+                else
+                    .ui.basic.center.aligned.segment
+                        i.big.loading.yin.yang.icon
    
 template(name='reddit_post_card')
     .ui.card
@@ -133,36 +122,32 @@ template(name='reddit_post_card')
             div
         else if is_image
             // |image
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
                 img.ui.fluid.zoomer.image.toggle_view(src=data.url)
         else if watson.metadata.image.length
             // |metadata
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
                 img.ui.inline.zoomer.image.toggle_view(src=watson.metadata.image)
         else if data.thumbnail.length
             // |thumbnail
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
                 img.ui.inline.zoomer.image.zoomer(src=data.thumbnail)    
         // else if data.thumbnail.length
         //     .column
-        //         a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+        //         a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
         //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
         // .column
         .content
-            a.ui.inline.small.header.view_post.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.ui.inline.small.header.view_post.zoomer(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
                 strong #{data.ups}:
                 |!{data.title} 
                 // span.inline.content
-            a.ui.basic.label(href="/r/#{subreddit}" class=post_header_class)
-                |!{subreddit} 
+            a.ui.basic.label(href="/r/#{data.subreddit}" class=post_header_class)
+                |!{data.subreddit} 
                 // span.inline.content
             |{{ufrom data.created_utc}}
                 
             +print_this
-   
-   
-template(name='search_shortcut')
-    i.big.link.icon.search_tag.zoomer(class=icon title=tag)
    
    
    
