@@ -1,7 +1,7 @@
 template(name='nav')
     .ui.fluid.attached.borderless.inverted.large.menu.hscroll
-        a.icon.item.toggle_sidebar.no_blink
-            i.bars.icon
+        // a.icon.item.toggle_sidebar.no_blink
+        //     i.bars.icon
     
         a.icon.item.blink.clear(href="/" class="{{isActiveRoute regex='home'}}")
             i.yin.yang.big.icon
@@ -11,6 +11,14 @@ template(name='nav')
             i.reddit.large.icon
         a.icon.item.blink.clear(href="/stack" class="{{isActiveRoute 'stack'}}")
             i.stack.exchange.large.icon
+        a.icon.item.blink.clear(href="/rusers" class="{{isActiveRoute 'susers'}}")
+            i.icons
+                i.reddit.large.icon
+                i.user.corner.icon
+        a.icon.item.blink.clear(href="/susers" class="{{isActiveRoute 'susers'}}")
+            i.icons
+                i.stack.exchange.large.icon
+                i.user.corner.icon
         .item
             +status
     
@@ -40,8 +48,8 @@ template(name='nav')
                 else 
                     i.user.icon
                 strong.mobile.hidden #{currentUser.name}
-            a.icon.item.toggle_rightbar.no_blink
-                i.bars.icon
+            // a.icon.item.toggle_rightbar.no_blink
+            //     i.bars.icon
         else
             a.icon.item(href="/register" title='login')
                 i.user.plus.large.icon

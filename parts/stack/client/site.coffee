@@ -228,7 +228,7 @@ Template.sq.helpers
                 reputation: -1
             limit:10
 
-Template.site_users.events
+Template.su.events
     'click .view_question': (e,t)-> window.speechSynthesis.speak new SpeechSynthesisUtterance @title
     'click .sort_timestamp': (e,t)-> Session.set('sort_key','_timestamp')
     'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
