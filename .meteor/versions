@@ -69,6 +69,7 @@ livedata@1.0.18
 localstorage@1.2.0
 logging@1.2.0
 manuel:reactivearray@1.0.9
+markdown@1.0.14
 matb33:collection-hooks@0.9.1
 meteor@1.9.3
 meteor-base@1.4.0

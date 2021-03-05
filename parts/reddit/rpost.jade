@@ -2,9 +2,12 @@ template(name='rpost')
     with current_doc
         .ui.stackable.grid
             .twelve.wide.column
-                a.ui.basic.button.goto_sub(href="/r/#{data.subreddit}")
+                a.ui.basic.button.goto_sub(href="/")
                     i.chevron.left.icon
-                    |#{data.subreddit}
+                    |back
+                // a.ui.basic.button.goto_sub(href="/r/#{data.subreddit}")
+                //     i.chevron.left.icon
+                //     |#{data.subreddit}
                 span.ui.pointer.text.f13.zoomer(class=post_header_class)
                     .ui.label #{data.ups}
                     |!{data.title} #{data.link_title}

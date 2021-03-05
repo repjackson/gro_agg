@@ -1,5 +1,5 @@
 if Meteor.isClient            
-    @picked_subtags = new ReactiveArray []
+    @picked_tags = new ReactiveArray []
     
     Template.subs.onCreated ->
         params = new URLSearchParams(window.location.search);
@@ -16,10 +16,10 @@ if Meteor.isClient
             split = tags.split(',')
             if tags.length > 0
                 for tag in split 
-                    unless tag in picked_subtags.array()
-                        picked_subtags.push tag
+                    unless tag in picked_tags.array()
+                        picked_tags.push tag
                 Session.set('loading',true)
-                Meteor.call 'search_subreddits', picked_subtags.array(), ->
+                Meteor.call 'search_subreddits', picked_tags.array(), ->
                     Session.set('loading',false)
                 # Meteor.setTimeout ->
                 #     Session.set('toggle', !Session.get('toggle'))
@@ -36,7 +36,7 @@ if Meteor.isClient
         
         @autorun -> Meteor.subscribe('subreddits',
             Session.get('subreddit_query')
-            picked_subtags.array()
+            picked_tags.array()
             Session.get('sort_subs')
             Session.get('subs_sort_direction')
             Session.get('subs_limit')
@@ -45,11 +45,11 @@ if Meteor.isClient
         )
         @autorun -> Meteor.subscribe('sub_count',
             Session.get('subreddit_query')
-            picked_subtags.array()
+            picked_tags.array()
             Session.get('nsfw')
         )
         @autorun => Meteor.subscribe 'subreddit_tags',
-            picked_subtags.array()
+            picked_tags.array()
             Session.get('toggle')
             Session.get('nsfw')
     
@@ -67,14 +67,14 @@ if Meteor.isClient
             Session.set('subreddit_query', val)
             if e.which is 13 
                 $('.search_subreddits').val('')
-                unless val in picked_subtags.array()
-                    picked_subtags.push val 
-                    Meteor.call 'search_subreddits', picked_subtags.array(), ->
+                unless val in picked_tags.array()
+                    picked_tags.push val 
+                    Meteor.call 'search_subreddits', picked_tags.array(), ->
                 Session.set('subreddit_query', null)
                 url = new URL(window.location);
-                url.searchParams.set('tags', picked_subtags.array());
+                url.searchParams.set('tags', picked_tags.array());
                 window.history.pushState({}, '', url);
-                document.title = picked_subtags.array()
+                document.title = picked_tags.array()
                 
                 Meteor.setTimeout ->
                     Session.set('toggle',!Session.get('toggle'))
@@ -128,19 +128,19 @@ if Meteor.isClient
             , {limit:100,sort:"#{Session.get('sort_subs')}":-1})
         subreddit_tags: -> results.find(model:'subreddit_tag')
     
-        picked_subtags: -> picked_subtags.array()
+        picked_tags: -> picked_tags.array()
     
         sub_count: -> Counts.get('sub_counter')
         multiple_results: -> Counts.get('sub_counter')>1
         
     Template.subreddit_doc.events 
         'click .pick_tag': ->
-            picked_subtags.push @valueOf()
-            Meteor.call 'search_subreddits', picked_subtags.array(), ->
+            picked_tags.push @valueOf()
+            Meteor.call 'search_subreddits', picked_tags.array(), ->
             url = new URL(window.location);
-            url.searchParams.set('tags', picked_subtags.array());
+            url.searchParams.set('tags', picked_tags.array());
             window.history.pushState({}, '', url);
-            document.title = picked_subtags.array()
+            document.title = picked_tags.array()
             Meteor.setTimeout ->
                 Session.set('toggle',!Session.get('toggle'))
             , 7000
@@ -149,10 +149,10 @@ if Meteor.isClient
         seven_tags: ->
             @tags[..7]
         
-    Template.unpick_subtag.onCreated ->
+    Template.unpick_tag.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
         
-    Template.unpick_subtag.helpers
+    Template.unpick_tag.helpers
         term: ->
             found = 
                 Docs.findOne 
@@ -160,14 +160,14 @@ if Meteor.isClient
                     title:@valueOf().toLowerCase()
             found
             
-    Template.unpick_subtag.events
+    Template.sub_unpick_tag.events
         'click .unpick':-> 
-            picked_subtags.remove @valueOf()
-            Meteor.call 'search_subreddits', picked_subtags.array(), ->
+            picked_tags.remove @valueOf()
+            Meteor.call 'search_subreddits', picked_tags.array(), ->
             url = new URL(window.location);
-            url.searchParams.set('tags', picked_subtags.array());
+            url.searchParams.set('tags', picked_tags.array());
             window.history.pushState({}, '', url);
-            document.title = picked_subtags.array()
+            document.title = picked_tags.array()
             Meteor.setTimeout ->
                 Session.set('toggle',!Session.get('toggle'))
             , 7000
@@ -181,7 +181,7 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'sub_count', (
         query=''
-        picked_subtags
+        picked_tags
         nsfw
         )->
             
@@ -192,7 +192,7 @@ if Meteor.isServer
         else 
             match["data.over18"] = false
         
-        if picked_subtags.length > 0 then match.tags = $all:picked_subtags
+        if picked_tags.length > 0 then match.tags = $all:picked_tags
         if query.length > 0
             match["data.display_name"] = {$regex:"#{query}", $options:'i'}
         Counts.publish this, 'sub_counter', Docs.find(match)
@@ -201,7 +201,7 @@ if Meteor.isServer
     
     Meteor.publish 'subreddits', (
         query=''
-        picked_subtags
+        picked_tags
         sort_key='data.subscribers'
         sort_direction=-1
         limit=20
@@ -215,7 +215,7 @@ if Meteor.isServer
             match["data.over18"] = true
         else 
             match["data.over18"] = false
-        if picked_subtags.length > 0 then match.tags = $all:picked_subtags
+        if picked_tags.length > 0 then match.tags = $all:picked_tags
         if query.length > 0
             match["data.display_name"] = {$regex:"#{query}", $options:'i'}
         # console.log 'match', match
@@ -242,7 +242,7 @@ if Meteor.isServer
             
         
     Meteor.publish 'subreddit_tags', (
-        picked_subtags
+        picked_tags
         toggle
         nsfw=false
         )->
@@ -257,8 +257,8 @@ if Meteor.isServer
             match["data.over18"] = false
     
     
-        if picked_subtags.length > 0 then match.tags = $all:picked_subtags
-        if picked_subtags.length > 0
+        if picked_tags.length > 0 then match.tags = $all:picked_tags
+        if picked_tags.length > 0
             limit=10
         else 
             limit=50
@@ -269,7 +269,7 @@ if Meteor.isServer
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: picked_subtags }
+            { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit:limit }

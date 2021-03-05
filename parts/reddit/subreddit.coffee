@@ -1,5 +1,5 @@
 if Meteor.isClient
-    @selected_sub_tags = new ReactiveArray []
+    @picked_tags = new ReactiveArray []
     @selected_subreddit_domain = new ReactiveArray []
     @selected_subreddit_time_tags = new ReactiveArray []
     @selected_subreddit_authors = new ReactiveArray []
@@ -46,27 +46,27 @@ if Meteor.isClient
         Session.setDefault('sort_direction', -1)
         Session.setDefault('location_query', null)
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'subreddit_user_count', Router.current().params.subreddit, ->
+        # @autorun => Meteor.subscribe 'subreddit_user_count', Router.current().params.subreddit, ->
         @autorun => Meteor.subscribe 'subreddit_by_param', Router.current().params.subreddit, ->
-        @autorun => Meteor.subscribe 'sub_docs_by_name', 
-            Router.current().params.subreddit
-            # selected_sub_tags.array()
-            # selected_subreddit_domain.array()
-            # selected_subreddit_time_tags.array()
-            # selected_subreddit_authors.array()
-            # Session.get('sort_key')
-            # Session.get('sort_direction')
+        # @autorun => Meteor.subscribe 'sub_docs_by_name', 
+        #     Router.current().params.subreddit
+        #     # picked_tags.array()
+        #     # selected_subreddit_domain.array()
+        #     # selected_subreddit_time_tags.array()
+        #     # selected_subreddit_authors.array()
+        #     # Session.get('sort_key')
+        #     # Session.get('sort_direction')
       
         @autorun => Meteor.subscribe 'sub_doc_count', 
             Router.current().params.subreddit
-            selected_sub_tags.array()
+            picked_tags.array()
             selected_subreddit_domain.array()
             selected_subreddit_time_tags.array()
             selected_subreddit_authors.array()
     
         @autorun => Meteor.subscribe 'subreddit_result_tags',
             Router.current().params.subreddit
-            selected_sub_tags.array()
+            picked_tags.array()
             selected_subreddit_domain.array()
             selected_subreddit_time_tags.array()
             selected_subreddit_authors.array()
@@ -76,7 +76,7 @@ if Meteor.isClient
         # Meteor.call 'log_subreddit_view', Router.current().params.subreddit, ->
         @autorun => Meteor.subscribe 'agg_sentiment_subreddit',
             Router.current().params.subreddit
-            selected_sub_tags.array()
+            picked_tags.array()
             ()->Session.set('ready',true)
         @autorun => Meteor.subscribe 'agg_sentiment_subreddit',
             Router.current().params.subreddit
@@ -131,7 +131,7 @@ if Meteor.isClient
             val = $('.search_subreddit').val()
             Session.set('sub_doc_query', val)
             if e.which is 13 
-                selected_sub_tags.push val
+                picked_tags.push val
                 # window.speechSynthesis.speak new SpeechSynthesisUtterance val
     
                 $('.search_subreddit').val('')
@@ -149,7 +149,7 @@ if Meteor.isClient
         subreddit_domain_tags: -> results.find(model:'subreddit_domain_tag')
         subreddit_time_tags: -> results.find(model:'subreddit_time_tag')
     
-        selected_sub_tags: -> selected_sub_tags.array()
+        picked_tags: -> picked_tags.array()
         
         subreddit_doc: ->
             Docs.findOne
@@ -195,9 +195,9 @@ if Meteor.isServer
         #     match.bounty = true
         # if view_unanswered
         #     match.is_answered = false
-        if picked_subreddit_domains.length > 0 then match.domain = $all:picked_subreddit_domains
-        if picked_subreddit_time_tags.length > 0 then match.time_tags = $all:picked_subreddit_time_tags
-        if picked_subreddit_authors.length > 0 then match.authors = $all:picked_subreddit_authors
+        # if picked_subreddit_domains.length > 0 then match.domain = $all:picked_subreddit_domains
+        # if picked_subreddit_time_tags.length > 0 then match.time_tags = $all:picked_subreddit_time_tags
+        # if picked_subreddit_authors.length > 0 then match.authors = $all:picked_subreddit_authors
         Docs.find match,
             limit:20
             sort: "#{sk}":-1
@@ -387,7 +387,7 @@ if Meteor.isServer
                         model:'subreddit'
                         "data.display_name":subreddit
                     if existing
-                        # console.log 'existing', existing
+                        console.log 'existing', existing
                         # if Meteor.isDevelopment
                         # if typeof(existing.tags) is 'string'
                         #     Doc.update
@@ -395,7 +395,7 @@ if Meteor.isServer
                         Docs.update existing._id,
                             $set: data:res.data.data
                     unless existing
-                        # console.log 'new sub', subreddit
+                        console.log 'new sub', subreddit
                         sub = {}
                         sub.model = 'subreddit'
                         sub.name = subreddit
@@ -433,6 +433,7 @@ if Meteor.isServer
                     #     #     Docs.insert item
                     # )
     Meteor.publish 'subreddit_by_param', (subreddit)->
+        console.log 'sub', subreddit
         Docs.find
             model:'subreddit'
             name:subreddit

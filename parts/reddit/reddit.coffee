@@ -248,6 +248,21 @@ if Meteor.isClient
         #             $addToSet: tags:new_tag
         #         $(e.currentTarget).closest('.add_tag').val('')
              
+  
+    Template.unpick_tag.events
+        'click .unpick':-> 
+            picked_tags.remove @valueOf()
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+            url = new URL(window.location);
+            url.searchParams.set('tags', picked_tags.array());
+            window.history.pushState({}, '', url);
+            document.title = picked_tags.array()
+            Meteor.setTimeout ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 7000
+        
+  
+  
     Template.reddit.helpers
         # reddit_query: -> Session.get('reddit_query')
     
@@ -318,48 +333,48 @@ if Meteor.isClient
                 
     
     
-    # Template.tag_picker.onCreated ->
-    #     @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
-    # Template.tag_picker.helpers
-    #     selector_class: ()->
-    #         term = 
-    #             Docs.findOne 
-    #                 title:@name.toLowerCase()
-    #         if term
-    #             if term.max_emotion_name
-    #                 switch term.max_emotion_name
-    #                     when 'joy' then " basic green"
-    #                     when "anger" then " basic red"
-    #                     when "sadness" then " basic blue"
-    #                     when "disgust" then " basic orange"
-    #                     when "fear" then " basic grey"
-    #                     else "basic grey"
-    #     term: ->
-    #         Docs.findOne 
-    #             title:@name.toLowerCase()
+    Template.tag_picker.onCreated ->
+        @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+    Template.tag_picker.helpers
+        selector_class: ()->
+            term = 
+                Docs.findOne 
+                    title:@name.toLowerCase()
+            if term
+                if term.max_emotion_name
+                    switch term.max_emotion_name
+                        when 'joy' then " basic green"
+                        when "anger" then " basic red"
+                        when "sadness" then " basic blue"
+                        when "disgust" then " basic orange"
+                        when "fear" then " basic grey"
+                        else "basic grey"
+        term: ->
+            Docs.findOne 
+                title:@name.toLowerCase()
                 
                 
-    # Template.tag_picker.events
-    #     'click .select_tag': -> 
-    #         # results.update
-    #         # console.log @
-    #         # window.speechSynthesis.cancel()
-    #         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-    #         # if @model is 'reddit_emotion'
-    #         #     picked_emotions.push @name
-    #         # else
-    #         # if @model is 'reddit_tag'
-    #         picked_tags.push @name
-    #         $('.search_subreddit').val('')
+    Template.tag_picker.events
+        'click .pick_tag': -> 
+            # results.update
+            # console.log @
+            # window.speechSynthesis.cancel()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            # if @model is 'reddit_emotion'
+            #     picked_emotions.push @name
+            # else
+            # if @model is 'reddit_tag'
+            picked_tags.push @name
+            $('.search_subreddit').val('')
             
-    #         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-    #         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
-    #         Session.set('reddit_loading',true)
-    #         Meteor.call 'search_reddit', @name, ->
-    #             Session.set('reddit_loading',false)
-    #         Meteor.setTimeout( ->
-    #             Session.set('toggle',!Session.get('toggle'))
-    #         , 5000)
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+            Session.set('reddit_loading',true)
+            Meteor.call 'search_reddit', @name, ->
+                Session.set('reddit_loading',false)
+            Meteor.setTimeout( ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 5000)
             
             
             
