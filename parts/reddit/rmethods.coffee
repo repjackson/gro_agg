@@ -8,7 +8,7 @@ if Meteor.isServer
             # if subreddit 
             #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
             # else
-            url = "http://reddit.com/search.json?q=#{query}&limit=100&include_facets=false&raw_json=1"
+            url = "http://reddit.com/search.json?q=#{query}&limit=100&include_facets=false&raw_json=1&include_over_18=on"
             # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,res)=>
             HTTP.get url,(err,res)=>
                 if res.data.data.dist > 1

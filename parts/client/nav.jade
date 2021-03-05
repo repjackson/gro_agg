@@ -26,36 +26,36 @@ template(name='nav')
         //     .icon.item
         //         i.code.icon
         // .right.menu
-        if currentUser
-            if unread_count
-                a.item.alerts.select_term(href="#" class=alert_toggle_class)
-                    i.bell.icon
-                    if unread_count
-                        |#{unread_count}
-            else
-                a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
-                    i.outline.bell.icon
-            // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
-            //     i.inbox.icon
-            a.icon.item.mobile.hidden(href="/u/#{currentUser.username}/received" class="{{isActivePath 'user_received'}}" title="#{user.username} received")
-                strong #{currentUser.points}
-            a.item.mobile.hidden(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
-                if currentUser.profile_image_id
-                    if is_admin
-                        i.shield.icon(title='admin mode on')
-                    else
-                        img.ui.avatar.compact.image(src="{{c.url currentUser.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                else 
-                    i.user.icon
-                strong.mobile.hidden #{currentUser.name}
-            // a.icon.item.toggle_rightbar.no_blink
-            //     i.bars.icon
-        else
-            a.icon.item(href="/register" title='login')
-                i.user.plus.large.icon
-            a.item(href="/login" title='login')
-                |login
-                i.chevron.right.large.icon
+        // if currentUser
+        //     if unread_count
+        //         a.item.alerts.select_term(href="#" class=alert_toggle_class)
+        //             i.bell.icon
+        //             if unread_count
+        //                 |#{unread_count}
+        //     else
+        //         a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+        //             i.outline.bell.icon
+        //     // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
+        //     //     i.inbox.icon
+        //     a.icon.item.mobile.hidden(href="/u/#{currentUser.username}/received" class="{{isActivePath 'user_received'}}" title="#{user.username} received")
+        //         strong #{currentUser.points}
+        //     a.item.mobile.hidden(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
+        //         if currentUser.profile_image_id
+        //             if is_admin
+        //                 i.shield.icon(title='admin mode on')
+        //             else
+        //                 img.ui.avatar.compact.image(src="{{c.url currentUser.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        //         else 
+        //             i.user.icon
+        //         strong.mobile.hidden #{currentUser.name}
+        //     // a.icon.item.toggle_rightbar.no_blink
+        //     //     i.bars.icon
+        // else
+        //     a.icon.item(href="/register" title='login')
+        //         i.user.plus.large.icon
+        //     a.item(href="/login" title='login')
+        //         |login
+        //         i.chevron.right.large.icon
 
 
 template(name='topbar')

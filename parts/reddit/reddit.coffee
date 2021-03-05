@@ -22,9 +22,11 @@ if Meteor.isClient
         Session.setDefault('reddit_view_layout', 'grid')
         Session.setDefault('sort_key', 'data.created')
         Session.setDefault('sort_direction', -1)
+        Session.setDefault('nsfw', false)
         # Session.setDefault('location_query', null)
         @autorun => Meteor.subscribe 'rposts', 
             picked_tags.array()
+            Session.get('nsfw')
             # picked_subreddit_domain.array()
             # picked_rtime_tags.array()
             # picked_subreddits.array()
@@ -91,6 +93,7 @@ if Meteor.isClient
     
         @autorun => Meteor.subscribe 'tags',
             picked_tags.array()
+            Session.get('nsfw')
             # picked_reddit_domain.array()
             # picked_rtime_tags.array()
             # picked_subreddits.array()
@@ -117,6 +120,8 @@ if Meteor.isClient
         'click .limit_10': (e,t)-> Session.set('limit',10)
         'click .limit_1': (e,t)-> Session.set('limit',1)
        
+        'click .make_nsfw': (e,t)-> Session.set('nsfw', true)
+        'click .make_safe': (e,t)-> Session.set('nsfw', false)
         'click .show_newest': (e,t)-> 
             Meteor.call 'reddit_new', ->
             Session.set('reddit_view_mode','newest')
@@ -329,7 +334,7 @@ if Meteor.isClient
         # sidebar_class: -> if Session.get('view_sidebar') then 'ui four wide column' else 'hidden'
         # main_column_class: -> if Session.get('view_sidebar') then 'ui twelve wide column' else 'ui sixteen wide column' 
 
-    
+        is_nsfw: -> Session.get('nsfw')
                 
     
     
@@ -442,6 +447,7 @@ if Meteor.isServer
                 
     Meteor.publish 'rposts', (
         picked_tags
+        nsfw
         # picked_times
         # picked_locations
         # picked_authors
@@ -464,6 +470,11 @@ if Meteor.isServer
         #     sk = sort_key
         # else
         #     sk = '_timestamp'
+        if nsfw
+            match['data.over_18'] = true
+        else
+            match['data.over_18'] = false
+        
         if picked_tags.length > 0 then match.tags = $all:picked_tags
         # match.tags = $all:picked_tags
         # if picked_locations.length > 0 then match.location = $all:picked_locations
@@ -473,7 +484,7 @@ if Meteor.isServer
         # console.log 'match',match
         Docs.find match,
             limit:10
-            sort:_timestamp:-1
+            sort:"data.ups":-1
             # sort: "#{sk}":-1
             # skip:skip*20
             fields:
@@ -500,6 +511,7 @@ if Meteor.isServer
                
     Meteor.publish 'tags', (
         picked_tags
+        nsfw
         # picked_times
         # picked_locations
         # picked_authors
@@ -517,6 +529,10 @@ if Meteor.isServer
     
         # unless Meteor.userId()
         #     match.privacy='public'
+        if nsfw
+            match['data.over_18'] = true
+        else
+            match['data.over_18'] = false
     
         if picked_tags.length > 0 then match.tags = $all:picked_tags
         # match.tags = $all:picked_tags

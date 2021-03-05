@@ -160,10 +160,10 @@ if Meteor.isClient
                     title:@valueOf().toLowerCase()
             found
             
-    Template.sub_unpick_tag.events
+    Template.unpick_tag.events
         'click .unpick':-> 
             picked_tags.remove @valueOf()
-            Meteor.call 'search_subreddits', picked_tags.array(), ->
+            Meteor.call 'search_reddit', picked_tags.array(), ->
             url = new URL(window.location);
             url.searchParams.set('tags', picked_tags.array());
             window.history.pushState({}, '', url);
