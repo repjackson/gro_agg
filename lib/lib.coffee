@@ -3,20 +3,6 @@
 # @Tag_results = new Meteor.Collection 'tag_results'
 
 
-if Meteor.isClient
-    # console.log $
-    $.cloudinary.config
-        cloud_name:"facet"
-
-if Meteor.isServer
-    # console.log Meteor.settings.private.cloudinary_key
-    # console.log Meteor.settings.private.cloudinary_secret
-    Cloudinary.config
-        cloud_name: 'facet'
-        api_key: Meteor.settings.private.cloudinary_key
-        api_secret: Meteor.settings.private.cloudinary_secret
-
-
 Meteor.methods
     log_view: (doc_id)->
         doc = Docs.findOne doc_id
@@ -30,9 +16,6 @@ Docs.before.insert (userId, doc)->
     doc._timestamp = timestamp
     doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
     doc._app = 'dao'
-    if Meteor.user()
-        doc._author_id = Meteor.userId()
-        doc._author_username = Meteor.user().username
 
     date = moment(timestamp).format('Do')
     weekdaynum = moment(timestamp).isoWeekday()
@@ -98,52 +81,8 @@ Docs.helpers
             
             
             
-Meteor.users.helpers
-    name: ->
-        if @nickname
-            "#{@nickname}"
-        else if @first_name
-            "#{@first_name} #{@last_name}"
-        else
-            "#{@username}"
-    shortname: ->
-        if @nickname
-            "#{@nickname}"
-        else if @first_name
-            "#{@first_name}"
-        else
-            "#{@username}"
-    email_address: -> if @emails and @emails[0] then @emails[0].address
-    email_verified: -> if @emails and @emails[0] then @emails[0].verified
-    first_five_tags: ->
-        if @tags
-            @tags[..5]
-    has_points: -> @points > 0
-    # is_tech_admin: ->
-    #     @_id in ['vwCi2GTJgvBJN5F6c','Dw2DfanyyteLytajt','LQEJBS6gHo3ibsJFu','YFPxjXCgjhMYEPADS','RWPa8zfANCJsczDcQ']
-
 
 Meteor.methods
-    pin: (doc)->
-        if doc.pinned_ids and Meteor.userId() in doc.pinned_ids
-            Docs.update doc._id,
-                $pull: pinned_ids: Meteor.userId()
-                $inc: pinned_count: -1
-        else
-            Docs.update doc._id,
-                $addToSet: pinned_ids: Meteor.userId()
-                $inc: pinned_count: 1
-
-    subscribe: (doc)->
-        if doc.subscribed_ids and Meteor.userId() in doc.subscribed_ids
-            Docs.update doc._id,
-                $pull: subscribed_ids: Meteor.userId()
-                $inc: subscribed_count: -1
-        else
-            Docs.update doc._id,
-                $addToSet: subscribed_ids: Meteor.userId()
-                $inc: subscribed_count: 1
-
     upvote: (doc)->
         if Meteor.userId()
             if doc.downvoter_ids and Meteor.userId() in doc.downvoter_ids
