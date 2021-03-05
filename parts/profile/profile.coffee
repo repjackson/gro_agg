@@ -27,18 +27,6 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_vault'
         ), name:'user_vault'
-    Router.route '/u/:username/tips', (->
-        @layout 'profile_layout'
-        @render 'user_tips'
-        ), name:'user_tips'
-    Router.route '/u/:username/bounties', (->
-        @layout 'profile_layout'
-        @render 'user_bounties'
-        ), name:'user_bounties'
-    Router.route '/u/:username/groups', (->
-        @layout 'profile_layout'
-        @render 'user_groups'
-        ), name:'user_groups'
 
     Template.user_vault.onCreated ->
         @autorun -> Meteor.subscribe 'user_vault', Router.current().params.username
@@ -59,21 +47,10 @@ if Meteor.isClient
     Template.user_comments.helpers
         comments: -> Docs.find model:'comment'
    
-    Template.user_tips.onCreated ->
-        @autorun -> Meteor.subscribe 'user_tips', Router.current().params.username
-    Template.user_tips.helpers
-        tips: -> Docs.find model:'tip'
-
     Template.user_posts.onCreated ->
         @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username
     Template.user_posts.helpers
         posts: -> Docs.find model:'post'
-
-
-    Template.user_bounties.onCreated ->
-        @autorun -> Meteor.subscribe 'user_bounties', Router.current().params.username
-    Template.user_bounties.helpers
-        bountys: -> Docs.find model:'bounty'
 
 
     Template.profile_layout.onCreated ->
@@ -81,12 +58,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_comment_count', Router.current().params.username
   
     Template.user_dashboard.onCreated ->
-        @autorun -> Meteor.subscribe 'user_tips_received_count', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_tips_sent_count', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_karma_sent', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_karma_received', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_feed_items', Router.current().params.username
-        @autorun -> Meteor.subscribe 'model_docs', 'bounty'
     Template.user_dashboard.events
         'click .mark_viewed': ->
             console.log @
@@ -147,19 +119,7 @@ if Meteor.isClient
         user_post_count: -> Counts.get 'user_post_count'
         post_points: -> Counts.get('user_post_count')*10
         user_comment_count: -> Counts.get 'user_comment_count'
-        user_tips_sent_count: -> Counts.get 'user_tips_sent_count'
-        user_tips_received_count: -> Counts.get 'user_tips_received_count'
 
-        user_karma_received: ->
-            current_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find 
-                model:'debit'
-                target_id:current_user._id
-        user_karma_sent: ->
-            current_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find 
-                model:'debit'
-                _author_id:current_user._id
         user_referred: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Meteor.users.find 
@@ -172,42 +132,6 @@ if Meteor.isClient
             }, 
                 limit: 10
                 sort: _timestamp:-1
-        user_debits: ->
-            current_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find {
-                model:'debit'
-                _author_id: current_user._id
-            }, 
-                limit: 10
-                sort: _timestamp:-1
-        user_credits: ->
-            current_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find {
-                model:'bounty'
-                target_id: current_user._id
-            }, 
-                sort: _timestamp:-1
-                limit: 10
-      
-        user_credits: ->
-            current_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find {
-                model:'debit'
-                target_id: current_user._id
-            }, 
-                sort: _timestamp:-1
-                limit: 10
-      
-        user_groups: ->
-            current_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find {
-                model:'group'
-                member_ids: $in:[current_user._id]
-            }, 
-                sort: _timestamp:-1
-                limit: 10
-
-
         group_bookmarks: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.find {
@@ -223,19 +147,6 @@ if Meteor.isClient
                 sort:
                     search_amount:-1
                 limit:10
-        tips: ->
-            user = Meteor.users.findOne username:Router.current().params.username
-            Docs.find {
-                model:'tip'
-                _author_id:user._id
-            }, sort:amount:-1
-                
-        reflections: ->
-            user = Meteor.users.findOne username:Router.current().params.username
-            Docs.find {
-                model:'reflections'
-                _author_id:user._id
-            }, sort:_timestamp:-1
         comments: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.find {
@@ -268,7 +179,6 @@ if Meteor.isClient
         user_post_count: -> Counts.get 'user_post_count'
 
     Template.profile_layout.events
-    
         'click a.select_term': ->
             $('.profile_yield')
                 .transition('fade out', 200)
@@ -277,42 +187,6 @@ if Meteor.isClient
             # $('.label')
             #     .transition('fade out', 200)
             Router.go "/g/#{@name}"
-        'keyup .goto_group': (e,t)->
-            if e.which is 13
-                val = $('.goto_group').val()
-                found_group =
-                    Docs.findOne 
-                        model:'group_bookmark'
-                        name:val
-                if found_group
-                    Docs.update found_group._id,
-                        $inc:search_amount:1
-                else
-                    Docs.insert 
-                        model:'group_bookmark'
-                        search_amount:1
-                        name:val
-                # $('.header')
-                #     .transition('scale', 200)
-                # $('.global_container')
-                #     .transition('scale', 400)
-                Router.go "/g/#{val}"
-                # target_user = Meteor.users.findOne(username:Router.current().params.username)
-                # Docs.insert
-                #     model:'debit'
-                #     body: val
-                #     target_user_id: target_user._id
-        'click .remove_group': ->
-            if confirm 'remove group?'
-                Docs.remove @_id
-        # 'click .goto_users': ->
-        #     $('.global_container')
-        #         .transition('fade right', 500)
-        #         # .transition('fade in', 200)
-        #     Meteor.setTimeout ->
-        #         Router.go '/users'
-        #     , 500
-    
     
         'click .refresh_user_stats': ->
             user = Meteor.users.findOne(username:Router.current().params.username)
@@ -320,32 +194,6 @@ if Meteor.isClient
             Meteor.call 'calc_user_stats', user._id, ->
             Meteor.call 'calc_user_tags', user._id, ->
     
-        'click .send': ->
-            user = Meteor.users.findOne(username:Router.current().params.username)
-            if Meteor.userId() is user._id
-                new_debit_id =
-                    Docs.insert
-                        model:'debit'
-                        amount:1
-            else
-                new_debit_id =
-                    Docs.insert
-                        model:'debit'
-                        amount:1
-                        target_id: user._id
-            Router.go "/debit/#{new_debit_id}/edit"
-
-
-        'click .tip': ->
-            # user = Meteor.users.findOne(username:@username)
-            new_debit_id =
-                Docs.insert
-                    model:'debit'
-            Router.go "/debit/#{new_debit_id}/edit"
-
-
-        # 'click .recalc_user_cloud': ->
-        #     Meteor.call 'recalc_user_cloud', Router.current().params.username, ->
 
         'click .logout': ->
             # Router.go '/login'
@@ -358,51 +206,6 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'user_karma_received', (username)->
-        user = Meteor.users.findOne username:username
-        match = {
-            model:'debit'
-            target_id:user._id
-        }
-        Docs.find match,
-            limit:20
-            sort:
-                _timestamp:-1
-    
-    Meteor.publish 'user_bounties', (username)->
-        user = Meteor.users.findOne username:username
-        match = {
-            model:'bounty'
-            _author_id:user._id
-        }
-        Docs.find match,
-            limit:20
-            sort:
-                _timestamp:-1
-    
-    
-    Meteor.publish 'user_karma_sent', (username)->
-        user = Meteor.users.findOne username:username
-        match = {
-            model:'debit'
-            _author_id:user._id
-        }
-        Docs.find match,
-            limit:20
-            sort:
-                _timestamp:-1
-    
-    Meteor.publish 'user_tips', (username)->
-        user = Meteor.users.findOne username:username
-        match = {
-            model:'tip'
-            _author_id:user._id
-        }
-        Docs.find match,
-            limit:20
-            sort:
-                _timestamp:-1
-    
     Meteor.publish 'user_vault', (username)->
         user = Meteor.users.findOne username:username
         match = {
@@ -447,18 +250,6 @@ if Meteor.isServer
         # match.tags = $all:picked_tags
         # if picked_tags.length
         Counts.publish this, 'user_comment_count', Docs.find(match)
-        return undefined
-    
-    Meteor.publish 'user_tip_count', (username)->
-        user = Meteor.users.findOne username:username
-        match = {
-            model:'tip'
-            _author_id:user._id
-        }
-    
-        # match.tags = $all:picked_tags
-        # if picked_tags.length
-        Counts.publish this, 'user_tip_count', Docs.find(match)
         return undefined
     
     Meteor.methods
@@ -691,164 +482,144 @@ if Meteor.isServer
 
 
 
-        calc_user_stats: (user_id)->
-            user = Meteor.users.findOne user_id
-            unless user
-                user = Meteor.users.findOne username
-            user_id = user._id
+        # calc_user_stats: (user_id)->
+        #     user = Meteor.users.findOne user_id
+        #     unless user
+        #         user = Meteor.users.findOne username
+        #     user_id = user._id
             
-            # console.log classroom
-            # student_stats_doc = Docs.findOne
-            #     model:'student_stats'
-            #     user_id: user_id
-            #
-            # unless student_stats_doc
-            #     new_stats_doc_id = Docs.insert
-            #         model:'student_stats'
-            #         user_id: user_id
-            #     student_stats_doc = Docs.findOne new_stats_doc_id
+        #     # console.log classroom
+        #     # student_stats_doc = Docs.findOne
+        #     #     model:'student_stats'
+        #     #     user_id: user_id
+        #     #
+        #     # unless student_stats_doc
+        #     #     new_stats_doc_id = Docs.insert
+        #     #         model:'student_stats'
+        #     #         user_id: user_id
+        #     #     student_stats_doc = Docs.findOne new_stats_doc_id
 
-            # debits = Docs.find({
-            #     model:'debit'
-            #     amount:$exists:true
-            #     _author_id:user_id})
-            # debit_count = debits.count()
-            # total_debit_amount = 0
-            # for debit in debits.fetch()
-            #     total_debit_amount += debit.amount
+        #     # debits = Docs.find({
+        #     #     model:'debit'
+        #     #     amount:$exists:true
+        #     #     _author_id:user_id})
+        #     # debit_count = debits.count()
+        #     # total_debit_amount = 0
+        #     # for debit in debits.fetch()
+        #     #     total_debit_amount += debit.amount
 
-            # console.log 'total debit amount', total_debit_amount
+        #     # console.log 'total debit amount', total_debit_amount
 
-            viewed_docs = Docs.find({
-                model:'post'
-                _author_id: user_id
-                viewer_ids:$exists:true
-            })
-            viewed_docs_count = viewed_docs.count()
-            console.log 'viewed docs count', viewed_docs_count
+        #     viewed_docs = Docs.find({
+        #         model:'post'
+        #         _author_id: user_id
+        #         viewer_ids:$exists:true
+        #     })
+        #     viewed_docs_count = viewed_docs.count()
+        #     console.log 'viewed docs count', viewed_docs_count
             
-            total_views_amount = 0
-            for post in viewed_docs.fetch()
-                # if post.amount
-                total_views_amount += post.viewer_ids.length
-            
-            
-            tips_out = Docs.find({
-                model:'tip'
-                _author_id: user_id
-            })
-            tips_out_count = tips_out.count()
-            console.log 'tips out count', tips_out_count
-            
-            total_tips_out_amount = 0
-            for tip in tips_out.fetch()
-                if tip.amount
-                    total_tips_out_amount += tip.amount
+        #     total_views_amount = 0
+        #     for post in viewed_docs.fetch()
+        #         # if post.amount
+        #         total_views_amount += post.viewer_ids.length
             
             
-            tips_in = Docs.find({
-                model:'post'
-                _author_id: user_id
-                # tip_total: $exists: true
-            })
-            tips_in_count = tips_in.count()
-            console.log 'tips in count', tips_in_count
+        #     tips_out = Docs.find({
+        #         model:'tip'
+        #         _author_id: user_id
+        #     })
+        #     tips_out_count = tips_out.count()
+        #     console.log 'tips out count', tips_out_count
             
-            total_tips_in_amount = 0
-            for post in tips_in.fetch()
-                if post.tip_total
-                    total_tips_in_amount += post.tip_total
-            
-            
-            # posts = Docs.find({
-            #     model:'post'
-            #     _author_id:user_id
-            #     # published:true
-            # })
-            # post_count = posts.count()
-            # total_bounty_amount = 0
-            # for bounty in bountyed.fetch()
-            #     total_bounty_amount += bounty.point_bounty
+        #     total_tips_out_amount = 0
+        #     for tip in tips_out.fetch()
+        #         if tip.amount
+        #             total_tips_out_amount += tip.amount
             
             
-            # credits = Docs.find({
-            #     model:'debit'
-            #     amount:$exists:true
-            #     target_id:user_id})
-            # credit_count = credits.count()
-            # total_credit_amount = 0
-            # for credit in credits.fetch()
-            #     total_credit_amount += credit.amount
+        #     tips_in = Docs.find({
+        #         model:'post'
+        #         _author_id: user_id
+        #         # tip_total: $exists: true
+        #     })
+        #     tips_in_count = tips_in.count()
+        #     console.log 'tips in count', tips_in_count
+            
+        #     total_tips_in_amount = 0
+        #     for post in tips_in.fetch()
+        #         if post.tip_total
+        #             total_tips_in_amount += post.tip_total
+            
+            
+        #     # posts = Docs.find({
+        #     #     model:'post'
+        #     #     _author_id:user_id
+        #     #     # published:true
+        #     # })
+        #     # post_count = posts.count()
+        #     # total_bounty_amount = 0
+        #     # for bounty in bountyed.fetch()
+        #     #     total_bounty_amount += bounty.point_bounty
+            
+            
+        #     # credits = Docs.find({
+        #     #     model:'debit'
+        #     #     amount:$exists:true
+        #     #     target_id:user_id})
+        #     # credit_count = credits.count()
+        #     # total_credit_amount = 0
+        #     # for credit in credits.fetch()
+        #     #     total_credit_amount += credit.amount
 
-            console.log 'total tips in amount', total_tips_in_amount
-            console.log 'total tips out amount', total_tips_out_amount
-            tip_balance = total_tips_in_amount - total_tips_out_amount + total_views_amount
+        #     console.log 'total tips in amount', total_tips_in_amount
+        #     console.log 'total tips out amount', total_tips_out_amount
+        #     tip_balance = total_tips_in_amount - total_tips_out_amount + total_views_amount
             
-            console.log 'total tip balance + views', tip_balance
-            # average_credit_per_student = total_credit_amount/student_count
-            # average_debit_per_student = total_debit_amount/student_count
-            # flow_volume = Math.abs(total_credit_amount)+Math.abs(total_debit_amount)
-            # flow_volumne =+ total_fulfilled_amount
-            # flow_volumne =+ total_bounty_amount
+        #     console.log 'total tip balance + views', tip_balance
+        #     # average_credit_per_student = total_credit_amount/student_count
+        #     # average_debit_per_student = total_debit_amount/student_count
+        #     # flow_volume = Math.abs(total_credit_amount)+Math.abs(total_debit_amount)
+        #     # flow_volumne =+ total_fulfilled_amount
+        #     # flow_volumne =+ total_bounty_amount
             
             
-            # points = total_credit_amount-total_debit_amount+total_fulfilled_amount-total_bounty_amount
-            # points =+ total_fulfilled_amount
-            # points =- total_bounty_amount
+        #     # points = total_credit_amount-total_debit_amount+total_fulfilled_amount-total_bounty_amount
+        #     # points =+ total_fulfilled_amount
+        #     # points =- total_bounty_amount
             
-            # if total_debit_amount is 0 then total_debit_amount++
-            # if total_credit_amount is 0 then total_credit_amount++
-            # # debit_credit_ratio = total_debit_amount/total_credit_amount
-            # unless total_debit_amount is 1
-            #     unless total_credit_amount is 1
-            #         one_ratio = total_debit_amount/total_credit_amount
-            #     else
-            #         one_ratio = 0
-            # else
-            #     one_ratio = 0
+        #     # if total_debit_amount is 0 then total_debit_amount++
+        #     # if total_credit_amount is 0 then total_credit_amount++
+        #     # # debit_credit_ratio = total_debit_amount/total_credit_amount
+        #     # unless total_debit_amount is 1
+        #     #     unless total_credit_amount is 1
+        #     #         one_ratio = total_debit_amount/total_credit_amount
+        #     #     else
+        #     #         one_ratio = 0
+        #     # else
+        #     #     one_ratio = 0
                     
-            # dc_ratio_inverted = 1/debit_credit_ratio
+        #     # dc_ratio_inverted = 1/debit_credit_ratio
 
-            # credit_debit_ratio = total_credit_amount/total_debit_amount
-            # cd_ratio_inverted = 1/credit_debit_ratio
+        #     # credit_debit_ratio = total_credit_amount/total_debit_amount
+        #     # cd_ratio_inverted = 1/credit_debit_ratio
 
-            # one_score = total_bandwith*dc_ratio_inverted
+        #     # one_score = total_bandwith*dc_ratio_inverted
 
-            Meteor.users.update user_id,
-                $set:
-                    points:tip_balance
-                    # credit_count: credit_count
-                    # debit_count: debit_count
-                    # total_credit_amount: total_credit_amount
-                    # total_debit_amount: total_debit_amount
-                    # flow_volume: flow_volume
-                    # points:points
-                    # one_ratio: one_ratio
-                    # total_fulfilled_amount:total_fulfilled_amount
-                    # fulfilled_count:fulfilled_count
+        #     Meteor.users.update user_id,
+        #         $set:
+        #             points:tip_balance
+        #             # credit_count: credit_count
+        #             # debit_count: debit_count
+        #             # total_credit_amount: total_credit_amount
+        #             # total_debit_amount: total_debit_amount
+        #             # flow_volume: flow_volume
+        #             # points:points
+        #             # one_ratio: one_ratio
+        #             # total_fulfilled_amount:total_fulfilled_amount
+        #             # fulfilled_count:fulfilled_count
                     
                     
 if Meteor.isServer
-    Meteor.publish 'user_child_referrals', (username)->
-        user = Meteor.users.findOne username:username
-        Meteor.users.find({
-            referrer:user._id
-            # _author_id:user._id
-        },{
-            limit:20
-            sort: _timestamp:-1
-        })
-        
-    Meteor.publish 'user_debits', (username)->
-        user = Meteor.users.findOne username:username
-        Docs.find({
-            model:'debit'
-            _author_id:user._id
-        },{
-            limit:20
-            sort: _timestamp:-1
-        })
-        
     Meteor.publish 'user_posts', (username)->
         user = Meteor.users.findOne username:username
         Docs.find({
