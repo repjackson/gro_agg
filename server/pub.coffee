@@ -1,11 +1,6 @@
 Meteor.publish 'doc_by_id', (doc_id)->
     Docs.find doc_id
         
-Meteor.publish 'love', (doc_id)->
-    Docs.find
-        model:'love'
-        
-
 Meteor.publish 'wikis', (
     w_query
     picked_tags
@@ -77,32 +72,12 @@ Meteor.publish 'doc_comments', (doc_id)->
         parent_id:doc_id
 
 
-Meteor.publish 'children', (model, parent_id)->
-    match = {}
-    Docs.find
-        model:model
-        parent_id:parent_id
 
 Meteor.publish 'current_doc', (doc_id)->
     console.log 'pulling doc'
     Docs.find doc_id
 
 
-
-Meteor.publish 'my_received_messages', ->
-    Docs.find 
-        model:'message'
-        target_id:Meteor.userId()
-Meteor.publish 'my_sent_messages', ->
-    Docs.find 
-        model:'message'
-        _author_id:Meteor.userId()
-
-Meteor.publish 'alerts', ->
-    Docs.find
-        model:'alert'
-        to_user_id:Meteor.userId()
-        read:$ne:true
 
 
 Meteor.publish 'model_docs', (model)->

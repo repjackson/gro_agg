@@ -21,9 +21,6 @@ if Meteor.isClient
             Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
                 Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
                 Meteor.call 'log_subreddit_view', Router.current().params.subreddit, ->
-        'click .call_visual': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'url', ->
-        'click .call_meta': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'meta', ->
-        'click .call_thumbnail': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'thumb', ->
         'click .goto_ruser': ->
             doc = Docs.findOne Router.current().params.doc_id
             Meteor.call 'get_user_info', doc.data.author, ->
@@ -32,25 +29,6 @@ if Meteor.isClient
             Meteor.call 'get_reddit_post', Router.current().params.doc_id, @reddit_id, ->
   
   
-    Template.reddit_post_item.events
-        'click .view_post': (e,t)-> 
-            Session.set('view_section','main')
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
-            # Router.go "/subreddit/#{@subreddit}/post/#{@_id}"
-    
-    Template.reddit_post_item.onRendered ->
-        # console.log @
-        # unless @data.watson
-        #     Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
-    
-    Template.reddit_post_card.onRendered ->
-        # console.log @
-        # unless @data.watson
-        #     Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
-        unless @time_tags
-            Meteor.call 'tagify_time_rpost',@data._id,=>
-    
-
 
 if Meteor.isServer
     Meteor.publish 'rpost_comment_tags', (

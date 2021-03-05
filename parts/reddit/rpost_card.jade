@@ -43,7 +43,7 @@ template(name='rpost_card')
                 unless simple
                     span.invert.smallscroll
                         |{{#markdown}} !{data.selftext_html} {{/markdown}}
-            +print_this    
+            div    
             i.reddit.icon.get_post
     // .column.smallscroll(class=nightmode_class)
     //     if embed
@@ -106,7 +106,7 @@ template(name='rpost_card')
     //         //     i.grey.marker.icon
     //         //     |#{location}
     //         if in_dev
-    //             +print_this
+    //             div
     //         |{{ufrom data.created}}
     //         // if watson
     //         //     +doc_emotion_small

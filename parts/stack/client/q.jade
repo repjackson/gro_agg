@@ -112,7 +112,7 @@ template(name='q')
                         // .item.zoomer license #{content_license}
                         
                     if in_dev
-                        +print_this
+                        div
                     +doc_sentiment
                     +watson_full
                     // i.big.refresh.link.icon.get_question
@@ -165,7 +165,7 @@ template(name='c_item')
             |active {{ufrom last_activity_date}}
         // |#{site}
         if in_dev
-            +print_this
+            div
             // +remove_button
             // .ui.divider
         unless watson

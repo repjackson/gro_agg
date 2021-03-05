@@ -66,7 +66,7 @@ template(name='suser_layout')
                         // a.item.say(href="/s/#{site}/u/#{user_id}/b" class="{{isActiveRoute regex='suser_b'}}")
                         //     i.certificate.grey.icon
                         //     |badges
-                    +print_this
+                    div
                     .ui.tertiary.button.say account id #{account_id}
                     .ui.tertiary.button.say user id #{user_id}
                     .ui.tertiary.button.say employee #{is_employee}
@@ -311,7 +311,7 @@ template(name='suser_c_item')
         |active {{ufrom last_activity_date}}
     // |#{site}
     if in_dev
-        +print_this
+        div
         // +remove_button
         // .ui.divider
     unless watson
@@ -330,7 +330,7 @@ template(name='suser_a_item')
     // hi#{answer_question.title}
     .ui.label #{site}
     if in_dev
-        +print_this
+        div
         +remove_button
         // .ui.divider
     unless watson

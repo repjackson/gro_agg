@@ -95,3 +95,13 @@ Router.route '/', (->
 
 
 @picked_tags = new ReactiveArray []
+Router.configure
+    layoutTemplate: 'layout'
+    notFoundTemplate: 'home'
+    loadingTemplate: 'splash'
+    trackPageView: false
+# 	progressTick: false
+# 	progressDelay: 100
+# Router.route '*', -> @render 'not_found'
+
+
