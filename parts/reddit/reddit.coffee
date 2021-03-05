@@ -1,5 +1,5 @@
 if Meteor.isClient
-    @picked_rtags = new ReactiveArray []
+    @picked_tags = new ReactiveArray []
     @picked_subreddits = new ReactiveArray []
     @picked_subreddit_domain = new ReactiveArray []
     @picked_reddit_domain = new ReactiveArray []
@@ -24,7 +24,7 @@ if Meteor.isClient
         Session.setDefault('sort_direction', -1)
         # Session.setDefault('location_query', null)
         @autorun => Meteor.subscribe 'rposts', 
-            picked_rtags.array()
+            picked_tags.array()
             # picked_subreddit_domain.array()
             # picked_rtime_tags.array()
             # picked_subreddits.array()
@@ -34,7 +34,7 @@ if Meteor.isClient
             # Session.get('reddit_skip_value')
       
         # @autorun => Meteor.subscribe 'reddit_post_count', 
-        #     picked_rtags.array()
+        #     picked_tags.array()
         #     picked_reddit_domain.array()
         #     picked_rtime_tags.array()
         #     picked_subreddits.array()
@@ -89,8 +89,8 @@ if Meteor.isClient
         #     Session.get('view_adult')
     
     
-        @autorun => Meteor.subscribe 'rtags',
-            picked_rtags.array()
+        @autorun => Meteor.subscribe 'tags',
+            picked_tags.array()
             # picked_reddit_domain.array()
             # picked_rtime_tags.array()
             # picked_subreddits.array()
@@ -111,13 +111,13 @@ if Meteor.isClient
 
     Template.search_shortcut.events
         'click .search_tag': ->
-            picked_rtags.push @tag.toLowerCase()
+            picked_tags.push @tag.toLowerCase()
             url = new URL(window.location);
-            url.searchParams.set('tags', picked_rtags.array());
+            url.searchParams.set('tags', picked_tags.array());
             window.history.pushState({}, '', url);
-            document.title = picked_rtags.array()
+            document.title = picked_tags.array()
             Session.set('loading',true)
-            Meteor.call 'search_reddit', picked_rtags.array(), ->
+            Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('loading',false)
             Meteor.setTimeout ->
                 Session.set('toggle', !Session.get('toggle'))
@@ -172,7 +172,7 @@ if Meteor.isClient
             val = $('.search_reddit').val()
             Session.set('reddit_query', val)
             if e.which is 13 
-                picked_rtags.push val
+                picked_tags.push val
                 # window.speechSynthesis.speak new SpeechSynthesisUtterance val
     
                 $('.search_reddit').val('')
@@ -290,7 +290,7 @@ if Meteor.isClient
         #     else 
         #         'basic'
     
-        picked_rtags: -> picked_rtags.array()
+        picked_tags: -> picked_tags.array()
         
         # reddit_doc: ->
         #     Docs.findOne
@@ -317,7 +317,7 @@ if Meteor.isClient
         # nightmode_class: -> if Session.get('nightmode') then 'invert'
         
         
-        result_rtags: -> results.find(model:'rtag')
+        result_tags: -> results.find(model:'tag')
         # author_results: -> results.find(model:'author')
         # location_results: -> results.find(model:'location_tag')
         # time_results: -> results.find(model:'time_tag')
@@ -366,7 +366,7 @@ if Meteor.isClient
     #         #     picked_emotions.push @name
     #         # else
     #         # if @model is 'reddit_tag'
-    #         picked_rtags.push @name
+    #         picked_tags.push @name
     #         $('.search_subreddit').val('')
             
     #         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
@@ -381,23 +381,6 @@ if Meteor.isClient
             
             
     
-    Template.unpick_tag.onCreated ->
-        @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
-        
-    Template.unpick_tag.helpers
-        term: ->
-            found = 
-                Docs.findOne 
-                    # model:'wikipedia'
-                    title:@valueOf().toLowerCase()
-            found
-    Template.unpick_tag.events
-        'click .unselect_reddit_tag': -> 
-            Session.set('skip',0)
-            # console.log @
-            picked_rtags.remove @valueOf()
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
-        
     
     Template.flat_tag_picker.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
@@ -423,7 +406,7 @@ if Meteor.isClient
             # results.update
             # window.speechSynthesis.cancel()
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-            picked_rtags.push @valueOf()
+            picked_tags.push @valueOf()
             Router.go "/r/#{Router.current().params.subreddit}/"
             $('.search_subreddit').val('')
             Session.set('loading',true)
@@ -460,7 +443,7 @@ if Meteor.isServer
     #     return undefined
                 
     Meteor.publish 'rposts', (
-        picked_rtags
+        picked_tags
         # picked_times
         # picked_locations
         # picked_authors
@@ -483,7 +466,7 @@ if Meteor.isServer
         #     sk = sort_key
         # else
         #     sk = '_timestamp'
-        if picked_rtags.length > 0 then match.tags = $all:picked_rtags
+        if picked_tags.length > 0 then match.tags = $all:picked_tags
         # match.tags = $all:picked_tags
         # if picked_locations.length > 0 then match.location = $all:picked_locations
         # if picked_authors.length > 0 then match.author = $all:picked_authors
@@ -517,8 +500,8 @@ if Meteor.isServer
         
         
                
-    Meteor.publish 'rtags', (
-        picked_rtags
+    Meteor.publish 'tags', (
+        picked_tags
         # picked_times
         # picked_locations
         # picked_authors
@@ -537,8 +520,8 @@ if Meteor.isServer
         # unless Meteor.userId()
         #     match.privacy='public'
     
-        if picked_rtags.length > 0 then match.tags = $all:picked_rtags
-        # match.tags = $all:picked_rtags
+        if picked_tags.length > 0 then match.tags = $all:picked_tags
+        # match.tags = $all:picked_tags
         # if picked_authors.length > 0 then match.author = $all:picked_authors
         # if picked_locations.length > 0 then match.location = $all:picked_locations
         # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
@@ -549,7 +532,7 @@ if Meteor.isServer
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: picked_rtags }
+            { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit:20 }
@@ -560,7 +543,7 @@ if Meteor.isServer
             self.added 'results', Random.id(),
                 name: tag.name
                 count: tag.count
-                model:'rtag'
+                model:'tag'
         
         # location_cloud = Docs.aggregate [
         #     { $match: match }

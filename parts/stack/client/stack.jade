@@ -16,12 +16,12 @@ template(name='stack')
                 if site_docs.count
                     // +skve k='limit' v=1 l='1'
                     // +skve k='limit' v=10 l='10'
-                    // +skve k='limit' v=20 l='20'
+                    // +navskve k='limit' v=20 l='20'
                     +skve k='sort_key' v='name' l='name' i='header'
                     +skve k='sort_key' v='total_answers' l='a' i='reply'
                     +skve k='sort_key' v='total_questions' l='q' i='question'
                     +skve k='sort_direction' v=-1 i='chevron up'
-                    +skve k='sort_direction' v=1 i='chevron down'
+                    +skve gm bk='sort_direction' v=1 i='chevron down'
             // .four.wide.column
             //     .ui.header stack docs
             .sixteen.wide.column.scrollin

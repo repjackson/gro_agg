@@ -6,6 +6,29 @@ Template.registerHelper 'youtube_parse', (url) ->
     else
         null
    
+   
+   
+Template.unpick_tag.onCreated ->
+    @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
+    
+Template.unpick_tag.helpers
+    term: ->
+        found = 
+            Docs.findOne 
+                # model:'wikipedia'
+                title:@valueOf().toLowerCase()
+        found
+Template.unpick_tag.events
+    'click .unpick_tag': -> 
+        Session.set('skip',0)
+        # console.log @
+        picked_tags.remove @valueOf()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+        
+   
+   
+   
+   
 Session.setDefault('loading', false)
 Template.body.events
     'click .set_main': -> Session.set('view_section','main')

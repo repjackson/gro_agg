@@ -318,9 +318,6 @@ if Meteor.isClient
 
 
     Template.group_posts.events
-        'click .select_tag': -> selected_group_tags.push @name
-        'click .unpick_tag': -> selected_group_tags.remove @valueOf()
-        'click #clear_tags': -> selected_group_tags.clear()
 
         'click .select_location_tag': -> selected_group_location_tags.push @name
         'click .unselect_location_tag': -> selected_group_location_tags.remove @valueOf()

@@ -80,7 +80,7 @@
 #         #     ()->Session.set('ready',true)
         # @autorun => Meteor.subscribe 'agg_sentiment_subreddit',
         #     Router.current().params.subreddit
-        #     picked_rtags.array()
+        #     picked_tags.array()
         #     ()->Session.set('ready',true)
  
 #     Template.subreddit_doc_item.events
