@@ -116,12 +116,17 @@ Meteor.publish 'rposts', (
             _timestamp_tags:1
             views:1
             viewer_ids:1
-            _author_username:1
-            downvoter_ids:1
-            _author_id:1
             model:1
             data:1    
-            watson:1
+            "watson.metadata.image":1
+            "data.domain":1
+            "data.permalink":1
+            "permalink":1
+            "data.title":1
+            "data.created_utc":1
+            "data.url":1
+            "data.thumbnail":1
+            "data.media.oembed":1
 
     
     

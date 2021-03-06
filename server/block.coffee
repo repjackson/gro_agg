@@ -261,6 +261,7 @@
     'hide report'
     'join'
     'posts'
+    'top posts'
     'top posts topics'
     'day'
     'reddit premium reddit gifts'

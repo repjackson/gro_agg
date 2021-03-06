@@ -1,3 +1,60 @@
+head
+    title dao
+    meta(name='viewport', content='user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='apple-mobile-web-app-status-bar-style', content='black')
+    meta(name="msapplication-TileColor" content="#da532c")
+    meta(name="theme-color" content="black")
+    // link(href="https://fonts.googleapis.com/css?family=Ubuntu:300&display=swap" rel="stylesheet")
+    // link(href="https://fonts.googleapis.com/css?family=Lato:300&display=swap" rel="stylesheet")
+    //- script(src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js")
+
+    link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
+    link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")
+    link(rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png")
+    link(rel="manifest" href="/site.webmanifest")
+    script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
+
+    // link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
+    // script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
+    // script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/en.js")
+
+    // script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
+
+    link(rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css")
+    script(src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js")
+    // script(async src="https://www.googletagmanager.com/gtag/js?id=G-GLYPPRGJFQ")
+    // script.
+    //     window.dataLayer = window.dataLayer || [];
+    //     function gtag(){dataLayer.push(arguments);}
+    //     gtag('js', new Date());
+        
+    //     gtag('config', 'G-GLYPPRGJFQ');
+
+
+template(name='layout')
+    // +nav
+    .ui.bottom.attached.pushable.segment
+        // +topbar
+        // +leftbar
+        // +rightbar
+                
+        #main_area.global_container.pusher
+            +yield
+    
+    // .ui.bottom.attached.pushable.segment
+    //     #main_area.pusher(class=currentUser.invert_class)
+    
+
+            
+
+template(name='not_found')
+    .ui.center.aligned.basic.segment
+        a(href="/")
+            i.massive.yin.yang.grey.link.icon.pulse
+
+
+
 template(name='home')
     .ui.stackable.padded.grid
         .sixteen.wide.column
@@ -36,20 +93,20 @@ template(name='home')
             //             | safe
         .ui.sixteen.wide.column                
             .scrolling
-                // if one_post
-                //     .ui.stackable.one.column.grid
-                //         each rposts
-                //             +card
+                if one_post
+                    .ui.stackable.one.column.grid
+                        each rposts
+                            +card
                         
-                // else if two_posts
-                //     .ui.stackable.two.centered.column.grid
-                //         each rposts
-                //             +card
-                // else if three_posts
-                .ui.stackable.three.column.grid.scrolling
-                    each rposts
-                        +card
-                // else
+                else if two_posts
+                    .ui.stackable.two.centered.column.grid
+                        each rposts
+                            +card
+                    // else if three_posts
+                else
+                    .ui.stackable.three.column.centered.grid.scrolling
+                        each rposts
+                            +card
                 //     .ui.basic.center.aligned.segment
                 //         i.big.loading.yin.yang.icon
    
@@ -67,7 +124,8 @@ template(name='card')
             else if watson.metadata.image
                 // |metadata
                 img.ui.inline.zoomer.image.toggle_view(src=watson.metadata.image)
-            else if data.thumbnail.length
+                // else if data.thumbnail.length
+            else if has_thumbnail
                 // |thumbnail
                 a.view_post
                     img.ui.inline.zoomer.fluid.image.zoomer(src=data.thumbnail)    
@@ -77,7 +135,9 @@ template(name='card')
             //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
             // .column
         .content
-            a.ui.inline.header.view_post.zoomer(href=data.url class=post_header_class target='_window')
+            // a.ui.inline.header.view_post.zoomer(href="" class=post_header_class target='_window')
+            a.ui.inline.header(href="https://www.reddit.com#{permalink}" target='_window' title=domain)
+            
                 // strong #{data.ups}:
                 |!{data.title} 
                 // span.inline.content
@@ -101,7 +161,7 @@ template(name='unpick_tag')
 
 template(name='flat_tag_picker')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.basic.tertiary.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         // if term
         //     if term.watson.metadata.image
         //         img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -119,7 +179,7 @@ template(name='flat_tag_picker')
                                 
 template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    .ui.compact.tertiary.button.zoomer.pick_tag.penny.add_global_karma(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    .ui.compact.basic.button.zoomer.pick_tag.penny.add_global_karma(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
