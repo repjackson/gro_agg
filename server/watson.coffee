@@ -41,11 +41,11 @@ natural_language_understanding = new NaturalLanguageUnderstandingV1(
 
 Meteor.methods
     call_watson: (doc_id, key, mode) ->
-        console.log 'calling watson'
+        # console.log 'calling watson'
         self = @
-        console.log doc_id
-        console.log key
-        console.log mode
+        # console.log doc_id
+        # console.log key
+        # console.log mode
         doc = Docs.findOne doc_id
         # console.log 'calling watson on', doc.title
         # if doc.skip_watson is false
@@ -69,7 +69,7 @@ Meteor.methods
                 # categories:
                 #     explanation:false
                 emotion: {}
-                # metadata: {}
+                metadata: {}
                 # relations: {}
                 # semantic_roles: {}
                 sentiment: {}

@@ -27,13 +27,13 @@ template(name='home')
             // else
             //     .ui.icon.compact.basic.tertiary.button.sort_up
             //         i.caret.up.icon
-            if in_dev
-                if skv_is 'nsfw' true
-                    .ui.compact.black.button.make_safe
-                        | nsfw
-                else
-                    .ui.compact.basic.tertiary.button.make_nsfw
-                        | safe
+            // if in_dev
+            //     if skv_is 'nsfw' true
+            //         .ui.compact.black.button.make_safe
+            //             | nsfw
+            //     else
+            //         .ui.compact.basic.tertiary.button.make_nsfw
+            //             | safe
         .ui.sixteen.wide.column                
             .scrolling
                 // if one_post
@@ -54,37 +54,36 @@ template(name='home')
                 //         i.big.loading.yin.yang.icon
    
 template(name='card')
-    a.ui.card(href=data.url target='_window')
+    .column
         // .ui.stackable.equal.width.compact.grid
         //     .row
-        if embed
-            span.rounded.full
-                |!{embed}
-            div
-        // else if is_image
-        // |image
-        a.view_post(href=data.url class=post_header_class)
-            img.ui.fluid.zoomer.image.toggle_view
-        if watson.metadata.image
-            // |metadata
-            img.ui.inline.zoomer.image.toggle_view(src=watson.metadata.image)
-        else if data.thumbnail.length
-            // |thumbnail
-            a.view_post
-                img.ui.inline.zoomer.fluid.image.zoomer(src=data.thumbnail)    
-        // else if data.thumbnail.length
-        //     .column
-        //         a.view_post(href=data.url class=post_header_class)
-        //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
-        // .column
+        a(href=data.url target='_window')
+            if embed
+                span.rounded.full
+                    |!{embed}
+                div
+            else if is_image
+                img.ui.fluid.zoomer.image.toggle_view(src=data.url)    
+            else if watson.metadata.image
+                // |metadata
+                img.ui.inline.zoomer.image.toggle_view(src=watson.metadata.image)
+            else if data.thumbnail.length
+                // |thumbnail
+                a.view_post
+                    img.ui.inline.zoomer.fluid.image.zoomer(src=data.thumbnail)    
+            // else if data.thumbnail.length
+            //     .column
+            //         a.view_post(href=data.url class=post_header_class)
+            //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
+            // .column
         .content
-            a.ui.inline.header.view_post.zoomer(href=data.url class=post_header_class)
+            a.ui.inline.header.view_post.zoomer(href=data.url class=post_header_class target='_window')
                 // strong #{data.ups}:
                 |!{data.title} 
                 // span.inline.content
             |{{ufrom data.created_utc}}
-            each tags
-                .ui.basic.label #{this}
+            each unique_tags
+                a.ui.basic.label.flat_tag_pick #{this}
             // div
    
    

@@ -103,7 +103,7 @@ Meteor.publish 'rposts', (
 
     # console.log 'match',match
     Docs.find match,
-        limit:10
+        limit:25
         sort:"data.ups":-1
         # sort: "#{sk}":-1
         # skip:skip*20

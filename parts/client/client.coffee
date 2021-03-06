@@ -1,3 +1,6 @@
+Template.registerHelper 'unique_tags', () ->
+    _.difference(@tags, picked_tags.array())
+
 Template.registerHelper 'youtube_parse', (url) ->
     regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     match = @data.url.match(regExp)
@@ -106,21 +109,22 @@ Router.configure
 
 
 @picked_tags = new ReactiveArray []
-@picked_subreddits = new ReactiveArray []
-@picked_subreddit_domain = new ReactiveArray []
-@picked_reddit_domain = new ReactiveArray []
-@picked_rtime_tags = new ReactiveArray []
-@picked_rauthors = new ReactiveArray []
+# @picked_subreddits = new ReactiveArray []
+# @picked_subreddit_domain = new ReactiveArray []
+# @picked_reddit_domain = new ReactiveArray []
+# @picked_rtime_tags = new ReactiveArray []
+# @picked_rauthors = new ReactiveArray []
 
-@picked_locations = new ReactiveArray []
-@picked_authors = new ReactiveArray []
-@picked_times = new ReactiveArray []
+# @picked_locations = new ReactiveArray []
+# @picked_authors = new ReactiveArray []
+# @picked_times = new ReactiveArray []
 
 
 
 Template.card.onCreated ->
-    console.log @data
-    Meteor.call 'call_watson', @data._id, ->
+    # console.log @data
+    unless @watson
+        Meteor.call 'call_watson', @data._id, ->
     
 Template.home.onCreated ->
     Session.setDefault('reddit_skip_value', 0)
@@ -222,6 +226,35 @@ Template.home.onCreated ->
 
     # Meteor.call 'log_reddit_view', Router.current().params.subreddit, ->
 
+Template.registerHelper 'is_image', ()->
+    if @domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
+        true
+    else 
+        false
+Template.registerHelper 'has_thumbnail', ()->
+    console.log @data.thumbnail
+    @data.thumbnail.length > 0
+
+Template.registerHelper 'is_youtube', ()->
+    @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()
+
+Template.registerHelper 'embed', ()->
+    if @data and @data.media and @data.media.oembed and @data.media.oembed.html
+        dom = document.createElement('textarea')
+        # dom.innerHTML = doc.body
+        dom.innerHTML = @data.media.oembed.html
+        return dom.value
+        # Docs.update @_id,
+        #     $set:
+        #         parsed_selftext_html:dom.value
+Template.registerHelper 'youtube_parse', (url) ->
+    regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    match = @data.url.match(regExp)
+    if match && match[2].length == 11
+        match[2]
+    else
+        null
 
 Template.home.events
     'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
@@ -377,6 +410,17 @@ Template.unpick_tag.events
         , 7000
     
 
+Template.card.events
+    'click .flat_tag_pick': -> 
+        picked_tags.push @valueOf()
+        Meteor.call 'search_reddit', picked_tags.array(), ->
+        url = new URL(window.location);
+        url.searchParams.set('tags', picked_tags.array());
+        window.history.pushState({}, '', url);
+        document.title = picked_tags.array()
+        Meteor.setTimeout ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 7000
 
 Template.home.helpers
     # reddit_query: -> Session.get('reddit_query')
