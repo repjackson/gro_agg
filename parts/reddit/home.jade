@@ -1,4 +1,4 @@
-template(name='reddit')
+template(name='home')
     .ui.stackable.padded.grid
         .sixteen.wide.column
             // if skv_is 'nightmode' true
@@ -36,30 +36,24 @@ template(name='reddit')
                         | safe
         .ui.sixteen.wide.column                
             .scrolling
-                if skv_is 'view_layout' 'grid'
-                    if one_post
-                        .ui.stackable.one.column.grid
-                            each rposts
-                                +post_card
-                            
-                    else if two_posts
-                        .ui.stackable.two.centered.column.grid
-                            each rposts
-                                +post_card
-                    else if three_posts
-                        .ui.stackable.three.column.grid.scrolling
-                            each rposts
-                                +post_card
-                if rposts
-                    if skv_is 'reddit_view_layout' 'grid'
-                        .ui.centered.three.stackable.cards 
-                            each rposts
-                                +reddit_post_card
-                else
-                    .ui.basic.center.aligned.segment
-                        i.big.loading.yin.yang.icon
+                // if one_post
+                //     .ui.stackable.one.column.grid
+                //         each rposts
+                //             +card
+                        
+                // else if two_posts
+                //     .ui.stackable.two.centered.column.grid
+                //         each rposts
+                //             +card
+                // else if three_posts
+                .ui.stackable.three.column.grid.scrolling
+                    each rposts
+                        +card
+                // else
+                //     .ui.basic.center.aligned.segment
+                //         i.big.loading.yin.yang.icon
    
-template(name='reddit_post_card')
+template(name='card')
     a.ui.card(href=data.url target='_window')
         // .ui.stackable.equal.width.compact.grid
         //     .row
