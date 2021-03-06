@@ -52,7 +52,7 @@ template(name='reddit')
                                 +post_card
                 if rposts
                     if skv_is 'reddit_view_layout' 'grid'
-                        .ui.centered.four.stackable.cards 
+                        .ui.centered.three.stackable.cards 
                             each rposts
                                 +reddit_post_card
                 else

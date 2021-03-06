@@ -17,12 +17,18 @@ if Meteor.isClient
         @render 'reddit'
         ), name:'reddit'
     
+    Template.reddit_post_card.onCreated ->
+        console.log @data
+        Meteor.call 'call_watson', @data._id, ->
+        
     Template.reddit.onCreated ->
         Session.setDefault('reddit_skip_value', 0)
         Session.setDefault('reddit_view_layout', 'grid')
         Session.setDefault('sort_key', 'data.created')
         Session.setDefault('sort_direction', -1)
         Session.setDefault('nsfw', false)
+        # Meteor.call 'call_watson', @data._id, ->
+        
         # Session.setDefault('location_query', null)
         @autorun => Meteor.subscribe 'rposts', 
             picked_tags.array()
