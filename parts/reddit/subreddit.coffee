@@ -19,7 +19,7 @@ if Meteor.isClient
     Template.subreddit_best.onCreated ->
         @autorun => Meteor.subscribe 'subreddit_best', Router.current().params.subreddit
     Template.subreddit_newest.onCreated ->
-        @autorun => Meteor.subscribe 'subreddit_best', Router.current().params.subreddit
+        @autorun => Meteor.subscribe 'subreddit_newest', Router.current().params.subreddit
     
     Template.subreddit_best.helpers
         sub_best_docs: ->
