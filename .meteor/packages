@@ -21,8 +21,6 @@ mobile-experience@1.1.0
 
 matb33:collection-hooks
 
-multiply:iron-router-progress
-
 blaze-html-templates
 shell-server@0.5.0
 mquandalle:jade
@@ -41,3 +39,4 @@ francocatena:status
 lamhieu:unblock
 reywood:publish-composite
 markdown
+multiply:iron-router-progress

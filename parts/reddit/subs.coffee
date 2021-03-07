@@ -235,7 +235,7 @@ if Meteor.isServer
                 "data.primary_color":1
                 "data.over18":1
                 "data.header_title":1
-                # "data.created":1
+                "data.created":1
                 "data.header_img":1
                 "data.public_description":1
                 "data.advertiser_category":1
