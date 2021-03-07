@@ -117,7 +117,7 @@ template(name='subtag_picker')
     a.ui.image.large.label.zoomer.pick_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
-                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+                img.ui.image.superzoom(src=term.watson.metadata.image )    
         strong #{name}
         // if in_dev
         //     small #{count}

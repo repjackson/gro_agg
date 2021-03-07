@@ -54,3 +54,41 @@ template(name='home')
                 //     .ui.basic.center.aligned.segment
                 //         i.big.loading.yin.yang.icon
    
+
+template(name='card')
+    .column
+        // .ui.stackable.equal.width.compact.grid
+        //     .row
+        a(href="/r/#{subreddit}/post/#{_id}" target='_window')
+            if embed
+                span.rounded.full
+                    |!{embed}
+                div
+            else if is_image
+                img.ui.fluid.zoomer.image.toggle_view(src=data.url)    
+            else if watson.metadata.image
+                // |metadata
+                img.ui.inline.zoomer.image.toggle_view(src=watson.metadata.image)
+                // else if data.thumbnail.length
+            else if has_thumbnail
+                // |thumbnail
+                a.view_post(href="/r/#{subreddit}/post/#{_id}")
+                    img.ui.inline.zoomer.fluid.image.zoomer(src=data.thumbnail)    
+            // else if data.thumbnail.length
+            //     .column
+            //         a.view_post(href=data.url class=post_header_class)
+            //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
+            // .column
+        .content
+            // a.ui.inline.header.view_post.zoomer(href="" class=post_header_class target='_window')
+            a.ui.inline.header(class=post_header_class href="/r/#{subreddit}/post/#{_id}" title=domain)
+                |!{data.title} 
+                // span.inline.content
+            |{{ufrom data.created_utc}}
+            each unique_tags
+                a.ui.basic.label.flat_tag_pick #{this}
+            a.black_text(href="/r/#{subreddit}/post/#{_id}")
+                |{{ trunc analyzed_text }}...
+            +print_this
+            // div
+   
