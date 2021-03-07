@@ -8,7 +8,8 @@ if Meteor.isClient
         @layout 'layout'
         @render 'su'
         ), name:'su'
-    @selected_emotions = new ReactiveArray []
+    @picked_emotions = new ReactiveArray []
+    @picked_stags = new ReactiveArray []
     
     Template.su.onCreated ->
         Session.setDefault('user_query', null)
@@ -19,10 +20,10 @@ if Meteor.isClient
             Router.current().params.site
             Session.get('user_query')
             Session.get('location_query')
-            selected_tags.array()
+            picked_stags.array()
             ()->Session.set('ready',true)
         @autorun => Meteor.subscribe 'site_user_tags',
-            selected_tags.array()
+            picked_stags.array()
             Router.current().params.site
             Session.get('user_query')
             Session.get('location_query')
@@ -35,26 +36,26 @@ if Meteor.isClient
         Session.setDefault('sort_direction', -1)
         @autorun => Meteor.subscribe 'agg_sentiment_site',
             Router.current().params.site
-            selected_tags.array()
+            picked_stags.array()
             ()->Session.set('ready',true)
     
         @autorun => Meteor.subscribe 'site_q_count', 
             Router.current().params.site
-            selected_tags.array()
-            selected_emotions.array()
+            picked_stags.array()
+            picked_emotions.array()
             Session.get 'view_bounties'
             Session.get 'view_unanswered'
      
         # @autorun => Meteor.subscribe 'sentiment',
         #     Router.current().params.site
-        #     selected_tags.array()
+        #     picked_stags.array()
       
         @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
       
         @autorun => Meteor.subscribe 'site_tags',
             Router.current().params.site
-            selected_tags.array()
-            selected_emotions.array()
+            picked_stags.array()
+            picked_emotions.array()
             Session.get 'toggle'
             Session.get 'view_bounties'
             Session.get 'view_unanswered'
@@ -62,8 +63,8 @@ if Meteor.isClient
             
         @autorun => Meteor.subscribe 's_q', 
             Router.current().params.site
-            selected_tags.array()
-            selected_emotions.array()
+            picked_stags.array()
+            picked_emotions.array()
             Session.get 'sort_key'
             Session.get 'sort_direction'
             Session.get 'limit'
@@ -75,14 +76,14 @@ if Meteor.isClient
         #     Router.current().params.site
         #     Session.get('user_query')
         #     Session.get('location_query')
-        #     selected_tags.array()
+        #     picked_stags.array()
         #     ()->Session.set('ready',true)
             
             
     # Template.su.onCreated ->
     #     @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
     #     @autorun => Meteor.subscribe 'site_user_tags',
-    #         selected_tags.array()
+    #         picked_stags.array()
     #         Router.current().params.site
     #         Session.get('toggle')
             
@@ -129,7 +130,7 @@ if Meteor.isClient
                 if search.length > 0
                     window.speechSynthesis.cancel()
                     window.speechSynthesis.speak new SpeechSynthesisUtterance search
-                    selected_tags.push search
+                    picked_stags.push search
                     $('.search_site').val('')
     
                     Session.set('loading',true)
@@ -149,7 +150,7 @@ if Meteor.isClient
                 if search.length > 0
                     window.speechSynthesis.cancel()
                     window.speechSynthesis.speak new SpeechSynthesisUtterance search
-                    selected_tags.push search
+                    picked_stags.push search
                     $('.search_site').val('')
     
                     Meteor.call 'search_stack', Router.current().params.site, search, ->
@@ -164,7 +165,7 @@ if Meteor.isClient
                 if search.length > 0
                     window.speechSynthesis.cancel()
                     window.speechSynthesis.speak new SpeechSynthesisUtterance search
-                    selected_tags.push user_search
+                    picked_stags.push user_search
                     $('.search_site').val('')
     
                     # Meteor.call 'search_stack', Router.current().params.site, search, ->
@@ -244,7 +245,7 @@ if Meteor.isClient
     #             if search.length > 0
     #                 window.speechSynthesis.cancel()
     #                 window.speechSynthesis.speak new SpeechSynthesisUtterance search
-    #                 selected_tags.push search
+    #                 picked_stags.push search
     #                 $('.search_site').val('')
     
     #                 Meteor.call 'search_stack', Router.current().params.site, search, ->
@@ -282,14 +283,14 @@ if Meteor.isClient
             window.speechSynthesis.cancel()
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             if @model is 'site_emotion'
-                selected_emotions.push @name
+                picked_emotions.push @name
             else
                 # if @model is 'site_tag'
-                selected_tags.push @name
+                picked_stags.push @name
                 $('.search_site').val('')
                 
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-            window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+            window.speechSynthesis.speak new SpeechSynthesisUtterance picked_stags.array().toString()
             Session.set('loading',true)
             Meteor.call 'search_stack', Router.current().params.site, @name, ->
                 Session.set('loading',false)
@@ -322,7 +323,7 @@ if Meteor.isClient
             # results.update
             window.speechSynthesis.cancel()
             window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-            selected_tags.push @valueOf()
+            picked_stags.push @valueOf()
             Router.go "/s/#{Router.current().params.site}/"
             $('.search_site').val('')
             Meteor.call 'search_stack', Router.current().params.site, @valueOf(), ->

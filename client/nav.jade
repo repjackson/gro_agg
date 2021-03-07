@@ -1,12 +1,12 @@
 template(name='nav')
     .ui.fluid.attached.borderless.inverted.large.menu.hscroll
-        a.icon.item.toggle_sidebar.no_blink
-            i.bars.icon
+        // a.icon.item.toggle_sidebar.no_blink
+        //     i.bars.icon
     
         a.icon.item.blink.clear(href="/" class="{{isActiveRoute regex='home'}}")
             i.yin.yang.large.icon
-        a.icon.item.blink.clear(href="/reddit" class="{{isActiveRoute 'reddit'}}")
-            i.search.large.icon
+        // a.icon.item.blink.clear(href="/reddit" class="{{isActiveRoute 'reddit'}}")
+        //     i.search.large.icon
         a.icon.item.blink.clear(href="/subs" class="{{isActiveRoute 'subs'}}")
             i.reddit.large.icon
         a.icon.item.blink.clear(href="/stack" class="{{isActiveRoute 'stack'}}")

@@ -20,19 +20,19 @@ if Meteor.isClient
         Meteor.call 'get_q_a', Router.current().params.site, Router.current().params.qid,->
         # Meteor.call 'call_watson', Router.current().params.qid,'link','stack',->
         Meteor.call 'get_q_c', Router.current().params.site, Router.current().params.qid,->
-        # Meteor.setTimeout ->
-        #     $('.top').visibility
-        #         onTopVisible: (calculations) ->
-        #             console.log 'top vis'
-        #             # top is on screen
-        #         onTopPassed: (calculations) ->
-        #             console.log 'top pass'
-        #             # top of element passed
-        #         onUpdate: (calculations) ->
-        #             # do something whenever calculations adjust
-        #             console.log 'update'
-        #             # updateTable calculations
-        #     , 2000
+        Meteor.setTimeout ->
+            $('.top').visibility
+                onTopVisible: (calculations) ->
+                    console.log 'top vis'
+                    # top is on screen
+                onTopPassed: (calculations) ->
+                    console.log 'top pass'
+                    # top of element passed
+                onUpdate: (calculations) ->
+                    # do something whenever calculations adjust
+                    console.log 'update'
+                    # updateTable calculations
+            , 2000
     Template.q.helpers
         # linked_questions: ->
         #     question = Docs.findOne Router.current().params.qid
@@ -49,6 +49,9 @@ if Meteor.isClient
         #         model:'stack_question'
         #         _id:question.related_question_ids
         #         site:Router.current().params.site
+        current_q: ->
+            Docs.findOne 
+                model:'stack_question'
         q_a: ->
             Docs.find({
                 model:'stack_answer'
@@ -135,3 +138,12 @@ if Meteor.isClient
         #     Session.set('view_reddit', !Session.get('view_reddit'))
         # 'click .toggle_duck': -> 
         #     Session.set('view_duck', !Session.get('view_duck'))
+        
+        
+        
+if Meteor.isServer
+    Meteor.publish 'qid', (site,qid)->
+        Docs.find
+            model:'stack_question'
+            site:site
+            question_id:parseInt(qid)

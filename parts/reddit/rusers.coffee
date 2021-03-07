@@ -163,7 +163,7 @@ if Meteor.isClient
                 if search.length > 0
                     # window.speechSynthesis.cancel()
                     # window.speechSynthesis.speak new SpeechSynthesisUtterance search
-                    selected_tags.push search
+                    picked_stags.push search
                     $('.search_site').val('')
     
                     # Meteor.call 'search_stack', Router.current().params.site, search, ->
@@ -291,18 +291,18 @@ if Meteor.isServer
                 allowDiskUse:true
             }
     
-            # if omega.selected_tags.length > 0
+            # if omega.picked_stags.length > 0
             #     limit = 42
             # else
             limit = 33
-            # { $match: tags:$all: omega.selected_tags }
+            # { $match: tags:$all: omega.picked_stags }
             pipe =  [
                 { $match: match }
                 { $project: max_emotion_name: 1 }
                 # { $unwind: "$max_emotion_name" }
                 { $group: _id: "$max_emotion_name", count: $sum: 1 }
                 # { $group: _id: "$max_emotion_name", count: $sum: 1 }
-                # { $match: _id: $nin: omega.selected_tags }
+                # { $match: _id: $nin: omega.picked_stags }
                 { $sort: count: -1, _id: 1 }
                 { $limit: 5 }
                 { $project: _id: 0, title: '$_id', count: 1 }
@@ -346,18 +346,18 @@ if Meteor.isServer
                 allowDiskUse:true
             }
     
-            # if omega.selected_tags.length > 0
+            # if omega.picked_stags.length > 0
             #     limit = 42
             # else
             limit = 33
-            # { $match: tags:$all: omega.selected_tags }
+            # { $match: tags:$all: omega.picked_stags }
             pipe =  [
                 { $match: match }
                 { $project: tags: 1 }
                 { $unwind: "$tags" }
                 { $group: _id: "$tags", count: $sum: 1 }
                 # { $group: _id: "$max_emotion_name", count: $sum: 1 }
-                # { $match: _id: $nin: omega.selected_tags }
+                # { $match: _id: $nin: omega.picked_stags }
                 { $sort: count: -1, _id: 1 }
                 { $limit:20 }
                 { $project: _id: 0, title: '$_id', count: 1 }
@@ -389,9 +389,9 @@ if Meteor.isServer
                 allowDiskUse:true
             }
             match = {}
-            # if omega.selected_tags.length > 0
+            # if omega.picked_stags.length > 0
             #     match.tags =
-            #         $all: omega.selected_tags
+            #         $all: omega.picked_stags
             match.model = $in:['rpost','rcomment']
             match["data.author"] = username
             
@@ -440,9 +440,9 @@ if Meteor.isServer
     
             # match = {tags:$in:[term]}
             match = {}
-            # if omega.selected_tags.length > 0
+            # if omega.picked_stags.length > 0
             #     match.tags =
-            #         $all: omega.selected_tags
+            #         $all: omega.picked_stags
             # else
             #     match.tags =
             #         $all: ['dao']
@@ -461,11 +461,11 @@ if Meteor.isServer
                 allowDiskUse:true
             }
     
-            # if omega.selected_tags.length > 0
+            # if omega.picked_stags.length > 0
             #     limit = 42
             # else
             limit = 33
-            # { $match: tags:$all: omega.selected_tags }
+            # { $match: tags:$all: omega.picked_stags }
             pipe =  [
                 { $match: match }
                 # { $project: max_emotion_name: 1 }
@@ -630,7 +630,7 @@ if Meteor.isServer
     Meteor.publish 'ruser_result_tags', (
         model='rpost'
         username
-        selected_tags
+        picked_stags
         # selected_subreddit_domain
         # view_bounties
         # view_unanswered
@@ -646,7 +646,7 @@ if Meteor.isServer
         #     match.bounty = true
         # if view_unanswered
         #     match.is_answered = false
-        if selected_tags.length > 0 then match.tags = $all:selected_tags
+        if picked_stags.length > 0 then match.tags = $all:picked_stags
         # if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
         # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
         doc_count = Docs.find(match).count()
@@ -656,7 +656,7 @@ if Meteor.isServer
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: selected_tags }
+            { $match: _id: $nin: picked_stags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit:11 }
