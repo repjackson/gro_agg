@@ -78,15 +78,20 @@ template(name='home')
                 // .ui.label(title=count) #{name}
         .ui.sixteen.wide.column                
             .scrolling
-                each wikis
-                    .ui.segment
-                        a.ui.header(href=url target='_window') #{title}
-                        each seven_tags
-                            .ui.label #{this}
-                        if watson.metadata.image
-                            // |metadata
-                            img.ui.inline.tiny.image.toggle_view(src=watson.metadata.image)
-                            
+                .ui.items
+                    each wikis
+                        .ui.item
+                            .image
+                                if watson.metadata.image
+                                    a(href=url target='_window')
+                                        img.ui.inline.image.toggle_view(src=watson.metadata.image)
+                            .content
+                                i.large.wikipedia.icon
+                                a.ui.inline.header(href=url target='_window') #{title}
+                                each seven_tags
+                                    .ui.label.flat_tag_pick #{this}
+                                a.black_text(href=url target='_window')
+                                    |{{ trunc watson.analyzed_text }}...
                 if one_post
                     .ui.stackable.one.column.grid
                         each rposts
@@ -130,7 +135,7 @@ template(name='card')
             // .column
         .content
             // a.ui.inline.header.view_post.zoomer(href="" class=post_header_class target='_window')
-            a.ui.inline.header(href="https://www.reddit.com#{permalink}" target='_window' title=domain)
+            a.ui.inline.header(class=post_header_class href="https://www.reddit.com#{permalink}" target='_window' title=domain)
             
                 // strong #{data.ups}:
                 |!{data.title} 
@@ -140,22 +145,16 @@ template(name='card')
                 a.ui.basic.label.flat_tag_pick #{this}
             // div
    
-   
-   
-        
 template(name='unpick_tag')
-    a.unpick.ui.black.compact.button(href='#')
+    a.unpick.ui.black.image.large.label(href='#')
         if term
             if term.watson.metadata.image
-                img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
+                img.ui.compact.image.superzoom(src=term.watson.metadata.image)    
         strong #{this}
-
-
-        
 
 template(name='flat_tag_picker')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.basic.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         // if term
         //     if term.watson.metadata.image
         //         img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -163,20 +162,12 @@ template(name='flat_tag_picker')
         // if in_dev
         //     small #{count}
 
-
-
-           
-                                   
-           
-                                
-                                
-                                
 template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    .ui.compact.basic.button.zoomer.pick_tag.penny.add_global_karma(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.compact.basic.image.large.label.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
-                img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
+                img.ui.avatar.image.superzoom(src=term.watson.metadata.image)    
         strong #{name}
         // if in_dev
         //     small #{count}

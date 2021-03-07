@@ -50,58 +50,7 @@ Template.unpick_tag.events
         picked_tags.remove @valueOf()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         
-   
-   
-   
-   
 Session.setDefault('loading', false)
-Template.body.events
-    'click .set_main': -> Session.set('view_section','main')
-
-    'click .say_body': ->
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
-        # Meteor.call 'add_global_karma', ->
-        # Session.set('session_clicks', Session.get('session_clicks')+2)
-
-    # 'click a': ->
-        # if Meteor.userId()
-        #     Meteor.users.update Meteor.userId(),
-        #         $inc:points:2
-        # if @_author_id
-        #     Meteor.users.update @_author_id,
-        #         $inc:points:2
-        # Meteor.call 'add_global_karma', ->
-        # Session.set('session_clicks', Session.get('session_clicks')+2)
-    
-    # 'click body': ->
-    #     if Meteor.userId()
-    #         Meteor.users.update Meteor.userId(),
-    #             $inc:points:1
-    #     if @_author_id
-    #         Meteor.users.update @_author_id,
-    #             $inc:points:1
-    #     Meteor.call 'add_global_karma', ->
-    #     Session.set('session_clicks', Session.get('session_clicks')+1)
-    
-    # 'click .shutup': ->
-    #     window.speechSynthesis.cancel()
-
-    # 'click .say': ->
-    #     window.speechSynthesis.speak new SpeechSynthesisUtterance @innerText
-        
-        
-# Template.say.events
-#     'click .quiet': (e,t)->
-#         Session.set('talking',false)
-#         window.speechSynthesis.cancel()
-#     'click .say_this': (e,t)->
-#         Session.set('talking',true)
-#         dom = document.createElement('textarea')
-#         # dom.innerHTML = doc.body
-#         dom.innerHTML = Template.parentData()["#{@k}"]
-#         text1 = $("<textarea/>").html(dom.innerHTML).text();
-#         text2 = $("<textarea/>").html(text1).text();
-#         # window.speechSynthesis.speak new SpeechSynthesisUtterance text2
 
 Router.route '/', (->
     @layout 'layout'
@@ -112,14 +61,14 @@ Router.route '/', (->
 
 
 @picked_tags = new ReactiveArray []
-# Router.configure
-#     layoutTemplate: 'layout'
-#     notFoundTemplate: 'home'
-#     loadingTemplate: 'splash'
-#     trackPageView: false
-# 	progressTick: false
+Router.configure
+    layoutTemplate: 'layout'
+    notFoundTemplate: 'home'
+    loadingTemplate: 'splash'
+    trackPageView: false
+	progressTick: false
 # 	progressDelay: 100
-# Router.route '*', -> @render 'not_found'
+Router.route '*', -> @render 'home'
 
 
 
@@ -137,13 +86,6 @@ Template.home.onCreated ->
         picked_tags.array()
         Session.get('nsfw')
         Session.get('toggle')
-        # picked_subreddit_domain.array()
-        # picked_rtime_tags.array()
-        # picked_subreddits.array()
-        # picked_rauthors.array()
-        # Session.get('sort_key')
-        # Session.get('sort_direction')
-        # Session.get('reddit_skip_value')
   
     # @autorun => Meteor.subscribe 'reddit_post_count', 
     #     picked_tags.array()
@@ -172,18 +114,6 @@ Template.home.onCreated ->
         picked_tags.array()
     @autorun => Meteor.subscribe 'post_count', 
         picked_tags.array()
-    # @autorun => Meteor.subscribe 'posts', 
-    #     picked_tags.array()
-    #     Session.get('toggle')
-    #     picked_times.array()
-    #     picked_locations.array()
-    #     picked_authors.array()
-    #     Session.get('sort_key')
-    #     Session.get('sort_direction')
-    #     Session.get('skip_value')
-    #     Session.get('view_videos')
-    #     Session.get('view_images')
-    #     Session.get('view_adult')
 
 
     @autorun => Meteor.subscribe 'tags',
@@ -191,23 +121,6 @@ Template.home.onCreated ->
         Session.get('nsfw')
         Session.get('toggle')
         
-        # picked_reddit_domain.array()
-        # picked_rtime_tags.array()
-        # picked_subreddits.array()
-        # picked_rauthors.array()
-        # Session.get('toggle')
-        # picked_tags.array()
-        # Session.get('toggle')
-        # picked_times.array()
-        # picked_locations.array()
-        # picked_authors.array()
-        # Session.get('view_videos')
-        # Session.get('view_images')
-        # Session.get('view_adult')
-        
-    # Meteor.call 'get_reddit_latest', Router.current().params.subreddit, ->
-
-    # Meteor.call 'log_reddit_view', Router.current().params.subreddit, ->
 
 Template.registerHelper 'is_image', ()->
     if @domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
@@ -262,29 +175,6 @@ Template.home.events
             picked_tags.push val   
             Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('loading',false)
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance val
-            # $('.search_tag').transition('pulse')
-            # $('.black').transition('pulse')
-            # $('.seg .pick_tag').transition({
-            #     animation : 'pulse',
-            #     duration  : 500,
-            #     interval  : 300
-            # })
-            # $('.seg .black').transition({
-            #     animation : 'pulse',
-            #     duration  : 500,
-            #     interval  : 300
-            # })
-            # $('.pick_tag').transition('pulse')
-            # $('.card_small').transition('shake')
-            # $('.pushed .card').transition({
-            #     animation : 'pulse',
-            #     duration  : 500,
-            #     interval  : 300
-            # })
-            Meteor.setTimeout ->
-                Session.set('toggle', !Session.get('toggle'))
-            , 5000    
             Meteor.setTimeout ->
                 Session.set('toggle', !Session.get('toggle'))
             , 10000    
@@ -297,20 +187,6 @@ Template.home.events
             t.$('.search_tag').focus()
             # Session.set('sub_doc_query', val)
 
-
-
-    'click .make_private': ->
-        # if confirm 'make private?'
-        Docs.update @_id,
-            $set:is_private:true
-
-    # 'keyup .add_tag': (e,t)->
-    #     if e.which is 13
-    #         new_tag = $(e.currentTarget).closest('.add_tag').val().toLowerCase().trim()
-    #         Docs.update @_id,
-    #             $addToSet: tags:new_tag
-    #         $(e.currentTarget).closest('.add_tag').val('')
-         
 
 Template.unpick_tag.events
     'click .unpick':-> 

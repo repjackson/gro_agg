@@ -1,3 +1,7 @@
 img {
     border-radius: 7px;
 }
+
+.black_text {
+    color: black !important;
+}

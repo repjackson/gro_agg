@@ -16,16 +16,16 @@ Meteor.methods
     
 
 
-# Meteor.publish 'doc_by_title', (title)->
-#     Docs.find({
-#         title:title
-#         model:'wikipedia'
-#         "watson.metadata.image":$exists:true
-#     }, {
-#         fields:
-#             title:1
-#             "watson.metadata.image":1
-#     })
+Meteor.publish 'doc_by_title', (title)->
+    Docs.find({
+        title:title
+        model:'wikipedia'
+        "watson.metadata.image":$exists:true
+    }, {
+        fields:
+            title:1
+            "watson.metadata.image":1
+    })
 
 
 
@@ -42,28 +42,28 @@ Docs.allow
     remove: (userId, doc) -> false
 
 
-# Meteor.publish 'rpost_count', (
-#     picked_tags
-#     # picked_authors
-#     # picked_locations
-#     # picked_times
-#     )->
-#     @unblock()
-#     match = {
-#         model:'rpost'
-#         is_private:$ne:true
-#     }
-#     # unless Meteor.userId()
-#     #     match.privacy='public'
+Meteor.publish 'post_count', (
+    picked_tags
+    # picked_authors
+    # picked_locations
+    # picked_times
+    )->
+    @unblock()
+    match = {
+        model:'rpost'
+        # is_private:$ne:true
+    }
+    # unless Meteor.userId()
+    #     match.privacy='public'
 
         
-#     if picked_tags.length > 0 then match.tags = $all:picked_tags
-#     # if picked_authors.length > 0 then match.author = $all:picked_authors
-#     # if picked_locations.length > 0 then match.location = $all:picked_locations
-#     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    # if picked_authors.length > 0 then match.author = $all:picked_authors
+    # if picked_locations.length > 0 then match.location = $all:picked_locations
+    # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
 
-#     Counts.publish this, 'rpost_count', Docs.find(match)
-#     return undefined
+    Counts.publish this, 'post_count', Docs.find(match)
+    return undefined
             
 Meteor.publish 'rposts', (
     picked_tags
