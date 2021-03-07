@@ -1,0 +1,104 @@
+template(name='login')
+    .ui.padded.stackable.grid
+        .centered.row
+            .eight.wide.column
+                .ui.center.aligned.basic.segment
+                    i.big.yin.yang.icon
+                    .ui.inline.grey.header login
+                div
+                if message
+                    h4.ui.center.aligned.header #{message}
+                .ui.inline.small.header 
+                    i.user.outline.icon
+                    |username
+                .ui.fluid.large.input(class=input_login_class)
+                    input.username(type='text')
+                .spacer
+                .ui.inline.small.header 
+                    i.lock.icon
+                    | password
+                .ui.fluid.large.input(class=input_login_class)
+                    input.password(type='password')
+                //- if username
+                if logging_in
+                    .spacer
+                    .ui.fluid.big.basic.button.enter(title="login #{username}" class=enter_class)
+                        // |login
+                        strong #{username}
+                        |&nbsp;
+                        i.sign.in.alternate.icon
+                .ui.center.aligned.basic.segment    
+                    a.ui.basic.button(href='/register')
+                        i.plus.icon
+                        |register
+                    a.ui.basic.button(href='/forgot_password')
+                        i.refresh.icon
+                        |forgot password
+
+
+
+template(name='register')
+    //- img.ui.fluid.image.bg_overlay(src="{{c.url 'forest-bg2' width=1000 crop='fit'}}")    
+    .ui.padded.stackable.grid
+        .centered.middle.aligned.row
+            .ten.wide.column
+                .ui.center.aligned.basic.segment
+                    //- a.ui.icon.button(href="/")
+                    //-     i.large.home.icon
+                        
+                    // div
+                    // +icon name='circled' cl='ui inline image'
+                    i.big.yin.yang.icon
+                    .ui.big.inline.header register
+                .ui.header 
+                    i.user.outline.icon
+                    |username
+                .ui.fluid.icon.input(class=login_class)
+                    //- if email_valid
+                    // if username_valid
+                    //     i.checkmark.large.green.icon
+                    // else
+                    //     i.ban.orange.large.icon
+                    input.username(type='text')
+                // .ui.fluid.icon.input(class=login_class)
+                //     //- if email_valid
+                //     if username_valid
+                //         i.checkmark.icon
+                //     else
+                //         i.ban.icon
+                //     input.email(type='text')
+                .ui.header 
+                    i.lock.grey.icon
+                    // +icon name='password'
+                    | password
+                .ui.fluid.input(class=login_class)
+                    input.password(type='password')
+                //- .ui.fluid.labeled.input(class=login_class)
+                //-     .ui.small.inline.header 
+                //-         i.lock.grey.icon
+                //-         | password again
+                //-     input.password2(type='password')
+                .ui.hidden.divider
+                if can_register
+                    //- if registering
+                    .ui.fluid.big.basic.button.register(class=enter_class)
+                        i.user.plus.icon
+                        |register
+                else
+                    .ui.fluid.big.disabled.button(class=enter_class)
+                        i.user.plus.icon
+                        |register
+                    // // .ui.small.header username "#{username}" found
+                    a.ui.basic.fluid.button(href='/login') 
+                        // i.right.chevron.icon
+                        +icon name='internal' cl='ui inline image'
+                        |login
+                // .ui.center.aligned.basic.segment    
+                    // .ui.small.header by registering you agree to our 
+                    //     a(href='/p/privacy' target="_window") privacy policy
+                    // unless username
+                    //     .ui.small.header or
+                    //     a.ui.basic.sign.in.button(href='/login') 
+                    //         // i.chevron.right.icon
+                    //         +icon name='internal'
+                    //         |login
