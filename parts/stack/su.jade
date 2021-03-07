@@ -75,7 +75,7 @@ template(name='su')
                             i.marker.link.icon.clear_location
                         input.search_location(type='text' placeholder='location' value=current_location_query)
                     each user_tags
-                        +stack_tag_selector
+                        +dstag_picker
                         // small #{count}
                         // .ui.large.label(title=count) #{name} 
                     if skv_is 'sort_direction' 1

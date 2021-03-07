@@ -173,7 +173,7 @@ if Meteor.isClient
     
     
     # Template.sub_tag_selector.onCreated ->
-    #     # @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
+    #     # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
     # Template.sub_tag_selector.helpers
     #     selector_class: ()->
     #         term = 
@@ -219,7 +219,7 @@ if Meteor.isClient
             
     
     # Template.sub_unpick_tag.onCreated ->
-    #     # @autorun => Meteor.subscribe('doc_by_title_small', @data.toLowerCase())
+    #     # @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
         
     # Template.sub_unpick_tag.helpers
     #     term: ->
@@ -237,7 +237,7 @@ if Meteor.isClient
         
     
     # Template.flat_sub_tag_selector.onCreated ->
-    #     # @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
+    #     # @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
     # Template.flat_sub_tag_selector.helpers
     #     selector_class: ()->
     #         term = 

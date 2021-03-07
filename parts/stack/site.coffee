@@ -14,7 +14,7 @@ if Meteor.isClient
     Template.su.onCreated ->
         Session.setDefault('user_query', null)
         Session.setDefault('location_query', null)
-        @autorun => Meteor.subscribe 'site_user_count', Router.current().params.site
+        # @autorun => Meteor.subscribe 'site_user_count', Router.current().params.site
         @autorun => Meteor.subscribe 'site_by_param', Router.current().params.site
         @autorun => Meteor.subscribe 'stackusers_by_site', 
             Router.current().params.site
@@ -90,7 +90,8 @@ if Meteor.isClient
             
     Template.sq.helpers
         emotion_avg: -> results.findOne(model:'emotion_avg')
-    
+        picked_stags: ->
+            picked_stags.array()
         site_tags: -> results.find(model:'site_tag')
         current_site: ->
             Docs.findOne
@@ -215,11 +216,11 @@ if Meteor.isClient
     
     
     Template.sq.helpers
-        site_locations: -> results.find(model:'site_Location')
-        site_organizations: -> results.find(model:'site_Organization')
-        site_persons: -> results.find(model:'site_Person')
-        site_companys: -> results.find(model:'site_Company')
-        site_emotions: -> results.find(model:'site_emotion')
+        # site_locations: -> results.find(model:'site_Location')
+        # site_organizations: -> results.find(model:'site_Organization')
+        # site_persons: -> results.find(model:'site_Person')
+        # site_companys: -> results.find(model:'site_Company')
+        # site_emotions: -> results.find(model:'site_emotion')
     
         # site_users: ->
         #     Docs.find {
@@ -257,9 +258,9 @@ if Meteor.isClient
     Template.s_q_item.onRendered ->
     
     
-    Template.stack_tag_selector.onCreated ->
-        @autorun => Meteor.subscribe('doc_by_title_small', @data.name.toLowerCase())
-    Template.stack_tag_selector.helpers
+    Template.stag_picker.onCreated ->
+        @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+    Template.stag_picker.helpers
         selector_class: ()->
             term = 
                 Docs.findOne 
@@ -276,7 +277,7 @@ if Meteor.isClient
         term: ->
             Docs.findOne 
                 title:@name.toLowerCase()
-    Template.stack_tag_selector.events
+    Template.stag_picker.events
         'click .select_tag': -> 
             # results.update
             # console.log @
@@ -300,7 +301,7 @@ if Meteor.isClient
        
     
     Template.flat_tag_selector.onCreated ->
-        @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
+        @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
     Template.flat_tag_selector.helpers
         selector_class: ()->
             term = 

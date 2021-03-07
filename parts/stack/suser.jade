@@ -112,7 +112,7 @@ template(name='suser_top_emotions')
                     
 template(name='suser_q')
     each suser_q_tags
-        +stack_tag_selector
+        +stag_picker
     .ui.horizontal.divider.get_q
         i.question.icon
         |#{q.count} questions
@@ -123,7 +123,7 @@ template(name='suser_b')
 template(name='suser_t')
 template(name='suser_a')
     each suser_a_tags
-        +stack_tag_selector
+        +stag_picker
     .ui.dividing.header.get_answers
         i.reply.icon
         |#{suser_a.count} answers

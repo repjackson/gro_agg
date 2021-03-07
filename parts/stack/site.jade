@@ -6,24 +6,24 @@ template(name='sq')
             .row
                 .ui.twelve.wide.column
                     img.ui.get_info.shadowed.ui.inline.image(src=logo_url )
-                    if selected_tags
+                    if picked_stags
                         // if many_tags
                         //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                         //         i.remove.icon
-                        each selected_tags
-                            +unselect_tag
+                        each picked_stags
+                            +unpick_stag
                     .ui.left.icon.input
                         i.search.icon
                         input.search_site(type='text')
                     .smallscroll                    
                         each site_tags
-                            +stack_tag_selector
+                            +stag_picker
                     // if site_emotions.count
                     //     +skve k='view_emotions' v=true l="emotions" i='smile' ionly=false
                     //     if skv_is 'view_emotions' true
                     //         i.grey.remove.link.icon.clear_emotions(title='emotions')
-                    each selected_emotions
-                        +unselect_tag
+                    // each selected_emotions
+                    //     +unpick_stag
                     div
                     .ui.inline.header #{q_count}
                     if skv_is 'sort_direction' 1
@@ -76,28 +76,28 @@ template(name='sq')
                             .ui.divider
                 .four.wide.column.scrollin
                     each site_emotions
-                        // +stack_tag_selector
+                        // +stag_picker
                         .ui.large.label(title=count) #{name}
                     // if site_person.count
                     //     +skve k='view_people' v=true l="people" i='users' ionly=false
                     //     if skv_is 'view_people' true
                     each site_persons
-                        +stack_tag_selector
+                        +stag_picker
                     // if site_organizations.count
                     //     +skve k='view_orgs' v=true l="organisations" i='building' ionly=false
                     //     if skv_is 'view_orgs' true
                     each site_organizations
-                        +stack_tag_selector
+                        +stag_picker
                     // if site_locations.count
                     //     +skve k='view_locations' v=true l="locations" i='marker' ionly=false
                     //     if skv_is 'view_locations' true
                     each site_locations
-                        +stack_tag_selector
+                        +stag_picker
                     // if site_companys.count
                     //     +skve k='view_companies' v=true l="companies" i='briefcase' ionly=false
                     //     if skv_is 'view_companies' true
                     each site_companys
-                        +stack_tag_selector
+                        +stag_picker
                     with emotion_avg
                         // .ui.list
                         //     .item {{ to_percent avg_sent_score}}% sentiment
@@ -249,13 +249,22 @@ template(name='s_q_item')
             +doc_emotion_small
                 // .ui.label user_id #{user_id}
             // .ui.divider
-template(name='stack_tag_selector')
+template(name='stag_picker')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
     a.ui.basic.small.tertiary.compact.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
         strong !{name}
+        // if in_dev
+        //     small #{count}
+template(name='unpick_stag')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.small.tertiary.compact.button.zoomer.select_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+        strong !{this}
         // if in_dev
         //     small #{count}
 template(name='flat_tag_selector')
