@@ -6,7 +6,8 @@ Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 
     
 Template.registerHelper 'trunc', (input) ->
-    input[0..350]
+    if input
+        input[0..350]
         
 # Template.registerHelper 'calculated_size', (metric) ->
 #     # whole = parseInt(@["#{metric}"]*10)

@@ -9,6 +9,11 @@ Template.registerHelper 'youtube_parse', (url) ->
     else
         null
    
+Template.print_this.events
+    'click .print': ->
+        console.log @
+   
+   
 Template.registerHelper 'embed', ()->
     if @data and @data.media and @data.media.oembed and @data.media.oembed.html
         dom = document.createElement('textarea')
@@ -135,15 +140,6 @@ Template.registerHelper 'is_youtube', ()->
     @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
 Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()
 
-Template.registerHelper 'embed', ()->
-    if @data and @data.media and @data.media.oembed and @data.media.oembed.html
-        dom = document.createElement('textarea')
-        # dom.innerHTML = doc.body
-        dom.innerHTML = @data.media.oembed.html
-        return dom.value
-        # Docs.update @_id,
-        #     $set:
-        #         parsed_selftext_html:dom.value
 
 Template.home.events
     'click .make_nsfw': (e,t)-> Session.set('nsfw', true)
@@ -230,7 +226,7 @@ Template.home.helpers
         },
             sort:"data.ups":-1
             limit:21)
-    post_counter: -> Counts.get 'post_counter'
+    post_count: -> Counts.get 'post_count'
     
     # nightmode_class: -> if Session.get('nightmode') then 'invert'
     
@@ -315,12 +311,17 @@ Template.flat_tag_picker.events
         picked_tags.push @valueOf()
         # Router.go "/r/#{Router.current().params.subreddit}/"
         $('.search_subreddit').val('')
+        url = new URL(window.location)
+        url.searchParams.set('tags', picked_tags.array())
+        window.history.pushState({}, '', url)
+        document.title = picked_tags.array()
+
         Session.set('loading',true)
         Meteor.call 'search_reddit', @valueOf(), ->
             Session.set('loading',false)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))
-        , 3000)
+        , 10000)
         
         
         

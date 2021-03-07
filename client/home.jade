@@ -64,7 +64,7 @@ template(name='home')
             //     i.lightbulb.link.icon.toggle_nightmode
             .ui.icon.input
                 i.search.icon
-                input.search_tag(type='text' value=query autofocus='' placeholder="#{post_counter}")
+                input.search_tag(type='text' value=query autofocus='' placeholder="#{post_count}")
                 // .ui.label #{this}
             if picked_tags
                 // if many_tags
@@ -88,11 +88,11 @@ template(name='home')
                             .content
                                 i.large.wikipedia.icon
                                 a.ui.inline.header(href=url target='_window') #{title}
-                                each seven_tags
+                                a.black_text(href=url target='_window')
+                                    |{{ trunc analyzed_text }}...
+                                each ten_tags
                                     +flat_tag_picker
                                     // .ui.label.flat_tag_pick #{this}
-                                a.black_text(href=url target='_window')
-                                    |{{ trunc watson.analyzed_text }}...
                 if one_post
                     .ui.stackable.one.column.grid
                         each rposts
@@ -137,14 +137,19 @@ template(name='card')
         .content
             // a.ui.inline.header.view_post.zoomer(href="" class=post_header_class target='_window')
             a.ui.inline.header(class=post_header_class href="https://www.reddit.com#{permalink}" target='_window' title=domain)
-            
-                // strong #{data.ups}:
                 |!{data.title} 
                 // span.inline.content
             |{{ufrom data.created_utc}}
             each unique_tags
                 a.ui.basic.label.flat_tag_pick #{this}
+            a.black_text(href=url target='_window')
+                |{{ trunc analyzed_text }}...
+            +print_this
             // div
+   
+   
+template(name='print_this')
+    i.code.icon.print
    
 template(name='unpick_tag')
     a.unpick.ui.black.image.large.label(href='#')
@@ -155,10 +160,10 @@ template(name='unpick_tag')
 
 template(name='flat_tag_picker')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.basic.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
-        // if term
-        //     if term.watson.metadata.image
-        //         img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+    a.ui.basic.image.label.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.watson.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
         strong #{this}
         // if in_dev
         //     small #{count}

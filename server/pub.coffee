@@ -19,7 +19,8 @@ Meteor.publish 'wiki_doc', (
     Docs.find match,
         fields:
             title:1
-            "watson.analyzed_text":1
+            "analyzed_text":1
+            url:1
             "watson.metadata":1
             tags:1
             model:1
@@ -80,3 +81,11 @@ Meteor.publish 'doc_results', (
             points:-1
             ups:-1
         limit:10
+        fields:
+            "watson.metadata.image":1
+            "data.thumbnail":1
+            "data.title":1
+            analyzed_text:1
+            "data.url":1
+            permalink:1
+            "data.media":1
