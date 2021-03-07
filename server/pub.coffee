@@ -1,110 +1,22 @@
 
 
-Meteor.publish 'tag_results', (
+Meteor.publish 'wiki_doc', (
     # doc_id
     picked_tags
-    searching
-    query
-    dummy
     )->
     # console.log 'dummy', dummy
-    console.log 'selected tags', picked_tags
-    console.log 'query', query
+    console.log 'publishing wiki doc', picked_tags
 
     self = @
     match = {}
 
-    match.model = $in: ['debit']
+    match.model = 'wikipedia'
+    match.title = $in:picked_tags
     # console.log 'query length', query.length
-    # if query
-    # if query and query.length > 1
-    if query.length > 1
-        console.log 'searching query', query
-        # #     # match.tags = {$regex:"#{query}", $options: 'i'}
-        # #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
-        # #
-        terms = Terms.find({
-            # title: {$regex:"#{query}"}
-            title: {$regex:"#{query}", $options: 'i'}
-            app:'stand'
-        },
-            sort:
-                count: -1
-            limit: 5
-        )
-        # console.log terms.fetch()
-        # tag_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "tags": 1 }
-        #     { $unwind: "$tags" }
-        #     { $group: _id: "$tags", count: $sum: 1 }
-        #     { $match: _id: $nin: picked_tags }
-        #     { $match: _id: {$regex:"#{query}", $options: 'i'} }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $limit: 42 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        #     ]
-
-    else
-        # unless query and query.length > 2
-        # if picked_tags.length > 0 then match.tags = $all: picked_tags
-        # console.log date_setting
-        # if date_setting
-        #     if date_setting is 'today'
-        #         now = Date.now()
-        #         day = 24*60*60*1000
-        #         yesterday = now-day
-        #         console.log yesterday
-        #         match._timestamp = $gt:yesterday
-
-
-        # debit = Docs.findOne doc_id
-        if picked_tags.length > 0
-            # match.tags = $all: debit.tags
-            match.tags = $all: picked_tags
-            # else
-            #     # unless selected_domains.length > 0
-            #     #     unless selected_subreddits.length > 0
-            #     #         unless selected_subreddits.length > 0
-            #     #             unless selected_emotions.length > 0
-            #     match.tags = $all: ['dao']
-            # console.log 'match for tags', match
-            # if selected_subreddits.length > 0
-            #     match.subreddit = $all: selected_subreddits
-            # if selected_domains.length > 0
-            #     match.domain = $all: selected_domains
-            # if selected_emotions.length > 0
-            #     match.max_emotion_name = $all: selected_emotions
-            console.log 'match for tags', match
-    
-    
-            agg_doc_count = Docs.find(match).count()
-            tag_cloud = Docs.aggregate [
-                { $match: match }
-                { $project: "tags": 1 }
-                { $unwind: "$tags" }
-                { $group: _id: "$tags", count: $sum: 1 }
-                { $match: _id: $nin: picked_tags }
-                { $match: count: $lt: agg_doc_count }
-                # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-                { $sort: count: -1, _id: 1 }
-                { $limit: 10 }
-                { $project: _id: 0, name: '$_id', count: 1 }
-            ], {
-                allowDiskUse: true
-            }
-    
-            tag_cloud.forEach (tag, i) =>
-                # console.log 'queried tag ', tag
-                # console.log 'key', key
-                self.added 'tags', Random.id(),
-                    title: tag.name
-                    count: tag.count
-                    # category:key
-                    # index: i
-            # console.log doc_tag_cloud.count()
-
-        self.ready()
+    # if picked_tags.length > 1
+    #     match.tags = $all: picked_tags
+        
+    Docs.find match
 
 Meteor.publish 'doc_results', (
     picked_tags

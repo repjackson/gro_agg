@@ -76,23 +76,17 @@ template(name='home')
                 // .ui.label #{this}
                 +tag_picker
                 // .ui.label(title=count) #{name}
-            // div
-            // .ui.inline.header #{post_count}
-            // if skv_is 'sort_direction' 1
-            //     .ui.icon.compact.basic.tertiary.button.sort_down
-            //         i.caret.down.icon
-            // else
-            //     .ui.icon.compact.basic.tertiary.button.sort_up
-            //         i.caret.up.icon
-            // if in_dev
-            //     if skv_is 'nsfw' true
-            //         .ui.compact.black.button.make_safe
-            //             | nsfw
-            //     else
-            //         .ui.compact.basic.tertiary.button.make_nsfw
-            //             | safe
         .ui.sixteen.wide.column                
             .scrolling
+                each wikis
+                    .ui.segment
+                        a.ui.header(href=url target='_window') #{title}
+                        each seven_tags
+                            .ui.label #{this}
+                        if watson.metadata.image
+                            // |metadata
+                            img.ui.inline.tiny.image.toggle_view(src=watson.metadata.image)
+                            
                 if one_post
                     .ui.stackable.one.column.grid
                         each rposts

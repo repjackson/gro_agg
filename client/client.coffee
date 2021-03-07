@@ -112,11 +112,11 @@ Router.route '/', (->
 
 
 @picked_tags = new ReactiveArray []
-Router.configure
-    layoutTemplate: 'layout'
-    notFoundTemplate: 'home'
-    loadingTemplate: 'splash'
-    trackPageView: false
+# Router.configure
+#     layoutTemplate: 'layout'
+#     notFoundTemplate: 'home'
+#     loadingTemplate: 'splash'
+#     trackPageView: false
 # 	progressTick: false
 # 	progressDelay: 100
 # Router.route '*', -> @render 'not_found'
@@ -168,22 +168,10 @@ Template.home.onCreated ->
             
     # console.log(name)
     
-    Session.setDefault('sort_key', 'points')
-    Session.setDefault('sort_direction', -1)
-    Session.setDefault('view_layout', 'grid')
-    # Session.setDefault('view_sidebar', false)
-    Session.setDefault('view_videos', false)
-    Session.setDefault('view_images', false)
-    Session.setDefault('view_adult', false)
-    # Session.setDefault('location_query', null)
-    # @autorun => Meteor.subscribe 'post_count', 
-    #     picked_tags.array()
-    #     picked_times.array()
-    #     picked_locations.array()
-    #     picked_authors.array()
-    #     Session.get('view_videos')
-    #     Session.get('view_images')
-    #     Session.get('view_adult')
+    @autorun => Meteor.subscribe 'wiki_doc', 
+        picked_tags.array()
+    @autorun => Meteor.subscribe 'post_count', 
+        picked_tags.array()
     # @autorun => Meteor.subscribe 'posts', 
     #     picked_tags.array()
     #     Session.get('toggle')
@@ -248,14 +236,6 @@ Template.home.events
     'click .make_nsfw': (e,t)-> Session.set('nsfw', true)
     'click .make_safe': (e,t)-> Session.set('nsfw', false)
         
-    # 'click .sort_created': -> 
-    #     Session.set('sort_key', 'data.created')
-    # 'click .sort_ups': -> 
-    #     Session.set('sort_key', 'data.ups')
-
-    'click .select_reddit_time_tag': ->
-        picked_rtime_tags.push @name
-
     'keyup .search_reddit': (e,t)->
         val = $('.search_reddit').val()
         Session.set('reddit_query', val)
@@ -358,70 +338,28 @@ Template.card.events
         , 7000
 
 Template.home.helpers
-    # reddit_query: -> Session.get('reddit_query')
-
-    # domain_selector_class: ->
-    #     if @name in picked_reddit_domain.array() then 'blue' else 'basic'
-    # sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
-    # sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
-    # reddit_result_tags: -> results.find(model:'reddit_tag')
-    # reddit_domain_tags: -> results.find(model:'reddit_domain_tag')
-    # reddit_time_tags: -> results.find(model:'reddit_time_tag')
-    # reddit_subreddits: -> results.find(model:'reddit_subreddit')
-
-    # skip_value: -> Session.get('reddit_skip_value')
-    
-    # hot_class: ->
-    #     if Session.equals('reddit_view_mode','hot')
-    #         'black'
-    #     else 
-    #         'basic'
-    # best_class: ->
-    #     if Session.equals('reddit_view_mode','best')
-    #         'black'
-    #     else 
-    #         'basic'
-
     picked_tags: -> picked_tags.array()
     
-    # reddit_doc: ->
-    #     Docs.findOne
-    #         model:'subreddit'
-    #         "data.display_name":Router.current().params.subreddit
+    wikis: ->
+        Docs.find({
+            model:'wikipedia'
+            # subreddit:Router.current().params.subreddit
+        },
+            sort:title:-1
+            limit:21)
     rposts: ->
         Docs.find({
             model:'rpost'
             # subreddit:Router.current().params.subreddit
         },
-            sort:"data.upa":-1
-            limit:20)
-    # emotion_avg: -> results.findOne(model:'emotion_avg')
-
-    # sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
-    # sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
-    # emotion_avg: -> results.findOne(model:'emotion_avg')
-
-    # # picked_locations: -> picked_locations.array()
-    # # picked_authors: -> picked_authors.array()
-    # # picked_times: -> picked_times.array()
-    # rpost_counter: -> Counts.get 'rpost_counter'
+            sort:"data.ups":-1
+            limit:21)
+    post_counter: -> Counts.get 'post_counter'
     
     # nightmode_class: -> if Session.get('nightmode') then 'invert'
     
     
     result_tags: -> results.find(model:'tag')
-    # author_results: -> results.find(model:'author')
-    # location_results: -> results.find(model:'location_tag')
-    # time_results: -> results.find(model:'time_tag')
-    
-    # sort_points_class: -> if Session.equals('sort_key','points') then 'black' else ''
-    # sort_created_class: -> if Session.equals('sort_key','data.created') then 'black' else ''
-    # video_class: -> if Session.get('view_videos') then 'black' else ''
-    # image_class: -> if Session.get('view_images') then 'black' else ''
-    # adult_class: -> if Session.get('view_adult') then 'black' else ''
-    
-    # sidebar_class: -> if Session.get('view_sidebar') then 'ui four wide column' else 'hidden'
-    # main_column_class: -> if Session.get('view_sidebar') then 'ui twelve wide column' else 'ui sixteen wide column' 
 
     is_nsfw: -> Session.get('nsfw')
             
@@ -499,10 +437,10 @@ Template.flat_tag_picker.events
         # window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         picked_tags.push @valueOf()
-        Router.go "/r/#{Router.current().params.subreddit}/"
+        # Router.go "/r/#{Router.current().params.subreddit}/"
         $('.search_subreddit').val('')
         Session.set('loading',true)
-        Meteor.call 'search_reddit', Router.current().params.subreddit, @valueOf(), ->
+        Meteor.call 'search_reddit', @valueOf(), ->
             Session.set('loading',false)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))
