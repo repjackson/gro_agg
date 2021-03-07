@@ -111,11 +111,6 @@ Meteor.publish 'rposts', (
             title:1
             tags:1
             url:1
-            youtube_id:1
-            _timestamp:1
-            _timestamp_tags:1
-            views:1
-            viewer_ids:1
             model:1
             data:1    
             "watson.metadata.image":1
@@ -127,6 +122,10 @@ Meteor.publish 'rposts', (
             "data.url":1
             "data.thumbnail":1
             "data.media.oembed":1
+            analyzed_text:1
+            "data.url":1
+            permalink:1
+            "data.media":1
 
     
     

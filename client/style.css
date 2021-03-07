@@ -5,3 +5,6 @@ img {
 .black_text {
     color: black !important;
 }
+.label {
+    margin: 1px !important;
+}

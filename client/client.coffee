@@ -1,6 +1,7 @@
 Template.registerHelper 'unique_tags', () ->
     _.difference(@tags, picked_tags.array())
 
+Template.registerHelper 'skv_is', (key,value) -> Session.equals(key,value)
 Template.registerHelper 'youtube_parse', (url) ->
     regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     match = @data.url.match(regExp)
@@ -84,6 +85,8 @@ Template.card.onCreated ->
     
 Template.home.onCreated ->
     Session.setDefault('nsfw', false)
+    @autorun -> Meteor.subscribe('alpha_combo',picked_tags.array())
+
     # Meteor.call 'call_watson', @data._id, ->
     
     # Session.setDefault('location_query', null)
@@ -151,16 +154,13 @@ Template.home.events
         if e.which is 13 
             picked_tags.push val
             # window.speechSynthesis.speak new SpeechSynthesisUtterance val
+            Meteor.call 'call_alpha', picked_tags.array().toString(), ->
 
             $('.search_reddit').val('')
             Session.set('reddit_loading',true)
             Meteor.call 'search_reddit', val, ->
                 Session.set('reddit_loading',false)
                 Session.set('reddit_query', null)
-    # 'click .enable_sidebar': (e,t)-> Session.set('view_sidebar',true)
-    # 'click .disable_sidebar': (e,t)-> Session.set('view_sidebar',false)
-    # 'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
-    #         $inc:views:1
     'click .search_tag': (e,t)->
         Session.set('toggle', !Session.get('toggle'))
 
@@ -178,6 +178,7 @@ Template.home.events
             url.searchParams.set('tags', picked_tags.array());
             window.history.pushState({}, '', url);
             document.title = picked_tags.array()
+            Meteor.call 'call_alpha', picked_tags.array().toString(), ->
             
             t.$('.search_tag').val('')
             t.$('.search_tag').focus()
@@ -192,6 +193,7 @@ Template.unpick_tag.events
         url.searchParams.set('tags', picked_tags.array());
         window.history.pushState({}, '', url);
         document.title = picked_tags.array()
+        Meteor.call 'call_alpha', picked_tags.array().toString(), ->
         Meteor.setTimeout ->
             Session.set('toggle',!Session.get('toggle'))
         , 7000
@@ -205,6 +207,7 @@ Template.card.events
         url.searchParams.set('tags', picked_tags.array());
         window.history.pushState({}, '', url);
         document.title = picked_tags.array()
+        Meteor.call 'call_alpha', picked_tags.array().toString(), ->
         Meteor.setTimeout ->
             Session.set('toggle',!Session.get('toggle'))
         , 7000
@@ -272,6 +275,7 @@ Template.tag_picker.events
         $('.search_subreddit').val('')
         
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        Meteor.call 'call_alpha', picked_tags.array().toString(), ->
         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         Session.set('reddit_loading',true)
         Meteor.call 'search_reddit', @name, ->
@@ -317,6 +321,7 @@ Template.flat_tag_picker.events
         document.title = picked_tags.array()
 
         Session.set('loading',true)
+        Meteor.call 'call_alpha', picked_tags.array().toString(), ->
         Meteor.call 'search_reddit', @valueOf(), ->
             Session.set('loading',false)
         Meteor.setTimeout( ->
