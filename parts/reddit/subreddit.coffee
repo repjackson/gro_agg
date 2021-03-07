@@ -16,28 +16,28 @@ if Meteor.isClient
         ), name:'rpage'
     
     
-    # Template.subreddit_best.onCreated ->
-    #     @autorun => Meteor.subscribe 'subreddit_best', Router.current().params.subreddit
-    # Template.subreddit_newest.onCreated ->
-    #     @autorun => Meteor.subscribe 'subreddit_best', Router.current().params.subreddit
+    Template.subreddit_best.onCreated ->
+        @autorun => Meteor.subscribe 'subreddit_best', Router.current().params.subreddit
+    Template.subreddit_newest.onCreated ->
+        @autorun => Meteor.subscribe 'subreddit_best', Router.current().params.subreddit
     
-    # Template.subreddit_best.helpers
-    #     sub_best_docs: ->
-    #         Docs.find {
-    #             model:'rpost'
-    #             subreddit:Router.current().params.subreddit
-    #         }, 
-    #             sort:"data.ups":-1
-    #             limit:7
+    Template.subreddit_best.helpers
+        sub_best_docs: ->
+            Docs.find {
+                model:'rpost'
+                subreddit:Router.current().params.subreddit
+            }, 
+                sort:"data.ups":-1
+                limit:7
        
-    # Template.subreddit_newest.helpers
-    #     sub_newest_docs: ->
-    #         Docs.find {
-    #             model:'rpost'
-    #             subreddit:Router.current().params.subreddit
-    #         }, 
-    #             sort:"data.created":-1
-    #             limit:7
+    Template.subreddit_newest.helpers
+        sub_newest_docs: ->
+            Docs.find {
+                model:'rpost'
+                subreddit:Router.current().params.subreddit
+            }, 
+                sort:"data.created":-1
+                limit:7
                 
                 
     Template.subreddit.onCreated ->
@@ -89,7 +89,7 @@ if Meteor.isClient
         # unless @data.watson
         #     Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
     
-    Template.subreddit_post_card_small.onRendered ->
+    Template.sub_post_card.onRendered ->
         # console.log @
         # unless @data.watson
         #     Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>

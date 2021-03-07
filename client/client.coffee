@@ -174,6 +174,9 @@ Template.home.events
 
 
 Template.card.events
+    'click .goto_post': ->
+        l @
+        Router.go "/r/#{@data.subreddit}/post/#{@_id}"
     'click .flat_tag_pick': -> 
         picked_tags.push @valueOf()
         Meteor.call 'search_reddit', picked_tags.array(), ->

@@ -34,23 +34,6 @@ template(name='subreddit')
                 else
                     .ui.icon.compact.basic.tertiary.button.sort_up
                         i.caret.up.icon
-                // if skv_is 'view_bounties' 1
-                //     .ui.compact.black.button.unview_bounties
-                //         i.hand.holding.heart.icon
-                //         | bounties
-                // else
-                //     .ui.compact.basic.tertiary.button.view_bounties
-                //         i.hand.holding.heart.icon
-                //         | bounties
-                // if skv_is 'view_unanswered' 1
-                //     .ui.compact.black.button.unview_unanswered
-                //         i.checkmark.icon
-                //         | unanswered
-                // else
-                //     .ui.compact.basic.tertiary.button.view_unanswered
-                //         i.question.icon
-                //         | unanswered
-                // i.big.fire.link.icon
                 .ui.compact.basic.small.tertiary.button.limit_1
                     |1
                 .ui.compact.basic.small.tertiary.button.limit_10
@@ -87,7 +70,7 @@ template(name='subreddit')
                         if skv_is 'subreddit_view_layout' 'grid'
                             .ui.stackable.two.cards 
                                 each sub_docs
-                                    +subreddit_post_card_small
+                                    +sub_post_card
                         else if skv_is 'subreddit_view_layout' 'list'
                             each sub_docs
                                 +subreddit_doc_item
@@ -220,7 +203,7 @@ template(name='subreddit_newest')
        
        
    
-template(name='subreddit_post_card_small')
+template(name='sub_post_card')
     .ui.card
         // .ui.stackable.equal.width.compact.grid
         //     .row
@@ -229,14 +212,14 @@ template(name='subreddit_post_card_small')
                 |!{embed}
             div
         else if is_image
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.fluid.zoomer.image.toggle_view(src=data.url)
+            // a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            img.ui.image.toggle_view(src=data.url)
         else if watson.metadata.image.length
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.inline.zoomer.image.toggle_view(src=watson.metadata.image)
+            // a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            img.ui.image.toggle_view(src=watson.metadata.image)
         else if data.thumbnail.length
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.inline.zoomer.image.zoomer(src=data.thumbnail)    
+            // a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            img.ui.image(src=data.thumbnail)    
         // else if data.thumbnail.length
         //     .column
         //         a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)

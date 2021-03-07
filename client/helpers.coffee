@@ -24,7 +24,10 @@ Template.registerHelper 'calculated_size', (metric) ->
         when 8 then 'f13'
         when 9 then 'f14'
         when 10 then 'f15'
-    
+Template.registerHelper 'abs_percent', (num) -> 
+    # console.l/og Math.abs(num*100)
+    parseInt(Math.abs(num*100))
+
     
 # Template.registerHelper 'connection', () -> Meteor.status()
 # Template.registerHelper 'connected', () -> Meteor.status().connected

@@ -37,20 +37,20 @@ template(name='home')
                                 each ten_tags
                                     +flat_tag_picker
                                     // .ui.label.flat_tag_pick #{this}
-                if one_post
-                    .ui.stackable.one.column.grid
-                        each rposts
-                            +card
+                // if one_post
+                //     .ui.stackable.one.column.grid
+                //         each rposts
+                //             +card
                         
-                else if two_posts
-                    .ui.stackable.two.centered.column.grid
-                        each rposts
-                            +card
-                    // else if three_posts
-                else
-                    .ui.stackable.three.column.centered.grid.scrolling
-                        each rposts
-                            +card
+                // else if two_posts
+                //     .ui.stackable.two.centered.column.grid
+                //         each rposts
+                //             +card
+                //     // else if three_posts
+                // else
+                .ui.stackable.three.column.centered.grid.scrolling
+                    each rposts
+                        +card
                 //     .ui.basic.center.aligned.segment
                 //         i.big.loading.yin.yang.icon
    
@@ -59,7 +59,7 @@ template(name='card')
     .column
         // .ui.stackable.equal.width.compact.grid
         //     .row
-        a(href="/r/#{subreddit}/post/#{_id}" target='_window')
+        a.goto_post.pointer.zoomer
             if embed
                 span.rounded.full
                     |!{embed}
@@ -71,23 +71,17 @@ template(name='card')
                 img.ui.inline.zoomer.image.toggle_view(src=watson.metadata.image)
                 // else if data.thumbnail.length
             else if has_thumbnail
-                // |thumbnail
-                a.view_post(href="/r/#{subreddit}/post/#{_id}")
+                a.view_post
                     img.ui.inline.zoomer.fluid.image.zoomer(src=data.thumbnail)    
-            // else if data.thumbnail.length
-            //     .column
-            //         a.view_post(href=data.url class=post_header_class)
-            //             img.ui.rounded.inline.image.zoomer(src=data.thumbnail)    
-            // .column
         .content
             // a.ui.inline.header.view_post.zoomer(href="" class=post_header_class target='_window')
-            a.ui.inline.header(class=post_header_class href="/r/#{subreddit}/post/#{_id}" title=domain)
+            a.ui.inline.header.goto_post.pointer(class=post_header_class title=domain)
                 |!{data.title} 
                 // span.inline.content
             |{{ufrom data.created_utc}}
             each unique_tags
                 a.ui.basic.label.flat_tag_pick #{this}
-            a.black_text(href="/r/#{subreddit}/post/#{_id}")
+            a.black_text(href="r/#{sub}/post/#{_id}")
                 |{{ trunc analyzed_text }}...
             +print_this
             // div

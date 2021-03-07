@@ -119,6 +119,7 @@ Meteor.publish 'rposts', (
             "permalink":1
             "data.title":1
             "data.created_utc":1
+            "data.subreddit":1
             "data.url":1
             "data.thumbnail":1
             "data.media.oembed":1

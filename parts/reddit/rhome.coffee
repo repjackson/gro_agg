@@ -2,6 +2,11 @@ if Meteor.isClient
     Template.unpick_tag.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
         
+    Template.card.helpers
+        sub: ->
+            @data.subreddit
+        
+        
     Template.unpick_tag.helpers
         term: ->
             found = 
