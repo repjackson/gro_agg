@@ -101,12 +101,10 @@ Meteor.methods
                     # params.url = doc.data.link_url
                     params.returnAnalyzedText = true
                     params.clean = true
-                    params.features.metadata = {}
                 when 'stack'
                     # params.url = doc["#{key}"]
                     params.url = doc.link
                     params.returnAnalyzedText = true
-                    params.features.metadata = {}
                     params.clean = true
                 when 'video'
                     params.url = "https://www.reddit.com#{doc.data.permalink}"

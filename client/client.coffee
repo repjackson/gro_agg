@@ -34,7 +34,7 @@ Template.registerHelper 'is_youtube', ()->
    
    
 Template.unpick_tag.onCreated ->
-    # @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
+    @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
     
 Template.unpick_tag.helpers
     term: ->

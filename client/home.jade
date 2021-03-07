@@ -89,7 +89,8 @@ template(name='home')
                                 i.large.wikipedia.icon
                                 a.ui.inline.header(href=url target='_window') #{title}
                                 each seven_tags
-                                    .ui.label.flat_tag_pick #{this}
+                                    +flat_tag_picker
+                                    // .ui.label.flat_tag_pick #{this}
                                 a.black_text(href=url target='_window')
                                     |{{ trunc watson.analyzed_text }}...
                 if one_post

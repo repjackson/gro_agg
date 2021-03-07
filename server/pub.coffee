@@ -5,7 +5,7 @@ Meteor.publish 'wiki_doc', (
     picked_tags
     )->
     # console.log 'dummy', dummy
-    console.log 'publishing wiki doc', picked_tags
+    # console.log 'publishing wiki doc', picked_tags
 
     self = @
     match = {}
@@ -16,7 +16,13 @@ Meteor.publish 'wiki_doc', (
     # if picked_tags.length > 1
     #     match.tags = $all: picked_tags
         
-    Docs.find match
+    Docs.find match,
+        fields:
+            title:1
+            "watson.analyzed_text":1
+            "watson.metadata":1
+            tags:1
+            model:1
 
 Meteor.publish 'doc_results', (
     picked_tags
