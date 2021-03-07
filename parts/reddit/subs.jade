@@ -71,19 +71,19 @@ template(name='subs')
                             |no results
 
 template(name='subreddit_doc')
-    // a.card.rounded.zoomer(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat; min-width: 100%;" href="https://www.reddit.com/r/#{data.display_name}" target="_window")
+    // a.card.rounded.zoomer(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat; min-width: 100%;" href="/r/#{data.display_name}")
     .item.rounded.zoomer(style="background-image:url(#{data.banner_img});, background-size:cover; background-repeat: no-repeat;" )
-        a(href="https://www.reddit.com/r/#{data.display_name}" target="_window")
+        a(href="/r/#{data.display_name}")
             img.ui.rounded.tiny.inline.image(src=data.icon_img)
             // a.ui.tiny.image.goto_sub(href="/r/#{data.display_name}")
         .inline.content.seg
             // .ui.header.goto_sub(style="color:#{data.primary_color}")
-            a.ui.inline.header.goto_sub(href="https://www.reddit.com/r/#{data.display_name}" target="_window")
+            a.ui.inline.header.goto_sub(href="/r/#{data.display_name}")
                 // if data.header_img
                 //     img.ui.image(src=data.header_img)
                 | !{data.title} 
                 small !{data.display_name}
-            // a.ui.small.grey.header.goto_sub(href="/r/#{data.display_name}" target="_window")
+            // a.ui.small.grey.header.goto_sub(href="/r/#{data.display_name}")
             //     | !{data.header_title}
             // if skv_is 'view_sub_detail' true
             // span.description !{data.public_description_html}

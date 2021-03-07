@@ -10,6 +10,9 @@ Template.registerHelper 'youtube_parse', (url) ->
     else
         null
    
+@l = console.log
+   
+   
 Template.print_this.events
     'click .print': ->
         console.log @

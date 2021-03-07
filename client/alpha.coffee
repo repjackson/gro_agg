@@ -7,8 +7,9 @@ Template.alpha.onRendered ->
     if @data 
         if @data.voice
             window.speechSynthesis.speak new SpeechSynthesisUtterance @data.voice
-        else if @data.response.queryresult.pods
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[0].plaintext
+        else if @data.response
+            if @data.response.queryresult.pods
+                window.speechSynthesis.speak new SpeechSynthesisUtterance @data.response.queryresult.pods[1].subpods[0].plaintext
     # Meteor.setTimeout( =>
     # , 7000)
 
