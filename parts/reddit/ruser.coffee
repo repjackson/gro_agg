@@ -116,12 +116,51 @@ if Meteor.isServer
             limit:limit
             sort:
                 _timestamp:-1
+            fields:
+                "data.ups":1
+                "data.title":1
+                "data.created":1
+                "data.body":1
+                "tags":1
+                "data.subreddit":1
+                "model":1
+                "author":1
+                doc_sentiment_score:1
+                doc_sentiment_label:1
+                joy_percent:1
+                sadness_percent:1
+                fear_percent:1
+                disgust_percent:1
+                anger_percent:1
+                "watson.metadata":1
+                "data.thumbnail":1
+                "data.url":1
+                max_emotion_name:1
+                max_emotion_percent:1
         }  
     Meteor.publish 'ruser_comments', (username, limit=42)->
         Docs.find
             model:'rcomment'
             author:username
-        , limit:limit
+        , {
+            limit:limit
+            fields:
+                "data.score":1
+                "data.created":1
+                "data.body":1
+                "tags":1
+                "data.subreddit":1
+                "model":1
+                "author":1
+                doc_sentiment_score:1
+                doc_sentiment_label:1
+                joy_percent:1
+                sadness_percent:1
+                max_emotion_name:1
+                fear_percent:1
+                disgust_percent:1
+                anger_percent:1
+        }
 if Meteor.isServer
     request = require('request')
     rp = require('request-promise');

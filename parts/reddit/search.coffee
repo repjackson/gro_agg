@@ -1,4 +1,7 @@
 if Meteor.isClient
+    Template.nav.events
+        'click .clear': ->
+            picked_tags.clear()
     Template.unpick_tag.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
         

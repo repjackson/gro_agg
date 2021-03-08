@@ -41,7 +41,7 @@ template(name='ruser')
                     +print_this
                     +ruser_top_emotions     
                     each tags
-                        .ui.compact.basic.circular.button.search_tag #{this}
+                        .ui.basic.label.search_tag #{this}
                 .thirteen.wide.column
                     if selected_ruser_post_tags
                         each selected_ruser_post_tags
@@ -52,6 +52,7 @@ template(name='ruser')
                 
                     .ui.inline.header 
                         i.edit.icon
+                        |#{ruser_posts.count}
                         |posts
                     each ruser_post_tag_results
                         // .ui.label #{this}
@@ -62,6 +63,7 @@ template(name='ruser')
                             +ruser_post
                     .ui.inline.header.get_user_comments
                         i.chat.outline.icon
+                        |#{ruser_comments.count}
                         |comments
                     each ruser_comment_tag_results
                         // .ui.label #{this}
@@ -105,19 +107,19 @@ template(name='ruser_post')
                 |!{embed}
             div
         else if data.is_reddit_media_domain
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
                 img.ui.fluid.rounded.zoomer.image.toggle_view(src=data.url)
         else if watson.metadata.image.length
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
                 img.ui.rounded.inline.zoomer.image.toggle_view(src=watson.metadata.image)
         else if data.thumbnail.length
-            a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
+            a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
                 img.ui.rounded.inline.zoomer.image.zoomer(src=data.thumbnail)    
 
-        a.ui.small.inline.header(href="/r/#{subreddit}/post/#{_id}")
+        a.ui.small.inline.header(href="/r/#{data.subreddit}/post/#{_id}")
             |#{data.ups}
             |#{data.link_title} #{data.title}
-        a.ui.label(href="/r/#{subreddit}") #{subreddit}
+        a.ui.label(href="/r/#{data.subreddit}") #{subreddit}
         each five_tags 
             .ui.small.basic.label #{this}
         +doc_emotion_small        
@@ -127,7 +129,7 @@ template(name='ruser_post')
         .ui.label {{ufrom data.created}}
         if in_dev
             +print_this
-            unless watson
+            unless doc_sentiment_label
                 +call_watson
     .ui.divider                 
                             

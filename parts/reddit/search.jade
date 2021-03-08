@@ -34,10 +34,9 @@ template(name='home')
                     +alpha
                     each wikis
                         .ui.card
-                            .image
-                                if watson.metadata.image
-                                    a(href=url target='_window')
-                                        img.ui.inline.image.toggle_view(src=watson.metadata.image)
+                            if watson.metadata.image
+                                // a(href=url target='_window')
+                                img.ui.image.toggle_view(src=watson.metadata.image)
                             .content
                                 i.large.wikipedia.icon
                                 a.ui.inline.header(href=url target='_window') #{title}

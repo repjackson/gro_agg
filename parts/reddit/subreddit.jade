@@ -348,7 +348,7 @@ template(name='flat_sub_tag_selector')
     .ui.basic.image.label.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
-                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+                img.ui.image.superzoom(src=term.watson.metadata.image )    
         strong #{this}
         // if in_dev
         //     small #{count}
