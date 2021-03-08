@@ -115,8 +115,8 @@ if Meteor.isClient
             window.speechSynthesis.speak new SpeechSynthesisUtterance @title
             Router.go "/s/#{Router.current().params.site}/q/#{@question_id}"
         'click .sort_timestamp': (e,t)-> Session.set('sort_key','_timestamp')
-        'click .unview_bounties': (e,t)-> Session.set('view_bounties',0)
-        'click .view_bounties': (e,t)-> Session.set('view_bounties',1)
+        # 'click .unview_bounties': (e,t)-> Session.set('view_bounties',0)
+        # 'click .view_bounties': (e,t)-> Session.set('view_bounties',1)
         'click .unview_unanswered': (e,t)-> Session.set('view_unanswered',0)
         'click .view_unanswered': (e,t)-> Session.set('view_unanswered',1)
         'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
@@ -278,7 +278,7 @@ if Meteor.isClient
             Docs.findOne 
                 title:@name.toLowerCase()
     Template.stag_picker.events
-        'click .select_tag': -> 
+        'click .pick_tag': -> 
             # results.update
             # console.log @
             window.speechSynthesis.cancel()
@@ -300,9 +300,9 @@ if Meteor.isClient
             # , 5000)
        
     
-    Template.flat_tag_selector.onCreated ->
+    Template.flat_stag_picker.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
-    Template.flat_tag_selector.helpers
+    Template.flat_stag_picker.helpers
         selector_class: ()->
             term = 
                 Docs.findOne 
@@ -319,7 +319,7 @@ if Meteor.isClient
         term: ->
             Docs.findOne 
                 title:@valueOf().toLowerCase()
-    Template.flat_tag_selector.events
+    Template.flat_stag_picker.events
         'click .select_flat_tag': -> 
             # results.update
             window.speechSynthesis.cancel()
@@ -328,3 +328,32 @@ if Meteor.isClient
             Router.go "/s/#{Router.current().params.site}/"
             $('.search_site').val('')
             Meteor.call 'search_stack', Router.current().params.site, @valueOf(), ->
+
+    Template.unpick_stag.onCreated ->
+        @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
+        
+    Template.card.helpers
+        sub: ->
+            @data.subreddit
+        
+        
+    Template.unpick_stag.helpers
+        term: ->
+            found = 
+                Docs.findOne 
+                    model:'wikipedia'
+                    title:@valueOf().toLowerCase()
+            found
+    Template.unpick_stag.events
+        'click .unpick_stag':-> 
+            picked_stags.remove @valueOf()
+            Meteor.call 'search_stack', Router.current().params.site, @valueOf(), ->
+            url = new URL(window.location);
+            url.searchParams.set('tags', picked_stags.array());
+            window.history.pushState({}, '', url);
+            document.title = picked_stags.array()
+            # Meteor.call 'call_alpha', picked_stags.array().toString(), ->
+            Meteor.setTimeout ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 7000
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_stags.array().toString()

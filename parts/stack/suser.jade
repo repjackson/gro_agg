@@ -41,7 +41,7 @@ template(name='suser_layout')
                     strong.say(title='global rank') {{commafy global_rank}}
                     div
                     // with location
-                    //     +flat_tag_selector
+                    //     +flat_stag_picker
                     .ui.inline.tertiary.button.set_location.zoomer.say
                         |!{location}
                     a(href="/s/#{site}/u/#{user_id}")
@@ -177,7 +177,7 @@ template(name='suser_dash')
                     i.tag.icon
                     |#{tags.length} tags
                 each tags
-                    +flat_tag_selector
+                    +flat_stag_picker
                     // .ui.tertiary.button #{this}
         .eight.wide.column
             .ui.grey.header 
@@ -318,7 +318,7 @@ template(name='suser_c_item')
         .ui.small.circular.basic.icon.button.call(title='analyze')
             i.dna.icon
     each tags
-        +flat_tag_selector
+        +flat_stag_picker
         // .ui.tertiary.small.button.say #{this}
     +doc_emotion_small 
     
@@ -337,7 +337,7 @@ template(name='suser_a_item')
         .ui.small.circular.basic.icon.button.call(title='analyze')
             i.dna.icon
     each tags
-        +flat_tag_selector
+        +flat_stag_picker
         // .ui.tertiary.small.button.say #{this}
     +doc_emotion  
 
