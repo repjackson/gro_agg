@@ -109,10 +109,10 @@ if Meteor.isClient
     Template.sq.events
         'click .goto_q': -> Router.go "/s/#{@site}/q/#{@question_id}"
         'click .get_info': (e,t)-> 
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             Meteor.call 'get_site_info', Router.current().params.site, ->
         'click .view_question': (e,t)-> 
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @title
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @title
             Router.go "/s/#{Router.current().params.site}/q/#{@question_id}"
         'click .sort_timestamp': (e,t)-> Session.set('sort_key','_timestamp')
         # 'click .unview_bounties': (e,t)-> Session.set('view_bounties',0)
@@ -129,8 +129,8 @@ if Meteor.isClient
             search = $('.search_site').val().trim()
             if e.which is 13
                 if search.length > 0
-                    window.speechSynthesis.cancel()
-                    window.speechSynthesis.speak new SpeechSynthesisUtterance search
+                    # window.speechSynthesis.cancel()
+                    # window.speechSynthesis.speak new SpeechSynthesisUtterance search
                     picked_stags.push search
                     $('.search_site').val('')
     
@@ -139,7 +139,7 @@ if Meteor.isClient
                         Session.set('loading',false)
     Template.su.events
         'click .set_location': (e,t)->
-            window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.site} users in #{@location}"
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance "#{Router.current().params.site} users in #{@location}"
             Session.set('location_query',@location)
             Session.set('ready',false)
         'keyup .search_location': (e,t)->
@@ -149,8 +149,8 @@ if Meteor.isClient
             Session.set('ready',false)
             if e.which is 13
                 if search.length > 0
-                    window.speechSynthesis.cancel()
-                    window.speechSynthesis.speak new SpeechSynthesisUtterance search
+                    # window.speechSynthesis.cancel()
+                    # window.speechSynthesis.speak new SpeechSynthesisUtterance search
                     picked_stags.push search
                     $('.search_site').val('')
     
@@ -165,7 +165,7 @@ if Meteor.isClient
             if e.which is 13
                 if search.length > 0
                     window.speechSynthesis.cancel()
-                    window.speechSynthesis.speak new SpeechSynthesisUtterance search
+                    # window.speechSynthesis.speak new SpeechSynthesisUtterance search
                     picked_stags.push user_search
                     $('.search_site').val('')
     
@@ -174,7 +174,7 @@ if Meteor.isClient
         'click .get_site_users': ->
             Meteor.call 'get_site_users', Router.current().params.site, ->
         'click .clear_location': (e,t)-> 
-            window.speechSynthesis.speak new SpeechSynthesisUtterance "location cleared"
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance "location cleared"
             Session.set('ready',false)
             Session.set('location_query',null)
     
@@ -182,8 +182,8 @@ if Meteor.isClient
         'click .clear_query': (e,t)-> 
             window.speechSynthesis.speak new SpeechSynthesisUtterance "name cleared"
             Session.set('user_query',null)
-        'click .say': (e,t)->
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
+        # 'click .say': (e,t)->
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
     
     Template.su.helpers
         user_tags: -> results.find(model:'site_user_tag')
@@ -291,7 +291,7 @@ if Meteor.isClient
                 $('.search_site').val('')
                 
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-            window.speechSynthesis.speak new SpeechSynthesisUtterance picked_stags.array().toString()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_stags.array().toString()
             Session.set('loading',true)
             Meteor.call 'search_stack', Router.current().params.site, @name, ->
                 Session.set('loading',false)
@@ -323,7 +323,7 @@ if Meteor.isClient
         'click .select_flat_tag': -> 
             # results.update
             window.speechSynthesis.cancel()
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
             picked_stags.push @valueOf()
             Router.go "/s/#{Router.current().params.site}/"
             $('.search_site').val('')

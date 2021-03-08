@@ -17,7 +17,7 @@ if Meteor.isClient
     Template.stack.events
         'click .goto_site': -> 
             Router.go "/s/#{@api_site_parameter}"
-            window.speechSynthesis.speak new SpeechSynthesisUtterance "#{@name} #{@audience}"
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance "#{@name} #{@audience}"
             picked_tags.clear()
         # 'click .site': -> 
         #     window.speechSynthesis.speak new SpeechSynthesisUtterance @name
