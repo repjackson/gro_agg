@@ -5,13 +5,13 @@ template(name='q')
         .ui.stackable.padded.grid.top
             .row
                 .twelve.wide.column
-                    a.ui.basic.circular.compact.icon.button.say_title(href="/s/#{site}" title="back to #{site}") 
+                    a.ui.circular.compact.icon.button.say_title(href="/s/#{site}" title="back to #{site}") 
                         i.chevron.left.large.grey.icon
                         // if watson.metadata.image
                         //     img.ui.tiny.inline.image(src=watson.metadata.image)    
                         // | #{site}
                     #qhead.ui.inline.header.say.get_question(class=post_header_class)
-                        .ui.basic.circular.big.label #{score}
+                        .ui.circular.big.label #{score}
                         if is_answered
                             i.green.checkmark.icon
                         |!{title}
@@ -32,15 +32,15 @@ template(name='q')
                         //     .success.circle
                         //     .icon2
                         //         i.checkmark.icon
-                    .scrollin
+                    .scrolling
                         if skv_is 'stack_section' 'main'
-                            .f11.ui.basic.segment.say !{body}
+                            .f11.ui.segment.say !{body}
                             .ui.horizontal.large.divider.get_q_c
                                 |#{question_comments.count}
                                 i.chat.outline.icon
                             // div.gb hi everyone
                             if question_comments.count
-                                .ui.basic.segment
+                                .ui.segment
                                     .ui.relaxed.list
                                         each question_comments
                                             +c_item
@@ -62,8 +62,8 @@ template(name='q')
                                 +watson_view
                                 +watson_full
                         // +comments
-                .four.wide.column.scrollin
-                    a.ui.fluid.basic.circular.compact.tertiary.button.say(href="/s/#{current_q.site}") 
+                .four.wide.column.scrolling
+                    a.ui.fluid.circular.compact.tertiary.button.say(href="/s/#{current_q.site}") 
                         i.chevron.left.icon
                         if watson.metadata.image
                             img.ui.tiny.inline.image(src=watson.metadata.image)    
@@ -80,7 +80,7 @@ template(name='q')
                                 |!{owner.display_name}
 
                     with owner
-                        a.ui.basic.segment.zoomer.pointer.say(href="/s/#{current_q.site}/u/#{user_id}")
+                        a.ui.segment.zoomer.pointer.say(href="/s/#{current_q.site}/u/#{user_id}")
                             img.ui.rounded.inline.image(src=profile_image)
                             .ui.header.inline(class=post_header_class)
                                 |!{display_name}
@@ -88,7 +88,7 @@ template(name='q')
                         
                     each tags 
                         +flat_stag_picker
-                        // .ui.basic.pointer.circular.tertiary.button.add_stack_tag.say.zoomer #{this}
+                        // .ui.pointer.circular.tertiary.button.add_stack_tag.say.zoomer #{this}
                     a.ui.circular.icon.button(href=link target='_window' title=link)
                         // |#{link}
                         i.external.large.icon
@@ -156,10 +156,10 @@ template(name='c_item')
         +say k='body'
         // div
         if creation_date
-            .ui.basic.say.label
+            .ui.say.label
                 |added {{ufrom creation_date}}
         if last_access_date
-            .ui.basic.say.label
+            .ui.say.label
                 |accessed {{ufrom last_access_date}}
         if last_activity_date
             |active {{ufrom last_activity_date}}
@@ -169,7 +169,7 @@ template(name='c_item')
             // +remove_button
             // .ui.divider
         unless watson
-            .ui.small.circular.basic.icon.button.call(title='analyze')
+            .ui.small.circular.icon.button.call(title='analyze')
                 i.dna.icon
         each tags
             +flat_stag_picker
@@ -177,7 +177,7 @@ template(name='c_item')
         +doc_emotion_small 
                 
 template(name='answer_item')
-    .ui.basic.segment(class=answer_class id=_id)
+    .ui.segment(class=answer_class id=_id)
         // div(id=_id)
         // a(href="#qhead")
         //     i.circular.chevron.up.icon
@@ -212,13 +212,13 @@ template(name='answer_item')
                 if accept_rate
                     small #{accept_rate}%
         unless watson
-            .ui.small.circular.basic.icon.button.call(title='analyze')
+            .ui.small.circular.icon.button.call(title='analyze')
                 i.dna.icon
         each tags
             +flat_stag_picker
             // .ui.tertiary.small.button.say #{this}
         +doc_emotion  
-        .ui.basic.label #{watson.usage.text_characters} characters
-        .ui.basic.label #{content_license}
+        .ui.label #{watson.usage.text_characters} characters
+        .ui.label #{content_license}
 
     .ui.divider

@@ -29,14 +29,14 @@ template(name='subreddit')
                 div
                 .ui.inline.header #{post_count}
                 if skv_is 'sort_direction' 1
-                    .ui.icon.compact.basic.tertiary.button.sort_down
+                    .ui.icon.compact.basic.button.sort_down
                         i.caret.down.icon
                 else
-                    .ui.icon.compact.basic.tertiary.button.sort_up
+                    .ui.icon.compact.basic.button.sort_up
                         i.caret.up.icon
-                .ui.compact.basic.small.tertiary.button.limit_1
+                .ui.compact.basic.small.button.limit_1
                     |1
-                .ui.compact.basic.small.tertiary.button.limit_10
+                .ui.compact.basic.small.button.limit_10
                     |10
                 .ui.icon.compact.large.basic.small.button.sort_created(class=sort_created_class)
                     i.clock.icon
@@ -47,7 +47,7 @@ template(name='subreddit')
                         i.list.large.icon
                         |detail
                 else
-                    .ui.compact.basic.tertiary.button.toggle_detail
+                    .ui.compact.basic.button.toggle_detail
                         i.minus.large.icon
                         |simple
                     // i.line.chart.icon
@@ -326,7 +326,7 @@ template(name='subreddit_doc_item')
 
 template(name='sub_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.basic.compact.tertiary.button.zoomer.select_sub_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.compact.button.zoomer.select_sub_tag(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -345,7 +345,7 @@ template(name='sub_unpick_tag')
         
 template(name='flat_sub_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.basic.tertiary.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
@@ -354,7 +354,7 @@ template(name='flat_sub_tag_selector')
         //     small #{count}
 template(name='flat_sub_ruser_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.basic.tertiary.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
