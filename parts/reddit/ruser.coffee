@@ -36,6 +36,11 @@ if Meteor.isClient
         unless @data.watson
             Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
  
+    Template.ruser_comment.events
+        'click .call_watson_comment': ->
+            console.log 'call', 
+            Meteor.call 'call_watson', @_id,'data.body','comment',->
+            
     Template.ruser_comment.onRendered ->
         unless @data.watson
             # console.log 'calling watson on comment'
@@ -159,8 +164,8 @@ if Meteor.isServer
                                 model:'rcomment'
                                 reddit_id:item.data.id
                                 # subreddit:item.data.id
-                        if found
-                            console.log 'found user comment', found.data.body
+                        # if found
+                        #     console.log 'found user comment', found.data.body
                             
                         unless found
                             console.log 'creating new user comment', item.data.body

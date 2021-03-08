@@ -60,7 +60,6 @@ template(name='ruser')
                     .medscroll
                         each ruser_posts
                             +ruser_post
-                .thirteen.wide.column
                     .ui.inline.header.get_user_comments
                         i.chat.outline.icon
                         |comments
@@ -126,7 +125,10 @@ template(name='ruser_post')
         // if skv_is 'view_preview' 'preview'
         |#{data.body}
         .ui.label {{ufrom data.created}}
-        +print_this
+        if in_dev
+            +print_this
+            unless watson
+                +call_watson
     .ui.divider                 
                             
 template(name='ruser_doc_item')
