@@ -159,8 +159,11 @@ if Meteor.isServer
                                 model:'rcomment'
                                 reddit_id:item.data.id
                                 # subreddit:item.data.id
-                        # if found
+                        if found
+                            console.log 'found user comment', found.data.body
+                            
                         unless found
+                            console.log 'creating new user comment', item.data.body
                             item.model = 'rcomment'
                             item.reddit_id = item.data.id
                             item.author = item.data.author
