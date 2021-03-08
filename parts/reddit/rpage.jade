@@ -5,17 +5,19 @@ template(name='rpage')
                 a.ui.basic.button.goto_sub(href="/r/#{data.subreddit}")
                     i.chevron.left.icon
                     |#{data.subreddit}
-                span.ui.pointer.text.f13.zoomer(class=post_header_class)
+                span.ui.header.zoomer(class=post_header_class)
                     .ui.label #{data.ups}
                     |!{data.title} #{data.link_title}
                 | {{ufrom data.created}}
-                .ui.basic.button.get_post permalink #{permalink}
+                .ui.basic.circular.compact.small.button.get_post
+                    i.external.icon
+                    |#{permalink}
                 div
                 +skve k='view_section' v='main' l='main' i='content'
                 // +skve k='view_section' v='comments' l='comments' i='comment'
                 +skve k='view_section' v='watson' l='emotion' i='dna'
-                if tone
-                    +skve k='view_section' v='tone' l='tone' i='smile grey'
+                // if tone
+                +skve k='view_section' v='tone' l='tone' i='smile grey'
                 // +skve k='view_section' v='tags' l='tags' i='tags'
                 +skve k='view_section' v='related' l='related' i='fork'
                 +skve k='view_section' v='preview' l='preview' i='content'
@@ -72,7 +74,10 @@ template(name='rpage')
                     +post_related
                     +related_questions
                 if skv_is 'view_section' 'tone'
-                    +tone
+                    .scrolling
+                        +tone
+                    unless tone
+                        +call_tone    
                     // +skve k='view_section' v='money' l='money' i='money'
                     // if skv_is 'view_section'
                 if skv_is 'view_section' 'preview'
@@ -81,7 +86,8 @@ template(name='rpage')
                 // .spacer
                 // if skv_is 'view_section' 'tags'
                 if skv_is 'view_section' 'comments'
-                    +rcomments_tab
+                    .scrolling
+                        +rcomments_tab
             .three.wide.column.scrolling
                 a.ui.basic.fluid.button(href=data.url target="_window" title=data.url) 
                     i.external.icon
@@ -105,8 +111,6 @@ template(name='rpage')
                     +print_this
                 if watson
                     +doc_emotion
-                    unless tone
-                        +call_tone    
                 // a.ui.large.basic.label(href=data.url target='_window')
                 //     | #{data.url}
                 if in_dev
@@ -151,6 +155,8 @@ template(name='rcomment')
                 each tags 
                     +flat_sub_tag_selector
                     // .ui.tiny.basic.label #/{this}
+                if in_dev
+                    +print_this
         if data.replies.data.children
             .ui.grid
                 each data.replies.data.children

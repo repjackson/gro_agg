@@ -103,7 +103,7 @@ Template.registerHelper 'money_format', (input)-> (input/100).toFixed(2)
 
 Template.registerHelper 'kv_is', (key, value) ->
     @["#{key}"] is value
-Template.registerHelper 'emotion_header_class', () ->
+Template.registerHelper 'post_header_class', () ->
     if @max_emotion_name
         if @max_emotion_name is 'sadness' then 'blue'
         else if @max_emotion_name is 'anger' then 'red'

@@ -218,72 +218,72 @@ if Meteor.isClient
             
             
     
-    # Template.sub_unpick_tag.onCreated ->
-    #     # @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
+    Template.sub_unpick_tag.onCreated ->
+        # @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
         
-    # Template.sub_unpick_tag.helpers
-    #     term: ->
-    #         found = 
-    #             Docs.findOne 
-    #                 # model:'wikipedia'
-    #                 title:@valueOf().toLowerCase()
-    #         found
-    # Template.sub_unpick_tag.events
-    #     'click .unselect_sub_tag': -> 
-    #         Session.set('skip',0)
-    #         console.log @
-    #         picked_sub_tags.remove @valueOf()
-    #         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+    Template.sub_unpick_tag.helpers
+        term: ->
+            found = 
+                Docs.findOne 
+                    # model:'wikipedia'
+                    title:@valueOf().toLowerCase()
+            found
+    Template.sub_unpick_tag.events
+        'click .unselect_sub_tag': -> 
+            Session.set('skip',0)
+            console.log @
+            picked_sub_tags.remove @valueOf()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         
     
-    # Template.flat_sub_tag_selector.onCreated ->
-    #     # @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
-    # Template.flat_sub_tag_selector.helpers
-    #     selector_class: ()->
-    #         term = 
-    #             Docs.findOne 
-    #                 title:@valueOf().toLowerCase()
-    #         if term
-    #             if term.max_emotion_name
-    #                 switch term.max_emotion_name
-    #                     when 'joy' then " basic green"
-    #                     when "anger" then " basic red"
-    #                     when "sadness" then " basic blue"
-    #                     when "disgust" then " basic orange"
-    #                     when "fear" then " basic grey"
-    #                     else "basic grey"
-    #     term: ->
-    #         Docs.findOne 
-    #             title:@valueOf().toLowerCase()
-    # Template.flat_sub_tag_selector.events
-    #     'click .select_flat_tag': -> 
-    #         # results.update
-    #         # window.speechSynthesis.cancel()
-    #         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-    #         picked_sub_tags.push @valueOf()
-    #         Router.go "/r/#{Router.current().params.subreddit}/"
-    #         $('.search_subreddit').val('')
-    #         Session.set('loading',true)
-    #         Meteor.call 'search_subreddit', Router.current().params.subreddit, @valueOf(), ->
-    #             Session.set('loading',false)
-    #         Meteor.setTimeout( ->
-    #             Session.set('toggle',!Session.get('toggle'))
-    #         , 3000)
-    # Template.flat_sub_ruser_tag_selector.events
-    #     'click .select_flat_tag': -> 
-    #         # results.update
-    #         # window.speechSynthesis.cancel()
-    #         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-    #         picked_sub_tags.push @valueOf()
-    #         parent = Template.parentData()
-    #         Router.go "/r/#{parent.subreddit}/"
-    #         $('.search_subreddit').val('')
-    #         Session.set('loading',true)
-    #         Meteor.call 'search_subreddit', parent.subreddit, @valueOf(), ->
-    #             Session.set('loading',false)
-    #         Meteor.setTimeout( ->
-    #             Session.set('toggle',!Session.get('toggle'))
-    #         , 3000)
+    Template.flat_sub_tag_selector.onCreated ->
+        @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
+    Template.flat_sub_tag_selector.helpers
+        selector_class: ()->
+            term = 
+                Docs.findOne 
+                    title:@valueOf().toLowerCase()
+            if term
+                if term.max_emotion_name
+                    switch term.max_emotion_name
+                        when 'joy' then " basic green"
+                        when "anger" then " basic red"
+                        when "sadness" then " basic blue"
+                        when "disgust" then " basic orange"
+                        when "fear" then " basic grey"
+                        else "basic grey"
+        term: ->
+            Docs.findOne 
+                title:@valueOf().toLowerCase()
+    Template.flat_sub_tag_selector.events
+        'click .select_flat_tag': -> 
+            # results.update
+            # window.speechSynthesis.cancel()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+            picked_sub_tags.push @valueOf()
+            Router.go "/r/#{Router.current().params.subreddit}/"
+            $('.search_subreddit').val('')
+            Session.set('loading',true)
+            Meteor.call 'search_subreddit', Router.current().params.subreddit, @valueOf(), ->
+                Session.set('loading',false)
+            Meteor.setTimeout( ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 3000)
+    Template.flat_sub_ruser_tag_selector.events
+        'click .select_flat_tag': -> 
+            # results.update
+            # window.speechSynthesis.cancel()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+            picked_sub_tags.push @valueOf()
+            parent = Template.parentData()
+            Router.go "/r/#{parent.subreddit}/"
+            $('.search_subreddit').val('')
+            Session.set('loading',true)
+            Meteor.call 'search_subreddit', parent.subreddit, @valueOf(), ->
+                Session.set('loading',false)
+            Meteor.setTimeout( ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 3000)
     
 if Meteor.isServer
     Meteor.publish 'subreddit_by_param', (subreddit)->
