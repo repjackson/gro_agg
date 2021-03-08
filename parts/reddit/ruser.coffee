@@ -207,7 +207,7 @@ if Meteor.isServer
                         #     console.log 'found user comment', found.data.body
                             
                         unless found
-                            console.log 'creating new user comment', item.data.body
+                            # console.log 'creating new user comment', item.data.body
                             item.model = 'rcomment'
                             item.reddit_id = item.data.id
                             item.author = item.data.author

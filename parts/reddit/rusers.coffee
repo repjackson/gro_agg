@@ -11,7 +11,7 @@ if Meteor.isClient
     Template.rusers.onCreated ->
         Session.setDefault('selected_user_location',null)
         Session.setDefault('searching_location',null)
-        Session.setDefault('rusers_sort_direciton',-1)
+        Session.setDefault('rusers_sort_direction',-1)
         
         @autorun -> Meteor.subscribe 'selected_rusers', 
             picked_ruser_tags.array() 
@@ -43,7 +43,7 @@ if Meteor.isClient
             #     match.site = $in:['member']
             if picked_ruser_tags.array().length > 0 then match.tags = $all: picked_ruser_tags.array()
             Docs.find match,
-                sort:"#{Session.get('rusers_sort_key')}":parseInt(Session.get('rusers_sort_direciton'))
+                sort:"#{Session.get('rusers_sort_key')}":parseInt(Session.get('rusers_sort_direction'))
     
     
     Template.ruser_karma_sort_button.events
@@ -570,6 +570,32 @@ if Meteor.isServer
             limit:20
             sort:
                 "#{sort_key_final}":sort_direction
+            fields:
+                "data.total_karma":1
+                "data.comment_karma":1
+                "data.link_karma":1
+                "data.created":1
+                username:1
+                global_rank:1
+                avg_anger_score:1
+                avg_sadness_score:1
+                avg_disgust_score:1
+                avg_fear_score:1
+                avg_joy_score:1
+                user_top_emotion:1
+                avg_sent_score:1
+                tags:1
+                'data.snoovatar_img':1
+                rep_joy:1
+                rep_sadness:1
+                rep_fear:1
+                rep_disgust:1
+                global_anger_rep_rank:1
+                global_disgust_rep_rank:1
+                global_joy_rep_rank:1
+                global_sadness_rep_rank:1
+                global_fear_rep_rank:1
+                model:1
     
     
     
