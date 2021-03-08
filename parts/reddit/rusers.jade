@@ -2,8 +2,8 @@ template(name='rusers')
     .ui.stackable.padded.grid
         .three.wide.column.scrolling
             .ui.inline.header 
-                i.reddit.icon
-                |reddit users
+                i.users.icon
+                | users
             // i.tag.large.icon
             .ui.small.fluid.icon.input
                 i.search.icon
@@ -94,7 +94,8 @@ template(name='ruser_small')
                 if user_top_emotion
                     .ui.inline.header #{user_top_emotion}
                 +ruser_top_emotion_small
-            
+                if data.subreddit.over_18
+                    .ui.basic.red.label nsfw
                 // if user_top_emotions
                 // each user_top_emotions
                 //     .ui.basic.label #{title}
