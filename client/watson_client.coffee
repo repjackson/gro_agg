@@ -69,9 +69,10 @@ Template.call_watson.events
 #     'click #call_visual': ->
 #         Meteor.call 'call_visual', Router.current().params.doc_id, ->
 
-# Template.tone.events
-#     'click #call_tone': ->
-#         Meteor.call 'call_tone', Router.current().params.doc_id, ->
+Template.call_tone.events
+    'click .call': ->
+        console.log 'call tone'
+        Meteor.call 'call_tone', Router.current().params.doc_id, ->
 
 
 

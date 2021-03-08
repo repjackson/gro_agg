@@ -116,9 +116,9 @@ template(name='autotag')
             
             
 template(name='call_tone')
-    button.ui.icon.large.button.call
+    button.ui.basic.circular.large.button.call
         i.smile.icon
-        // |call tone
+        |call tone
     if page_doc.tone 
         i.checkmark.icon
 //- 
@@ -232,37 +232,37 @@ template(name='categories')
 
 
 //- 
-// template(name='tone')
-//     // h3 tone
-//     .ui.horizontal.list
-//         each tone.result.document_tone.tones
-//             .item #{tone_id} {{ to_percent score }}%
-//     .ui.small.list
-//         each tone.result.sentences_tone
-//             .item
+template(name='tone')
+    // h3 tone
+    .ui.horizontal.list
+        each tone.result.document_tone.tones
+            .item #{tone_id} {{ to_percent score }}%
+    .ui.small.list
+        each tone.result.sentences_tone
+            .item
                 
-//                 //- span #{sentence_id}
-//                 span.tone_item(title="#{sentence_id}" class=tone_size) 
-//                     |{{lowered text}}
-//                     // .content
-//                     // .header(title="#{sentence_id}") {{lowered text}}
-//                     // |weight:#{weight}
-//                     i.chevron.up.link.grey.large.icon.upvote_sentence
-//                     i.chevron.down.link.grey.large.icon.downvote_sentence
-//                     each tones
-//                         // .ui.inverted.small.compact.label(class="{{calculated_size 'score'}} #{tone_label_class}") 
-//                         .ui.inverted.small.compact.label(class="#{tone_label_class}") 
-//                             span.ui.text
-//                                 |#{tone_id} &nbsp;
-//                             | {{ to_percent score }}% 
-//                     .ui.mini.transparent.icon.input
-//                         input.tag_sentence(type='text' placeholder='tag')
-//                     each tags 
-//                         .ui.label #{this}
-//     // unless tone                
-//     //- #call_tone.ui.icon.button
-//     //-     i.refresh.icon
-//             // +jsonView(json=tone)
+                //- span #{sentence_id}
+                span.tone_item(title="#{sentence_id}" class=tone_size) 
+                    |{{lowered text}}
+                    // .content
+                    // .header(title="#{sentence_id}") {{lowered text}}
+                    // |weight:#{weight}
+                    i.chevron.up.link.grey.large.icon.upvote_sentence
+                    i.chevron.down.link.grey.large.icon.downvote_sentence
+                    each tones
+                        // .ui.inverted.small.compact.label(class="{{calculated_size 'score'}} #{tone_label_class}") 
+                        .ui.inverted.small.compact.label(class="#{tone_label_class}") 
+                            span.ui.text
+                                |#{tone_id} &nbsp;
+                            | {{ to_percent score }}% 
+                    .ui.mini.transparent.icon.input
+                        input.tag_sentence(type='text' placeholder='tag')
+                    each tags 
+                        .ui.label #{this}
+    // unless tone                
+    //- #call_tone.ui.icon.button
+    //-     i.refresh.icon
+            // +jsonView(json=tone)
 // //- 
 //- 
 template(name='watson_view')
