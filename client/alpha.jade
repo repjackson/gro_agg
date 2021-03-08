@@ -1,5 +1,6 @@
 template(name='alpha')
-    +i n='brain'
+    // +i n='brain'
+    i.brain.icon
         // a.ui.header.toggle_alpha.pointer
         // i.large.brain.icon
         // | wolfram alpha
@@ -22,7 +23,7 @@ template(name='alpha')
                 with response.queryresult
                     // .ui.inline.header #{datatypes}
                     each split_datatypes
-                        .ui.button.basic.compact.buton.select_datatype
+                        .ui.basic.compact.button.select_datatype
                             |#{this}
                     // .ui.list
                     //     .item success: #{success}
@@ -44,20 +45,21 @@ template(name='alpha')
                         // .item related: #{related}
                         // .item version: #{version}
                     each pods
-                        div
-                        // .ui.small.inline.middle.aligned.header.middled #{title}
-                        .ui.small.inline.header #{title}
-                        div
-                        // .item #{scanner}
-                        // .item id #{id}
-                        // .item position #{position}
-                        // .item error #{error}
-                        // .item numsubpods #{numsubpods}
-                        // .item subpods
-                        // .ui.list
-                        each subpods
+                        .ui.compact.inline.basic.segment
+                            // div
+                            // .ui.small.inline.middle.aligned.header.middled #{title}
                             .ui.small.inline.header #{title}
-                            img.ui.zoomer.pointer.image.invert.alphatemp(src=img.src)
+                            // div
+                            // .item #{scanner}
+                            // .item id #{id}
+                            // .item position #{position}
+                            // .item error #{error}
+                            // .item numsubpods #{numsubpods}
+                            // .item subpods
+                            // .ui.list
+                            each subpods
+                                .ui.small.inline.header #{title}
+                                img.ui.zoomer.pointer.image.inline.alphatemp(src=img.src)
                             // .item.alphatemp
                             // |#{plaintext}
                             // .item title: #{title}

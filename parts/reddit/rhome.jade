@@ -21,8 +21,8 @@ template(name='home')
                 // .ui.label(title=count) #{name}
         .ui.sixteen.wide.column                
             .scrolling
-                +alpha
                 .ui.items
+                    +alpha
                     each wikis
                         .ui.item
                             .image
@@ -48,7 +48,7 @@ template(name='home')
                 //             +card
                 //     // else if three_posts
                 // else
-                .ui.stackable.three.column.centered.grid.scrolling
+                .ui.stackable.four.column.centered.grid.scrolling
                     each rposts
                         +card
                 //     .ui.basic.center.aligned.segment
