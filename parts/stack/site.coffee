@@ -193,10 +193,10 @@ if Meteor.isClient
             Docs.findOne
                 model:'stack_site'
                 api_site_parameter:Router.current().params.site
-        site_locations: -> results.find(model:'site_Location')
-        site_organizations: -> results.find(model:'site_Organization')
-        site_persons: -> results.find(model:'site_Person')
-        site_companys: -> results.find(model:'site_Company')
+        # site_locations: -> results.find(model:'site_Location')
+        # site_organizations: -> results.find(model:'site_Organization')
+        # site_persons: -> results.find(model:'site_Person')
+        # site_companys: -> results.find(model:'site_Company')
         user_count: -> Counts.get('user_counter')
     
         stackusers: ->

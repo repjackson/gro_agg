@@ -34,7 +34,7 @@ template(name='q')
                         //         i.checkmark.icon
                     .scrolling
                         if skv_is 'stack_section' 'main'
-                            .f11.ui.segment.say !{body}
+                            .f11.say !{body}
                             .ui.horizontal.large.divider.get_q_c
                                 |#{question_comments.count}
                                 i.chat.outline.icon
@@ -62,7 +62,7 @@ template(name='q')
                                 +watson_view
                                 +watson_full
                         // +comments
-                .four.wide.column.scrolling
+                .three.wide.column.scrolling
                     a.ui.fluid.circular.compact.tertiary.button.say(href="/s/#{current_q.site}") 
                         i.chevron.left.icon
                         if watson.metadata.image
@@ -80,7 +80,7 @@ template(name='q')
                                 |!{owner.display_name}
 
                     with owner
-                        a.ui.segment.zoomer.pointer.say(href="/s/#{current_q.site}/u/#{user_id}")
+                        a.ui.basic.segment.zoomer.pointer.say(href="/s/#{current_q.site}/u/#{user_id}")
                             img.ui.rounded.inline.image(src=profile_image)
                             .ui.header.inline(class=post_header_class)
                                 |!{display_name}
@@ -177,7 +177,7 @@ template(name='c_item')
         +doc_emotion_small 
                 
 template(name='answer_item')
-    .ui.segment(class=answer_class id=_id)
+    .ui.basic.segment(class=answer_class id=_id)
         // div(id=_id)
         // a(href="#qhead")
         //     i.circular.chevron.up.icon

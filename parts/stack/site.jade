@@ -70,11 +70,11 @@ template(name='sq')
                     //     i.th.icon
                     // .ui.icon.compact.large.button 
                     //     i.list.icon
-                    .scroll
+                    .scrolling
                         each site_questions
                             +s_q_item
                             .ui.divider
-                .four.wide.column.scrolling
+                .three.wide.column.scrolling
                     each site_emotions
                         // +stag_picker
                         .ui.large.label(title=count) #{name}
@@ -247,6 +247,8 @@ template(name='s_q_item')
                 if creation_date
                     .item created {{ufrom creation_date}}
             +doc_emotion_small
+            each tags
+                .ui.label #{this}
                 // .ui.label user_id #{user_id}
             // .ui.divider
 template(name='stag_picker')

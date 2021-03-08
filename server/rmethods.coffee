@@ -62,30 +62,30 @@ Meteor.methods
                 )
    
 
-    # get_reddit_post: (doc_id, reddit_id, root)->
-    #     @unblock()
-    #     doc = Docs.findOne doc_id
-    #     if doc.reddit_id
-    #         # HTTP.get "http://reddit.com/by_id/t3_#{doc.reddit_id}.json&raw_json=1", (err,res)->
-    #         HTTP.get "https://www.reddit.com/comments/#{doc.reddit_id}/.json", (err,res)->
-    #             if err
-    #                 console.error err
-    #             unless err
-    #                 rd = res.data[0].data.children[0].data
-    #                 Docs.update doc_id,
-    #                     $set:
-    #                         data: rd
-    #                         url: rd.url
-    #                         # reddit_image:rd.preview.images[0].source.url
-    #                         thumbnail: rd.thumbnail
-    #                         subreddit: rd.subreddit
-    #                         group:rd.subreddit
-    #                         author: rd.author
-    #                         domain: rd.domain
-    #                         is_video: rd.is_video
-    #                         ups: rd.ups
-    #                         # downs: rd.downs
-    #                         over_18: rd.over_18
+    get_reddit_post: (doc_id, reddit_id, root)->
+        @unblock()
+        doc = Docs.findOne doc_id
+        if doc.reddit_id
+            # HTTP.get "http://reddit.com/by_id/t3_#{doc.reddit_id}.json&raw_json=1", (err,res)->
+            HTTP.get "https://www.reddit.com/comments/#{doc.reddit_id}/.json", (err,res)->
+                if err
+                    console.error err
+                unless err
+                    rd = res.data[0].data.children[0].data
+                    Docs.update doc_id,
+                        $set:
+                            data: rd
+                            url: rd.url
+                            # reddit_image:rd.preview.images[0].source.url
+                            thumbnail: rd.thumbnail
+                            subreddit: rd.subreddit
+                            group:rd.subreddit
+                            author: rd.author
+                            domain: rd.domain
+                            is_video: rd.is_video
+                            ups: rd.ups
+                            # downs: rd.downs
+                            over_18: rd.over_18
 
                 
 

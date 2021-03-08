@@ -1,6 +1,6 @@
 template(name='rusers')
     .ui.stackable.padded.grid
-        .four.wide.column.scrolling
+        .three.wide.column.scrolling
             .ui.inline.header 
                 i.reddit.icon
                 |reddit users
@@ -63,7 +63,7 @@ template(name='rusers')
                     +ruser_small
                     
 template(name='ruser_small')
-    .four.wide.column
+    .three.wide.column
         a.select_user(href="/ruser/#{username}")
             img.ui.circular.small.image.zoomer(src=data.snoovatar_img)
         .content

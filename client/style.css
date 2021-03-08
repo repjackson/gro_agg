@@ -23,7 +23,7 @@ body {
   -webkit-font-smoothing: antialiased; 
   -moz-osx-font-smoothing: grayscale;
 
-  background: rgba(200,200,200,1) !important;
+  background: rgba(100,100,100,1) !important;
   /*filter: invert(.7) !important; */
   /*overscroll-behavior: none; */
   /*transition: all .15s ease !important;*/
@@ -38,7 +38,7 @@ body {
   transform: scale(1.2) !important;
 }
 .tag_select_class:hover {
-    animation: fadein .25s !important;
+    animation: fadein 1s !important;
     animation: fadeout .25s; 
     transition: all .15s ease !important; 
     /*cursor: help !important;*/
@@ -47,7 +47,7 @@ body {
 }
 
 .mark_viewed {
-    animation: fadein .5s !important;
+    animation: fadein 1s !important;
     animation: fadeout .5s; 
     transition: all .5s ease !important; 
     /*cursor: help !important;*/
@@ -412,12 +412,12 @@ a.goto_article {
   }
 /*  */
 .say {
-    /*animation: fadein .25s !important;*/
+    /*animation: fadein 1s !important;*/
     /*animation: fadeout .25s; */
     transition: all .15s ease !important; 
 }
 .say:hover {
-    /*animation: fadein .25s !important;*/
+    /*animation: fadein 1s !important;*/
     /*animation: fadeout .25s; */
     /*transition: all .15s ease !important; */
     /*cursor: help !important;*/
@@ -486,9 +486,9 @@ img:active {
     /*text-shadow: 0 0 3px grey !important;*/
     filter: drop-shadow(0px 0px 3px white);    
     z-index: 1000 !important;
-    /*animation: fadein .25s !important;*/
+    /*animation: fadein 1s !important;*/
     transform: scale(1.05) !important;
-    /*animation: fadein .25s !important;*/
+    /*animation: fadein 1s !important;*/
     /*animation: fadeout .25s; */
 }
 
@@ -519,7 +519,7 @@ img:active {
     /*transform: rotate(20deg) !important;*/
     z-index:1000 !important;
     border-radius: 7px !important;
-    /*animation: fadein .25s !important;*/
+    /*animation: fadein 1s !important;*/
     /*-webkit-transition: opacity .15s ease-in !important;*/
     /* -webkit-transition: opacity .15s ease-out; */
     /*animation: fadeout .25s; */
@@ -774,7 +774,7 @@ input {
 
 
 .button,.card,.image,.header,p,img,.say,.pointer, .item{
-    animation: fadein .5s !important;
+    animation: fadein 1s !important;
     -webkit-transition: opacity .5s ease-in !important;
     -webkit-transition: opacity .5s ease-out; 
     animation: fadeout .5s; 
@@ -782,7 +782,7 @@ input {
 
 
 .icon:not(.loading){
-    animation: fadein .5s !important;
+    animation: fadein 1s !important;
     transition: all .5s ease !important;
     /* -webkit-transition: opacity .15s ease-out; */
     animation: fadeout .5s; 
@@ -822,7 +822,7 @@ input {
 }
 
 .result_column {
-  /* animation: fadein .25s; */
+  /* animation: fadein 1s; */
 }
 
 @media screen and (max-width: 1100px) {

@@ -48,7 +48,7 @@ template(name='home')
                 //             +card
                 //     // else if three_posts
                 // else
-                .ui.stackable.four.column.centered.grid.scrolling
+                .ui.stackable.three.column.centered.grid.scrolling
                     each rposts
                         +card
                 //     .ui.basic.center.aligned.segment
@@ -101,7 +101,7 @@ template(name='flat_tag_picker')
     a.ui.basic.image.label.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
-                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+                img.ui.image.superzoom(src=term.watson.metadata.image )    
         strong #{this}
         // if in_dev
         //     small #{count}

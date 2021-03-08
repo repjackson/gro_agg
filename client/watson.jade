@@ -130,7 +130,7 @@ template(name='call_visual')
 template(name='keywords')
     .ui.small.grey.header 
         |#{watson.keywords.length} keywords
-    .ui.four.column.stackable.grid
+    .ui.three.column.stackable.grid
         each watson.keywords
             .ui.center.aligned.column
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
@@ -160,7 +160,7 @@ template(name='keywords')
 template(name='entities')
     .ui.grey.header 
         |#{watson.entities.length} entities
-    .ui.four.column.stackable.grid
+    .ui.three.column.stackable.grid
         each watson.entities
             .ui.center.aligned.column
                 .ui.small.grey.header #{type}
@@ -270,7 +270,7 @@ template(name='watson_view')
     // +doc_sentiment
     +doc_emotion
     .ui.stackable.grid 
-        .four.column.row 
+        .three.column.row 
             .column
                 +concepts
             .column

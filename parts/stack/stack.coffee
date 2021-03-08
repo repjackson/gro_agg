@@ -37,7 +37,7 @@ if Meteor.isClient
         site_docs: ->
             Docs.find {model:'stack_site'},
                 {
-                    limit:209
+                    limit:100
                     sort:
                         "#{Session.get('sort_key')}": parseInt(Session.get('sort_direction'))
                 }
@@ -765,7 +765,7 @@ if Meteor.isServer
             match.max_emotion_name = selected_emotion[0]
         if site
             Docs.find match, 
-                limit:20
+                limit:100
                 sort:
                     score:sort_direction
                     # "#{sort_key}":sort_direction
@@ -1067,7 +1067,7 @@ if Meteor.isServer
             match.name = {$regex:"#{name_filter}", $options:'i'}
         Docs.find match,
             {
-                limit:20
+                limit:100
                 fields:
                     audience:1
                     logo_url:1

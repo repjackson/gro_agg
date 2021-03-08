@@ -41,6 +41,7 @@
     'following year'
     'terms of use'
     'additional terms'
+    'answer site'
     'registered trademark of the wikimedia foundation'
     'disambiguation page lists  articles'
     'site'
