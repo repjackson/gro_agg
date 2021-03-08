@@ -5,11 +5,16 @@ template(name='home')
             //     i.moon.link.icon.toggle_nightmode
             // else
             //     i.lightbulb.link.icon.toggle_nightmode
-            .ui.icon.input
-                i.search.icon
-                input.search_tag(type='text' value=query autofocus='' placeholder="#{post_count}")
-                // .ui.label #{this}
+            unless picked_tags
+                .ui.center.aligned.basic.segment
+                    .ui.icon.big.input
+                        i.search.icon
+                        input.search_tag(type='text' value=query autofocus='' placeholder="search...")
             if picked_tags
+                .ui.icon.input
+                    i.search.icon
+                    input.search_tag(type='text' value=query autofocus='' placeholder="#{post_count}")
+                    // .ui.label #{this}
                 // if many_tags
                 //     a#clear_tags.ui.red.invert.icon.button.pick_term
                 //         i.remove.icon

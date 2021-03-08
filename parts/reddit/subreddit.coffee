@@ -118,7 +118,7 @@ if Meteor.isClient
             # console.log 'latest'
             Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
         'click .get_info': ->
-            cl 'dl'
+            l 'dl'
             Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
         'click .set_grid': (e,t)-> Session.set('subreddit_view_layout', 'grid')
         'click .set_list': (e,t)-> Session.set('subreddit_view_layout', 'list')

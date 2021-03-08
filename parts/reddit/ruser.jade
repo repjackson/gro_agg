@@ -162,6 +162,8 @@ template(name='ruser_doc_item')
             .ui.basic.label #{data.num_comments}
             .ui.basic.label #{data.subreddit}
             // .ui.large.label #{owner.display_name}
+            if in_dev
+                +print_this
     .spacer
     
     

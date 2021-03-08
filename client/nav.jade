@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.fluid.attached.borderless.inverted.three.item.menu
+    .ui.fluid.attached.borderless.inverted.four.item.menu
         // a.icon.item.toggle_sidebar.no_blink
         //     i.bars.icon
     
@@ -11,6 +11,8 @@ template(name='nav')
             i.reddit.large.icon
         a.icon.item.blink.clear(href="/stack" class="{{isActiveRoute 'stack'}}")
             i.stack.exchange.large.icon
+        a.icon.item.blink.clear(href="/rusers" class="{{isActiveRoute 'stack'}}")
+            i.users.large.icon
         // .item(title='session karma')
         //     i.grey.lightning.icon
         //     |#{session_clicks}

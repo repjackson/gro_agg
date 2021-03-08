@@ -7,7 +7,7 @@ if Meteor.isClient
    
     Template.ruser.onCreated ->
         @autorun => Meteor.subscribe 'ruser_doc', Router.current().params.username
-        @autorun => Meteor.subscribe 'rposts', Router.current().params.username, 42
+        @autorun => Meteor.subscribe 'ruser_posts', Router.current().params.username, 42
         @autorun => Meteor.subscribe 'ruser_comments', Router.current().params.username
         @autorun => Meteor.subscribe 'ruser_result_tags',
             'rpost'
@@ -92,15 +92,22 @@ if Meteor.isClient
     
 if Meteor.isServer
     Meteor.publish 'ruser_doc', (username)->
-        Docs.find 
+        match = {
             model:'ruser'
             username:username
+        }
+        unless Meteor.isDevelopment
+            match.data.subreddit.over_18 = false 
+        Docs.find match
     
-    Meteor.publish 'rposts', (username, limit=42)->
-        Docs.find {
+    Meteor.publish 'ruser_posts', (username, limit=42)->
+        match = {
             model:'rpost'
             author:username
-        },{
+        }
+        unless Meteor.isDevelopment
+            match.over_18 = false 
+        Docs.find match,{
             limit:limit
             sort:
                 _timestamp:-1
