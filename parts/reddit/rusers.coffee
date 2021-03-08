@@ -11,12 +11,14 @@ if Meteor.isClient
     Template.rusers.onCreated ->
         Session.setDefault('selected_user_location',null)
         Session.setDefault('searching_location',null)
+        Session.setDefault('rusers_sort_direciton',-1)
+        
         @autorun -> Meteor.subscribe 'selected_rusers', 
             picked_ruser_tags.array() 
             Session.get('searching_username')
             Session.get('limit')
             Session.get('rusers_sort_key')
-            Session.get('sort_direction')
+            Session.get('rusers_sort_direction')
         @autorun -> Meteor.subscribe('ruser_tags',
             picked_ruser_tags.array()
             Session.get('username_query')
@@ -41,19 +43,7 @@ if Meteor.isClient
             #     match.site = $in:['member']
             if picked_ruser_tags.array().length > 0 then match.tags = $all: picked_ruser_tags.array()
             Docs.find match,
-                sort:points:-1
-            # if Meteor.user()
-            #     if 'admin' in Meteor.user().roles
-            #         Meteor.users.find()
-            #     else
-            #         Meteor.users.find(
-            #             # site:$in:['l1']
-            #             site:$in:['member']
-            #         )
-            # else
-            #     Meteor.users.find(
-            #         site:$in:['member']
-            #     )
+                sort:"#{Session.get('rusers_sort_key')}":parseInt(Session.get('rusers_sort_direciton'))
     
     
     Template.ruser_karma_sort_button.events

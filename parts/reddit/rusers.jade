@@ -18,14 +18,6 @@ template(name='rusers')
                 .ui.compact.circular.basic.small.button.select_ruser_tag(class=cloud_tag_class title=count) !{this.name}
                     // small #{this.count}
             .ui.small.header sort by
-            +ruser_karma_sort_button l='total' i='yin yang' c=''
-            +ruser_karma_sort_button l='link' i='edit' c=''
-            +ruser_karma_sort_button l='comment' i='chat outline' c=''
-            +ruser_karma_sort_button l='joy' i='smile' c='green'
-            +ruser_karma_sort_button l='anger' i='' c='red'
-            +ruser_karma_sort_button l='sadness' i='' c='blue'
-            +ruser_karma_sort_button l='disgust' i='' c='orange'
-            +ruser_karma_sort_button l='fear' i='' c='grey'
             // unless all_tags.count
             //     .ui.basic.center.aligned.segment
             //         .ui.placeholder 
@@ -35,6 +27,14 @@ template(name='rusers')
             //                 .line
             //                 .line
         .twelve.wide.column.scrolling
+            +ruser_karma_sort_button l='total' i='yin yang' c=''
+            +ruser_karma_sort_button l='link' i='edit' c=''
+            +ruser_karma_sort_button l='comment' i='chat outline' c=''
+            +ruser_karma_sort_button l='joy' i='smile' c='green'
+            +ruser_karma_sort_button l='anger' i='' c='red'
+            +ruser_karma_sort_button l='sadness' i='' c='blue'
+            +ruser_karma_sort_button l='disgust' i='' c='orange'
+            +ruser_karma_sort_button l='fear' i='' c='grey'
             .ui.left.icon.input(class="{{#if current_username_query}} focus {{/if}}")
                 if current_username_query
                     i.remove.link.icon.clear_username

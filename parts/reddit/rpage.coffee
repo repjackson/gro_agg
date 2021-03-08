@@ -1,8 +1,27 @@
 if Meteor.isClient
     Template.rpage.onCreated ->
         @autorun -> Meteor.subscribe('doc', Router.current().params.doc_id)
+        @autorun -> Meteor.subscribe('rpost_comments', Router.current().params.group, Router.current().params.doc_id)
+        
     Template.rpage.onRendered ->
         Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
+    
+    Template.rpage.helpers
+        rpost_comments: ->
+            post = Docs.findOne Router.current().params.doc_id
+            Docs.find
+                model:'rcomment'
+                parent_id:"t3_#{post.reddit_id}"
+    
+    Template.rcomments_tab.helpers
+        rpost_comments: ->
+            post = Docs.findOne Router.current().params.doc_id
+            Docs.find
+                model:'rcomment'
+                parent_id:"t3_#{post.reddit_id}"
+    Template.rpage.events
+        'click .get_comments': -> Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
+    
     
     Template.rpage.events
         'click .goto_sub': -> 
@@ -12,12 +31,23 @@ if Meteor.isClient
         'click .call_visual': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'url', ->
         'click .call_meta': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'meta', ->
         'click .call_thumbnail': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'thumb', ->
+
         'click .goto_ruser': ->
             doc = Docs.findOne Router.current().params.doc_id
             Meteor.call 'get_user_info', doc.data.author, ->
         'click .get_post': ->
             Session.set('view_section','main')
             Meteor.call 'get_reddit_post', Router.current().params.doc_id, @reddit_id, ->
+  
+  
+    Template.rcomment.onRendered ->
+        console.log @data
+        unless @data.watson
+            console.log 'calling watson on comment'
+            Meteor.call 'call_watson', @data._id,'data.body','comment',->
+        unless @data.time_tags
+            console.log 'calling watson on comment'
+            Meteor.call 'tagify_time_rpost', @data._id,->
   
   
     # Template.reddit_post_item.events
@@ -108,7 +138,7 @@ if Meteor.isServer
             
         
         
-    
+    Meteor.methods
         tagify_time_rpost: (doc_id)->
             doc = Docs.findOne doc_id
             # moment.unix(doc.data.created).fromNow()
