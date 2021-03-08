@@ -78,11 +78,11 @@ if Meteor.isClient
             picked_sub_tags.array()
             ()->Session.set('ready',true)
  
-    Template.subreddit_doc_item.events
+    Template.sub_post_card.events
         'click .view_post': (e,t)-> 
             Session.set('view_section','main')
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @data.title
-            # Router.go "/subreddit/#{@subreddit}/post/#{@_id}"
+            Router.go "/r/#{@subreddit}/post/#{@_id}"
     
     Template.subreddit_doc_item.onRendered ->
         # console.log @
