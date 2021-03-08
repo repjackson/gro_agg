@@ -24,12 +24,12 @@ template(name='home')
                 // .ui.label #{this}
                 +tag_picker
                 // .ui.label(title=count) #{name}
-        .ui.sixteen.wide.column                
+        .ui.four.wide.column                
             .scrolling
                 .ui.items
                     +alpha
                     each wikis
-                        .ui.item
+                        .ui.card
                             .image
                                 if watson.metadata.image
                                     a(href=url target='_window')
@@ -53,11 +53,12 @@ template(name='home')
                 //             +card
                 //     // else if three_posts
                 // else
-                .ui.stackable.three.column.centered.grid.scrolling
-                    each rposts
-                        +card
-                //     .ui.basic.center.aligned.segment
-                //         i.big.loading.yin.yang.icon
+        .ui.twelve.wide.column                
+            .ui.stackable.three.column.centered.grid.scrolling
+                each rposts
+                    +card
+            //     .ui.basic.center.aligned.segment
+            //         i.big.loading.yin.yang.icon
    
 
 template(name='card')
