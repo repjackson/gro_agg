@@ -1,15 +1,14 @@
 template(name='alpha')
     // +i n='brain'
-    i.brain.icon
         // a.ui.header.toggle_alpha.pointer
         // i.large.brain.icon
         // | wolfram alpha
     // unless viewing_alpha
-    each alphas
-        with response.queryresult
-            each split_datatypes
-                .ui.button.basic.compact.buton.select_datatype
-                    |#{this}
+    // each alphas
+    //     with response.queryresult
+    //         each split_datatypes
+    //             .ui.button.basic.compact.buton.select_datatype
+    //                 |#{this}
         
         // if viewing_alpha
     if skv_is 'loading_alpha' true

@@ -42,13 +42,13 @@ template(name='ruser')
                     +ruser_top_emotions     
                     each tags
                         .ui.compact.basic.circular.button.search_tag #{this}
-                .six.wide.column
-                    // if selected_ruser_post_tags
-                    //     each selected_ruser_post_tags
-                    //         +ruser_post_unselect_tag
-                    // .ui.icon.input
-                    //     i.search.icon
-                    //     input.search_ruser_postreddit(type='text')
+                .thirteen.wide.column
+                    if selected_ruser_post_tags
+                        each selected_ruser_post_tags
+                            +ruser_post_unselect_tag
+                    .ui.icon.input
+                        i.search.icon
+                        input.search_ruser_postreddit(type='text')
                 
                     .ui.inline.header 
                         i.edit.icon
@@ -60,7 +60,7 @@ template(name='ruser')
                     .medscroll
                         each ruser_posts
                             +ruser_post
-                .six.wide.column
+                .thirteen.wide.column
                     .ui.inline.header.get_user_comments
                         i.chat.outline.icon
                         |comments

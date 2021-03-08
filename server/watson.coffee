@@ -1,7 +1,7 @@
 NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1.js');
 # VisualRecognitionV3 = require('ibm-watson/visual-recognition/v3')
-# PersonalityInsightsV3 = require('ibm-watson/personality-insights/v3')
 # TextToSpeechV1 = require('ibm-watson/text-to-speech/v1')
+ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3')
 
 { IamAuthenticator } = require('ibm-watson/auth')
 
@@ -13,6 +13,13 @@ NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understand
 #   }),
 #   url: Meteor.settings.private.tts.url,
 # });
+
+tone_analyzer = new ToneAnalyzerV3(
+    version: '2017-09-21'
+    authenticator: new IamAuthenticator({
+        apikey: Meteor.settings.private.tone.apikey
+    })
+    url: Meteor.settings.private.tone.url)
 
 
 
@@ -36,15 +43,41 @@ natural_language_understanding = new NaturalLanguageUnderstandingV1(
 # const classify_params = {
 #   url: 'https://ibm.biz/BdzLPG',
 # };
-
-
 Meteor.methods
+    call_tone: (doc_id, key, mode)->
+        self = @
+        doc = Docs.findOne doc_id
+        # console.log key
+        # console.log mode
+        # if doc.html or doc.body
+        #     # stringed = JSON.stringify(doc.html, null, 2)
+        if mode is 'html'
+            params =
+                toneInput:doc["#{key}"]
+                content_type:'text/html'
+        if mode is 'text'
+            params =
+                toneInput: { 'text': doc.body }
+                contentType: 'application/json'
+        # console.log 'params', params
+        tone_analyzer.tone params, Meteor.bindEnvironment((err, response)->
+            if err
+                console.log err
+            else
+                # console.dir response
+                Docs.update { _id: doc_id},
+                    $set:
+                        tone: response
+                # console.log(JSON.stringify(response, null, 2))
+            )
+        # else return
+
     call_watson: (doc_id, key, mode) ->
         # console.log 'calling watson'
         self = @
-        # console.log doc_id
-        # console.log key
-        # console.log mode
+        console.log doc_id
+        console.log key
+        console.log mode
         doc = Docs.findOne doc_id
         # console.log 'calling watson on', doc.title
         # if doc.skip_watson is false
@@ -125,7 +158,7 @@ Meteor.methods
                 # console.log err
                 if err.code is 400
                     # console.log 'crawl rejected by server', err
-                    console.log 'crawl rejected by server'
+                    console.log 'crawl rejected by server', err
                 unless err.code is 403
                     Docs.update doc_id,
                         $set:skip_watson:false

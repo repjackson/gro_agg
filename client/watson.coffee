@@ -62,7 +62,7 @@ Template.keywords.onRendered ->
     
     
 Template.call_watson.events
-    'click .autotag': -> Meteor.call 'call_watson',Router.current().params.doc_id,'data.url','url',=>
+    'click .autotag': -> Meteor.call 'call_watson',Router.current().params.doc_id,'url','url',=>
 
 
 # Template.call_visual_analysis.events

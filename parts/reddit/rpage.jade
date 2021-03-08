@@ -19,66 +19,68 @@ template(name='rpage')
                 // +skve k='view_section' v='tags' l='tags' i='tags'
                 +skve k='view_section' v='related' l='related' i='fork'
                 +skve k='view_section' v='preview' l='preview' i='content'
-                // if skv_is 'view_section' 'main'
-                .scrolling
-                    // if skv_is 'view_section' 'main'
-                    if data.is_reddit_media_domain
-                        img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
-                    else if watson.metadata.image
-                        img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
-                    if is_youtube
+                +skve k='view_section' v='comments' l='comments' i='chat'
+                if skv_is 'view_section' 'main'
+                    .scrolling
+                        // if skv_is 'view_section' 'main'
+                        if data.is_reddit_media_domain
+                            img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
+                        else if watson.metadata.image
+                            img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
+                        if is_youtube
+                            div
+                            // .ui.fluid.embed
+                            //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
+                            iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                        else if embed
+                            span.f11.full
+                                |!{embed}
+                        if data.link_url
+                            img.ui.image.pointer.call_visual(src=data.link_url)
                         div
-                        // .ui.fluid.embed
-                        //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
-                        iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                    else if embed
-                        span.f11.full
-                            |!{embed}
-                    if data.link_url
-                        img.ui.image.pointer.call_visual(src=data.link_url)
-                    div
-                    span.f12.say !{data.html}
-                    // if parsed_selftext_html
-                    //     .ui.segment
-                    //         |!{parsed_selftext_html}
-                    if data.selftext
-                        // .ui.segment
-                        .f12.say
-                            |{{#markdown}} {{data.selftext}} {{/markdown}}
-                    else if data.body
-                        div
-                        .f12.say
-                            |{{nl2br data.body}}
-                    else if data.body_html
-                        div
-                        .f12.say
-                            |!{data.body_html}
-                    else if watson.analyzed_text
-                        .say.f12
-                            |{{nl2br watson.analyzed_text}}
-                    // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                    .spacer
-                    // img(src=url)
-                    // div(style='position:relative; padding-bottom:calc(125.00% + 44px)')
-                    //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
-                    // .rounded
-                    //     |!{embed}
-                    if skv_is 'view_section' 'watson'
+                        span.f12.say !{data.html}
+                        // if parsed_selftext_html
+                        //     .ui.segment
+                        //         |!{parsed_selftext_html}
+                        if data.selftext
+                            // .ui.segment
+                            .f12.say
+                                |{{#markdown}} {{data.selftext}} {{/markdown}}
+                        else if data.body
+                            div
+                            .f12.say
+                                |{{nl2br data.body}}
+                        else if data.body_html
+                            div
+                            .f12.say
+                                |!{data.body_html}
+                        else if watson.analyzed_text
+                            .say.f12
+                                |{{nl2br watson.analyzed_text}}
+                        // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                        .spacer
+                        // img(src=url)
+                        // div(style='position:relative; padding-bottom:calc(125.00% + 44px)')
+                        //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
+                        // .rounded
+                        //     |!{embed}
+                if skv_is 'view_section' 'watson'
+                    .scrolling
                         +watson_view
                         +watson_full
-                    if skv_is 'view_section' 'related'
-                        +post_related
-                        +related_questions
-                    if skv_is 'view_section' 'tone'
-                        +tone
-                        // +skve k='view_section' v='money' l='money' i='money'
-                        // if skv_is 'view_section'
-                    if skv_is 'view_section' 'preview'
-                        iframe(width="100%" height="800" src=data.url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
-                    // +convert
-                    // .spacer
-                    // if skv_is 'view_section' 'tags'
-                    // if skv_is 'view_section' 'comments'
+                if skv_is 'view_section' 'related'
+                    +post_related
+                    +related_questions
+                if skv_is 'view_section' 'tone'
+                    +tone
+                    // +skve k='view_section' v='money' l='money' i='money'
+                    // if skv_is 'view_section'
+                if skv_is 'view_section' 'preview'
+                    iframe(width="100%" height="800" src=data.url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
+                // +convert
+                // .spacer
+                // if skv_is 'view_section' 'tags'
+                if skv_is 'view_section' 'comments'
                     +rcomments_tab
             .three.wide.column
                 a.ui.basic.fluid.button(href=data.url target="_window" title=data.url) 
@@ -98,7 +100,7 @@ template(name='rpage')
                 a.ui.basic.button.goto_ruser(href="/ruser/#{data.author}")
                     i.user.outline.icon
                     |#{data.author}
-                +call_watson id=_id key='data.url' durl=data.url mode='url'
+                +call_watson id=_id key='data.url' url=data.url mode='url'
                 if in_dev
                     +print_this
                 if watson

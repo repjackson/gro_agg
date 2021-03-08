@@ -12,9 +12,13 @@ template(name='home')
                         input.search_tag(type='text' value=query autofocus='' placeholder="search...")
             if picked_tags
                 .ui.icon.input
-                    i.search.icon
+                    if is_loading
+                        i.loading.yin.yang.icon
+                    else
+                        i.search.icon
                     input.search_tag(type='text' value=query autofocus='' placeholder="#{post_count}")
                     // .ui.label #{this}
+                
                 // if many_tags
                 //     a#clear_tags.ui.red.invert.icon.button.pick_term
                 //         i.remove.icon
@@ -54,7 +58,7 @@ template(name='home')
                 //     // else if three_posts
                 // else
         .ui.twelve.wide.column                
-            .ui.stackable.three.column.centered.grid.scrolling
+            .ui.stackable.two.column.centered.grid.scrolling
                 each rposts
                     +card
             //     .ui.basic.center.aligned.segment

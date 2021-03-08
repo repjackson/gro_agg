@@ -63,59 +63,18 @@ Router.configure
 # 	progressDelay: 100
 Router.route '*', -> @render 'home'
 
-
+Template.skve.helpers
+    calculated_class: ->
+        if Session.equals(@k,@v) then 'black' else 'basic circular'
+Template.skve.events
+    'click .set_session_v': ->
+        Session.set(@k, @v)
 
 Template.card.onCreated ->
     # console.log @data
     unless @watson
         Meteor.call 'call_watson', @data._id, ->
     
-Template.home.onCreated ->
-    Session.setDefault('nsfw', false)
-    @autorun -> Meteor.subscribe('alpha_combo',picked_tags.array())
-
-    # Meteor.call 'call_watson', @data._id, ->
-    
-    # Session.setDefault('location_query', null)
-    @autorun => Meteor.subscribe 'rposts', 
-        picked_tags.array()
-        Session.get('nsfw')
-        Session.get('toggle')
-  
-    # @autorun => Meteor.subscribe 'reddit_post_count', 
-    #     picked_tags.array()
-    #     picked_reddit_domain.array()
-    #     picked_rtime_tags.array()
-    #     picked_subreddits.array()
-    params = new URLSearchParams(window.location.search);
-    
-    tags = params.get("tags");
-    if tags
-        split = tags.split(',')
-        if tags.length > 0
-            for tag in split 
-                unless tag in picked_tags.array()
-                    picked_tags.push tag
-            Session.set('loading',true)
-            Meteor.call 'search_reddit', picked_tags.array(), ->
-                Session.set('loading',false)
-            Meteor.setTimeout ->
-                Session.set('toggle', !Session.get('toggle'))
-            , 7000    
-            
-    # console.log(name)
-    
-    @autorun => Meteor.subscribe 'wiki_doc', 
-        picked_tags.array()
-    @autorun => Meteor.subscribe 'post_count', 
-        picked_tags.array()
-
-
-    @autorun => Meteor.subscribe 'tags',
-        picked_tags.array()
-        Session.get('nsfw')
-        Session.get('toggle')
-        
 
 Template.registerHelper 'is_image', ()->
     if @domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
