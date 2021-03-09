@@ -3,15 +3,15 @@ template(name='nav')
         // a.icon.item.toggle_sidebar.no_blink
         //     i.bars.icon
     
-        a.icon.item.blink.clear(href="/" class="{{isActiveRoute regex='home'}}")
+        a.icon.item.blink(href="/" class="{{isActiveRoute regex='home'}}")
             i.search.large.icon
         // a.icon.item.blink.clear(href="/reddit" class="{{isActiveRoute 'reddit'}}")
         //     i.search.large.icon
-        a.icon.item.blink.clear(href="/subs" class="{{isActiveRoute 'subs'}}")
+        a.icon.item.blink(href="/subs" class="{{isActiveRoute 'subs'}}")
             i.large.fire.icon
         // a.icon.item.blink.clear(href="/stack" class="{{isActiveRoute 'stack'}}")
         //     i.stack.exchange.large.icon
-        a.icon.item.blink.clear(href="/users" class="{{isActiveRoute 'users'}}")
+        a.icon.item.blink(href="/users" class="{{isActiveRoute 'users'}}")
             i.users.large.icon
         // .item(title='session karma')
         //     i.grey.lightning.icon

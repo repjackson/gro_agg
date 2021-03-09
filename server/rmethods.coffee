@@ -58,7 +58,7 @@ Meteor.methods
                             # if Meteor.isDevelopment
                             #     console.log 'new', new_reddit_post_id
                             # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
-                Meteor.call 'call_wiki', query, ->        
+                # Meteor.call 'call_wiki', query, ->        
                 )
    
 
