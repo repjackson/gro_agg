@@ -5,6 +5,7 @@ if Meteor.isClient
         
     Template.rpage.onRendered ->
         Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
+        Meteor.call 'get_reddit_post', Router.current().params.doc_id, ->
     
     Template.rpage.helpers
         rpost_comments: ->

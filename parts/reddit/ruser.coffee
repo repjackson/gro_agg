@@ -60,7 +60,7 @@ if Meteor.isClient
                 model:'rpost'
                 author:Router.current().params.username
             },{
-                limit:20
+                limit:42
                 sort:
                     _timestamp:-1
             }  
@@ -68,7 +68,7 @@ if Meteor.isClient
             Docs.find
                 model:'rcomment'
                 author:Router.current().params.username
-            , limit:20
+            , limit:42
 
         ruser_post_tag_results: -> results.find(model:'rpost_result_tag')
         ruser_comment_tag_results: -> results.find(model:'rcomment_result_tag')

@@ -103,7 +103,7 @@ Meteor.publish 'rposts', (
 
     # console.log 'match',match
     Docs.find match,
-        limit:25
+        limit:20
         sort:"data.ups":-1
         # sort: "#{sk}":-1
         # skip:skip*20
@@ -157,8 +157,8 @@ Meteor.publish 'tags', (
     else
         match['data.over_18'] = false
 
-    if picked_tags.length > 0 then match.tags = $all:picked_tags
-    # match.tags = $all:picked_tags
+    # if picked_tags.length > 0 then match.tags = $all:picked_tags
+    match.tags = $all:picked_tags
     # if picked_authors.length > 0 then match.author = $all:picked_authors
     # if picked_locations.length > 0 then match.location = $all:picked_locations
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
@@ -172,7 +172,7 @@ Meteor.publish 'tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:20 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     tag_cloud.forEach (tag, i) ->
