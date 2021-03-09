@@ -15,7 +15,8 @@ template(name='user')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    img.ui.image(src=data.snoovatar_img)
+                    if data.snoovatar_img
+                        img.ui.image(src=data.snoovatar_img)
                     a.ui.circular.basic.icon.button(href="/users")
                         i.chevron.left.icon
                         i.large.users.icon
@@ -36,49 +37,60 @@ template(name='user')
                             i.large.yellow.star.icon(title='is gold')
                         if is_mod
                             i.large.blue.shield.icon(title='is mod')
-                        if has_verified_email
-                            i.large.mail.icon(title='verified email')
-                    i.info.icon.get_user_info
+                        // if has_verified_email
+                        //     i.large.mail.icon(title='verified email')
+                    // i.info.icon.get_user_info
                     img.ui.rounded.inline.image.pointer.zoomer(src=profile_image)
-                    a.ui.large.compact.basic.button(href="http://www.reddit.com/user/#{username}" target='_window' title="#{site} profile")
-                        i.reddit.icon
+                    a.ui.circular.icon.basic.button(href="http://www.reddit.com/user/#{username}" target='_window' title="#{site} profile")
                         i.external.icon
                     +print_this
                     +user_top_emotions     
                 .six.wide.column
-                    each tags
-                        .ui.basic.label.search_tag #{this}
-                    if selected_user_post_tags
-                        each selected_user_post_tags
-                            +user_post_unpick_tag
-                    .ui.icon.input
-                        i.search.icon
-                        input.search_user_postreddit(type='text')
-                
-                    .ui.inline.header 
-                        i.edit.icon
-                        |#{user_posts.count}
-                        |posts
-                    each user_post_tag_results
-                        // .ui.label #{this}
-                        // +user_post_selector
-                        .ui.basic.small.label(title=count) #{name}
-                    .medscroll
-                        each user_posts
-                            +user_post
+                    // each tags
+                    //     .ui.basic.label.search_tag #{this}
+                    +user_posts
                 .six.wide.column
-                    .ui.inline.header.get_user_comments
-                        i.chat.outline.icon
-                        |#{user_comments.count}
-                        |comments
-                    each user_comment_tag_results
-                        // .ui.label #{this}
-                        // +user_post_selector
-                        .ui.small.basic.label(title=count) #{name}
-                    .medscroll
-                        each user_comments
-                            +user_comment
-                            .ui.divider
+                    +user_comments
+                    
+                    
+
+template(name='user_posts')
+    if selected_user_post_tags
+        each selected_user_post_tags
+            +user_post_unpick_tag
+    // .ui.icon.input
+    //     i.search.icon
+    //     input.search_user_postreddit(type='text')
+
+    .ui.inline.header 
+        i.edit.icon
+        |#{user_posts.count}
+        |posts
+    i.refresh.grey.link.icon.refresh_posts(title='refresh posts')
+    each user_post_tag_results
+        // .ui.label #{this}
+        // +user_post_selector
+        .ui.basic.small.label(title=count) #{name}
+    .medscroll
+        each user_post_docs
+            +user_post
+
+                    
+
+template(name='user_comments')                    
+    .ui.inline.header.get_user_comments
+        i.chat.outline.icon
+        |#{user_comments.count}
+        |comments
+    each user_comment_tag_results
+        // .ui.label #{this}
+        // +user_post_selector
+        .ui.small.basic.label(title=count) #{name}
+    .medscroll
+        each user_comment_docs
+            +user_comment
+            .ui.divider
+
                     
                     
                     

@@ -7,71 +7,60 @@ if Meteor.isClient
    
     Template.user.onCreated ->
         @autorun => Meteor.subscribe 'user_doc', Router.current().params.username, ->
+    Template.user_posts.onCreated ->
         @autorun => Meteor.subscribe 'user_posts', Router.current().params.username, 42, ->
+    Template.user_comments.onCreated ->
         @autorun => Meteor.subscribe 'user_comments', Router.current().params.username, ->
-        @autorun => Meteor.subscribe 'user_result_tags',
-            'rpost'
-            Router.current().params.username
-            picked_sub_tags.array()
-            # selected_subreddit_domain.array()
-            Session.get('toggle')
-        , ->
-        @autorun => Meteor.subscribe 'user_result_tags',
-            'rcomment'
-            Router.current().params.username
-            picked_sub_tags.array()
-            # selected_subreddit_domain.array()
-            Session.get('toggle')
-        , ->
+    Template.user_comments.onCreated ->
+        # @autorun => Meteor.subscribe 'user_result_tags',
+        #     'rpost'
+        #     Router.current().params.username
+        #     picked_sub_tags.array()
+        #     # selected_subreddit_domain.array()
+        #     Session.get('toggle')
+        # , ->
+        # @autorun => Meteor.subscribe 'user_result_tags',
+        #     'rcomment'
+        #     Router.current().params.username
+        #     picked_sub_tags.array()
+        #     # selected_subreddit_domain.array()
+        #     Session.get('toggle')
+        # , ->
 
     Template.user.onRendered ->
-        Meteor.setTimeout =>
+        # Meteor.setTimeout =>
+        $('body').toast(
+            showIcon: 'user'
+            message: 'getting user info'
+            displayTime: 'auto',
+        )
+        Meteor.call 'get_user_info', Router.current().params.username, ->
             $('body').toast(
+                message: 'info retrieved'
                 showIcon: 'user'
-                message: 'getting user info'
+                showProgress: 'bottom'
+                class: 'info'
                 displayTime: 'auto',
             )
-            Meteor.call 'get_user_info', Router.current().params.username, ->
-                $('body').toast(
-                    message: 'info retrieved'
-                    showIcon: 'user'
-                    showProgress: 'bottom'
-                    class: 'info'
-                    displayTime: 'auto',
-                )
-                Session.set('thinking',false)
+            Session.set('thinking',false)
+    Template.user_comments.onRendered ->
+        $('body').toast(
+            showIcon: 'chat'
+            message: 'getting comments'
+            displayTime: 'auto',
+        )
+        Meteor.call 'get_user_comments', Router.current().params.username, ->
             $('body').toast(
+                message: 'comments done'
                 showIcon: 'chat'
-                message: 'getting comments'
+                showProgress: 'bottom'
+                class: 'success'
                 displayTime: 'auto',
             )
-            Meteor.call 'get_user_comments', Router.current().params.username, ->
-                $('body').toast(
-                    message: 'comments done'
-                    showIcon: 'chat'
-                    showProgress: 'bottom'
-                    class: 'success'
-                    displayTime: 'auto',
-                )
-                Session.set('thinking',false)
+            Session.set('thinking',false)
 
           
-            $('body').toast(
-                showIcon: 'edit'
-                message: 'getting user posts'
-                displayTime: 'auto',
-            )
-            Meteor.call 'get_user_posts', Router.current().params.username, ->
-                $('body').toast(
-                    message: 'posts downloaded'
-                    showIcon: 'user'
-                    showProgress: 'bottom'
-                    class: 'success'
-                    displayTime: 'auto',
-                )
-                Session.set('thinking',false)
-          
-          
+        Meteor.setTimeout =>
             $('body').toast(
                 showIcon: 'dna'
                 message: 'calculating stats'
@@ -102,7 +91,7 @@ if Meteor.isClient
                     displayTime: 'auto',
                 )
                 Session.set('thinking',false)
-        , 3000
+        , 10000
 
     Template.user_doc_item.onRendered ->
         # console.log @
@@ -128,7 +117,47 @@ if Meteor.isClient
             Docs.findOne
                 model:'user'
                 username:Router.current().params.username
-        user_posts: ->
+        current_username: -> Router.current().params.username
+        user_post_tag_results: -> results.find(model:'rpost_result_tag')
+        user_comment_tag_results: -> results.find(model:'rcomment_result_tag')
+    Template.user_posts.events
+        'click .refresh_posts': ->
+            $('body').toast(
+                showIcon: 'edit'
+                message: 'getting user posts'
+                displayTime: 'auto',
+            )
+            Meteor.call 'get_user_posts', Router.current().params.username, ->
+                $('body').toast(
+                    message: 'posts downloaded'
+                    showIcon: 'user'
+                    showProgress: 'bottom'
+                    class: 'success'
+                    displayTime: 'auto',
+                )
+                Session.set('thinking',false)
+          
+    Template.user_posts.onRendered ->
+        $('body').toast(
+            showIcon: 'edit'
+            message: 'getting user posts'
+            displayTime: 'auto',
+        )
+        Meteor.call 'get_user_posts', Router.current().params.username, ->
+            $('body').toast(
+                message: 'posts downloaded'
+                showIcon: 'user'
+                showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+            )
+            Session.set('thinking',false)
+      
+
+
+            
+    Template.user_posts.helpers
+        user_post_docs: ->
             Docs.find {
                 model:'rpost'
                 author:Router.current().params.username
@@ -137,14 +166,12 @@ if Meteor.isClient
                 sort:
                     _timestamp:-1
             }  
-        user_comments: ->
+    Template.user_comments.helpers
+        user_comment_docs: ->
             Docs.find
                 model:'rcomment'
                 author:Router.current().params.username
             , limit:42
-        current_username: -> Router.current().params.username
-        user_post_tag_results: -> results.find(model:'rpost_result_tag')
-        user_comment_tag_results: -> results.find(model:'rcomment_result_tag')
     Template.user.events
         'click .get_user_info': ->
             Meteor.call 'get_user_info', Router.current().params.username, ->
