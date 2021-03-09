@@ -3,12 +3,12 @@ if Meteor.isClient
     # @selected_user_roles = new ReactiveArray []
     
     
-    Router.route '/rusers', (->
-        @render 'rusers'
-        ), name:'rusers'
+    Router.route '/users', (->
+        @render 'users'
+        ), name:'users'
     
     # Template.term_image.onCreated ->
-    Template.rusers.onCreated ->
+    Template.users.onCreated ->
         Session.setDefault('selected_user_location',null)
         Session.setDefault('searching_location',null)
         Session.setDefault('rusers_sort_direction',-1)
@@ -26,7 +26,7 @@ if Meteor.isClient
             # Session.get('view_mode')
         )
     
-    Template.rusers.events
+    Template.users.events
         'click .select_user': ->
             window.speechSynthesis.cancel()
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
@@ -85,7 +85,7 @@ if Meteor.isClient
     
     
     
-    Template.rusers.helpers
+    Template.users.helpers
         current_username_query: -> Session.get('searching_username')
         users: ->
             match = {model:'ruser'}
@@ -119,7 +119,7 @@ if Meteor.isClient
     Template.ruser_small.events
         'click .add_tag': -> 
             picked_ruser_tags.push @valueOf()
-    Template.rusers.events
+    Template.users.events
         'click .select_ruser_tag': -> 
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             picked_ruser_tags.push @name
