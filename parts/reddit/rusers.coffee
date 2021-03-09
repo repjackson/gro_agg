@@ -35,24 +35,15 @@ if Meteor.isClient
             Session.set('searching_username',val)
     
     
-    Template.rusers.helpers
-        current_username_query: -> Session.get('searching_username')
-        users: ->
-            match = {model:'ruser'}
-            # unless 'admin' in Meteor.user().roles
-            #     match.site = $in:['member']
-            if picked_ruser_tags.array().length > 0 then match.tags = $all: picked_ruser_tags.array()
-            Docs.find match,
-                sort:"#{Session.get('rusers_sort_key')}":parseInt(Session.get('rusers_sort_direction'))
     
     
     Template.ruser_karma_sort_button.events
         'click .sort': ->
-            console.log @l
-            Session.set('rusers_sort_key', @l)
+            # console.log @l
+            Session.set('rusers_sort_key', @key)
     Template.ruser_karma_sort_button.helpers
         button_class: ->
-            if Session.equals('rusers_sort_key', @l) then 'active' else 'basic'
+            if Session.equals('rusers_sort_key', @key) then 'active' else 'basic'
         
     
     # Template.member_card.helpers
@@ -94,9 +85,16 @@ if Meteor.isClient
     
     
     
-    
-    
     Template.rusers.helpers
+        current_username_query: -> Session.get('searching_username')
+        users: ->
+            match = {model:'ruser'}
+            # unless 'admin' in Meteor.user().roles
+            #     match.site = $in:['member']
+            if picked_ruser_tags.array().length > 0 then match.tags = $all: picked_ruser_tags.array()
+            Docs.find match,
+                sort:"#{Session.get('rusers_sort_key')}":parseInt(Session.get('rusers_sort_direction'))
+
         all_ruser_tags: -> results.find(model:'ruser_tag')
         picked_ruser_tags: -> picked_ruser_tags.array()
         # all_site: ->
@@ -549,15 +547,6 @@ if Meteor.isServer
         sort_key
         sort_direction=-1
         )->
-        console.log sort_key
-        sort_key_final = switch sort_key
-            when 'total' then 'data.total_karma'
-            when 'link' then 'data.link_karma'
-            when 'comment' then 'data.comment_karma'
-            when 'joy' then 'rep_joy'
-            when 'fear' then 'rep_fear'
-            when 'sadness' then 'rep_sadness'
-            when 'disgust' then 'rep_disgust'
         match = {model:'ruser'}
         if username_query
             match.username = {$regex:"#{username_query}", $options: 'i'}
@@ -569,7 +558,7 @@ if Meteor.isServer
         Docs.find match,
             limit:20
             sort:
-                "#{sort_key_final}":sort_direction
+                "#{sort_key}":sort_direction
             fields:
                 "data.total_karma":1
                 "data.comment_karma":1

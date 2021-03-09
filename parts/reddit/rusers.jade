@@ -28,14 +28,14 @@ template(name='rusers')
             //                 .line
             //                 .line
         .twelve.wide.column.scrolling
-            +ruser_karma_sort_button l='total' i='yin yang' c=''
-            +ruser_karma_sort_button l='link' i='edit' c=''
-            +ruser_karma_sort_button l='comment' i='chat outline' c=''
-            +ruser_karma_sort_button l='joy' i='smile' c='green'
-            +ruser_karma_sort_button l='anger' i='' c='red'
-            +ruser_karma_sort_button l='sadness' i='' c='blue'
-            +ruser_karma_sort_button l='disgust' i='' c='orange'
-            +ruser_karma_sort_button l='fear' i='' c='grey'
+            +ruser_karma_sort_button l='total' i='yin yang' key='data.total_karma'
+            +ruser_karma_sort_button l='link' i='edit' key='data.link_karma'
+            +ruser_karma_sort_button l='comment' i='chat outline' key='data.comment_karma'
+            +ruser_karma_sort_button l='joy' i='smile' c='green' key='rep_joy'
+            +ruser_karma_sort_button l='anger' i='' c='red' key='rep_anger'
+            +ruser_karma_sort_button l='sadness' i='' c='blue' key='rep_sadness'
+            +ruser_karma_sort_button l='disgust' i='' c='orange' key='rep_disgust'
+            +ruser_karma_sort_button l='fear' i='' c='grey' key='rep_fear'
             .ui.left.icon.input(class="{{#if current_username_query}} focus {{/if}}")
                 if current_username_query
                     i.remove.link.icon.clear_username
