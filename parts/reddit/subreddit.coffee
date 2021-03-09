@@ -156,7 +156,7 @@ if Meteor.isClient
         sub_docs: ->
             Docs.find({
                 model:'rpost'
-                subreddit:Router.current().params.subreddit
+                "data.subreddit":Router.current().params.subreddit
             },
                 sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
                 limit:20)
@@ -172,9 +172,9 @@ if Meteor.isClient
                 
     
     
-    Template.sub_tag_selector.onCreated ->
+    Template.sub_tag_picker.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
-    Template.sub_tag_selector.helpers
+    Template.sub_tag_picker.helpers
         selector_class: ()->
             term = 
                 Docs.findOne 
@@ -193,7 +193,7 @@ if Meteor.isClient
                 title:@name.toLowerCase()
                 
                 
-    Template.sub_tag_selector.events
+    Template.sub_tag_picker.events
         'click .select_sub_tag': -> 
             # results.update
             # console.log @
@@ -208,9 +208,9 @@ if Meteor.isClient
             
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
-            Session.set('subs_loading',true)
-            Meteor.call 'search_subs', @name, ->
-                Session.set('subs_loading',false)
+            Session.set('loading',true)
+            Meteor.call 'search_subreddit', Router.current().params.subreddit, @name, ->
+                Session.set('loading',false)
             Meteor.setTimeout( ->
                 Session.set('toggle',!Session.get('toggle'))
             , 5000)
@@ -236,9 +236,9 @@ if Meteor.isClient
             # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         
     
-    Template.flat_sub_tag_selector.onCreated ->
+    Template.flat_sub_tag_picker.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
-    Template.flat_sub_tag_selector.helpers
+    Template.flat_sub_tag_picker.helpers
         selector_class: ()->
             term = 
                 Docs.findOne 
@@ -255,7 +255,7 @@ if Meteor.isClient
         term: ->
             Docs.findOne 
                 title:@valueOf().toLowerCase()
-    Template.flat_sub_tag_selector.events
+    Template.flat_sub_tag_picker.events
         'click .select_flat_tag': -> 
             # results.update
             # window.speechSynthesis.cancel()
@@ -268,7 +268,7 @@ if Meteor.isClient
                 Session.set('loading',false)
             Meteor.setTimeout( ->
                 Session.set('toggle',!Session.get('toggle'))
-            , 3000)
+            , 700)
     Template.flat_sub_ruser_tag_selector.events
         'click .select_flat_tag': -> 
             # results.update
@@ -283,7 +283,7 @@ if Meteor.isClient
                 Session.set('loading',false)
             Meteor.setTimeout( ->
                 Session.set('toggle',!Session.get('toggle'))
-            , 3000)
+            , 700)
     
 if Meteor.isServer
     Meteor.publish 'subreddit_by_param', (subreddit)->
@@ -293,6 +293,7 @@ if Meteor.isServer
     
     Meteor.publish 'sub_docs_by_name', (
         subreddit
+        picked_sub_tags
         picked_subreddit_domains
         picked_subreddit_time_tags
         picked_subreddit_authors
@@ -312,11 +313,36 @@ if Meteor.isServer
         # if view_unanswered
         #     match.is_answered = false
         # if picked_subreddit_domains.length > 0 then match.domain = $all:picked_subreddit_domains
+        if picked_sub_tags.length > 0 then match.tags = $all:picked_sub_tags
         # if picked_subreddit_time_tags.length > 0 then match.time_tags = $all:picked_subreddit_time_tags
         # if picked_subreddit_authors.length > 0 then match.authors = $all:picked_subreddit_authors
         Docs.find match,
             limit:20
             sort: "#{sk}":-1
+            fields:
+                title:1
+                tags:1
+                url:1
+                model:1
+                # data:1    
+                "watson.metadata.image":1
+                "data.domain":1
+                "data.permalink":1
+                "permalink":1
+                "data.title":1
+                "data.created":1
+                "data.subreddit":1
+                "data.url":1
+                time_tags:1
+                'data.num_comments':1
+                'data.author':1
+                'data.ups':1
+                "data.thumbnail":1
+                "data.media.oembed":1
+                analyzed_text:1
+                "data.url":1
+                permalink:1
+                "data.media":1
 
 
 

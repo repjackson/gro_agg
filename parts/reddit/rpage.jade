@@ -134,7 +134,7 @@ template(name='rpage')
                 .ui.small.inline.header #{data.num_crossposts} crossposts
                 |#{tags.length}
                 each tags
-                    +flat_sub_tag_selector
+                    +flat_sub_tag_picker
                 
                 
 template(name='rcomments_tab')                
@@ -161,7 +161,7 @@ template(name='rcomment')
             .pointer.inline.say(class=post_header_class)
                 |{{#markdown}} {{data.body}} {{/markdown}}
             each tags 
-                +flat_sub_tag_selector
+                +flat_sub_tag_picker
                 // .ui.tiny.basic.label #/{this}
             if in_dev
                 +print_this

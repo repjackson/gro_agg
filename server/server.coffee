@@ -112,7 +112,7 @@ Meteor.publish 'rposts', (
             tags:1
             url:1
             model:1
-            data:1    
+            # data:1    
             "watson.metadata.image":1
             "data.domain":1
             "data.permalink":1
