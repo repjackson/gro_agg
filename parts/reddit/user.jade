@@ -5,7 +5,7 @@ template(name='user')
         .ui.hidden.divider
         .ui.hidden.divider
         .ui.center.aligned.basic.segment.search
-            i.massive.grey.user.outline.loading.link.icon.get_user_info
+            i.massive.grey.user.outline.link.icon.get_user_info
             .ui.big.header
                 |#{current_username}...
         // .ui.massive.fluid.button.f17.zoomer.pointer.search 
@@ -44,13 +44,18 @@ template(name='user')
                     a.ui.circular.icon.basic.button(href="http://www.reddit.com/user/#{username}" target='_window' title="#{site} profile")
                         i.external.icon
                     +print_this
-                    +user_top_emotions     
-                .six.wide.column
-                    // each tags
-                    //     .ui.basic.label.search_tag #{this}
-                    +user_posts
-                .six.wide.column
-                    +user_comments
+                    +user_top_emotions   
+                .twelve.wide.column
+                    // .ui.fluid.two.item.menu
+                    //     .item posts
+                    //     .item comments
+                    .ui.grid
+                        .sixteen.wide.column
+                            // each tags
+                            //     .ui.basic.label.search_tag #{this}
+                            +user_posts
+                        .sixteen.wide.column
+                            +user_comments
                     
                     
 
@@ -62,7 +67,7 @@ template(name='user_posts')
     //     i.search.icon
     //     input.search_user_postreddit(type='text')
 
-    .ui.inline.header 
+    .ui.inline.dividing.header 
         i.edit.icon
         |#{user_posts.count}
         |posts
@@ -78,7 +83,7 @@ template(name='user_posts')
                     
 
 template(name='user_comments')                    
-    .ui.inline.header.get_user_comments
+    .ui.inline.dividing.header.get_user_comments
         i.chat.outline.icon
         |#{user_comments.count}
         |comments
@@ -139,7 +144,7 @@ template(name='user_post')
         a.ui.small.inline.header(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
             |#{data.ups}
             |#{data.link_title} #{data.title}
-        span.ui.small.inline.header(class=post_header_class)
+        a.ui.small.inline.header(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
             |!{data.body}
         a.ui.circular.basic.label(href="/r/#{data.subreddit}") #{data.subreddit}
         each seven_tags 

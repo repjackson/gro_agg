@@ -664,7 +664,7 @@ if Meteor.isServer
         # if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
         # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
         doc_count = Docs.find(match).count()
-        # console.log 'doc_count', doc_count
+        console.log 'doc_count', doc_count
         rpost_tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }

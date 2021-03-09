@@ -9,23 +9,23 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'user_doc', Router.current().params.username, ->
     Template.user_posts.onCreated ->
         @autorun => Meteor.subscribe 'user_posts', Router.current().params.username, 42, ->
+        @autorun => Meteor.subscribe 'user_result_tags',
+            'rpost'
+            Router.current().params.username
+            picked_sub_tags.array()
+            # selected_subreddit_domain.array()
+            Session.get('toggle')
+            , ->
     Template.user_comments.onCreated ->
         @autorun => Meteor.subscribe 'user_comments', Router.current().params.username, ->
+        @autorun => Meteor.subscribe 'user_result_tags',
+            'rcomment'
+            Router.current().params.username
+            picked_sub_tags.array()
+            # selected_subreddit_domain.array()
+            Session.get('toggle')
+            , ->
     Template.user_comments.onCreated ->
-        # @autorun => Meteor.subscribe 'user_result_tags',
-        #     'rpost'
-        #     Router.current().params.username
-        #     picked_sub_tags.array()
-        #     # selected_subreddit_domain.array()
-        #     Session.get('toggle')
-        # , ->
-        # @autorun => Meteor.subscribe 'user_result_tags',
-        #     'rcomment'
-        #     Router.current().params.username
-        #     picked_sub_tags.array()
-        #     # selected_subreddit_domain.array()
-        #     Session.get('toggle')
-        # , ->
 
     Template.user.onRendered ->
         # Meteor.setTimeout =>
@@ -100,7 +100,7 @@ if Meteor.isClient
  
     Template.user_comment.events
         'click .call_watson_comment': ->
-            console.log 'call', 
+            # console.log 'call', 
             Meteor.call 'call_watson', @_id,'data.body','comment',->
             
     Template.user_comment.onRendered ->
@@ -118,8 +118,6 @@ if Meteor.isClient
                 model:'user'
                 username:Router.current().params.username
         current_username: -> Router.current().params.username
-        user_post_tag_results: -> results.find(model:'rpost_result_tag')
-        user_comment_tag_results: -> results.find(model:'rcomment_result_tag')
     Template.user_posts.events
         'click .refresh_posts': ->
             $('body').toast(
@@ -166,12 +164,14 @@ if Meteor.isClient
                 sort:
                     _timestamp:-1
             }  
+        user_post_tag_results: -> results.find(model:'rpost_result_tag')
     Template.user_comments.helpers
         user_comment_docs: ->
             Docs.find
                 model:'rcomment'
                 author:Router.current().params.username
             , limit:42
+        user_comment_tag_results: -> results.find(model:'rcomment_result_tag')
     Template.user.events
         'click .get_user_info': ->
             Meteor.call 'get_user_info', Router.current().params.username, ->
@@ -201,8 +201,8 @@ if Meteor.isServer
             model:'rpost'
             author:username
         }
-        unless Meteor.isDevelopment
-            match.over_18 = false 
+        # unless Meteor.isDevelopment
+        match.over_18 = $ne:true 
         Docs.find match,{
             limit:limit
             sort:
@@ -340,7 +340,7 @@ if Meteor.isServer
                 url: url
                 headers: 
                     # 'accept-encoding': 'gzip'
-                    "User-Agent": "web:com.dao.af:v1.2.3 (by /u/dontlisten65)"
+                    "User-Agent": "web:com.dao.af:v1.2.3 (by /u/dao-af)"
                 gzip: true
             }
             rp(options)
