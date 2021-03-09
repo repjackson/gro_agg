@@ -28,13 +28,14 @@ if Meteor.isClient
     
     Template.users.events
         'click .select_user': ->
-            window.speechSynthesis.cancel()
+            # window.speechSynthesis.cancel()
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @display_name
         'keyup .search_username': (e,t)->
             val = $('.search_username').val()
             Session.set('searching_username',val)
     
-    
+            if e.which is 13
+                Meteor.call 'search_users', val, ->
     
     
     Template.ruser_karma_sort_button.events

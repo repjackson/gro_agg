@@ -62,7 +62,53 @@ Meteor.methods
                 )
    
 
+    search_users: (query)->
+        @unblock()
+        console.log 'searching', query
+        # res = HTTP.get("http://reddit.com/search.json?q=#{query}")
+        # if subreddit 
+        #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
+        # else
+        url = "http://reddit.com/users/search.json?q=#{query}&limit=10&include_facets=false&raw_json=1"
+        # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,res)=>
+        HTTP.get url,(err,res)=>
+            if res.data.data.dist > 1
+                _.each(res.data.data.children, (item)=>
+                    data = item.data
+                    console.log item 
+                    data = item.data
+                    len = 200
+                    # added_tags = [query]
+                    # added_tags = [query]
+                    # added_tags.push data.domain.toLowerCase()
+                    # added_tags.push data.subreddit.toLowerCase()
+                    # added_tags.push data.author.toLowerCase()
+                    # added_tags = _.flatten(added_tags)
+                    ruser = {}
+                    ruser.model = 'ruser'
+                    ruser.username = item.data.name
+                    ruser.data = data
+                    # ruser.rdata = res.data.data
+                    existing = Docs.findOne 
+                        model:'ruser'
+                        username:item.data.name
+                    # if existing
+                    #     # if Meteor.isDevelopment
+                    #     #     console.log 'existing', existing
+                    #     # if typeof(existing.tags) is 'string'
+                    #     #     Doc.update
+                    #     #         $unset: tags: 1
+                    #     Docs.update existing._id,
+                    #         $addToSet: tags: $each: added_tags
+                    #         $set:data:data
 
+                        # Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
+                    unless existing
+                        new_reddit_user_id = Docs.insert ruser
+                        # if Meteor.isDevelopment
+                        #     console.log 'new', new_reddit_post_id
+                        # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
+                    )
                 
 
 
