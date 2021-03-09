@@ -121,10 +121,10 @@ if Meteor.isClient
         'click .add_tag': -> 
             picked_user_tags.push @valueOf()
     Template.users.events
-        'click .select_user_tag': -> 
+        'click .pick_user_tag': -> 
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             picked_user_tags.push @name
-        'click .unselect_user_tag': -> picked_user_tags.remove @valueOf()
+        'click .unpick_user_tag': -> picked_user_tags.remove @valueOf()
         'click #clear_tags': -> picked_user_tags.clear()
     
         'click .clear_username': (e,t)-> 

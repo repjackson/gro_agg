@@ -9,6 +9,9 @@ img {
     margin: 1px !important;
 }
 
+.zoom_cursor {
+  cursor: zoom-in !important
+}
 
 body {
   /* font-family: 'Raleway', sans-serif !important; */

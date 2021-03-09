@@ -1,6 +1,8 @@
 Template.registerHelper 'unique_tags', () ->
-    _.difference(@tags, picked_tags.array())
-
+    diff = _.difference(@tags, picked_tags.array())
+    diff[..7]
+    
+    
 Template.registerHelper 'skv_is', (key,value) -> Session.equals(key,value)
 Template.registerHelper 'youtube_parse', (url) ->
     regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -80,10 +82,6 @@ Template.skve.events
     'click .set_session_v': ->
         Session.set(@k, @v)
 
-Template.card.onCreated ->
-    # console.log @data
-    # unless @watson
-    #     Meteor.call 'call_watson', @data._id, ->
     
 
 Template.registerHelper 'is_image', ()->
@@ -102,22 +100,6 @@ Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()
 
 
 
-
-Template.card.events
-    'click .goto_post': ->
-        l @
-        Router.go "/r/#{@data.subreddit}/post/#{@_id}"
-    'click .flat_tag_pick': -> 
-        picked_tags.push @valueOf()
-        Meteor.call 'search_reddit', picked_tags.array(), ->
-        url = new URL(window.location);
-        url.searchParams.set('tags', picked_tags.array());
-        window.history.pushState({}, '', url);
-        document.title = picked_tags.array()
-        Meteor.call 'call_alpha', picked_tags.array().toString(), ->
-        Meteor.setTimeout ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 7000
 
 
 

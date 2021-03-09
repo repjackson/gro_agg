@@ -28,12 +28,12 @@ template(name='rpage')
                         // .ui.fluid.embed
                         //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
                         iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                    else if is_image
+                        a.zoom_cursor(href=url target='_window')
+                            img.ui.fluid.rounded.image.zoomer.toggle_view(src=url)
                     else if embed
                         span.f11.full
                             |!{embed}
-                    else if is_image
-                        a(href=url target='_window')
-                    // img.ui.fluid.rounded.image.zoomer.toggle_view(src=url)
 
                     if data.link_url
                         img.ui.image.pointer.call_visual(src=data.link_url)

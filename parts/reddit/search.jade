@@ -139,7 +139,7 @@ template(name='card')
                     img.ui.inline.zoomer.fluid.image.zoomer(src=data.thumbnail)    
         .content
             // a.ui.inline.header.view_post.zoomer(href="" class=post_header_class target='_window')
-            a.ui.inline.header.goto_post.pointer(class=post_header_class title=domain)
+            a.ui.inline.small.header.goto_post.pointer(class=post_header_class title=domain)
                 |!{data.title} 
                 // span.inline.content
             |{{ufrom data.created_utc}}

@@ -14,7 +14,7 @@ template(name='user')
     with user_doc
         .ui.stackable.padded.grid
             .row
-                .three.wide.column
+                .four.wide.column
                     img.ui.image(src=data.snoovatar_img)
                     a.ui.circular.basic.icon.button(href="/users")
                         i.chevron.left.icon
@@ -45,7 +45,7 @@ template(name='user')
                         i.external.icon
                     +print_this
                     +user_top_emotions     
-                .thirteen.wide.column
+                .six.wide.column
                     each tags
                         .ui.basic.label.search_tag #{this}
                     if selected_user_post_tags
@@ -66,6 +66,7 @@ template(name='user')
                     .medscroll
                         each user_posts
                             +user_post
+                .six.wide.column
                     .ui.inline.header.get_user_comments
                         i.chat.outline.icon
                         |#{user_comments.count}
@@ -113,13 +114,13 @@ template(name='user_post')
             div
         else if data.is_reddit_media_domain
             a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.inline.rounded.zoomer.image.toggle_view(src=data.url)
+                img.ui.inline.small.zoomer.image.toggle_view(src=data.url)
         else if watson.metadata.image.length
             a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.rounded.inline.zoomer.image.toggle_view(src=watson.metadata.image)
+                img.ui.small.inline.zoomer.image.toggle_view(src=watson.metadata.image)
         else if has_thumbnail
             a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.rounded.inline.zoomer.image.zoomer(src=data.thumbnail)    
+                img.ui.small.inline.zoomer.image.zoomer(src=data.thumbnail)    
 
         // +skve k='view_preview' v='preview' l=' ' i='caret down'
         // if skv_is 'view_preview' 'preview'

@@ -163,3 +163,27 @@ if Meteor.isClient
             Meteor.setTimeout ->
                 Session.set('toggle', !Session.get('toggle'))
             , 7000    
+
+    
+    Template.card.onCreated ->
+        # console.log @data
+        unless @doc_sentiment_label
+            Meteor.call 'call_watson', @data._id, ->
+    
+    
+    
+    Template.card.events
+        'click .goto_post': ->
+            l @
+            Router.go "/r/#{@data.subreddit}/post/#{@_id}"
+        'click .flat_tag_pick': -> 
+            picked_tags.push @valueOf()
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+            url = new URL(window.location);
+            url.searchParams.set('tags', picked_tags.array());
+            window.history.pushState({}, '', url);
+            document.title = picked_tags.array()
+            Meteor.call 'call_alpha', picked_tags.array().toString(), ->
+            Meteor.setTimeout ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 7000
