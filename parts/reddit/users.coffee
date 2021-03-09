@@ -558,7 +558,7 @@ if Meteor.isServer
             match.username = {$regex:"#{username_query}", $options: 'i'}
         if picked_user_tags.length > 0 then match.tags = $all: picked_user_tags
         # unless Meteor.isDevelopment
-        match["data.subreddit.over_18"] = $ne:true 
+        # match["data.subreddit.over_18"] = $ne:true 
 
         # console.log sort_key_final
         Docs.find match,
@@ -605,7 +605,7 @@ if Meteor.isServer
         if picked_user_tags.length > 0 then match.tags = $all: picked_user_tags
         if username_query    
             match.username = {$regex:"#{username_query}", $options: 'i'}
-        match["data.subreddit.over_18"] = $ne:true 
+        # match["data.subreddit.over_18"] = $ne:true 
         # if location_query.length > 1 
         #     match.location = {$regex:"#{location_query}", $options: 'i'}
         # if selected_user_location then match.location = selected_user_location

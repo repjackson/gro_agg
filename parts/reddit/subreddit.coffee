@@ -235,7 +235,13 @@ if Meteor.isClient
             console.log @
             picked_sub_tags.remove @valueOf()
             # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
-        
+            Session.set('loading',true)
+            Meteor.call 'search_subreddit', Router.current().params.subreddit, picked_sub_tags.array(), ->
+                Session.set('loading',false)
+            Meteor.setTimeout( ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 5000)
+
     
     Template.flat_sub_tag_picker.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
@@ -558,34 +564,40 @@ if Meteor.isServer
                   
         search_subreddit: (subreddit,search)->
             @unblock()
-            HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&restrict_sr=1&raw_json=1&include_over_18=on&nsfw=1", (err,res)->
+            console.log 'searching', subreddit, search
+            HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&limit=10&restrict_sr=1&raw_json=1&include_over_18=off&nsfw=0", (err,res)->
                 if res.data.data.dist > 1
-                    for item in res.data.data.children[0..3]
+                    _.each(res.data.data.children[0..100], (item)=>
+                        # for item in res.data.data.children[0..3]
                         id = item.data.id
                         # Docs.insert d
                         # found = 
+                        added_tags = [search]
                         found = Docs.findOne({
                             model:'rpost',
                             "data.subreddit":item.data.subreddit
-                            # reddit_id:id
+                            reddit_id:id
                         })
-                        # continue
-                    # _.each(res.data.data.children[0..100], (item)=>
-                    #     id = item.data.id
-                    #     # if found
-                    #     #     Docs.update found._id, 
-                    #     #         $addToSet: tags: search
-                    #     #         $set:
-                    #     #             subreddit:item.data.subreddit
-                    #     # unless found
-                    #     #     item.model = 'rpost'
-                    #     #     item.reddit_id = item.data.id
-                    #     #     item.author = item.data.author
-                    #     #     item.subreddit = item.data.subreddit
-                    #     #     item.tags = [search]
-                    #     #     # item.rdata = item.data
-                    #     #     Docs.insert item
-                    # )
+                        #     # continue
+                        if found
+                            console.log 'found sub post', found.data.title
+                            Docs.update found._id, 
+                                $addToSet: tags: $each:added_tags
+                                $set:
+                                    subreddit:item.data.subreddit
+                        unless found
+                            added_tags = _.flatten(search)
+                            console.log 'adding sub post', item.data.title
+                            item.model = 'rpost'
+                            item.reddit_id = item.data.id
+                            item.author = item.data.author
+                            item.subreddit = item.data.subreddit
+                            item.tags = [search]
+                            # item.rdata = item.data
+                            Docs.insert item
+                    )
+                    
+                    
     Meteor.publish 'subreddit_result_tags', (
         subreddit
         picked_subreddit_domain

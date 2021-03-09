@@ -268,6 +268,6 @@ Meteor.publish 'user_doc', (username)->
         username:username
     }
     # unless Meteor.isDevelopment
-    match["data.subreddit.over_18"] = $ne:true 
+    # match["data.subreddit.over_18"] = $ne:true 
     Docs.find match
     
