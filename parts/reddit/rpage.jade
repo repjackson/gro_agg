@@ -113,7 +113,7 @@ template(name='rpage')
                 .spacer
                 i.large.audio.icon.read_me
                 // a.ui.basic.button(href="https://www.reddit.com/u/#{author}" target='_window')
-                a.ui.basic.button.goto_ruser(href="/ruser/#{data.author}")
+                a.ui.basic.button.goto_user(href="/user/#{data.author}")
                     i.user.outline.icon
                     |#{data.author}
                 +call_watson id=_id key='data.url' url=data.url mode='url'
@@ -155,7 +155,7 @@ template(name='rcomment')
     .ui.grid.call_watson_comment
         .sixteen.wide.column
             .ui.small.inline.header {{data.score}}
-            a.author.inline.say(href="/ruser/#{data.author}") #{data.author}
+            a.author.inline.say(href="/user/#{data.author}") #{data.author}
             span.metadata 
                 span.date {{ufrom data.created}}
                 +doc_emotion_small
@@ -171,7 +171,7 @@ template(name='rcomment')
                 each data.replies.data.children
                     .two.wide.column
                     .fourteen.wide.column
-                        a.inline.author(href="/ruser/#{data.author}") #{data.author}
+                        a.inline.author(href="/user/#{data.author}") #{data.author}
                         |{{#markdown}} {{data.body}} {{/markdown}}
             // if in_dev
             //     +print_this

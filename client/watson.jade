@@ -160,17 +160,17 @@ template(name='keywords')
 template(name='entities')
     .ui.grey.header 
         |#{watson.entities.length} entities
-    .ui.three.column.stackable.grid
+    .ui.four.column.stackable.grid
         each watson.entities
             .ui.column
-                .ui.small.grey.header #{type}
+                .ui.small.grey.inline.header #{type}
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
                 .spacer
                 .ui.list 
                     .item {{ to_percent relevance }}% relevant
                     .item {{ sentiment.label }} {{ to_percent sentiment.score }}%:
                     .item #{count} count
-                    .item {{ to_percent confidence}}% confident
+                    // .item {{ to_percent confidence}}% confident
                 .meta 
                     with disambiguation
                         // .ui.small.inline.header subtypes

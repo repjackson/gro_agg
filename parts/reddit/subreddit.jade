@@ -68,7 +68,7 @@ template(name='subreddit')
                 .scrolling
                     if sub_docs
                         if skv_is 'subreddit_view_layout' 'grid'
-                            .ui.stackable.three.cards 
+                            .ui.stackable.three.column.grid 
                                 each sub_docs
                                     +sub_post_card
                         else if skv_is 'subreddit_view_layout' 'list'
@@ -204,7 +204,7 @@ template(name='subreddit_newest')
        
    
 template(name='sub_post_card')
-    .ui.card.smallscroll
+    .ui.column.smallscroll
         // .ui.stackable.equal.width.compact.grid
         //     .row
         if embed
@@ -234,7 +234,7 @@ template(name='sub_post_card')
             i.clock.icon
             each time_tags
                 .ui.tiny.label #{this}
-            a.ui.label(href="/ruser/#{data.author}")
+            a.ui.label(href="/user/#{data.author}")
                 |#{data.author}
                 // span.inline.content
                 // span.inline.content
@@ -319,7 +319,7 @@ template(name='subreddit_doc_item')
                 +flat_sub_tag_picker
             if watson
                 +doc_emotion_small
-            a.ui.inline.header(href="/ruser/#{data.author}")
+            a.ui.inline.header(href="/user/#{data.author}")
                 |#{data.author}
     
 
@@ -352,7 +352,7 @@ template(name='flat_sub_tag_picker')
         strong #{this}
         // if in_dev
         //     small #{count}
-template(name='flat_sub_ruser_tag_selector')
+template(name='flat_sub_user_tag_selector')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
     .ui.basic.compact.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term

@@ -84,13 +84,13 @@ Meteor.methods
                     # added_tags.push data.subreddit.toLowerCase()
                     # added_tags.push data.author.toLowerCase()
                     # added_tags = _.flatten(added_tags)
-                    ruser = {}
-                    ruser.model = 'ruser'
-                    ruser.username = item.data.name
-                    ruser.data = data
-                    # ruser.rdata = res.data.data
+                    user = {}
+                    user.model = 'user'
+                    user.username = item.data.name
+                    user.data = data
+                    # user.rdata = res.data.data
                     existing = Docs.findOne 
-                        model:'ruser'
+                        model:'user'
                         username:item.data.name
                     # if existing
                     #     # if Meteor.isDevelopment
@@ -104,7 +104,7 @@ Meteor.methods
 
                         # Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
                     unless existing
-                        new_reddit_user_id = Docs.insert ruser
+                        new_reddit_user_id = Docs.insert user
                         # if Meteor.isDevelopment
                         #     console.log 'new', new_reddit_post_id
                         # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->

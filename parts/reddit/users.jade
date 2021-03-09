@@ -9,14 +9,14 @@ template(name='users')
             .ui.small.fluid.icon.input
                 i.search.icon
                 input.search_tags(type='text')
-            if selected_ruser_tags
+            if selected_user_tags
                 // #clear_tags.ui.grey.icon.compact.circular.button
                 //     i.remove.icon
-                each selected_ruser_tags
-                    .unselect_ruser_tag.ui.black.compact.circular.button
+                each selected_user_tags
+                    .unselect_user_tag.ui.black.compact.circular.button
                         strong !{this}
-            each all_ruser_tags
-                .ui.compact.circular.basic.small.button.select_ruser_tag(class=cloud_tag_class title=count) !{this.name}
+            each all_user_tags
+                .ui.circular.label.select_user_tag(class=cloud_tag_class title=count) !{this.name}
                     // small #{this.count}
             // unless all_tags.count
             //     .ui.basic.center.aligned.segment
@@ -28,14 +28,14 @@ template(name='users')
             //                 .line
         .twelve.wide.column.scrolling
             .ui.small.inline.header sort by
-            +ruser_karma_sort_button l='total' i='yin yang' key='data.total_karma'
-            +ruser_karma_sort_button l='link' i='edit' key='data.link_karma'
-            +ruser_karma_sort_button l='comment' i='chat outline' key='data.comment_karma'
-            +ruser_karma_sort_button l='joy' i='smile' c='green' key='rep_joy'
-            +ruser_karma_sort_button l='anger' i='' c='red' key='rep_anger'
-            +ruser_karma_sort_button l='sadness' i='' c='blue' key='rep_sadness'
-            +ruser_karma_sort_button l='disgust' i='' c='orange' key='rep_disgust'
-            +ruser_karma_sort_button l='fear' i='' c='grey' key='rep_fear'
+            +user_karma_sort_button l='total' i='yin yang' key='data.total_karma'
+            +user_karma_sort_button l='link' i='edit' key='data.link_karma'
+            +user_karma_sort_button l='comment' i='chat outline' key='data.comment_karma'
+            +user_karma_sort_button l='joy' i='smile' c='green' key='rep_joy'
+            +user_karma_sort_button l='anger' i='' c='red' key='rep_anger'
+            +user_karma_sort_button l='sadness' i='' c='blue' key='rep_sadness'
+            +user_karma_sort_button l='disgust' i='' c='orange' key='rep_disgust'
+            +user_karma_sort_button l='fear' i='' c='grey' key='rep_fear'
             .ui.left.icon.input(class="{{#if current_username_query}} focus {{/if}}")
                 if current_username_query
                     i.remove.link.icon.clear_username
@@ -49,6 +49,7 @@ template(name='users')
             //         i.marker.link.icon.clear_location
             //     input.search_location(type='text' placeholder='location' value=current_location_query)
             .spacer
+            .ui.hidden.divider
             .ui.stackable.centered.equal.width.grid.scrolling
                 unless users.count
                     .ui.basic.center.aligned.segment
@@ -61,14 +62,14 @@ template(name='users')
                                 .line
                                 .line
                 each users
-                    +ruser_small
+                    +user_small
                     
-template(name='ruser_small')
+template(name='user_small')
     .four.wide.column
-        a.select_user(href="/ruser/#{username}")
+        a.select_user(href="/user/#{username}")
             img.ui.circular.small.image.zoomer(src=data.snoovatar_img)
         .content
-            a.ui.zoomer.header.select_user(href="/ruser/#{username}" class=post_header_class)
+            a.ui.zoomer.header.select_user(href="/user/#{username}" class=post_header_class)
                 |!{username}
                 .ui.basic.circular.label(title='total karma')
                     i.grey.yin.yang.icon
@@ -94,7 +95,7 @@ template(name='ruser_small')
                     .ui.small.basic.label.add_tag #{this}
                 if user_top_emotion
                     .ui.inline.header #{user_top_emotion}
-                +ruser_top_emotion_small
+                +user_top_emotion_small
                 if data.subreddit.over_18
                     .ui.basic.red.label nsfw
                 // if user_top_emotions
@@ -104,14 +105,14 @@ template(name='ruser_small')
                 // if is_dev 
                 +print_this
      
-template(name='ruser_karma_sort_button')     
+template(name='user_karma_sort_button')     
     .ui.compact.button.sort(class="#{c} #{button_class}")
         if i 
             i.icon(class=i)
         |#{l} karma
             
             
-template(name='ruser_top_emotion_small')
+template(name='user_top_emotion_small')
     .ui.basic.label {{ to_percent avg_sent_score}} sentiment
     .ui.green.small.inline.header
         | {{ to_percent avg_joy_score}}% joy

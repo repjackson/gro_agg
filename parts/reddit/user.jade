@@ -1,5 +1,5 @@
-template(name='ruser')
-    unless ruser_doc
+template(name='user')
+    unless user_doc
         // .ui.header no user found
         .ui.hidden.divider
         .ui.hidden.divider
@@ -9,11 +9,14 @@ template(name='ruser')
         // .ui.massive.fluid.button.f17.zoomer.pointer.search 
         //     i.download.icon
             // |download user info
-    with ruser_doc
+    with user_doc
         .ui.stackable.padded.grid
             .row
                 .three.wide.column
                     img.ui.image(src=data.snoovatar_img)
+                    a.ui.circular.basic.icon.button(href="/users")
+                        i.chevron.left.icon
+                        i.large.users.icon
                     .ui.large.inline.header.get_user_posts(class=post_header_class)
                         |!{username} 
                         small(title='reputation') {{ commafy karma }}
@@ -39,44 +42,44 @@ template(name='ruser')
                         i.reddit.icon
                         i.external.icon
                     +print_this
-                    +ruser_top_emotions     
+                    +user_top_emotions     
                 .thirteen.wide.column
                     each tags
                         .ui.basic.label.search_tag #{this}
-                    if selected_ruser_post_tags
-                        each selected_ruser_post_tags
-                            +ruser_post_unselect_tag
+                    if selected_user_post_tags
+                        each selected_user_post_tags
+                            +user_post_unpick_tag
                     .ui.icon.input
                         i.search.icon
-                        input.search_ruser_postreddit(type='text')
+                        input.search_user_postreddit(type='text')
                 
                     .ui.inline.header 
                         i.edit.icon
-                        |#{ruser_posts.count}
+                        |#{user_posts.count}
                         |posts
-                    each ruser_post_tag_results
+                    each user_post_tag_results
                         // .ui.label #{this}
-                        // +ruser_post_selector
+                        // +user_post_selector
                         .ui.basic.small.label(title=count) #{name}
                     .medscroll
-                        each ruser_posts
-                            +ruser_post
+                        each user_posts
+                            +user_post
                     .ui.inline.header.get_user_comments
                         i.chat.outline.icon
-                        |#{ruser_comments.count}
+                        |#{user_comments.count}
                         |comments
-                    each ruser_comment_tag_results
+                    each user_comment_tag_results
                         // .ui.label #{this}
-                        // +ruser_post_selector
+                        // +user_post_selector
                         .ui.small.basic.label(title=count) #{name}
                     .medscroll
-                        each ruser_comments
-                            +ruser_comment
+                        each user_comments
+                            +user_comment
                             .ui.divider
                     
                     
                     
-template(name='ruser_top_emotions')
+template(name='user_top_emotions')
     .ui.basic.label {{ to_percent avg_sent_score}} sentiment
     .ui.green.basic.large.label
         | {{ to_percent avg_joy_score}}% joyful
@@ -100,7 +103,7 @@ template(name='ruser_top_emotions')
 
                     
                                 
-template(name='ruser_post')
+template(name='user_post')
     .ui.item
         if embed
             span.rounded.full
@@ -133,7 +136,7 @@ template(name='ruser_post')
                 +call_watson
     .ui.divider                 
                             
-template(name='ruser_doc_item')
+template(name='user_doc_item')
     .ui.item
         if is_image
             a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
@@ -172,7 +175,7 @@ template(name='ruser_doc_item')
     
     
     
-template(name='ruser_comment')                    
+template(name='user_comment')                    
     .call_watson_comment
         .ui.small.inline.header {{data.score}}
         span.metadata 

@@ -1,5 +1,5 @@
 if Meteor.isClient    
-    @picked_ruser_tags = new ReactiveArray []
+    @picked_user_tags = new ReactiveArray []
     # @selected_user_roles = new ReactiveArray []
     
     
@@ -11,16 +11,16 @@ if Meteor.isClient
     Template.users.onCreated ->
         Session.setDefault('selected_user_location',null)
         Session.setDefault('searching_location',null)
-        Session.setDefault('rusers_sort_direction',-1)
+        Session.setDefault('users_sort_direction',-1)
         
-        @autorun -> Meteor.subscribe 'selected_rusers', 
-            picked_ruser_tags.array() 
+        @autorun -> Meteor.subscribe 'selected_users', 
+            picked_user_tags.array() 
             Session.get('searching_username')
             Session.get('limit')
-            Session.get('rusers_sort_key')
-            Session.get('rusers_sort_direction')
-        @autorun -> Meteor.subscribe('ruser_tags',
-            picked_ruser_tags.array()
+            Session.get('users_sort_key')
+            Session.get('users_sort_direction')
+        @autorun -> Meteor.subscribe('user_tags',
+            picked_user_tags.array()
             Session.get('username_query')
             # selected_user_roles.array()
             # Session.get('view_mode')
@@ -38,13 +38,13 @@ if Meteor.isClient
                 Meteor.call 'search_users', val, ->
     
     
-    Template.ruser_karma_sort_button.events
+    Template.user_karma_sort_button.events
         'click .sort': ->
             # console.log @l
-            Session.set('rusers_sort_key', @key)
-    Template.ruser_karma_sort_button.helpers
+            Session.set('users_sort_key', @key)
+    Template.user_karma_sort_button.helpers
         button_class: ->
-            if Session.equals('rusers_sort_key', @key) then 'active' else 'basic'
+            if Session.equals('users_sort_key', @key) then 'active' else 'basic'
         
     
     # Template.member_card.helpers
@@ -89,15 +89,15 @@ if Meteor.isClient
     Template.users.helpers
         current_username_query: -> Session.get('searching_username')
         users: ->
-            match = {model:'ruser'}
+            match = {model:'user'}
             # unless 'admin' in Meteor.user().roles
             #     match.site = $in:['member']
-            if picked_ruser_tags.array().length > 0 then match.tags = $all: picked_ruser_tags.array()
+            if picked_user_tags.array().length > 0 then match.tags = $all: picked_user_tags.array()
             Docs.find match,
-                sort:"#{Session.get('rusers_sort_key')}":parseInt(Session.get('rusers_sort_direction'))
+                sort:"#{Session.get('users_sort_key')}":parseInt(Session.get('users_sort_direction'))
 
-        all_ruser_tags: -> results.find(model:'ruser_tag')
-        picked_ruser_tags: -> picked_ruser_tags.array()
+        all_user_tags: -> results.find(model:'user_tag')
+        picked_user_tags: -> picked_user_tags.array()
         # all_site: ->
         #     user_count = Meteor.users.find(_id:$ne:Meteor.userId()).count()
         #     if 0 < user_count < 3 then site.find { count: $lt: user_count } else sites.find()
@@ -117,15 +117,15 @@ if Meteor.isClient
     
     
             
-    Template.ruser_small.events
+    Template.user_small.events
         'click .add_tag': -> 
-            picked_ruser_tags.push @valueOf()
+            picked_user_tags.push @valueOf()
     Template.users.events
-        'click .select_ruser_tag': -> 
+        'click .select_user_tag': -> 
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-            picked_ruser_tags.push @name
-        'click .unselect_ruser_tag': -> picked_ruser_tags.remove @valueOf()
-        'click #clear_tags': -> picked_ruser_tags.clear()
+            picked_user_tags.push @name
+        'click .unselect_user_tag': -> picked_user_tags.remove @valueOf()
+        'click #clear_tags': -> picked_user_tags.clear()
     
         'click .clear_username': (e,t)-> 
             # window.speechSynthesis.speak new SpeechSynthesisUtterance "clear username"
@@ -139,7 +139,7 @@ if Meteor.isClient
                 if search.length > 0
                     # window.speechSynthesis.cancel()
                     # window.speechSynthesis.speak new SpeechSynthesisUtterance search
-                    picked_ruser_tags.push search
+                    picked_user_tags.push search
                     $('.search_tags').val('')
     
                     # Meteor.call 'search_stack', Router.current().params.site, search, ->
@@ -159,7 +159,7 @@ if Meteor.isClient
                     #     Session.set('thinking',false)
 if Meteor.isServer
     Meteor.methods
-        ruser_omega: (username)->
+        user_omega: (username)->
             console.log 'calling', username
             # @unblock()
             # agg_res = Meteor.call 'agg_omega2', (err, res)->
@@ -170,25 +170,25 @@ if Meteor.isServer
             #     )
             user_doc =
                 Docs.findOne(
-                    model:'ruser'
+                    model:'user'
                     username:username
                 )
             
             if user_doc
-                # ruser_sent_avg = Meteor.call 'ruser_sent_avg', username
-                # if ruser_sent_avg[0]
-                #     sentiment_avg = ruser_sent_avg[0].avg_sent_score
+                # user_sent_avg = Meteor.call 'user_sent_avg', username
+                # if user_sent_avg[0]
+                #     sentiment_avg = user_sent_avg[0].avg_sent_score
                 # else
                 #     sentiment_avg = 0
     
                 
-                user_top_emotions = Meteor.call 'calc_ruser_top_emotions', username
+                user_top_emotions = Meteor.call 'calc_user_top_emotions', username
                 if user_top_emotions[0]
                     user_top_emotion = user_top_emotions[0].title
                 
                 
-                agg_res = Meteor.call 'ruser_emotions', username
-                user_tag_res = Meteor.call 'calc_ruser_tags', username
+                agg_res = Meteor.call 'user_emotions', username
+                user_tag_res = Meteor.call 'calc_user_tags', username
                 if user_tag_res
                     added_tags = []
                     for tag in user_tag_res
@@ -221,8 +221,8 @@ if Meteor.isServer
                             avg_disgust_score: user_top_emotions[0].avg_disgust_score
                             avg_fear_score: user_top_emotions[0].avg_fear_score
     
-                            # sentiment_positive_avg: ruser_sent_avg[0].avg_sent_score
-                            # sentiment_negative_avg: ruser_sent_avg[1].avg_sent_score
+                            # sentiment_positive_avg: user_sent_avg[0].avg_sent_score
+                            # sentiment_negative_avg: user_sent_avg[1].avg_sent_score
                             tags:added_tags
                 # omega = Docs.findOne model:'omega_session'
                 # doc_count = omega.total_doc_result_count
@@ -250,7 +250,7 @@ if Meteor.isServer
                 #         filtered_agg_res:filtered_agg_res
         
         
-        ruser_emotions: (username)->
+        user_emotions: (username)->
             # site_doc =
             #     Docs.findOne(
             #         model:'stack_site'
@@ -258,7 +258,7 @@ if Meteor.isServer
             #     )
             user_doc =
                 Docs.findOne(
-                    model:'ruser'
+                    model:'user'
                     username:username
                 )
             
@@ -310,10 +310,10 @@ if Meteor.isServer
             else
                 return null
                 
-        calc_ruser_tags: (username)->
+        calc_user_tags: (username)->
             user_doc =
                 Docs.findOne(
-                    model:'ruser'
+                    model:'user'
                     username:username
                 )
             
@@ -366,10 +366,10 @@ if Meteor.isServer
                 return null
     
                 
-        ruser_sent_avg: (username)->
+        user_sent_avg: (username)->
             user_doc =
                 Docs.findOne(
-                    model:'ruser'
+                    model:'user'
                     username:username
                 )
             
@@ -416,10 +416,10 @@ if Meteor.isServer
             else
                 return null
     
-        calc_ruser_top_emotions: (username)->
+        calc_user_top_emotions: (username)->
             user_doc =
                 Docs.findOne(
-                    model:'ruser'
+                    model:'user'
                     username:username
                 )
             
@@ -488,8 +488,9 @@ if Meteor.isServer
                 return null
     
     
-        rank_ruser: (username)->
+        rank_user: (username)->
             @unblock()
+            console.log 'ranking user', username
             # agg_res = Meteor.call 'agg_omega2', (err, res)->
             # site_doc =
             #     Docs.findOne(
@@ -498,20 +499,20 @@ if Meteor.isServer
             #     )
             user_doc =
                 Docs.findOne(
-                    model:'ruser'
+                    model:'user'
                     username:username
                 )
             
             if user_doc
                 # site_rank = 
                 #     Docs.find(
-                #         model:'ruser'
+                #         model:'user'
                 #         site:site
                 #         data.total_karma:$gt:user_doc.data.total_karma
                 #     ).count()
                 global_rank = 
                     Docs.find(
-                        model:'ruser'
+                        model:'user'
                         "data.total_karma":$gt:user_doc.data.total_karma
                     ).count()
                 Docs.update user_doc._id,
@@ -523,13 +524,13 @@ if Meteor.isServer
                     # console.log 'emotion', emotion
                     # site_emo_rep_rank = 
                     #     Docs.find(
-                    #         model:'ruser'
+                    #         model:'user'
                     #         site:site
                     #         "rep_#{emotion}":$gt:user_doc["rep_#{emotion}"]
                     #     ).count()
                     global_emo_rep_rank = 
                         Docs.find(
-                            model:'ruser'
+                            model:'user'
                             "rep_#{emotion}":$gt:user_doc["rep_#{emotion}"]
                         ).count()
                     Docs.update({_id:user_doc._id},
@@ -541,23 +542,23 @@ if Meteor.isServer
     
     
     
-    Meteor.publish 'selected_rusers', (
-        picked_ruser_tags
+    Meteor.publish 'selected_users', (
+        picked_user_tags
         username_query
         limit=1
         sort_key
         sort_direction=-1
         )->
-        match = {model:'ruser'}
+        match = {model:'user'}
         if username_query
             match.username = {$regex:"#{username_query}", $options: 'i'}
-        if picked_ruser_tags.length > 0 then match.tags = $all: picked_ruser_tags
+        if picked_user_tags.length > 0 then match.tags = $all: picked_user_tags
         # unless Meteor.isDevelopment
         match["data.subreddit.over_18"] = $ne:true 
 
         # console.log sort_key_final
         Docs.find match,
-            limit:20
+            limit:42
             sort:
                 "#{sort_key}":sort_direction
             fields:
@@ -589,15 +590,15 @@ if Meteor.isServer
     
     
     
-    Meteor.publish 'ruser_tags', (
-        picked_ruser_tags
+    Meteor.publish 'user_tags', (
+        picked_user_tags
         username_query
         # view_mode
         # limit
     )->
         self = @
-        match = {model:'ruser'}
-        if picked_ruser_tags.length > 0 then match.tags = $all: picked_ruser_tags
+        match = {model:'user'}
+        if picked_user_tags.length > 0 then match.tags = $all: picked_user_tags
         if username_query    
             match.username = {$regex:"#{username_query}", $options: 'i'}
         match["data.subreddit.over_18"] = $ne:true 
@@ -618,7 +619,7 @@ if Meteor.isServer
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
-            { $match: _id: $nin: picked_ruser_tags }
+            { $match: _id: $nin: picked_user_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit: 33 }
@@ -628,7 +629,7 @@ if Meteor.isServer
             self.added 'results', Random.id(),
                 name: user_tag.name
                 count: user_tag.count
-                model:'ruser_tag'
+                model:'user_tag'
                 index: i
     
     
@@ -636,7 +637,7 @@ if Meteor.isServer
     
     
     
-    Meteor.publish 'ruser_result_tags', (
+    Meteor.publish 'user_result_tags', (
         model='rpost'
         username
         picked_stags

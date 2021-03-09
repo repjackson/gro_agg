@@ -8,6 +8,9 @@ if Meteor.isClient
         Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
         Meteor.call 'get_reddit_post', Router.current().params.doc_id, ->
         Meteor.call 'call_watson',Router.current().params.doc_id,'url','url',=>
+        doc = Docs.findOne Router.current().params.doc_id
+        if doc
+            Meteor.call 'get_user_info', doc.data.author, ->
 
     Template.rpage.helpers
         rpost_comments: ->
@@ -82,7 +85,7 @@ if Meteor.isClient
         # 'click .call_meta': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'meta', ->
         # 'click .call_thumbnail': -> Meteor.call 'call_visual', Router.current().params.doc_id, 'thumb', ->
 
-        'click .goto_ruser': ->
+        'click .goto_user': ->
             doc = Docs.findOne Router.current().params.doc_id
             Meteor.call 'get_user_info', doc.data.author, ->
         'click .get_post': ->

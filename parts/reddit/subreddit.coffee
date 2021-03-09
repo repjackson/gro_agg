@@ -269,7 +269,7 @@ if Meteor.isClient
             Meteor.setTimeout( ->
                 Session.set('toggle',!Session.get('toggle'))
             , 700)
-    Template.flat_sub_ruser_tag_selector.events
+    Template.flat_sub_user_tag_selector.events
         'click .select_flat_tag': -> 
             # results.update
             # window.speechSynthesis.cancel()
@@ -343,6 +343,19 @@ if Meteor.isServer
                 "data.url":1
                 permalink:1
                 "data.media":1
+                doc_sentiment_score:1
+                doc_sentiment_label:1
+                joy_percent:1
+                sadness_percent:1
+                fear_percent:1
+                disgust_percent:1
+                anger_percent:1
+                "watson.metadata":1
+                "data.thumbnail":1
+                "data.url":1
+                max_emotion_name:1
+                max_emotion_percent:1
+                
 
 
 
@@ -513,34 +526,34 @@ if Meteor.isServer
                         Docs.insert item
                 )
                 
-        get_sub_info: (subreddit)->
-            @unblock()
-            console.log 'getting info', subreddit
-            # if subreddit 
-            #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
-            # else
-            url = "https://www.reddit.com/r/#{subreddit}/about.json?&raw_json=1"
-            HTTP.get url,(err,res)=>
-                # console.log res.data.data
-                if res.data.data
-                    existing = Docs.findOne 
-                        model:'subreddit'
-                        "data.display_name":subreddit
-                    if existing
-                        # console.log 'existing', existing
-                        # if Meteor.isDevelopment
-                        # if typeof(existing.tags) is 'string'
-                        #     Doc.update
-                        #         $unset: tags: 1
-                        Docs.update existing._id,
-                            $set: data:res.data.data
-                    unless existing
-                        # console.log 'new sub', subreddit
-                        sub = {}
-                        sub.model = 'subreddit'
-                        sub.name = subreddit
-                        sub.data = res.data.data
-                        new_reddit_post_id = Docs.insert sub
+        # get_sub_info: (subreddit)->
+        #     @unblock()
+        #     console.log 'getting info', subreddit
+        #     # if subreddit 
+        #     #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
+        #     # else
+        #     url = "https://www.reddit.com/r/#{subreddit}/about.json?&raw_json=1"
+        #     HTTP.get url,(err,res)=>
+        #         # console.log res.data.data
+        #         if res.data.data
+        #             existing = Docs.findOne 
+        #                 model:'subreddit'
+        #                 "data.display_name":subreddit
+        #             if existing
+        #                 # console.log 'existing', existing
+        #                 # if Meteor.isDevelopment
+        #                 # if typeof(existing.tags) is 'string'
+        #                 #     Doc.update
+        #                 #         $unset: tags: 1
+        #                 Docs.update existing._id,
+        #                     $set: data:res.data.data
+        #             unless existing
+        #                 # console.log 'new sub', subreddit
+        #                 sub = {}
+        #                 sub.model = 'subreddit'
+        #                 sub.name = subreddit
+        #                 sub.data = res.data.data
+        #                 new_reddit_post_id = Docs.insert sub
                   
         search_subreddit: (subreddit,search)->
             @unblock()

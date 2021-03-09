@@ -115,7 +115,7 @@ if Meteor.isServer
     
     
     # Meteor.publish 'selected_susers', (
-    #     selected_ruser_tags
+    #     selected_user_tags
     #     username_query
     #     limit=1
     #     sort_key
@@ -133,7 +133,7 @@ if Meteor.isServer
     #     match = {model:'stackuser'}
     #     if username_query
     #         match.username = {$regex:"#{username_query}", $options: 'i'}
-    #     if selected_ruser_tags.length > 0 then match.tags = $all: selected_ruser_tags
+    #     if selected_user_tags.length > 0 then match.tags = $all: selected_user_tags
         
     #     console.log sort_key_final
     #     Docs.find match,

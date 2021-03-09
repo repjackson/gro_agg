@@ -42,6 +42,15 @@ template(name='home')
                         // .ui.label #{this}
                         +tag_picker
                         // .ui.label(title=count) #{name}
+                    +user_karma_sort_button l='total' i='yin yang' key='data.total_karma'
+                    +user_karma_sort_button l='link' i='edit' key='data.link_karma'
+                    +user_karma_sort_button l='comment' i='chat outline' key='data.comment_karma'
+                    +user_karma_sort_button l='joy' i='smile' c='green' key='rep_joy'
+                    +user_karma_sort_button l='anger' i='' c='red' key='rep_anger'
+                    +user_karma_sort_button l='sadness' i='' c='blue' key='rep_sadness'
+                    +user_karma_sort_button l='disgust' i='' c='orange' key='rep_disgust'
+                    +user_karma_sort_button l='fear' i='' c='grey' key='rep_fear'
+                        
         .row
             .ui.four.wide.column
                 +alpha
@@ -117,7 +126,7 @@ template(name='print_this')
     i.code.icon.print
    
 template(name='unpick_tag')
-    a.unpick.ui.black.image.large.label(href='#')
+    a.unpick.ui.black.image.large.label
         if term
             if term.watson.metadata.image
                 img.ui.compact.image.superzoom(src=term.watson.metadata.image)    

@@ -159,9 +159,9 @@ Meteor.methods
                 if err
                     # console.log 'watson error for', params.url
                     # console.log err
-                    if err.code is 400
+                    # if err.code is 400
                         # console.log 'crawl rejected by server', err
-                        console.log 'crawl rejected by server', err
+                        # console.log 'crawl rejected by server', err
                     unless err.code is 403
                         Docs.update doc_id,
                             $set:skip_watson:false
