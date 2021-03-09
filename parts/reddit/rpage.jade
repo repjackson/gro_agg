@@ -37,10 +37,15 @@ template(name='rpage')
                     if data.selftext
                         // .ui.segment
                         .f12.say
+                            // .ui.header nl2br data selftext
                             |{{#markdown}} {{data.selftext}} {{/markdown}}
+                            // .ui.header nl2br data selftext
+                            // |#{inner}
+                            // |{{#markdown}} {{inner}} {{/markdown}}
                     else if data.body
                         div
                         .f12.say
+                            .ui.header nl2br data body
                             |{{nl2br data.body}}
                     else if data.body_html
                         div
@@ -56,7 +61,8 @@ template(name='rpage')
                     //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)
                     // .rounded
                     //     |!{embed}
-                +skve k='view_section' v='main' l='main' i='content'
+                +skve k='view_section' v='comments' l='comments' i='chat'
+                // +skve k='view_section' v='main' l='main' i='content'
                 // +skve k='view_section' v='comments' l='comments' i='comment'
                 +skve k='view_section' v='watson' l='emotion' i='dna'
                 // if tone
@@ -64,7 +70,6 @@ template(name='rpage')
                 // +skve k='view_section' v='tags' l='tags' i='tags'
                 +skve k='view_section' v='related' l='related' i='fork'
                 +skve k='view_section' v='preview' l='preview' i='content'
-                +skve k='view_section' v='comments' l='comments' i='chat'
                 if skv_is 'view_section' 'watson'
                     .scrolling
                         +watson_view

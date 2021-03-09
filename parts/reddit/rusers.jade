@@ -18,7 +18,6 @@ template(name='users')
             each all_ruser_tags
                 .ui.compact.circular.basic.small.button.select_ruser_tag(class=cloud_tag_class title=count) !{this.name}
                     // small #{this.count}
-            .ui.small.header sort by
             // unless all_tags.count
             //     .ui.basic.center.aligned.segment
             //         .ui.placeholder 
@@ -28,6 +27,7 @@ template(name='users')
             //                 .line
             //                 .line
         .twelve.wide.column.scrolling
+            .ui.small.inline.header sort by
             +ruser_karma_sort_button l='total' i='yin yang' key='data.total_karma'
             +ruser_karma_sort_button l='link' i='edit' key='data.link_karma'
             +ruser_karma_sort_button l='comment' i='chat outline' key='data.comment_karma'
@@ -90,7 +90,7 @@ template(name='ruser_small')
                 // .ui.circular.compact.basic.button.set_location
                 //     i.grey.marker.icon
                 //     |!{location}
-                each ten_tags
+                each five_tags
                     .ui.small.basic.label.add_tag #{this}
                 if user_top_emotion
                     .ui.inline.header #{user_top_emotion}
@@ -113,23 +113,23 @@ template(name='ruser_karma_sort_button')
             
 template(name='ruser_top_emotion_small')
     .ui.basic.label {{ to_percent avg_sent_score}} sentiment
-    .ui.green.small.basic.label
+    .ui.green.small.inline.header
         | {{ to_percent avg_joy_score}}% joy
         | {{fixed0 rep_joy}} ##{global_joy_rep_rank}
 
-    .ui.blue.small.basic.label
+    .ui.blue.small.inline.header
         |{{fixed0 rep_sadness}} sad
         | {{ to_percent avg_sadness_score}}% ##{global_sadness_rep_rank}
 
-    .ui.red.small.basic.label 
+    .ui.red.small.inline.header 
         | {{ to_percent avg_anger_score}}% anger
         | {{fixed0 rep_anger}} rep ##{global_anger_rep_rank}
 
-    .ui.orange.small.basic.label
+    .ui.orange.small.inline.header
         |{{fixed0 rep_disgust}} disgust
         | {{ to_percent avg_disgust_score}}% ##{global_disgust_rep_rank}
 
-    .ui.grey.small.basic.label
+    .ui.grey.small.inline.header
         |{{fixed0 rep_fear}} fear
         | {{ to_percent avg_fear_score}}% ##{global_fear_rep_rank}
                 

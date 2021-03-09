@@ -119,7 +119,7 @@ template(name='ruser_post')
         a.ui.small.inline.header(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
             |#{data.ups}
             |#{data.link_title} #{data.title}
-        a.ui.label(href="/r/#{data.subreddit}") #{subreddit}
+        a.ui.label(href="/r/#{data.subreddit}") #{data.subreddit}
         each five_tags 
             .ui.small.basic.label #{this}
         +doc_emotion_small        
