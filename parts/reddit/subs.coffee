@@ -266,7 +266,7 @@ if Meteor.isServer
         if picked_subtags.length > 0
             limit=10
         else 
-            limit=50
+            limit=25
         doc_count = Docs.find(match).count()
         # console.log 'doc_count', doc_count
         tag_cloud = Docs.aggregate [

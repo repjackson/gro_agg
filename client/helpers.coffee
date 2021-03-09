@@ -111,6 +111,11 @@ Template.registerHelper 'post_header_class', () ->
         else if @max_emotion_name is 'anger' then 'red'
         else if @max_emotion_name is 'joy' then 'green'
         else if @max_emotion_name is 'disgust' then 'orange'
+    else if @doc_sentiment_label is 'positive'
+        'green'
+    else if @doc_sentiment_label is 'negative'
+        'red'
+    
 
 
 

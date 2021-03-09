@@ -33,10 +33,10 @@ if Meteor.isClient
             )
             Meteor.call 'get_user_info', Router.current().params.username, ->
                 $('body').toast(
-                    message: 'user info done'
+                    message: 'info retrieved'
                     showIcon: 'user'
                     showProgress: 'bottom'
-                    class: 'success'
+                    class: 'info'
                     displayTime: 'auto',
                 )
                 Session.set('thinking',false)
@@ -55,9 +55,53 @@ if Meteor.isClient
                 )
                 Session.set('thinking',false)
 
+          
+            $('body').toast(
+                showIcon: 'edit'
+                message: 'getting user posts'
+                displayTime: 'auto',
+            )
             Meteor.call 'get_user_posts', Router.current().params.username, ->
+                $('body').toast(
+                    message: 'posts downloaded'
+                    showIcon: 'user'
+                    showProgress: 'bottom'
+                    class: 'success'
+                    displayTime: 'auto',
+                )
+                Session.set('thinking',false)
+          
+          
+            $('body').toast(
+                showIcon: 'dna'
+                message: 'calculating stats'
+                displayTime: 'auto',
+            )
             Meteor.call 'user_omega', Router.current().params.username, ->
+                $('body').toast(
+                    message: 'stats calculated'
+                    showIcon: 'dna'
+                    showProgress: 'bottom'
+                    class: 'success'
+                    displayTime: 'auto',
+                )
+                Session.set('thinking',false)
+           
+           
+            $('body').toast(
+                showIcon: 'line chart'
+                message: 'ranking user'
+                displayTime: 'auto',
+            )
             Meteor.call 'rank_user', Router.current().params.username, ->
+                $('body').toast(
+                    message: 'user ranked'
+                    showIcon: 'line chart'
+                    showProgress: 'bottom'
+                    class: 'success'
+                    displayTime: 'auto',
+                )
+                Session.set('thinking',false)
         , 3000
 
     Template.user_doc_item.onRendered ->
@@ -98,7 +142,7 @@ if Meteor.isClient
                 model:'rcomment'
                 author:Router.current().params.username
             , limit:42
-
+        current_username: -> Router.current().params.username
         user_post_tag_results: -> results.find(model:'rpost_result_tag')
         user_comment_tag_results: -> results.find(model:'rcomment_result_tag')
     Template.user.events

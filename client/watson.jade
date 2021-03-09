@@ -64,16 +64,13 @@ template(name='doc_emotion')
 
 template(name='doc_emotion_small') 
     if kv_is 'doc_sentiment_label' 'positive'
-        span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label}
+        span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%
+        i.large.green.plus.icon
             |&nbsp;
     else if kv_is 'doc_sentiment_label' 'negative'
-        span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  #{doc_sentiment_label} 
+        span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%
+        i.large.minus.red.icon
             |&nbsp;
-    else if kv_is 'doc_sentiment_label' 'negative'
-        // span.say.ui.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label} 
-        span.say.ui.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label}
-            |&nbsp;
-
     //- if above_50 'joy_percent'
         //- .spacer
     span.say.ui.green.text(class="{{calculated_size joy_percent}}") {{ to_percent joy_percent }}

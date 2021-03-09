@@ -17,7 +17,9 @@ Template.print_this.events
     'click .print': ->
         console.log @
    
-   
+Template.registerHelper 'thinking_class', ()->
+    if Session.get('thinking') then 'disabled' else ''
+
 Template.registerHelper 'embed', ()->
     if @data and @data.media and @data.media.oembed and @data.media.oembed.html
         dom = document.createElement('textarea')

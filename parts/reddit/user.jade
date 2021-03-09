@@ -6,6 +6,8 @@ template(name='user')
         .ui.hidden.divider
         .ui.center.aligned.basic.segment.search
             i.massive.grey.yin.yang.loading.link.icon.get_user_info
+            .ui.big.header
+                |#{current_username}...
         // .ui.massive.fluid.button.f17.zoomer.pointer.search 
         //     i.download.icon
             // |download user info
@@ -124,16 +126,17 @@ template(name='user_post')
         a.ui.small.inline.header(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
             |#{data.ups}
             |#{data.link_title} #{data.title}
-        a.ui.label(href="/r/#{data.subreddit}") #{data.subreddit}
-        |#{data.body}
-        each five_tags 
+        span.ui.small.inline.header(class=post_header_class)
+            |!{data.body}
+        a.ui.circular.basic.label(href="/r/#{data.subreddit}") #{data.subreddit}
+        each seven_tags 
             .ui.small.basic.label #{this}
         +doc_emotion_small        
         .ui.label {{ufrom data.created}}
         if in_dev
             +print_this
-            unless doc_sentiment_label
-                +call_watson
+            // unless doc_sentiment_label
+            //     +call_watson
     .ui.divider                 
                             
 template(name='user_doc_item')
