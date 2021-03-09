@@ -6,30 +6,59 @@ if Meteor.isClient
 
    
     Template.user.onCreated ->
-        @autorun => Meteor.subscribe 'user_doc', Router.current().params.username
-        @autorun => Meteor.subscribe 'user_posts', Router.current().params.username, 42
-        @autorun => Meteor.subscribe 'user_comments', Router.current().params.username
+        @autorun => Meteor.subscribe 'user_doc', Router.current().params.username, ->
+        @autorun => Meteor.subscribe 'user_posts', Router.current().params.username, 42, ->
+        @autorun => Meteor.subscribe 'user_comments', Router.current().params.username, ->
         @autorun => Meteor.subscribe 'user_result_tags',
             'rpost'
             Router.current().params.username
             picked_sub_tags.array()
             # selected_subreddit_domain.array()
             Session.get('toggle')
+        , ->
         @autorun => Meteor.subscribe 'user_result_tags',
             'rcomment'
             Router.current().params.username
             picked_sub_tags.array()
             # selected_subreddit_domain.array()
             Session.get('toggle')
+        , ->
 
     Template.user.onRendered ->
-        Meteor.call 'get_user_comments', Router.current().params.username, ->
-        # Meteor.setTimeout =>
-        Meteor.call 'get_user_info', Router.current().params.username, ->
-        # , 2000
-        Meteor.call 'get_user_posts', Router.current().params.username, ->
-        Meteor.call 'user_omega', Router.current().params.username, ->
-        Meteor.call 'rank_user', Router.current().params.username, ->
+        Meteor.setTimeout =>
+            $('body').toast(
+                showIcon: 'user'
+                message: 'getting user info'
+                displayTime: 'auto',
+            )
+            Meteor.call 'get_user_info', Router.current().params.username, ->
+                $('body').toast(
+                    message: 'user info done'
+                    showIcon: 'user'
+                    showProgress: 'bottom'
+                    class: 'success'
+                    displayTime: 'auto',
+                )
+                Session.set('thinking',false)
+            $('body').toast(
+                showIcon: 'chat'
+                message: 'getting comments'
+                displayTime: 'auto',
+            )
+            Meteor.call 'get_user_comments', Router.current().params.username, ->
+                $('body').toast(
+                    message: 'comments done'
+                    showIcon: 'chat'
+                    showProgress: 'bottom'
+                    class: 'success'
+                    displayTime: 'auto',
+                )
+                Session.set('thinking',false)
+
+            Meteor.call 'get_user_posts', Router.current().params.username, ->
+            Meteor.call 'user_omega', Router.current().params.username, ->
+            Meteor.call 'rank_user', Router.current().params.username, ->
+        , 3000
 
     Template.user_doc_item.onRendered ->
         # console.log @
@@ -167,7 +196,7 @@ if Meteor.isServer
     
     Meteor.methods
         get_user_posts: (username)->
-            # @unblock()s
+            @unblock()
             # if subreddit 
             #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
             # else
@@ -190,7 +219,7 @@ if Meteor.isServer
                     )
         
         get_user_comments: (username)->
-            # @unblock()s
+            @unblock()
             # if subreddit 
             #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
             # else
@@ -239,7 +268,7 @@ if Meteor.isServer
     
             
         get_user_info: (username)->
-            # @unblock()s
+            @unblock()
             # if subreddit 
             #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
             # else

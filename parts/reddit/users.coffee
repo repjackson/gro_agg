@@ -160,8 +160,9 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.methods
         user_omega: (username)->
+            
             console.log 'calling', username
-            # @unblock()
+            @unblock()
             # agg_res = Meteor.call 'agg_omega2', (err, res)->
             # site_doc =
             #     Docs.findOne(
@@ -251,6 +252,7 @@ if Meteor.isServer
         
         
         user_emotions: (username)->
+            @unblock()
             # site_doc =
             #     Docs.findOne(
             #         model:'stack_site'
@@ -311,6 +313,7 @@ if Meteor.isServer
                 return null
                 
         calc_user_tags: (username)->
+            @unblock()
             user_doc =
                 Docs.findOne(
                     model:'user'
@@ -367,6 +370,7 @@ if Meteor.isServer
     
                 
         user_sent_avg: (username)->
+            @unblock()
             user_doc =
                 Docs.findOne(
                     model:'user'
@@ -417,6 +421,7 @@ if Meteor.isServer
                 return null
     
         calc_user_top_emotions: (username)->
+            @unblock()
             user_doc =
                 Docs.findOne(
                     model:'user'
