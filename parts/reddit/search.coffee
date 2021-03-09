@@ -1,7 +1,7 @@
 if Meteor.isClient
     Template.nav.events
-        'click .clear': ->
-            picked_tags.clear()
+        # 'click .clear': ->
+        #     picked_tags.clear()
     Template.unpick_tag.onCreated ->
         @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
         
@@ -79,3 +79,16 @@ if Meteor.isClient
             Session.get('nsfw')
             Session.get('toggle')
             
+    Template.search_shortcut.events
+        'click .search_tag': ->
+            picked_tags.push @tag.toLowerCase()
+            url = new URL(window.location);
+            url.searchParams.set('tags', picked_tags.array());
+            window.history.pushState({}, '', url);
+            document.title = picked_tags.array()
+            Session.set('loading',true)
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('loading',false)
+            Meteor.setTimeout ->
+                Session.set('toggle', !Session.get('toggle'))
+            , 7000    

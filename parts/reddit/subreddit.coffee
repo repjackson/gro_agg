@@ -172,48 +172,48 @@ if Meteor.isClient
                 
     
     
-    # Template.sub_tag_selector.onCreated ->
-    #     # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
-    # Template.sub_tag_selector.helpers
-    #     selector_class: ()->
-    #         term = 
-    #             Docs.findOne 
-    #                 title:@name.toLowerCase()
-    #         if term
-    #             if term.max_emotion_name
-    #                 switch term.max_emotion_name
-    #                     when 'joy' then " basic green"
-    #                     when "anger" then " basic red"
-    #                     when "sadness" then " basic blue"
-    #                     when "disgust" then " basic orange"
-    #                     when "fear" then " basic grey"
-    #                     else "basic grey"
-    #     term: ->
-    #         Docs.findOne 
-    #             title:@name.toLowerCase()
+    Template.sub_tag_selector.onCreated ->
+        @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+    Template.sub_tag_selector.helpers
+        selector_class: ()->
+            term = 
+                Docs.findOne 
+                    title:@name.toLowerCase()
+            if term
+                if term.max_emotion_name
+                    switch term.max_emotion_name
+                        when 'joy' then " basic green"
+                        when "anger" then " basic red"
+                        when "sadness" then " basic blue"
+                        when "disgust" then " basic orange"
+                        when "fear" then " basic grey"
+                        else "basic grey"
+        term: ->
+            Docs.findOne 
+                title:@name.toLowerCase()
                 
                 
-    # Template.sub_tag_selector.events
-    #     'click .select_sub_tag': -> 
-    #         # results.update
-    #         # console.log @
-    #         # window.speechSynthesis.cancel()
-    #         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-    #         # if @model is 'subreddit_emotion'
-    #         #     picked_emotions.push @name
-    #         # else
-    #         # if @model is 'subreddit_tag'
-    #         picked_sub_tags.push @name
-    #         $('.search_subreddit').val('')
+    Template.sub_tag_selector.events
+        'click .select_sub_tag': -> 
+            # results.update
+            # console.log @
+            # window.speechSynthesis.cancel()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            # if @model is 'subreddit_emotion'
+            #     picked_emotions.push @name
+            # else
+            # if @model is 'subreddit_tag'
+            picked_sub_tags.push @name
+            $('.search_subreddit').val('')
             
-    #         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-    #         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
-    #         Session.set('subs_loading',true)
-    #         Meteor.call 'search_subs', @name, ->
-    #             Session.set('subs_loading',false)
-    #         Meteor.setTimeout( ->
-    #             Session.set('toggle',!Session.get('toggle'))
-    #         , 5000)
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+            Session.set('subs_loading',true)
+            Meteor.call 'search_subs', @name, ->
+                Session.set('subs_loading',false)
+            Meteor.setTimeout( ->
+                Session.set('toggle',!Session.get('toggle'))
+            , 5000)
             
             
             

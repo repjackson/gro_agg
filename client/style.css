@@ -38,7 +38,7 @@ body {
   transform: scale(1.2) !important;
 }
 .tag_select_class:hover {
-    animation: fadein 1s !important;
+    animation: fadein .5s !important;
     animation: fadeout .25s; 
     transition: all .15s ease !important; 
     /*cursor: help !important;*/
@@ -47,7 +47,7 @@ body {
 }
 
 .mark_viewed {
-    animation: fadein 1s !important;
+    animation: fadein .5s !important;
     animation: fadeout .5s; 
     transition: all .5s ease !important; 
     /*cursor: help !important;*/
@@ -280,7 +280,7 @@ html.ios body {
 /*}*/
 .topnav.menu {
   /*border-radius: 0 0 7px 7px !important; */
-  /*transition: color 1s ease !important;*/
+  /*transition: color .5s ease !important;*/
   /*background-color: rgba(250,250,250,1) !important; */
   /*background-color: rgba(50,110,100,1) !important; */
   
@@ -293,7 +293,7 @@ html.ios body {
 }
 .hscroll {
     /*border-radius: 0 0 7px 7px !important; */
-    /*transition: background-color 1s ease !important;*/
+    /*transition: background-color .5s ease !important;*/
     /* background-color: rgba(250,250,250,.6) !important; */
     /*background-color: rgba(50,110,100,1) !important; */
 
@@ -402,7 +402,7 @@ a.goto_article {
 }
 .ui.button {
   margin: 2px !important;
-  /*transition: height .1s ease !important; */
+  /*transition: height ..5s ease !important; */
   /* background-color: rgba(200, 200, 200, 0.2) !important; */
   /* padding: 12px !important; */
   /*font-family: 'Ubuntu+Mono', sans-serif !important; */
@@ -412,12 +412,12 @@ a.goto_article {
   }
 /*  */
 .say {
-    /*animation: fadein 1s !important;*/
+    /*animation: fadein .5s !important;*/
     /*animation: fadeout .25s; */
     transition: all .15s ease !important; 
 }
 .say:hover {
-    /*animation: fadein 1s !important;*/
+    /*animation: fadein .5s !important;*/
     /*animation: fadeout .25s; */
     /*transition: all .15s ease !important; */
     /*cursor: help !important;*/
@@ -434,7 +434,7 @@ a.goto_article {
 }
 
 .pointer:hover {
-    transition: all .1s linear !important; 
+    transition: all ..5s linear !important; 
     cursor: pointer !important;
     /* color: black !important; */
     /* font-size: 130% !important; */
@@ -486,9 +486,9 @@ img:active {
     /*text-shadow: 0 0 3px grey !important;*/
     filter: drop-shadow(0px 0px 3px white);    
     z-index: 1000 !important;
-    /*animation: fadein 1s !important;*/
+    /*animation: fadein .5s !important;*/
     transform: scale(1.05) !important;
-    /*animation: fadein 1s !important;*/
+    /*animation: fadein .5s !important;*/
     /*animation: fadeout .25s; */
 }
 
@@ -519,7 +519,7 @@ img:active {
     /*transform: rotate(20deg) !important;*/
     z-index:1000 !important;
     border-radius: 7px !important;
-    /*animation: fadein 1s !important;*/
+    /*animation: fadein .5s !important;*/
     /*-webkit-transition: opacity .15s ease-in !important;*/
     /* -webkit-transition: opacity .15s ease-out; */
     /*animation: fadeout .25s; */
@@ -774,7 +774,7 @@ input {
 
 
 .button,.card,.image,.header,p,img,.say,.pointer, .item{
-    animation: fadein 1s !important;
+    animation: fadein .5s !important;
     -webkit-transition: opacity .5s ease-in !important;
     -webkit-transition: opacity .5s ease-out; 
     animation: fadeout .5s; 
@@ -782,7 +782,7 @@ input {
 
 
 .icon:not(.loading){
-    animation: fadein 1s !important;
+    animation: fadein .5s !important;
     transition: all .5s ease !important;
     /* -webkit-transition: opacity .15s ease-out; */
     animation: fadeout .5s; 
@@ -822,7 +822,7 @@ input {
 }
 
 .result_column {
-  /* animation: fadein 1s; */
+  /* animation: fadein .5s; */
 }
 
 @media screen and (max-width: 1100px) {

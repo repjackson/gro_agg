@@ -11,6 +11,19 @@ template(name='home')
                         .ui.icon.big.input
                             i.search.icon
                             input.search_tag(type='text' value=query autofocus='' placeholder="search...")
+                        div
+                        +search_shortcut tag='math' icon='calculator'
+                        +search_shortcut tag='camping' icon='campground'
+                        +search_shortcut tag='business' icon='briefcase'
+                        +search_shortcut tag='environment' icon='leaf'
+                        +search_shortcut tag='money' icon='coins'
+                        +search_shortcut tag='cat' icon='cat'
+                        +search_shortcut tag='science' icon='flask'
+                        +search_shortcut tag='video' icon='video'
+                        +search_shortcut tag='medicine' icon='pills'
+                        +search_shortcut tag='dog' icon='dog'
+                        +search_shortcut tag='covid' icon='radiation'
+                            
                 if picked_tags
                     .ui.icon.input
                         if is_loading
@@ -56,15 +69,21 @@ template(name='home')
                     //             +card
                         // else if three_posts
                     // else
-            .ui.twelve.wide.column                
-                each rposts
-                    +card
+            .ui.twelve.wide.column.scrolling
+                .ui.stackable.three.column.grid
+                    each rposts
+                        +card
                 //     .ui.basic.center.aligned.segment
                 //         i.big.loading.yin.yang.icon
+
+
+template(name='search_shortcut')
+    i.big.circular.link.icon.search_tag(class=icon title=tag)
+
    
 
 template(name='card')
-    .frour.wide.column.smallscroll
+    .column.smallscroll
         // .ui.stackable.equal.width.compact.grid
         //     .row
         a.goto_post.pointer.zoomer

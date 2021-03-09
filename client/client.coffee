@@ -80,8 +80,8 @@ Template.skve.events
 
 Template.card.onCreated ->
     # console.log @data
-    unless @watson
-        Meteor.call 'call_watson', @data._id, ->
+    # unless @watson
+    #     Meteor.call 'call_watson', @data._id, ->
     
 
 Template.registerHelper 'is_image', ()->

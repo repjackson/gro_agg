@@ -26,6 +26,10 @@ template(name='rpage')
                     else if embed
                         span.f11.full
                             |!{embed}
+                    else if is_image
+                        a(href=url target='_window')
+                    // img.ui.fluid.rounded.image.zoomer.toggle_view(src=url)
+
                     if data.link_url
                         img.ui.image.pointer.call_visual(src=data.link_url)
                     div
@@ -150,27 +154,24 @@ template(name='rcomment')
     .ui.grid.call_watson_comment
         .sixteen.wide.column
             .ui.small.inline.header {{data.score}}
-            a.author.say(href="/ruser/#{data.author}") #{data.author}
+            a.author.inline.say(href="/ruser/#{data.author}") #{data.author}
             span.metadata 
                 span.date {{ufrom data.created}}
                 +doc_emotion_small
-            .pointer.say(class=post_header_class)
+            .pointer.inline.say(class=post_header_class)
                 |{{#markdown}} {{data.body}} {{/markdown}}
-            .actions
-                each tags 
-                    +flat_sub_tag_selector
-                    // .ui.tiny.basic.label #/{this}
-                if in_dev
-                    +print_this
+            each tags 
+                +flat_sub_tag_selector
+                // .ui.tiny.basic.label #/{this}
+            if in_dev
+                +print_this
         if data.replies.data.children
             .ui.grid
                 each data.replies.data.children
-                    .one.wide.column
-                    .fifteen.wide.column
-                        a.author(href="/ruser/#{data.author}") #{data.author}
-                        .pointer.content.say
-                            |{{#markdown}} {{data.body}} {{/markdown}}
-                            // .text.say #{data.score} #{data.body}
+                    .two.wide.column
+                    .fourteen.wide.column
+                        a.inline.author(href="/ruser/#{data.author}") #{data.author}
+                        |{{#markdown}} {{data.body}} {{/markdown}}
             // if in_dev
             //     +print_this
                 
