@@ -260,3 +260,14 @@ Meteor.publish 'tags', (
     
     self.ready()
     
+    
+    
+Meteor.publish 'user_doc', (username)->
+    match = {
+        model:'user'
+        username:username
+    }
+    # unless Meteor.isDevelopment
+    match["data.subreddit.over_18"] = $ne:true 
+    Docs.find match
+    

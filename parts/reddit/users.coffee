@@ -160,7 +160,6 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.methods
         user_omega: (username)->
-            
             console.log 'calling', username
             @unblock()
             # agg_res = Meteor.call 'agg_omega2', (err, res)->
@@ -181,75 +180,75 @@ if Meteor.isServer
                 #     sentiment_avg = user_sent_avg[0].avg_sent_score
                 # else
                 #     sentiment_avg = 0
-    
-                
-                user_top_emotions = Meteor.call 'calc_user_top_emotions', username
-                if user_top_emotions[0]
-                    user_top_emotion = user_top_emotions[0].title
-                
-                
-                agg_res = Meteor.call 'user_emotions', username
-                user_tag_res = Meteor.call 'calc_user_tags', username
-                if user_tag_res
-                    added_tags = []
-                    for tag in user_tag_res
-                        added_tags.push tag.title
+                if user_doc.data
+                    if user_doc.data.total_karma
+                        user_top_emotions = Meteor.call 'calc_user_top_emotions', username
+                        if user_top_emotions[0]
+                            user_top_emotion = user_top_emotions[0].title
                         
-                    # console.log 'top emotion', user_top_emotions[0]
                         
-                    rep_joy = user_doc.data.total_karma*user_top_emotions[0].avg_joy_score
-                    rep_sadness = user_doc.data.total_karma*user_top_emotions[0].avg_sadness_score
-                    rep_anger = user_doc.data.total_karma*user_top_emotions[0].avg_anger_score
-                    rep_disgust = user_doc.data.total_karma*user_top_emotions[0].avg_disgust_score
-                    rep_fear = user_doc.data.total_karma*user_top_emotions[0].avg_fear_score
-                    
-                        
-                    Docs.update user_doc._id,
-                        $set:
-                            user_tag_agg: user_tag_res
-                            # user_top_emotions:user_top_emotions
-                            # user_top_emotion:user_top_emotion
-                            # sentiment_avg: sentiment_avg
-                            rep_joy:rep_joy
-                            rep_sadness:rep_sadness
-                            rep_anger:rep_anger
-                            rep_disgust:rep_disgust
-                            rep_fear:rep_fear
-                            avg_sent_score: user_top_emotions[0].avg_sent_score
-                            avg_joy_score: user_top_emotions[0].avg_joy_score
-                            avg_anger_score: user_top_emotions[0].avg_anger_score
-                            avg_sadness_score: user_top_emotions[0].avg_sadness_score
-                            avg_disgust_score: user_top_emotions[0].avg_disgust_score
-                            avg_fear_score: user_top_emotions[0].avg_fear_score
-    
-                            # sentiment_positive_avg: user_sent_avg[0].avg_sent_score
-                            # sentiment_negative_avg: user_sent_avg[1].avg_sent_score
-                            tags:added_tags
-                # omega = Docs.findOne model:'omega_session'
-                # doc_count = omega.total_doc_result_count
-                # doc_count = omega.doc_result_ids.length
-                # unless omega.selected_doc_id in omega.doc_result_ids
-                #     Docs.update omega._id,
-                #         $set:selected_doc_id:omega.doc_result_ids[0]
-                filtered_agg_res = []
-    
-                for agg_tag in agg_res
-                    # if agg_tag.count < doc_count
-                        # filtered_agg_res.push agg_tag
-                        if agg_tag.title
-                            if agg_tag.title.length > 0
-                                filtered_agg_res.push agg_tag
-                term_emotion = _.max(filtered_agg_res, (tag)->tag.count).title
-                if term_emotion
-                    Docs.update user_doc._id,
-                        $set:
-                            max_emotion_name:term_emotion
-    
-                # Docs.update omega._id,
-                #     $set:
-                #         # agg:agg_res
-                #         filtered_agg_res:filtered_agg_res
-        
+                        agg_res = Meteor.call 'user_emotions', username
+                        user_tag_res = Meteor.call 'calc_user_tags', username
+                        if user_tag_res
+                            added_tags = []
+                            for tag in user_tag_res
+                                added_tags.push tag.title
+                                
+                            # console.log 'top emotion', user_top_emotions[0]
+                                
+                            rep_joy = user_doc.data.total_karma*user_top_emotions[0].avg_joy_score
+                            rep_sadness = user_doc.data.total_karma*user_top_emotions[0].avg_sadness_score
+                            rep_anger = user_doc.data.total_karma*user_top_emotions[0].avg_anger_score
+                            rep_disgust = user_doc.data.total_karma*user_top_emotions[0].avg_disgust_score
+                            rep_fear = user_doc.data.total_karma*user_top_emotions[0].avg_fear_score
+                            
+                                
+                            Docs.update user_doc._id,
+                                $set:
+                                    user_tag_agg: user_tag_res
+                                    # user_top_emotions:user_top_emotions
+                                    # user_top_emotion:user_top_emotion
+                                    # sentiment_avg: sentiment_avg
+                                    rep_joy:rep_joy
+                                    rep_sadness:rep_sadness
+                                    rep_anger:rep_anger
+                                    rep_disgust:rep_disgust
+                                    rep_fear:rep_fear
+                                    avg_sent_score: user_top_emotions[0].avg_sent_score
+                                    avg_joy_score: user_top_emotions[0].avg_joy_score
+                                    avg_anger_score: user_top_emotions[0].avg_anger_score
+                                    avg_sadness_score: user_top_emotions[0].avg_sadness_score
+                                    avg_disgust_score: user_top_emotions[0].avg_disgust_score
+                                    avg_fear_score: user_top_emotions[0].avg_fear_score
+            
+                                    # sentiment_positive_avg: user_sent_avg[0].avg_sent_score
+                                    # sentiment_negative_avg: user_sent_avg[1].avg_sent_score
+                                    tags:added_tags
+                        # omega = Docs.findOne model:'omega_session'
+                        # doc_count = omega.total_doc_result_count
+                        # doc_count = omega.doc_result_ids.length
+                        # unless omega.selected_doc_id in omega.doc_result_ids
+                        #     Docs.update omega._id,
+                        #         $set:selected_doc_id:omega.doc_result_ids[0]
+                        filtered_agg_res = []
+            
+                        for agg_tag in agg_res
+                            # if agg_tag.count < doc_count
+                                # filtered_agg_res.push agg_tag
+                                if agg_tag.title
+                                    if agg_tag.title.length > 0
+                                        filtered_agg_res.push agg_tag
+                        term_emotion = _.max(filtered_agg_res, (tag)->tag.count).title
+                        if term_emotion
+                            Docs.update user_doc._id,
+                                $set:
+                                    max_emotion_name:term_emotion
+            
+                        # Docs.update omega._id,
+                        #     $set:
+                        #         # agg:agg_res
+                        #         filtered_agg_res:filtered_agg_res
+                
         
         user_emotions: (username)->
             @unblock()

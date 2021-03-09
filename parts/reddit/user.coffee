@@ -196,15 +196,6 @@ if Meteor.isClient
 
     
 if Meteor.isServer
-    Meteor.publish 'user_doc', (username)->
-        match = {
-            model:'user'
-            username:username
-        }
-        unless Meteor.isDevelopment
-            match.data.subreddit.over_18 = false 
-        Docs.find match
-    
     Meteor.publish 'user_posts', (username, limit=42)->
         match = {
             model:'rpost'
