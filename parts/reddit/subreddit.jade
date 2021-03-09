@@ -1,7 +1,8 @@
 template(name='subreddit')
     unless subreddit_doc
         .ui.basic.center.aligned.segment
-            i.massive.yin.yang.link.loading.grey.icon.get_info.shadowed2
+            i.massive.fire.link.loading.grey.icon.get_info.shadowed2
+            .ui.big.grey.header #{current_sub}...
     with subreddit_doc
         .ui.stackable.grid(style="background-image:url(#{data.banner_img}); margin-top:0px;, background-size:cover;, background-repeat: no-repeat; min-width: 100%; ")
             .twelve.wide.column.seg

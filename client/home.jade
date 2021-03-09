@@ -23,13 +23,15 @@ head
 
     link(rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css")
     script(src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js")
-    // script(async src="https://www.googletagmanager.com/gtag/js?id=G-GLYPPRGJFQ")
-    // script.
-    //     window.dataLayer = window.dataLayer || [];
-    //     function gtag(){dataLayer.push(arguments);}
-    //     gtag('js', new Date());
+    script(async src="https://www.googletagmanager.com/gtag/js?id=G-GLYPPRGJFQ")
+    script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
+    
+    script.
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
         
-    //     gtag('config', 'G-GLYPPRGJFQ');
+        gtag('config', 'G-GLYPPRGJFQ');
 
 
 template(name='layout')

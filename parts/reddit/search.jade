@@ -69,6 +69,10 @@ template(name='home')
                         // .ui.label #{this}
                         +tag_picker
                         // .ui.label(title=count) #{name}
+                        
+        .row
+            .ui.four.wide.column
+                if picked_tags
                     +user_karma_sort_button l='total' i='yin yang' key='data.total_karma'
                     +user_karma_sort_button l='link' i='edit' key='data.link_karma'
                     +user_karma_sort_button l='comment' i='chat outline' key='data.comment_karma'
@@ -77,9 +81,6 @@ template(name='home')
                     +user_karma_sort_button l='sadness' i='' c='blue' key='rep_sadness'
                     +user_karma_sort_button l='disgust' i='' c='orange' key='rep_disgust'
                     +user_karma_sort_button l='fear' i='' c='grey' key='rep_fear'
-                        
-        .row
-            .ui.four.wide.column
                 +alpha
                 each wikis
                     .ui.card

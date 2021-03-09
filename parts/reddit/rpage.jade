@@ -14,6 +14,11 @@ template(name='rpage')
                 div
                 // if skv_is 'view_section' 'main'
                 .scrolling
+                    // blockquote(class="reddit-card")
+                    //     a(href="https://www.reddit.com/r/therewasanattempt/comments/lt5gfm/to_eat_the_fish_and_complete_the_challenge/")
+                    //         |To eat the fish and complete the challenge.
+                    //     |from 
+                    //     a(href="http://www.reddit.com/r/therewasanattempt") r/therewasanattempt
                     if data.is_reddit_media_domain
                         img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
                     else if watson.metadata.image

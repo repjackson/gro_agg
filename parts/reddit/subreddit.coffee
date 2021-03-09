@@ -91,8 +91,8 @@ if Meteor.isClient
     
     Template.sub_post_card.onRendered ->
         # console.log @
-        # unless @data.watson
-        #     Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
+        unless @data.doc_sentiment_label
+            Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
         # unless @data.time_tags
         #     Meteor.call 'tagify_time_rpost',@data._id,=>
     
@@ -147,6 +147,7 @@ if Meteor.isClient
         subreddit_time_tags: -> results.find(model:'subreddit_time_tag')
     
         picked_sub_tags: -> picked_sub_tags.array()
+        current_sub: -> Router.current().params.subreddit
         
         subreddit_doc: ->
             Docs.findOne
