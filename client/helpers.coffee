@@ -8,6 +8,8 @@ Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 Template.registerHelper 'trunc', (input) ->
     if input
         input[0..500]
+   
+   
         
 Template.registerHelper 'calculated_size', (metric) ->
     # whole = parseInt(@["#{metric}"]*10)
@@ -119,8 +121,8 @@ Template.registerHelper 'nightmode_colum_class', (key, value) ->
     if Session.get('nightmode') then 'black'
 
 
-# Template.registerHelper 'template_subs_ready', () ->
-#     Template.instance().subscriptionsReady()
+Template.registerHelper 'template_subs_ready', () ->
+    Template.instance().subscriptionsReady()
 
 # Template.registerHelper 'global_subs_ready', () ->
 #     Session.get('global_subs_ready')

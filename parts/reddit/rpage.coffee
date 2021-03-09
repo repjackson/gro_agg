@@ -24,7 +24,54 @@ if Meteor.isClient
                 parent_id:"t3_#{post.reddit_id}"
     Template.rpage.events
         'click .get_comments': -> Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
-    
+        'click .read': (e,t)-> 
+            if @tone 
+                window.speechSynthesis.cancel()
+                for sentence in @tone.result.sentences_tone
+                    # console.log sentence
+                    Session.set('current_reading_sentence',sentence)
+                    window.speechSynthesis.speak new SpeechSynthesisUtterance sentence.text
+
+        'keyup .tag_post': (e,t)->
+            # console.log 
+            if e.which is 13
+                # $(e.currentTarget).closest('.button')
+                tag = $(e.currentTarget).closest('.tag_post').val().toLowerCase().trim()
+                # console.log tag
+                # console.log @
+                Docs.update @_id,
+                    $addToSet: tags: tag
+                $(e.currentTarget).closest('.tag_post').val('')
+                # console.log tag
+
+            # $('body').toast(
+            #     showIcon: 'reddit'
+            #     message: 'reddit started'
+            #     displayTime: 'auto',
+            # )
+            # Meteor.call 'search_reddit', selected_tags.array(), ->
+            #     $('body').toast(
+            #         message: 'reddit done'
+            #         showIcon: 'reddit'
+            #         showProgress: 'bottom'
+            #         class: 'success'
+            #         displayTime: 'auto',
+            #     )
+            #     Session.set('thinking',false)
+
+
+
+        'click .vote_up': -> 
+            Docs.update @_id,
+                $inc: points: 1
+            # window.speechSynthesis.cancel()# 
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance 'yeah'
+        'click .vote_down': -> 
+            Docs.update @_id,
+                $inc: points: -1
+                # window.speechSynthesis.cancel()# 
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance 'ouch'
+
     
     Template.rpage.events
         'click .goto_sub': -> 

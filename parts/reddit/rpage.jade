@@ -96,7 +96,7 @@ template(name='rpage')
                 if skv_is 'view_section' 'comments'
                     .scrolling
                         +rcomments_tab
-            .three.wide.column.scrolling
+            .three.wide.column
                 | {{ufrom data.created}}
                 a.ui.basic.fluid.button(href=data.url target="_window" title=data.url) 
                     i.external.icon
@@ -111,6 +111,7 @@ template(name='rpage')
                     i.external.grey.icon
                     |r/#{data.subreddit}
                 .spacer
+                i.large.audio.icon.read_me
                 // a.ui.basic.button(href="https://www.reddit.com/u/#{author}" target='_window')
                 a.ui.basic.button.goto_ruser(href="/ruser/#{data.author}")
                     i.user.outline.icon

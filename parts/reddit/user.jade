@@ -101,31 +101,31 @@ template(name='ruser_top_emotions')
                     
                                 
 template(name='ruser_post')
-    .ui.seg
+    .ui.item
         if embed
             span.rounded.full
                 |!{embed}
             div
         else if data.is_reddit_media_domain
             a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.fluid.rounded.zoomer.image.toggle_view(src=data.url)
+                img.ui.inline.rounded.zoomer.image.toggle_view(src=data.url)
         else if watson.metadata.image.length
             a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
                 img.ui.rounded.inline.zoomer.image.toggle_view(src=watson.metadata.image)
-        else if data.thumbnail.length
+        else if has_thumbnail
             a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
                 img.ui.rounded.inline.zoomer.image.zoomer(src=data.thumbnail)    
 
+        // +skve k='view_preview' v='preview' l=' ' i='caret down'
+        // if skv_is 'view_preview' 'preview'
         a.ui.small.inline.header(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
             |#{data.ups}
             |#{data.link_title} #{data.title}
         a.ui.label(href="/r/#{data.subreddit}") #{data.subreddit}
+        |#{data.body}
         each five_tags 
             .ui.small.basic.label #{this}
         +doc_emotion_small        
-        // +skve k='view_preview' v='preview' l=' ' i='caret down'
-        // if skv_is 'view_preview' 'preview'
-        |#{data.body}
         .ui.label {{ufrom data.created}}
         if in_dev
             +print_this
@@ -182,7 +182,7 @@ template(name='ruser_comment')
             |{{#markdown}} {{data.body}} {{/markdown}}
         .actions
             each tags 
-                +flat_sub_tag_selector
+                +flat_sub_tag_picker
                 // .ui.tiny.basic.label #/{this}
             a.author.say(href="/r/#{data.subreddit}") #{data.subreddit}
             if in_dev

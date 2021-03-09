@@ -162,7 +162,7 @@ template(name='entities')
         |#{watson.entities.length} entities
     .ui.three.column.stackable.grid
         each watson.entities
-            .ui.center.aligned.column
+            .ui.column
                 .ui.small.grey.header #{type}
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
                 .spacer
@@ -173,12 +173,11 @@ template(name='entities')
                     .item {{ to_percent confidence}}% confident
                 .meta 
                     with disambiguation
-                        .ui.small.header subtypes
-                        .ui.bulleted.list
-                            each subtype
-                                .item #{this}
-                        a.ui.tiny.grey.header(href=dbpedia_resource target='_window') name
-                            |#{name}
+                        // .ui.small.inline.header subtypes
+                        each subtype
+                            .ui.basic.label #{this}
+                        // a.ui.tiny.grey.header(href=dbpedia_resource target='_window')
+                        //     |!{name}
                 if emotion
                     with emotion
                         span {{ to_percent sadness }}% sad
