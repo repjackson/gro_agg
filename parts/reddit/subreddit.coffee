@@ -85,12 +85,10 @@ if Meteor.isClient
             Router.go "/r/#{@subreddit}/post/#{@_id}"
     
     Template.subreddit_doc_item.onRendered ->
-        # console.log @
         # unless @data.watson
         #     Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
     
     Template.sub_post_card.onRendered ->
-        # console.log @
         unless @data.doc_sentiment_label
             Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
         # unless @data.time_tags
@@ -111,11 +109,9 @@ if Meteor.isClient
             Session.set('sort_key', 'data.ups')
             Meteor.call 'get_sub_best', Router.current().params.subreddit, ->
         'click .download': ->
-            console.log 'get info'
             Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
         
         'click .pull_latest': ->
-            # console.log 'latest'
             Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
         'click .get_info': ->
             l 'dl'
@@ -197,7 +193,6 @@ if Meteor.isClient
     Template.sub_tag_picker.events
         'click .select_sub_tag': -> 
             # results.update
-            # console.log @
             # window.speechSynthesis.cancel()
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             # if @model is 'subreddit_emotion'
@@ -232,7 +227,6 @@ if Meteor.isClient
     Template.sub_unpick_tag.events
         'click .unselect_sub_tag': -> 
             Session.set('skip',0)
-            console.log @
             picked_sub_tags.remove @valueOf()
             # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
             Session.set('loading',true)
@@ -475,7 +469,6 @@ if Meteor.isServer
             
         get_sub_info: (subreddit)->
             @unblock()
-            console.log 'getting', subreddit
             # if subreddit 
             #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
             # else
@@ -483,13 +476,11 @@ if Meteor.isServer
             url = "https://www.reddit.com/r/#{subreddit}/about.json?&raw_json=1"
             HTTP.get url,(err,res)=>
                 if res.data.data
-                    console.log res.data.data
                     existing = Docs.findOne 
                         model:'subreddit'
                         name:subreddit
                         # "data.display_name":subreddit
                     if existing
-                        console.log existing
                         # if Meteor.isDevelopment
                         # if typeof(existing.tags) is 'string'
                         #     Doc.update
@@ -497,13 +488,11 @@ if Meteor.isServer
                         Docs.update existing._id,
                             $set: data:res.data.data
                     unless existing
-                        console.log 'not existing'
                         sub = {}
                         sub.model = 'subreddit'
                         sub.name = subreddit
                         sub.data = res.data.data
                         new_reddit_post_id = Docs.insert sub
-                        # console.log existing
         
         get_sub_latest: (subreddit)->
             @unblock()
@@ -535,7 +524,6 @@ if Meteor.isServer
                 
         # get_sub_info: (subreddit)->
         #     @unblock()
-        #     console.log 'getting info', subreddit
         #     # if subreddit 
         #     #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         #     # else
@@ -564,7 +552,6 @@ if Meteor.isServer
                   
         search_subreddit: (subreddit,search)->
             @unblock()
-            console.log 'searching', subreddit, search
             HTTP.get "http://reddit.com/r/#{subreddit}/search.json?q=#{search}&limit=10&restrict_sr=1&raw_json=1&include_over_18=off&nsfw=0", (err,res)->
                 if res.data.data.dist > 1
                     _.each(res.data.data.children[0..100], (item)=>
@@ -580,21 +567,21 @@ if Meteor.isServer
                         })
                         #     # continue
                         if found
-                            console.log 'found sub post', found.data.title
-                            Docs.update found._id, 
+                            console.log 'updating', found.data.title
+                            Docs.update({_id:found._id},{ 
                                 $addToSet: tags: $each:added_tags
                                 $set:
                                     subreddit:item.data.subreddit
+                            }, ->)
                         unless found
                             added_tags = _.flatten(search)
-                            console.log 'adding sub post', item.data.title
                             item.model = 'rpost'
                             item.reddit_id = item.data.id
                             item.author = item.data.author
                             item.subreddit = item.data.subreddit
                             item.tags = [search]
                             # item.rdata = item.data
-                            Docs.insert item
+                            Docs.insert item, ->
                     )
                     
                     

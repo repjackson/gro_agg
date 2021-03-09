@@ -2,7 +2,7 @@ if Meteor.isClient
     Template.rpage.onCreated ->
         @autorun -> Meteor.subscribe('doc', Router.current().params.doc_id)
         @autorun -> Meteor.subscribe('rpost_comments', Router.current().params.group, Router.current().params.doc_id)
-        Session.setDefault('view_section','comments')
+        Session.set('view_section','comments')
         
     Template.rpage.onRendered ->
         Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
