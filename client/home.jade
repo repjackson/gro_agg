@@ -119,6 +119,17 @@ template(name='home')
                     //         i.big.loading.yin.yang.icon
                 .ui.four.wide.column
                     .ui.inline.small.header
+                        i.marker.icon
+                        |locations
+                    each picked_Locations
+                        a.ui.black.label.unpick_Location
+                            |#{this}
+                    each Location_results
+                        a.ui.basic.label.pick_Location(class=domain_selector_class)
+                            |#{name} 
+                            small #{count}
+                    div
+                    .ui.inline.small.header
                         i.globe.icon
                         |domains
                     each picked_domains
@@ -187,7 +198,7 @@ template(name='card')
             // div
    
 template(name='print_this')
-    i.code.icon.print
+    i.large.link.icon.print
    
 template(name='unpick_tag')
     a.unpick.ui.black.image.large.label

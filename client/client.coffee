@@ -23,14 +23,12 @@ Template.registerHelper 'thinking_class', ()->
     if Session.get('thinking') then 'disabled' else ''
 
 
-Template.registerHelper 'domain_results', ()->
-    results.find(model:'domain')
-Template.registerHelper 'author_results', ()->
-    results.find(model:'author')
-Template.registerHelper 'time_tag_results', ()->
-    results.find(model:'time_tag')
-Template.registerHelper 'subreddit_results', ()->
-    results.find(model:'subreddit_tag')
+Template.registerHelper 'domain_results', ()->results.find(model:'domain')
+Template.registerHelper 'author_results', ()->results.find(model:'author')
+Template.registerHelper 'time_tag_results', ()->results.find(model:'time_tag')
+Template.registerHelper 'subreddit_results', ()-> results.find(model:'subreddit_tag')
+Template.registerHelper 'Location_results', ()-> results.find(model:'Location')
+Template.registerHelper 'person_results', ()-> results.find(model:'person_tag')
 
 
 Template.registerHelper 'embed', ()->
@@ -79,6 +77,8 @@ Router.route '/', (->
 @picked_sub_tags = new ReactiveArray []
 @picked_domains = new ReactiveArray []
 @picked_authors = new ReactiveArray []
+@picked_persons = new ReactiveArray []
+@picked_Locations = new ReactiveArray []
 
 
 Router.configure

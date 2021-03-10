@@ -111,6 +111,29 @@ Template.get_emotion.events
                     message: 'emotion', res
                     displayTime: 'auto',
                 )
+Template.post_page.events
+    'click .get_emotion': -> 
+        $('body').toast(
+            position: 'bottom center',
+            showIcon: 'refresh'
+            message: 'getting emotion'
+            displayTime: 'auto',
+        )
+        Meteor.call 'get_emotion',Router.current().params.doc_id,'url',(err,res)=>
+            if err
+                $('body').toast(
+                    position: 'bottom center',
+                    showIcon: 'question'
+                    message: 'error getting emotion', err.error
+                    displayTime: 'auto',
+                )
+            else 
+                $('body').toast(
+                    position: 'bottom center',
+                    showIcon: 'checkmark'
+                    message: 'emotion', res
+                    displayTime: 'auto',
+                )
 
 # Template.call_visual_analysis.events
 #     'click #call_visual': ->

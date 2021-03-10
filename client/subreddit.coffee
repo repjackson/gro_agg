@@ -5,8 +5,8 @@ Router.route '/r/:subreddit', (->
 
 Router.route '/r/:subreddit/post/:doc_id', (->
     @layout 'layout'
-    @render 'rpage'
-    ), name:'rpage'
+    @render 'post_page'
+    ), name:'post_page'
 
 
 Template.subreddit_best.onCreated ->

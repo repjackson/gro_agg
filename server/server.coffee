@@ -46,7 +46,7 @@ Docs.allow
 Meteor.publish 'post_count', (
     picked_tags
     # picked_authors
-    # picked_locations
+    # picked_Locations
     # picked_times
     )->
     @unblock()
@@ -60,7 +60,7 @@ Meteor.publish 'post_count', (
         
     match.tags = $all:picked_tags
     # if picked_authors.length > 0 then match.author = $all:picked_authors
-    # if picked_locations.length > 0 then match.location = $all:picked_locations
+    # if picked_Locations.length > 0 then match.location = $all:picked_Locations
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
 
     Counts.publish this, 'post_count', Docs.find(match)
@@ -71,11 +71,13 @@ Meteor.publish 'rposts', (
     picked_domains
     picked_authors
     picked_time_tags
+    picked_Locations
+    picked_persons
     sort_key='data.ups'
     sort_direction=-1
     limit=20
     # picked_times
-    # picked_locations
+    # picked_Locations
     # picked_authors
     # skip=0
     )->
@@ -101,9 +103,10 @@ Meteor.publish 'rposts', (
     
     # if picked_tags.length > 0 then match.tags = $all:picked_tags
     match.tags = $all:picked_tags
-    # if picked_locations.length > 0 then match.location = $all:picked_locations
+    if picked_Locations.length > 0 then match.location = $all:picked_Locations
     if picked_authors.length > 0 then match['data.author'] = $all:picked_authors
     if picked_domains.length > 0 then match['data.domain'] = $all:picked_domains
+    if picked_persons.length > 0 then match.Person = $all:picked_persons
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
 
     Docs.find match,
@@ -141,6 +144,8 @@ Meteor.publish 'tags', (
     picked_domains
     picked_authors
     picked_time_tags
+    picked_Locations
+    picked_persons
     # query=''
     )->
     @unblock()
@@ -164,7 +169,8 @@ Meteor.publish 'tags', (
     match.tags = $all:picked_tags
     if picked_authors.length > 0 then match.author = $all:picked_authors
     if picked_domains.length > 0 then match.domain = $all:picked_domains
-    # if picked_locations.length > 0 then match.location = $all:picked_locations
+    if picked_Locations.length > 0 then match.Location = $all:picked_Locations
+    if picked_persons.length > 0 then match.Person = $all:picked_persons
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     doc_count = Docs.find(match).count()
     tag_cloud = Docs.aggregate [
@@ -184,22 +190,40 @@ Meteor.publish 'tags', (
             count: tag.count
             model:'tag'
     
-    location_cloud = Docs.aggregate [
+    Location_cloud = Docs.aggregate [
         { $match: match }
-        { $project: "location_tags": 1 }
-        { $unwind: "$location_tags" }
-        { $group: _id: "$location_tags", count: $sum: 1 }
+        { $project: "Location": 1 }
+        { $unwind: "$Location" }
+        { $group: _id: "$Location", count: $sum: 1 }
         # { $match: _id: $nin: picked_location }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
-    location_cloud.forEach (location, i) ->
+    Location_cloud.forEach (Location, i) ->
         self.added 'results', Random.id(),
-            name: location.name
-            count: location.count
-            model:'location_tag'
+            name: Location.name
+            count: Location.count
+            model:'Location'
+    
+    
+    Person_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "Person": 1 }
+        { $unwind: "$Person" }
+        { $group: _id: "$Person", count: $sum: 1 }
+        # { $match: _id: $nin: picked_Person }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:10 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    Person_cloud.forEach (Person, i) ->
+        self.added 'results', Random.id(),
+            name: Person.name
+            count: Person.count
+            model:'Person'
     
     
     # timestamp_cloud = Docs.aggregate [

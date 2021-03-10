@@ -87,7 +87,8 @@ Meteor.methods
                 # unless err.code is 403
                 #     Docs.update doc_id,
                 #         $set:skip_watson:false
-                throw new Meteor.Error("logged-out","The user must be logged in to post a comment.");
+                throw new Meteor.Error(err)
+                return err;
             else
                 response = response.result
                 # if Meteor.isDevelopment

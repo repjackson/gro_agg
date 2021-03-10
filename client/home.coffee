@@ -5,6 +5,63 @@ Template.unpick_tag.onCreated ->
     @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
   
   
+Template.home.onCreated ->
+    @autorun -> Meteor.subscribe('alpha_combo',picked_tags.array())
+
+    # Meteor.call 'call_watson', @data._id, ->
+    
+    # Session.setDefault('location_query', null)
+    @autorun => Meteor.subscribe 'rposts', 
+        picked_tags.array()
+        picked_domains.array()
+        picked_authors.array()
+        picked_time_tags.array()
+        picked_Locations.array()
+        picked_persons.array()
+        Session.get('sort_key')
+        Session.get('sort_direction')
+        Session.get('limit')
+    # @autorun => Meteor.subscribe 'reddit_post_count', 
+    #     picked_tags.array()
+    #     picked_reddit_domain.array()
+    #     picked_rtime_tags.array()
+    #     picked_subreddits.array()
+    params = new URLSearchParams(window.location.search);
+    
+    tags = params.get("tags");
+    if tags
+        split = tags.split(',')
+        if tags.length > 0
+            for tag in split 
+                unless tag in picked_tags.array()
+                    picked_tags.push tag
+            Session.set('loading',true)
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('loading',false)
+            Meteor.setTimeout ->
+                Session.set('toggle', !Session.get('toggle'))
+            , 7000    
+            
+    # console.log(name)
+    
+    @autorun => Meteor.subscribe 'wiki_doc', 
+        picked_tags.array()
+    @autorun => Meteor.subscribe 'post_count', 
+        picked_tags.array()
+
+
+    @autorun => Meteor.subscribe 'tags',
+        picked_tags.array()
+        Session.get('toggle')
+        picked_domains.array()
+        picked_authors.array()
+        picked_time_tags.array()
+        picked_Locations.array()
+        picked_persons.array()
+        
+        
+  
+  
 Template.home.events
     'keyup .search_reddit': (e,t)->
         val = $('.search_reddit').val()
@@ -43,13 +100,19 @@ Template.home.events
             # Session.set('sub_doc_query', val)
 
     'click .pick_author': -> picked_authors.push @name
+    'click .unpick_author': -> picked_authors.remove @valueOf()
+   
+    'click .pick_location': -> picked_Locations.push @name
+    'click .unpick_location': -> picked_Locations.remove @valueOf()
+   
+    'click .pick_person': -> picked_persons.push @name
+    'click .unpick_person': -> picked_persons.remove @valueOf()
+   
+   
     'click .pick_domain': -> picked_domains.push @name
     'click .unpick_domain': -> picked_domains.remove @valueOf()
-    'click .unpick_author': -> picked_authors.remove @valueOf()
 
 Template.home.helpers
-    picked_tags: -> picked_tags.array()
-    
     wikis: ->
         if picked_tags.array().length > 0
             Docs.find({
@@ -102,56 +165,6 @@ Template.unpick_tag.events
 
 
     
-Template.home.onCreated ->
-    @autorun -> Meteor.subscribe('alpha_combo',picked_tags.array())
-
-    # Meteor.call 'call_watson', @data._id, ->
-    
-    # Session.setDefault('location_query', null)
-    @autorun => Meteor.subscribe 'rposts', 
-        picked_tags.array()
-        picked_domains.array()
-        picked_authors.array()
-        picked_time_tags.array()
-        Session.get('sort_key')
-        Session.get('sort_direction')
-        Session.get('limit')
-    # @autorun => Meteor.subscribe 'reddit_post_count', 
-    #     picked_tags.array()
-    #     picked_reddit_domain.array()
-    #     picked_rtime_tags.array()
-    #     picked_subreddits.array()
-    params = new URLSearchParams(window.location.search);
-    
-    tags = params.get("tags");
-    if tags
-        split = tags.split(',')
-        if tags.length > 0
-            for tag in split 
-                unless tag in picked_tags.array()
-                    picked_tags.push tag
-            Session.set('loading',true)
-            Meteor.call 'search_reddit', picked_tags.array(), ->
-                Session.set('loading',false)
-            Meteor.setTimeout ->
-                Session.set('toggle', !Session.get('toggle'))
-            , 7000    
-            
-    # console.log(name)
-    
-    @autorun => Meteor.subscribe 'wiki_doc', 
-        picked_tags.array()
-    @autorun => Meteor.subscribe 'post_count', 
-        picked_tags.array()
-
-
-    @autorun => Meteor.subscribe 'tags',
-        picked_tags.array()
-        Session.get('toggle')
-        picked_domains.array()
-        picked_authors.array()
-        picked_time_tags.array()
-        
         
 Template.search_shortcut.events
     'click .search_tag': ->

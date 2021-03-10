@@ -1,6 +1,8 @@
 Template.registerHelper 'picked_tags', () -> picked_tags.array()
 Template.registerHelper 'picked_authors', () -> picked_authors.array()
 Template.registerHelper 'picked_domains', () -> picked_domains.array()
+Template.registerHelper 'picked_persons', () -> picked_persons.array()
+Template.registerHelper 'picked_Locations', () -> picked_Locations.array()
     
 Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 

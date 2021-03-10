@@ -1,4 +1,4 @@
-template(name='rpage')
+template(name='post_page')
     with current_doc
         .ui.stackable.grid
             .twelve.wide.column
@@ -81,14 +81,15 @@ template(name='rpage')
                 +skve k='view_section' v='tone' l='tone' i='smile grey'
                 // +skve k='view_section' v='tags' l='tags' i='tags'
                 // +skve k='view_section' v='related' l='related' i='fork'
-                +skve k='view_section' v='preview' l='preview' i='content'
+                unless key_value_is 'data.domain' 'reddit.com'
+                    +skve k='view_section' v='preview' l='preview' i='content'
                 if skv_is 'view_section' 'watson'
                     .scrolling
                         +watson_view
                         +watson_full
-                if skv_is 'view_section' 'related'
-                    +post_related
-                    +related_questions
+                // if skv_is 'view_section' 'related'
+                //     +post_related
+                //     +related_questions
                 if skv_is 'view_section' 'tone'
                     .scrolling
                         +tone
@@ -145,8 +146,16 @@ template(name='rpage')
                 a.ui.basic.button.goto_user(href="/user/#{data.author}")
                     i.user.outline.icon
                     |#{data.author}
+                if data.url
+                    .ui.large.circular.basic.button
+                        img(src="https://img.icons8.com/color/48/000000/downloads.png")
+                        |download page
                 +call_watson id=_id key='data.url' url=data.url mode='url'
-                +get_emotion id=_id key='data.url' url=data.url mode='url'
+                unless max_emotion_percent
+                    .ui.large.circular.basic.button.get_emotion
+                        img(src="https://img.icons8.com/color/48/000000/satisfaction.png")
+                        |analyze emotion
+                    
                 if in_dev
                     +print_this
                 if watson
@@ -186,20 +195,21 @@ template(name='rcomment')
     // .ui.grid.call_watson_comment
     .ui.comment
         .content
-            .ui.small.inline.header {{data.score}}
-            a.author.inline.say(href="/user/#{data.author}") #{data.author}
-            span.metadata 
-                span.date {{ufrom data.created}}
-                unless max_emotion_percent
-                    i.smile.large.link.outline.icon.get_comment_emotion
-                +doc_emotion_small
-            .pointer.inline.say.autotag_watson(class=post_header_class)
+            .pointer.text.say.autotag_watson(class=post_header_class)
                 |{{#markdown}} {{data.body}} {{/markdown}}
-            each tags 
-                +flat_sub_tag_picker
-                // .ui.tiny.basic.label #/{this}
-            if in_dev
-                +print_this
+            .actions
+                .ui.circular.basic.label {{data.score}}
+                a.author.inline.say(href="/user/#{data.author}") #{data.author}
+                span.metadata 
+                    span.date {{ufrom data.created}}
+                    unless max_emotion_percent
+                        i.smile.large.link.outline.icon.get_comment_emotion
+                if in_dev
+                    +print_this
+                each tags 
+                    +flat_sub_tag_picker
+                    // .ui.tiny.basic.label #/{this}
+                +doc_emotion_small
         if data.replies.data.children
             .ui.grid
                 each data.replies.data.children
