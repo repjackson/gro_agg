@@ -17,6 +17,7 @@ Meteor.methods
 
 
 Meteor.publish 'doc_by_title', (title)->
+    @unblock()
     Docs.find({
         title:title
         model:'wikipedia'
@@ -76,7 +77,7 @@ Meteor.publish 'rposts', (
     # skip=0
     )->
         
-    # @unblock()
+    @unblock()
     self = @
     match = {
         model:'rpost'
@@ -140,7 +141,7 @@ Meteor.publish 'tags', (
     # picked_authors
     # query=''
     )->
-    # @unblock()
+    @unblock()
     self = @
     match = {
         model:'rpost'

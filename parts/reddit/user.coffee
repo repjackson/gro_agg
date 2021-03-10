@@ -145,8 +145,6 @@ if Meteor.isClient
             , limit:42
         user_comment_tag_results: -> results.find(model:'rcomment_result_tag')
     Template.user.events
-        'click .refresh_info': ->
-            Meteor.call 'get_user_info', Router.current().params.username, ->
         'click .search_tag': -> 
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             picked_user_tags.clear()
@@ -269,7 +267,7 @@ if Meteor.isServer
                             item.reddit_id = item.data.id
                             item.author = item.data.author
                             item.subreddit = item.data.subreddit
-                            Docs.insert item
+                            Docs.insert item, ->
                     )
         
         get_user_comments: (username)->
@@ -295,7 +293,7 @@ if Meteor.isServer
                             item.reddit_id = item.data.id
                             item.author = item.data.author
                             item.subreddit = item.data.subreddit
-                            Docs.insert item
+                            Docs.insert item, ->
                     )
             
                 # for post in res.data.data.children

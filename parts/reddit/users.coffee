@@ -554,6 +554,8 @@ if Meteor.isServer
         sort_key
         sort_direction=-1
         )->
+        @unblock()
+
         match = {model:'user'}
         if username_query
             match.username = {$regex:"#{username_query}", $options: 'i'}
@@ -601,6 +603,8 @@ if Meteor.isServer
         # view_mode
         # limit
     )->
+        @unblock()
+        
         self = @
         match = {model:'user'}
         if picked_user_tags.length > 0 then match.tags = $all: picked_user_tags
@@ -651,7 +655,7 @@ if Meteor.isServer
         # view_unanswered
         # query=''
         )->
-        # @unblock()
+        @unblock()
         self = @
         match = {
             model:model
