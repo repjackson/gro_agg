@@ -93,11 +93,12 @@ if Meteor.isClient
             Meteor.call 'get_reddit_post', Router.current().params.doc_id, @reddit_id, ->
   
   
-    Template.rcomment.onRendered ->
+    Template.rcomment.events ->
         # console.log @data
-        unless @data.watson
-            # console.log 'calling watson on comment'
-            Meteor.call 'call_watson', @data._id,'data.body','comment',->
+        'click .call_watson_comment': ->
+            unless @data.watson
+                # console.log 'calling watson on comment'
+                Meteor.call 'call_watson', @data._id,'data.body','comment',->
         # unless @data.time_tags
         #     # console.log 'calling watson on comment'
         #     Meteor.call 'tagify_time_rpost', @data._id,->

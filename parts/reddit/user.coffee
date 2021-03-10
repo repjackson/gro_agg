@@ -27,7 +27,7 @@ if Meteor.isClient
             , ->
     Template.user_comments.onCreated ->
 
-    Template.user.events ->
+    Template.user.events
         # Meteor.setTimeout =>
         'click .refresh_info': ->
             $('body').toast(
@@ -132,7 +132,7 @@ if Meteor.isClient
                 model:'rpost'
                 author:Router.current().params.username
             },{
-                limit:42
+                limit:20
                 sort:
                     _timestamp:-1
             }  
@@ -142,7 +142,7 @@ if Meteor.isClient
             Docs.find
                 model:'rcomment'
                 author:Router.current().params.username
-            , limit:42
+            , limit:20
         user_comment_tag_results: -> results.find(model:'rcomment_result_tag')
     Template.user.events
         'click .search_tag': -> 
@@ -168,10 +168,10 @@ if Meteor.isClient
                 )
                 Session.set('thinking',false)
 
-        'click .get_user_posts': ->
-            Meteor.call 'get_user_posts', Router.current().params.username, ->
-            Meteor.call 'user_omega', Router.current().params.username, ->
-            Meteor.call 'rank_user', Router.current().params.username, ->
+        # 'click .get_user_posts': ->
+        #     Meteor.call 'get_user_posts', Router.current().params.username, ->
+        #     Meteor.call 'user_omega', Router.current().params.username, ->
+        #     Meteor.call 'rank_user', Router.current().params.username, ->
 
         'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
         'click .toggle_question_detail': (e,t)-> Session.set('view_question_detail',!Session.get('view_question_detail'))
@@ -183,14 +183,14 @@ if Meteor.isClient
 
     
 if Meteor.isServer
-    Meteor.publish 'user_posts', (username, limit=42)->
+    Meteor.publish 'user_posts', (username, limit=20)->
         match = {
             model:'rpost'
             author:username
         }
         @unblock()
         # unless Meteor.isDevelopment
-        match.over_18 = $ne:false 
+        match.over_18 = false 
         Docs.find match,{
             limit:limit
             sort:
@@ -217,7 +217,7 @@ if Meteor.isServer
                 max_emotion_name:1
                 max_emotion_percent:1
         }  
-    Meteor.publish 'user_comments', (username, limit=42)->
+    Meteor.publish 'user_comments', (username, limit=20)->
         @unblock()
         
         Docs.find

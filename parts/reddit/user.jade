@@ -25,6 +25,15 @@ template(name='user')
                         small(title='reputation') {{ commafy karma }}
                         // strong(title="#{site} rank") ##{site_rank} 
                         strong(title='global rank') ##{global_rank}
+                    .ui.circular.basic.button.refresh_info
+                        i.refresh.icon
+                        |refresh info
+                    .ui.circular.basic.button.refresh_stats
+                        i.refresh.icon
+                        |refresh stats
+                    .ui.circular.basic.button.refresh_rank
+                        i.line.chart.icon
+                        |refresh rank
                     with data
                         .ui.list
                             .item #{total_karma} total karma
@@ -33,15 +42,6 @@ template(name='user')
                             .item #{awardee_karma} awardee karma
                             .item #{awarder_karma} awarder karma
                             .item created {{ufrom created_utc}}
-                        .ui.circular.basic.button.refresh_info
-                            i.refresh.icon
-                            |refresh info
-                        .ui.circular.basic.button.refresh_stats
-                            i.refresh.icon
-                            |refresh stats
-                        .ui.circular.basic.button.refresh_rank
-                            i.line.chart.icon
-                            |refresh rank
                         if is_gold
                             i.large.yellow.star.icon(title='is gold')
                         if is_mod
