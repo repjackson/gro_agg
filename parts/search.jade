@@ -77,10 +77,10 @@ template(name='home')
                     +sort_button l='link' i='edit' key='data.link_karma'
                     +sort_button l='comment' i='chat outline' key='data.comment_karma'
                     +sort_button l='joy' i='smile' c='green' key='rep_joy'
-                    +sort_button l='anger' i='' c='red' key='rep_anger'
-                    +sort_button l='sadness' i='' c='blue' key='rep_sadness'
-                    +sort_button l='disgust' i='' c='orange' key='rep_disgust'
-                    +sort_button l='fear' i='' c='grey' key='rep_fear'
+                    +sort_button l='anger' i='frown' c='red' key='rep_anger'
+                    +sort_button l='sadness' i='frown' c='blue' key='rep_sadness'
+                    +sort_button l='disgust' i='frown' c='orange' key='rep_disgust'
+                    +sort_button l='fear' i='frown' c='grey' key='rep_fear'
                 +alpha
                 each wikis
                     .ui.card
@@ -118,6 +118,10 @@ template(name='search_shortcut')
     i.big.grey.link.icon.search_tag.zoomer(class=icon title=tag)
 
    
+template(name='limit_button')
+    // i.big.grey.link.icon.search_tag.zoomer(class=icon title=tag)
+    .ui.circular.basic.compact.icon.button.set_limit(class=limit_button_class)
+        |#{value}
 
 template(name='card')
     .column.smallscroll

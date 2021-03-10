@@ -82,7 +82,7 @@ template(name='user_posts')
         i.edit.icon
         |#{user_post_docs.count}
         |posts
-    i.refresh.grey.link.icon.refresh_posts(title='refresh posts')
+    // i.refresh.grey.link.icon.refresh_posts(title='refresh posts')
     each user_post_tag_results
         // .ui.label #{this}
         // +user_post_selector
@@ -92,6 +92,40 @@ template(name='user_posts')
             +user_post
 
                     
+                                
+template(name='user_post')
+    .ui.item
+        if embed
+            span.rounded.full
+                |!{embed}
+            div
+        else if data.is_reddit_media_domain
+            a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
+                img.ui.inline.small.zoomer.image.toggle_view(src=data.url)
+        else if watson.metadata.image.length
+            a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
+                img.ui.small.inline.zoomer.image.toggle_view(src=watson.metadata.image)
+        else if has_thumbnail
+            a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
+                img.ui.small.inline.zoomer.image.zoomer(src=data.thumbnail)    
+
+        // +skve k='view_preview' v='preview' l=' ' i='caret down'
+        // if skv_is 'view_preview' 'preview'
+        a.ui.inline.header(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
+            |#{data.ups}
+            |#{data.link_title} #{data.title}
+        a.ui.small.inline.header(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
+            |!{data.body}
+        a.ui.circular.basic.label(href="/r/#{data.subreddit}") #{data.subreddit}
+        each seven_tags 
+            .ui.small.basic.label #{this}
+        +doc_emotion_small        
+        .ui.label {{ufrom data.created}}
+        if in_dev
+            +print_this
+            // unless doc_sentiment_label
+            //     +call_watson
+    .ui.divider                 
 
 template(name='user_comments')                    
     .ui.inline.dividing.header.get_user_comments
@@ -155,40 +189,6 @@ template(name='user_top_emotions')
                 ##{global_fear_rep_rank} rank
 
                     
-                                
-template(name='user_post')
-    .ui.item
-        if embed
-            span.rounded.full
-                |!{embed}
-            div
-        else if data.is_reddit_media_domain
-            a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.inline.small.zoomer.image.toggle_view(src=data.url)
-        else if watson.metadata.image.length
-            a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.small.inline.zoomer.image.toggle_view(src=watson.metadata.image)
-        else if has_thumbnail
-            a.view_post(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
-                img.ui.small.inline.zoomer.image.zoomer(src=data.thumbnail)    
-
-        // +skve k='view_preview' v='preview' l=' ' i='caret down'
-        // if skv_is 'view_preview' 'preview'
-        a.ui.small.inline.header(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
-            |#{data.ups}
-            |#{data.link_title} #{data.title}
-        a.ui.small.inline.header(href="/r/#{data.subreddit}/post/#{_id}" class=post_header_class)
-            |!{data.body}
-        a.ui.circular.basic.label(href="/r/#{data.subreddit}") #{data.subreddit}
-        each seven_tags 
-            .ui.small.basic.label #{this}
-        +doc_emotion_small        
-        .ui.label {{ufrom data.created}}
-        if in_dev
-            +print_this
-            // unless doc_sentiment_label
-            //     +call_watson
-    .ui.divider                 
                             
 template(name='user_doc_item')
     .ui.item

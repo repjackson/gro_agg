@@ -41,27 +41,27 @@ if Meteor.isClient
                 
                 
     Template.subreddit.onCreated ->
-        Session.setDefault('subreddit_view_layout', 'grid')
+        Session.setDefault('view_layout', 'grid')
         Session.setDefault('sort_key', 'data.created')
         Session.setDefault('sort_direction', -1)
         Session.setDefault('location_query', null)
         # @autorun => Meteor.subscribe 'subrzeddit_user_count', Router.current().params.subreddit
         @autorun => Meteor.subscribe 'subreddit_by_param', Router.current().params.subreddit
-        @autorun => Meteor.subscribe 'sub_docs_by_name', 
+        @autorun => Meteor.subscribe 'sub_docs', 
             Router.current().params.subreddit
             picked_sub_tags.array()
-            # picked_subreddit_domain.array()
-            # picked_subreddit_time_tags.array()
-            # picked_subreddit_authors.array()
-            # Session.get('sort_key')
-            # Session.get('sort_direction')
+            picked_subreddit_domain.array()
+            picked_subreddit_time_tags.array()
+            picked_subreddit_authors.array()
+            Session.get('sort_key')
+            Session.get('sort_direction')
       
-        # @autorun => Meteor.subscribe 'sub_doc_count', 
-        #     Router.current().params.subreddit
-        #     picked_sub_tags.array()
-        #     picked_subreddit_domain.array()
-        #     picked_subreddit_time_tags.array()
-        #     picked_subreddit_authors.array()
+        @autorun => Meteor.subscribe 'sub_doc_count', 
+            Router.current().params.subreddit
+            picked_sub_tags.array()
+            picked_subreddit_domain.array()
+            picked_subreddit_time_tags.array()
+            picked_subreddit_authors.array()
     
         @autorun => Meteor.subscribe 'subreddit_result_tags',
             Router.current().params.subreddit
@@ -69,6 +69,8 @@ if Meteor.isClient
             picked_subreddit_domain.array()
             picked_subreddit_time_tags.array()
             picked_subreddit_authors.array()
+            Session.get('sort_key')
+            Session.get('sort_direction')
             Session.get('toggle')
         # Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
     
@@ -95,13 +97,14 @@ if Meteor.isClient
         #     Meteor.call 'tagify_time_rpost',@data._id,=>
     
     
-    Template.subreddit.events
+    Template.sort_direction_button.events
         'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
-        'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
         'click .sort_up': (e,t)-> Session.set('sort_direction',1)
-        'click .limit_10': (e,t)-> Session.set('limit',10)
-        'click .limit_1': (e,t)-> Session.set('limit',1)
+
+    Template.limit_button.events
+        'click .set_limit': (e,t)-> Session.set('limit',@value)
     
+    Template.subreddit.events
         'click .sort_created': -> 
             Session.set('sort_key', 'data.created')
             Meteor.call 'get_sub_latest', Router.current().params.subreddit, ->
@@ -116,8 +119,8 @@ if Meteor.isClient
         'click .get_info': ->
             l 'dl'
             Meteor.call 'get_sub_info', Router.current().params.subreddit, ->
-        'click .set_grid': (e,t)-> Session.set('subreddit_view_layout', 'grid')
-        'click .set_list': (e,t)-> Session.set('subreddit_view_layout', 'list')
+        'click .set_grid': (e,t)-> Session.set('view_layout', 'grid')
+        'click .set_list': (e,t)-> Session.set('view_layout', 'list')
     
         'keyup .search_subreddit': (e,t)->
             val = $('.search_subreddit').val()
@@ -292,13 +295,14 @@ if Meteor.isServer
             model:'subreddit'
             "data.display_name":subreddit
     
-    Meteor.publish 'sub_docs_by_name', (
+    Meteor.publish 'sub_docs', (
         subreddit
         picked_sub_tags
         picked_subreddit_domains
         picked_subreddit_time_tags
         picked_subreddit_authors
-        sort_key
+        sort_key='data.created'
+        sort_direction
         )->
         @unblock()
 
@@ -307,10 +311,6 @@ if Meteor.isServer
             model:'rpost'
             subreddit:subreddit
         }
-        if sort_key
-            sk = sort_key
-        else
-            sk = 'data.created'
         # if view_bounties
         #     match.bounty = true
         # if view_unanswered
@@ -321,7 +321,7 @@ if Meteor.isServer
         # if picked_subreddit_authors.length > 0 then match.authors = $all:picked_subreddit_authors
         Docs.find match,
             limit:20
-            sort: "#{sk}":-1
+            sort: "#{sort_key}":parseInt(sort_direction)
             fields:
                 title:1
                 tags:1

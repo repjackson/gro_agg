@@ -14,8 +14,8 @@ template(name='rpage')
                 div
                 // if skv_is 'view_section' 'main'
                 .scrolling
-                    unless watson
-                        +call_watson id=_id key='data.url' url=data.url mode='url'
+                    // unless watson
+                    //     +call_watson id=_id key='data.url' url=data.url mode='url'
 
                     // blockquote(class="reddit-card")
                     //     a(href="https://www.reddit.com/r/therewasanattempt/comments/lt5gfm/to_eat_the_fish_and_complete_the_challenge/")
@@ -102,15 +102,15 @@ template(name='rpage')
                 // .spacer
                 // if skv_is 'view_section' 'tags'
                 if skv_is 'view_section' 'comments'
-                    .ui.large.basic.fluid.button.get_comments
+                    .ui.basic.fluid.button.get_comments
                         i.download.icon
-                        |get comments
+                        |comments
                     .scrolling
                         +rcomments_tab
             .three.wide.column
                 .ui.fluid.basic.button.get_post
                     i.download.icon
-                    |get post
+                    |post
                 | {{ufrom data.created}}
                 if data.url
                     a.ui.basic.fluid.button(href=data.url target="_window" title=data.url) 

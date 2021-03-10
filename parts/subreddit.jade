@@ -29,43 +29,20 @@ template(name='subreddit')
                     // .ui.label(title=count) #{name}
                 div
                 .ui.inline.header #{post_count}
-                if skv_is 'sort_direction' 1
-                    .ui.icon.basic.label.sort_down
-                        i.caret.down.icon
-                else
-                    .ui.icon.basic.label.sort_up
-                        i.caret.up.icon
-                .ui.compact.basic.label.limit_1
-                    |1
-                .ui.compact.basic.label.limit_10
-                    |10
-                .ui.icon.compact.basic.small.button.sort_created(class=sort_created_class)
-                    i.clock.icon
-                .ui.icon.compact.basic.small.button.sort_ups(class=sort_ups_class)
-                    i.thumbs.up.icon
-                if skv_is 'view_detail' true
-                    .ui.black.compact.label.toggle_detail
-                        i.list.icon
-                        |detail
-                else
-                    .ui.compact.basic.label.toggle_detail
-                        i.minus.icon
-                        |simple
-                    // i.line.chart.icon
-                if skv_is 'subreddit_view_layout' 'grid'
-                    .ui.compact.label.set_grid(class=grid_class) 
-                        i.th.icon
-                        |grid
-                else
-                    .ui.icon.compact.label.set_grid(class=grid_class) 
-                        i.th.icon
-                if skv_is 'subreddit_view_layout' 'list'
-                    .ui.compact.label.set_list(class=list_class)
-                        i.list.icon
-                        |list
-                else
-                    .ui.icon.compact.label.set_list(class=list_class)
-                        i.list.icon
+                +sort_direction_button
+                +limit_button value=1
+                +limit_button value=10
+                +limit_button value=20
+                +view_layout_button label='grid' icon='th'
+                +view_layout_button label='list' icon='list'
+                +sort_button l='upvotes' i='thumbs up outline' key='data.ups'
+                +sort_button l='comments' i='chat outline' key='data.comment_count'
+                +sort_button l='joy' i='smile' c='green' key='rep_joy'
+                +sort_button l='anger' i='frown' c='red' key='rep_anger'
+                +sort_button l='sadness' i='frown' c='blue' key='rep_sadness'
+                +sort_button l='disgust' i='frown' c='orange' key='rep_disgust'
+                +sort_button l='fear' i='frown' c='grey' key='rep_fear'
+                    
                 .scrolling
                     if sub_docs
                         if skv_is 'subreddit_view_layout' 'grid'
@@ -169,6 +146,15 @@ template(name='subreddit')
                             i.grey.thumbs.up.outline.icon
                             |#{total_votes} votes
                         .item #{comment_count} comments
+       
+template(name='sort_direction_button')       
+   if skv_is 'sort_direction' 1
+        .ui.icon.basic.label.sort_down
+            i.caret.down.icon
+    else
+        .ui.icon.basic.label.sort_up
+            i.caret.up.icon
+
        
 template(name='subreddit_best')
     .ui.small.header 

@@ -11,14 +11,14 @@ if Meteor.isClient
     Template.users.onCreated ->
         Session.setDefault('selected_user_location',null)
         Session.setDefault('searching_location',null)
-        Session.setDefault('users_sort_direction',-1)
+        Session.setDefault('sort_direction',-1)
         
         @autorun -> Meteor.subscribe 'selected_users', 
             picked_user_tags.array() 
             Session.get('searching_username')
             Session.get('limit')
             Session.get('sort_key')
-            Session.get('users_sort_direction')
+            Session.get('sort_direction')
         @autorun -> Meteor.subscribe('user_tags',
             picked_user_tags.array()
             Session.get('username_query')
@@ -93,7 +93,7 @@ if Meteor.isClient
             #     match.site = $in:['member']
             if picked_user_tags.array().length > 0 then match.tags = $all: picked_user_tags.array()
             Docs.find match,
-                sort:"#{Session.get('sort_key')}":parseInt(Session.get('users_sort_direction'))
+                sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
 
         all_user_tags: -> results.find(model:'user_tag')
         picked_user_tags: -> picked_user_tags.array()

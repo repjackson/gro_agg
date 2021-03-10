@@ -114,16 +114,11 @@ if Meteor.isClient
         'click .view_question': (e,t)-> 
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @title
             Router.go "/s/#{Router.current().params.site}/q/#{@question_id}"
-        'click .sort_timestamp': (e,t)-> Session.set('sort_key','_timestamp')
         # 'click .unview_bounties': (e,t)-> Session.set('view_bounties',0)
         # 'click .view_bounties': (e,t)-> Session.set('view_bounties',1)
         'click .unview_unanswered': (e,t)-> Session.set('view_unanswered',0)
         'click .view_unanswered': (e,t)-> Session.set('view_unanswered',1)
-        'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
         'click .toggle_detail': (e,t)-> Session.set('view_detail',!Session.get('view_detail'))
-        'click .sort_up': (e,t)-> Session.set('sort_direction',1)
-        'click .limit_10': (e,t)-> Session.set('limit',10)
-        'click .limit_1': (e,t)-> Session.set('limit',1)
         'keyup .search_site': (e,t)->
             # search = $('.search_site').val().toLowerCase().trim()
             search = $('.search_site').val().trim()
