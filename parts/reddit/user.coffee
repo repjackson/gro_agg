@@ -95,8 +95,8 @@ if Meteor.isClient
 
     Template.user_doc_item.onRendered ->
         # console.log @
-        unless @data.watson
-            Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
+        # unless @data.watson
+        #     Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
  
     Template.user_comment.events
         'click .call_watson_comment': ->
@@ -104,13 +104,13 @@ if Meteor.isClient
             Meteor.call 'call_watson', @_id,'data.body','comment',->
             
     Template.user_comment.onRendered ->
-        unless @data.watson
-            # console.log 'calling watson on comment'
-            Meteor.call 'call_watson', @data._id,'data.body','comment',->
+        # unless @data.watson
+        #     # console.log 'calling watson on comment'
+        #     Meteor.call 'call_watson', @data._id,'data.body','comment',->
     Template.user_post.onRendered ->
-        unless @data.watson
-            # console.log 'calling watson on comment'
-            Meteor.call 'call_watson', @data._id,'data.body','comment',->
+        # unless @data.watson
+        #     # console.log 'calling watson on comment'
+        #     Meteor.call 'call_watson', @data._id,'data.body','comment',->
 
     Template.user.helpers
         user_doc: ->
