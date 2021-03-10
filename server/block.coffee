@@ -293,7 +293,7 @@ Meteor.methods
             result = Docs.update({tags:$in:[black_tag]}, {$pull:tags:black_tag}, {multi:true})
 
     clear_blocklist_doc: (doc_id)=>
-        Docs.update doc_id,
+        Docs.update({_id:doc_id},{
             $pullAll:
                 tags:@blocklist
-        
+        }, ->)

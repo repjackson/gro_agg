@@ -201,22 +201,6 @@ Meteor.methods
                     # console.log 'main_emotion', max_emotion_name
                     # console.log 'max_emotion_percent', max_emotion_percent
                     # if mode is 'url'
-                    Docs.update { _id: doc_id },
-                        $set:
-                            analyzed_text:response.analyzed_text
-                            watson: response
-                            max_emotion_name:max_emotion_name
-                            max_emotion_percent:max_emotion_percent
-                            sadness_percent: sadness_percent
-                            joy_percent: joy_percent
-                            fear_percent: fear_percent
-                            anger_percent: anger_percent
-                            disgust_percent: disgust_percent
-                            watson_concepts: concept_array
-                            watson_keywords: keyword_array
-                            doc_sentiment_score: response.sentiment.document.score
-                            doc_sentiment_label: response.sentiment.document.label
-    
     
     
                     adding_tags = []
@@ -258,6 +242,22 @@ Meteor.methods
                     Docs.update { _id: doc_id },
                         $addToSet:
                             tags:$each:keywords_concepts
+                        $set:
+                            analyzed_text:response.analyzed_text
+                            watson: response
+                            max_emotion_name:max_emotion_name
+                            max_emotion_percent:max_emotion_percent
+                            sadness_percent: sadness_percent
+                            joy_percent: joy_percent
+                            fear_percent: fear_percent
+                            anger_percent: anger_percent
+                            disgust_percent: disgust_percent
+                            watson_concepts: concept_array
+                            watson_keywords: keyword_array
+                            doc_sentiment_score: response.sentiment.document.score
+                            doc_sentiment_label: response.sentiment.document.label
+    
+                            
                     final_doc = Docs.findOne doc_id
                     # console.log final_doc
     

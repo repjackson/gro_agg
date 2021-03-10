@@ -27,71 +27,39 @@ if Meteor.isClient
             , ->
     Template.user_comments.onCreated ->
 
-    Template.user.onRendered ->
+    Template.user.events ->
         # Meteor.setTimeout =>
-        $('body').toast(
-            showIcon: 'user'
-            message: 'getting user info'
-            displayTime: 'auto',
-        )
-        Meteor.call 'get_user_info', Router.current().params.username, ->
+        'click .refresh_info': ->
             $('body').toast(
-                message: 'info retrieved'
                 showIcon: 'user'
-                showProgress: 'bottom'
-                class: 'info'
+                message: 'getting user info'
                 displayTime: 'auto',
             )
-            Session.set('thinking',false)
-    Template.user_comments.onRendered ->
-        $('body').toast(
-            showIcon: 'chat'
-            message: 'getting comments'
-            displayTime: 'auto',
-        )
-        Meteor.call 'get_user_comments', Router.current().params.username, ->
+            Meteor.call 'get_user_info', Router.current().params.username, ->
+                $('body').toast(
+                    message: 'info retrieved'
+                    showIcon: 'user'
+                    showProgress: 'bottom'
+                    class: 'info'
+                    displayTime: 'auto',
+                )
+                Session.set('thinking',false)
+    Template.user_comments.events
+        'click .refresh_comments': ->
             $('body').toast(
-                message: 'comments done'
                 showIcon: 'chat'
-                showProgress: 'bottom'
-                class: 'success'
+                message: 'getting comments'
                 displayTime: 'auto',
             )
-            Session.set('thinking',false)
-
-          
-        Meteor.setTimeout =>
-            $('body').toast(
-                showIcon: 'dna'
-                message: 'calculating stats'
-                displayTime: 'auto',
-            )
-            Meteor.call 'user_omega', Router.current().params.username, ->
+            Meteor.call 'get_user_comments', Router.current().params.username, ->
                 $('body').toast(
-                    message: 'stats calculated'
-                    showIcon: 'dna'
+                    message: 'comments done'
+                    showIcon: 'chat'
                     showProgress: 'bottom'
                     class: 'success'
                     displayTime: 'auto',
                 )
                 Session.set('thinking',false)
-           
-           
-            $('body').toast(
-                showIcon: 'line chart'
-                message: 'ranking user'
-                displayTime: 'auto',
-            )
-            Meteor.call 'rank_user', Router.current().params.username, ->
-                $('body').toast(
-                    message: 'user ranked'
-                    showIcon: 'line chart'
-                    showProgress: 'bottom'
-                    class: 'success'
-                    displayTime: 'auto',
-                )
-                Session.set('thinking',false)
-        , 10000
 
     Template.user_doc_item.onRendered ->
         # console.log @
@@ -111,6 +79,26 @@ if Meteor.isClient
         # unless @data.watson
         #     # console.log 'calling watson on comment'
         #     Meteor.call 'call_watson', @data._id,'data.body','comment',->
+
+    Template.user.events
+        'click .refresh_stats': ->
+            Meteor.setTimeout =>
+                $('body').toast(
+                    showIcon: 'dna'
+                    message: 'calculating stats'
+                    displayTime: 'auto',
+                )
+                Meteor.call 'user_omega', Router.current().params.username, ->
+                    $('body').toast(
+                        message: 'stats calculated'
+                        showIcon: 'dna'
+                        showProgress: 'bottom'
+                        class: 'success'
+                        displayTime: 'auto',
+                    )
+                    Session.set('thinking',false)
+           
+
 
     Template.user.helpers
         user_doc: ->
@@ -135,22 +123,6 @@ if Meteor.isClient
                 )
                 Session.set('thinking',false)
           
-    Template.user_posts.onRendered ->
-        $('body').toast(
-            showIcon: 'edit'
-            message: 'getting user posts'
-            displayTime: 'auto',
-        )
-        Meteor.call 'get_user_posts', Router.current().params.username, ->
-            $('body').toast(
-                message: 'posts downloaded'
-                showIcon: 'user'
-                showProgress: 'bottom'
-                class: 'success'
-                displayTime: 'auto',
-            )
-            Session.set('thinking',false)
-      
 
 
             
@@ -173,13 +145,30 @@ if Meteor.isClient
             , limit:42
         user_comment_tag_results: -> results.find(model:'rcomment_result_tag')
     Template.user.events
-        'click .get_user_info': ->
+        'click .refresh_info': ->
             Meteor.call 'get_user_info', Router.current().params.username, ->
         'click .search_tag': -> 
             # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             picked_user_tags.clear()
             picked_user_tags.push @valueOf()
             Router.go "/users"
+
+
+        'click .refresh_rank': ->
+            $('body').toast(
+                showIcon: 'line chart'
+                message: 'ranking user'
+                displayTime: 'auto',
+            )
+            Meteor.call 'rank_user', Router.current().params.username, ->
+                $('body').toast(
+                    message: 'user ranked'
+                    showIcon: 'line chart'
+                    showProgress: 'bottom'
+                    class: 'success'
+                    displayTime: 'auto',
+                )
+                Session.set('thinking',false)
 
         'click .get_user_posts': ->
             Meteor.call 'get_user_posts', Router.current().params.username, ->
@@ -201,8 +190,9 @@ if Meteor.isServer
             model:'rpost'
             author:username
         }
+        @unblock()
         # unless Meteor.isDevelopment
-        match.over_18 = $ne:true 
+        match.over_18 = $ne:false 
         Docs.find match,{
             limit:limit
             sort:
@@ -230,6 +220,8 @@ if Meteor.isServer
                 max_emotion_percent:1
         }  
     Meteor.publish 'user_comments', (username, limit=42)->
+        @unblock()
+        
         Docs.find
             model:'rcomment'
             author:username

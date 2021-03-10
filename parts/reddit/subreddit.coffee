@@ -89,8 +89,8 @@ if Meteor.isClient
         #     Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
     
     Template.sub_post_card.onRendered ->
-        unless @data.doc_sentiment_label
-            Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
+        # unless @data.doc_sentiment_label
+        #     Meteor.call 'call_watson',@data._id,'data.url','url',@data.data.url,=>
         # unless @data.time_tags
         #     Meteor.call 'tagify_time_rpost',@data._id,=>
     
@@ -300,6 +300,8 @@ if Meteor.isServer
         picked_subreddit_authors
         sort_key
         )->
+        @unblock()
+
         self = @
         match = {
             model:'rpost'
@@ -364,7 +366,7 @@ if Meteor.isServer
         subreddit
         picked_tags
         )->
-        # @unblock()
+        @unblock()
         self = @
         match = {
             model:'rpost'
@@ -404,7 +406,8 @@ if Meteor.isServer
         picked_subreddit_domains
         picked_subreddit_time_tags
         )->
-            
+        @unblock()
+
         match = {model:'rpost'}
         match.subreddit = subreddit
         if picked_tags.length > 0 then match.tags = $all:picked_tags
@@ -593,7 +596,7 @@ if Meteor.isServer
         # view_unanswered
         # query=''
         )->
-        # @unblock()
+        @unblock()
         self = @
         match = {
             model:'rpost'

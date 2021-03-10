@@ -4,13 +4,13 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe('rpost_comments', Router.current().params.group, Router.current().params.doc_id)
         Session.set('view_section','comments')
         
-    Template.rpage.onRendered ->
-        Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
-        Meteor.call 'get_reddit_post', Router.current().params.doc_id, ->
-        Meteor.call 'call_watson',Router.current().params.doc_id,'url','url',=>
-        doc = Docs.findOne Router.current().params.doc_id
-        if doc
-            Meteor.call 'get_user_info', doc.data.author, ->
+    Template.rpage.events ->
+        'click .get_post': ->
+            Meteor.call 'get_reddit_post', Router.current().params.doc_id, ->
+        # Meteor.call 'call_watson',Router.current().params.doc_id,'url','url',=>
+        # doc = Docs.findOne Router.current().params.doc_id
+        # if doc
+        #     Meteor.call 'get_user_info', doc.data.author, ->
 
     Template.rpage.helpers
         rpost_comments: ->
@@ -132,7 +132,7 @@ if Meteor.isServer
         # view_unanswered
         # query=''
         )->
-        # @unblock()
+        @unblock()
         
         parent = Docs.findOne parent_id
         
@@ -168,7 +168,8 @@ if Meteor.isServer
         self.ready()
     Meteor.publish 'related_posts', (post_id)->
         post = Docs.findOne post_id
-            
+        @unblock()
+
         related_cur = 
             Docs.find({
                 model:'rpost'
@@ -183,11 +184,13 @@ if Meteor.isServer
         
                 
     Meteor.publish 'rpost_comments', (subreddit, doc_id)->
+        @unblock()
+        
         post = Docs.findOne doc_id
-        Docs.find
+        Docs.find {
             model:'rcomment'
             parent_id:"t3_#{post.reddit_id}"
-            
+        }, limit:20
             
         
         

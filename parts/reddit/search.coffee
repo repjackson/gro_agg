@@ -167,8 +167,8 @@ if Meteor.isClient
     
     Template.card.onCreated ->
         # console.log @data
-        unless @doc_sentiment_label
-            Meteor.call 'call_watson', @data._id, ->
+        # unless @doc_sentiment_label
+        #     Meteor.call 'call_watson', @data._id, ->
     
     
     

@@ -386,7 +386,7 @@ if Meteor.isServer
             #         $all: omega.picked_stags
             match.model = $in:['rpost','rcomment']
             match["data.author"] = username
-            
+            match.watson = $exists:true
             pipe =  [
                 { $match: match }
                 # { $group:
@@ -442,6 +442,7 @@ if Meteor.isServer
             
             match.model = $in:['rpost','rcomment']
             match["data.author"] = username
+            match.watson = $exists:true
             total_doc_result_count =
                 Docs.find( match,
                     {
@@ -617,7 +618,7 @@ if Meteor.isServer
         #     match.bought = true
         #     match._author_id = Meteor.userId()
         doc_count = Docs.find(match).count()
-        console.log match
+        # console.log match
         cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
@@ -626,7 +627,7 @@ if Meteor.isServer
             { $match: _id: $nin: picked_user_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit: 33 }
+            { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         cloud.forEach (user_tag, i) ->
@@ -673,7 +674,7 @@ if Meteor.isServer
             { $match: _id: $nin: picked_stags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:11 }
+            { $limit:20 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         rpost_tag_cloud.forEach (tag, i) ->
