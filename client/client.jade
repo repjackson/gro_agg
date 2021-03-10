@@ -1,0 +1,79 @@
+head
+    title dao
+    meta(name='viewport', content='user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='apple-mobile-web-app-status-bar-style', content='black')
+    meta(name="msapplication-TileColor" content="#da532c")
+    meta(name="theme-color" content="black")
+    // link(href="https://fonts.googleapis.com/css?family=Ubuntu:300&display=swap" rel="stylesheet")
+    // link(href="https://fonts.googleapis.com/css?family=Lato:300&display=swap" rel="stylesheet")
+    //- script(src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js")
+
+    link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
+    link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")
+    link(rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png")
+    link(rel="manifest" href="/site.webmanifest")
+    script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
+
+    // link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
+    // script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
+    // script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/en.js")
+
+    // script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
+
+    link(rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css")
+    script(src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js")
+    script(async src="https://www.googletagmanager.com/gtag/js?id=G-GLYPPRGJFQ")
+    // script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
+    link(href="https://fonts.googleapis.com/css?family=Ubuntu:300&display=swap" rel="stylesheet")
+
+    script.
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        
+        gtag('config', 'G-GLYPPRGJFQ');
+
+
+template(name='nav')
+    .ui.fluid.attached.borderless.three.item.menu
+        // a.icon.item.toggle_sidebar.no_blink
+        //     i.bars.icon
+    
+        a.ui.icon.item(href="/" class="{{isActiveRoute regex='home'}}")
+            i.search.large.icon
+        // a.ui.icon.item.clear(href="/reddit" class="{{isActiveRoute 'reddit'}}")
+        //     i.search.icon
+        a.ui.icon.item(href="/subs" class="{{isActiveRoute regex='sub'}}")
+            i.fire.large.icon
+        // a.ui.icon.item.clear(href="/stack" class="{{isActiveRoute 'stack'}}")
+        //     i.stack.exchange.icon
+        a.ui.icon.item(href="/users" class="{{isActiveRoute regex='user'}}")
+            i.user.outline.large.icon
+        // .item(title='session karma')
+        //     i.grey.lightning.icon
+        //     |#{session_clicks}
+        // .item(title='global karma')
+        //     i.grey.globe.icon
+        //     |#{global_karma}
+        // +status
+    
+
+template(name='layout')
+    +nav
+    +yield
+
+
+template(name='view_layout_button')    
+    .ui.circular.icon.basic.button
+        i.icon(class=icon)
+            
+
+template(name='not_found')
+    .ui.center.aligned.basic.segment
+        a(href="/")
+            i.big.yin.yang.grey.link.icon.pulse
+
+
+
+   
