@@ -86,16 +86,16 @@ Meteor.methods
         unless doc.watson
             params =
                 concepts:
-                    limit:20
+                    limit:10
                 features:
                     entities:
-                        emotion: true
-                        sentiment: true
+                        emotion: false
+                        sentiment: false
                         mentions: false
-                        limit: 20
+                        limit: 10
                     keywords:
-                        emotion: true
-                        sentiment: true
+                        emotion: false
+                        sentiment: false
                         limit: 20
                     concepts: {}
                     # categories:
@@ -143,12 +143,12 @@ Meteor.methods
                     when 'video'
                         params.url = "https://www.reddit.com#{doc.data.permalink}"
                         params.features.metadata = {}
-                        params.returnAnalyzedText = true
-                        params.clean = true
+                        params.returnAnalyzedText = false
+                        # params.clean = true
                         params.features.metadata = {}
                     when 'image'
                         params.url = "https://www.reddit.com#{doc.data.permalink}"
-                        params.returnAnalyzedText = true
+                        params.returnAnalyzedText = false
                         params.clean = true
                         params.features.metadata = {}
     
@@ -168,6 +168,8 @@ Meteor.methods
                         # console.log 'not html, flaggged doc for future skip', params.url
                     else
                         console.log '403 error api key'
+                        
+                    return err
                 else
                     # console.log 'analy text', response.analyzed_text
                     # console.log(JSON.stringify(response, null, 2));

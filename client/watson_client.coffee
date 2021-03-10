@@ -1,15 +1,15 @@
 Template.doc_emotion.onCreated ->
-    Meteor.setTimeout ->
-        $('.progress').progress()
-    , 1000
-    Meteor.setTimeout ->
-        $('.ui.accordion').accordion()
-    , 1000
+    # Meteor.setTimeout ->
+    #     $('.progress').progress()
+    # , 1000
+    # Meteor.setTimeout ->
+    #     $('.ui.accordion').accordion()
+    # , 1000
 
 Template.small_sentiment.onCreated ->
-    Meteor.setTimeout ->
-        $('.progress').progress()
-    , 1000
+    # Meteor.setTimeout ->
+    #     $('.progress').progress()
+    # , 1000
 
 Template.small_sentiment.helpers
     sentiment_score_percent: -> 
@@ -53,17 +53,21 @@ Template.keywords.helpers
     fear_percent: -> (@fear*100).toFixed()
 
 Template.keywords.onRendered ->
-    Meteor.setTimeout ->
-        $('.progress').progress()
-    , 2000
-    Meteor.setTimeout ->
-        $('.ui.accordion').accordion()
-    , 2000
+    # Meteor.setTimeout ->
+    #     $('.progress').progress()
+    # , 2000
+    # Meteor.setTimeout ->
+    #     $('.ui.accordion').accordion()
+    # , 2000
     
     
 Template.call_watson.events
-    'click .autotag': -> Meteor.call 'call_watson',Router.current().params.doc_id,'url','url',=>
-
+    'click .autotag': -> 
+        Meteor.call 'call_watson',Router.current().params.doc_id,'url','url',(err,res)=>
+            if err
+                console.log err
+            else 
+                console.log res
 
 # Template.call_visual_analysis.events
 #     'click #call_visual': ->
@@ -77,9 +81,9 @@ Template.call_tone.events
 
 
 Template.doc_sentiment.onRendered ->
-    Meteor.setTimeout ->
-        $('.progress').progress()
-    , 2000
+    # Meteor.setTimeout ->
+    #     $('.progress').progress()
+    # , 2000
 
 
 Template.doc_sentiment.helpers
@@ -97,7 +101,7 @@ Template.doc_sentiment.helpers
     
 Template.tone.helpers
     tone_label_class: () ->
-        console.log @
+        # console.log @
         # console.log @tones[0].tone_id
         # switch @tones[0].tone_id
         switch @tone_id

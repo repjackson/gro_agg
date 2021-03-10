@@ -192,10 +192,10 @@ if Meteor.isServer
             
         match = {model:'subreddit'}
         
-        if nsfw
-            match["data.over18"] = true
-        else 
-            match["data.over18"] = false
+        # if nsfw
+        #     match["data.over18"] = true
+        # else 
+        #     match["data.over18"] = false
         
         if picked_subtags.length > 0 then match.tags = $all:picked_subtags
         if query.length > 0
@@ -216,10 +216,10 @@ if Meteor.isServer
         # console.log limit
         match = {model:'subreddit'}
         
-        if nsfw
-            match["data.over18"] = true
-        else 
-            match["data.over18"] = false
+        # if nsfw
+        #     match["data.over18"] = true
+        # else 
+        #     match["data.over18"] = false
         if picked_subtags.length > 0 then match.tags = $all:picked_subtags
         if query.length > 0
             match["data.display_name"] = {$regex:"#{query}", $options:'i'}
@@ -256,10 +256,10 @@ if Meteor.isServer
         match = {
             model:'subreddit'
         }
-        if nsfw
-            match["data.over18"] = true
-        else 
-            match["data.over18"] = false
+        # if nsfw
+        #     match["data.over18"] = true
+        # else 
+        #     match["data.over18"] = false
     
     
         if picked_subtags.length > 0 then match.tags = $all:picked_subtags
@@ -367,7 +367,7 @@ if Meteor.isServer
         search_subreddits: (search)->
             # console.log 'searching subs', search
             @unblock()
-            HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1&nsfw=1&include_over_18=on&limit=100", (err,res)->
+            HTTP.get "http://reddit.com/subreddits/search.json?q=#{search}&raw_json=1&nsfw=1&include_over_18=off&limit=10", (err,res)->
                 if res.data.data.dist > 1
                     _.each(res.data.data.children[0..100], (item)=>
                         # console.log item.data.display_name
