@@ -158,6 +158,34 @@ if Meteor.isClient
                     #     Session.set('thinking',false)
 if Meteor.isServer
     Meteor.methods
+        calc_user_tags_method: (username)->
+            @unblock()
+            # agg_res = Meteor.call 'agg_omega2', (err, res)->
+            # site_doc =
+            #     Docs.findOne(
+            #         model:'stack_site'
+            #         api_site_parameter:site
+            #     )
+            user_doc =
+                Docs.findOne(
+                    model:'user'
+                    username:username
+                )
+            
+            if user_doc
+                user_tag_res = Meteor.call 'calc_user_tags', username
+                if user_tag_res
+                    added_tags = []
+                    for tag in user_tag_res
+                        added_tags.push tag.title
+                    Docs.update user_doc._id,
+                        $set:
+                            user_tag_agg: user_tag_res
+                            tags:added_tags
+            
+                            # user_top_emotions:user_top_emotions
+                        
+                # user_sent_avg = Meteor.call 'user_sent_avg', username
         user_omega: (username)->
             @unblock()
             # agg_res = Meteor.call 'agg_omega2', (err, res)->
@@ -183,15 +211,7 @@ if Meteor.isServer
                         user_top_emotions = Meteor.call 'calc_user_top_emotions', username
                         if user_top_emotions[0]
                             user_top_emotion = user_top_emotions[0].title
-                        
-                        
-                        agg_res = Meteor.call 'user_emotions', username
-                        user_tag_res = Meteor.call 'calc_user_tags', username
-                        if user_tag_res
-                            added_tags = []
-                            for tag in user_tag_res
-                                added_tags.push tag.title
-                                
+                            # agg_res = Meteor.call 'user_emotions', username
                                 
                             rep_joy = user_doc.data.total_karma*user_top_emotions[0].avg_joy_score
                             rep_sadness = user_doc.data.total_karma*user_top_emotions[0].avg_sadness_score
@@ -202,7 +222,6 @@ if Meteor.isServer
                                 
                             Docs.update user_doc._id,
                                 $set:
-                                    user_tag_agg: user_tag_res
                                     # user_top_emotions:user_top_emotions
                                     # user_top_emotion:user_top_emotion
                                     # sentiment_avg: sentiment_avg
@@ -220,31 +239,30 @@ if Meteor.isServer
             
                                     # sentiment_positive_avg: user_sent_avg[0].avg_sent_score
                                     # sentiment_negative_avg: user_sent_avg[1].avg_sent_score
-                                    tags:added_tags
-                        # omega = Docs.findOne model:'omega_session'
-                        # doc_count = omega.total_doc_result_count
-                        # doc_count = omega.doc_result_ids.length
-                        # unless omega.selected_doc_id in omega.doc_result_ids
-                        #     Docs.update omega._id,
-                        #         $set:selected_doc_id:omega.doc_result_ids[0]
-                        filtered_agg_res = []
-            
-                        for agg_tag in agg_res
-                            # if agg_tag.count < doc_count
-                                # filtered_agg_res.push agg_tag
-                                if agg_tag.title
-                                    if agg_tag.title.length > 0
-                                        filtered_agg_res.push agg_tag
-                        term_emotion = _.max(filtered_agg_res, (tag)->tag.count).title
-                        if term_emotion
-                            Docs.update user_doc._id,
-                                $set:
-                                    max_emotion_name:term_emotion
-            
-                        # Docs.update omega._id,
-                        #     $set:
-                        #         # agg:agg_res
-                        #         filtered_agg_res:filtered_agg_res
+                            # omega = Docs.findOne model:'omega_session'
+                            # doc_count = omega.total_doc_result_count
+                            # doc_count = omega.doc_result_ids.length
+                            # unless omega.selected_doc_id in omega.doc_result_ids
+                            #     Docs.update omega._id,
+                            #         $set:selected_doc_id:omega.doc_result_ids[0]
+                            # filtered_agg_res = []
+                
+                            # for agg_tag in agg_res
+                            #     # if agg_tag.count < doc_count
+                            #         # filtered_agg_res.push agg_tag
+                            #         if agg_tag.title
+                            #             if agg_tag.title.length > 0
+                            #                 filtered_agg_res.push agg_tag
+                            # term_emotion = _.max(filtered_agg_res, (tag)->tag.count).title
+                            # if term_emotion
+                            #     Docs.update user_doc._id,
+                            #         $set:
+                            #             max_emotion_name:term_emotion
+                
+                            # Docs.update omega._id,
+                            #     $set:
+                            #         # agg:agg_res
+                            #         filtered_agg_res:filtered_agg_res
                 
         
         user_emotions: (username)->
@@ -310,7 +328,7 @@ if Meteor.isServer
                 return null
                 
         calc_user_tags: (username)->
-            @unblock()
+            # @unblock()
             user_doc =
                 Docs.findOne(
                     model:'user'
