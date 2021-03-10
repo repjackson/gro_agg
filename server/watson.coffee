@@ -103,8 +103,8 @@ Meteor.methods
                 #     Docs.update doc_id,
                 #         $set:skip_watson:false
                 #     # console.log 'not html, flaggged doc for future skip', params.url
+                throw new Meteor.Error("logged-out","The user must be logged in to post a comment.");
                 console.log err
-                # throw new Meteor.Error("logged-out","The user must be logged in to post a comment.");
             else
                 # console.log 'analy text', response.analyzed_text
                 # console.log(JSON.stringify(response, null, 2));

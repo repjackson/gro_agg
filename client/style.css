@@ -20,7 +20,7 @@ body {
   /* font-family: 'Lato', sans-serif !important; */
   /*font-size: 100% !important; */
   /* line-height: 200% !important; */
-  /*background: rgba(0,0,0,.1) !important; */
+  background: rgba(0,0,0,1) !important; 
   /*scroll-behavior: smooth;*/
   /*margin-top: 5em;*/
   -webkit-font-smoothing: antialiased; 
