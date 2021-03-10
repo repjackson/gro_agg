@@ -96,9 +96,14 @@ if Meteor.isClient
     Template.rcomment.events ->
         # console.log @data
         'click .call_watson_comment': ->
-            unless @data.watson
-                # console.log 'calling watson on comment'
-                Meteor.call 'call_watson', @data._id,'data.body','comment',->
+            # unless @data.watson
+            # console.log 'calling watson on comment'
+            Meteor.call 'call_watson', @data._id,'data.body','comment',(err,res)->
+                if err
+                    alert err.error
+            Meteor.call 'get_emotion', @data._id,'data.body','comment',(err,res)->
+                if err
+                    alert err.error
         # unless @data.time_tags
         #     # console.log 'calling watson on comment'
         #     Meteor.call 'tagify_time_rpost', @data._id,->

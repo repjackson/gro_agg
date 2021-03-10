@@ -65,9 +65,38 @@ Template.call_watson.events
     'click .autotag': -> 
         Meteor.call 'call_watson',Router.current().params.doc_id,'url','url',(err,res)=>
             if err
-                console.log err
+                $('body').toast(
+                    showIcon: 'alert'
+                    message: 'error', err.error
+                    displayTime: 'auto',
+                )
             else 
-                console.log res
+                $('body').toast(
+                    showIcon: 'checkmark'
+                    message: 'autotagged', res
+                    displayTime: 'auto',
+                )
+
+Template.get_emotion.events
+    'click .get': -> 
+        $('body').toast(
+            showIcon: 'refresh'
+            message: 'getting emotion'
+            displayTime: 'auto',
+        )
+        Meteor.call 'get_emotion',Router.current().params.doc_id,'url','url',(err,res)=>
+            if err
+                $('body').toast(
+                    showIcon: 'alert'
+                    message: 'error getting emotion', err.error
+                    displayTime: 'auto',
+                )
+            else 
+                $('body').toast(
+                    showIcon: 'checkmark'
+                    message: 'got emotion', res
+                    displayTime: 'auto',
+                )
 
 # Template.call_visual_analysis.events
 #     'click #call_visual': ->
@@ -75,8 +104,17 @@ Template.call_watson.events
 
 Template.call_tone.events
     'click .call': ->
-        console.log 'call tone'
+        $('body').toast(
+            showIcon: 'smile'
+            message: 'getting tone'
+            displayTime: 'auto',
+        )
         Meteor.call 'call_tone', Router.current().params.doc_id, ->
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: 'got tone', res
+                displayTime: 'auto',
+            )
 
 
 

@@ -102,7 +102,14 @@ template(name='call_watson')
         i.dna.icon
         if current_doc.watson 
             i.checkmark.green.icon
-        |download and analyze
+        |download and autotag
+
+template(name='get_emotion')
+    button.ui.big.fluid.basic.button.get
+        i.smile.icon
+        if current_doc.max_emotion_name 
+            i.checkmark.green.icon
+        |get emotion
 
 template(name='autotag')
     button.ui.large.button.autotag

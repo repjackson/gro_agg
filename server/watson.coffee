@@ -71,7 +71,7 @@ Meteor.methods
             )
         # else return
 
-    call_watson: (doc_id, key, mode) ->
+    get_emotion: (doc_id, key, mode) ->
         # console.log 'calling watson'
         self = @
         # console.log doc_id
@@ -83,192 +83,235 @@ Meteor.methods
         #     console.log 'skipping flagged doc', doc.title
         # else
         # console.log 'analyzing', doc.title, 'tags', doc.tags
-        unless doc.watson
-            params =
-                concepts:
-                    limit:10
-                features:
-                    entities:
-                        emotion: false
-                        sentiment: false
-                        mentions: false
-                        limit: 10
-                    keywords:
-                        emotion: false
-                        sentiment: false
-                        limit: 20
-                    concepts: {}
-                    # categories:
-                    #     explanation:false
-                    emotion: {}
-                    # metadata: {}
-                    # relations: {}
-                    # semantic_roles: {}
-                    sentiment: {}
-            if doc.data and doc.data.domain and doc.data.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
-                params.url = "https://www.reddit.com#{doc.data.permalink}"
-                params.returnAnalyzedText = false
-                params.clean = false
-            else 
-                switch mode
-                    when 'html'
-                        params.html = doc["#{key}"]
-                        params.returnAnalyzedText = true
-                        # params.html = doc.data.description
-                        params.features.metadata = {}
-                    when 'text'
-                        params.text = doc["#{key}"]
-                        params.returnAnalyzedText = true
-                        params.clean = true
-                    when 'comment'
-                        params.text = doc.data.body
-                        params.returnAnalyzedText = true
-                        params.clean = true
-                        # params.features.metadata = {}
-                    when 'url'
-                        params.url = doc["#{key}"]
-                        # params.url = durl
-                        # console.log 'calling url', params.url, doc["#{key}"], key
-                        # console.log 'calling url', params.url, doc[key], durl
-                        # params.url = doc.data.link_url
-                        params.features.metadata = {}
-                        params.returnAnalyzedText = true
-                        params.clean = true
-                    when 'stack'
-                        # params.url = doc["#{key}"]
-                        params.features.metadata = {}
-                        params.url = doc.link
-                        params.returnAnalyzedText = true
-                        params.clean = true
-                    when 'video'
-                        params.url = "https://www.reddit.com#{doc.data.permalink}"
-                        params.features.metadata = {}
-                        params.returnAnalyzedText = false
-                        # params.clean = true
-                        params.features.metadata = {}
-                    when 'image'
-                        params.url = "https://www.reddit.com#{doc.data.permalink}"
-                        params.returnAnalyzedText = false
-                        params.clean = true
-                        params.features.metadata = {}
-    
-            # console.log 'params', params
-    
-    
-            natural_language_understanding.analyze params, Meteor.bindEnvironment((err, response)=>
-                if err
-                    # console.log 'watson error for', params.url
-                    # console.log err
-                    # if err.code is 400
-                        # console.log 'crawl rejected by server', err
-                        # console.log 'crawl rejected by server', err
-                    unless err.code is 403
-                        Docs.update doc_id,
-                            $set:skip_watson:false
-                        # console.log 'not html, flaggged doc for future skip', params.url
-                    else
-                        console.log '403 error api key'
-                        
-                    return err
-                else
-                    # console.log 'analy text', response.analyzed_text
-                    # console.log(JSON.stringify(response, null, 2));
-                    # console.log 'adding watson info', doc.title
-                    response = response.result
-                    # console.log response
-                    # console.log 'lowered keywords', lowered_keywords
-                    # if Meteor.isDevelopment
-                    #     console.log 'categories',response.categories
-                    emotions = response.emotion.document.emotion
-    
-                    emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
-                    # main_emotions = []
-                    max_emotion_percent = 0
-                    max_emotion_name = ''
-    
-                    for emotion in emotion_list
-                        if emotions["#{emotion}"] > max_emotion_percent
-                            if emotions["#{emotion}"] > .5
-                                max_emotion_percent = emotions["#{emotion}"]
-                                max_emotion_name = emotion
-                                # console.log emotion_doc["#{emotion}_percent"]
-                                # main_emotions.push emotion
-    
-                    # console.log 'emotions', emotions
-                    sadness_percent = emotions.sadness
-                    joy_percent = emotions.joy
-                    fear_percent = emotions.fear
-                    anger_percent = emotions.anger
-                    disgust_percent = emotions.disgust
-                    # console.log 'main_emotion', max_emotion_name
-                    # console.log 'max_emotion_percent', max_emotion_percent
-                    # if mode is 'url'
-    
-    
-                    adding_tags = []
-                    # if response.categories
-                    #     for categories in response.categories
-                    #         # console.log category.label.split('/')[1..]
-                    #         # console.log category.label.split('/')
-                    #         for category in categories.label.split('/')
-                    #             if category.length > 0
-                    #                 # console.log 'adding category', category
-                    #                 # adding_tags.push category
-                    #                 Docs.update doc_id,
-                    #                     $addToSet:
-                    #                         categories: category
-                    #                         tags: category
-                    # Docs.update { _id: doc_id },
-                    #     $addToSet:
-                    #         tags:$each:adding_tags
-                    if response.entities and response.entities.length > 0
-                        for entity in response.entities
-                            # console.log entity.type, entity.text
-                            unless entity.type is 'Quantity'
-                                # if Meteor.isDevelopment
-                                #     console.log('quantity', entity.text)
-                                # else
-                                Docs.update { _id: doc_id },
-                                    $addToSet:
-                                        "#{entity.type}":entity.text
-                                        tags:entity.text.toLowerCase()
-                    concept_array = _.pluck(response.concepts, 'text')
-                    lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
-                    keyword_array = _.pluck(response.keywords, 'text')
-                    lowered_keywords = keyword_array.map (keyword)-> keyword.toLowerCase()
-    
-                    keywords_concepts = lowered_keywords.concat lowered_keywords
-                    # Docs.update { _id: doc_id },
-                    #     $addToSet:
-                    #         tags:$each:lowered_concepts
-                    Docs.update { _id: doc_id },
-                        $addToSet:
-                            tags:$each:keywords_concepts
-                        $set:
-                            analyzed_text:response.analyzed_text
-                            watson: response
-                            max_emotion_name:max_emotion_name
-                            max_emotion_percent:max_emotion_percent
-                            sadness_percent: sadness_percent
-                            joy_percent: joy_percent
-                            fear_percent: fear_percent
-                            anger_percent: anger_percent
-                            disgust_percent: disgust_percent
-                            watson_concepts: concept_array
-                            watson_keywords: keyword_array
-                            doc_sentiment_score: response.sentiment.document.score
-                            doc_sentiment_label: response.sentiment.document.label
-    
+        # unless doc.watson
+        params =
+            features:
+                emotion:{}
+            url:doc.url
+        natural_language_understanding.analyze params, Meteor.bindEnvironment((err, response)=>
+            if err
+                # console.log 'watson error for', params.url
+                # console.log err
+                # if err.code is 400
+                    # console.log 'crawl rejected by server', err
+                    # console.log 'crawl rejected by server', err
+                # unless err.code is 403
+                #     Docs.update doc_id,
+                #         $set:skip_watson:false
+                #     # console.log 'not html, flaggged doc for future skip', params.url
+                console.log err
+                # throw new Meteor.Error("logged-out","The user must be logged in to post a comment.");
+            else
+                # console.log 'analy text', response.analyzed_text
+                # console.log(JSON.stringify(response, null, 2));
+                # console.log 'adding watson info', doc.title
+                response = response.result
+                # console.log response
+                # console.log 'lowered keywords', lowered_keywords
+                # if Meteor.isDevelopment
+                #     console.log 'categories',response.categories
+                emotions = response.emotion.document.emotion
+
+                emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
+                # main_emotions = []
+                max_emotion_percent = 0
+                max_emotion_name = ''
+
+                for emotion in emotion_list
+                    if emotions["#{emotion}"] > max_emotion_percent
+                        if emotions["#{emotion}"] > .5
+                            max_emotion_percent = emotions["#{emotion}"]
+                            max_emotion_name = emotion
+                            # console.log emotion_doc["#{emotion}_percent"]
+                            # main_emotions.push emotion
+                # console.log 'emotions', emotions
+                sadness_percent = emotions.sadness
+                joy_percent = emotions.joy
+                fear_percent = emotions.fear
+                anger_percent = emotions.anger
+                disgust_percent = emotions.disgust
+                # console.log 'main_emotion', max_emotion_name
+                # console.log 'max_emotion_percent', max_emotion_percent
                             
-                    final_doc = Docs.findOne doc_id
-                    # console.log final_doc
-    
-                    # if mode is 'url'
-                    #     Meteor.call 'call_tone', doc_id, 'body', 'text', ->
-    
-                    # Meteor.call 'log_doc_terms', doc_id, ->
-                    Meteor.call 'clear_blocklist_doc', doc_id, ->
-                    # if Meteor.isDevelopment
-                    #     console.log 'all tags', final_doc.tags
-                        # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
-            )
+                Docs.update { _id: doc_id },
+                    $set:
+                        max_emotion_name:max_emotion_name
+                        max_emotion_percent:max_emotion_percent
+                        sadness_percent: sadness_percent
+                        joy_percent: joy_percent
+                        fear_percent: fear_percent
+                        anger_percent: anger_percent
+                        disgust_percent: disgust_percent
+        )
+
+
+    call_watson: (doc_id, key, mode) ->
+        console.log 'calling watson'
+        self = @
+        # console.log doc_id
+        # console.log key
+        # console.log mode
+        doc = Docs.findOne doc_id
+        # console.log 'calling watson on', doc.title
+        # if doc.skip_watson is false
+        #     console.log 'skipping flagged doc', doc.title
+        # else
+        # console.log 'analyzing', doc.title, 'tags', doc.tags
+        # unless doc.watson
+        params =
+            concepts:
+                limit:10
+            features:
+                entities:
+                    emotion: false
+                    sentiment: false
+                    mentions: false
+                    limit: 10
+                keywords:
+                    emotion: false
+                    sentiment: false
+                    limit: 10
+                concepts: {}
+                # categories:
+                #     explanation:false
+                # metadata: {}
+                # relations: {}
+                # semantic_roles: {}
+                sentiment: {}
+        if doc.data and doc.data.domain and doc.data.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
+            params.url = "https://www.reddit.com#{doc.data.permalink}"
+            params.returnAnalyzedText = false
+            params.clean = false
+        else 
+            switch mode
+                when 'html'
+                    params.html = doc["#{key}"]
+                    params.returnAnalyzedText = true
+                    # params.html = doc.data.description
+                    params.features.metadata = {}
+                when 'text'
+                    params.text = doc["#{key}"]
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                when 'comment'
+                    params.text = doc.data.body
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                    # params.features.metadata = {}
+                when 'url'
+                    params.url = doc["#{key}"]
+                    # params.url = durl
+                    # console.log 'calling url', params.url, doc["#{key}"], key
+                    # console.log 'calling url', params.url, doc[key], durl
+                    # params.url = doc.data.link_url
+                    params.features.metadata = {}
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                when 'stack'
+                    # params.url = doc["#{key}"]
+                    params.features.metadata = {}
+                    params.url = doc.link
+                    params.returnAnalyzedText = true
+                    params.clean = true
+                when 'video'
+                    params.url = "https://www.reddit.com#{doc.data.permalink}"
+                    params.features.metadata = {}
+                    params.returnAnalyzedText = false
+                    # params.clean = true
+                    params.features.metadata = {}
+                when 'image'
+                    params.url = "https://www.reddit.com#{doc.data.permalink}"
+                    params.returnAnalyzedText = false
+                    params.clean = true
+                    params.features.metadata = {}
+
+        # console.log 'params', params
+
+
+        natural_language_understanding.analyze params, Meteor.bindEnvironment((err, response)=>
+            if err
+                # console.log 'watson error for', params.url
+                # console.log err
+                # if err.code is 400
+                    # console.log 'crawl rejected by server', err
+                    # console.log 'crawl rejected by server', err
+                    # unless err.code is 403
+                    #     Docs.update doc_id,
+                    #         $set:skip_watson:false
+                    #     # console.log 'not html, flaggged doc for future skip', params.url
+                # console.log 'error api key'
+                console.log err
+                throw new Meteor.Error(err.statusText,err.body)
+                return err
+            else
+                
+                # console.log 'analy text', response.analyzed_text
+                console.log(JSON.stringify(response, null, 2));
+                # console.log 'adding watson info', doc.title
+                response = response.result
+                # console.log response
+                # console.log 'lowered keywords', lowered_keywords
+                # if Meteor.isDevelopment
+                #     console.log 'categories',response.categories
+                # emotions = response.emotion.document.emotion
+
+                adding_tags = []
+                # if response.categories
+                #     for categories in response.categories
+                #         # console.log category.label.split('/')[1..]
+                #         # console.log category.label.split('/')
+                #         for category in categories.label.split('/')
+                #             if category.length > 0
+                #                 # console.log 'adding category', category
+                #                 # adding_tags.push category
+                #                 Docs.update doc_id,
+                #                     $addToSet:
+                #                         categories: category
+                #                         tags: category
+                # Docs.update { _id: doc_id },
+                #     $addToSet:
+                #         tags:$each:adding_tags
+                if response.entities and response.entities.length > 0
+                    for entity in response.entities
+                        # console.log entity.type, entity.text
+                        unless entity.type is 'Quantity'
+                            # if Meteor.isDevelopment
+                            #     console.log('quantity', entity.text)
+                            # else
+                            Docs.update { _id: doc_id },
+                                $addToSet:
+                                    "#{entity.type}":entity.text
+                                    tags:entity.text.toLowerCase()
+                concept_array = _.pluck(response.concepts, 'text')
+                lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
+                keyword_array = _.pluck(response.keywords, 'text')
+                lowered_keywords = keyword_array.map (keyword)-> keyword.toLowerCase()
+
+                keywords_concepts = lowered_keywords.concat lowered_keywords
+                # Docs.update { _id: doc_id },
+                #     $addToSet:
+                #         tags:$each:lowered_concepts
+                Docs.update { _id: doc_id },
+                    $addToSet:
+                        tags:$each:keywords_concepts
+                    $set:
+                        analyzed_text:response.analyzed_text
+                        watson: response
+                        watson_concepts: concept_array
+                        watson_keywords: keyword_array
+                        doc_sentiment_score: response.sentiment.document.score
+                        doc_sentiment_label: response.sentiment.document.label
+
+                        
+                final_doc = Docs.findOne doc_id
+                # console.log final_doc
+
+                # if mode is 'url'
+                #     Meteor.call 'call_tone', doc_id, 'body', 'text', ->
+
+                # Meteor.call 'log_doc_terms', doc_id, ->
+                Meteor.call 'clear_blocklist_doc', doc_id, ->
+                # if Meteor.isDevelopment
+                #     console.log 'all tags', final_doc.tags
+                    # console.log 'final doc tag', final_doc.title, final_doc.tags.length, 'length'
+        )

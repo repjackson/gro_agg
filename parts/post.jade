@@ -80,7 +80,7 @@ template(name='rpage')
                 // if tone
                 +skve k='view_section' v='tone' l='tone' i='smile grey'
                 // +skve k='view_section' v='tags' l='tags' i='tags'
-                +skve k='view_section' v='related' l='related' i='fork'
+                // +skve k='view_section' v='related' l='related' i='fork'
                 +skve k='view_section' v='preview' l='preview' i='content'
                 if skv_is 'view_section' 'watson'
                     .scrolling
@@ -131,6 +131,7 @@ template(name='rpage')
                     i.user.outline.icon
                     |#{data.author}
                 +call_watson id=_id key='data.url' url=data.url mode='url'
+                +get_emotion id=_id key='data.url' url=data.url mode='url'
                 if in_dev
                     +print_this
                 if watson
