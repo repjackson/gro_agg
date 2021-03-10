@@ -190,7 +190,7 @@ if Meteor.isServer
         }
         @unblock()
         # unless Meteor.isDevelopment
-        match.over_18 = false 
+        # match.over_18 = false 
         Docs.find match,{
             limit:limit
             sort:
@@ -267,7 +267,7 @@ if Meteor.isServer
                             item.reddit_id = item.data.id
                             item.author = item.data.author
                             item.subreddit = item.data.subreddit
-                            Docs.insert item, ->
+                            Docs.insert item
                     )
         
         get_user_comments: (username)->

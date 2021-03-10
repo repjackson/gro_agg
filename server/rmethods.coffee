@@ -7,7 +7,7 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "http://reddit.com/search.json?q=#{query}&limit=100&include_facets=false&raw_json=1"
+        url = "http://reddit.com/search.json?q=#{query}&limit=10&include_facets=false&raw_json=1"
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,res)=>
         HTTP.get url,(err,res)=>
             if res.data.data.dist > 1
@@ -44,7 +44,6 @@ Meteor.methods
                             url:data.url
                         if existing
                             # if Meteor.isDevelopment
-                            #     console.log 'existing', existing
                             # if typeof(existing.tags) is 'string'
                             #     Doc.update
                             #         $unset: tags: 1
@@ -56,7 +55,6 @@ Meteor.methods
                         unless existing
                             new_reddit_post_id = Docs.insert reddit_post
                             # if Meteor.isDevelopment
-                            #     console.log 'new', new_reddit_post_id
                             # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                 # Meteor.call 'call_wiki', query, ->        
                 )
@@ -64,7 +62,6 @@ Meteor.methods
 
     search_users: (query)->
         @unblock()
-        console.log 'searching', query
         # res = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
@@ -75,7 +72,6 @@ Meteor.methods
             if res.data.data.dist > 1
                 _.each(res.data.data.children, (item)=>
                     data = item.data
-                    console.log item 
                     data = item.data
                     len = 200
                     # added_tags = [query]
@@ -94,7 +90,6 @@ Meteor.methods
                         username:item.data.name
                     # if existing
                     #     # if Meteor.isDevelopment
-                    #     #     console.log 'existing', existing
                     #     # if typeof(existing.tags) is 'string'
                     #     #     Doc.update
                     #     #         $unset: tags: 1
@@ -106,7 +101,6 @@ Meteor.methods
                     unless existing
                         new_reddit_user_id = Docs.insert user
                         # if Meteor.isDevelopment
-                        #     console.log 'new', new_reddit_post_id
                         # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                     )
                 
@@ -116,7 +110,6 @@ Meteor.methods
     call_wiki: (query)->
         # term = query.split(' ').join('_')
         # term = query[0]
-        console.log 'calling wiki for', query
         @unblock()
         term = query
         # HTTP.get "https://en.wikipedia.org/wiki/#{term}",(err,response)=>
@@ -463,20 +456,17 @@ Meteor.methods
 
     get_post_comments: (subreddit, doc_id)->
         @unblock()
-        console.log 'getting post comments', subreddit, doc_id
         doc = Docs.findOne doc_id
         
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
         # https://www.reddit.com/r/uwo/comments/fhnl8k/ontario_to_close_all_public_schools_for_two_weeks.json
-        url = "https://www.reddit.com/r/#{subreddit}/comments/#{doc.reddit_id}.json?&raw_json=1&nsfw=0"
+        url = "https://www.reddit.com/r/#{subreddit}/comments/#{doc.reddit_id}.json?&raw_json=1&nsfw=0&limit=10"
         HTTP.get url,(err,res)=>
-            # console.log res.data.data.children.length
             # if res.data.data.dist > 1
             # [1].data.children[0].data.body
             _.each(res.data[1].data.children[0..100], (item)=>
-                # console.log item
                 found = 
                     Docs.findOne    
                         model:'rcomment'
@@ -484,11 +474,9 @@ Meteor.methods
                         parent_id:item.data.parent_id
                         # subreddit:item.data.id
                 # if found
-                #     console.log found, 'found comment'
                 #     # Docs.update found._id,
                 #     #     $set:subreddit:item.data.subreddit
                 unless found
-                    # console.log found, 'not found comment'
                     item.model = 'rcomment'
                     item.reddit_id = item.data.id
                     item.parent_id = item.data.parent_id

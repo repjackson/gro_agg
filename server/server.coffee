@@ -58,7 +58,7 @@ Meteor.publish 'post_count', (
     #     match.privacy='public'
 
         
-    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    match.tags = $all:picked_tags
     # if picked_authors.length > 0 then match.author = $all:picked_authors
     # if picked_locations.length > 0 then match.location = $all:picked_locations
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
@@ -91,10 +91,10 @@ Meteor.publish 'rposts', (
     #     sk = sort_key
     # else
     #     sk = '_timestamp'
-    if nsfw
-        match['data.over_18'] = true
-    else
-        match['data.over_18'] = false
+    # if nsfw
+    #     match['data.over_18'] = true
+    # else
+    match['data.over_18'] = false
     
     # if picked_tags.length > 0 then match.tags = $all:picked_tags
     match.tags = $all:picked_tags
@@ -102,7 +102,6 @@ Meteor.publish 'rposts', (
     # if picked_authors.length > 0 then match.author = $all:picked_authors
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
 
-    # console.log 'match',match
     Docs.find match,
         limit:20
         sort:"data.ups":-1
@@ -153,10 +152,10 @@ Meteor.publish 'tags', (
 
     # unless Meteor.userId()
     #     match.privacy='public'
-    if nsfw
-        match['data.over_18'] = true
-    else
-        match['data.over_18'] = false
+    # if nsfw
+    #     match['data.over_18'] = true
+    # else
+    match['data.over_18'] = false
 
     # if picked_tags.length > 0 then match.tags = $all:picked_tags
     match.tags = $all:picked_tags
@@ -164,7 +163,6 @@ Meteor.publish 'tags', (
     # if picked_locations.length > 0 then match.location = $all:picked_locations
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     doc_count = Docs.find(match).count()
-    console.log 'doc_count', doc_count
     tag_cloud = Docs.aggregate [
         { $match: match }
         { $project: "tags": 1 }
@@ -177,7 +175,6 @@ Meteor.publish 'tags', (
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     tag_cloud.forEach (tag, i) ->
-        # console.log tag
         self.added 'results', Random.id(),
             name: tag.name
             count: tag.count
@@ -212,9 +209,7 @@ Meteor.publish 'tags', (
     #     { $limit:10 }
     #     { $project: _id: 0, name: '$_id', count: 1 }
     # ]
-    # # console.log match
     # timestamp_cloud.forEach (time, i) ->
-    #     # console.log 'time', time
     #     self.added 'results', Random.id(),
     #         name: time.name
     #         count: time.count
@@ -232,9 +227,7 @@ Meteor.publish 'tags', (
     #     { $limit:10 }
     #     { $project: _id: 0, name: '$_id', count: 1 }
     # ]
-    # # console.log match
     # timestamp_cloud.forEach (time, i) ->
-    #     # console.log 'time', time
     #     self.added 'results', Random.id(),
     #         name: time.name
     #         count: time.count

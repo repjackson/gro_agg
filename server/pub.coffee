@@ -6,7 +6,7 @@ Meteor.publish 'wiki_doc', (
     )->
     # console.log 'dummy', dummy
     # console.log 'publishing wiki doc', picked_tags
-
+    @unblock()
     self = @
     match = {}
 
@@ -27,6 +27,7 @@ Meteor.publish 'wiki_doc', (
 
 
 Meteor.publish 'alpha_combo', (selected_tags)->
+    @unblock()
     Docs.find 
         model:'alpha'
         # query: $in: selected_tags

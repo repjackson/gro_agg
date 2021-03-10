@@ -40,7 +40,6 @@ if Meteor.isClient
     
     Template.user_karma_sort_button.events
         'click .sort': ->
-            # console.log @l
             Session.set('users_sort_key', @key)
     Template.user_karma_sort_button.helpers
         button_class: ->
@@ -160,7 +159,6 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.methods
         user_omega: (username)->
-            console.log 'calling', username
             @unblock()
             # agg_res = Meteor.call 'agg_omega2', (err, res)->
             # site_doc =
@@ -194,7 +192,6 @@ if Meteor.isServer
                             for tag in user_tag_res
                                 added_tags.push tag.title
                                 
-                            # console.log 'top emotion', user_top_emotions[0]
                                 
                             rep_joy = user_doc.data.total_karma*user_top_emotions[0].avg_joy_score
                             rep_sadness = user_doc.data.total_karma*user_top_emotions[0].avg_sadness_score
@@ -495,7 +492,6 @@ if Meteor.isServer
     
         rank_user: (username)->
             @unblock()
-            console.log 'ranking user', username
             # agg_res = Meteor.call 'agg_omega2', (err, res)->
             # site_doc =
             #     Docs.findOne(
@@ -526,7 +522,6 @@ if Meteor.isServer
                         global_rank:global_rank+1
                 
                 for emotion in ['joy','sadness','disgust','fear','anger']
-                    # console.log 'emotion', emotion
                     # site_emo_rep_rank = 
                     #     Docs.find(
                     #         model:'user'
@@ -563,7 +558,6 @@ if Meteor.isServer
         # unless Meteor.isDevelopment
         # match["data.subreddit.over_18"] = $ne:true 
 
-        # console.log sort_key_final
         Docs.find match,
             limit:42
             sort:
@@ -622,7 +616,6 @@ if Meteor.isServer
         #     match.bought = true
         #     match._author_id = Meteor.userId()
         doc_count = Docs.find(match).count()
-        # console.log match
         cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
@@ -669,7 +662,6 @@ if Meteor.isServer
         # if selected_subreddit_domain.length > 0 then match.domain = $all:selected_subreddit_domain
         # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
         doc_count = Docs.find(match).count()
-        console.log 'doc_count', doc_count
         rpost_tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
@@ -682,7 +674,6 @@ if Meteor.isServer
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         rpost_tag_cloud.forEach (tag, i) ->
-            # console.log tag
             self.added 'results', Random.id(),
                 name: tag.name
                 count: tag.count
