@@ -174,7 +174,7 @@ template(name='rcomment')
             a.author.inline.say(href="/user/#{data.author}") #{data.author}
             span.metadata 
                 span.date {{ufrom data.created}}
-                i.refresh.icon.get_comment_emotion
+                i.smile.large.link.icon.get_comment_emotion
                 +doc_emotion_small
             .pointer.inline.say.autotag_watson(class=post_header_class)
                 |{{#markdown}} {{data.body}} {{/markdown}}

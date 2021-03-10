@@ -63,18 +63,25 @@ Template.keywords.onRendered ->
     
 Template.call_watson.events
     'click .autotag': -> 
-        Meteor.call 'call_watson',Router.current().params.doc_id,'url','url',(err,res)=>
+        $('body').toast(
+            showIcon: 'refresh'
+            message: 'autotagging'
+            displayTime: 'auto',
+        )
+        Meteor.call 'call_watson',Router.current().params.doc_id,'url',(err,res)=>
             if err
                 $('body').toast(
                     showIcon: 'alert'
                     message: 'error', err.error
                     displayTime: 'auto',
+                    classProgress: 'purple'
                 )
             else 
                 $('body').toast(
                     showIcon: 'checkmark'
                     message: 'autotagged', res
                     displayTime: 'auto',
+                    classProgress: 'blue'
                 )
 
 Template.get_emotion.events

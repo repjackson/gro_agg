@@ -26,7 +26,31 @@ if Meteor.isClient
                 model:'rcomment'
                 parent_id:"t3_#{post.reddit_id}"
     Template.rpage.events
-        'click .get_comments': -> Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, ->
+        'click .get_comments': ->
+            $('body').toast(
+                showIcon: 'alert'
+                message: 'getting comments'
+                displayTime: 'auto',
+                classProgress: 'blue'
+            )
+            Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, (err,res)->
+                if err
+                    $('body').toast(
+                        showIcon: 'alert'
+                        class: 'error'
+                        message: 'error getting comments', err
+                        displayTime: 'auto',
+                        classProgress: 'purple'
+                    )
+                else
+                    $('body').toast(
+                        showIcon: 'checkmark'
+                        class: 'success'
+                        message: 'got comments', err
+                        displayTime: 'auto',
+                        classProgress: 'blue'
+                    )
+
         'click .read': (e,t)-> 
             if @tone 
                 window.speechSynthesis.cancel()
@@ -109,13 +133,15 @@ if Meteor.isClient
                     # alert err.error
                     $('body').toast(
                         showIcon: 'exclamation'
+                        class: 'error'
                         message: 'error getting watson'
                         displayTime: 'auto',
                     )
                 else 
                     $('body').toast(
                         showIcon: 'checkmark'
-                        message: 'got watson', res
+                        class: 'success'
+                        message: 'autotagged', res
                         displayTime: 'auto',
                     )
                     
@@ -131,12 +157,14 @@ if Meteor.isClient
                     # alert err.error
                     $('body').toast(
                         showIcon: 'exclamation'
+                        class: 'error'
                         message: 'error getting emotion'
                         displayTime: 'auto',
                     )
                 else
                     $('body').toast(
                         showIcon: 'checkmark'
+                        class: 'success'
                         message: 'got emotion', res
                         displayTime: 'auto',
                     )
