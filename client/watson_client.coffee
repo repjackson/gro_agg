@@ -108,7 +108,7 @@ Template.get_emotion.events
                 $('body').toast(
                     position: 'bottom right',
                     showIcon: 'checkmark'
-                    message: 'got emotion', res
+                    message: 'emotion', res
                     displayTime: 'auto',
                 )
 
@@ -124,11 +124,11 @@ Template.call_tone.events
             message: 'getting tone'
             displayTime: 'auto',
         )
-        Meteor.call 'call_tone', Router.current().params.doc_id, ->
+        Meteor.call 'call_tone', Router.current().params.doc_id, (err,res)->
             $('body').toast(
                 position: 'bottom right',
                 showIcon: 'checkmark'
-                message: 'got tone', res
+                message: 'tone', res
                 displayTime: 'auto',
             )
 

@@ -293,8 +293,8 @@ if Meteor.isServer
     
     Meteor.publish 'subs_tags', (
         picked_sub_tags
-        picked_subreddit_domain
-        picked_subreddit_authors
+        picked_domains
+        picked_authors
         # view_bounties
         # view_unanswered
         # query=''
@@ -310,7 +310,7 @@ if Meteor.isServer
         # if view_unanswered
         #     match.is_answered = false
         if picked_sub_tags.length > 0 then match.tags = $all:picked_sub_tags
-        if picked_subreddit_authors.length > 0 then match.author = $all:picked_subreddit_authors
+        if picked_authors.length > 0 then match.author = $all:picked_authors
         # if picked_emotion.length > 0 then match.max_emotion_name = picked_emotion
         doc_count = Docs.find(match).count()
         sus_tag_cloud = Docs.aggregate [

@@ -7,9 +7,6 @@ if Meteor.isClient
       
       
     Template.home.events
-        'click .make_nsfw': (e,t)-> Session.set('nsfw', true)
-        'click .make_safe': (e,t)-> Session.set('nsfw', false)
-            
         'keyup .search_reddit': (e,t)->
             val = $('.search_reddit').val()
             Session.set('reddit_query', val)
@@ -46,7 +43,10 @@ if Meteor.isClient
                 t.$('.search_tag').focus()
                 # Session.set('sub_doc_query', val)
 
-
+        'click .pick_author': -> picked_authors.push @name
+        'click .pick_domain': -> picked_domains.push @name
+        'click .unpick_domain': -> picked_domains.remove @valueOf()
+        'click .unpick_author': -> picked_authors.remove @valueOf()
     
     Template.home.helpers
         picked_tags: -> picked_tags.array()
@@ -72,7 +72,6 @@ if Meteor.isClient
         # nightmode_class: -> if Session.get('nightmode') then 'invert'
         
         
-        result_tags: -> results.find(model:'tag')
     
       
         
@@ -105,7 +104,6 @@ if Meteor.isClient
 
         
     Template.home.onCreated ->
-        Session.setDefault('nsfw', false)
         @autorun -> Meteor.subscribe('alpha_combo',picked_tags.array())
     
         # Meteor.call 'call_watson', @data._id, ->
@@ -113,9 +111,12 @@ if Meteor.isClient
         # Session.setDefault('location_query', null)
         @autorun => Meteor.subscribe 'rposts', 
             picked_tags.array()
-            Session.get('nsfw')
-            Session.get('toggle')
-      
+            picked_domains.array()
+            picked_authors.array()
+            picked_time_tags.array()
+            Session.get('sort_key')
+            Session.get('sort_direction')
+            Session.get('limit')
         # @autorun => Meteor.subscribe 'reddit_post_count', 
         #     picked_tags.array()
         #     picked_reddit_domain.array()
@@ -147,8 +148,11 @@ if Meteor.isClient
     
         @autorun => Meteor.subscribe 'tags',
             picked_tags.array()
-            Session.get('nsfw')
             Session.get('toggle')
+            picked_domains.array()
+            picked_authors.array()
+            picked_time_tags.array()
+            
             
     Template.search_shortcut.events
         'click .search_tag': ->

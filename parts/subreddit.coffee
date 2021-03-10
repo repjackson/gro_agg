@@ -1,8 +1,4 @@
 if Meteor.isClient
-    @picked_sub_tags = new ReactiveArray []
-    @picked_subreddit_domain = new ReactiveArray []
-    @picked_subreddit_time_tags = new ReactiveArray []
-    @picked_subreddit_authors = new ReactiveArray []
     
     
     Router.route '/r/:subreddit', (->
@@ -50,25 +46,25 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'sub_docs', 
             Router.current().params.subreddit
             picked_sub_tags.array()
-            picked_subreddit_domain.array()
-            picked_subreddit_time_tags.array()
-            picked_subreddit_authors.array()
+            picked_domains.array()
+            picked_time_tags.array()
+            picked_authors.array()
             Session.get('sort_key')
             Session.get('sort_direction')
       
         @autorun => Meteor.subscribe 'sub_doc_count', 
             Router.current().params.subreddit
             picked_sub_tags.array()
-            picked_subreddit_domain.array()
-            picked_subreddit_time_tags.array()
-            picked_subreddit_authors.array()
+            picked_domains.array()
+            picked_time_tags.array()
+            picked_authors.array()
     
         @autorun => Meteor.subscribe 'subreddit_result_tags',
             Router.current().params.subreddit
             picked_sub_tags.array()
-            picked_subreddit_domain.array()
-            picked_subreddit_time_tags.array()
-            picked_subreddit_authors.array()
+            picked_domains.array()
+            picked_time_tags.array()
+            picked_authors.array()
             Session.get('sort_key')
             Session.get('sort_direction')
             Session.get('toggle')
@@ -101,8 +97,6 @@ if Meteor.isClient
         'click .sort_down': (e,t)-> Session.set('sort_direction',-1)
         'click .sort_up': (e,t)-> Session.set('sort_direction',1)
 
-    Template.limit_button.events
-        'click .set_limit': (e,t)-> Session.set('limit',@value)
     
     Template.subreddit.events
         'click .sort_created': -> 
@@ -138,11 +132,10 @@ if Meteor.isClient
     Template.subreddit.helpers
     
         domain_selector_class: ->
-            if @name in picked_subreddit_domain.array() then 'blue' else 'basic'
+            if @name in picked_domains.array() then 'blue' else 'basic'
         sort_created_class: -> if Session.equals('sort_key','data.created') then 'active' else 'tertiary'
         sort_ups_class: -> if Session.equals('sort_key','data.ups') then 'active' else 'tertiary'
         subreddit_result_tags: -> results.find(model:'subreddit_result_tag')
-        subreddit_domain_tags: -> results.find(model:'subreddit_domain_tag')
         subreddit_time_tags: -> results.find(model:'subreddit_time_tag')
     
         picked_sub_tags: -> picked_sub_tags.array()
@@ -298,9 +291,9 @@ if Meteor.isServer
     Meteor.publish 'sub_docs', (
         subreddit
         picked_sub_tags
-        picked_subreddit_domains
-        picked_subreddit_time_tags
-        picked_subreddit_authors
+        picked_domains
+        picked_time_tags
+        picked_authors
         sort_key='data.created'
         sort_direction
         )->
@@ -315,10 +308,10 @@ if Meteor.isServer
         #     match.bounty = true
         # if view_unanswered
         #     match.is_answered = false
-        # if picked_subreddit_domains.length > 0 then match.domain = $all:picked_subreddit_domains
+        # if picked_domains.length > 0 then match.domain = $all:picked_domains
         if picked_sub_tags.length > 0 then match.tags = $all:picked_sub_tags
-        # if picked_subreddit_time_tags.length > 0 then match.time_tags = $all:picked_subreddit_time_tags
-        # if picked_subreddit_authors.length > 0 then match.authors = $all:picked_subreddit_authors
+        # if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
+        # if picked_authors.length > 0 then match.authors = $all:picked_authors
         Docs.find match,
             limit:20
             sort: "#{sort_key}":parseInt(sort_direction)
@@ -403,16 +396,16 @@ if Meteor.isServer
     Meteor.publish 'sub_doc_count', (
         subreddit
         picked_tags
-        picked_subreddit_domains
-        picked_subreddit_time_tags
+        picked_domains
+        picked_time_tags
         )->
         @unblock()
 
         match = {model:'rpost'}
         match.subreddit = subreddit
         if picked_tags.length > 0 then match.tags = $all:picked_tags
-        if picked_subreddit_domains.length > 0 then match.domain = $all:picked_subreddit_domains
-        if picked_subreddit_time_tags.length > 0 then match.time_tags = $all:picked_subreddit_time_tags
+        if picked_domains.length > 0 then match.domain = $all:picked_domains
+        if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
         Counts.publish this, 'sub_doc_counter', Docs.find(match)
         return undefined
     Meteor.methods
@@ -590,8 +583,8 @@ if Meteor.isServer
                     
     Meteor.publish 'subreddit_result_tags', (
         subreddit
-        picked_subreddit_domain
-        picked_subreddit_time_tags
+        picked_domains
+        picked_time_tags
         # view_bounties
         # view_unanswered
         # query=''
@@ -606,8 +599,8 @@ if Meteor.isServer
         #     match.bounty = true
         # if view_unanswered
         #     match.is_answered = false
-        if picked_subreddit_domain.length > 0 then match.domain = $all:picked_subreddit_domain
-        if picked_subreddit_time_tags.length > 0 then match.time_tags = $all:picked_subreddit_time_tags
+        if picked_domains.length > 0 then match.domain = $all:picked_domains
+        if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
         # if picked_emotion.length > 0 then match.max_emotion_name = picked_emotion
         doc_count = Docs.find(match).count()
         subreddit_tag_cloud = Docs.aggregate [
@@ -627,7 +620,7 @@ if Meteor.isServer
                 model:'subreddit_result_tag'
         
         
-        subreddit_domain_cloud = Docs.aggregate [
+        domain_cloud = Docs.aggregate [
             { $match: match }
             { $project: "data.domain": 1 }
             # { $unwind: "$domain" }
@@ -638,30 +631,30 @@ if Meteor.isServer
             { $limit:7 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
-        subreddit_domain_cloud.forEach (domain, i) ->
+        domain_cloud.forEach (domain, i) ->
             self.added 'results', Random.id(),
                 name: domain.name
                 count: domain.count
-                model:'subreddit_domain_tag'
+                model:'domain'
       
       
         
-        subreddit_time_tag_cloud = Docs.aggregate [
+        time_tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "time_tags": 1 }
             { $unwind: "$time_tags" }
             { $group: _id: "$time_tags", count: $sum: 1 }
-            # { $match: _id: $nin: picked_subreddit_time_tags }
+            # { $match: _id: $nin: picked_time_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit:10 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
-        subreddit_time_tag_cloud.forEach (time_tag, i) ->
+        time_tag_cloud.forEach (time_tag, i) ->
             self.added 'results', Random.id(),
                 name: time_tag.name
                 count: time_tag.count
-                model:'subreddit_time_tag'
+                model:'time_tag'
       
       
         # subreddit_Organization_cloud = Docs.aggregate [

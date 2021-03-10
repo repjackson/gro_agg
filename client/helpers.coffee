@@ -1,6 +1,6 @@
-@picked_tags = new ReactiveArray []
-
 Template.registerHelper 'picked_tags', () -> picked_tags.array()
+Template.registerHelper 'picked_authors', () -> picked_authors.array()
+Template.registerHelper 'picked_domains', () -> picked_domains.array()
     
 Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 
@@ -161,6 +161,10 @@ Template.registerHelper 'current_subreddit', () ->
     Docs.findOne 
         model:'subreddit'
         "data.display_name":Router.current().params.subreddit
+
+
+Template.registerHelper 'result_tags', () -> results.find(model:'tag')
+
 
 # Template.registerHelper 'lowered_title', ()-> 
 #     if @data

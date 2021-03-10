@@ -22,6 +22,17 @@ Template.print_this.events
 Template.registerHelper 'thinking_class', ()->
     if Session.get('thinking') then 'disabled' else ''
 
+
+Template.registerHelper 'domain_results', ()->
+    results.find(model:'domain')
+Template.registerHelper 'author_results', ()->
+    results.find(model:'author')
+Template.registerHelper 'time_tag_results', ()->
+    results.find(model:'time_tag')
+Template.registerHelper 'subreddit_results', ()->
+    results.find(model:'subreddit_tag')
+
+
 Template.registerHelper 'embed', ()->
     if @data and @data.media and @data.media.oembed and @data.media.oembed.html
         dom = document.createElement('textarea')
@@ -63,9 +74,13 @@ Router.route '/', (->
     ), name:'home'
 
 
-
-
 @picked_tags = new ReactiveArray []
+@picked_time_tags = new ReactiveArray []
+@picked_sub_tags = new ReactiveArray []
+@picked_domains = new ReactiveArray []
+@picked_authors = new ReactiveArray []
+
+
 Router.configure
     layoutTemplate: 'layout'
     notFoundTemplate: 'home'
@@ -148,7 +163,9 @@ Template.tag_picker.events
         , 5000)
         
         
-        
+Template.limit_button.events
+    'click .set_limit': (e,t)-> Session.set('limit',@value)
+
 
 
 Template.flat_tag_picker.onCreated ->
