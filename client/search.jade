@@ -99,11 +99,11 @@ template(name='home')
             if picked_tags
                 .ui.eight.wide.column
                     +sort_direction_button
-                    +limit_button value=1
-                    +limit_button value=10
-                    +limit_button value=20
-                    +view_layout_button label='grid' icon='th'
-                    +view_layout_button label='list' icon='list'
+                    // +limit_button value=1
+                    // +limit_button value=10
+                    // +limit_button value=20
+                    // +view_layout_button label='grid' icon='th'
+                    // +view_layout_button label='list' icon='list'
                     +sort_button l='upvotes' i='thumbs up outline' key='data.ups'
                     +sort_button l='comments' i='chat outline' key='data.comment_count'
                     +sort_button l='joy' i='smile' c='green' key='rep_joy'
@@ -122,10 +122,10 @@ template(name='home')
                         i.globe.icon
                         |domains
                     each picked_domains
-                        .ui.black.label.unpick_domain
+                        a.ui.black.label.unpick_domain
                             |#{this}
                     each domain_results
-                        .ui.basic.label.pick_domain(class=domain_selector_class)
+                        a.ui.basic.label.pick_domain(class=domain_selector_class)
                             |#{name} 
                             small #{count}
                     div
@@ -133,10 +133,10 @@ template(name='home')
                         i.clock.icon    
                         |authors
                     each picked_authors
-                        .ui.black.label.unpick_author
+                        a.ui.black.label.unpick_author
                             |#{this}
                     each author_results
-                        .ui.basic.label.pick_author(class=domain_selector_class)
+                        a.ui.basic.label.pick_author(class=domain_selector_class)
                             |#{name} 
                             small #{count}
                     // .ui.inline.header.pull_latest #{display_name}

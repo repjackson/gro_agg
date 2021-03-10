@@ -45,11 +45,11 @@ template(name='subreddit')
                     
                 .scrolling
                     if sub_docs
-                        if skv_is 'subreddit_view_layout' 'grid'
+                        if skv_is 'view_layout' 'grid'
                             .ui.stackable.three.column.grid 
                                 each sub_docs
                                     +sub_post_card
-                        else if skv_is 'subreddit_view_layout' 'list'
+                        else if skv_is 'view_layout' 'list'
                             each sub_docs
                                 +subreddit_doc_item
                     else
@@ -63,16 +63,24 @@ template(name='subreddit')
                 .ui.inline.small.header
                     i.globe.icon
                     |domains
-                each subreddit_domain_tags
-                    .ui.basic.label.select_domain(class=domain_selector_class)
+                each domain_results
+                    .ui.basic.label.pick_domain(class=domain_selector_class)
                         |#{name} 
                         small #{count}
                 div
                 .ui.inline.header
                     i.clock.icon    
                     |time tags
-                each subreddit_time_tags
-                    .ui.basic.label.select_time_tag(class=domain_selector_class)
+                each time_tag_results
+                    .ui.basic.label.pick_time_tag(class=domain_selector_class)
+                        |#{name} 
+                        small #{count}
+                // .ui.inline.header.pull_latest #{display_name}
+                .ui.inline.header
+                    i.clock.icon    
+                    |authors
+                each author_results
+                    .ui.basic.label.pick_author(class=domain_selector_class)
                         |#{name} 
                         small #{count}
                 // .ui.inline.header.pull_latest #{display_name}

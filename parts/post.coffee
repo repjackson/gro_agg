@@ -22,13 +22,15 @@ if Meteor.isClient
     Template.rcomments_tab.helpers
         rpost_comments: ->
             post = Docs.findOne Router.current().params.doc_id
-            Docs.find
+            Docs.find {
                 model:'rcomment'
                 parent_id:"t3_#{post.reddit_id}"
+            }, 
+                sort: 'data.score':-1
     Template.rpage.events
         'click .get_comments': ->
             $('body').toast(
-                position: 'bottom right',
+                position: 'bottom center',
                 showIcon: 'alert'
                 message: 'getting comments'
                 displayTime: 'auto',
@@ -37,7 +39,7 @@ if Meteor.isClient
             Meteor.call 'get_post_comments', Router.current().params.subreddit, Router.current().params.doc_id, (err,res)->
                 if err
                     $('body').toast(
-                        position: 'bottom right',
+                        position: 'bottom center',
                         showIcon: 'alert'
                         class: 'error'
                         message: 'error getting comments', err
@@ -46,7 +48,7 @@ if Meteor.isClient
                     )
                 else
                     $('body').toast(
-                        position: 'bottom right',
+                        position: 'bottom center',
                         showIcon: 'checkmark'
                         class: 'success'
                         message: 'got comments', err
@@ -75,14 +77,14 @@ if Meteor.isClient
                 # console.log tag
 
             # $('body').toast(
-            position: 'bottom right',
+            position: 'bottom center',
             #     showIcon: 'reddit'
             #     message: 'reddit started'
             #     displayTime: 'auto',
             # )
             # Meteor.call 'search_reddit', selected_tags.array(), ->
             #     $('body').toast(
-            position: 'bottom right',
+            position: 'bottom center',
             #         message: 'reddit done'
             #         showIcon: 'reddit'
             #         showProgress: 'bottom'
@@ -128,7 +130,7 @@ if Meteor.isClient
             # unless @data.watson
             console.log 'calling watson on comment'
             $('body').toast(
-                position: 'bottom right',
+                position: 'bottom center',
                 showIcon: 'refresh'
                 message: 'getting tags'
                 displayTime: 'auto',
@@ -138,7 +140,7 @@ if Meteor.isClient
                 if err
                     # alert err.error
                     $('body').toast(
-                        position: 'bottom right',
+                        position: 'bottom center',
                         showIcon: 'exclamation'
                         class: 'error'
                         message: 'error getting watson'
@@ -146,7 +148,7 @@ if Meteor.isClient
                     )
                 else 
                     $('body').toast(
-                        position: 'bottom right',
+                        position: 'bottom center',
                         showIcon: 'checkmark'
                         class: 'success'
                         message: 'autotagged', res
@@ -156,7 +158,7 @@ if Meteor.isClient
                     
         'click .get_comment_emotion': ->
             $('body').toast(
-                position: 'bottom right',
+                position: 'bottom center',
                 showIcon: 'refresh'
                 message: 'getting emotion'
                 displayTime: 'auto',
@@ -165,7 +167,7 @@ if Meteor.isClient
                 if err
                     # alert err.error
                     $('body').toast(
-                        position: 'bottom right',
+                        position: 'bottom center',
                         showIcon: 'exclamation'
                         class: 'error'
                         message: 'error getting emotion'
@@ -173,7 +175,7 @@ if Meteor.isClient
                     )
                 else
                     $('body').toast(
-                        position: 'bottom right',
+                        position: 'bottom center',
                         showIcon: 'checkmark'
                         class: 'success'
                         message: 'got emotion', res
@@ -273,7 +275,10 @@ if Meteor.isServer
         Docs.find {
             model:'rcomment'
             parent_id:"t3_#{post.reddit_id}"
-        }, limit:20
+        }, 
+            limit:100
+            sort:
+                'data.score':-1
             
         
         

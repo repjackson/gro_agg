@@ -64,7 +64,7 @@ Template.keywords.onRendered ->
 Template.call_watson.events
     'click .autotag': -> 
         $('body').toast(
-            position: 'bottom right',
+            position: 'bottom center',
             showIcon: 'refresh'
             message: 'autotagging'
             displayTime: 'auto',
@@ -72,7 +72,7 @@ Template.call_watson.events
         Meteor.call 'call_watson',Router.current().params.doc_id,'data.url','url',(err,res)=>
             if err
                 $('body').toast(
-                    position: 'bottom right',
+                    position: 'bottom center',
                     showIcon: 'alert'
                     message: 'error', err.error
                     displayTime: 'auto',
@@ -80,7 +80,7 @@ Template.call_watson.events
                 )
             else 
                 $('body').toast(
-                    position: 'bottom right',
+                    position: 'bottom center',
                     showIcon: 'checkmark'
                     message: 'autotagged', res
                     displayTime: 'auto',
@@ -91,7 +91,7 @@ Template.call_watson.events
 Template.get_emotion.events
     'click .get': -> 
         $('body').toast(
-            position: 'bottom right',
+            position: 'bottom center',
             showIcon: 'refresh'
             message: 'getting emotion'
             displayTime: 'auto',
@@ -99,14 +99,14 @@ Template.get_emotion.events
         Meteor.call 'get_emotion',Router.current().params.doc_id,'body',(err,res)=>
             if err
                 $('body').toast(
-                    position: 'bottom right',
+                    position: 'bottom center',
                     showIcon: 'question'
                     message: 'error getting emotion', err.error
                     displayTime: 'auto',
                 )
             else 
                 $('body').toast(
-                    position: 'bottom right',
+                    position: 'bottom center',
                     showIcon: 'checkmark'
                     message: 'emotion', res
                     displayTime: 'auto',
@@ -119,14 +119,14 @@ Template.get_emotion.events
 Template.call_tone.events
     'click .call': ->
         $('body').toast(
-            position: 'bottom right',
+            position: 'bottom center',
             showIcon: 'smile'
             message: 'getting tone'
             displayTime: 'auto',
         )
         Meteor.call 'call_tone', Router.current().params.doc_id, (err,res)->
             $('body').toast(
-                position: 'bottom right',
+                position: 'bottom center',
                 showIcon: 'checkmark'
                 message: 'tone', res
                 displayTime: 'auto',

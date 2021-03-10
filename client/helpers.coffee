@@ -10,7 +10,8 @@ Template.registerHelper 'trunc', (input) ->
         input[0..500]
    
    
-        
+Template.registerHelper 'emotion_avg', (metric) -> results.findOne(model:'emotion_avg')
+
 Template.registerHelper 'calculated_size', (metric) ->
     # whole = parseInt(@["#{metric}"]*10)
     whole = parseInt(metric*10)

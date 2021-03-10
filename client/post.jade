@@ -105,6 +105,20 @@ template(name='rpage')
                     .ui.basic.fluid.button.get_comments
                         i.download.icon
                         |comments
+                    +sort_direction_button
+                    +limit_button value=1
+                    +limit_button value=10
+                    +limit_button value=20
+                    +view_layout_button label='grid' icon='th'
+                    +view_layout_button label='list' icon='list'
+                    +sort_button l='upvotes' i='thumbs up outline' key='data.ups'
+                    +sort_button l='comments' i='chat outline' key='data.comment_count'
+                    +sort_button l='joy' i='smile' c='green' key='rep_joy'
+                    +sort_button l='anger' i='frown' c='red' key='rep_anger'
+                    +sort_button l='sadness' i='frown' c='blue' key='rep_sadness'
+                    +sort_button l='disgust' i='frown' c='orange' key='rep_disgust'
+                    +sort_button l='fear' i='frown' c='grey' key='rep_fear'
+                        
                     .scrolling
                         +rcomments_tab
             .three.wide.column
@@ -163,14 +177,15 @@ template(name='rcomments_tab')
         .ui.compact.button #{name}
             small #{count}
     .spacer
-    each rpost_comments
-        +rcomment
+    .ui.comments
+        each rpost_comments
+            +rcomment
                 
                 
 template(name='rcomment')                
     // .ui.grid.call_watson_comment
-    .ui.grid
-        .sixteen.wide.column
+    .ui.comment
+        .content
             .ui.small.inline.header {{data.score}}
             a.author.inline.say(href="/user/#{data.author}") #{data.author}
             span.metadata 
