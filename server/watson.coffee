@@ -71,7 +71,7 @@ Meteor.methods
             )
         # else return
 
-    get_emotion: (doc_id, key, mode) ->
+    get_emotion: (doc_id, mode) ->
         # console.log 'calling watson'
         self = @
         # console.log doc_id
@@ -87,7 +87,11 @@ Meteor.methods
         params =
             features:
                 emotion:{}
-            url:doc.url
+            # url:doc.url
+        if mode is 'url'
+            params.url = doc.data.url
+        else if mode is 'comment'
+            params.text = doc.data.body
         natural_language_understanding.analyze params, Meteor.bindEnvironment((err, response)=>
             if err
                 # console.log 'watson error for', params.url

@@ -7,7 +7,7 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "http://reddit.com/search.json?q=#{query}&limit=10&include_facets=false&raw_json=1"
+        url = "http://reddit.com/search.json?q=#{query}&limit=100&include_facets=false&raw_json=1"
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,res)=>
         HTTP.get url,(err,res)=>
             if res.data.data.dist > 1
@@ -462,7 +462,7 @@ Meteor.methods
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
         # https://www.reddit.com/r/uwo/comments/fhnl8k/ontario_to_close_all_public_schools_for_two_weeks.json
-        url = "https://www.reddit.com/r/#{subreddit}/comments/#{doc.reddit_id}.json?&raw_json=1&nsfw=0&limit=10"
+        url = "https://www.reddit.com/r/#{subreddit}/comments/#{doc.reddit_id}.json?&raw_json=1&nsfw=0&limit=100"
         HTTP.get url,(err,res)=>
             # if res.data.data.dist > 1
             # [1].data.children[0].data.body

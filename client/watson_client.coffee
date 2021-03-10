@@ -84,10 +84,10 @@ Template.get_emotion.events
             message: 'getting emotion'
             displayTime: 'auto',
         )
-        Meteor.call 'get_emotion',Router.current().params.doc_id,'url','url',(err,res)=>
+        Meteor.call 'get_emotion',Router.current().params.doc_id,'body',(err,res)=>
             if err
                 $('body').toast(
-                    showIcon: 'alert'
+                    showIcon: 'question'
                     message: 'error getting emotion', err.error
                     displayTime: 'auto',
                 )

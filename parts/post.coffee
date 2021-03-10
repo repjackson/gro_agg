@@ -93,17 +93,55 @@ if Meteor.isClient
             Meteor.call 'get_reddit_post', Router.current().params.doc_id, @reddit_id, ->
   
   
-    Template.rcomment.events ->
+    Template.rcomment.events
         # console.log @data
-        'click .call_watson_comment': ->
+        'click .autotag_watson': ->
             # unless @data.watson
-            # console.log 'calling watson on comment'
-            Meteor.call 'call_watson', @data._id,'data.body','comment',(err,res)->
+            console.log 'calling watson on comment'
+            $('body').toast(
+                showIcon: 'refresh'
+                message: 'getting tags'
+                displayTime: 'auto',
+            )
+            
+            Meteor.call 'call_watson', @_id,'data.body','comment',(err,res)->
                 if err
-                    alert err.error
-            Meteor.call 'get_emotion', @data._id,'data.body','comment',(err,res)->
+                    # alert err.error
+                    $('body').toast(
+                        showIcon: 'exclamation'
+                        message: 'error getting watson'
+                        displayTime: 'auto',
+                    )
+                else 
+                    $('body').toast(
+                        showIcon: 'checkmark'
+                        message: 'got watson', res
+                        displayTime: 'auto',
+                    )
+                    
+                    
+        'click .get_comment_emotion': ->
+            $('body').toast(
+                showIcon: 'refresh'
+                message: 'getting emotion'
+                displayTime: 'auto',
+            )
+            Meteor.call 'get_emotion', @_id, 'comment', (err,res)->
                 if err
-                    alert err.error
+                    # alert err.error
+                    $('body').toast(
+                        showIcon: 'exclamation'
+                        message: 'error getting emotion'
+                        displayTime: 'auto',
+                    )
+                else
+                    $('body').toast(
+                        showIcon: 'checkmark'
+                        message: 'got emotion', res
+                        displayTime: 'auto',
+                    )
+                    
+            
         # unless @data.time_tags
         #     # console.log 'calling watson on comment'
         #     Meteor.call 'tagify_time_rpost', @data._id,->
