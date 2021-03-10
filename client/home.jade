@@ -24,8 +24,9 @@ head
     link(rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css")
     script(src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js")
     script(async src="https://www.googletagmanager.com/gtag/js?id=G-GLYPPRGJFQ")
-    script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
-    
+    // script(async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8")
+    link(href="https://fonts.googleapis.com/css?family=Ubuntu:300&display=swap" rel="stylesheet")
+
     script.
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -34,15 +35,39 @@ head
         gtag('config', 'G-GLYPPRGJFQ');
 
 
+template(name='nav')
+    .ui.fluid.attached.borderless.three.item.menu
+        // a.icon.item.toggle_sidebar.no_blink
+        //     i.bars.icon
+    
+        a.ui.icon.item(href="/" class="{{isActiveRoute regex='home'}}")
+            i.search.large.icon
+        // a.ui.icon.item.clear(href="/reddit" class="{{isActiveRoute 'reddit'}}")
+        //     i.search.icon
+        a.ui.icon.item(href="/subs" class="{{isActiveRoute regex='sub'}}")
+            i.fire.large.icon
+        // a.ui.icon.item.clear(href="/stack" class="{{isActiveRoute 'stack'}}")
+        //     i.stack.exchange.icon
+        a.ui.icon.item(href="/users" class="{{isActiveRoute regex='user'}}")
+            i.user.outline.large.icon
+        // .item(title='session karma')
+        //     i.grey.lightning.icon
+        //     |#{session_clicks}
+        // .item(title='global karma')
+        //     i.grey.globe.icon
+        //     |#{global_karma}
+        // +status
+    
+
 template(name='layout')
     +nav
-    .ui.bottom.attached.pushable.segment
-        // +topbar
-        // +leftbar
-        // +rightbar
+    +yield
+        // .ui.bottom.attached.pushable.segment
+        // // +topbar
+        // // +leftbar
+        // // +rightbar
                 
-        #main_area.global_container.pusher
-            +yield
+        // #main_area.global_container.pusher
     
     // .ui.bottom.attached.pushable.segment
     //     #main_area.pusher(class=currentUser.invert_class)

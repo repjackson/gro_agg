@@ -99,7 +99,7 @@ if Meteor.isClient
             Meteor.setTimeout ->
                 Session.set('toggle',!Session.get('toggle'))
             , 7000
-            # Meteor.call 'call_wiki', @name, ->
+            Meteor.call 'call_wiki', @name, ->
     
     
     Template.subtag_picker.onCreated ->
@@ -149,7 +149,8 @@ if Meteor.isClient
             Meteor.setTimeout ->
                 Session.set('toggle',!Session.get('toggle'))
             , 7000
-    
+            Meteor.call 'call_wiki', @valueOf(), ->
+
     Template.subreddit_doc.helpers    
         seven_tags: ->
             @tags[..7]
@@ -176,7 +177,8 @@ if Meteor.isClient
             Meteor.setTimeout ->
                 Session.set('toggle',!Session.get('toggle'))
             , 7000
-        
+            Meteor.call 'call_wiki', @valueOf(), ->
+
         
         
 

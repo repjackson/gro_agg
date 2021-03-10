@@ -1,5 +1,5 @@
 template(name='home')
-    .ui.stackable.grid
+    .ui.stackable.grid.inline
         .row
             .sixteen.wide.column
                 // if skv_is 'nightmode' true
@@ -73,14 +73,14 @@ template(name='home')
         .row
             .ui.four.wide.column
                 if picked_tags
-                    +user_karma_sort_button l='total' i='yin yang' key='data.total_karma'
-                    +user_karma_sort_button l='link' i='edit' key='data.link_karma'
-                    +user_karma_sort_button l='comment' i='chat outline' key='data.comment_karma'
-                    +user_karma_sort_button l='joy' i='smile' c='green' key='rep_joy'
-                    +user_karma_sort_button l='anger' i='' c='red' key='rep_anger'
-                    +user_karma_sort_button l='sadness' i='' c='blue' key='rep_sadness'
-                    +user_karma_sort_button l='disgust' i='' c='orange' key='rep_disgust'
-                    +user_karma_sort_button l='fear' i='' c='grey' key='rep_fear'
+                    +sort_button l='total' i='yin yang' key='data.total_karma'
+                    +sort_button l='link' i='edit' key='data.link_karma'
+                    +sort_button l='comment' i='chat outline' key='data.comment_karma'
+                    +sort_button l='joy' i='smile' c='green' key='rep_joy'
+                    +sort_button l='anger' i='' c='red' key='rep_anger'
+                    +sort_button l='sadness' i='' c='blue' key='rep_sadness'
+                    +sort_button l='disgust' i='' c='orange' key='rep_disgust'
+                    +sort_button l='fear' i='' c='grey' key='rep_fear'
                 +alpha
                 each wikis
                     .ui.card
@@ -172,7 +172,7 @@ template(name='flat_tag_picker')
 
 template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.compact.basic.image.large.label.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.basic.image.large.label.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.watson.metadata.image
                 img.ui.avatar.image.superzoom(src=term.watson.metadata.image)    

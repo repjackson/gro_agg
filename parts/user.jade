@@ -27,10 +27,10 @@ template(name='user')
                         strong(title='global rank') ##{global_rank}
                     .ui.circular.basic.button.refresh_info
                         i.refresh.icon
-                        |refresh info
+                        | info
                     .ui.circular.basic.button.refresh_stats
                         i.refresh.icon
-                        |refresh stats
+                        | stats
                     .ui.circular.basic.button.refresh_rank
                         i.line.chart.icon
                         |refresh rank
@@ -80,7 +80,7 @@ template(name='user_posts')
 
     .ui.inline.dividing.header 
         i.edit.icon
-        |#{user_posts.count}
+        |#{user_post_docs.count}
         |posts
     i.refresh.grey.link.icon.refresh_posts(title='refresh posts')
     each user_post_tag_results
@@ -96,7 +96,7 @@ template(name='user_posts')
 template(name='user_comments')                    
     .ui.inline.dividing.header.get_user_comments
         i.chat.outline.icon
-        |#{user_comments.count}
+        |#{user_comment_docs.count}
         |comments
     i.refresh.grey.link.icon.refresh_comments(title='refresh posts')
     each user_comment_tag_results

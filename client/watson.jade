@@ -98,14 +98,14 @@ template(name='doc_emotion_small')
     span.rounde(style="height:3px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
     // .spacer
 template(name='call_watson')
-    button.ui.big.fluid.basic.button.autotag
+    button.ui.fluid.basic.button.autotag
         i.dna.icon
         if current_doc.watson 
             i.checkmark.green.icon
         |download and autotag
 
 template(name='get_emotion')
-    button.ui.big.fluid.basic.button.get
+    button.ui.fluid.basic.button.get
         i.smile.icon
         if current_doc.max_emotion_name 
             i.checkmark.green.icon

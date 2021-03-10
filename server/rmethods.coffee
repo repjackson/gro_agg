@@ -56,7 +56,7 @@ Meteor.methods
                             new_reddit_post_id = Docs.insert reddit_post
                             # if Meteor.isDevelopment
                             # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
-                # Meteor.call 'call_wiki', query, ->        
+                Meteor.call 'call_wiki', query, ->        
                 )
    
 

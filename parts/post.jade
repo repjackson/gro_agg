@@ -112,9 +112,10 @@ template(name='rpage')
                     i.download.icon
                     |get post
                 | {{ufrom data.created}}
-                a.ui.basic.fluid.button(href=data.url target="_window" title=data.url) 
-                    i.external.icon
-                    |url
+                if data.url
+                    a.ui.basic.fluid.button(href=data.url target="_window" title=data.url) 
+                        i.external.icon
+                        |url
                 .ui.large.basic.label
                     | #{data.domain}
                 unless data.is_reddit_media_domain    

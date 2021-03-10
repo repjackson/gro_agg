@@ -28,14 +28,14 @@ template(name='users')
             //                 .line
         .twelve.wide.column.scrolling
             .ui.small.inline.header sort by
-            +user_karma_sort_button l='total' i='yin yang' key='data.total_karma'
-            +user_karma_sort_button l='link' i='edit' key='data.link_karma'
-            +user_karma_sort_button l='comment' i='chat outline' key='data.comment_karma'
-            +user_karma_sort_button l='joy' i='smile' c='green' key='rep_joy'
-            +user_karma_sort_button l='anger' i='' c='red' key='rep_anger'
-            +user_karma_sort_button l='sadness' i='' c='blue' key='rep_sadness'
-            +user_karma_sort_button l='disgust' i='' c='orange' key='rep_disgust'
-            +user_karma_sort_button l='fear' i='' c='grey' key='rep_fear'
+            +sort_button l='total' i='yin yang' key='data.total_karma'
+            +sort_button l='link' i='edit' key='data.link_karma'
+            +sort_button l='comment' i='chat outline' key='data.comment_karma'
+            +sort_button l='joy' i='smile' c='green' key='rep_joy'
+            +sort_button l='anger' i='frown' c='red' key='rep_anger'
+            +sort_button l='sadness' i='frown' c='blue' key='rep_sadness'
+            +sort_button l='disgust' i='frown' c='orange' key='rep_disgust'
+            +sort_button l='fear' i='frown' c='grey' key='rep_fear'
             .ui.left.icon.input(class="{{#if current_username_query}} focus {{/if}}")
                 if current_username_query
                     i.remove.link.icon.clear_username
@@ -105,11 +105,11 @@ template(name='user_small')
                 // if is_dev 
                 +print_this
      
-template(name='user_karma_sort_button')     
-    .ui.compact.button.sort(class="#{c} #{button_class}")
-        if i 
-            i.icon(class=i)
-        |#{l} karma
+template(name='sort_button')     
+    .ui.compact.icon.circular.button.sort(class="#{c} #{button_class}")
+        // if i 
+        i.large.icon(class=i)
+        // |#{l} karma
             
             
 template(name='user_top_emotion_small')

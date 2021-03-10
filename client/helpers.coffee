@@ -119,13 +119,6 @@ Template.registerHelper 'post_header_class', () ->
 
 
 
-Template.registerHelper 'nightmode_class', (key, value) ->
-    if Session.get('nightmode') then 'inverted'
-    # if Session.get('nightmode') then 'invert inverted'
-Template.registerHelper 'nightmode_colum_class', (key, value) ->
-    if Session.get('nightmode') then 'black'
-
-
 Template.registerHelper 'template_subs_ready', () ->
     Template.instance().subscriptionsReady()
 

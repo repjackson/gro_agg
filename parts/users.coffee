@@ -17,7 +17,7 @@ if Meteor.isClient
             picked_user_tags.array() 
             Session.get('searching_username')
             Session.get('limit')
-            Session.get('users_sort_key')
+            Session.get('sort_key')
             Session.get('users_sort_direction')
         @autorun -> Meteor.subscribe('user_tags',
             picked_user_tags.array()
@@ -38,12 +38,12 @@ if Meteor.isClient
                 Meteor.call 'search_users', val, ->
     
     
-    Template.user_karma_sort_button.events
+    Template.sort_button.events
         'click .sort': ->
-            Session.set('users_sort_key', @key)
-    Template.user_karma_sort_button.helpers
+            Session.set('sort_key', @key)
+    Template.sort_button.helpers
         button_class: ->
-            if Session.equals('users_sort_key', @key) then 'active' else 'basic'
+            if Session.equals('sort_key', @key) then 'active' else 'basic'
         
     
     # Template.member_card.helpers
@@ -93,7 +93,7 @@ if Meteor.isClient
             #     match.site = $in:['member']
             if picked_user_tags.array().length > 0 then match.tags = $all: picked_user_tags.array()
             Docs.find match,
-                sort:"#{Session.get('users_sort_key')}":parseInt(Session.get('users_sort_direction'))
+                sort:"#{Session.get('sort_key')}":parseInt(Session.get('users_sort_direction'))
 
         all_user_tags: -> results.find(model:'user_tag')
         picked_user_tags: -> picked_user_tags.array()
@@ -187,7 +187,7 @@ if Meteor.isServer
                         
                 # user_sent_avg = Meteor.call 'user_sent_avg', username
         user_omega: (username)->
-            @unblock()
+            # @unblock()
             # agg_res = Meteor.call 'agg_omega2', (err, res)->
             # site_doc =
             #     Docs.findOne(
@@ -385,7 +385,7 @@ if Meteor.isServer
     
                 
         user_sent_avg: (username)->
-            @unblock()
+            # @unblock()
             user_doc =
                 Docs.findOne(
                     model:'user'

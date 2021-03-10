@@ -69,7 +69,7 @@ Template.call_watson.events
             message: 'autotagging'
             displayTime: 'auto',
         )
-        Meteor.call 'call_watson',Router.current().params.doc_id,'url',(err,res)=>
+        Meteor.call 'call_watson',Router.current().params.doc_id,'data.url','url',(err,res)=>
             if err
                 $('body').toast(
                     position: 'bottom right',
