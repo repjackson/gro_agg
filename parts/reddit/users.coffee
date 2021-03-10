@@ -248,7 +248,7 @@ if Meteor.isServer
                 
         
         user_emotions: (username)->
-            @unblock()
+            # @unblock()
             # site_doc =
             #     Docs.findOne(
             #         model:'stack_site'
@@ -264,6 +264,7 @@ if Meteor.isServer
     
             match.model = $in:['rpost','rcomment']
             match["data.author"] = username
+            match.max_emotion_name = $exists:true
             total_doc_result_count =
                 Docs.find( match,
                     {
@@ -275,13 +276,13 @@ if Meteor.isServer
             # limit=20
             options = {
                 explain:false
-                allowDiskUse:true
+                # allowDiskUse:true
             }
     
             # if omega.picked_stags.length > 0
             #     limit = 42
             # else
-            limit = 33
+            limit = 20
             # { $match: tags:$all: omega.picked_stags }
             pipe =  [
                 { $match: match }
@@ -331,13 +332,13 @@ if Meteor.isServer
             # limit=20
             options = {
                 explain:false
-                allowDiskUse:true
+                # allowDiskUse:true
             }
     
             # if omega.picked_stags.length > 0
             #     limit = 42
             # else
-            limit = 33
+            limit = 20
             # { $match: tags:$all: omega.picked_stags }
             pipe =  [
                 { $match: match }
@@ -375,7 +376,7 @@ if Meteor.isServer
             
             options = {
                 explain:false
-                allowDiskUse:true
+                # allowDiskUse:true
             }
             match = {}
             # if omega.picked_stags.length > 0
@@ -383,7 +384,7 @@ if Meteor.isServer
             #         $all: omega.picked_stags
             match.model = $in:['rpost','rcomment']
             match["data.author"] = username
-            match.watson = $exists:true
+            match.doc_sentiment_score = $exists:true
             pipe =  [
                 { $match: match }
                 # { $group:
@@ -417,7 +418,7 @@ if Meteor.isServer
                 return null
     
         calc_user_top_emotions: (username)->
-            @unblock()
+            # @unblock()
             user_doc =
                 Docs.findOne(
                     model:'user'
@@ -439,7 +440,7 @@ if Meteor.isServer
             
             match.model = $in:['rpost','rcomment']
             match["data.author"] = username
-            match.watson = $exists:true
+            match.doc_sentiment_score = $exists:true
             total_doc_result_count =
                 Docs.find( match,
                     {
@@ -449,13 +450,13 @@ if Meteor.isServer
                 ).count()
             options = {
                 explain:false
-                allowDiskUse:true
+                # allowDiskUse:true
             }
     
             # if omega.picked_stags.length > 0
             #     limit = 42
             # else
-            limit = 33
+            limit = 20
             # { $match: tags:$all: omega.picked_stags }
             pipe =  [
                 { $match: match }
