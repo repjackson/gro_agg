@@ -117,31 +117,9 @@ Meteor.publish 'rposts', (
         Docs.find match,
             limit:42
             sort:
-                "data.ups":-1
+                "ups":-1
             # sort: "#{sort_key}":-1
             # skip:skip*20
-            fields:
-                title:1
-                tags:1
-                url:1
-                model:1
-                # data:1    
-                "watson.metadata.image":1
-                "data.domain":1
-                "data.author":1
-                "data.permalink":1
-                "permalink":1
-                "data.title":1
-                "data.created_utc":1
-                "data.subreddit":1
-                "data.url":1
-                "data.thumbnail":1
-                "data.media.oembed":1
-                analyzed_text:1
-                "data.url":1
-                permalink:1
-                "data.media":1
-    
         
     
            

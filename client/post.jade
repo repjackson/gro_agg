@@ -2,20 +2,20 @@ template(name='post')
     with current_doc
         .ui.stackable.grid
             .sixteen.wide.column
-                // a.ui.basic.button.goto_sub(href="/r/#{data.subreddit}")
-                //     i.chevron.left.icon
-                //     |#{data.subreddit}
-                span.ui.header.zoomer(class=post_header_class)
-                    .ui.label #{data.ups}
-                    |!{data.title} #{data.link_title}
-                // .ui.basic.circular.compact.small.button.get_post
-                //     i.external.icon
-                //     |#{data.permalink}
+                a.ui.basic.button(href="/")
+                    i.chevron.left.icon
+                    // |#{data.subreddit}
+                span.ui.header(class=post_header_class)
+                    .ui.label #{ups}
+                    |!{title} #{link_title}
+                .ui.basic.circular.compact.small.button.get_post
+                    i.external.icon
+                    |#{data.permalink}
                 div
                 // if skv_is 'view_section' 'main'
                 .scrollin
-                    // unless watson
-                    //     +call_watson id=_id key='data.url' url=data.url mode='url'
+                    unless watson
+                        +call_watson id=_id key='url' url=url mode='url'
 
                     // blockquote(class="reddit-card")
                     //     a(href="https://www.reddit.com/r/therewasanattempt/comments/lt5gfm/to_eat_the_fish_and_complete_the_challenge/")
@@ -33,19 +33,22 @@ template(name='post')
                         iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                     else if is_image
                         a.zoom_cursor(href=url target='_window')
-                            img.ui.fluid.rounded.image.zoomer.toggle_view(src=url)
+                            img.ui.fluid.rounded.image.toggle_view(src=url)
                     else if embed
                         span.f11.full
                             |!{embed}
 
                     else if data.link_url
                         img.ui.image.pointer.call_visual(src=data.link_url)
+                    else if has_thumbnail
+                        a.view_post
+                            img.ui.inline.fluid.image(src=data.thumbnail)    
+
                     div
                     span.f12.say !{data.html}
-                    // if skv_is 'view_section' 'main'
-                    // if parsed_selftext_html
-                    //     .ui.segment
-                    //         |!{parsed_selftext_html}
+                    if parsed_selftext_html
+                        .ui.segment
+                            |!{parsed_selftext_html}
                     if data.selftext
                         // .ui.segment
                         .f12.say
@@ -127,7 +130,7 @@ template(name='post_related')
     .ui.header related
     .ui.list
         each related_posts
-            a.item.say.pointer.zoomer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class) 
+            a.item.say.pointer(href="/r/#{subreddit}/post/#{_id}" class=post_header_class) 
                 if data.is_reddit_media_domain
                     a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                         img.ui.small.rounded.image.toggle_view(src=data.url)
@@ -148,7 +151,7 @@ template(name='related_questions')
     .ui.header related questions
     .ui.list
         each qs
-            a.item.say.pointer.zoomer.set_main(href="/s/#{site}/q/#{question_id}" class=post_header_class) 
+            a.item.say.pointer.set_main(href="/s/#{site}/q/#{question_id}" class=post_header_class) 
                 if data.is_reddit_media_domain
                     a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
                         img.ui.small.rounded.image.toggle_view(src=data.url)

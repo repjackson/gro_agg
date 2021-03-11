@@ -8,7 +8,7 @@ template(name='home')
                 //     i.lightbulb.link.icon.toggle_nightmode
                 unless picked_tags
                     .ui.center.aligned.basic.segment
-                        .ui.icon.big.input
+                        .ui.icon.massive.input
                             i.search.icon
                             input.search_input(type='text' value=query autofocus='' placeholder="search...")
                         div
@@ -52,9 +52,9 @@ template(name='home')
                         +search_shortcut tag='tarot' icon='moon'
                             
                 if picked_tags
-                    .ui.icon.input
+                    .ui.icon.large.input
                         if is_loading
-                            i.loading.yin.yang.icon
+                            i.loading.yin.yang.large.icon
                         else
                             i.search.icon
                         input.search_input(type='text' value=query autofocus='' placeholder="#{post_count}")
@@ -109,7 +109,7 @@ template(name='search_shortcut')
    
 
 template(name='card')
-    .column.smallscroll
+    .column.smallcroll
         // .ui.stackable.equal.width.compact.grid
         //     .row
         a.goto_post.pointer.zoomer
@@ -118,29 +118,30 @@ template(name='card')
                     |!{embed}
                 div
             else if is_image
-                img.ui.fluid.zoomer.image.toggle_view(src=data.url)    
+                img.ui.fluid.zoomer.image.toggle_view(src=url)    
             else if watson.metadata.image
                 // |metadata
                 img.ui.inline.zoomer.image.toggle_view(src=watson.metadata.image)
                 // else if data.thumbnail.length
             else if has_thumbnail
                 a.view_post
-                    img.ui.inline.zoomer.fluid.image.zoomer(src=data.thumbnail)    
+                    img.ui.inline.zoomer.fluid.image.zoomer(src=thumbnail)    
         .content
             // a.ui.inline.header.view_post.zoomer(href="" class=post_header_class target='_window')
             a.ui.inline.header.goto_post.pointer(class=post_header_class title=domain)
-                |!{data.title} 
+                |!{title} 
                 // span.inline.content
-            |{{ufrom data.created_utc}}
+            |{{ufrom created_utc}}
             each unique_tags
                 a.ui.basic.label.flat_tag_pick #{this}
-            .ui.label #{data.domain}
-            .ui.label 
-                i.user.icon
-                |#{data.author}
+            // .ui.label #{data.domain}
+            // .ui.label 
+            //     i.user.icon
+            //     |#{data.author}
             a.black_text(href="post/#{_id}")
                 |{{ trunc analyzed_text }}...
-            +print_this
+            if in_dev
+                +print_this
             // div
    
 template(name='print_this')

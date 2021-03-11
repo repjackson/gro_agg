@@ -35,36 +35,46 @@ Meteor.methods
                         reddit_id:data.id
                         # "data.url":data.url
                     # console.log typeof(added_tags), added_tags
+                    console.log data
                     if existing
                         # if Meteor.isDevelopment
-                        console.log 'existing', existing.data.title
+                        console.log 'existing', existing.title
                         # if typeof(existing.tags) is 'string'
                         #     Doc.update
                         #         $unset: tags: 1
                         Docs.update existing._id,
                             $addToSet: tags: $each: added_tags
+                            $set:
+                                url: data.url
+                                domain: data.domain
+                                comment_count: data.num_comments
+                                permalink: data.permalink
+                                ups: data.ups
+                                title: data.title
+                                created_utc: data.created_utc
+                            $unset:
+                                data:1
+                                
                             # $set:data:data
 
                         # Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
                     unless existing
                         reddit_post =
                             reddit_id: data.id
-                            # url: data.url
-                            # domain: data.domain
-                            # comment_count: data.num_comments
-                            # permalink: data.permalink
-                            # ups: data.ups
-                            # title: data.title
+                            url: data.url
+                            domain: data.domain
+                            comment_count: data.num_comments
+                            permalink: data.permalink
+                            ups: data.ups
+                            title: data.title
+                            created_utc: data.created_utc
                             # subreddit: data.subreddit
-                            # group:data.subreddit
-                            # group_lowered:data.subreddit.toLowerCase()
-                            # root: query
                             # selftext: false
                             # thumbnail: false
                             tags: added_tags
                             model:'rpost'
                             # source:'reddit'
-                            data:data
+                            # data:data
                         console.log 'adding post', data.id
                         new_reddit_post_id = Docs.insert reddit_post
                         # if Meteor.isDevelopment
