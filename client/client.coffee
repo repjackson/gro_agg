@@ -114,7 +114,7 @@ Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()
 
 
 Template.tag_picker.onCreated ->
-    # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+    @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
 Template.tag_picker.helpers
     selector_class: ()->
         term = 
