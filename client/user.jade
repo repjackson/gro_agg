@@ -239,7 +239,7 @@ template(name='user_comment')
             |{{#markdown}} {{data.body}} {{/markdown}}
         .actions
             each tags 
-                +flat_sub_tag_picker
+                +flat_tag_picker
                 // .ui.tiny.basic.label #/{this}
             a.author.say(href="/r/#{data.subreddit}") #{data.subreddit}
             if in_dev

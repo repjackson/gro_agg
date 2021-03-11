@@ -68,14 +68,14 @@ Meteor.publish 'post_count', (
             
 Meteor.publish 'rposts', (
     picked_tags
-    picked_domains
-    picked_authors
-    picked_time_tags
-    picked_Locations
-    picked_persons
-    sort_key='data.ups'
-    sort_direction=-1
-    limit=20
+    # picked_domains
+    # picked_authors
+    # picked_time_tags
+    # picked_Locations
+    # picked_persons
+    # sort_key='data.ups'
+    # sort_direction=-1
+    # limit=20
     # picked_times
     # picked_Locations
     # picked_authors
@@ -103,15 +103,17 @@ Meteor.publish 'rposts', (
     
     # if picked_tags.length > 0 then match.tags = $all:picked_tags
     match.tags = $all:picked_tags
-    if picked_Locations.length > 0 then match.location = $all:picked_Locations
-    if picked_authors.length > 0 then match['data.author'] = $all:picked_authors
-    if picked_domains.length > 0 then match['data.domain'] = $all:picked_domains
-    if picked_persons.length > 0 then match.Person = $all:picked_persons
+    # if picked_Locations.length > 0 then match.location = $all:picked_Locations
+    # if picked_authors.length > 0 then match['data.author'] = $all:picked_authors
+    # if picked_domains.length > 0 then match['data.domain'] = $all:picked_domains
+    # if picked_persons.length > 0 then match.Person = $all:picked_persons
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
 
     Docs.find match,
-        limit:limit
-        sort: "#{sort_key}":-1
+        limit:20
+        sort:
+            "data.ups":-1
+        # sort: "#{sort_key}":-1
         # skip:skip*20
         fields:
             title:1
@@ -141,14 +143,14 @@ Meteor.publish 'rposts', (
 Meteor.publish 'tags', (
     picked_tags
     toggle
-    picked_domains
-    picked_authors
-    picked_time_tags
-    picked_Locations
-    picked_persons
+    # picked_domains
+    # picked_authors
+    # picked_time_tags
+    # picked_Locations
+    # picked_persons
     # query=''
     )->
-    @unblock()
+    # @unblock()
     self = @
     match = {
         model:'rpost'
@@ -167,10 +169,10 @@ Meteor.publish 'tags', (
 
     # if picked_tags.length > 0 then match.tags = $all:picked_tags
     match.tags = $all:picked_tags
-    if picked_authors.length > 0 then match.author = $all:picked_authors
-    if picked_domains.length > 0 then match.domain = $all:picked_domains
-    if picked_Locations.length > 0 then match.Location = $all:picked_Locations
-    if picked_persons.length > 0 then match.Person = $all:picked_persons
+    # if picked_authors.length > 0 then match.author = $all:picked_authors
+    # if picked_domains.length > 0 then match.domain = $all:picked_domains
+    # if picked_Locations.length > 0 then match.Location = $all:picked_Locations
+    # if picked_persons.length > 0 then match.Person = $all:picked_persons
     # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     doc_count = Docs.find(match).count()
     tag_cloud = Docs.aggregate [
@@ -190,40 +192,40 @@ Meteor.publish 'tags', (
             count: tag.count
             model:'tag'
     
-    Location_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "Location": 1 }
-        { $unwind: "$Location" }
-        { $group: _id: "$Location", count: $sum: 1 }
-        # { $match: _id: $nin: picked_location }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:10 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    Location_cloud.forEach (Location, i) ->
-        self.added 'results', Random.id(),
-            name: Location.name
-            count: Location.count
-            model:'Location'
+    # Location_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "Location": 1 }
+    #     { $unwind: "$Location" }
+    #     { $group: _id: "$Location", count: $sum: 1 }
+    #     # { $match: _id: $nin: picked_location }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:10 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # Location_cloud.forEach (Location, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: Location.name
+    #         count: Location.count
+    #         model:'Location'
     
     
-    Person_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "Person": 1 }
-        { $unwind: "$Person" }
-        { $group: _id: "$Person", count: $sum: 1 }
-        # { $match: _id: $nin: picked_Person }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:10 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    Person_cloud.forEach (Person, i) ->
-        self.added 'results', Random.id(),
-            name: Person.name
-            count: Person.count
-            model:'Person'
+    # Person_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "Person": 1 }
+    #     { $unwind: "$Person" }
+    #     { $group: _id: "$Person", count: $sum: 1 }
+    #     # { $match: _id: $nin: picked_Person }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:10 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # Person_cloud.forEach (Person, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: Person.name
+    #         count: Person.count
+    #         model:'Person'
     
     
     # timestamp_cloud = Docs.aggregate [
@@ -263,39 +265,39 @@ Meteor.publish 'tags', (
     
     
     
-    author_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "data.author": 1 }
-        # { $unwind: "$author" }
-        { $group: _id: "$data.author", count: $sum: 1 }
-        { $match: _id: $nin: picked_authors }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:10 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    author_cloud.forEach (author, i) ->
-        self.added 'results', Random.id(),
-            name: author.name
-            count: author.count
-            model:'author'
+    # author_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "data.author": 1 }
+    #     # { $unwind: "$author" }
+    #     { $group: _id: "$data.author", count: $sum: 1 }
+    #     { $match: _id: $nin: picked_authors }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:10 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # author_cloud.forEach (author, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: author.name
+    #         count: author.count
+    #         model:'author'
     
-    domain_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "data.domain": 1 }
-        # { $unwind: "$author" }
-        { $group: _id: "$data.domain", count: $sum: 1 }
-        { $match: _id: $nin: picked_authors }
-        { $sort: count: -1, _id: 1 }
-        { $match: count: $lt: doc_count }
-        { $limit:10 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-    ]
-    domain_cloud.forEach (domain, i) ->
-        self.added 'results', Random.id(),
-            name: domain.name
-            count: domain.count
-            model:'domain'
+    # domain_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "data.domain": 1 }
+    #     # { $unwind: "$author" }
+    #     { $group: _id: "$data.domain", count: $sum: 1 }
+    #     { $match: _id: $nin: picked_authors }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $match: count: $lt: doc_count }
+    #     { $limit:10 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ]
+    # domain_cloud.forEach (domain, i) ->
+    #     self.added 'results', Random.id(),
+    #         name: domain.name
+    #         count: domain.count
+    #         model:'domain'
     
     self.ready()
     

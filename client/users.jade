@@ -9,13 +9,13 @@ template(name='users')
             .ui.small.fluid.icon.input
                 i.search.icon
                 input.search_tags(type='text')
-            if picked_user_tags
+            if picked_tags
                 // #clear_tags.ui.grey.icon.compact.circular.button
                 //     i.remove.icon
-                each picked_user_tags
+                each picked_tags
                     a.unpick_user_tag.ui.black.compact.circular.button
                         strong !{this}
-            each all_user_tags
+            each tag_results
                 a.ui.basic.label.pick_user_tag(class=cloud_tag_class title=count) !{this.name}
                     // small #{this.count}
             // unless all_tags.count

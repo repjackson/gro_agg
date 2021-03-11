@@ -174,7 +174,7 @@ template(name='post_page')
                 .ui.small.inline.header #{data.num_crossposts} crossposts
                 |#{tags.length}
                 each tags
-                    +flat_sub_tag_picker
+                    +flat_tag_picker
                 
                 
 template(name='rcomments_tab')                
@@ -207,7 +207,7 @@ template(name='rcomment')
                 if in_dev
                     +print_this
                 each tags 
-                    +flat_sub_tag_picker
+                    +flat_tag_picker
                     // .ui.tiny.basic.label #/{this}
                 +doc_emotion_small
         if data.replies.data.children

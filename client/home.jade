@@ -117,40 +117,52 @@ template(name='home')
                             +card
                     //     .ui.basic.center.aligned.segment
                     //         i.big.loading.yin.yang.icon
-                .ui.four.wide.column
-                    .ui.inline.small.header
-                        i.marker.icon
-                        |locations
-                    each picked_Locations
-                        a.ui.black.label.unpick_Location
-                            |#{this}
-                    each Location_results
-                        a.ui.basic.label.pick_Location(class=domain_selector_class)
-                            |#{name} 
-                            small #{count}
-                    div
-                    .ui.inline.small.header
-                        i.globe.icon
-                        |domains
-                    each picked_domains
-                        a.ui.black.label.unpick_domain
-                            |#{this}
-                    each domain_results
-                        a.ui.basic.label.pick_domain(class=domain_selector_class)
-                            |#{name} 
-                            small #{count}
-                    div
-                    .ui.inline.small.header
-                        i.clock.icon    
-                        |authors
-                    each picked_authors
-                        a.ui.black.label.unpick_author
-                            |#{this}
-                    each author_results
-                        a.ui.basic.label.pick_author(class=domain_selector_class)
-                            |#{name} 
-                            small #{count}
+                // .ui.four.wide.column
+                //     +toggle_facet key='Location'
+                //     +toggle_facet key='domain'
+                //     +toggle_facet key='author'
+                //     if view_Location
+                //         +Location_facet
+                //     div
+                //     .ui.inline.small.header
+                //         i.globe.icon
+                //         |domains
+                //     each picked_domains
+                //         a.ui.black.label.unpick_domain
+                //             |#{this}
+                //     each domain_results
+                //         a.ui.basic.label.pick_domain(class=domain_selector_class)
+                //             |#{name} 
+                //             small #{count}
+                //     div
+                //     .ui.inline.small.header
+                //         i.clock.icon    
+                //         |authors
+                //     each picked_authors
+                //         a.ui.black.label.unpick_author
+                //             |#{this}
+                //     each author_results
+                //         a.ui.basic.label.pick_author(class=domain_selector_class)
+                //             |#{name} 
+                //             small #{count}
                     // .ui.inline.header.pull_latest #{display_name}
+
+
+template(name='toggle_facet')
+    .ui.button.toggle_facet
+        |#{key}
+
+template(name='Location_facet')
+    .ui.inline.small.header
+        i.marker.icon
+        |locations
+    each picked_Locations
+        a.ui.black.label.unpick_Location
+            |#{this}
+    each Location_results
+        a.ui.basic.label.pick_Location(class=domain_selector_class)
+            |#{name} 
+            small #{count}
 
 
 template(name='search_shortcut')
