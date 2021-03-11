@@ -1,10 +1,10 @@
-template(name='post_page')
+template(name='post')
     with current_doc
         .ui.stackable.grid
             .twelve.wide.column
-                a.ui.basic.button.goto_sub(href="/r/#{data.subreddit}")
-                    i.chevron.left.icon
-                    |#{data.subreddit}
+                // a.ui.basic.button.goto_sub(href="/r/#{data.subreddit}")
+                //     i.chevron.left.icon
+                //     |#{data.subreddit}
                 span.ui.header.zoomer(class=post_header_class)
                     .ui.label #{data.ups}
                     |!{data.title} #{data.link_title}
@@ -78,7 +78,6 @@ template(name='post_page')
                 // +skve k='view_section' v='comments' l='comments' i='comment'
                 +skve k='view_section' v='watson' l='emotion' i='dna'
                 // if tone
-                +skve k='view_section' v='tone' l='tone' i='smile grey'
                 // +skve k='view_section' v='tags' l='tags' i='tags'
                 // +skve k='view_section' v='related' l='related' i='fork'
                 unless key_value_is 'data.domain' 'reddit.com'
@@ -90,14 +89,6 @@ template(name='post_page')
                 // if skv_is 'view_section' 'related'
                 //     +post_related
                 //     +related_questions
-                if skv_is 'view_section' 'tone'
-                    .scrolling
-                        +tone
-                    unless tone
-                        +call_tone    
-                    // +skve k='view_section' v='money' l='money' i='money'
-                    // if skv_is 'view_section'
-                if skv_is 'view_section' 'preview'
                     iframe(width="100%" height="800" src=data.url frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)        
                 // +convert
                 // .spacer
@@ -106,23 +97,8 @@ template(name='post_page')
                     .ui.basic.fluid.button.get_comments
                         i.download.icon
                         |comments
-                    +sort_direction_button
-                    +limit_button value=1
-                    +limit_button value=10
-                    +limit_button value=20
-                    +view_layout_button label='grid' icon='th'
-                    +view_layout_button label='list' icon='list'
-                    +sort_button l='upvotes' i='thumbs up outline' key='data.ups'
-                    +sort_button l='comments' i='chat outline' key='data.comment_count'
-                    +sort_button l='joy' i='smile' c='green' key='rep_joy'
-                    +sort_button l='anger' i='frown' c='red' key='rep_anger'
-                    +sort_button l='sadness' i='frown' c='blue' key='rep_sadness'
-                    +sort_button l='disgust' i='frown' c='orange' key='rep_disgust'
-                    +sort_button l='fear' i='frown' c='grey' key='rep_fear'
-                        
                     .scrolling
                         +rcomments_tab
-            .three.wide.column
                 .ui.fluid.basic.button.get_post
                     i.download.icon
                     |post
@@ -150,7 +126,7 @@ template(name='post_page')
                     .ui.large.circular.basic.button
                         img(src="https://img.icons8.com/color/48/000000/downloads.png")
                         |download page
-                +call_watson id=_id key='data.url' url=data.url mode='url'
+                // +call_watson id=_id key='data.url' url=data.url mode='url'
                 unless max_emotion_percent
                     .ui.large.circular.basic.button.get_emotion
                         img(src="https://img.icons8.com/color/48/000000/satisfaction.png")

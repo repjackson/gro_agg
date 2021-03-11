@@ -2,37 +2,62 @@ request = require('request')
 rp = require('request-promise');
 Meteor.methods
     search_reddit: (query)->
-        @unblock()
-        # res = HTTP.get("http://reddit.com/search.json?q=#{query}")
+        # @unblock()
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "http://reddit.com/search.json?q=#{query}&limit=100&include_facets=false&raw_json=1"
-        # url = "http://reddit.com/search.json?q='author:LittleFart'&limit=100&include_facets=false&raw_json=1"
-        # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,res)=>
-        HTTP.get url,(err,res)=>
-            if res.data.data.dist > 1
-                _.each(res.data.data.children, (item)=>
-                    unless item.domain is "OneWordBan"
-                        data = item.data
-                        len = 200
-                        added_tags = [query]
-                        # added_tags = [query]
-                        # added_tags.push data.domain.toLowerCase()
-                        # added_tags.push data.subreddit.toLowerCase()
-                        # added_tags.push data.author.toLowerCase()
-                        added_tags = _.flatten(added_tags)
+        url = "http://reddit.com/search.json?q=#{query}&limit=10&include_facets=true&raw_json=1"
+        # url = "https://www.reddit.com/user/hernannadal/about.json"
+        options = {
+            url: url
+            headers: 
+                # 'accept-encoding': 'gzip'
+                "User-Agent": "web:com.dao.af:v1.2.3 (by /u/dao-af)"
+            # gzip: true
+        }
+        rp(options)
+            .then(Meteor.bindEnvironment((res)->
+                parsed = JSON.parse(res)
+                console.log 'parsed', parsed
+                # if parsed.data.dist > 1
+                _.each(parsed.data.children, (item)=>
+                    # unless item.domain is "OneWordBan"
+                    data = item.data
+                    len = 200
+                    added_tags = [query]
+                    # added_tags = [query]
+                    # added_tags.push data.domain.toLowerCase()
+                    # added_tags.push data.subreddit.toLowerCase()
+                    # added_tags.push data.author.toLowerCase()
+                    added_tags = _.flatten(added_tags)
+                    existing = Docs.findOne 
+                        model:'rpost'
+                        reddit_id:data.id
+                        # "data.url":data.url
+                    console.log typeof(added_tags), added_tags
+                    if existing
+                        # if Meteor.isDevelopment
+                        console.log 'existing', existing.data.title
+                        # if typeof(existing.tags) is 'string'
+                        #     Doc.update
+                        #         $unset: tags: 1
+                        Docs.update existing._id,
+                            $addToSet: tags: $each: added_tags
+                            # $set:data:data
+
+                        # Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
+                    unless existing
                         reddit_post =
                             reddit_id: data.id
-                            url: data.url
-                            domain: data.domain
-                            comment_count: data.num_comments
-                            permalink: data.permalink
-                            ups: data.ups
-                            title: data.title
-                            subreddit: data.subreddit
-                            group:data.subreddit
-                            group_lowered:data.subreddit.toLowerCase()
+                            # url: data.url
+                            # domain: data.domain
+                            # comment_count: data.num_comments
+                            # permalink: data.permalink
+                            # ups: data.ups
+                            # title: data.title
+                            # subreddit: data.subreddit
+                            # group:data.subreddit
+                            # group_lowered:data.subreddit.toLowerCase()
                             # root: query
                             # selftext: false
                             # thumbnail: false
@@ -40,25 +65,15 @@ Meteor.methods
                             model:'rpost'
                             # source:'reddit'
                             data:data
-                        existing = Docs.findOne 
-                            model:'rpost'
-                            url:data.url
-                        if existing
-                            # if Meteor.isDevelopment
-                            # if typeof(existing.tags) is 'string'
-                            #     Doc.update
-                            #         $unset: tags: 1
-                            Docs.update existing._id,
-                                $addToSet: tags: $each: added_tags
-                                $set:data:data
-
-                            # Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
-                        unless existing
-                            new_reddit_post_id = Docs.insert reddit_post
-                            # if Meteor.isDevelopment
-                            # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
-                Meteor.call 'call_wiki', query, ->        
+                        console.log 'adding post', data.id
+                        new_reddit_post_id = Docs.insert reddit_post
+                        # if Meteor.isDevelopment
+                        # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
+                # Meteor.call 'call_wiki', query, ->        
                 )
+            )).catch((err)->
+            )
+
    
 
     search_users: (query)->

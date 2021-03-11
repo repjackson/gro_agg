@@ -71,6 +71,11 @@ Router.route '/', (->
     @render 'home'
     ), name:'home'
 
+Router.route '/post/:doc_id', (->
+    @layout 'layout'
+    @render 'post'
+    ), name:'post'
+
 
 @picked_tags = new ReactiveArray []
 @picked_time_tags = new ReactiveArray []
@@ -105,7 +110,7 @@ Template.registerHelper 'is_image', ()->
     else 
         false
 Template.registerHelper 'has_thumbnail', ()->
-    console.log @data.thumbnail
+    # console.log @data.thumbnail
     @data.thumbnail.length > 0
 
 Template.registerHelper 'is_youtube', ()->
@@ -119,7 +124,7 @@ Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()
 
 
 Template.tag_picker.onCreated ->
-    @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+    # @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
 Template.tag_picker.helpers
     selector_class: ()->
         term = 
@@ -150,22 +155,18 @@ Template.tag_picker.events
         # else
         # if @model is 'reddit_tag'
         picked_tags.push @name
-        $('.search_subreddit').val('')
+        $('.search').val('')
         
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        Meteor.call 'call_alpha', picked_tags.array().toString(), ->
+        # Meteor.call 'call_alpha', picked_tags.array().toString(), ->
         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
-        Session.set('reddit_loading',true)
+        Session.set('loading',true)
         Meteor.call 'search_reddit', @name, ->
-            Session.set('reddit_loading',false)
+            Session.set('loading',false)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))
         , 5000)
         
-        
-Template.limit_button.events
-    'click .set_limit': (e,t)-> Session.set('limit',@value)
-
 
 
 Template.flat_tag_picker.onCreated ->
@@ -194,14 +195,14 @@ Template.flat_tag_picker.events
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         picked_tags.push @valueOf()
         # Router.go "/r/#{Router.current().params.subreddit}/"
-        $('.search_subreddit').val('')
+        $('.search').val('')
         url = new URL(window.location)
         url.searchParams.set('tags', picked_tags.array())
         window.history.pushState({}, '', url)
         document.title = picked_tags.array()
 
         Session.set('loading',true)
-        Meteor.call 'call_alpha', picked_tags.array().toString(), ->
+        # Meteor.call 'call_alpha', picked_tags.array().toString(), ->
         Meteor.call 'search_reddit', @valueOf(), ->
             Session.set('loading',false)
         Meteor.setTimeout( ->

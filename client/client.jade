@@ -36,11 +36,11 @@ head
 
 
 template(name='nav')
-    .ui.fluid.attached.borderless.three.item.menu
-        a.ui.icon.item(href="/" class="{{isActiveRoute regex='home'}}")
-            i.search.large.icon
-        a.ui.icon.item(href="/users" class="{{isActiveRoute regex='user'}}")
-            i.user.outline.large.icon
+    // .ui.fluid.attached.borderless.three.item.menu
+    //     a.ui.icon.item(href="/" class="{{isActiveRoute regex='home'}}")
+    //         i.search.large.icon
+    //     a.ui.icon.item(href="/users" class="{{isActiveRoute regex='user'}}")
+    //         i.user.outline.large.icon
     
 
 template(name='sort_direction_button')
@@ -57,9 +57,6 @@ template(name='layout')
     +yield
 
 
-template(name='view_layout_button')    
-    .ui.circular.icon.basic.button
-        i.icon(class=icon)
             
 
 template(name='not_found')
