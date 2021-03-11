@@ -32,10 +32,10 @@ Template.registerHelper 'person_results', ()-> results.find(model:'person_tag')
 
 
 Template.registerHelper 'embed', ()->
-    if @data and @data.media and @data.media.oembed and @data.media.oembed.html
+    if @html
         dom = document.createElement('textarea')
         # dom.innerHTML = doc.body
-        dom.innerHTML = @data.media.oembed.html
+        dom.innerHTML = @html
         return dom.value
         # Docs.update @_id,
         #     $set:
@@ -43,7 +43,7 @@ Template.registerHelper 'embed', ()->
 Template.registerHelper 'inner', ()->
     dom = document.createElement('textarea')
     # dom.innerHTML = doc.body
-    dom.innerHTML = @data.selftext
+    dom.innerHTML = @selftext
     return dom.value
     # Docs.update @_id,
     #     $set:
@@ -92,17 +92,17 @@ Template.skve.events
 
     
 
-Template.registerHelper 'is_image', ()->
-    if @domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
-        true
-    else 
-        false
+# Template.registerHelper 'is_image', ()->
+#     if @domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
+#         true
+#     else 
+#         false
 Template.registerHelper 'has_thumbnail', ()->
     # console.log @data.thumbnail
-    @data.thumbnail.length > 0
+    @thumbnail.length > 0
 
 Template.registerHelper 'is_youtube', ()->
-    @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+    @domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
     
     
 Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()

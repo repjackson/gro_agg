@@ -18,7 +18,6 @@ Meteor.methods
         rp(options)
             .then(Meteor.bindEnvironment((res)->
                 parsed = JSON.parse(res)
-                console.log 'parsed', parsed
                 # if parsed.data.dist > 1
                 _.each(parsed.data.children, (item)=>
                     # unless item.domain is "OneWordBan"
@@ -34,11 +33,8 @@ Meteor.methods
                         model:'rpost'
                         reddit_id:data.id
                         # "data.url":data.url
-                    # console.log typeof(added_tags), added_tags
-                    console.log data
                     if existing
                         # if Meteor.isDevelopment
-                        console.log 'existing', existing.title
                         # if typeof(existing.tags) is 'string'
                         #     Doc.update
                         #         $unset: tags: 1
@@ -47,14 +43,23 @@ Meteor.methods
                             $set:
                                 url: data.url
                                 domain: data.domain
+                                selftext: data.selftext
+                                selftext_html: data.selftext_html
                                 comment_count: data.num_comments
                                 permalink: data.permalink
                                 ups: data.ups
                                 title: data.title
                                 created_utc: data.created_utc
+                                # html:data.media.oembed.html    
                             $unset:
                                 data:1
-                                
+                        if data.media
+                            if data.media.oembed
+                                if data.media.oembed.html
+                                    Docs.update existing._id,
+                                        $set:
+                                            html: data.media.oembed.html
+
                             # $set:data:data
 
                         # Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
@@ -65,9 +70,12 @@ Meteor.methods
                             domain: data.domain
                             comment_count: data.num_comments
                             permalink: data.permalink
+                            selftext: data.selftext
+                            selftext_html: data.selftext_html
                             ups: data.ups
                             title: data.title
                             created_utc: data.created_utc
+                            # html:data.media.oembed.html    
                             # subreddit: data.subreddit
                             # selftext: false
                             # thumbnail: false
@@ -75,7 +83,10 @@ Meteor.methods
                             model:'rpost'
                             # source:'reddit'
                             # data:data
-                        console.log 'adding post', data.id
+                        if data.media
+                            if data.media.oembed
+                                if data.media.oembed.html
+                                    reddit_post.html = data.media.oembed.html
                         new_reddit_post_id = Docs.insert reddit_post
                         # if Meteor.isDevelopment
                         # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->

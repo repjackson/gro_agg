@@ -124,7 +124,6 @@ Meteor.methods
 
 
     call_watson: (doc_id, key, mode) ->
-        console.log 'calling watson', key, mode
         self = @
         doc = Docs.findOne doc_id
         # if doc.skip_watson is false
@@ -132,28 +131,28 @@ Meteor.methods
         # unless doc.watson
         params =
             concepts:
-                limit:10
+                limit:20
             features:
                 entities:
                     emotion: false
                     sentiment: false
                     mentions: false
-                    limit: 10
+                    limit: 20
                 keywords:
                     emotion: false
                     sentiment: false
-                    limit: 10
+                    limit: 20
                 concepts: {}
                 # categories:
                 #     explanation:false
-                # metadata: {}
+                metadata: {}
                 # relations: {}
                 # semantic_roles: {}
                 sentiment: {}
         if doc.data and doc.data.domain and doc.data.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
             params.url = "https://www.reddit.com#{doc.data.permalink}"
-            params.returnAnalyzedText = false
-            params.clean = false
+            params.returnAnalyzedText = true
+            params.clean = true
         else 
             switch mode
                 when 'html'
@@ -195,7 +194,6 @@ Meteor.methods
                     params.clean = true
                     params.features.metadata = {}
 
-        console.log 'calling watson params', params
 
         natural_language_understanding.analyze params, Meteor.bindEnvironment((err, response)=>
             if err

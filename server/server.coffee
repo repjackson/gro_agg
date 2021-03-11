@@ -153,7 +153,6 @@ Meteor.publish 'tags', (
     if picked_tags.length > 0
         match.tags = $all:picked_tags
         # if picked_authors.length > 0 then match.author = $all:picked_authors
-        console.log 'tag match', match
         # if picked_domains.length > 0 then match.domain = $all:picked_domains
         # if picked_Locations.length > 0 then match.Location = $all:picked_Locations
         # if picked_persons.length > 0 then match.Person = $all:picked_persons
@@ -171,7 +170,6 @@ Meteor.publish 'tags', (
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         tag_cloud.forEach (tag, i) ->
-            console.log 'tag cloud', tag
             self.added 'results', Random.id(),
                 name: tag.name
                 count: tag.count

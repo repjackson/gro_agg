@@ -38,20 +38,20 @@ Template.registerHelper 'abs_percent', (num) ->
 # Template.registerHelper 'connected', () -> Meteor.status().connected
     
 Template.registerHelper 'is_image', ()->
-    if @data.domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','giphy.com']
+    if @domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','giphy.com']
         true
     else 
         false
 Template.registerHelper 'preview_path', ()->
-    if @data and @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
-        @data.preview and @data.preview.images[0].source.url
+    if @data and @domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+        @preview and @preview.images[0].source.url
 Template.registerHelper 'has_thumbnail', ()->
-    # console.log @data.thumbnail
-    @data.thumbnail not in ['default','self']
-        # @data.thumbnail.length > 0 
+    # console.log @thumbnail
+    @thumbnail not in ['default','self']
+        # @thumbnail.length > 0 
 
 Template.registerHelper 'is_youtube', ()->
-    @data and @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+    @data and @domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
  
 Template.registerHelper 'one_post', ()-> Counts.get('post_counter') is 1
 Template.registerHelper 'two_posts', ()-> Counts.get('post_counter') is 2
@@ -171,8 +171,8 @@ Template.registerHelper 'result_tags', () -> results.find(model:'tag')
 
 # Template.registerHelper 'lowered_title', ()-> 
 #     if @data
-#         if @data.title
-#             @data.title.toLowerCase()
+#         if @title
+#             @title.toLowerCase()
 
 
 Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()

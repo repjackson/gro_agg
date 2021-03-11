@@ -40,6 +40,8 @@ Meteor.publish 'rpost_comment_tags', (
             model:'rpost_comment_tag'
             
     self.ready()
+    
+    
 Meteor.publish 'related_posts', (post_id)->
     post = Docs.findOne post_id
     @unblock()
