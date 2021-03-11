@@ -49,18 +49,6 @@ Template.registerHelper 'inner', ()->
     #     $set:
     #         parsed_selftext_html:dom.value
 
-Template.registerHelper 'is_image', ()->
-    if @data.domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
-        # console.log 'is image'
-        true
-    else 
-        # console.log 'is NOT image'
-        false
-
-Template.registerHelper 'is_youtube', ()->
-    @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
-
-    
    
    
         
@@ -115,6 +103,8 @@ Template.registerHelper 'has_thumbnail', ()->
 
 Template.registerHelper 'is_youtube', ()->
     @data.domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+    
+    
 Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()
 
 

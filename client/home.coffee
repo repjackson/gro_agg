@@ -26,28 +26,28 @@ Template.home.onCreated ->
         # picked_reddit_domain.array()
         # picked_rtime_tags.array()
         # picked_subreddits.array()
-    # params = new URLSearchParams(window.location.search);
+    params = new URLSearchParams(window.location.search);
     
-    # tags = params.get("tags");
-    # if tags
-    #     split = tags.split(',')
-    #     if tags.length > 0
-    #         for tag in split 
-    #             unless tag in picked_tags.array()
-    #                 picked_tags.push tag
-    #         Session.set('loading',true)
-    #         Meteor.call 'search', picked_tags.array(), ->
-    #             Session.set('loading',false)
-    #         Meteor.setTimeout ->
-    #             Session.set('toggle', !Session.get('toggle'))
-    #         , 7000    
+    tags = params.get("tags");
+    if tags
+        split = tags.split(',')
+        if tags.length > 0
+            for tag in split 
+                unless tag in picked_tags.array()
+                    picked_tags.push tag
+            Session.set('loading',true)
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('loading',false)
+            Meteor.setTimeout ->
+                Session.set('toggle', !Session.get('toggle'))
+            , 7000    
             
     # console.log(name)
     
     # @autorun => Meteor.subscribe 'wiki_doc', 
     #     picked_tags.array()
-    # @autorun => Meteor.subscribe 'post_count', 
-    #     picked_tags.array()
+    @autorun => Meteor.subscribe 'post_count', 
+        picked_tags.array()
 
 
     @autorun => Meteor.subscribe 'tags',
@@ -73,7 +73,7 @@ Template.home.events
 
             $('.search_input').val('')
             Session.set('loading',true)
-            Meteor.call 'search_reddit', val, ->
+            Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('loading',false)
             #     Session.set('reddit_query', null)
     'click .search': (e,t)->

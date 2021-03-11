@@ -6,7 +6,7 @@ Meteor.methods
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
         # else
-        url = "http://reddit.com/search.json?q=#{query}&limit=10&include_facets=true&raw_json=1"
+        url = "http://reddit.com/search.json?q=#{query}&limit=100&include_facets=true&raw_json=1"
         # url = "https://www.reddit.com/user/hernannadal/about.json"
         options = {
             url: url
@@ -34,7 +34,7 @@ Meteor.methods
                         model:'rpost'
                         reddit_id:data.id
                         # "data.url":data.url
-                    console.log typeof(added_tags), added_tags
+                    # console.log typeof(added_tags), added_tags
                     if existing
                         # if Meteor.isDevelopment
                         console.log 'existing', existing.data.title
