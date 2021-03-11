@@ -6,7 +6,7 @@ Template.registerHelper 'unique_tags', () ->
 Template.registerHelper 'skv_is', (key,value) -> Session.equals(key,value)
 Template.registerHelper 'youtube_parse', (url) ->
     regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    match = @data.url.match(regExp)
+    match = @url.match(regExp)
     if match && match[2].length == 11
         match[2]
     else
@@ -184,7 +184,7 @@ Template.flat_tag_picker.events
         # window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         picked_tags.push @valueOf()
-        # Router.go "/r/#{Router.current().params.subreddit}/"
+        Router.go "/"
         $('.search').val('')
         url = new URL(window.location)
         url.searchParams.set('tags', picked_tags.array())

@@ -54,6 +54,7 @@
     'page'
     'wikipedia'
     'internal link'
+    'front page of the internet'
     'disambiguation page lists articles'
     'wikimedia foundation, inc.'
     'creative commons attribution-sharealike license'

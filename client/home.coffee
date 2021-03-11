@@ -112,6 +112,7 @@ Template.home.events
     # 'click .pick_domain': -> picked_domains.push @name
     # 'click .unpick_domain': -> picked_domains.remove @valueOf()
 
+
 Template.home.helpers
     # wikis: ->
     #     if picked_tags.array().length > 0
@@ -192,6 +193,8 @@ Template.card.events
     'click .goto_post': ->
         l @
         Router.go "/post/#{@_id}"
+        Meteor.call 'call_watson',@_id,'url','url',(err,res)=>
+        
     'click .flat_tag_pick': -> 
         picked_tags.push @valueOf()
         # Meteor.call 'search', picked_tags.array(), ->
