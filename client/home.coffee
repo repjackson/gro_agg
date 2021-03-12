@@ -1,12 +1,12 @@
 Template.nav.events
     # 'click .clear': ->
     #     picked_tags.clear()
-# Template.unpick_tag.onCreated ->
-#     @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
+Template.unpick_tag.onCreated ->
+    @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
   
   
 Template.home.onCreated ->
-    # @autorun -> Meteor.subscribe('alpha_combo',picked_tags.array())
+    @autorun -> Meteor.subscribe('alpha_combo',picked_tags.array())
 
     # Meteor.call 'call_watson', @data._id, ->
     # @autorun => Meteor.subscribe 'try', ->
@@ -52,7 +52,7 @@ Template.home.onCreated ->
 
     @autorun => Meteor.subscribe 'tags',
         picked_tags.array()
-        # Session.get('toggle')
+        Session.get('toggle')
         # picked_domains.array()
         # picked_authors.array()
         # picked_time_tags.array()
@@ -177,9 +177,9 @@ Template.search_shortcut.events
         # Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
-        # Meteor.setTimeout ->
-        #     Session.set('toggle', !Session.get('toggle'))
-        # , 7000    
+        Meteor.setTimeout ->
+            Session.set('toggle', !Session.get('toggle'))
+        , 7000    
 
 
 Template.card.onCreated ->
@@ -203,6 +203,6 @@ Template.card.events
         window.history.pushState({}, '', url);
         document.title = picked_tags.array()
         # Meteor.call 'call_alpha', picked_tags.array().toString(), ->
-        # Meteor.setTimeout ->
-        #     Session.set('toggle',!Session.get('toggle'))
-        # , 7000
+        Meteor.setTimeout ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 7000

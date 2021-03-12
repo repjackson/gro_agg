@@ -47,6 +47,11 @@ Meteor.methods
                                 selftext_html: data.selftext_html
                                 comment_count: data.num_comments
                                 permalink: data.permalink
+                                body: data.body
+                                thumbnail: data.thumbnail
+                                link_title: data.link_title
+                                link_title: data.link_title
+                                body_html: data.body_html
                                 ups: data.ups
                                 title: data.title
                                 created_utc: data.created_utc
@@ -69,11 +74,14 @@ Meteor.methods
                             url: data.url
                             domain: data.domain
                             comment_count: data.num_comments
+                            thumbnail: data.thumbnail
+                            body_html: data.body_html
                             permalink: data.permalink
                             selftext: data.selftext
                             selftext_html: data.selftext_html
                             ups: data.ups
                             title: data.title
+                            link_title: data.link_title
                             created_utc: data.created_utc
                             # html:data.media.oembed.html    
                             # subreddit: data.subreddit
@@ -90,7 +98,7 @@ Meteor.methods
                         new_reddit_post_id = Docs.insert reddit_post
                         # if Meteor.isDevelopment
                         # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
-                # Meteor.call 'call_wiki', query, ->        
+                Meteor.call 'call_wiki', query, ->        
                 )
             )).catch((err)->
             )

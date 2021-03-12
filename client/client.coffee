@@ -146,11 +146,12 @@ Template.tag_picker.events
         # if @model is 'reddit_tag'
         picked_tags.push @name
         $('.search').val('')
-        
+
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # Meteor.call 'call_alpha', picked_tags.array().toString(), ->
         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         Session.set('loading',true)
+        Meteor.call 'call_wiki', @name, ->        
         Meteor.call 'search_reddit', @name, ->
             Session.set('loading',false)
         Meteor.setTimeout( ->

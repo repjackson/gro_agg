@@ -14,8 +14,9 @@ template(name='post')
                 div
                 // if skv_is 'view_section' 'main'
                 .scrollin
-                    unless watson
-                        +call_watson id=_id key='url' url=url mode='url'
+                    if is_dev
+                        unless watson
+                            +call_watson id=_id key='url' url=url mode='url'
 
                     // blockquote(class="reddit-card")
                     //     a(href="https://www.reddit.com/r/therewasanattempt/comments/lt5gfm/to_eat_the_fish_and_complete_the_challenge/")
@@ -23,7 +24,7 @@ template(name='post')
                     //     |from 
                     //     a(href="http://www.reddit.com/r/therewasanattempt") r/therewasanattempt
                     if data.is_reddit_media_domain
-                        img.ui.centered.rounded.image.pointer.call_visual(src=data.url)
+                        img.ui.centered.rounded.image.pointer.call_visual(src=url)
                     else if watson.metadata.image
                         img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
                     else if is_youtube
@@ -39,33 +40,33 @@ template(name='post')
                             |!{embed}
 
                     else if data.link_url
-                        img.ui.image.pointer.call_visual(src=data.link_url)
+                        img.ui.image.pointer.call_visual(src=link_url)
                     else if has_thumbnail
                         a.view_post
-                            img.ui.inline.fluid.image(src=data.thumbnail)    
+                            img.ui.inline.fluid.image(src=thumbnail)    
 
                     div
-                    span.f12.say !{data.html}
+                    span.f12.say !{html}
                     if parsed_selftext_html
                         .ui.segment
                             |!{parsed_selftext_html}
-                    if data.selftext
+                    if selftext
                         // .ui.segment
                         .f12.say
                             // .ui.header nl2br data selftext
-                            |{{#markdown}} {{data.selftext}} {{/markdown}}
+                            |{{#markdown}} {{selftext}} {{/markdown}}
                             // .ui.header nl2br data selftext
                             // |#{inner}
                             // |{{#markdown}} {{inner}} {{/markdown}}
-                    else if data.body
+                    else if body
                         div
                         .f12.say
                             .ui.header nl2br data body
-                            |{{nl2br data.body}}
-                    else if data.body_html
+                            |{{nl2br body}}
+                    else if body_html
                         div
                         .f12.say
-                            |!{data.body_html}
+                            |!{body_html}
                     else if watson.analyzed_text
                         .say.f12
                             |{{nl2br watson.analyzed_text}}
@@ -77,6 +78,8 @@ template(name='post')
                     // .rounded
                     //     |!{embed}
                 // +skve k='view_section' v='related' l='related' i='fork'
+                a.ui.button(href=url target='_window')
+                    |#{url}
                 each tags
                     +flat_tag_picker
                 
