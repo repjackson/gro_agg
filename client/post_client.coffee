@@ -11,21 +11,6 @@ Template.post.events ->
     # if doc
     #     Meteor.call 'get_user_info', doc.data.author, ->
 
-Template.post.helpers
-    rpost_comments: ->
-        post = Docs.findOne Router.current().params.doc_id
-        Docs.find
-            model:'rcomment'
-            parent_id:"t3_#{post.reddit_id}"
-
-Template.rcomments_tab.helpers
-    rpost_comments: ->
-        post = Docs.findOne Router.current().params.doc_id
-        Docs.find {
-            model:'rcomment'
-            parent_id:"t3_#{post.reddit_id}"
-        }, 
-            sort: 'data.score':-1
 Template.post.events
     'click .get_comments': ->
         $('body').toast(
@@ -76,14 +61,13 @@ Template.post.events
             # console.log tag
 
         # $('body').toast(
-        position: 'bottom center',
         #     showIcon: 'reddit'
         #     message: 'reddit started'
         #     displayTime: 'auto',
         # )
         # Meteor.call 'search_reddit', selected_tags.array(), ->
         #     $('body').toast(
-        position: 'bottom center',
+        # position: 'bottom center',
         #         message: 'reddit done'
         #         showIcon: 'reddit'
         #         showProgress: 'bottom'

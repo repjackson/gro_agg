@@ -146,17 +146,21 @@ Template.tag_picker.events
         # if @model is 'reddit_tag'
         picked_tags.push @name
         $('.search').val('')
+        url = new URL(window.location)
+        url.searchParams.set('tags', picked_tags.array())
+        window.history.pushState({}, '', url)
+        document.title = picked_tags.array()
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # Meteor.call 'call_alpha', picked_tags.array().toString(), ->
         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         Session.set('loading',true)
         Meteor.call 'call_wiki', @name, ->        
-        Meteor.call 'search_reddit', @name, ->
+        Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))
-        , 5000)
+        , 10000)
         
 
 
@@ -194,7 +198,7 @@ Template.flat_tag_picker.events
 
         Session.set('loading',true)
         # Meteor.call 'call_alpha', picked_tags.array().toString(), ->
-        Meteor.call 'search_reddit', @valueOf(), ->
+        Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))

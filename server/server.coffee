@@ -44,7 +44,7 @@ Meteor.publish 'doc', (doc_id)->
 # tsqp-gebk-xhpz-eobp-agle
 Docs.allow
     insert: (userId, doc) -> true
-    update: (userId, doc) -> false
+    update: (userId, doc) -> true
     remove: (userId, doc) -> false
 
 
