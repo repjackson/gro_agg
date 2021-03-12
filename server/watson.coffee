@@ -123,6 +123,16 @@ Meteor.methods
         )
 
 
+    import_url: (url)->
+        console.log 'importing', url
+        new_id = 
+            Docs.insert 
+                model:'url'
+                url:url
+        returned_id = Meteor.call 'call_watson', new_id,'url','url'
+        console.log 'returned url id', returned_id
+        return returned_id
+
     call_watson: (doc_id, key, mode) ->
         self = @
         doc = Docs.findOne doc_id
@@ -155,13 +165,13 @@ Meteor.methods
             console.log "SELF"
             params.text = doc.selftext
             params.returnAnalyzedText = true
-        else if doc.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
+        else if doc.domain and doc.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','reddit.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
             params.url = "https://www.reddit.com#{doc.permalink}"
             params.returnAnalyzedText = true
             params.clean = true
             params.features.metadata = {}
-        else if doc.domain is 'reddit.com'
-            console.log doc.domain
+        # else if doc.domain is 'reddit.com'
+        #     console.log doc.domain
         else 
             switch mode
                 when 'html'
@@ -266,3 +276,4 @@ Meteor.methods
                 Meteor.call 'clear_blocklist_doc', doc_id, ->
                 # if Meteor.isDevelopment
         )
+        return doc_id

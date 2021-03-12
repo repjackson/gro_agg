@@ -33,38 +33,38 @@ Meteor.methods
                         model:'rpost'
                         reddit_id:data.id
                         # "data.url":data.url
-                    if existing
-                        # if Meteor.isDevelopment
-                        # if typeof(existing.tags) is 'string'
-                        #     Doc.update
-                        #         $unset: tags: 1
-                        Docs.update existing._id,
-                            $addToSet: tags: $each: added_tags
-                            $set:
-                                url: data.url
-                                domain: data.domain
-                                selftext: data.selftext
-                                selftext_html: data.selftext_html
-                                comment_count: data.num_comments
-                                permalink: data.permalink
-                                body: data.body
-                                thumbnail: data.thumbnail
-                                is_reddit_media_domain: data.is_reddit_media_domain
-                                link_title: data.link_title
-                                body_html: data.body_html
-                                ups: data.ups
-                                title: data.title
-                                created_utc: data.created_utc
-                                # html:data.media.oembed.html    
-                            $unset:
-                                data:1
-                                # watson:1
-                        if data.media
-                            if data.media.oembed
-                                if data.media.oembed.html
-                                    Docs.update existing._id,
-                                        $set:
-                                            html: data.media.oembed.html
+                    # if existing
+                    #     # if Meteor.isDevelopment
+                    #     # if typeof(existing.tags) is 'string'
+                    #     #     Doc.update
+                    #     #         $unset: tags: 1
+                    #     Docs.update existing._id,
+                    #         $addToSet: tags: $each: added_tags
+                    #         $set:
+                    #             url: data.url
+                    #             domain: data.domain
+                    #             selftext: data.selftext
+                    #             selftext_html: data.selftext_html
+                    #             comment_count: data.num_comments
+                    #             permalink: data.permalink
+                    #             body: data.body
+                    #             thumbnail: data.thumbnail
+                    #             is_reddit_media_domain: data.is_reddit_media_domain
+                    #             link_title: data.link_title
+                    #             body_html: data.body_html
+                    #             ups: data.ups
+                    #             title: data.title
+                    #             created_utc: data.created_utc
+                    #             # html:data.media.oembed.html    
+                    #         $unset:
+                    #             data:1
+                    #             # watson:1
+                        # if data.media
+                        #     if data.media.oembed
+                        #         if data.media.oembed.html
+                        #             Docs.update existing._id,
+                        #                 $set:
+                        #                     html: data.media.oembed.html
 
                             # $set:data:data
 

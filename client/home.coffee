@@ -66,16 +66,24 @@ Template.home.events
     'keyup .search_input': (e,t)->
         val = $('.search_input').val().toLowerCase()
         Session.set('reddit_query', val)
+        
         if e.which is 13 
-            picked_tags.push val
-            # window.speechSynthesis.speak new SpeechSynthesisUtterance val
-            Meteor.call 'call_alpha', picked_tags.array().toString(), ->
-
-            $('.search_input').val('')
-            Session.set('loading',true)
-            Meteor.call 'search_reddit', picked_tags.array(), ->
-                Session.set('loading',false)
-            #     Session.set('reddit_query', null)
+            is_url = new RegExp(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/);
+            if is_url.test(val)
+                # alert 'url'
+                Meteor.call 'import_url', val, (err,res)->
+                    $('.search_input').val('')
+                    Router.go("/post/#{res}")
+            else
+                picked_tags.push val
+                # window.speechSynthesis.speak new SpeechSynthesisUtterance val
+                Meteor.call 'call_alpha', picked_tags.array().toString(), ->
+    
+                $('.search_input').val('')
+                Session.set('loading',true)
+                Meteor.call 'search_reddit', picked_tags.array(), ->
+                    Session.set('loading',false)
+                #     Session.set('reddit_query', null)
     'click .search': (e,t)->
         Session.set('toggle', !Session.get('toggle'))
 
