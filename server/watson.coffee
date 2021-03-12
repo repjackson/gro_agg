@@ -149,10 +149,11 @@ Meteor.methods
                 # relations: {}
                 # semantic_roles: {}
                 sentiment: {}
-        if doc.domain and doc.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
-            params.url = "https://www.reddit.com#{doc.data.permalink}"
+        if doc.domain and doc.domain in ['i.redd.it','i.imgur.com','imgur.com','reddit.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
+            params.url = "https://www.reddit.com#{doc.permalink}"
             params.returnAnalyzedText = true
             params.clean = true
+            params.features.metadata = {}
         else 
             switch mode
                 when 'html'

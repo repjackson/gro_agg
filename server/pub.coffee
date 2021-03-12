@@ -21,7 +21,7 @@ Meteor.publish 'wiki_doc', (
             title:1
             "analyzed_text":1
             url:1
-            "watson.metadata":1
+            "metadata":1
             tags:1
             model:1
 

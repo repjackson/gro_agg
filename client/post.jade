@@ -141,9 +141,9 @@ template(name='post_related')
                 if data.is_reddit_media_domain
                     a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                         img.ui.small.rounded.image.toggle_view(src=data.url)
-                else if watson.metadata.image
+                else if metadata.image
                     a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
-                        img.ui.rounded.small.inline.image.toggle_view(src=watson.metadata.image)
+                        img.ui.rounded.small.inline.image.toggle_view(src=metadata.image)
                 else if data.thumbnail
                     a.view_post(href="/r/#{subreddit}/post/#{_id}" class=post_header_class)
                         img.ui.rounded.small.inline.image(src=data.thumbnail)    
@@ -162,9 +162,9 @@ template(name='related_questions')
                 if data.is_reddit_media_domain
                     a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
                         img.ui.small.rounded.image.toggle_view(src=data.url)
-                else if watson.metadata.image
+                else if metadata.image
                     a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
-                        img.ui.rounded.small.inline.image.toggle_view(src=watson.metadata.image)
+                        img.ui.rounded.small.inline.image.toggle_view(src=metadata.image)
                 else if data.thumbnail
                     a.view_post(href="/s/#{site}/q/#{question_id}" class=post_header_class)
                         img.ui.rounded.small.inline.image(src=data.thumbnail)    

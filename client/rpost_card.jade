@@ -54,8 +54,8 @@ template(name='rpost_card')
         else if is_image
             a.view_post(href="/p/#{_id}" class=post_header_class)
                 img.ui.fluid.image.zoomer.toggle_view(src=data.url)
-        else if watson.metadata.image
-            img.ui.image.pointer.zoomer.call_meta(src=watson.metadata.image)
+        else if metadata.image
+            img.ui.image.pointer.zoomer.call_meta(src=metadata.image)
         else if data.is_reddit_media_domain
             a.view_post(href="/p/#{_id}" class=post_header_class)
                 img.ui.fluid.image.pointer(src=data.thumbnail)

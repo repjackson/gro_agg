@@ -26,11 +26,11 @@ Meteor.publish 'doc_by_title', (title)->
     Docs.find({
         title:title
         model:'wikipedia'
-        "watson.metadata.image":$exists:true
+        "metadata.image":$exists:true
     }, {
         fields:
             title:1
-            "watson.metadata.image":1
+            "metadata.image":1
     })
 
 
@@ -166,7 +166,7 @@ Meteor.publish 'tags', (
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:20 }
+            { $limit:15 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         tag_cloud.forEach (tag, i) ->
