@@ -26,7 +26,7 @@ Meteor.methods
                     added_tags = [query]
                     # added_tags.push data.domain.toLowerCase()
                     # added_tags.push data.subreddit.toLowerCase()
-                    added_tags.push data.title.toLowerCase()
+                    # added_tags.push data.title.toLowerCase()
                     # added_tags.push data.author.toLowerCase()
                     added_tags = _.flatten(added_tags)
                     existing = Docs.findOne 

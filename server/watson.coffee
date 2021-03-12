@@ -149,11 +149,19 @@ Meteor.methods
                 # relations: {}
                 # semantic_roles: {}
                 sentiment: {}
-        if doc.domain and doc.domain in ['i.redd.it','i.imgur.com','imgur.com','reddit.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
+        console.log 'doc watson', doc.domain
+        searchPattern = new RegExp('^' + 'self');
+        if searchPattern.test(doc.domain)
+            console.log "SELF"
+            params.text = doc.selftext
+            params.returnAnalyzedText = true
+        else if doc.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
             params.url = "https://www.reddit.com#{doc.permalink}"
             params.returnAnalyzedText = true
             params.clean = true
             params.features.metadata = {}
+        else if doc.domain is 'reddit.com'
+            console.log doc.domain
         else 
             switch mode
                 when 'html'

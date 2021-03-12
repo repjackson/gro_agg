@@ -44,25 +44,25 @@ template(name='alpha')
                         // .item related: #{related}
                         // .item version: #{version}
                     each pods
-                        .ui.compact.inline.basic.segment
-                            // div
-                            // .ui.small.inline.middle.aligned.header.middled #{title}
+                        // .ui.compact.inline.basic.segment
+                        // div
+                        // .ui.small.inline.middle.aligned.header.middled #{title}
+                        .ui.small.inline.header #{title}
+                        // div
+                        // .item #{scanner}
+                        // .item id #{id}
+                        // .item position #{position}
+                        // .item error #{error}
+                        // .item numsubpods #{numsubpods}
+                        // .item subpods
+                        // .ui.list
+                        each subpods
                             .ui.small.inline.header #{title}
-                            // div
-                            // .item #{scanner}
-                            // .item id #{id}
-                            // .item position #{position}
-                            // .item error #{error}
-                            // .item numsubpods #{numsubpods}
-                            // .item subpods
-                            // .ui.list
-                            each subpods
-                                .ui.small.inline.header #{title}
-                                img.ui.zoomer.pointer.image.inline.alphatemp(src=img.src)
-                            // .item.alphatemp
-                            // |#{plaintext}
-                            // .item title: #{title}
-                            // .item primary: #{primary}
+                            img.ui.zoomer.pointer.image.inline.alphatemp(src=img.src)
+                        // .item.alphatemp
+                        // |#{plaintext}
+                        // .item title: #{title}
+                        // .item primary: #{primary}
                         // each tags
                         //     .ui.label #{this}
                         // .alphatemp voice: #{voice}
