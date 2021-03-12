@@ -56,7 +56,7 @@ Meteor.publish 'post_count', (
     )->
     @unblock()
     match = {
-        model:'rpost'
+        model:$in:['rpost','url']
         # is_private:$ne:true
     }
     # unless Meteor.userId()
@@ -90,7 +90,7 @@ Meteor.publish 'rposts', (
     # @unblock()
     self = @
     match = {
-        model:'rpost'
+        model:$in:['rpost','url']
         # is_private:$ne:true
         # group:$exists:false
     }
@@ -136,7 +136,7 @@ Meteor.publish 'tags', (
     # @unblock()
     self = @
     match = {
-        model:'rpost'
+        model:$in:['rpost','url']
         # model:'post'
         # is_private:$ne:true
         # sublove:sublove
@@ -285,4 +285,37 @@ Meteor.publish 'tags', (
         self.ready()
         
     
-    
+
+
+Meteor.publish 'wiki_doc', (
+    # doc_id
+    picked_tags
+    )->
+    # console.log 'dummy', dummy
+    # console.log 'publishing wiki doc', picked_tags
+    @unblock()
+    self = @
+    match = {}
+
+    match.model = 'wikipedia'
+    match.title = $in:picked_tags
+    # console.log 'query length', query.length
+    # if picked_tags.length > 1
+    #     match.tags = $all: picked_tags
+        
+    Docs.find match,
+        fields:
+            title:1
+            "analyzed_text":1
+            url:1
+            "metadata":1
+            tags:1
+            model:1
+
+
+Meteor.publish 'alpha_combo', (selected_tags)->
+    @unblock()
+    Docs.find 
+        model:'alpha'
+        # query: $in: selected_tags
+        query: selected_tags.toString()

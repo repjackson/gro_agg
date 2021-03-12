@@ -43,13 +43,6 @@ template(name='nav')
     //         i.user.outline.large.icon
     
 
-template(name='sort_direction_button')
-    .ui.icon.circular.button.toggle_sort
-        if skv_is 'sort_direction' 1
-            i.chevron.down.icon
-        else
-            i.chevron.up.icon
-            
             
             
 template(name='layout')
@@ -58,12 +51,3 @@ template(name='layout')
 
 
             
-
-template(name='not_found')
-    .ui.center.aligned.basic.segment
-        a(href="/")
-            i.big.yin.yang.grey.link.icon.pulse
-
-
-
-   

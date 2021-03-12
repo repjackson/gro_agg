@@ -124,14 +124,21 @@ Meteor.methods
 
 
     import_url: (url)->
-        console.log 'importing', url
-        new_id = 
-            Docs.insert 
+        # console.log 'importing', url
+        existing = 
+            Docs.findOne 
                 model:'url'
                 url:url
-        returned_id = Meteor.call 'call_watson', new_id,'url','url'
-        console.log 'returned url id', returned_id
-        return returned_id
+        if existing
+            return existing._id
+        else
+            new_id = 
+                Docs.insert 
+                    model:'url'
+                    url:url
+            returned_id = Meteor.call 'call_watson', new_id,'url','url'
+            # console.log 'returned url id', returned_id
+            return returned_id
 
     call_watson: (doc_id, key, mode) ->
         self = @
@@ -159,10 +166,10 @@ Meteor.methods
                 # relations: {}
                 # semantic_roles: {}
                 sentiment: {}
-        console.log 'doc watson', doc.domain
+        # console.log 'doc watson', doc.domain
         searchPattern = new RegExp('^' + 'self');
         if searchPattern.test(doc.domain)
-            console.log "SELF"
+            # console.log "SELF"
             params.text = doc.selftext
             params.returnAnalyzedText = true
         else if doc.domain and doc.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','reddit.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
@@ -260,7 +267,7 @@ Meteor.methods
                 # Docs.update { _id: doc_id },
                 #     $addToSet:
                 #         tags:$each:lowered_concepts
-                console.log response
+                # console.log response
                 Docs.update { _id: doc_id },
                     $addToSet:
                         tags:$each:keywords_concepts
