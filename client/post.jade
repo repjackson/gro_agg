@@ -2,15 +2,15 @@ template(name='post')
     with current_doc
         .ui.stackable.grid
             .sixteen.wide.column
-                a.ui.basic.button(href="/")
-                    i.chevron.left.icon
+                a.ui.basic.icon.circular.button(href="/")
+                    i.chevron.left.large.icon
                     // |#{data.subreddit}
                 span.ui.header(class=post_header_class)
                     .ui.label #{ups}
                     |!{title} #{link_title}
                 .ui.basic.circular.compact.small.button.get_post
                     i.external.icon
-                    |#{data.permalink}
+                    |#{permalink}
                 div
                 // if skv_is 'view_section' 'main'
                 .scrollin
@@ -23,10 +23,10 @@ template(name='post')
                     //         |To eat the fish and complete the challenge.
                     //     |from 
                     //     a(href="http://www.reddit.com/r/therewasanattempt") r/therewasanattempt
-                    if data.is_reddit_media_domain
+                    if is_reddit_media_domain
                         img.ui.centered.rounded.image.pointer.call_visual(src=url)
-                    else if watson.metadata.image
-                        img.ui.rounded.image.pointer.call_meta(src=watson.metadata.image)
+                    else if metadata.image
+                        img.ui.rounded.image.pointer.call_meta(src=metadata.image)
                     else if is_youtube
                         div
                         // .ui.fluid.embed
@@ -39,7 +39,7 @@ template(name='post')
                         span.f11.full
                             |!{embed}
 
-                    else if data.link_url
+                    else if link_url
                         img.ui.image.pointer.call_visual(src=link_url)
                     else if has_thumbnail
                         a.view_post
@@ -61,17 +61,19 @@ template(name='post')
                     else if body
                         div
                         .f12.say
-                            .ui.header nl2br data body
+                            // .ui.header nl2br data body
                             |{{nl2br body}}
                     else if body_html
                         div
                         .f12.say
                             |!{body_html}
-                    else if watson.analyzed_text
+                    else if analyzed_text
                         .say.f12
-                            |{{nl2br watson.analyzed_text}}
+                            |{{nl2br analyzed_text}}
                     // iframe(width="100%" height="600" src="https://v.redd.it/9vk3khyb08e51/DASH_360.mp4?source=fallback" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
                     .spacer
+                    +print_this
+                    +call_watson
                     // img(src=url)
                     // div(style='position:relative; padding-bottom:calc(125.00% + 44px)')
                     //     iframe(src='https://gfycat.com/ifr/MeanFatAmurratsnake' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen)

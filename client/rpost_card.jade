@@ -39,7 +39,7 @@ template(name='rpost_card')
                     i.tag.icon
                     input.add_tag(type='text' placeholder='...')
             .ui.hidden.divider   
-            if data.selftext_html
+            if selftext_html
                 unless simple
                     span.invert.smallscroll
                         |{{#markdown}} !{data.selftext_html} {{/markdown}}

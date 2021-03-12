@@ -49,7 +49,7 @@ Meteor.methods
                                 permalink: data.permalink
                                 body: data.body
                                 thumbnail: data.thumbnail
-                                link_title: data.link_title
+                                is_reddit_media_domain: data.is_reddit_media_domain
                                 link_title: data.link_title
                                 body_html: data.body_html
                                 ups: data.ups
@@ -58,6 +58,7 @@ Meteor.methods
                                 # html:data.media.oembed.html    
                             $unset:
                                 data:1
+                                # watson:1
                         if data.media
                             if data.media.oembed
                                 if data.media.oembed.html
@@ -79,6 +80,7 @@ Meteor.methods
                             permalink: data.permalink
                             selftext: data.selftext
                             selftext_html: data.selftext_html
+                            is_reddit_media_domain: data.is_reddit_media_domain
                             ups: data.ups
                             title: data.title
                             link_title: data.link_title
@@ -105,50 +107,6 @@ Meteor.methods
 
    
 
-    search_users: (query)->
-        @unblock()
-        # res = HTTP.get("http://reddit.com/search.json?q=#{query}")
-        # if subreddit 
-        #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
-        # else
-        url = "http://reddit.com/users/search.json?q=#{query}&limit=10&include_facets=false&raw_json=1"
-        # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,res)=>
-        HTTP.get url,(err,res)=>
-            if res.data.data.dist > 1
-                _.each(res.data.data.children, (item)=>
-                    data = item.data
-                    data = item.data
-                    len = 200
-                    # added_tags = [query]
-                    # added_tags = [query]
-                    # added_tags.push data.domain.toLowerCase()
-                    # added_tags.push data.subreddit.toLowerCase()
-                    # added_tags.push data.author.toLowerCase()
-                    # added_tags = _.flatten(added_tags)
-                    user = {}
-                    user.model = 'user'
-                    user.username = item.data.name
-                    user.data = data
-                    # user.rdata = res.data.data
-                    existing = Docs.findOne 
-                        model:'user'
-                        username:item.data.name
-                    # if existing
-                    #     # if Meteor.isDevelopment
-                    #     # if typeof(existing.tags) is 'string'
-                    #     #     Doc.update
-                    #     #         $unset: tags: 1
-                    #     Docs.update existing._id,
-                    #         $addToSet: tags: $each: added_tags
-                    #         $set:data:data
-
-                        # Meteor.call 'get_reddit_post', existing._id, data.id, (err,res)->
-                    unless existing
-                        new_reddit_user_id = Docs.insert user
-                        # if Meteor.isDevelopment
-                        # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
-                    )
-                
 
 
 Meteor.methods

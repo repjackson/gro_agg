@@ -43,7 +43,7 @@ Template.registerHelper 'is_image', ()->
     else 
         false
 Template.registerHelper 'preview_path', ()->
-    if @data and @domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+    if @domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
         @preview and @preview.images[0].source.url
 Template.registerHelper 'has_thumbnail', ()->
     # console.log @thumbnail
@@ -51,7 +51,7 @@ Template.registerHelper 'has_thumbnail', ()->
         # @thumbnail.length > 0 
 
 Template.registerHelper 'is_youtube', ()->
-    @data and @domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
+    @domain in ['youtube.com','youtu.be','m.youtube.com','vimeo.com']
  
 Template.registerHelper 'one_post', ()-> Counts.get('post_counter') is 1
 Template.registerHelper 'two_posts', ()-> Counts.get('post_counter') is 2

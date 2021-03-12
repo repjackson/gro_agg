@@ -73,9 +73,9 @@ template(name='home')
             // .ui.four.wide.column
             //     each wikis
             //         .ui.card
-            //             if watson.metadata.image
+            //             if metadata.image
             //                 // a(href=url target='_window')
-            //                 img.ui.image.toggle_view(src=watson.metadata.image)
+            //                 img.ui.image.toggle_view(src=metadata.image)
             //             .content
             //                 i.large.wikipedia.icon
             //                 a.ui.inline.header(href=url target='_window') #{title}
@@ -119,9 +119,9 @@ template(name='card')
                 div
             else if is_image
                 img.ui.fluid.zoomer.image.toggle_view(src=url)    
-            else if watson.metadata.image
+            else if metadata.image
                 // |metadata
-                img.ui.inline.zoomer.image.toggle_view(src=watson.metadata.image)
+                img.ui.inline.zoomer.image.toggle_view(src=metadata.image)
                 // else if data.thumbnail.length
             else if has_thumbnail
                 a.view_post
@@ -150,16 +150,16 @@ template(name='print_this')
 template(name='unpick_tag')
     a.unpick.ui.black.image.large.label
         if term
-            if term.watson.metadata.image
-                img.ui.compact.image.superzoom(src=term.watson.metadata.image)    
+            if term.metadata.image
+                img.ui.compact.image.superzoom(src=term.metadata.image)    
         strong #{this}
 
 template(name='flat_tag_picker')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
     a.ui.basic.image.label.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
-            if term.watson.metadata.image
-                img.ui.image.superzoom(src=term.watson.metadata.image )    
+            if term.metadata.image
+                img.ui.image.superzoom(src=term.metadata.image )    
         strong #{this}
         // if in_dev
         //     small #{count}
@@ -168,8 +168,8 @@ template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_tag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
     a.ui.basic.image.large.label.zoomer.pick_tag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
-            if term.watson.metadata.image
-                img.ui.avatar.image.superzoom(src=term.watson.metadata.image)    
+            if term.metadata.image
+                img.ui.avatar.image.superzoom(src=term.metadata.image)    
         strong #{name}
         // if in_dev
         //     small #{count}

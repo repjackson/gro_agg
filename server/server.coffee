@@ -62,14 +62,14 @@ Meteor.publish 'post_count', (
     # unless Meteor.userId()
     #     match.privacy='public'
 
-        
-    match.tags = $all:picked_tags
-    # if picked_authors.length > 0 then match.author = $all:picked_authors
-    # if picked_Locations.length > 0 then match.location = $all:picked_Locations
-    # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
-
-    Counts.publish this, 'post_count', Docs.find(match)
-    return undefined
+    if picked_tags.length > 0
+        match.tags = $all:picked_tags
+        # if picked_authors.length > 0 then match.author = $all:picked_authors
+        # if picked_Locations.length > 0 then match.location = $all:picked_Locations
+        # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
+    
+        Counts.publish this, 'post_count', Docs.find(match)
+        return undefined
             
 Meteor.publish 'rposts', (
     picked_tags
@@ -115,7 +115,7 @@ Meteor.publish 'rposts', (
         # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     
         Docs.find match,
-            limit:42
+            limit:20
             sort:
                 "ups":-1
             # sort: "#{sort_key}":-1
@@ -125,7 +125,7 @@ Meteor.publish 'rposts', (
            
 Meteor.publish 'tags', (
     picked_tags
-    # toggle
+    toggle
     # picked_domains
     # picked_authors
     # picked_time_tags
@@ -285,13 +285,4 @@ Meteor.publish 'tags', (
         self.ready()
         
     
-    
-Meteor.publish 'user_doc', (username)->
-    match = {
-        model:'user'
-        username:username
-    }
-    # unless Meteor.isDevelopment
-    # match["data.subreddit.over_18"] = $ne:true 
-    Docs.find match
     

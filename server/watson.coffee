@@ -78,9 +78,9 @@ Meteor.methods
                 emotion:{}
             # url:doc.url
         if mode is 'url'
-            params.url = doc.data.url
+            params.url = doc.url
         else if mode is 'comment'
-            params.text = doc.data.body
+            params.text = doc.body
         natural_language_understanding.analyze params, Meteor.bindEnvironment((err, response)=>
             if err
                 # if err.code is 400
@@ -145,7 +145,7 @@ Meteor.methods
                 concepts: {}
                 # categories:
                 #     explanation:false
-                metadata: {}
+                # metadata: {}
                 # relations: {}
                 # semantic_roles: {}
                 sentiment: {}
@@ -174,12 +174,6 @@ Meteor.methods
                     # params.url = durl
                     params.url = doc.url
                     params.features.metadata = {}
-                    params.returnAnalyzedText = true
-                    params.clean = true
-                when 'stack'
-                    # params.url = doc["#{key}"]
-                    params.features.metadata = {}
-                    params.url = doc.link
                     params.returnAnalyzedText = true
                     params.clean = true
                 when 'video'
@@ -245,9 +239,11 @@ Meteor.methods
                         tags:$each:keywords_concepts
                     $set:
                         analyzed_text:response.analyzed_text
-                        watson: response
-                        watson_concepts: concept_array
-                        watson_keywords: keyword_array
+                        metadata:response.metadata
+                        watson:true
+                        sentiment:response.sentiment
+                        # watson_concepts: concept_array
+                        # watson_keywords: keyword_array
                         doc_sentiment_score: response.sentiment.document.score
                         doc_sentiment_label: response.sentiment.document.label
 
