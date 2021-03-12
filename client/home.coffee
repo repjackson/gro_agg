@@ -64,17 +64,18 @@ Template.home.onCreated ->
   
 Template.home.events
     'keyup .search_input': (e,t)->
-        val = $('.search_input').val().toLowerCase()
+        val = $('.search_input').val()
         Session.set('reddit_query', val)
         
         if e.which is 13 
-            is_url = new RegExp(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/);
+            is_url = new RegExp(/^(ftp|http|https):\/\/[^ "]+$/)
             if is_url.test(val)
                 # alert 'url'
                 Meteor.call 'import_url', val, (err,res)->
                     $('.search_input').val('')
                     Router.go("/post/#{res}")
             else
+                val = val.toLowerCase()
                 picked_tags.push val
                 # window.speechSynthesis.speak new SpeechSynthesisUtterance val
                 Meteor.call 'call_alpha', picked_tags.array().toString(), ->

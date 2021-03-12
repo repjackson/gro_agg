@@ -188,6 +188,13 @@ Meteor.methods
                     params.returnAnalyzedText = true
                     params.clean = true
                     # params.features.metadata = {}
+                when 'link'
+                    # params.url = doc["#{key}"]
+                    # params.url = durl
+                    params.url = doc.url
+                    params.features.metadata = {}
+                    params.returnAnalyzedText = true
+                    params.clean = true
                 when 'url'
                     # params.url = doc["#{key}"]
                     # params.url = durl
@@ -253,6 +260,7 @@ Meteor.methods
                 # Docs.update { _id: doc_id },
                 #     $addToSet:
                 #         tags:$each:lowered_concepts
+                console.log response
                 Docs.update { _id: doc_id },
                     $addToSet:
                         tags:$each:keywords_concepts

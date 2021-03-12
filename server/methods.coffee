@@ -31,8 +31,7 @@ Meteor.methods
                     added_tags = _.flatten(added_tags)
                     existing = Docs.findOne 
                         model:'rpost'
-                        reddit_id:data.id
-                        # "data.url":data.url
+                        url:data.url
                     # if existing
                     #     # if Meteor.isDevelopment
                     #     # if typeof(existing.tags) is 'string'
