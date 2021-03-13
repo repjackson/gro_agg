@@ -5,11 +5,6 @@ if Meteor.isClient
         ), name:'people'
     
 
-    Router.route '/person/:doc_id', (->
-        @layout 'layout'
-        @render 'person_view'
-        ), name:'person_view'
-
     Template.people.onCreated ->
         # @autorun => Meteor.subscribe 'product_from_person_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'person'
@@ -36,7 +31,7 @@ if Meteor.isClient
             new_id =
                 Docs.insert
                     model:'person'
-            Router.go "/b/#{new_id}/edit"
+            Router.go "/person/#{new_id}/edit"
 
 
 

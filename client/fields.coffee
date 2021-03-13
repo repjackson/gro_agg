@@ -17,8 +17,8 @@ Template.youtube_edit.events
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":val
-        Meteor.call 'add_global_karma', ->
-        Session.set('session_clicks', Session.get('session_clicks')+2)
+        # Meteor.call 'add_global_karma', ->
+        # Session.set('session_clicks', Session.get('session_clicks')+2)
 
 
 
@@ -88,8 +88,8 @@ Template.html_edit.events
                 $set:"#{@key}":html
         Meteor.users.update Meteor.userId(),
             $inc:points:1
-        Meteor.call 'add_global_karma', ->
-        Session.set('session_clicks', Session.get('session_clicks')+2)
+        # Meteor.call 'add_global_karma', ->
+        # Session.set('session_clicks', Session.get('session_clicks')+2)
 
     'keyup .testsun': _.throttle((e,t)=>
         html = t.editor.getContents(onlyContents: Boolean);
@@ -131,8 +131,8 @@ Template.link_edit.events
                 $set:"#{@key}":val
         Meteor.users.update Meteor.userId(),
             $inc:points:1
-        Meteor.call 'add_global_karma', ->
-        Session.set('session_clicks', Session.get('session_clicks')+2)
+        # Meteor.call 'add_global_karma', ->
+        # Session.set('session_clicks', Session.get('session_clicks')+2)
 
 
 Template.icon_edit.events
@@ -152,10 +152,10 @@ Template.image_link_edit.events
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":val
-        Meteor.users.update Meteor.userId(),
-            $inc:points:1
-        Meteor.call 'add_global_karma', ->
-        Session.set('session_clicks', Session.get('session_clicks')+2)
+        # Meteor.users.update Meteor.userId(),
+        #     $inc:points:1
+        # Meteor.call 'add_global_karma', ->
+        # Session.set('session_clicks', Session.get('session_clicks')+2)
 
 
 Template.image_edit.events

@@ -25,8 +25,11 @@ template(name='person_edit')
                     +link_edit key='link' label='link' icon='link' direct=true
                     +single_user_edit key='leader' label='leader' direct=true
                 .six.wide.column 
+                    +text_edit key='first_name' label='first name' icon='title' direct=true
+                    +text_edit key='last_name' label='last name' icon='title' direct=true
                     +text_edit key='title' label='title' icon='title' direct=true
                     .spacer
+                    +image_link_edit key='image_link' label='image link' icon='image' direct=true
                     +image_edit key='image_id' label='image' icon='image' direct=true
                     .spacer
                     +text_edit key='address' label='address' icon='marker' direct=true

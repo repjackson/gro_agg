@@ -82,5 +82,26 @@ template(name='people')
                     input(type='text' )
                 .ui.stackable.centered.cards
                     each person_docs
-                        +person
+                        +person_card
                         
+
+template(name='person_card')
+    .ui.card
+        if image_id
+            img.ui.fluid.image(src="{{c.url image_id}}")
+        else if image_link
+            img.ui.fluid.image(src=image_link)
+        
+        .content
+            a.ui.header(href="/person/#{_id}")
+                |#{first_name} #{last_name}
+            |!{description}
+            //- +ismall name='tags' classes='ui inline image'
+            each tags
+                .ui.basic.label #{this}
+            div
+            if is_admin
+                .ui.small.header slug: #{slug}
+            if can_edit
+                a.ui.basic.icon.button(href="/person/#{_id}/edit")
+                    i.pencil.blue.icon
