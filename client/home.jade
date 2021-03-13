@@ -52,7 +52,7 @@ template(name='home')
                         +search_shortcut tag='tarot' icon='moon'
                             
                 if picked_tags
-                    .ui.icon.large.input
+                    .ui.icon.input
                         if is_loading
                             i.loading.yin.yang.large.icon
                         else
@@ -129,7 +129,7 @@ template(name='card')
                     img.ui.inline.zoomer.fluid.image.zoomer(src=thumbnail)    
         .content
             // a.ui.inline.header.view_post.zoomer(href="" class=post_header_class target='_window')
-            a.ui.inline.header.goto_post.pointer(class=post_header_class title=domain)
+            a.ui.inline.small.header.goto_post.pointer(class=post_header_class title=domain)
                 if title
                     |!{title}
                 else 
