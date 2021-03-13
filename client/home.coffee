@@ -125,6 +125,8 @@ Template.home.helpers
             },
                 sort:"ups":-1
                 limit:42)
+                
+                
     post_count: -> Counts.get 'post_count'
     
     # nightmode_class: -> if Session.get('nightmode') then 'invert'
