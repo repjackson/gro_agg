@@ -116,7 +116,7 @@ Meteor.publish 'rposts', (
         # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     
         Docs.find match,
-            limit:42
+            limit:20
             sort:
                 "ups":-1
             # sort: "#{sort_key}":-1

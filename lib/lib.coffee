@@ -1,3 +1,5 @@
+@Tags = new Meteor.Collection 'tags'
+@Terms = new Meteor.Collection 'terms'
 @Docs = new Meteor.Collection 'docs'
 @results = new Meteor.Collection 'results'
 # @Tag_results = new Meteor.Collection 'tag_results'

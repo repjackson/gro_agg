@@ -1,0 +1,86 @@
+template(name='people')
+    .ui.padded.stackable.grid 
+        .row
+            .three.wide.column
+                .ui.inline.header 
+                    i.big.people.icon
+                    |people
+                .ui.large.icon.basic.button.add_person
+                    i.plus.icon
+                // i.large.clock.icon
+                // i.large.thumbs.up.icon
+                .ui.icon.transparent.input
+                    // if is_loading
+                    //     i.yin.yang.loading.icon
+                    // else
+                    i.search.icon
+                    input.search_tag(type='text' value=query)
+                    // .ui.label #{this}
+                
+                if picked_tags
+                    // if many_tags
+                    //     a#clear_tags.ui.red.invert.icon.compact.button.pick_term
+                    //         i.remove.icon
+                    each picked_tags
+                        +unpick_tag
+                each result_tags
+                    // .ui.label #{this}
+                    +tag_picker
+                        
+            .thirteen.wide.column
+                div(class=main_column_class)
+                    // .ui.disabled.button shared with me
+                    if skv_is 'view_sidebar' false
+                        .ui.icon.compact.basic.button.enable_sidebar
+                            i.ellipsis.vertical.icon
+                    else
+                        .ui.icon.compact.active.button.disable_sidebar
+                            i.ellipsis.vertical.icon
+                    if skv_is 'sort_direction' 1
+                        .ui.icon.compact.basic.button.sort_down
+                            i.caret.down.icon
+                    else
+                        .ui.icon.compact.basic.button.sort_up
+                            i.caret.up.icon
+                    .ui.compact.large.icon.basic.button.sort_created(class=sort_created_class)
+                        i.clock.icon
+                    .ui.compact.large.icon.basic.button.sort_ups(class=sort_ups_class)
+                        i.thumbs.up.icon
+                    if skv_is 'view_detail' true
+                        .ui.black.large.icon.compact.basic.button.toggle_detail
+                            i.list.icon
+                    else
+                        .ui.compact.large.icon.basic.button.toggle_detail
+                            i.minus.icon
+                        // i.line.chart.icon
+                    if skv_is 'view_layout' 'grid'
+                        .ui.compact.large.icon.black.button.set_grid(class=grid_class) 
+                            i.th.icon
+                    else
+                        .ui.compact.large.icon.basic.button.set_grid(class=grid_class) 
+                            i.th.icon
+                    if skv_is 'view_layout' 'list'
+                        .ui.compact.black.icon.large.button.set_list(class=list_class)
+                            i.list.icon
+                    else
+                        .ui.compact.large.icon.basic.button.set_list(class=list_class)
+                            i.list.icon
+                    .ui.icon.basic.button.skip_left
+                        i.chevron.left.icon
+                    .ui.icon.basic.button.skip_right
+                        i.chevron.right.icon
+                    .ui.icon.button
+                        i.film.icon
+                    .ui.icon.button
+                        i.picture.icon
+                    .ui.icon.button
+                        i.chat.icon            
+                    .ui.input
+                        input(type='text' )
+            
+                .ui.input
+                    input(type='text' )
+                .ui.stackable.centered.cards
+                    each person_docs
+                        +person
+                        
