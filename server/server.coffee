@@ -31,6 +31,7 @@ Meteor.publish 'doc_by_title', (title)->
         fields:
             title:1
             "metadata.image":1
+            model:1
     })
 
 

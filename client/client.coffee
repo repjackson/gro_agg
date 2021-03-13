@@ -133,6 +133,37 @@ Template.tag_picker.helpers
         Docs.findOne 
             title:@name.toLowerCase()
             
+           
+Template.unpick_tag.onCreated ->
+    console.log @data
+    @autorun => Meteor.subscribe('doc_by_title', @data.toLowerCase())
+            
+
+Template.unpick_tag.helpers
+    term: ->
+        found = 
+            Docs.findOne 
+                model:'wikipedia'
+                title:@valueOf().toLowerCase()
+                
+        console.log found
+        found
+Template.unpick_tag.events
+    'click .unpick':-> 
+        picked_tags.remove @valueOf()
+        url = new URL(window.location);
+        url.searchParams.set('tags', picked_tags.array());
+        window.history.pushState({}, '', url);
+        document.title = picked_tags.array()
+        Meteor.call 'call_alpha', picked_tags.array().toString(), ->
+        Meteor.call 'search_reddit', picked_tags.array(), ->
+        Meteor.setTimeout ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 10000
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
+
+            
+            
             
 Template.tag_picker.events
     'click .pick_tag': -> 
@@ -208,17 +239,17 @@ Template.flat_tag_picker.events
         
 
 Template.registerHelper 'picked_tags', () -> picked_tags.array()
-Template.registerHelper 'picked_authors', () -> picked_authors.array()
-Template.registerHelper 'picked_domains', () -> picked_domains.array()
-Template.registerHelper 'picked_persons', () -> picked_persons.array()
-Template.registerHelper 'picked_Locations', () -> picked_Locations.array()
+# Template.registerHelper 'picked_authors', () -> picked_authors.array()
+# Template.registerHelper 'picked_domains', () -> picked_domains.array()
+# Template.registerHelper 'picked_persons', () -> picked_persons.array()
+# Template.registerHelper 'picked_Locations', () -> picked_Locations.array()
     
 Template.registerHelper 'commafy', (num)-> if num then num.toLocaleString()
 
     
 Template.registerHelper 'trunc', (input) ->
     if input
-        input[0..500]
+        input[0..300]
    
    
 Template.registerHelper 'emotion_avg', (metric) -> results.findOne(model:'emotion_avg')
