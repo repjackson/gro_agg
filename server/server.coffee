@@ -116,7 +116,7 @@ Meteor.publish 'rposts', (
         # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
     
         Docs.find match,
-            limit:20
+            limit:42
             sort:
                 "ups":-1
             # sort: "#{sort_key}":-1
@@ -167,7 +167,7 @@ Meteor.publish 'tags', (
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:15 }
+            { $limit:20  }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         tag_cloud.forEach (tag, i) ->

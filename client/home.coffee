@@ -124,7 +124,7 @@ Template.home.helpers
                 # subreddit:Router.current().params.subreddit
             },
                 sort:"ups":-1
-                limit:21)
+                limit:42)
     post_count: -> Counts.get 'post_count'
     
     # nightmode_class: -> if Session.get('nightmode') then 'invert'

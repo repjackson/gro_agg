@@ -8,7 +8,10 @@ template(name='post')
                 span.ui.header(class=post_header_class)
                     if ups
                         .ui.label #{ups}
-                    |!{title} #{link_title} #{metadata.title}
+                    if title
+                        |!{title}
+                    else 
+                        |#{link_title} #{metadata.title}
                 .ui.basic.circular.compact.small.button.get_post
                     i.external.icon
                     |#{permalink}
