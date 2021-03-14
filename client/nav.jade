@@ -1,10 +1,10 @@
 template(name='nav')
     .ui.fluid.attached.borderless.inverted.large.menu.hscroll
-        a.icon.item.toggle_sidebar.no_blink
-            i.bars.icon
+        // a.icon.item.toggle_sidebar.no_blink
+        //     i.bars.icon
     
         a.icon.item.blink.clear(href="/" class="{{isActiveRoute regex='home'}}")
-            i.yin.yang.large.icon
+            i.search.large.icon
         // a.icon.item.blink.clear.mobile.hidden(href="/stats" class="{{isActiveRoute 'stats'}}")
         //     i.line.chart.large.icon
         // .ui.dropdown.item
@@ -44,21 +44,21 @@ template(name='nav')
         //         i.code.icon
         // .right.menu
         if currentUser
-            a.icon.item.add_post
-                i.plus.icon
+            // a.icon.item.add_post
+            //     i.plus.icon
         
-            if unread_count
-                a.item.alerts.select_term(href="#" class=alert_toggle_class)
-                    i.bell.icon
-                    if unread_count
-                        |#{unread_count}
-            else
-                a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
-                    i.outline.bell.icon
-            // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
-            //     i.inbox.icon
-            a.icon.item.mobile.hidden(href="/u/#{currentUser.username}/received" class="{{isActivePath 'user_received'}}" title="#{user.username} received")
-                strong #{currentUser.points}
+            // if unread_count
+            //     a.item.alerts.select_term(href="#" class=alert_toggle_class)
+            //         i.bell.icon
+            //         if unread_count
+            //             |#{unread_count}
+            // else
+            //     a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+            //         i.outline.bell.icon
+            // // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
+            // //     i.inbox.icon
+            // a.icon.item.mobile.hidden(href="/u/#{currentUser.username}/received" class="{{isActivePath 'user_received'}}" title="#{user.username} received")
+            //     strong #{currentUser.points}
             a.item.mobile.hidden(href="/u/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
                 if currentUser.profile_image_id
                     if is_admin
@@ -68,14 +68,14 @@ template(name='nav')
                 else 
                     i.user.icon
                 strong.mobile.hidden #{currentUser.name}
-            a.icon.item.toggle_rightbar.no_blink
-                i.bars.icon
+            // a.icon.item.toggle_rightbar.no_blink
+            //     i.bars.icon
         else
             a.icon.item(href="/register" title='login')
                 i.user.plus.large.icon
             a.item(href="/login" title='login')
-                |login
-                i.chevron.right.large.icon
+                // |login
+                i.sign.in.large.icon
 
 
 template(name='topbar')

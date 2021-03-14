@@ -88,11 +88,13 @@ template(name='people')
 template(name='person_card')
     .ui.card
         if image_id
-            img.ui.fluid.image(src="{{c.url image_id}}")
+            a(href="/person/#{_id}")
+                img.ui.fluid.image(src="{{c.url image_id}}")
         else if image_link
-            img.ui.fluid.image(src=image_link)
+            a(href="/person/#{_id}")
+                img.ui.fluid.image(src=image_link)
         
-        .content
+        .content.smallscroll
             a.ui.header(href="/person/#{_id}")
                 |#{first_name} #{last_name}
             |!{description}
