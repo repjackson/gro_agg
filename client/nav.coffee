@@ -86,12 +86,12 @@ Template.nav.events
 #     @autorun => Meteor.subscribe 'my_sent_messages'
 
 Template.nav.helpers
-    unread_count: ->
-        Docs.find( 
-            model:'message'
-            target_id:Meteor.userId()
-            viewer_ids:$nin:[Meteor.userId()]
-        ).count()
+    # unread_count: ->
+    #     Docs.find( 
+    #         model:'message'
+    #         target_id:Meteor.userId()
+    #         viewer_ids:$nin:[Meteor.userId()]
+    #     ).count()
 # Template.topbar.helpers
 #     recent_alerts: ->
 #         Docs.find 

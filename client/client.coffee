@@ -59,10 +59,6 @@ Router.route '/', (->
     @render 'home'
     ), name:'home'
 
-Router.route '/post/:doc_id', (->
-    @layout 'layout'
-    @render 'post'
-    ), name:'post'
 
 
 @picked_tags = new ReactiveArray []

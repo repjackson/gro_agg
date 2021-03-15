@@ -46,7 +46,7 @@ Meteor.publish 'doc', (doc_id)->
 Docs.allow
     insert: (userId, doc) -> true
     update: (userId, doc) -> true
-    remove: (userId, doc) -> false
+    remove: (userId, doc) -> userId
 
 
 Meteor.publish 'post_count', (

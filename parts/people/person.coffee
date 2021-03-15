@@ -47,13 +47,11 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'person_dishes', (person_slug)->
-        person = Docs.findOne
-            model:'person'
-            slug:person_slug
+    Meteor.publish 'post_person', (post_id)->
+        post = Docs.findOne post_id
         Docs.find
-            model:'dish'
-            _id: $in: person.dish_ids
+            model:'person'
+            _id:post.person_id
 
 
     Meteor.publish 'model_docs', (model)->
@@ -68,17 +66,20 @@ Router.route '/person/:doc_id/edit', -> @render 'person_edit'
 
 if Meteor.isClient
     Template.person_edit.onCreated ->
+        # @autorun => Meteor.subscribe 'model_docs', 'person'
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'person_options', Router.current().params.doc_id
     Template.person_edit.events
-        'click .add_option': ->
-            Docs.insert
-                model:'person_option'
-                ballot_id: Router.current().params.doc_id
+        'click .add_post': ->
+            new_id = Docs.insert
+                model:'post'
+                person_id: Router.current().params.doc_id
+            
+            Router.go "/post/#{new_id}/edit"
+            
     Template.person_edit.helpers
-        options: ->
+        person_posts: ->
             Docs.find
-                model:'person_option'
+                model:'post'
                 
                 
 Router.route '/person/:doc_id', -> @render 'person_view'
@@ -86,13 +87,24 @@ Router.route '/person/:doc_id', -> @render 'person_view'
 if Meteor.isClient
     Template.person_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        # @autorun => Meteor.subscribe 'person_options', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'person_posts', Router.current().params.doc_id
     Template.person_view.events
-        'click .add_option': ->
-            Docs.insert
-                model:'person_option'
-                ballot_id: Router.current().params.doc_id
+        'click .add_post': ->
+            new_id = 
+                Docs.insert
+                    model:'post'
+                    person_id: Router.current().params.doc_id
+            Router.go "/post/#{new_id}/edit"
+                
     Template.person_view.helpers
-        options: ->
+        person_posts: ->
             Docs.find
-                model:'person_option'
+                model:'post'
+                person_id:Router.current().params.doc_id
+
+
+if Meteor.isServer
+    Meteor.publish 'person_posts', (person_id)->
+        Docs.find
+            model:'post'
+            person_id:person_id

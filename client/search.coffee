@@ -135,9 +135,9 @@ Template.home.helpers
 
   
     
-Template.card.helpers
-    sub: ->
-        @data.subreddit
+# Template.rcard.helpers
+#     sub: ->
+#         @data.subreddit
     
     
 
@@ -159,7 +159,7 @@ Template.search_shortcut.events
         , 10000    
 
 
-Template.card.onCreated ->
+Template.rcard.onCreated ->
     unless @data.domain in ['i.redd.it','v.redd.it','i.imgur.com','redd.it','reddit.com']
         # console.log @data
         unless @watson
@@ -168,11 +168,11 @@ Template.card.onCreated ->
 
 
 
-Template.card.events
+Template.rcard.events
     'click .goto_post': ->
         # l @
-        Router.go "/post/#{@_id}"
-        Meteor.call 'call_watson',@_id,'url','url',(err,res)=>
+        Router.go "/rpost/#{@_id}"
+        # Meteor.call 'call_watson',@_id,'url','url',(err,res)=>
         
     'click .flat_tag_pick': -> 
         picked_tags.push @valueOf()

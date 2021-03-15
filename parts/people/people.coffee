@@ -10,10 +10,10 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'person'
     Template.person_view.onCreated ->
         # @autorun => Meteor.subscribe 'product_from_person_id', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
+        # @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'parent_doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'all_users'
+        # @autorun => Meteor.subscribe 'parent_doc', Router.current().params.doc_id
+        # @autorun => Meteor.subscribe 'all_users'
         
         
         

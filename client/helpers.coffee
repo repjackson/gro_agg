@@ -7,3 +7,15 @@ Template.registerHelper 'field_value', () ->
     if parent
         parent["#{@key}"]
 
+
+
+Template.registerHelper 'post_person', () ->
+    # console.log @
+    parent = Template.parentData()
+        
+    Docs.findOne
+        model:'person'
+        _id:@person_id
+
+
+

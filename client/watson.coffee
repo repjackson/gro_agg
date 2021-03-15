@@ -69,7 +69,8 @@ Template.call_watson.events
             message: 'autotagging'
             displayTime: 'auto',
         )
-        Meteor.call 'call_watson',Router.current().params.doc_id,'url','url',(err,res)=>
+        # Meteor.call 'call_watson',Router.current().params.doc_id,'url','url',(err,res)=>
+        Meteor.call 'call_watson',Router.current().params.doc_id,@key,@mode,(err,res)=>
             if err
                 $('body').toast(
                     position: 'bottom center',
@@ -111,7 +112,7 @@ Template.get_emotion.events
                     message: 'emotion', res
                     displayTime: 'auto',
                 )
-Template.post.events
+Template.rpost.events
     'click .get_emotion': -> 
         $('body').toast(
             position: 'bottom center',
