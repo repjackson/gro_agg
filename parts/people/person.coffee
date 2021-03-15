@@ -57,6 +57,7 @@ if Meteor.isServer
     Meteor.publish 'model_docs', (model)->
         Docs.find
             model:model
+        , {limit:10}
             
 
 

@@ -35,6 +35,9 @@ template(name='person_view')
                     |!{description}
                     .ui.header posts
                     i.plus.circular.link.icon.add_post
-                    each person_posts
-                        a.ui.header(href="/post/#{_id}/") #{title}
+                    .ui.large.link.selection.list
+                        each person_posts
+                            a.item(href="/post/#{_id}/") #{title}
+                                each ten_tags
+                                    .ui.label #{this}
                     

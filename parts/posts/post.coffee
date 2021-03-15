@@ -23,9 +23,11 @@ if Meteor.isClient
         'click .delete_post': ->
             if confirm 'delete?'
                 Docs.remove @_id
-            Router.route '/post/:doc_id/edit', -> @render 'post_edit'
+            Router.route "person/#{_id}"
 
 if Meteor.isClient
+    Template.post_card.onCreated ->
+        @autorun => Meteor.subscribe 'post_person', @data._id
     Template.post_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'post_person', Router.current().params.doc_id

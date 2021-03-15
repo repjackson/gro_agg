@@ -39,6 +39,8 @@ template(name='post_view')
                     +print_this
                     with post_person
                         a.ui.button(href="/person/#{_id}")
+                            if image_link
+                                img.ui.small.image(src=image_link)
                             |#{first_name} #{last_name}
                     //- .ui.header
                     //-     |#{title}
