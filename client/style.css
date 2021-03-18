@@ -687,10 +687,10 @@
 /*    border-radius: 7px !important; */
 /*}*/
 
-/*::-webkit-scrollbar {*/
-/*  width: 0px !important;*/
+::-webkit-scrollbar {
+  width: 1px !important;
   /*border-radius: 7px !important;*/
-/*}*/
+}
 /*.wrap_input {*/
 /*    text-align:center !important;*/
 /*}*/

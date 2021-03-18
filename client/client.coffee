@@ -81,7 +81,7 @@ Router.route '*', -> @render 'home'
 
 Template.skve.helpers
     calculated_class: ->
-        if Session.equals(@k,@v) then 'black' else 'basic circular'
+        if Session.equals(@k,@v) then 'black' else 'basic'
 Template.skve.events
     'click .set_session_v': ->
         Session.set(@k, @v)
