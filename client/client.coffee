@@ -79,20 +79,15 @@ Router.configure
 # 	progressDelay: 100
 Router.route '*', -> @render 'home'
 
-# Template.skve.helpers
-#     calculated_class: ->
-#         if Session.equals(@k,@v) then 'black' else 'basic circular'
-# Template.skve.events
-#     'click .set_session_v': ->
-#         Session.set(@k, @v)
+Template.skve.helpers
+    calculated_class: ->
+        if Session.equals(@k,@v) then 'black' else 'basic circular'
+Template.skve.events
+    'click .set_session_v': ->
+        Session.set(@k, @v)
 
     
 
-# Template.registerHelper 'is_image', ()->
-#     if @domain in ['i.reddit.com','i.redd.it','i.imgur.com','imgur.com','gyfycat.com','v.redd.it','giphy.com']
-#         true
-#     else 
-#         false
 Template.registerHelper 'has_thumbnail', ()->
     # console.log @data.thumbnail
     @thumbnail.length > 0

@@ -1,29 +1,29 @@
-// template(name='skve')
-//     // a.ui.image.big.link.label.set_session_v(class=calculated_class)
-//     .ui.compact.large.button.set_session_v.say(class=calculated_class title=t)
-//         // if i
-//         if selected 
-//             // +i n=i cl='ui mini inline image'
-//             i.large.icon(class=i)
-//         else
-//             // +iios n=i cl='ui mini inline image'
-//             i.grey.icon(class=i)
-//         unless ionly
-//             if l
-//                 span #{l}
-//             else 
-//                 span #{v}
+template(name='skve')
+    // a.ui.image.big.link.label.set_session_v(class=calculated_class)
+    .ui.compact.large.button.set_session_v.say(class=calculated_class title=t)
+        // if i
+        if selected 
+            // +i n=i cl='ui mini inline image'
+            i.large.icon(class=i)
+        else
+            // +iios n=i cl='ui mini inline image'
+            i.grey.icon(class=i)
+        unless ionly
+            if l
+                span #{l}
+            else 
+                span #{v}
 
 template(name='target_info')
 
-// template(name='comments_view_small')            
-//     if doc_comments.count
-//         .meta
-//             each doc_comments 
-//                 i.grey.chat.outline.icon
-//                 img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=user_class)
-//                 |#{body}
-//                 div
+template(name='comments_view_small')            
+    if doc_comments.count
+        .meta
+            each doc_comments 
+                i.grey.chat.outline.icon
+                img.ui.avatar.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=user_class)
+                |#{body}
+                div
 
 
 
