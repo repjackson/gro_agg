@@ -113,7 +113,7 @@ template(name='rcard')
     .column.smallcroll
         // .ui.stackable.equal.width.compact.grid
         //     .row
-        a.goto_post.pointer.zoomer
+        .goto_post.pointer.zoomer
             if embed
                 span.rounded.full
                     |!{embed}
@@ -142,8 +142,7 @@ template(name='rcard')
             // .ui.label 
             //     i.user.icon
             //     |#{data.author}
-            a.black_text(href="rpost/#{_id}")
-                |{{ trunc analyzed_text }}...
+            |{{ trunc analyzed_text }}...
             if in_dev
                 +print_this
             // div

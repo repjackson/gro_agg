@@ -124,7 +124,7 @@ Template.home.helpers
                 # subreddit:Router.current().params.subreddit
             },
                 sort:"ups":-1
-                limit:42)
+                limit:25)
                 
                 
     post_count: -> Counts.get 'post_count'
