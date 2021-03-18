@@ -76,12 +76,12 @@ Template.profile_layout.onCreated ->
     @autorun -> Meteor.subscribe 'user_comment_count', Router.current().params.username
 
 Template.user_dashboard.onCreated ->
-    @autorun -> Meteor.subscribe 'user_tips_received_count', Router.current().params.username
-    @autorun -> Meteor.subscribe 'user_tips_sent_count', Router.current().params.username
-    @autorun -> Meteor.subscribe 'user_karma_sent', Router.current().params.username
-    @autorun -> Meteor.subscribe 'user_karma_received', Router.current().params.username
-    @autorun -> Meteor.subscribe 'user_feed_items', Router.current().params.username
-    @autorun -> Meteor.subscribe 'model_docs', 'bounty'
+    # @autorun -> Meteor.subscribe 'user_tips_received_count', Router.current().params.username
+    # @autorun -> Meteor.subscribe 'user_tips_sent_count', Router.current().params.username
+    # @autorun -> Meteor.subscribe 'user_karma_sent', Router.current().params.username
+    # @autorun -> Meteor.subscribe 'user_karma_received', Router.current().params.username
+    # @autorun -> Meteor.subscribe 'user_feed_items', Router.current().params.username
+    # @autorun -> Meteor.subscribe 'model_docs', 'bounty'
 Template.user_dashboard.events
     'click .mark_viewed': ->
         console.log @
@@ -124,6 +124,7 @@ Template.user_dashboard.helpers
         },
             sort:
                 _timestamp:-1
+            limit:10
     bounties_to: -> 
         target_user = Meteor.users.findOne(username:Router.current().params.username)
         
@@ -133,12 +134,14 @@ Template.user_dashboard.helpers
         },
             sort:
                 _timestamp:-1
+            limit:10
     feed_items: -> 
         Docs.find {
             model:'feed_item'
         },
             sort:
                 _timestamp:-1
+            limit:10
     user_post_count: -> Counts.get 'user_post_count'
     post_points: -> Counts.get('user_post_count')*10
     user_comment_count: -> Counts.get 'user_comment_count'

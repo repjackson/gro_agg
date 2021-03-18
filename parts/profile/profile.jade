@@ -5,7 +5,7 @@ template(name='profile_layout')
         #main_area.global_container.pusher
             with user
                 .ui.stackable.padded.grid
-                    .three.wide.column
+                    .four.wide.column
                         span.mobile.only
                             a(href="/user/#{username}/")
                                 img.ui.centered.tiny.inline.spaced.rounded.image.zoomer.boop(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
@@ -27,7 +27,7 @@ template(name='profile_layout')
                         //     |join
                         if is_admin
                             a.ui.icon.button(href="/user/#{username}/edit" title='admin edit account')
-                                i.shield.large.icon
+                                i.shield.icon
                                 // |account
                         if is_current_user
                             a.ui.icon.button(href="/user/#{username}/edit" title='edit your account')
@@ -45,7 +45,7 @@ template(name='profile_layout')
                                 +user_friend_button 
                         if i_have_points
                             .ui.button.send(title='send points')
-                                i.gift.large.icon
+                                i.gift.icon
                                 span send pts
                         with data
                             .ui.list
@@ -56,52 +56,54 @@ template(name='profile_layout')
                                 .item #{awarder_karma} awarder karma
                                 .item created {{ufrom created_utc}}
                         .ui.vertical.menu
-                            .item
-                               
-                    .thirteen.wide.column
-                        a.ui.icon.large.button.select_term.no_blink(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
-                            i.large.dashboard.icon
+                            a.ui.item.select_term(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
+                                i.dashboard.icon
+                                |dashboard
+                            if currentUser
+                                a.item.select_term(href="/user/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} posts")
+                                    i.newspaper.icon
+                                    |#{user_post_count}
+                                    span posts
+                                a.ui.item.select_term(href="/user/#{username}/comments" class="{{isActiveRoute 'user_comments'}}" title="#{user.username} comments")
+                                    i.chat.icon
+                                    |#{user_comment_count}
+                                    span comments
+                                // a.ui.item.select_term(href="/user/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
+                                //     i.chevron.down.icon
+                                //     span pts received
+                                a.ui.item.select_term(href="/user/#{username}/sent" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
+                                    i.gift.icon
+                                    span pts sent
+                                a.ui.item.select_term(href="/user/#{username}/received" class="{{isActiveRoute 'user_received'}}" title="#{user.username} received")
+                                    i.dollar.icon
+                                    span credit
+                                a.ui.disabled.item.select_term(href="/user/#{username}/upvoted" class="{{isActiveRoute 'user_upvoted'}}" title="#{user.username} upvoted")
+                                    i.chevron.up.icon
+                                    span upvoted
+                                a.ui.item.select_term(href="/user/#{username}/downvoted" class="{{isActiveRoute 'user_downvoted'}}" title="#{user.username} downvoted")
+                                    i.chevron.down.icon
+                                    span downvoted
+                                a.ui.item.select_term(href="/user/#{username}/tips" class="{{isActiveRoute 'user_tips'}}" title="#{user.username} tips")
+                                    i.donate.icon
+                                    span tips
+                                a.ui.item.select_term(href="/user/#{username}/groups" class="{{isActiveRoute 'user_groups'}}" title="#{user.username} groups")
+                                    i.users.icon
+                                    span groups
+                                a.ui.item.select_term(href="/user/#{username}/bounties" class="{{isActiveRoute 'user_bounties'}}" title="#{user.username} bounties")
+                                    i.hand.holding.icon
+                                    span bounties
+                                if is_current_user
+                                    a.ui.icon.large.button.select_term(href="/user/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
+                                        i.users.icon
+                                        span friends
+                                    a.ui.icon.button.select_term(href="/user/#{username}/vault" class="{{isActiveRoute 'user_vault'}}" title="#{user.username} friends")
+                                        i.lock.icon
+                                        span vault
+                                
+                    .twelve.wide.column
+                        // a.ui.icon.large.button.select_term(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
+                        //     i.large.dashboard.icon
                             // span dashboard
-                        if currentUser
-                            a.ui.large.button.select_term.no_blink(href="/user/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} posts")
-                                i.newspaper.large.icon
-                                |#{user_post_count}
-                                // span posts
-                            a.ui.icon.large.button.select_term.no_blink(href="/user/#{username}/comments" class="{{isActiveRoute 'user_comments'}}" title="#{user.username} comments")
-                                i.chat.large.icon
-                                |#{user_comment_count}
-                                // span comments
-                            a.ui.icon.large.button.select_term.no_blink(href="/user/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
-                                i.large.chevron.down.icon
-                                // span pts received
-                            a.ui.icon.large.button.select_term.no_blink(href="/user/#{username}/sent" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
-                                i.large.gift.icon
-                                // span pts sent
-                            a.ui.icon.large.button.select_term.no_blink(href="/user/#{username}/received" class="{{isActiveRoute 'user_received'}}" title="#{user.username} received")
-                                i.large.dollar.icon
-                                // span credit
-                            a.ui.disabled.icon.large.button.select_term.no_blink(href="/user/#{username}/upvoted" class="{{isActiveRoute 'user_upvoted'}}" title="#{user.username} upvoted")
-                                i.large.chevron.up.icon
-                                // span upvoted
-                            a.ui.icon.large.button.select_term.no_blink(href="/user/#{username}/downvoted" class="{{isActiveRoute 'user_downvoted'}}" title="#{user.username} downvoted")
-                                i.large.chevron.down.icon
-                                // span downvoted
-                            a.ui.icon.large.button.select_term.no_blink(href="/user/#{username}/tips" class="{{isActiveRoute 'user_tips'}}" title="#{user.username} tips")
-                                i.donate.large.icon
-                                // span tips
-                            a.ui.icon.large.button.select_term.no_blink(href="/user/#{username}/groups" class="{{isActiveRoute 'user_groups'}}" title="#{user.username} groups")
-                                i.users.large.icon
-                                // span groups
-                            a.ui.icon.large.button.select_term.no_blink(href="/user/#{username}/bounties" class="{{isActiveRoute 'user_bounties'}}" title="#{user.username} bounties")
-                                i.hand.holding.large.icon
-                                // span bounties
-                            if is_current_user
-                                a.ui.icon.large.button.select_term.no_blink(href="/user/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
-                                    i.users.large.icon
-                                    // span friends
-                                a.ui.large.icon.button.select_term.no_blink(href="/user/#{username}/vault" class="{{isActiveRoute 'user_vault'}}" title="#{user.username} friends")
-                                    i.lock.large.icon
-                                    // span vault
                         if is_dev
                             +print_this
                         .ui.hidden.divider
@@ -118,18 +120,18 @@ template(name='user_friend_button')
         if is_friend
             .ui.black.animated.fade.button.unfriend(title='unfriend')
                 .hidden.content
-                    i.minus.large.icon
+                    i.minus.icon
                     |unfriend
                 .visible.content
-                    i.checkmark.large.icon
+                    i.checkmark.icon
                     |friend
         else
             .ui.animated.fade.button.friend(title='friend')
                 .hidden.content
-                    i.plus.large.icon
+                    i.plus.icon
                     |friend
                 .visible.content
-                    i.user.plus.large.icon
+                    i.user.plus.icon
                     |friend
 
 template(name='user_follow_button')
@@ -137,18 +139,18 @@ template(name='user_follow_button')
         if is_following
             .ui.black.animated.fade.button.unfollow(title='unfollow')
                 .hidden.content
-                    i.minus.large.icon
+                    i.minus.icon
                     |unfollow
                 .visible.content
-                    i.checkmark.large.icon
+                    i.checkmark.icon
                     |follow
         else
             .ui.animated.fade.button.follow(title='follow')
                 .hidden.content
-                    i.plus.large.icon
+                    i.plus.icon
                     |follow
                 .visible.content
-                    i.user.plus.large.icon
+                    i.user.plus.icon
                     |follow
 
 
@@ -250,7 +252,7 @@ template(name='user_dashboard')
                                         +target_info
                         .column
                             a.ui.inline.header(href="/user/#{username}/credits")
-                                i.chevron.down.large.icon
+                                i.chevron.down.icon
                                 |karma received
                                 |#{total_credit_amount}p
                                 // |received
@@ -461,7 +463,7 @@ template(name='user_group')
             +doc_emotion_small        
             // +skve k='view_preview' v='preview' l=' ' i='caret down'
             // if skv_is 'view_preview' 'preview'
-            a.ui.large.icon.button(href="/p/#{_id}/view") 
+            a.ui.icon.button(href="/p/#{_id}/view") 
                 i.chevron.right.icon
             if in_dev
                 +print_this
@@ -486,7 +488,7 @@ template(name='user_post_small')
             +doc_emotion_small        
             // +skve k='view_preview' v='preview' l=' ' i='caret down'
             // if skv_is 'view_preview' 'preview'
-            a.ui.large.icon.button(href="/p/#{_id}/view") 
+            a.ui.icon.button(href="/p/#{_id}/view") 
                 i.chevron.right.icon
             if in_dev
                 +print_this
