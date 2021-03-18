@@ -507,3 +507,17 @@ Meteor.publish 'user_comments', (username)->
         sort: _timestamp:-1
     })
     
+    
+    
+Meteor.publish 'friends', ()->
+    Meteor.users.find {},
+        fields:
+            username:1
+            tags:1
+            profile_image_id:1
+            nickname:1    
+            
+Meteor.publish 'user_edit_alerts', (username)->
+    Docs.find
+        model:'picture'
+            

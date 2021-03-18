@@ -1,14 +1,14 @@
 if Meteor.isClient
-    Template.tribe_view.onCreated ->
-        @autorun -> Meteor.subscribe 'tribe_tips', Router.current().params.doc_id
-        @autorun -> Meteor.subscribe 'tribe_events', Router.current().params.doc_id
-        @autorun -> Meteor.subscribe 'tribe_posts', Router.current().params.doc_id
-        @autorun -> Meteor.subscribe 'tribe_badges', Router.current().params.doc_id
-        @autorun -> Meteor.subscribe 'tribe_docs', Router.current().params.doc_id
+    Template.group_view.onCreated ->
+        @autorun -> Meteor.subscribe 'group_tips', Router.current().params.doc_id
+        @autorun -> Meteor.subscribe 'group_events', Router.current().params.doc_id
+        @autorun -> Meteor.subscribe 'group_posts', Router.current().params.doc_id
+        @autorun -> Meteor.subscribe 'group_badges', Router.current().params.doc_id
+        @autorun -> Meteor.subscribe 'group_docs', Router.current().params.doc_id
         @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun -> Meteor.subscribe 'me'
-        Session.setDefault 'view_tribe_section', 'images'
-    Template.tribe_view.onRendered ->
+        Session.setDefault 'view_group_section', 'images'
+    Template.group_view.onRendered ->
         Meteor.call 'log_view', Router.current().params.doc_id
         Meteor.setTimeout ->
             $('.ui.accordion').accordion()
@@ -18,56 +18,56 @@ if Meteor.isClient
         , 1000
 
 
-    Template.tribe_badges.helpers
+    Template.group_badges.helpers
         badges: ->
             Docs.find 
                 model:'badge'
-                # tribe_id:@tribe_id
-    Template.tribe_badges.events
+                # group_id:@group_id
+    Template.group_badges.events
         'click .add_badge': ->
             new_id = 
                 Docs.insert
                     model:'badge'
-                    tribe_id:@_id
+                    group_id:@_id
             Router.go "/badge/#{new_id}/edit"
     
-    Template.tribe_events.helpers
+    Template.group_events.helpers
         events: ->
             Docs.find 
                 model:'event'
-                # tribe_id:@tribe_id
-    Template.tribe_events.events
+                # group_id:@group_id
+    Template.group_events.events
         'click .add_event': ->
             new_id = 
                 Docs.insert
                     model:'event'
-                    tribe_id:@_id
+                    group_id:@_id
             Router.go "/event/#{new_id}/edit"
     
-    Template.tribe_view.events
-        'click .add_tribe_post': ->
+    Template.group_view.events
+        'click .add_group_post': ->
             new_id = 
                 Docs.insert
                     model:'post'
-                    tribe_id:@_id
+                    group_id:@_id
             Router.go "/m/post/#{new_id}/edit"
-        'click .add_tribe_gift': ->
+        'click .add_group_gift': ->
             new_id = 
                 Docs.insert
                     model:'debit'
-                    tribe_id:@_id
+                    group_id:@_id
             Router.go "/m/debit/#{new_id}/edit"
-        'click .add_tribe_request': ->
+        'click .add_group_request': ->
             new_id = 
                 Docs.insert
                     model:'request'
-                    tribe_id:@_id
+                    group_id:@_id
             Router.go "/m/request/#{new_id}/edit"
         'click .tip': ->
             if Meteor.user()
                 Meteor.call 'tip', @_id, ->
                     
-                Meteor.call 'calc_tribe_stats', @_id, ->
+                Meteor.call 'calc_group_stats', @_id, ->
                 Meteor.call 'calc_user_stats', Meteor.userId(), ->
                 $('body').toast({
                     class: 'success'
@@ -77,24 +77,24 @@ if Meteor.isClient
             else 
                 Router.go '/login'
     
-    Template.tribe_view.helpers
+    Template.group_view.helpers
         tips: ->
             Docs.find
                 model:'tip'
         
-        tribe_posts: ->
+        group_posts: ->
             Docs.find   
                 model:'post'
-                tribe_id:@_id
+                group_id:@_id
         
         latest_photos: ->
             Docs.find   
                 model:'post'
-                tribe_id:@_id
+                group_id:@_id
         
         latest_updates: ->
             Docs.find {
-                tribe_id:@_id
+                group_id:@_id
             }, sort: _timestamp:-1
         tippers: ->
             Meteor.users.find
@@ -117,11 +117,11 @@ if Meteor.isClient
 
     
     
-    Template.tribe_view.events
+    Template.group_view.events
         'click .add_tag': ->
             # Meteor.call 'tip', @_id, ->
                 
-            # Meteor.call 'calc_tribe_stats', @_id, ->
+            # Meteor.call 'calc_group_stats', @_id, ->
             # Meteor.call 'calc_user_stats', Meteor.userId(), ->
             # $('body').toast({
             #     class: 'success'
@@ -136,6 +136,6 @@ if Meteor.isClient
     
 
 if Meteor.isServer
-    Meteor.publish 'tribe_docs', (tribe_id)->
+    Meteor.publish 'group_docs', (group_id)->
         Docs.find
-            tribe_id:tribe_id
+            group_id:group_id

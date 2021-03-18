@@ -21,7 +21,7 @@ template(name='profile_layout')
                         .ui.inline.header() #{points}pts
                         // .ui.label {{to_percent one_ratio}}% ratio
                         // .ui.label #{flow_volume} volume
-                        .ui.small.inline.header #{boops}
+                        // .ui.small.inline.header #{boops}
                         .ui.label #{profile_views} views
                         // +user_follow_button
                         // .ui.button.join
@@ -37,9 +37,9 @@ template(name='profile_layout')
                             a.ui.icon.button.logout(href="#" title='log out')
                                 i.sign.out.icon
                                 // |log out
-                        if is_dev
-                            .ui.small.inline.header #{_id}
-                            +print_this
+                        // if is_dev
+                        //     .ui.small.inline.header #{_id}
+                        //     +print_this
                         unless is_current_user
                             if currentUser
                                 // div
@@ -56,53 +56,52 @@ template(name='profile_layout')
                                 .item #{awardee_karma} awardee karma
                                 .item #{awarder_karma} awarder karma
                                 .item created {{ufrom created_utc}}
-                        .ui.vertical.menu
-                            a.ui.item.select_term(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
-                                i.dashboard.icon
-                                |dashboard
-                            if currentUser
-                                a.item.select_term(href="/user/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} posts")
-                                    i.newspaper.icon
-                                    |#{user_post_count}
-                                    span posts
-                                a.ui.item.select_term(href="/user/#{username}/comments" class="{{isActiveRoute 'user_comments'}}" title="#{user.username} comments")
-                                    i.chat.icon
-                                    |#{user_comment_count}
-                                    span comments
-                                // a.ui.item.select_term(href="/user/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
-                                //     i.chevron.down.icon
-                                //     span pts received
-                                // a.ui.item.select_term(href="/user/#{username}/sent" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
-                                //     i.gift.icon
-                                //     span pts sent
-                                // a.ui.item.select_term(href="/user/#{username}/received" class="{{isActiveRoute 'user_received'}}" title="#{user.username} received")
-                                //     i.dollar.icon
-                                //     span credit
-                                a.ui.disabled.item.select_term(href="/user/#{username}/upvoted" class="{{isActiveRoute 'user_upvoted'}}" title="#{user.username} upvoted")
-                                    i.chevron.up.icon
-                                    span upvoted
-                                a.ui.item.select_term(href="/user/#{username}/downvoted" class="{{isActiveRoute 'user_downvoted'}}" title="#{user.username} downvoted")
-                                    i.chevron.down.icon
-                                    span downvoted
-                                a.ui.item.select_term(href="/user/#{username}/tips" class="{{isActiveRoute 'user_tips'}}" title="#{user.username} tips")
-                                    i.donate.icon
-                                    span tips
-                                a.ui.item.select_term(href="/user/#{username}/groups" class="{{isActiveRoute 'user_groups'}}" title="#{user.username} groups")
+                        a.ui.circular.basic.button(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
+                            i.dashboard.icon
+                            |dashboard
+                        if currentUser
+                            a.circular.basic.button(href="/user/#{username}/posts" class="{{isActiveRoute 'user_posts'}}" title="#{user.username} posts")
+                                i.newspaper.icon
+                                |#{user_post_count}
+                                span posts
+                            a.ui.circular.basic.button(href="/user/#{username}/comments" class="{{isActiveRoute 'user_comments'}}" title="#{user.username} comments")
+                                i.chat.icon
+                                |#{user_comment_count}
+                                span comments
+                            // a.ui.circular.basic.button(href="/user/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
+                            //     i.chevron.down.icon
+                            //     span pts received
+                            // a.ui.circular.basic.button(href="/user/#{username}/sent" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
+                            //     i.gift.icon
+                            //     span pts sent
+                            // a.ui.circular.basic.button(href="/user/#{username}/received" class="{{isActiveRoute 'user_received'}}" title="#{user.username} received")
+                            //     i.dollar.icon
+                            //     span credit
+                            a.ui.disabled.circular.basic.button(href="/user/#{username}/upvoted" class="{{isActiveRoute 'user_upvoted'}}" title="#{user.username} upvoted")
+                                i.chevron.up.icon
+                                span upvoted
+                            a.ui.circular.basic.button(href="/user/#{username}/downvoted" class="{{isActiveRoute 'user_downvoted'}}" title="#{user.username} downvoted")
+                                i.chevron.down.icon
+                                span downvoted
+                            a.ui.circular.basic.button(href="/user/#{username}/tips" class="{{isActiveRoute 'user_tips'}}" title="#{user.username} tips")
+                                i.donate.icon
+                                span tips
+                            a.ui.circular.basic.button(href="/user/#{username}/groups" class="{{isActiveRoute 'user_groups'}}" title="#{user.username} groups")
+                                i.users.icon
+                                span groups
+                            a.ui.circular.basic.button(href="/user/#{username}/bounties" class="{{isActiveRoute 'user_bounties'}}" title="#{user.username} bounties")
+                                i.hand.holding.icon
+                                span bounties
+                            if is_current_user
+                                a.ui.large.circular.basic.button(href="/user/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
                                     i.users.icon
-                                    span groups
-                                a.ui.item.select_term(href="/user/#{username}/bounties" class="{{isActiveRoute 'user_bounties'}}" title="#{user.username} bounties")
-                                    i.hand.holding.icon
-                                    span bounties
-                                if is_current_user
-                                    a.ui.icon.large.button.select_term(href="/user/#{username}/friends" class="{{isActiveRoute 'user_friends'}}" title="#{user.username} friends")
-                                        i.users.icon
-                                        span friends
-                                    a.ui.icon.button.select_term(href="/user/#{username}/vault" class="{{isActiveRoute 'user_vault'}}" title="#{user.username} friends")
-                                        i.lock.icon
-                                        span vault
+                                    span friends
+                                a.ui.circular.basic.button(href="/user/#{username}/vault" class="{{isActiveRoute 'user_vault'}}" title="#{user.username} friends")
+                                    i.lock.icon
+                                    span vault
                                 
                     .twelve.wide.column
-                        // a.ui.icon.large.button.select_term(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
+                        // a.ui.icon.large.button(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}" title="#{user.username} dashboard")
                         //     i.large.dashboard.icon
                             // span dashboard
                         if is_dev

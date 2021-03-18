@@ -1,13 +1,13 @@
 template(name='nav')
-    .ui.fluid.attached.borderless.inverted.large.menu.hscroll
+    .ui.fluid.attached.borderless.inverted.menu.hscroll
         a.icon.item.toggle_sidebar
             i.bars.icon
     
-        a.icon.item.blink.clear(href="/" class="{{isActiveRoute regex='home'}}")
+        a.icon.item.blink(href="/" class="{{isActiveRoute regex='home'}}")
             i.globe.large.icon
-        // a.icon.item.blink.clear.mobile.hidden(href="/stats" class="{{isActiveRoute 'stats'}}")
+        // a.icon.item.blink(href="/stats" class="{{isActiveRoute 'stats'}}")
         //     i.line.chart.large.icon
-        // .ui.dropdown.item
+        // .ui.simple.dropdown.item
         //     |drop
         //     i.dropdown.icon
         //     .menu
@@ -15,24 +15,24 @@ template(name='nav')
         //         .item 111
         //         .item 111
         //         .item 111
-        // a.icon.item.blink.clear(href="/love" class="{{isActiveRoute 'love'}}")
+        // a.icon.item.blink(href="/love" class="{{isActiveRoute 'love'}}")
         //     i.heart.outline.large.icon
-        a.icon.item.mobile.hidden.clear(href="/reddit" class="{{isActiveRoute 'reddit'}}")
+        a.icon.item.mobile.hidden(href="/reddit" class="{{isActiveRoute 'reddit'}}")
             i.search.large.icon
-        a.icon.item.mobile.hidden.clear(href="/subs" class="{{isActiveRoute 'subs'}}")
+        a.icon.item.mobile.hidden(href="/subs" class="{{isActiveRoute 'subs'}}")
             i.fire.large.icon
-        a.icon.item.mobile.hidden.clear(href="/stack" class="{{isActiveRoute 'stack'}}")
+        a.icon.item.mobile.hidden(href="/stack" class="{{isActiveRoute 'stack'}}")
             i.stack.exchange.large.icon
-        a.icon.item.mobile.hidden.clear(href="/map" class="{{isActiveRoute 'map'}}")
+        a.icon.item.mobile.hidden(href="/map" class="{{isActiveRoute 'map'}}")
             i.marker.large.icon
-        // a.icon.item.blink.clear.go_shop.mobile.hidden(href="/shop" class="{{isActiveRoute 'shop'}}")
+        // a.icon.item.blink.go_shop.mobile.hidden(href="/shop" class="{{isActiveRoute 'shop'}}")
         //     i.line.shop.large.icon
-        // a.icon.item.blink.clear.go_shop.mobile.hidden(href="/bounties" class="{{isActiveRoute 'bounties'}}")
+        // a.icon.item.blink.go_shop.mobile.hidden(href="/bounties" class="{{isActiveRoute 'bounties'}}")
         //     i.line.hand.holding.heart.large.icon
         // if currentUser
-        a.icon.item.blink.clear(href="/people" class="{{isActiveRoute 'people'}}")
+        a.icon.item.mobile.hidden(href="/people" class="{{isActiveRoute 'people'}}")
             i.users.large.icon
-        a.icon.item.blink.clear(href="/posts" class="{{isActiveRoute regex='home'}}")
+        a.icon.item.mobile.hidden(href="/posts" class="{{isActiveRoute regex='home'}}")
             i.edit.large.icon
         // .item(title='session karma')
         //     i.grey.lightning.icon
@@ -59,9 +59,9 @@ template(name='nav')
                 else
                     a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
                         i.outline.bell.icon
-                // a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
+                // a.icon.item(href="/user/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
                 //     i.inbox.icon
-                a.icon.item.mobile.hidden(href="/u/#{currentUser.username}/received" class="{{isActivePath 'user_received'}}" title="#{user.username} received")
+                a.icon.item.mobile.hidden(href="/user/#{currentUser.username}/received" class="{{isActivePath 'user_received'}}" title="#{user.username} received")
                     strong #{currentUser.points}
                 a.item.mobile.hidden(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
                     if currentUser.profile_image_id
@@ -107,36 +107,36 @@ template(name='recent_alert')
             
 template(name='rightbar')
     .ui.right.sidebar.vertical.borderless.inverted.menu
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/" class="{{isActiveRoute 'user_dashboard'}}")
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/" class="{{isActiveRoute 'user_dashboard'}}")
             | dashboard (#{currentUser.points}p)
             i.dashboard.icon
         
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/credits" class="{{isActiveRoute 'user_credits'}}")
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/credits" class="{{isActiveRoute 'user_credits'}}")
             | #{currentUser.total_credit_amount}p received
             i.chevron.down.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/posts" class="{{isActiveRoute 'user_posts'}}")
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/posts" class="{{isActiveRoute 'user_posts'}}")
             | #{currentUser.total_credit_amount} posts
             i.newspaper.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/comments" class="{{isActiveRoute 'user_comments'}}")
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/comments" class="{{isActiveRoute 'user_comments'}}")
             | #{currentUser.total_credit_amount} comments
             i.comment.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/tips" class="{{isActiveRoute 'user_tips'}}")
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/tips" class="{{isActiveRoute 'user_tips'}}")
             | #{_amount} tips
             i.donate.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/groups" class="{{isActiveRoute 'user_groups'}}")
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/groups" class="{{isActiveRoute 'user_groups'}}")
             | groups
             i.fire.icon
-        a.ui.item.toggle_rightbar(href="/u/#{currentUser.username}/bounties" class="{{isActiveRoute 'user_bounties'}}" title="#{user.username} bounties")
+        a.ui.item.toggle_rightbar(href="/user/#{currentUser.username}/bounties" class="{{isActiveRoute 'user_bounties'}}" title="#{user.username} bounties")
             i.hand.holding.icon
             span bounties
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/friends" class="{{isActiveRoute 'user_friends'}}")
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/friends" class="{{isActiveRoute 'user_friends'}}")
             | friends
             i.users.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/sent" class="{{isActiveRoute 'user_sent'}}")
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/sent" class="{{isActiveRoute 'user_sent'}}")
             | #{currentUser.total_debit_amount}p sent
             i.chevron.up.icon
         .ui.divider
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/edit" title='edit your account')
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/edit" title='edit your account')
             i.cog.icon
             |settings
         // a.item.toggle_nightmode.toggle_rightbar(href="#")
@@ -164,18 +164,24 @@ template(name='leftbar')
         a.item.toggle_sidebar(href="/events" class="{{isActivePath '/events'}}")
             i.calendar.icon
             |events
-        a.item.toggle_sidebar(href="/m/request" class="{{isActivePath '/m/request'}}")
-            i.concierge.bell.icon
-            |requests
-        a.icon.item.blink.clear.mobile.hidden.toggle_sidebar(href="/stats" class="{{isActiveRoute 'stats'}}")
-            i.line.chart.large.icon
-            |stats
-        a.icon.item.blink.clear.toggle_sidebar(href="/love" class="{{isActiveRoute 'love'}}")
-            i.heart.outline.large.icon
-            |love
-        a.icon.item.blink.clear.go_shop.mobile.hidden.toggle_sidebar(href="/shop" class="{{isActiveRoute 'shop'}}")
-            i.line.shop.large.icon
-            |shop
-        a.icon.item.blink.clear.go_shop.mobile.hidden.toggle_sidebar(href="/bounties" class="{{isActiveRoute 'bounties'}}")
-            i.line.hand.holding.heart.large.icon
-            |bounties
+        // a.item.toggle_sidebar(href="/m/request" class="{{isActivePath '/m/request'}}")
+        //     i.concierge.bell.icon
+        //     |requests
+        // a.icon.item.blink.mobile.hidden.toggle_sidebar(href="/stats" class="{{isActiveRoute 'stats'}}")
+        //     i.line.chart.large.icon
+        //     |stats
+        // a.icon.item.blink.go_shop.mobile.hidden.toggle_sidebar(href="/shop" class="{{isActiveRoute 'shop'}}")
+        //     i.line.shop.large.icon
+        //     |shop
+        // a.icon.item.blink.go_shop.mobile.hidden.toggle_sidebar(href="/bounties" class="{{isActiveRoute 'bounties'}}")
+        //     i.line.hand.holding.heart.large.icon
+        //     |bounties
+        a.icon.item(href="/reddit" class="{{isActiveRoute 'reddit'}}")
+            i.search.large.icon
+        a.icon.item(href="/subs" class="{{isActiveRoute 'subs'}}")
+            i.fire.large.icon
+        a.icon.item(href="/stack" class="{{isActiveRoute 'stack'}}")
+            i.stack.exchange.large.icon
+        a.icon.item(href="/map" class="{{isActiveRoute 'map'}}")
+            i.marker.large.icon
+        

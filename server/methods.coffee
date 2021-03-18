@@ -453,3 +453,49 @@ Meteor.methods
                             updated:true
 
 
+                            
+    add_chat: (chat)->
+        @unblock()
+        # now = Date.now()
+        # found_last_chat = 
+        #     Docs.findOne { 
+        #         model:'global_chat'
+        #         _timestamp: $lt:now
+        #     }, limit:1
+        # new_id = 
+        #     Docs.insert 
+        #         model:'global_chat'
+        #         body:chat
+        #         bot:false
+        HTTP.get "http://api.wolframalpha.com/v1/conversation.jsp?appid=UULLYY-QR2ALYJ9JU&i=#{chat}",(err,res)=>
+            if res
+                parsed = JSON.parse(res.content)
+                Docs.insert
+                    model:'global_chat'
+                    bot:true
+                    res:parsed
+                return parsed
+                
+                
+    arespond: (post_id)->
+        # @unblock()
+        post = Docs.findOne post_id
+        # now = Date.now()
+        # found_last_chat = 
+        #     Docs.findOne { 
+        #         model:'global_chat'
+        #         _timestamp: $lt:now
+        #     }, limit:1
+        # new_id = 
+        #     Docs.insert 
+        #         model:'global_chat'
+        #         body:chat
+        #         bot:false
+        HTTP.get "http://api.wolframalpha.com/v1/conversation.jsp?appid=UULLYY-QR2ALYJ9JU&i=#{post.body}",(err,response)=>
+            if response
+                parsed = JSON.parse(response.content)
+                Docs.insert
+                    model:'alpha_response'
+                    bot:true
+                    response:parsed
+                    parent_id:post_id

@@ -1,31 +1,31 @@
-template(name='tribe_view')
+template(name='group_view')
     with current_doc
         .ui.stackable.padded.grid
             .centered.row
                 .twelve.wide.column
                     // +image_view key='banner_id' height='200' crop='crop' direct=true
-                    +session_edit_value_button key='view_tribe_section' value='images' label='images' icon='picture'
-                    +session_edit_value_button key='view_tribe_section' value='posts' label='posts' icon='blog'
-                    // +session_edit_value_button key='view_tribe_section' value='latest' label='latest' icon='rss'
-                    // +session_edit_value_button key='view_tribe_section' value='offers' label='offers' icon='shop'
-                    // +session_edit_value_button key='view_tribe_section' value='requests' label='requests' icon='bell'
-                    +session_edit_value_button key='view_tribe_section' value='info' label='info' icon='info'
-                    +session_edit_value_button key='view_tribe_section' value='credits' label='credits' icon='money'
-                    // +session_edit_value_button key='view_tribe_section' value='alerts' label='alerts' icon='rss'
-                    +session_edit_value_button key='view_tribe_section' value='events' label='events' icon='calendar'
-                    +session_edit_value_button key='view_tribe_section' value='people' label='people' icon='groups'
-                    +session_edit_value_button key='view_tribe_section' value='badges' label='badges' icon='certificate'
-                    +session_edit_value_button key='view_tribe_section' value='comments' label='comments' icon='chat'
-                    if session_key_value_is 'view_tribe_section' 'latest'
+                    +session_edit_value_button key='view_group_section' value='images' label='images' icon='picture'
+                    +session_edit_value_button key='view_group_section' value='posts' label='posts' icon='blog'
+                    // +session_edit_value_button key='view_group_section' value='latest' label='latest' icon='rss'
+                    // +session_edit_value_button key='view_group_section' value='offers' label='offers' icon='shop'
+                    // +session_edit_value_button key='view_group_section' value='requests' label='requests' icon='bell'
+                    +session_edit_value_button key='view_group_section' value='info' label='info' icon='info'
+                    +session_edit_value_button key='view_group_section' value='credits' label='credits' icon='money'
+                    // +session_edit_value_button key='view_group_section' value='alerts' label='alerts' icon='rss'
+                    +session_edit_value_button key='view_group_section' value='events' label='events' icon='calendar'
+                    +session_edit_value_button key='view_group_section' value='people' label='people' icon='groups'
+                    +session_edit_value_button key='view_group_section' value='badges' label='badges' icon='certificate'
+                    +session_edit_value_button key='view_group_section' value='comments' label='comments' icon='chat'
+                    if session_key_value_is 'view_group_section' 'latest'
                         .ui.header stats
                         +viewing
-                    if session_key_value_is 'view_tribe_section' 'images'
-                        +tribe_images
-                    if session_key_value_is 'view_tribe_section' 'alerts'
-                        +tribe_alerts
-                    if session_key_value_is 'view_tribe_section' 'people'
-                        +tribe_people
-                    if session_key_value_is 'view_tribe_section' 'posts'
+                    if session_key_value_is 'view_group_section' 'images'
+                        +group_images
+                    if session_key_value_is 'view_group_section' 'alerts'
+                        +group_alerts
+                    if session_key_value_is 'view_group_section' 'people'
+                        +group_people
+                    if session_key_value_is 'view_group_section' 'posts'
                         .ui.feed.scrolling
                             each latest_updates
                                 .event
@@ -54,16 +54,16 @@ template(name='tribe_view')
                                             i.large.newspaper.icon
                                         else
                                             .ui.label #{model}
-                        .ui.icon.circular.button.add_tribe_post
+                        .ui.icon.circular.button.add_group_post
                             i.plus.icon
                         .ui.link.large.selection.list
-                            each tribe_posts
+                            each group_posts
                                 a.item(href="/post/#{_id}/view") #{title}
-                    if session_key_value_is 'view_tribe_section' 'latest'
+                    if session_key_value_is 'view_group_section' 'latest'
                         each latest_offers
                             a(href="/m/offer/#{_id}/view")
                                 img.ui.small.inline.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                    if session_key_value_is 'view_tribe_section' 'info'
+                    if session_key_value_is 'view_group_section' 'info'
                         .ui.inline.header 
                             // i.info.icon
                             +i name='info' cl='ui avatar image'
@@ -75,7 +75,7 @@ template(name='tribe_view')
                         +textarea_view key='description' label='description' direct=true
                         +array_view key='tags' label='tags' direct=true
                         +array_view key='location_tags' label='location tags' direct=true
-                    if session_key_value_is 'view_tribe_section' 'requests'
+                    if session_key_value_is 'view_group_section' 'requests'
                         .title
                             .ui.inline.header 
                                 // i.concierge.bell.icon
@@ -87,7 +87,7 @@ template(name='tribe_view')
                                 a(href="/m/request/#{_id}/view")
                                     img.ui.small.inline.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                         .ui.fitted.divider
-                    if session_key_value_is 'view_tribe_section' 'pictures'
+                    if session_key_value_is 'view_group_section' 'pictures'
                         .title
                             .ui.inline.header 
                                 +i name='picture' cl='ui avatar image'
@@ -100,33 +100,33 @@ template(name='tribe_view')
                             each latest_photos
                                 img.ui.small.inline.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                         .ui.fitted.divider
-                    if session_key_value_is 'view_tribe_section' 'comments'
+                    if session_key_value_is 'view_group_section' 'comments'
                         +i name='chat' cl='ui avatar image'
                         // i.chat.icon
                         |comments
                         .content
                             +comments
-                    if session_key_value_is 'view_tribe_section' 'credits'
+                    if session_key_value_is 'view_group_section' 'credits'
                         .ui.inline.header 
                             +i name='coins' cl='ui avatar image'
                             // i.coins.icon
                             |credits
-                        +tribe_finance
-                    if session_key_value_is 'view_tribe_section' 'events'
-                        +tribe_events
-                    if session_key_value_is 'view_tribe_section' 'badges'
-                        +tribe_badges
+                        +group_finance
+                    if session_key_value_is 'view_group_section' 'events'
+                        +group_events
+                    if session_key_value_is 'view_group_section' 'badges'
+                        +group_badges
                     //- +array_view key='location_tags' label='location_tags' direct=true
                 .four.wide.column
                     // if can_edit
-                    a(href="/m/tribe" title='tribes')
+                    a(href="/m/group" title='groups')
                         i.circular.large.fire.link.icon
                     .ui.center.aligned.inline.header 
                         |#{title}
-                        small tribe
+                        small group
                     div
                     if can_edit
-                        a.edit_tribe(href="/m/tribe/#{_id}/edit")
+                        a.edit_group(href="/m/group/#{_id}/edit")
                             i.big.pencil.circular.link.icon
                     +image_view key='image_id' label='image' direct=true
                     .ui.segment
@@ -138,11 +138,11 @@ template(name='tribe_view')
                             .item #{followers} followers
                             .item #{phone} 
                             .item #{location}
-                    .ui.circular.basic.button.add_tribe_gift
+                    .ui.circular.basic.button.add_group_gift
                         // i.large.gift.icon
                         +i name='gift' cl='ui avatar image'
                         |gift
-                    .ui.circular.basic.button.add_tribe_post
+                    .ui.circular.basic.button.add_group_post
                         // i.newspaper.large.icon
                         +i name='new-post' cl='ui avatar image'
                         |post
@@ -157,7 +157,7 @@ template(name='tribe_view')
 
 
 
-template(name='tribe_images')
+template(name='group_images')
     .ui.inline.header 
         // i.certificate.icon
         +i name='picture'
@@ -173,7 +173,7 @@ template(name='tribe_images')
                     img.ui.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                     .content
                         .header #{title}
-template(name='tribe_badges')
+template(name='group_badges')
     .title
         .ui.inline.header 
             // i.certificate.icon
@@ -191,7 +191,7 @@ template(name='tribe_badges')
                     img.ui.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                     .content
                         .header #{title}
-template(name='tribe_events')
+template(name='group_events')
     .title
         .ui.inline.header 
             // i.calendar.icon
@@ -209,10 +209,10 @@ template(name='tribe_events')
                     img.ui.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                     .content
                         .header #{title}
-template(name='tribe_finance')
+template(name='group_finance')
 
 
-template(name='tribe_alerts')
+template(name='group_alerts')
     .ui.header(data-tooltip="choose how you'll see posts from this page in your news feed")
         i.rss.icon
         |alerts
@@ -248,7 +248,7 @@ template(name='tribe_alerts')
                     |off
 
 
-template(name='tribe_people')
+template(name='group_people')
     +multi_user_view key='admin_ids' label='admins' icon='shield' direct=true
     +multi_user_view key='member_ids' label='members' icon='groups' direct=true
     
@@ -269,12 +269,12 @@ template(name='join')
 
 
 
-template(name='tribe_card')
-    a.ui.card(href="/m/tribe/#{_id}/view")
+template(name='group_card')
+    a.ui.card(href="/m/group/#{_id}/view")
         .image
             img.ui.raw.image(src="{{c.url image_id width=400 height=300 crop='fill'}}" class=currentUser.invert_class)    
         .content
-            a.ui.header(href="/m/tribe/#{_id}/view")
+            a.ui.header(href="/m/group/#{_id}/view")
                 if private 
                     i.lock.icon
                 |#{title}
@@ -292,11 +292,11 @@ template(name='tribe_card')
         
 
 
-template(name='tribe_card_small')
-    a.ui.card(href="/m/tribe/#{_id}/view")
+template(name='group_card_small')
+    a.ui.card(href="/m/group/#{_id}/view")
         img.ui.raw.image(src="{{c.url image_id width=400 height=400 crop='fill'}}" class=currentUser.invert_class)    
         .content
-            a.header(href="/m/tribe/#{_id}/view")
+            a.header(href="/m/group/#{_id}/view")
                 // if private 
                 //     i.lock.icon
                 |#{title}

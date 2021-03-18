@@ -1,16 +1,16 @@
-template(name='tribe_edit')
+template(name='group_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    a.ui.green.big.icon.button(href="/m/tribe/#{_id}/view" title='save')
+                    a.ui.green.big.icon.button(href="/m/group/#{_id}/view" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
                         i.fire.icon
                         small edit 
                         |#{title}
-                        small tribe
-                    i.link.big.remove.icon.delete_item(title='delete tribe')
+                        small group
+                    i.link.big.remove.icon.delete_item(title='delete group')
                 .twelve.wide.column
                     +image_view kay='banner_id' direct=true height='200px'
                     .ui.big.styled.fluid.accordion
