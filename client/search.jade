@@ -1,5 +1,5 @@
 template(name='home')
-    .ui.stackable.grid
+    .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
                 // if skv_is 'nightmode' true
@@ -99,7 +99,7 @@ template(name='home')
                 +alpha
                 if picked_tags
                     .ui.sixteen.wide.column
-                        .ui.stackable.three.column.grid.scrolling
+                        .ui.stackable.three.column.padded.grid.scrolling
                             each rposts
                                 +rcard
                         //     .ui.basic.center.aligned.segment

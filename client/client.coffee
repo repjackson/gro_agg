@@ -62,12 +62,12 @@ Router.route '/', (->
 
 
 @picked_tags = new ReactiveArray []
-# @picked_time_tags = new ReactiveArray []
-# @picked_sub_tags = new ReactiveArray []
-# @picked_domains = new ReactiveArray []
-# @picked_authors = new ReactiveArray []
-# @picked_persons = new ReactiveArray []
-# @picked_Locations = new ReactiveArray []
+@picked_time_tags = new ReactiveArray []
+@picked_sub_tags = new ReactiveArray []
+@picked_domains = new ReactiveArray []
+@picked_authors = new ReactiveArray []
+@picked_persons = new ReactiveArray []
+@picked_Locations = new ReactiveArray []
 
 
 Router.configure

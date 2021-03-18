@@ -1,7 +1,7 @@
 template(name='nav')
     .ui.fluid.attached.borderless.inverted.large.menu.hscroll
-        // a.icon.item.toggle_sidebar.no_blink
-        //     i.bars.icon
+        a.icon.item.toggle_sidebar.no_blink
+            i.bars.icon
     
         a.icon.item.blink.clear(href="/" class="{{isActiveRoute regex='home'}}")
             i.globe.large.icon
@@ -72,13 +72,13 @@ template(name='nav')
                 else 
                     i.user.icon
                 strong.mobile.hidden #{currentUser.username}
-            // a.icon.item.toggle_rightbar.no_blink
-            //     i.bars.icon
+            a.icon.item.toggle_rightbar.no_blink
+                i.bars.icon
         else
             a.icon.item(href="/register" title='login')
                 i.user.plus.large.icon
             a.item(href="/login" title='login')
-                // |login
+                |login
                 i.sign.in.large.icon
 
 
