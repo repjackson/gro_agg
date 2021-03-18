@@ -51,8 +51,8 @@ if Meteor.isClient
                     # if Meteor.user().roles and 'admin' in Meteor.user().roles
                     #     Router.go "/admin"
                     # else
-                    Router.go "/u/#{Meteor.user().username}"
-                    # Router.go "/u/#{username}"
+                    Router.go "/user/#{Meteor.user().username}"
+                    # Router.go "/user/#{username}"
 
         'keyup .password, keyup .username': (e,t)->
             if e.which is 13
@@ -72,11 +72,11 @@ if Meteor.isClient
                                 message: err.reason
                             })
                         else
-                            # Router.go "/u/#{username}"
+                            # Router.go "/user/#{username}"
                             # if Meteor.user().roles and 'admin' in Meteor.user().roles
                             #     Router.go "/admin"
                             # else
-                            Router.go "/u/#{Meteor.user().username}"
+                            Router.go "/user/#{Meteor.user().username}"
 
 
     Template.login.helpers

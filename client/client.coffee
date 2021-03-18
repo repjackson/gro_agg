@@ -142,7 +142,7 @@ Template.unpick_tag.helpers
                 model:'wikipedia'
                 title:@valueOf().toLowerCase()
                 
-        console.log found
+        # console.log found
         found
 Template.unpick_tag.events
     'click .unpick':-> 
