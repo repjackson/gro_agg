@@ -1,4 +1,4 @@
-# @selected_tags = new ReactiveArray []
+@selected_tags = new ReactiveArray []
 
 
 # @onpush = (event)->

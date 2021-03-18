@@ -1,6 +1,7 @@
 template(name='profile_layout')
     +nav
     .ui.bottom.attached.pushable.segment
+        +leftbar
         +rightbar
         #main_area.global_container.pusher
             with user
@@ -71,12 +72,12 @@ template(name='profile_layout')
                                 // a.ui.item.select_term(href="/user/#{username}/credits" class="{{isActiveRoute 'user_credits'}}" title="#{user.username} credits")
                                 //     i.chevron.down.icon
                                 //     span pts received
-                                a.ui.item.select_term(href="/user/#{username}/sent" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
-                                    i.gift.icon
-                                    span pts sent
-                                a.ui.item.select_term(href="/user/#{username}/received" class="{{isActiveRoute 'user_received'}}" title="#{user.username} received")
-                                    i.dollar.icon
-                                    span credit
+                                // a.ui.item.select_term(href="/user/#{username}/sent" class="{{isActiveRoute 'user_sent'}}" title="#{user.username} sent")
+                                //     i.gift.icon
+                                //     span pts sent
+                                // a.ui.item.select_term(href="/user/#{username}/received" class="{{isActiveRoute 'user_received'}}" title="#{user.username} received")
+                                //     i.dollar.icon
+                                //     span credit
                                 a.ui.disabled.item.select_term(href="/user/#{username}/upvoted" class="{{isActiveRoute 'user_upvoted'}}" title="#{user.username} upvoted")
                                     i.chevron.up.icon
                                     span upvoted

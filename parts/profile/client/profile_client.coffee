@@ -72,8 +72,8 @@ Template.user_posts.helpers
 
 
 Template.profile_layout.onCreated ->
-    @autorun -> Meteor.subscribe 'user_post_count', Router.current().params.username
-    @autorun -> Meteor.subscribe 'user_comment_count', Router.current().params.username
+    # @autorun -> Meteor.subscribe 'user_post_count', Router.current().params.username
+    # @autorun -> Meteor.subscribe 'user_comment_count', Router.current().params.username
 
 Template.user_dashboard.onCreated ->
     # @autorun -> Meteor.subscribe 'user_tips_received_count', Router.current().params.username
@@ -252,11 +252,11 @@ Template.profile_layout.onRendered ->
     #         .popup()
     # , 1000
     user = Meteor.users.findOne(username:Router.current().params.username)
-    Meteor.setTimeout ->
-        if user
-            Meteor.call 'calc_user_stats', user._id, ->
-            Meteor.call 'log_user_view', user._id, ->
-    , 2000
+    # Meteor.setTimeout ->
+    #     if user
+    #         Meteor.call 'calc_user_stats', user._id, ->
+    #         Meteor.call 'log_user_view', user._id, ->
+    # , 2000
 
 
 Template.profile_layout.helpers
