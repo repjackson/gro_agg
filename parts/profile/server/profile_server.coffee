@@ -490,7 +490,7 @@ Meteor.publish 'user_debits', (username)->
     
 Meteor.publish 'user_posts', (
     username
-    skip
+    skip=0
     )->
         console.log 'skip', skip
         user = Meteor.users.findOne username:username
@@ -498,8 +498,9 @@ Meteor.publish 'user_posts', (
             model:'post'
             _author_id:user._id
         },{
-            limit:20
+            limit:10
             sort: _timestamp:-1
+            skip:10*skip
         })
         
         

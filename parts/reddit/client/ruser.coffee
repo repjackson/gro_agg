@@ -34,7 +34,7 @@ Template.ruser.events
             message: 'getting user info'
             displayTime: 'auto',
         )
-        Meteor.call 'get_user_info', Router.current().params.username, ->
+        Meteor.call 'get_ruser_info', Router.current().params.username, ->
             $('body').toast(
                 message: 'info retrieved'
                 showIcon: 'user'

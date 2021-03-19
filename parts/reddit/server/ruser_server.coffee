@@ -74,7 +74,7 @@ Meteor.methods
             #     #     continue
 
         
-    get_user_info: (username)->
+    get_ruser_info: (username)->
         @unblock()
         # if subreddit 
         #     url = "http://reddit.com/r/#{subreddit}/search.json?q=#{query}&nsfw=1&limit=25&include_facets=false"
@@ -148,7 +148,7 @@ Meteor.publish 'ruser_posts', (username, limit=20)->
             max_emotion_name:1
             max_emotion_percent:1
     }  
-Meteor.publish 'user_comments', (username, limit=20)->
+Meteor.publish 'ruser_comments', (username, limit=20)->
     @unblock()
     
     Docs.find

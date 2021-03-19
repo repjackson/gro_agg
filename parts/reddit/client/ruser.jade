@@ -6,7 +6,7 @@ template(name='ruser')
         .ui.hidden.divider
         .ui.hidden.divider
         .ui.center.aligned.basic.segment.search
-            i.massive.grey.user.outline.link.icon.get_user_info
+            i.massive.grey.user.outline.link.icon.get_ruser_info
             .ui.big.header
                 |#{current_username}
         // .ui.massive.fluid.button.f17.zoomer.pointer.search 
@@ -49,7 +49,7 @@ template(name='ruser')
                             i.large.blue.shield.icon(title='is mod')
                         // if has_verified_email
                         //     i.large.mail.icon(title='verified email')
-                    // i.info.icon.get_user_info
+                    // i.info.icon.get_ruser_info
                     img.ui.rounded.inline.image.pointer.zoomer(src=profile_image)
                     a.ui.circular.icon.basic.button(href="http://www.reddit.com/user/#{username}" target='_window' title="#{site} profile")
                         i.external.icon

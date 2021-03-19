@@ -14,7 +14,7 @@ Template.rpost.events ->
     # Meteor.call 'call_watson',Router.current().params.doc_id,'url','url',=>
     # doc = Docs.findOne Router.current().params.doc_id
     # if doc
-    #     Meteor.call 'get_user_info', doc.data.author, ->
+    #     Meteor.call 'get_ruser_info', doc.data.author, ->
 
 Template.rpost.events
     'click .get_comments': ->
@@ -106,7 +106,7 @@ Template.rpost.events
 
     'click .goto_user': ->
         doc = Docs.findOne Router.current().params.doc_id
-        Meteor.call 'get_user_info', doc.data.author, ->
+        Meteor.call 'get_ruser_info', doc.data.author, ->
     'click .get_post': ->
         Meteor.call 'get_reddit_post', Router.current().params.doc_id, @reddit_id, ->
 
