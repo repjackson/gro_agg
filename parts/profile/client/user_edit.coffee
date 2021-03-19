@@ -1,24 +1,24 @@
-Router.route '/u/:username/edit/', (->
+Router.route '/user/:username/edit/', (->
     @layout 'user_edit_layout'
     @render 'user_edit_account'
     ), name:'user_edit_home'
-Router.route '/u/:username/edit/info', (->
+Router.route '/user/:username/edit/info', (->
     @layout 'user_edit_layout'
     @render 'user_edit_info'
     ), name:'user_edit_info'
-Router.route '/u/:username/edit/bookmarks', (->
+Router.route '/user/:username/edit/bookmarks', (->
     @layout 'user_edit_layout'
     @render 'user_edit_bookmarks'
     ), name:'user_edit_bookmarks'
-Router.route '/u/:username/edit/payment', (->
+Router.route '/user/:username/edit/payment', (->
     @layout 'user_edit_layout'
     @render 'user_edit_payment'
     ), name:'user_edit_payment'
-Router.route '/u/:username/edit/account', (->
+Router.route '/user/:username/edit/account', (->
     @layout 'user_edit_layout'
     @render 'user_edit_account'
     ), name:'user_edit_account'
-Router.route '/u/:username/edit/vault', (->
+Router.route '/user/:username/edit/vault', (->
     @layout 'user_edit_layout'
     @render 'user_edit_vault'
     ), name:'user_edit_vault'
@@ -70,7 +70,7 @@ Template.username_edit.events
                     if err
                         alert err
                     else
-                        Router.go("/u/#{new_username}")
+                        Router.go("/user/#{new_username}")
 
 
 
@@ -137,7 +137,7 @@ Template.emails_edit.events
 
 
 
-Router.route '/u/:username/edit/alerts', (->
+Router.route '/user/:username/edit/alerts', (->
     @layout 'user_edit_layout'
     @render 'user_edit_alerts'
     ), name:'user_edit_alerts'
@@ -177,7 +177,7 @@ Template.user_edit_alerts.helpers
             sort:
                 _timestamp:-1
 
-Router.route '/u/:username/edit/privacy', (->
+Router.route '/user/:username/edit/privacy', (->
     @layout 'user_edit_layout'
     @render 'user_edit_privacy'
     ), name:'user_edit_privacy'

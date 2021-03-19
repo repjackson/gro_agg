@@ -784,20 +784,20 @@
 /*} */
 
 
-/*.button,.card,.image,.header,p,img,.say,.pointer, .item{*/
-/*    animation: fadein 1s !important;*/
-/*    -webkit-transition: opacity 1s ease-in !important;*/
-/*    -webkit-transition: opacity 1s ease-out; */
-/*    animation: fadeout 1s; */
-/*}*/
+.button,.card,.image,.header,p,img,.say,.pointer, .item{
+    animation: fadein 1s !important;
+    -webkit-transition: opacity 1s ease-in !important;
+    -webkit-transition: opacity 1s ease-out; 
+    animation: fadeout 1s; 
+}
 
 
-/*.icon:not(.loading){*/
-/*    animation: fadein 1s !important;*/
-/*    transition: all 1s ease !important;*/
-    /* -webkit-transition: opacity .15s ease-out; */
-/*    animation: fadeout 1s; */
-/*}*/
+.icon:not(.loading){
+    animation: fadein 1s !important;
+    transition: all 1s ease !important;
+     -webkit-transition: opacity .15s ease-out; 
+    animation: fadeout 1s; 
+}
 
 
 

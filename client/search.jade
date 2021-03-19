@@ -101,20 +101,19 @@ template(name='home')
                         // .ui.label(title=count) #{name}
         .row
             .sixteen.wide.column
-                // .ui.four.wide.column
-                //     each wikis
-                //         .ui.card
-                //             if metadata.image
-                //                 // a(href=url target='_window')
-                //                 img.ui.image.toggle_view(src=metadata.image)
-                //             .content
-                //                 i.large.wikipedia.icon
-                //                 a.ui.inline.header(href=url target='_window') #{title}
-                //                 a.black_text(href=url target='_window')
-                //                     |{{ trunc analyzed_text }}...
-                //                 each ten_tags
-                //                     +flat_tag_picker
-                //                     // .ui.label.flat_tag_pick #{this}
+                each wikis
+                    .ui.card
+                        if metadata.image
+                            // a(href=url target='_window')
+                            img.ui.image.toggle_view(src=metadata.image)
+                        .content
+                            i.large.wikipedia.icon
+                            a.ui.inline.header(href=url target='_window') #{title}
+                            a.black_text(href=url target='_window')
+                                |{{ trunc analyzed_text }}...
+                            each ten_tags
+                                +flat_tag_picker
+                                // .ui.label.flat_tag_pick #{this}
                 //         // if one_post
                 //         //     .ui.stackable.one.column.grid
                 //         //         each rposts
@@ -126,9 +125,11 @@ template(name='home')
                 //         //             +card
                 //             // else if three_posts
                 //         // else
-                +alpha
+            .sixteen.wide.column
                 if picked_tags
                     .ui.stackable.three.column.padded.grid.scrolling
+                        if alpha
+                            +alpha
                         each rposts
                             +rcard
                     //     .ui.basic.center.aligned.segment

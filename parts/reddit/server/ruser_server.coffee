@@ -114,7 +114,7 @@ Meteor.methods
         # HTTP.get url,(err,res)=>
         #     # if res.data.data
 
-Meteor.publish 'user_posts', (username, limit=20)->
+Meteor.publish 'ruser_posts', (username, limit=20)->
     match = {
         model:'rpost'
         author:username
