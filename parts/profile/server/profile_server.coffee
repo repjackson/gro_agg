@@ -488,15 +488,22 @@ Meteor.publish 'user_debits', (username)->
         sort: _timestamp:-1
     })
     
-Meteor.publish 'user_posts', (username)->
-    user = Meteor.users.findOne username:username
-    Docs.find({
-        model:'post'
-        _author_id:user._id
-    },{
-        limit:20
-        sort: _timestamp:-1
-    })
+Meteor.publish 'user_posts', (
+    username
+    skip
+    )->
+        console.log 'skip', skip
+        user = Meteor.users.findOne username:username
+        Docs.find({
+            model:'post'
+            _author_id:user._id
+        },{
+            limit:20
+            sort: _timestamp:-1
+        })
+        
+        
+        
 Meteor.publish 'user_comments', (username)->
     user = Meteor.users.findOne username:username
     Docs.find({

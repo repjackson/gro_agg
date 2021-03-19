@@ -403,8 +403,8 @@
 /*.ui.button:not(.circular) { */
 /*    border-radius: 7px !important; */
 /*}*/
-/*.ui.button {*/
-/*  margin: 2px !important;*/
+.ui.button {
+  margin: 2px !important;
   /*transition: height .1s ease !important; */
   /* background-color: rgba(200, 200, 200, 0.2) !important; */
   /* padding: 12px !important; */
@@ -412,7 +412,7 @@
   
   /* font-weight: lighter !important; */
   /* font-size: 120% !important; */
-/*  }*/
+  }
 /*  */
 /*.say {*/
     /*animation: fadein 1s !important;*/

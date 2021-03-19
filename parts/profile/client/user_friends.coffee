@@ -1,4 +1,4 @@
-Router.route '/u/:username/friends', (->
+Router.route '/user/:username/friends', (->
     @layout 'profile_layout'
     @render 'user_friends'
     ), name:'user_friends'

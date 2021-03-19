@@ -83,7 +83,7 @@ if Meteor.isClient
                             last_name: Session.get('last_name')
                             app:'stand'
                             username:username
-                    Router.go "/u/#{username}"
+                    Router.go "/user/#{username}"
                     # Meteor.loginWithPassword username, password, (err,res)=>
                     #     if err
                     #         alert err.reason

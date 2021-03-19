@@ -44,10 +44,10 @@ template(name='profile_layout')
                             if currentUser
                                 // div
                                 +user_friend_button 
-                        if i_have_points
-                            .ui.button.send(title='send points')
-                                i.gift.icon
-                                span send pts
+                        // if i_have_points
+                        //     .ui.button.send(title='send points')
+                        //         i.gift.icon
+                        //         span send pts
                         with data
                             .ui.list
                                 .item #{total_karma} total karma
@@ -210,7 +210,7 @@ template(name='user_tips')
         |tips
     .ui.link.list.scrolling
         each tips
-            a.ui.item(href="/post/#{parent_id}") 
+            a.ui.item(href="/post/#{post_id}") 
                 if parent.image_id
                     a(href="/post/#{_id}")
                         img.ui.small.image(src="{{c.url image_id }}" class=currentUser.invert_class)

@@ -6,10 +6,6 @@ Router.route '/user/:username/comments', (->
     @layout 'profile_layout'
     @render 'user_comments'
     ), name:'user_comments'
-Router.route '/user/:username/posts', (->
-    @layout 'profile_layout'
-    @render 'user_posts'
-    ), name:'user_posts'
 Router.route '/user/:username/upvoted', (->
     @layout 'profile_layout'
     @render 'user_upvoted'
@@ -35,34 +31,29 @@ Router.route '/user/:username/groups', (->
     @render 'user_groups'
     ), name:'user_groups'
 
-# Template.user_vault.onCreated ->
-#     @autorun -> Meteor.subscribe 'user_vault', Router.current().params.username
-# Template.user_vault.helpers
-#     private_posts: -> 
-#         user = Meteor.users.findOne(username:Router.current().params.username)
+Template.user_vault.onCreated ->
+    @autorun -> Meteor.subscribe 'user_vault', Router.current().params.username
+Template.user_vault.helpers
+    private_posts: -> 
+        user = Meteor.users.findOne(username:Router.current().params.username)
 
-#         Docs.find 
-#             model:'post'
-#             is_private:true
-#             _author_id:user._id
-
-
+        Docs.find 
+            model:'post'
+            is_private:true
+            _author_id:user._id
 
 
-# Template.user_comments.onCreated ->
-#     @autorun -> Meteor.subscribe 'user_comments', Router.current().params.username
-# Template.user_comments.helpers
-#     comments: -> Docs.find model:'comment'
 
-# Template.user_tips.onCreated ->
-#     @autorun -> Meteor.subscribe 'user_tips', Router.current().params.username
-# Template.user_tips.helpers
-#     tips: -> Docs.find model:'tip'
 
-Template.user_posts.onCreated ->
-    @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username
-Template.user_posts.helpers
-    posts: -> Docs.find model:'post'
+Template.user_comments.onCreated ->
+    @autorun -> Meteor.subscribe 'user_comments', Router.current().params.username
+Template.user_comments.helpers
+    comments: -> Docs.find model:'comment'
+
+Template.user_tips.onCreated ->
+    @autorun -> Meteor.subscribe 'user_tips', Router.current().params.username
+Template.user_tips.helpers
+    tips: -> Docs.find model:'tip'
 
 
 # Template.user_bounties.onCreated ->

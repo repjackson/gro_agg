@@ -21,7 +21,7 @@ template(name='user_friends')
             //             +user_item
 
 template(name='user_friend')
-    a.ui.item(href="/u/#{user.username}/")
+    a.ui.item(href="/user/#{user.username}/")
         if user.profile_image_id
             img.ui.avatar.image.superzoom(src="{{c.url user.profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
         //- .visible.content
@@ -30,7 +30,7 @@ template(name='user_friend')
         // +user_status user
 
 template(name='user_segment')
-    a.item(href="/u/#{username}")
+    a.item(href="/user/#{username}")
         img.ui.avatar.image(src="{{c.url profile_image_id gravity='face' crop='fit'}}")
         .content
             .ui.inline.header

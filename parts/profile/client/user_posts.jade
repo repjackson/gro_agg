@@ -1,7 +1,11 @@
 template(name='user_posts')
-    .ui.header 
+    .ui.inline.header 
         i.newspaper.icon
         |posts
+    .ui.icon.button.skip_left
+        i.chevron.left.icon
+    .ui.icon.button.skip_right
+        i.chevron.right.icon
     .ui.link.selection.animated.list.scrolling
         each posts
             a.ui.item(href="/post/#{_id}") 
