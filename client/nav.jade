@@ -59,10 +59,10 @@ template(name='nav')
                 else
                     a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
                         i.outline.bell.icon
-                a.icon.item(href="/u/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
+                a.icon.item(href="/user/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
                     i.inbox.icon
                 
-                a.icon.item.mobile.hidden(href="/u/#{currentUser.username}/received" class="{{isActivePath 'user_received'}}" title="#{user.username} received")
+                a.icon.item.mobile.hidden(href="/user/#{currentUser.username}/received" class="{{isActivePath 'user_received'}}" title="#{user.username} received")
                     strong #{currentUser.points}
                 a.item.mobile.hidden(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
                     if currentUser.profile_image_id
@@ -108,36 +108,36 @@ template(name='recent_alert')
             
 template(name='rightbar')
     .ui.right.sidebar.vertical.borderless.inverted.menu
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/" class="{{isActiveRoute 'user_dashboard'}}")
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/" class="{{isActiveRoute 'user_dashboard'}}")
             | dashboard (#{currentUser.points}p)
             i.dashboard.icon
         
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/credits" class="{{isActiveRoute 'user_credits'}}")
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/credits" class="{{isActiveRoute 'user_credits'}}")
             | #{currentUser.total_credit_amount}p received
             i.chevron.down.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/posts" class="{{isActiveRoute 'user_posts'}}")
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/posts" class="{{isActiveRoute 'user_posts'}}")
             | #{currentUser.total_credit_amount} posts
             i.newspaper.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/comments" class="{{isActiveRoute 'user_comments'}}")
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/comments" class="{{isActiveRoute 'user_comments'}}")
             | #{currentUser.total_credit_amount} comments
             i.comment.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/tips" class="{{isActiveRoute 'user_tips'}}")
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/tips" class="{{isActiveRoute 'user_tips'}}")
             | #{_amount} tips
             i.donate.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/groups" class="{{isActiveRoute 'user_groups'}}")
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/groups" class="{{isActiveRoute 'user_groups'}}")
             | groups
             i.fire.icon
-        a.ui.item.toggle_rightbar(href="/u/#{currentUser.username}/bounties" class="{{isActiveRoute 'user_bounties'}}" title="#{user.username} bounties")
+        a.ui.item.toggle_rightbar(href="/user/#{currentUser.username}/bounties" class="{{isActiveRoute 'user_bounties'}}" title="#{user.username} bounties")
             i.hand.holding.icon
             span bounties
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/friends" class="{{isActiveRoute 'user_friends'}}")
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/friends" class="{{isActiveRoute 'user_friends'}}")
             | friends
             i.users.icon
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/sent" class="{{isActiveRoute 'user_sent'}}")
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/sent" class="{{isActiveRoute 'user_sent'}}")
             | #{currentUser.total_debit_amount}p sent
             i.chevron.up.icon
         .ui.divider
-        a.item.toggle_rightbar(href="/u/#{currentUser.username}/edit" title='edit your account')
+        a.item.toggle_rightbar(href="/user/#{currentUser.username}/edit" title='edit your account')
             i.cog.icon
             |settings
         // a.item.toggle_nightmode.toggle_rightbar(href="#")

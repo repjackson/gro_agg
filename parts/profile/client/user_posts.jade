@@ -4,7 +4,7 @@ template(name='user_posts')
         |posts
     .ui.link.selection.animated.list.scrolling
         each posts
-            a.ui.item(href="/p/#{_id}") 
+            a.ui.item(href="/post/#{_id}") 
                 .content
                     if image_link
                         +image_link_view key='image_link' direct=true
