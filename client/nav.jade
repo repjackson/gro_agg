@@ -5,7 +5,7 @@ template(name='nav')
     
         a.icon.item.blink(href="/" class="{{isActiveRoute regex='home'}}")
             i.globe.large.icon
-        a.icon.item.mobile.hidden(href="/wikipedia" class="{{isActiveRoute 'wikipedia'}}")
+        a.icon.item(href="/wikipedia" class="{{isActiveRoute 'wiki'}}")
             i.wikipedia.large.icon
         // .ui.dropdown.item
         //     |drop
@@ -23,17 +23,17 @@ template(name='nav')
             i.fire.large.icon
         a.icon.item.mobile.hidden(href="/stack" class="{{isActiveRoute 'stack'}}")
             i.stack.exchange.large.icon
-        a.icon.item.mobile.hidden(href="/map" class="{{isActiveRoute 'map'}}")
-            i.marker.large.icon
+        // a.icon.item.mobile.hidden(href="/map" class="{{isActiveRoute 'map'}}")
+        //     i.marker.large.icon
         // a.icon.item.blink.go_shop.mobile.hidden(href="/shop" class="{{isActiveRoute 'shop'}}")
         //     i.line.shop.large.icon
         // a.icon.item.blink.go_shop.mobile.hidden(href="/bounties" class="{{isActiveRoute 'bounties'}}")
         //     i.line.hand.holding.heart.large.icon
         // if currentUser
-        a.icon.item.mobile.hidden(href="/people" class="{{isActiveRoute 'people'}}")
-            i.users.large.icon
-        a.icon.item.mobile.hidden(href="/posts" class="{{isActiveRoute regex='posts'}}")
-            i.edit.large.icon
+        // a.icon.item.mobile.hidden(href="/people" class="{{isActiveRoute 'people'}}")
+        //     i.users.large.icon
+        // a.icon.item.mobile.hidden(href="/posts" class="{{isActiveRoute regex='posts'}}")
+        //     i.edit.large.icon
         // .item(title='session karma')
         //     i.grey.lightning.icon
         //     |#{session_clicks}

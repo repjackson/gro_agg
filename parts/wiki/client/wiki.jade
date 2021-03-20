@@ -10,7 +10,7 @@ template(name='wiki')
                     .ui.center.aligned.basic.segment
                         .ui.icon.big.fluid.input
                             i.search.icon
-                            input.search_input(type='text' value=query autofocus='' placeholder="search...")
+                            input.search_input(type='text' value=query autofocus='' placeholder="search wikipedia...")
                         div
                         +wiki_search_shortcut tag='math' icon='calculator'
                         +wiki_search_shortcut tag='camping' icon='campground'
@@ -97,7 +97,7 @@ template(name='wiki')
                         +unpick_wtag
                     each result_wtags
                         // .ui.label #{this}
-                        +tag_picker
+                        +wtag_picker
                         // .ui.label(title=count) #{name}
         .row
             .sixteen.wide.column
@@ -144,22 +144,13 @@ template(name='wcard')
         // .ui.stackable.equal.width.compact.grid
         //     .row
         .goto_post.pointer.zoomer
-            if embed
-                span.rounded.full
-                    |!{embed}
-                div
-            else if is_image
-                img.ui.fluid.zoomer.image.toggle_view(src=url)    
-            else if metadata.image
+            if metadata.image
                 // |metadata
                 img.ui.inline.zoomer.image.toggle_view(src=metadata.image)
                 // else if data.thumbnail.length
-            else if has_thumbnail
-                a.view_post
-                    img.ui.inline.zoomer.fluid.image.zoomer(src=thumbnail)    
         .content
             // a.ui.inline.header.view_post.zoomer(href="" class=post_header_class target='_window')
-            a.ui.inline.small.header.goto_post.pointer(class=post_header_class title=domain)
+            a.ui.inline.header.goto_post.pointer(class=post_header_class title=domain)
                 if title
                     |!{title}
                 else 

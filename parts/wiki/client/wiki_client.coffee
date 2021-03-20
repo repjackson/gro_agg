@@ -6,6 +6,7 @@ Router.route '/wikipedia', (->
 
 
 Template.registerHelper 'picked_wtags', () -> picked_wtags.array()
+Template.registerHelper 'result_wtags', () -> results.find(model:'wtag')
 
 
 Template.wiki.onCreated ->
@@ -195,9 +196,9 @@ Template.wcard.events
 
 
 
-Template.tag_picker.onCreated ->
+Template.wtag_picker.onCreated ->
     @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
-Template.tag_picker.helpers
+Template.wtag_picker.helpers
     selector_class: ()->
         term = 
             Docs.findOne 
@@ -214,6 +215,34 @@ Template.tag_picker.helpers
     term: ->
         Docs.findOne 
             title:@name.toLowerCase()
+      
+Template.wtag_picker.events
+    'click .pick_wtag': -> 
+        # results.update
+        # console.log @
+        # window.speechSynthesis.cancel()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        # if @model is 'reddit_emotion'
+        #     picked_emotions.push @name
+        # else
+        # if @model is 'reddit_tag'
+        picked_wtags.push @name
+        $('.search').val('')
+        url = new URL(window.location)
+        url.searchParams.set('tags', picked_wtags.array())
+        window.history.pushState({}, '', url)
+        document.title = picked_wtags.array()
+
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        # Meteor.call 'call_alpha', picked_wtags.array().toString(), ->
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_wtags.array().toString()
+        Session.set('loading',true)
+        Meteor.call 'call_wiki', picked_wtags.array(), ->        
+            Session.set('loading',false)
+        Meteor.setTimeout( ->
+            Session.set('toggle',!Session.get('toggle'))
+        , 10000)
+      
             
            
 Template.unpick_wtag.onCreated ->

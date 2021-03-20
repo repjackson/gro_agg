@@ -193,11 +193,11 @@ Meteor.publish 'wtags', (
             { $limit:20  }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
-        tag_cloud.forEach (tag, i) ->
+        tag_cloud.forEach (wtag, i) ->
             self.added 'results', Random.id(),
-                name: tag.name
-                count: tag.count
-                model:'tag'
+                name: wtag.name
+                count: wtag.count
+                model:'wtag'
         
         # Location_cloud = Docs.aggregate [
         #     { $match: match }
