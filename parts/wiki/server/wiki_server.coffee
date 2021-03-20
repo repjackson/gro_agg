@@ -52,11 +52,13 @@ Meteor.methods
                             url: url
                             model:'wikipedia'
                     if found_doc
-                        # Docs.update found_doc._id,
-                        #     # $pull:
-                        #     #     tags:'wikipedia'
-                        #     $set:
-                        #         title:found_doc.title.toLowerCase()
+                        Docs.update found_doc._id,
+                            # $pull:
+                            #     tags:'wikipedia'
+                            $addToSet:
+                                tags:term.toLowerCase()
+                            $set:
+                                title:found_doc.title.toLowerCase()
                         unless found_doc.metadata
                             Meteor.call 'call_watson', found_doc._id, 'url','url', ->
                     else
@@ -106,7 +108,7 @@ Meteor.publish 'wposts', (
     # sort_direction=-1
     # limit=20
     # picked_times
-    # picked_Locations
+    picked_Locations
     # picked_authors
     # skip=0
     )->
@@ -132,7 +134,7 @@ Meteor.publish 'wposts', (
     
     if picked_tags.length > 0
         match.tags = $all:picked_tags
-        # if picked_Locations.length > 0 then match.location = $all:picked_Locations
+        if picked_Locations.length > 0 then match.location = $all:picked_Locations
         # if picked_authors.length > 0 then match['data.author'] = $all:picked_authors
         # if picked_domains.length > 0 then match['data.domain'] = $all:picked_domains
         # if picked_persons.length > 0 then match.Person = $all:picked_persons
@@ -153,7 +155,7 @@ Meteor.publish 'wtags', (
     # picked_domains
     # picked_authors
     # picked_time_tags
-    # picked_Locations
+    picked_Locations
     # picked_persons
     # query=''
     )->
@@ -178,7 +180,7 @@ Meteor.publish 'wtags', (
         match.tags = $all:picked_tags
         # if picked_authors.length > 0 then match.author = $all:picked_authors
         # if picked_domains.length > 0 then match.domain = $all:picked_domains
-        # if picked_Locations.length > 0 then match.Location = $all:picked_Locations
+        if picked_Locations.length > 0 then match.Location = $all:picked_Locations
         # if picked_persons.length > 0 then match.Person = $all:picked_persons
         # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
         doc_count = Docs.find(match).count()
@@ -199,22 +201,22 @@ Meteor.publish 'wtags', (
                 count: wtag.count
                 model:'wtag'
         
-        # Location_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "Location": 1 }
-        #     { $unwind: "$Location" }
-        #     { $group: _id: "$Location", count: $sum: 1 }
-        #     # { $match: _id: $nin: picked_location }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $match: count: $lt: doc_count }
-        #     { $limit:10 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ]
-        # Location_cloud.forEach (Location, i) ->
-        #     self.added 'results', Random.id(),
-        #         name: Location.name
-        #         count: Location.count
-        #         model:'Location'
+        Location_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "Location": 1 }
+            { $unwind: "$Location" }
+            { $group: _id: "$Location", count: $sum: 1 }
+            # { $match: _id: $nin: picked_location }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        Location_cloud.forEach (Location, i) ->
+            self.added 'results', Random.id(),
+                name: Location.name
+                count: Location.count
+                model:'Location'
         
         
         # Person_cloud = Docs.aggregate [

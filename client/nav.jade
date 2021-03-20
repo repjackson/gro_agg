@@ -51,19 +51,19 @@ template(name='nav')
                 a.icon.item.add_post
                     i.plus.icon
             
-                if unread_count
-                    a.item.alerts.select_term(href="#" class=alert_toggle_class)
-                        i.bell.icon
-                        if unread_count
-                            |#{unread_count}
-                else
-                    a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
-                        i.outline.bell.icon
-                a.icon.item(href="/user/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
-                    i.inbox.icon
+                // if unread_count
+                //     a.item.alerts.select_term(href="#" class=alert_toggle_class)
+                //         i.bell.icon
+                //         if unread_count
+                //             |#{unread_count}
+                // else
+                //     a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}")
+                //         i.outline.bell.icon
+                // a.icon.item(href="/user/#{currentUser.username}/messages" class="{{isActivePath 'user_messages'}}" title="#{user.username} messages")
+                //     i.inbox.icon
                 
-                a.icon.item.mobile.hidden(href="/user/#{currentUser.username}/received" class="{{isActivePath 'user_received'}}" title="#{user.username} received")
-                    strong #{currentUser.points}
+                // a.icon.item.mobile.hidden(href="/user/#{currentUser.username}/received" class="{{isActivePath 'user_received'}}" title="#{user.username} received")
+                //     strong #{currentUser.points}
                 a.item.mobile.hidden(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user'}}")
                     if currentUser.profile_image_id
                         if is_admin

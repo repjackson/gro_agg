@@ -20,7 +20,7 @@ Template.wiki.onCreated ->
         # picked_domains.array()
         # picked_authors.array()
         # picked_time_wtags.array()
-        # picked_Locations.array()
+        picked_Locations.array()
         # picked_persons.array()
         # Session.get('sort_key')
         # Session.get('sort_direction')
@@ -60,7 +60,7 @@ Template.wiki.onCreated ->
         # picked_domains.array()
         # picked_authors.array()
         # picked_time_wtags.array()
-        # picked_Locations.array()
+        picked_Locations.array()
         # picked_persons.array()
         
         
@@ -132,6 +132,7 @@ Template.wiki.helpers
                 sort:"ups":-1
                 limit:25)
                 
+    Locations: -> results.find({model:'Location'})               
                 
     post_count: -> Counts.get 'post_count'
     
@@ -157,7 +158,7 @@ Template.wiki_search_shortcut.events
         url.searchParams.set('tags', picked_wtags.array());
         window.history.pushState({}, '', url);
         document.title = picked_wtags.array()
-        # Session.set('loading',true)
+        Session.set('loading',true)
         Meteor.call 'search_wiki', picked_wtags.array(), ->
             Session.set('loading',false)
         Meteor.setTimeout ->
@@ -237,7 +238,7 @@ Template.wtag_picker.events
         # Meteor.call 'call_alpha', picked_wtags.array().toString(), ->
         # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_wtags.array().toString()
         Session.set('loading',true)
-        Meteor.call 'call_wiki', picked_wtags.array(), ->        
+        Meteor.call 'search_wiki', picked_wtags.array(), ->        
             Session.set('loading',false)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))
@@ -267,7 +268,7 @@ Template.unpick_wtag.events
         window.history.pushState({}, '', url);
         document.title = picked_wtags.array()
         Meteor.call 'call_alpha', picked_wtags.array().toString(), ->
-        Meteor.call 'search_reddit', picked_wtags.array(), ->
+        Meteor.call 'search_wiki', picked_wtags.array(), ->
         Meteor.setTimeout ->
             Session.set('toggle',!Session.get('toggle'))
         , 10000
@@ -276,36 +277,6 @@ Template.unpick_wtag.events
             
             
             
-Template.tag_picker.events
-    'click .pick_wtag': -> 
-        # results.update
-        # console.log @
-        # window.speechSynthesis.cancel()
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        # if @model is 'reddit_emotion'
-        #     picked_emotions.push @name
-        # else
-        # if @model is 'reddit_wtag'
-        picked_wtags.push @name
-        $('.search').val('')
-        url = new URL(window.location)
-        url.searchParams.set('tags', picked_wtags.array())
-        window.history.pushState({}, '', url)
-        document.title = picked_wtags.array()
-
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        # Meteor.call 'call_alpha', picked_wtags.array().toString(), ->
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_wtags.array().toString()
-        Session.set('loading',true)
-        Meteor.call 'call_wiki', @name, ->        
-        Meteor.call 'search_reddit', picked_wtags.array(), ->
-            Session.set('loading',false)
-        Meteor.setTimeout( ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 10000)
-        
-
-
 Template.flat_wtag_picker.onCreated ->
     @autorun => Meteor.subscribe('doc_by_title', @data.valueOf().toLowerCase())
 Template.flat_wtag_picker.helpers
@@ -331,7 +302,7 @@ Template.flat_wtag_picker.events
         # window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         picked_wtags.push @valueOf()
-        Router.go "/"
+        Router.go "/wikipedia"
         $('.search').val('')
         url = new URL(window.location)
         url.searchParams.set('tags', picked_wtags.array())
@@ -340,7 +311,7 @@ Template.flat_wtag_picker.events
 
         Session.set('loading',true)
         # Meteor.call 'call_alpha', picked_wtags.array().toString(), ->
-        Meteor.call 'search_reddit', picked_wtags.array(), ->
+        Meteor.call 'search_wiki', picked_wtags.array(), ->
             Session.set('loading',false)
         Meteor.setTimeout( ->
             Session.set('toggle',!Session.get('toggle'))
