@@ -5,8 +5,8 @@ template(name='nav')
     
         a.icon.item.blink(href="/" class="{{isActiveRoute regex='home'}}")
             i.globe.large.icon
-        // a.icon.item.blink.mobile.hidden(href="/stats" class="{{isActiveRoute 'stats'}}")
-        //     i.line.chart.large.icon
+        a.icon.item.mobile.hidden(href="/wikipedia" class="{{isActiveRoute 'wikipedia'}}")
+            i.wikipedia.large.icon
         // .ui.dropdown.item
         //     |drop
         //     i.dropdown.icon
@@ -32,7 +32,7 @@ template(name='nav')
         // if currentUser
         a.icon.item.mobile.hidden(href="/people" class="{{isActiveRoute 'people'}}")
             i.users.large.icon
-        a.icon.item.mobile.hidden(href="/posts" class="{{isActiveRoute regex='home'}}")
+        a.icon.item.mobile.hidden(href="/posts" class="{{isActiveRoute regex='posts'}}")
             i.edit.large.icon
         // .item(title='session karma')
         //     i.grey.lightning.icon
@@ -78,7 +78,7 @@ template(name='nav')
             else
                 a.item(href="/register" title='login')
                     |register
-                    i.user.plus.large.icon
+                    i.user.plus.lge.icon
                 a.item(href="/login" title='login')
                     |login
                     i.sign.in.icon
@@ -178,11 +178,21 @@ template(name='leftbar')
         //     i.line.hand.holding.heart.large.icon
         //     |bounties
         a.icon.item.mobile.hidden(href="/reddit" class="{{isActiveRoute 'reddit'}}")
+            |global search
             i.search.large.icon
         a.icon.item.mobile.hidden(href="/subs" class="{{isActiveRoute 'subs'}}")
+            |subreddits
+            i.fire.large.icon
+        a.icon.item.mobile.hidden(href="/rusers" class="{{isActiveRoute 'rusers'}}")
+            |reddit users
             i.fire.large.icon
         a.icon.item.mobile.hidden(href="/stack" class="{{isActiveRoute 'stack'}}")
+            |stack exchange
             i.stack.exchange.large.icon
-        a.icon.item.mobile.hidden(href="/map" class="{{isActiveRoute 'map'}}")
-            i.marker.large.icon
+        a.icon.item.mobile.hidden(href="/susers" class="{{isActiveRoute 'susers'}}")
+            |stack exchange users
+            i.stack.exchange.large.icon
+        // a.icon.item.mobile.hidden(href="/map" class="{{isActiveRoute 'map'}}")
+        //     |map
+        //     i.marker.large.icon
         

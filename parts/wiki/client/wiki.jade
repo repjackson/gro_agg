@@ -1,0 +1,205 @@
+template(name='wiki')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+                // if skv_is 'nightmode' true
+                //     i.moon.link.icon.toggle_nightmode
+                // else
+                //     i.lightbulb.link.icon.toggle_nightmode
+                unless picked_wtags
+                    .ui.center.aligned.basic.segment
+                        .ui.icon.big.fluid.input
+                            i.search.icon
+                            input.search_input(type='text' value=query autofocus='' placeholder="search...")
+                        div
+                        +wiki_search_shortcut tag='math' icon='calculator'
+                        +wiki_search_shortcut tag='camping' icon='campground'
+                        +wiki_search_shortcut tag='business' icon='briefcase'
+                        +wiki_search_shortcut tag='environment' icon='leaf'
+                        +wiki_search_shortcut tag='money' icon='coins'
+                        +wiki_search_shortcut tag='cat' icon='cat'
+                        +wiki_search_shortcut tag='science' icon='flask'
+                        +wiki_search_shortcut tag='video' icon='video'
+                        +wiki_search_shortcut tag='gaming' icon='gamepad'
+                        +wiki_search_shortcut tag='pics' icon='images'
+                        +wiki_search_shortcut tag='medicine' icon='pills'
+                        +wiki_search_shortcut tag='chess' icon='chess'
+                        +wiki_search_shortcut tag='food' icon='food'
+                        +wiki_search_shortcut tag='beer' icon='beer'
+                        +wiki_search_shortcut tag='hotel' icon='bed'
+                        +wiki_search_shortcut tag='winter' icon='snowflake'
+                        +wiki_search_shortcut tag='photography' icon='camera'
+                        +wiki_search_shortcut tag='dog' icon='dog'
+                        +wiki_search_shortcut tag='covid' icon='radiation'
+                        +wiki_search_shortcut tag='cheese' icon='cheese'
+                        +wiki_search_shortcut tag='solar' icon='sun'
+                        +wiki_search_shortcut tag='women' icon='venus'
+                        +wiki_search_shortcut tag='men' icon='mars'
+                        +wiki_search_shortcut tag='dungeons & dragons' icon='dice d20'
+                        +wiki_search_shortcut tag='physics' icon='atom'
+                        +wiki_search_shortcut tag='law' icon='balance scale'
+                        +wiki_search_shortcut tag='books' icon='book'
+                        +wiki_search_shortcut tag='biking' icon='biking'
+                        +wiki_search_shortcut tag='news' icon='newspaper'
+                        +wiki_search_shortcut tag='music' icon='music'
+                        +wiki_search_shortcut tag='skiing' icon='skiing'
+                        +wiki_search_shortcut tag='pizza' icon='pizza slice'
+                        +wiki_search_shortcut tag='fish' icon='fish'
+                        +wiki_search_shortcut tag='gardening' icon='seedling'
+                        +wiki_search_shortcut tag='bible' icon='bible'
+                        +wiki_search_shortcut tag='daoism' icon='yin yang'
+                        +wiki_search_shortcut tag='car' icon='car'
+                        +wiki_search_shortcut tag='tarot' icon='moon'
+                        +wiki_search_shortcut tag='bacon' icon='bacon'
+                        +wiki_search_shortcut tag='swimming' icon='swimmer'
+                        +wiki_search_shortcut tag='spa' icon='spa'
+                        +wiki_search_shortcut tag='cookies' icon='cookie'
+                        +wiki_search_shortcut tag='spider' icon='spider'
+                        +wiki_search_shortcut tag='allergies' icon='allergies'
+                        +wiki_search_shortcut tag='giving' icon='hand holding heart'
+                        +wiki_search_shortcut tag='helping' icon='hands helping'
+                        +wiki_search_shortcut tag='prayer' icon='praying hands'
+                        +wiki_search_shortcut tag='love' icon='heart'
+                        +wiki_search_shortcut tag='cheers' icon='glass cheers'
+                        +wiki_search_shortcut tag='hot tub' icon='hot tub'
+                        +wiki_search_shortcut tag='smoothies' icon='blender'
+                        +wiki_search_shortcut tag='tv' icon='tv'
+                        +wiki_search_shortcut tag='lightning' icon='bolt'
+                        +wiki_search_shortcut tag='writing' icon='pen fancy'
+                        +wiki_search_shortcut tag='maintenance' icon='wrench'
+                        +wiki_search_shortcut tag='traffic' icon='traffic light'
+                        +wiki_search_shortcut tag='college' icon='university'
+                        +wiki_search_shortcut tag='teamwork' icon='handshake'
+                        +wiki_search_shortcut tag='puppy' icon='paw'
+                        +wiki_search_shortcut tag='tori' icon='torii gate'
+                        +wiki_search_shortcut tag='peace' icon='dove'
+                        +wiki_search_shortcut tag='brain' icon='brain'
+                        +wiki_search_shortcut tag='star trek' icon='hand spock'
+                        +wiki_search_shortcut tag='broken heart' icon='heart broken'
+                        +wiki_search_shortcut tag='hockey' icon='hockey puck'
+                        +wiki_search_shortcut tag='golf' icon='golf ball'
+                        +wiki_search_shortcut tag='vollyball' icon='vollyball ball'
+                        +wiki_search_shortcut tag='meteor' icon='meteor'
+                            
+                if picked_wtags
+                    .ui.icon.input
+                        if is_loading
+                            i.loading.yin.yang.large.icon
+                        else
+                            i.search.icon
+                        input.search_input(type='text' value=query autofocus='' placeholder="#{post_count}")
+                        // .ui.label #{this}
+                    
+                    // if many_wtags
+                    //     a#clear_wtags.ui.red.invert.icon.button.pick_term
+                    //         i.remove.icon
+                    each picked_wtags
+                        +unpick_wtag
+                    each result_wtags
+                        // .ui.label #{this}
+                        +tag_picker
+                        // .ui.label(title=count) #{name}
+        .row
+            .sixteen.wide.column
+                each wikis
+                    .ui.card
+                        if metadata.image
+                            // a(href=url target='_window')
+                            img.ui.image.toggle_view(src=metadata.image)
+                        .content
+                            i.large.wikipedia.icon
+                            a.ui.inline.header(href=url target='_window') #{title}
+                            a.black_text(href=url target='_window')
+                                |{{ trunc analyzed_text }}...
+                            each ten_tags
+                                +flat_wtag_picker
+                                // .ui.label.flat_wtag_pick #{this}
+                //         // if one_post
+                //         //     .ui.stackable.one.column.grid
+                //         //         each rposts
+                //         //             +card
+                                
+                //         // else if two_posts
+                //         //     .ui.stackable.three.centered.column.grid
+                //         //         each rposts
+                //         //             +card
+                //             // else if three_posts
+                //         // else
+            .sixteen.wide.column
+                if picked_wtags
+                    .ui.stackable.three.column.padded.grid.scrolling
+                        if alpha
+                            +alpha
+                        each wposts
+                            +wcard
+                    //     .ui.basic.center.aligned.segment
+                    //         i.big.loading.yin.yang.icon
+template(name='wiki_search_shortcut')
+    i.big.grey.link.icon.click_shortcut.zoomer(class=icon title=tag)
+
+   
+
+template(name='wcard')
+    .column.smallcroll
+        // .ui.stackable.equal.width.compact.grid
+        //     .row
+        .goto_post.pointer.zoomer
+            if embed
+                span.rounded.full
+                    |!{embed}
+                div
+            else if is_image
+                img.ui.fluid.zoomer.image.toggle_view(src=url)    
+            else if metadata.image
+                // |metadata
+                img.ui.inline.zoomer.image.toggle_view(src=metadata.image)
+                // else if data.thumbnail.length
+            else if has_thumbnail
+                a.view_post
+                    img.ui.inline.zoomer.fluid.image.zoomer(src=thumbnail)    
+        .content
+            // a.ui.inline.header.view_post.zoomer(href="" class=post_header_class target='_window')
+            a.ui.inline.small.header.goto_post.pointer(class=post_header_class title=domain)
+                if title
+                    |!{title}
+                else 
+                    |#{metadata.title}
+                // span.inline.content
+            |{{ufrom created_utc}}
+            // each unique_wtags
+            //     a.ui.basic.label.flat_wtag_pick #{this}
+            // .ui.label #{data.domain}
+            // .ui.label 
+            //     i.user.icon
+            //     |#{data.author}
+            |{{ trunc analyzed_text }}...
+            if in_dev
+                +print_this
+            // div
+   
+template(name='unpick_wtag')
+    a.unpick.ui.black.image.large.label
+        if term
+            if term.metadata.image
+                img.ui.compact.image.superzoom(src=term.metadata.image)    
+        strong #{this}
+
+template(name='flat_wtag_picker')
+    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_wtag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.image.large.label.zoomer.select_flat_wtag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.metadata.image
+                img.ui.image.superzoom(src=term.metadata.image )    
+        strong #{this}
+        // if in_dev
+        //     small #{count}
+
+template(name='wtag_picker')
+    // a.ui.big.image.rounded.label.zoomer.pointer.pick_wtag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.basic.image.large.label.zoomer.pick_wtag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+        if term
+            if term.metadata.image
+                img.ui.avatar.image.superzoom(src=term.metadata.image)    
+        strong #{name}
+        // if in_dev
+        //     small #{count}

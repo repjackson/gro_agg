@@ -37,9 +37,9 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'members', (person_id)->
-        Meteor.users.find
-            _id:$in:@member_ids
+    # Meteor.publish 'members', (person_id)->
+    #     Meteor.users.find
+    #         _id:$in:@member_ids
 
     Meteor.publish 'person_by_slug', (person_slug)->
         Docs.find

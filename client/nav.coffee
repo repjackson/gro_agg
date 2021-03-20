@@ -57,7 +57,7 @@ Template.nav.events
         new_id = 
             Docs.insert 
                 model:'post'
-        Router.go "/p/#{new_id}/edit"
+        Router.go "/ostp/#{new_id}/edit"
 
     'click .alerts': ->
         Session.set('viewing_alerts', !Session.get('viewing_alerts'))

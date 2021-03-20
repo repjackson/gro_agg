@@ -402,7 +402,7 @@ Meteor.methods
 
 
 
-Meteor.publish 'selected_users', (
+Meteor.publish 'selected_rusers', (
     picked_user_tags
     username_query
     limit=1
@@ -451,7 +451,7 @@ Meteor.publish 'selected_users', (
 
 
 
-Meteor.publish 'user_tags', (
+Meteor.publish 'ruser_tags', (
     picked_user_tags
     username_query
     # view_mode

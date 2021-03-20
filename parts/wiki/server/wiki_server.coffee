@@ -1,52 +1,75 @@
 Meteor.methods
-    remove_doc: (doc_id)->
-        Docs.remove doc_id
-
-        
-
-# Meteor.publish 'wikis', (
-#     w_query
-#     picked_tags
-#     )->
-#     Docs.find({
-#         model:'wikipedia'
-#     },{ 
-#         limit:10
-#     })
+    call_wiki: (query)->
+        # term = query.split(' ').join('_')
+        # term = query[0]
+        @unblock()
+        term = query
+        # HTTP.get "https://en.wikipedia.org/wiki/#{term}",(err,response)=>
+        HTTP.get "https://en.wikipedia.org/w/api.php?action=opensearch&generator=searchformat=json&search=#{term}",(err,response)=>
+            unless err
+                for term,i in response.data[1]
+                    url = response.data[3][i]
     
+    
+                    found_doc =
+                        Docs.findOne
+                            url: url
+                            model:'wikipedia'
+                    if found_doc
+                        # Docs.update found_doc._id,
+                        #     # $pull:
+                        #     #     tags:'wikipedia'
+                        #     $set:
+                        #         title:found_doc.title.toLowerCase()
+                        unless found_doc.metadata
+                            Meteor.call 'call_watson', found_doc._id, 'url','url', ->
+                    else
+                        new_wiki_id = Docs.insert
+                            title:term.toLowerCase()
+                            tags:[term.toLowerCase()]
+                            source: 'wikipedia'
+                            model:'wikipedia'
+                            # ups: 1
+                            url:url
+                        Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
 
 
-# Meteor.publish 'try', (title)->
-#     Docs.find {
-#         model:'rpost'
-#     }, limit:10    
+    search_wiki: (query)->
+        # term = query.split(' ').join('_')
+        # term = query[0]
+        @unblock()
+        term = query
+        # HTTP.get "https://en.wikipedia.org/wiki/#{term}",(err,response)=>
+        HTTP.get "https://en.wikipedia.org/w/api.php?action=opensearch&generator=searchformat=json&search=#{term}",(err,response)=>
+            unless err
+                console.log response.data
+                for term,i in response.data[1]
+                    url = response.data[3][i]
+    
+    
+                    found_doc =
+                        Docs.findOne
+                            url: url
+                            model:'wikipedia'
+                    if found_doc
+                        # Docs.update found_doc._id,
+                        #     # $pull:
+                        #     #     tags:'wikipedia'
+                        #     $set:
+                        #         title:found_doc.title.toLowerCase()
+                        unless found_doc.metadata
+                            Meteor.call 'call_watson', found_doc._id, 'url','url', ->
+                    else
+                        new_wiki_id = Docs.insert
+                            title:term.toLowerCase()
+                            tags:[term.toLowerCase()]
+                            source: 'wikipedia'
+                            model:'wikipedia'
+                            # ups: 1
+                            url:url
+                        Meteor.call 'call_watson', new_wiki_id, 'url','url', ->
 
-Meteor.publish 'doc_by_title', (title)->
-    @unblock()
-    Docs.find({
-        title:title
-        model:'wikipedia'
-        "metadata.image":$exists:true
-    }, {
-        fields:
-            title:1
-            "metadata.image":1
-            model:1
-    })
 
-
-
-
-Meteor.publish 'doc', (doc_id)->
-    Docs.find doc_id
-        
-        
-        
-# tsqp-gebk-xhpz-eobp-agle
-Docs.allow
-    insert: (userId, doc) -> true
-    update: (userId, doc) -> true
-    remove: (userId, doc) -> userId
 
 
 Meteor.publish 'post_count', (
@@ -57,7 +80,7 @@ Meteor.publish 'post_count', (
     )->
     @unblock()
     match = {
-        model:$in:['rpost','url']
+        model:'wikipedia'
         # is_private:$ne:true
     }
     # unless Meteor.userId()
@@ -72,7 +95,7 @@ Meteor.publish 'post_count', (
         Counts.publish this, 'post_count', Docs.find(match)
         return undefined
             
-Meteor.publish 'rposts', (
+Meteor.publish 'wposts', (
     picked_tags
     # picked_domains
     # picked_authors
@@ -91,7 +114,7 @@ Meteor.publish 'rposts', (
     # @unblock()
     self = @
     match = {
-        model:$in:['rpost','url']
+        model:'wikipedia'
         # is_private:$ne:true
         # group:$exists:false
     }
@@ -124,7 +147,7 @@ Meteor.publish 'rposts', (
         
     
            
-Meteor.publish 'tags', (
+Meteor.publish 'wtags', (
     picked_tags
     toggle
     # picked_domains
@@ -137,7 +160,7 @@ Meteor.publish 'tags', (
     # @unblock()
     self = @
     match = {
-        model:$in:['rpost','url']
+        model:'wikipedia'
         # model:'post'
         # is_private:$ne:true
         # sublove:sublove
@@ -288,57 +311,27 @@ Meteor.publish 'tags', (
     
 
 
-# Meteor.publish 'wiki_doc', (
-#     # doc_id
-#     picked_tags
-#     )->
-#     # console.log 'dummy', dummy
-#     # console.log 'publishing wiki doc', picked_tags
-#     @unblock()
-#     self = @
-#     match = {}
-
-#     match.model = 'wikipedia'
-#     match.title = $in:picked_tags
-#     # console.log 'query length', query.length
-#     # if picked_tags.length > 1
-#     #     match.tags = $all: picked_tags
-        
-#     Docs.find match,
-#         fields:
-#             title:1
-#             "analyzed_text":1
-#             url:1
-#             "metadata":1
-#             tags:1
-#             model:1
-
-
-Meteor.publish 'alpha_combo', (selected_tags)->
+Meteor.publish 'wiki_doc', (
+    # doc_id
+    picked_tags
+    )->
+    # console.log 'dummy', dummy
+    # console.log 'publishing wiki doc', picked_tags
     @unblock()
-    Docs.find 
-        model:'alpha'
-        # query: $in: selected_tags
-        query: selected_tags.toString()
+    self = @
+    match = {}
 
-
-
-Meteor.users.allow
-    insert: (user_id, doc, fields, modifier) ->
-        # user_id
-        true
-        # if user_id and doc._id == user_id
-        #     true
-    update: (user_id, doc, fields, modifier) ->
-        # user = Meteor.users.findOne user_id
-        # if user_id and 'dev' in user.roles
-        #     true
-        # else
-        #     if user_id and doc._id == user_id
-        true
-    remove: (user_id, doc, fields, modifier) ->
-        user = Meteor.users.findOne user_id
-        if user_id and 'dev' in user.roles
-            true
-        # if userId and doc._id == userId
-        #     true
+    match.model = 'wikipedia'
+    match.title = $in:picked_tags
+    # console.log 'query length', query.length
+    # if picked_tags.length > 1
+    #     match.tags = $all: picked_tags
+        
+    Docs.find match,
+        fields:
+            title:1
+            "analyzed_text":1
+            url:1
+            "metadata":1
+            tags:1
+            model:1
