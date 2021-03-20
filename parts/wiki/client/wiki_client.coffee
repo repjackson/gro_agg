@@ -1,5 +1,5 @@
 @picked_wtags = new ReactiveArray []
-Router.route '/wikipedia', (->
+Router.route '/', (->
     @layout 'layout'
     @render 'wiki'
     ), name:'wiki'
@@ -21,7 +21,7 @@ Template.wiki.onCreated ->
         # picked_authors.array()
         # picked_time_wtags.array()
         picked_Locations.array()
-        # picked_persons.array()
+        picked_Persons.array()
         # Session.get('sort_key')
         # Session.get('sort_direction')
         # Session.get('limit')
@@ -61,7 +61,7 @@ Template.wiki.onCreated ->
         # picked_authors.array()
         # picked_time_wtags.array()
         picked_Locations.array()
-        # picked_persons.array()
+        picked_Persons.array()
         
         
   
@@ -133,6 +133,7 @@ Template.wiki.helpers
                 limit:25)
                 
     Locations: -> results.find({model:'Location'})               
+    Persons: -> results.find({model:'Person'})               
                 
     post_count: -> Counts.get 'post_count'
     
@@ -167,10 +168,8 @@ Template.wiki_search_shortcut.events
 
 
 Template.wcard.onCreated ->
-    unless @data.domain in ['i.redd.it','v.redd.it','i.imgur.com','redd.it','wiki.com']
-        # console.log @data
-        unless @watson
-            Meteor.call 'call_watson', @data._id,'url','url', ->
+    unless @watson
+        Meteor.call 'call_watson', @data._id,'url','url', ->
         
 
 
@@ -302,7 +301,7 @@ Template.flat_wtag_picker.events
         # window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         picked_wtags.push @valueOf()
-        Router.go "/wikipedia"
+        Router.go "/"
         $('.search').val('')
         url = new URL(window.location)
         url.searchParams.set('tags', picked_wtags.array())

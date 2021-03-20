@@ -156,7 +156,7 @@ Meteor.publish 'wtags', (
     # picked_authors
     # picked_time_tags
     picked_Locations
-    # picked_persons
+    picked_Persons
     # query=''
     )->
     # @unblock()
@@ -181,7 +181,7 @@ Meteor.publish 'wtags', (
         # if picked_authors.length > 0 then match.author = $all:picked_authors
         # if picked_domains.length > 0 then match.domain = $all:picked_domains
         if picked_Locations.length > 0 then match.Location = $all:picked_Locations
-        # if picked_persons.length > 0 then match.Person = $all:picked_persons
+        if picked_Persons.length > 0 then match.Person = $all:picked_Persons
         # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
         doc_count = Docs.find(match).count()
         tag_cloud = Docs.aggregate [
@@ -206,7 +206,7 @@ Meteor.publish 'wtags', (
             { $project: "Location": 1 }
             { $unwind: "$Location" }
             { $group: _id: "$Location", count: $sum: 1 }
-            # { $match: _id: $nin: picked_location }
+            { $match: _id: $nin: picked_Locations }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
             { $limit:10 }
@@ -219,22 +219,22 @@ Meteor.publish 'wtags', (
                 model:'Location'
         
         
-        # Person_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "Person": 1 }
-        #     { $unwind: "$Person" }
-        #     { $group: _id: "$Person", count: $sum: 1 }
-        #     # { $match: _id: $nin: picked_Person }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $match: count: $lt: doc_count }
-        #     { $limit:10 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ]
-        # Person_cloud.forEach (Person, i) ->
-        #     self.added 'results', Random.id(),
-        #         name: Person.name
-        #         count: Person.count
-        #         model:'Person'
+        Person_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "Person": 1 }
+            { $unwind: "$Person" }
+            { $group: _id: "$Person", count: $sum: 1 }
+            { $match: _id: $nin: picked_Persons }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        Person_cloud.forEach (Person, i) ->
+            self.added 'results', Random.id(),
+                name: Person.name
+                count: Person.count
+                model:'Person'
         
         
         # timestamp_cloud = Docs.aggregate [

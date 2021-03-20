@@ -106,12 +106,20 @@ template(name='wiki')
             .four.wide.column
                 div
                 .ui.inline.header
-                    i.clock.icon    
+                    i.marker.icon    
                     |locations
                 each Locations
                     .ui.basic.label.pick_Location(class=domain_selector_class)
                         |#{name} 
-                        small #{count}
+                        // small #{count}
+                div
+                .ui.inline.header
+                    i.user.icon    
+                    |people
+                each Persons
+                    .ui.basic.label.pick_Person(class=domain_selector_class)
+                        |#{name} 
+                        // small #{count}
                 // .ui.inline.header.pull_latest #{display_name}
 
             .twelve.wide.column

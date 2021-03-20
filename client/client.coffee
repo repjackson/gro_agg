@@ -54,10 +54,10 @@ Template.registerHelper 'inner', ()->
         
 Session.setDefault('loading', false)
 
-Router.route '/', (->
+Router.route '/reddit', (->
     @layout 'layout'
-    @render 'home'
-    ), name:'home'
+    @render 'reddit'
+    ), name:'reddit'
 
 
 
@@ -66,13 +66,13 @@ Router.route '/', (->
 @picked_sub_tags = new ReactiveArray []
 @picked_domains = new ReactiveArray []
 @picked_authors = new ReactiveArray []
-@picked_persons = new ReactiveArray []
+@picked_Persons = new ReactiveArray []
 @picked_Locations = new ReactiveArray []
 
 
 Router.configure
     layoutTemplate: 'layout'
-    notFoundTemplate: 'not_found'
+    notFoundTemplate: 'wiki'
     loadingTemplate: 'splash'
     trackPageView: false
 	progressTick: false
