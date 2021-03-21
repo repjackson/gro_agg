@@ -138,8 +138,9 @@ Template.wiki.helpers
                 
     post_count: -> Counts.get 'post_count'
     
-    # nightmode_class: -> if Session.get('nightmode') then 'invert'
-    
+    alpha: -> 
+        Docs.findOne 
+            model:'alpha'
     
 
   

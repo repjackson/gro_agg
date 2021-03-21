@@ -103,6 +103,14 @@ template(name='wiki')
                         +wtag_picker
                         // .ui.label(title=count) #{name}
         .row
+
+            .twelve.wide.column
+                if picked_wtags
+                    .ui.stackable.three.column.padded.grid.scrolling
+                        if alpha
+                            +alpha
+                        each wposts
+                            +wcard
             .four.wide.column
                 div
                 .ui.inline.header
@@ -120,17 +128,7 @@ template(name='wiki')
                     .ui.basic.label.pick_Person(class=domain_selector_class)
                         |#{name} 
                         // small #{count}
-                // .ui.inline.header.pull_latest #{display_name}
 
-            .twelve.wide.column
-                if picked_wtags
-                    .ui.stackable.three.column.padded.grid.scrolling
-                        if alpha
-                            +alpha
-                        each wposts
-                            +wcard
-                    //     .ui.basic.center.aligned.segment
-                    //         i.big.loading.yin.yang.icon
 template(name='wiki_search_shortcut')
     i.big.grey.link.icon.click_shortcut.zoomer(class=icon title=tag)
 

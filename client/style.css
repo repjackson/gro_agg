@@ -748,7 +748,7 @@ img, .image {
     /*padding-left: 1em;*/
 /*}*/
 .scrolling{
-    max-height: 90vh !important;
+    max-height: 95vh !important;
     /*min-height: 50vh !important;*/
     /*border-radius: 7px !important;*/
     /*border-width: 1px !important;*/
@@ -757,10 +757,10 @@ img, .image {
     overflow-y:scroll;
     overflow-x:hidden;
     z-index:1001;
-    margin-top: 1em; 
-    padding-top: .5em; 
-    padding: 2em;
-    padding-left: 1em;
+    /*margin-top: 1em; */
+    /*padding-top: .5em; */
+    /*padding: 2em;*/
+    /*padding-left: 1em;*/
 }
 /*.forty {*/
 /*    max-height:38vh !important;*/
