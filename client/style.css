@@ -469,9 +469,9 @@
 /*  transform: scale(1.1) !important;*/
 /*}*/
 
-/*img, .image {*/
-  /*border-radius:7px !important;*/
-/*}*/
+img, .image {
+  border-radius:7px !important;
+}
 /*a.segment:active {*/
 /*  transform: scale(.97) !important;*/
 /*}*/

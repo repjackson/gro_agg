@@ -67,31 +67,73 @@ Meteor.methods
             )
         # else return
 
-    get_emotion: (doc_id, mode) ->
+    call_watson: (doc_id, key, mode) ->
         self = @
         doc = Docs.findOne doc_id
         # if doc.skip_watson is false
         # else
         # unless doc.watson
         params =
+            url: doc.url
+            returnAnalyzedText: true
+            clean: true
+            concepts:
+                limit:30
             features:
+                entities:
+                    emotion: false
+                    sentiment: false
+                    mentions: false
+                    limit: 30
+                keywords:
+                    emotion: false
+                    sentiment: false
+                    limit: 30
+                concepts: {}
+                # categories:
+                #     explanation:false
+                metadata: {}
                 emotion:{}
-            # url:doc.url
-        if mode is 'url'
-            params.url = doc.url
-        else if mode is 'comment'
-            params.text = doc.body
+                # relations: {}
+                # semantic_roles: {}
+                sentiment: {}
+
         natural_language_understanding.analyze params, Meteor.bindEnvironment((err, response)=>
             if err
                 # if err.code is 400
-                # unless err.code is 403
-                #     Docs.update doc_id,
-                #         $set:skip_watson:false
-                throw new Meteor.Error(err)
-                return err;
+                    # unless err.code is 403
+                    #     Docs.update doc_id,
+                    #         $set:skip_watson:false
+                throw new Meteor.Error(err.statusText,err.body)
+                # return err
             else
+                
                 response = response.result
                 # if Meteor.isDevelopment
+                # emotions = response.emotion.document.emotion
+
+                adding_tags = []
+                if response.categories
+                    for categories in response.categories
+                        for category in categories.label.split('/')
+                            if category.length > 0
+                                # adding_tags.push category
+                                Docs.update doc_id,
+                                    $addToSet:
+                                        categories: category
+                                        # tags: category
+                # Docs.update { _id: doc_id },
+                #     $addToSet:
+                #         tags:$each:adding_tags
+                if response.entities and response.entities.length > 0
+                    for entity in response.entities
+                        unless entity.type is 'Quantity'
+                            # if Meteor.isDevelopment
+                            # else
+                            Docs.update { _id: doc_id },
+                                $addToSet:
+                                    "#{entity.type}":entity.text
+                                    tags:entity.text.toLowerCase()
                 emotions = response.emotion.document.emotion
 
                 emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
@@ -110,154 +152,7 @@ Meteor.methods
                 fear_percent = emotions.fear
                 anger_percent = emotions.anger
                 disgust_percent = emotions.disgust
-                            
-                Docs.update { _id: doc_id },
-                    $set:
-                        max_emotion_name:max_emotion_name
-                        max_emotion_percent:max_emotion_percent
-                        sadness_percent: sadness_percent
-                        joy_percent: joy_percent
-                        fear_percent: fear_percent
-                        anger_percent: anger_percent
-                        disgust_percent: disgust_percent
-        )
-
-
-    import_url: (url)->
-        # console.log 'importing', url
-        existing = 
-            Docs.findOne 
-                model:'url'
-                url:url
-        if existing
-            return existing._id
-        else
-            new_id = 
-                Docs.insert 
-                    model:'url'
-                    url:url
-            returned_id = Meteor.call 'call_watson', new_id,'url','url'
-            # console.log 'returned url id', returned_id
-            return returned_id
-
-    call_watson: (doc_id, key, mode) ->
-        self = @
-        doc = Docs.findOne doc_id
-        # if doc.skip_watson is false
-        # else
-        # unless doc.watson
-        params =
-            concepts:
-                limit:20
-            features:
-                entities:
-                    emotion: false
-                    sentiment: false
-                    mentions: false
-                    limit: 20
-                keywords:
-                    emotion: false
-                    sentiment: false
-                    limit: 20
-                concepts: {}
-                # categories:
-                #     explanation:false
-                # metadata: {}
-                # relations: {}
-                # semantic_roles: {}
-                sentiment: {}
-        # console.log 'doc watson', doc.domain
-        searchPattern = new RegExp('^' + 'self');
-        if searchPattern.test(doc.domain)
-            # console.log "SELF"
-            params.text = doc.selftext
-            params.returnAnalyzedText = true
-        else if doc.domain and doc.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','reddit.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
-            params.url = "https://www.reddit.com#{doc.permalink}"
-            params.returnAnalyzedText = true
-            params.clean = true
-            params.features.metadata = {}
-        # else if doc.domain is 'reddit.com'
-        #     console.log doc.domain
-        else 
-            switch mode
-                when 'html'
-                    params.html = doc["#{key}"]
-                    params.returnAnalyzedText = true
-                    # params.html = doc.data.description
-                    params.features.metadata = {}
-                when 'text'
-                    params.text = doc["#{key}"]
-                    params.returnAnalyzedText = true
-                    params.clean = true
-                when 'comment'
-                    params.text = doc.body
-                    params.returnAnalyzedText = true
-                    params.clean = true
-                    # params.features.metadata = {}
-                when 'link'
-                    # params.url = doc["#{key}"]
-                    # params.url = durl
-                    params.url = doc.url
-                    params.features.metadata = {}
-                    params.returnAnalyzedText = true
-                    params.clean = true
-                when 'url'
-                    # params.url = doc["#{key}"]
-                    # params.url = durl
-                    params.url = doc.url
-                    params.features.metadata = {}
-                    params.returnAnalyzedText = true
-                    params.clean = true
-                when 'video'
-                    params.url = "https://www.reddit.com#{doc.permalink}"
-                    params.features.metadata = {}
-                    params.returnAnalyzedText = false
-                    # params.clean = true
-                    params.features.metadata = {}
-                when 'image'
-                    params.url = "https://www.reddit.com#{doc.permalink}"
-                    params.returnAnalyzedText = false
-                    params.clean = true
-                    params.features.metadata = {}
-
-
-        natural_language_understanding.analyze params, Meteor.bindEnvironment((err, response)=>
-            if err
-                # if err.code is 400
-                    # unless err.code is 403
-                    #     Docs.update doc_id,
-                    #         $set:skip_watson:false
-                throw new Meteor.Error(err.statusText,err.body)
-                # return err
-            else
-                
-                response = response.result
-                # if Meteor.isDevelopment
-                # emotions = response.emotion.document.emotion
-
-                adding_tags = []
-                # if response.categories
-                #     for categories in response.categories
-                #         for category in categories.label.split('/')
-                #             if category.length > 0
-                #                 # adding_tags.push category
-                #                 Docs.update doc_id,
-                #                     $addToSet:
-                #                         categories: category
-                #                         tags: category
-                # Docs.update { _id: doc_id },
-                #     $addToSet:
-                #         tags:$each:adding_tags
-                if response.entities and response.entities.length > 0
-                    for entity in response.entities
-                        unless entity.type is 'Quantity'
-                            # if Meteor.isDevelopment
-                            # else
-                            Docs.update { _id: doc_id },
-                                $addToSet:
-                                    "#{entity.type}":entity.text
-                                    tags:entity.text.toLowerCase()
+                                    
                 concept_array = _.pluck(response.concepts, 'text')
                 lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
                 keyword_array = _.pluck(response.keywords, 'text')
@@ -280,6 +175,13 @@ Meteor.methods
                         # watson_keywords: keyword_array
                         doc_sentiment_score: response.sentiment.document.score
                         doc_sentiment_label: response.sentiment.document.label
+                        max_emotion_name:max_emotion_name
+                        max_emotion_percent:max_emotion_percent
+                        sadness_percent: sadness_percent
+                        joy_percent: joy_percent
+                        fear_percent: fear_percent
+                        anger_percent: anger_percent
+                        disgust_percent: disgust_percent
 
                         
                 final_doc = Docs.findOne doc_id
