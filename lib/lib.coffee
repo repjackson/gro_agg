@@ -25,19 +25,6 @@ Meteor.methods
             $inc:views:1
 
 
-if Meteor.isClient
-    # console.log $
-    $.cloudinary.config
-        cloud_name:"facet"
-
-if Meteor.isServer
-    # console.log Meteor.settings.private.cloudinary_key
-    # console.log Meteor.settings.private.cloudinary_secret
-    Cloudinary.config
-        cloud_name: 'facet'
-        api_key: Meteor.settings.private.cloudinary_key
-        api_secret: Meteor.settings.private.cloudinary_secret
-
 Docs.helpers
     _author: -> Meteor.users.findOne @_author_id
     recipient: -> Meteor.users.findOne @recipient_id
@@ -77,28 +64,8 @@ Docs.helpers
                 downvoters.push downvoter
             downvoters
 
-Meteor.users.helpers
-    email_address: -> if @emails and @emails[0] then @emails[0].address
-    email_verified: -> if @emails and @emails[0] then @emails[0].verified
-    five_tags: ->
-        if @tags
-            @tags[..5]
-    three_tags: ->
-        if @tags
-            @tags[..3]
-    has_points: -> @points > 0
-    name: ->
-        if @nickname
-            @nickname
-        else 
-            @username
-
-
 
 Docs.before.insert (userId, doc)->
-    if Meteor.user()
-        doc._author_id = Meteor.userId()
-        doc._author_username = Meteor.user().username
     timestamp = Date.now()
     doc._timestamp = timestamp
     doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")

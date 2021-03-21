@@ -320,25 +320,3 @@ Meteor.publish 'alpha_combo', (selected_tags)->
         model:'alpha'
         # query: $in: selected_tags
         query: selected_tags.toString()
-
-
-
-Meteor.users.allow
-    insert: (user_id, doc, fields, modifier) ->
-        # user_id
-        true
-        # if user_id and doc._id == user_id
-        #     true
-    update: (user_id, doc, fields, modifier) ->
-        # user = Meteor.users.findOne user_id
-        # if user_id and 'dev' in user.roles
-        #     true
-        # else
-        #     if user_id and doc._id == user_id
-        true
-    remove: (user_id, doc, fields, modifier) ->
-        user = Meteor.users.findOne user_id
-        if user_id and 'dev' in user.roles
-            true
-        # if userId and doc._id == userId
-        #     true

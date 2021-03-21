@@ -39,15 +39,9 @@ head
             
 
 template(name='layout')
-    // +status
+    +status
     // +nav
-    .ui.bottom.attached.pushable.segment
-        // +topbar
-        +leftbar
-        +rightbar
-                
-        #main_area.global_container.pusher
-            +yield
+    +yield
     
     // .ui.bottom.attached.pushable.segment
     //     #main_area.pusher(class=currentUser.invert_class)

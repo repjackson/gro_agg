@@ -1,7 +1,3 @@
-Template.nav.events
-    # 'click .clear': ->
-    #     picked_tags.clear()
-  
   
 Template.home.onCreated ->
     @autorun -> Meteor.subscribe('alpha_combo',picked_tags.array())
@@ -158,30 +154,3 @@ Template.search_shortcut.events
             Session.set('toggle', !Session.get('toggle'))
         , 10000    
 
-
-Template.rcard.onCreated ->
-    unless @data.domain in ['i.redd.it','v.redd.it','i.imgur.com','redd.it','reddit.com']
-        # console.log @data
-        unless @watson
-            Meteor.call 'call_watson', @data._id,'url','url', ->
-        
-
-
-
-Template.rcard.events
-    'click .goto_post': ->
-        # l @
-        Router.go "/rpost/#{@_id}"
-        # Meteor.call 'call_watson',@_id,'url','url',(err,res)=>
-        
-    'click .flat_tag_pick': -> 
-        picked_tags.push @valueOf()
-        Meteor.call 'search_reddit', picked_tags.array(), ->
-        url = new URL(window.location);
-        url.searchParams.set('tags', picked_tags.array());
-        window.history.pushState({}, '', url);
-        document.title = picked_tags.array()
-        # Meteor.call 'call_alpha', picked_tags.array().toString(), ->
-        Meteor.setTimeout ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 10000
