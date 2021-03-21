@@ -13,9 +13,9 @@
 /*  cursor: zoom-in !important*/
 /*}*/
 
-/*body {*/
+body {
   /* font-family: 'Raleway', sans-serif !important; */
-/*  font-family: 'Ubuntu', sans-serif !important; */
+  /*font-family: 'Ubuntu', sans-serif !important; */
   /* font-family: 'Lato+Mono', sans-serif !important; */
   /* font-family: 'Lato', sans-serif !important; */
   /*font-size: 100% !important; */
@@ -31,7 +31,7 @@
   /*overscroll-behavior: none; */
   /*transition: all .15s ease !important;*/
   /*background: #0e0e44 !important; */
-/*}*/
+}
 /*.no_left {*/
 /*  padding-left:0px !important;*/
 /*  margin-left:0px !important;*/

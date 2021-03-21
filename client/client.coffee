@@ -17,9 +17,6 @@ Template.registerHelper 'thinking_class', ()->
 # Template.registerHelper 'Location_results', ()-> results.find(model:'Location')
 # Template.registerHelper 'person_results', ()-> results.find(model:'person_tag')
 
-
-   
-        
 Session.setDefault('loading', false)
 
 
@@ -80,9 +77,9 @@ Template.registerHelper 'abs_percent', (num) ->
 
 
 
-Router.route '/wpost/:doc_id/', -> @render 'wpost_view'
+Router.route '/post/:doc_id/', -> @render 'post_view'
 
-Template.wpost_view.onCreated ->
+Template.post_view.onCreated ->
     @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
-Template.wpost_view.onRendered ->
+Template.post_view.onRendered ->
     Meteor.call 'log_view', Router.current().params.doc_id

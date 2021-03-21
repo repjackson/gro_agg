@@ -6,7 +6,7 @@ template(name='wiki')
                 //     i.moon.link.icon.toggle_nightmode
                 // else
                 //     i.lightbulb.link.icon.toggle_nightmode
-                unless picked_wtags
+                unless picked_tags
                     .ui.center.aligned.basic.segment
                         .ui.icon.big.fluid.input
                             if session_key_value_is 'loading' true
@@ -84,7 +84,7 @@ template(name='wiki')
                         +wiki_search_shortcut tag='vollyball' icon='vollyball ball'
                         +wiki_search_shortcut tag='meteor' icon='meteor'
                             
-                if picked_wtags
+                if picked_tags
                     .ui.icon.input
                         if is_loading
                             i.loading.wikipedia.large.icon
@@ -96,54 +96,58 @@ template(name='wiki')
                     // if many_wtags
                     //     a#clear_wtags.ui.red.invert.icon.button.pick_term
                     //         i.remove.icon
-                    each picked_wtags
-                        +unpick_wtag
-                    each result_wtags
+                    each picked_tags
+                        +unpick_tag
+                    each result_tags
                         // .ui.label #{this}
-                        +wtag_picker
+                        +tag_picker
                         // .ui.label(title=count) #{name}
         .row
-
             .twelve.wide.column
-                if picked_wtags
+                if picked_tags
                     if alpha_doc
                         +alpha
                     .ui.stackable.three.column.padded.grid.scrolling
                         each wposts
                             +wcard
-            .four.wide.column
-                div
-                .ui.inline.small.header
-                    i.marker.icon    
-                    |locations
-                each Locations
-                    .ui.basic.label.pick_Location(class=domain_selector_class)
-                        |#{name} 
-                        // small #{count}
-                div
-                .ui.inline.small.header
-                    i.user.icon    
-                    |people
-                each Persons
-                    .ui.basic.label.pick_Person(class=domain_selector_class)
-                        |#{name} 
-                        // small #{count}
-                div
-                .ui.inline.small.header
-                    i.building.icon    
-                    |companies
-                each Companys
-                    .ui.basic.label.pick_Person(class=domain_selector_class)
-                        |#{name} 
-                        // small #{count}
-                div
-                .ui.inline.small.header
-                    i.building.icon    
-                    |organizations
-                each Organizations
-                    .ui.basic.label.pick_Person(class=domain_selector_class)
-                        |#{name} 
-                        // small #{count}
+            if picked_tags
+                .four.wide.column
+                    div
+                    .ui.inline.small.grey.header
+                        i.marker.icon    
+                        |locations
+                    each Locations
+                        +tag_picker
+                        // .ui.basic.label.pick_Location(class=domain_selector_class)
+                        //     |#{name} 
+                            // small #{count}
+                    div
+                    .ui.inline.small.grey.header
+                        i.user.icon    
+                        |people
+                    each Persons
+                        +tag_picker
+                        // .ui.basic.label.pick_Person(class=domain_selector_class)
+                        //     |#{name} 
+                            // small #{count}
+                    div
+                    .ui.inline.small.grey.header
+                        i.building.icon    
+                        |companies
+                    each Companys
+                        +tag_picker
+                        // .ui.basic.label.pick_Person(class=domain_selector_class)
+                        //     |#{name} 
+                            // small #{count}
+                    div
+                    .ui.inline.small.grey.header
+                        i.building.icon    
+                        |organizations
+                    each Organizations
+                        +tag_picker
+                        // .ui.basic.label.pick_Person(class=domain_selector_class)
+                        //     |#{name} 
+                            // small #{count}
 
 template(name='wiki_search_shortcut')
     i.big.grey.link.icon.click_shortcut.zoomer(class=icon title=tag)
@@ -177,16 +181,16 @@ template(name='wcard')
             |{{ trunc analyzed_text }}...
             // div
    
-template(name='unpick_wtag')
+template(name='unpick_tag')
     a.unpick.ui.black.image.large.label
         if term
             if term.metadata.image
                 img.ui.compact.image.superzoom(src=term.metadata.image)    
         strong #{this}
 
-template(name='flat_wtag_picker')
+template(name='flat_tag_picker')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_wtag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.basic.image.large.label.zoomer.select_flat_wtag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.image.large.label.zoomer.flat_tag_picker(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.metadata.image
                 img.ui.image.superzoom(src=term.metadata.image )    
@@ -194,7 +198,7 @@ template(name='flat_wtag_picker')
         // if in_dev
         //     small #{count}
 
-template(name='wtag_picker')
+template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_wtag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
     a.ui.basic.image.large.label.zoomer.pick_wtag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term

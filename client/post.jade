@@ -1,4 +1,4 @@
-template(name='wpost_view')
+template(name='post_view')
     with current_doc
         .ui.stackable.padded.grid
             .row 
@@ -54,5 +54,5 @@ template(name='wpost_view')
                     // div
                     .ui.label #{views} views
                     each tags 
-                        +flat_wtag_picker
+                        +flat_tag_picker
                         // .ui.compact.circular.button.add_tag #{this}
