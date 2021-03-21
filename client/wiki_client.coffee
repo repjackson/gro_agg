@@ -165,20 +165,20 @@ Template.wiki_search_shortcut.events
         , 10000    
 
 
-Template.wcard.onCreated ->
+Template.card.onCreated ->
     unless @watson
         Meteor.call 'call_watson', @data._id,'url','url', ->
         
 
 
 
-Template.wcard.events
+Template.card.events
     'click .goto_post': ->
         # l @
-        Router.go "/wpost/#{@_id}"
+        Router.go "/post/#{@_id}"
         # Meteor.call 'call_watson',@_id,'url','url',(err,res)=>
         
-    'click .flat_wtag_pick': -> 
+    'click .flat_tag_pick': -> 
         picked_tags.push @valueOf()
         # Meteor.call 'search_wiki', picked_tags.array(), ->
         Meteor.call 'search_wiki',@valueOf(), ->
@@ -196,7 +196,7 @@ Template.wcard.events
 
 
 Template.tag_picker.onCreated ->
-    @autorun => Meteor.subscribe('doc_by_title', @data.name.toLowerCase())
+    @autorun => Meteor.subscribe('doc_by_title', @data.name)
 Template.tag_picker.helpers
     selector_class: ()->
         term = 
@@ -213,7 +213,7 @@ Template.tag_picker.helpers
                     else "basic grey"
     term: ->
         Docs.findOne 
-            title:@name.toLowerCase()
+            title:@name
       
 Template.tag_picker.events
     'click .pick_wtag': -> 

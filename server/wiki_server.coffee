@@ -66,16 +66,15 @@ Meteor.publish 'post_count', (
             
 Meteor.publish 'wposts', (
     picked_tags
-    # picked_domains
-    # picked_authors
-    # picked_time_tags
-    # picked_Locations
+    toggle
+    picked_Locations
+    # picked_Lo
     # picked_persons
     # sort_key='data.ups'
     # sort_direction=-1
     # limit=20
     # picked_times
-    picked_Locations
+    # picked_Locations
     # picked_authors
     # skip=0
     )->
@@ -158,7 +157,7 @@ Meteor.publish 'wtags', (
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:25  }
+            { $limit:20  }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         tag_cloud.forEach (wtag, i) ->

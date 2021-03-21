@@ -107,9 +107,9 @@ template(name='wiki')
                 if picked_tags
                     if alpha_doc
                         +alpha
-                    .ui.stackable.three.column.padded.grid.scrolling
+                    .ui.stackable.four.column.padded.grid.scrolling
                         each wposts
-                            +wcard
+                            +card
             if picked_tags
                 .four.wide.column
                     div
@@ -154,7 +154,7 @@ template(name='wiki_search_shortcut')
 
    
 
-template(name='wcard')
+template(name='card')
     .column.smallcroll
         // .ui.stackable.equal.width.compact.grid
         //     .row
@@ -173,7 +173,7 @@ template(name='wcard')
                 // span.inline.content
             // |{{ufrom created_utc}}
             // each unique_wtags
-            //     a.ui.basic.label.flat_wtag_pick #{this}
+            //     a.ui.basic.label.flat_tag_pick #{this}
             // .ui.label #{data.domain}
             // .ui.label 
             //     i.user.icon
