@@ -1,7 +1,7 @@
 template(name='wiki')
     .ui.stackable.padded.grid
         .row
-            .sixteen.wide.column
+            .sixteen.wide.center.aligned.column
                 // if skv_is 'nightmode' true
                 //     i.moon.link.icon.toggle_nightmode
                 // else
@@ -81,10 +81,18 @@ template(name='wiki')
                         +wiki_search_shortcut tag='broken heart' icon='heart broken'
                         +wiki_search_shortcut tag='hockey' icon='hockey puck'
                         +wiki_search_shortcut tag='golf' icon='golf ball'
-                        +wiki_search_shortcut tag='vollyball' icon='vollyball ball'
+                        +wiki_search_shortcut tag='frog' icon='frog'
+                        +wiki_search_shortcut tag='feather' icon='feather'
+                        +wiki_search_shortcut tag='batman' icon='batman'
+                        +wiki_search_shortcut tag='horse' icon='horse'
+                        +wiki_search_shortcut tag='kiwi bird' icon='kiwi bird'
+                        // +wiki_search_shortcut tag='vollyball' icon='vollyball ball'
+                        +wiki_search_shortcut tag='film' icon='film'
                         +wiki_search_shortcut tag='meteor' icon='meteor'
                             
                 if picked_tags
+                    each picked_tags
+                        +unpick_tag
                     .ui.icon.input
                         if is_loading
                             i.loading.wikipedia.large.icon
@@ -96,8 +104,6 @@ template(name='wiki')
                     // if many_wtags
                     //     a#clear_wtags.ui.red.invert.icon.button.pick_term
                     //         i.remove.icon
-                    each picked_tags
-                        +unpick_tag
                     each result_tags
                         // .ui.label #{this}
                         +tag_picker
@@ -107,7 +113,7 @@ template(name='wiki')
                 if picked_tags
                     if alpha_doc
                         +alpha
-                    .ui.stackable.four.column.padded.grid.scrolling
+                    .ui.stackable.four.column.padded.grid.scrollin
                         each wposts
                             +card
             if picked_tags
@@ -190,7 +196,7 @@ template(name='unpick_tag')
 
 template(name='flat_tag_picker')
     // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_wtag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.basic.image.large.label.zoomer.flat_tag_picker(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.image.large.label.zoomer.flat_tag_picker(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.metadata.image
                 img.ui.image.superzoom(src=term.metadata.image )    
@@ -200,7 +206,7 @@ template(name='flat_tag_picker')
 
 template(name='tag_picker')
     // a.ui.big.image.rounded.label.zoomer.pointer.pick_wtag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.basic.image.large.label.zoomer.pick_wtag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.image.large.label.zoomer.pick_wtag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.metadata.image
                 img.ui.avatar.image.superzoom(src=term.metadata.image)    

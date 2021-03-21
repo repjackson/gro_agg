@@ -93,9 +93,9 @@ Template.wiki.events
     #         picked_tags.push val   
     #         Meteor.call 'search', picked_tags.array(), ->
     #             Session.set('loading',false)
-    #         Meteor.setTimeout ->
-    #             Session.set('toggle', !Session.get('toggle'))
-    #         , 10000    
+            # Meteor.setTimeout ->
+            #     Session.set('toggle', !Session.get('toggle'))
+            # , 10000    
     #         url = new URL(window.location);
     #         url.searchParams.set('tags', picked_tags.array());
     #         window.history.pushState({}, '', url);
@@ -313,8 +313,8 @@ Template.flat_tag_picker.events
         # Meteor.call 'search_wiki', picked_tags.array(), ->
         Meteor.call 'search_wiki', @valueOf(), ->
             Session.set('loading',false)
-        Meteor.setTimeout( ->
-            Session.set('toggle',!Session.get('toggle'))
-        , 10000)
+        # Meteor.setTimeout( ->
+        #     Session.set('toggle',!Session.get('toggle'))
+        # , 10000)
         
         

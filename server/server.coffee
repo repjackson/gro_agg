@@ -58,7 +58,7 @@ Meteor.publish 'alpha_combo', (selected_tags)->
         query: selected_tags.toString()
 Meteor.methods
     call_alpha: (query)->
-        # @unblock()
+        @unblock()
         found_alpha = 
             Docs.findOne 
                 model:'alpha'

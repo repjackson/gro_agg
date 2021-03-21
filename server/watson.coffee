@@ -29,6 +29,7 @@ natural_language_understanding = new NaturalLanguageUnderstandingV1(
 Meteor.methods
     call_watson: (doc_id, key, mode) ->
         self = @
+        @unblock()
         doc = Docs.findOne doc_id
         # if doc.skip_watson is false
         # else
