@@ -106,9 +106,9 @@ template(name='wiki')
 
             .twelve.wide.column
                 if picked_wtags
+                    if alpha_doc
+                        +alpha
                     .ui.stackable.three.column.padded.grid.scrolling
-                        if alpha
-                            +alpha
                         each wposts
                             +wcard
             .four.wide.column

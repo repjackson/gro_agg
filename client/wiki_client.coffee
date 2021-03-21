@@ -138,7 +138,7 @@ Template.wiki.helpers
                 
     post_count: -> Counts.get 'post_count'
     
-    alpha: -> 
+    alpha_doc: -> 
         Docs.findOne 
             model:'alpha'
     
