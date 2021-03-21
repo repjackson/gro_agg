@@ -1,7 +1,7 @@
 NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1.js');
 # VisualRecognitionV3 = require('ibm-watson/visual-recognition/v3')
 # TextToSpeechV1 = require('ibm-watson/text-to-speech/v1')
-ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3')
+# ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3')
 
 { IamAuthenticator } = require('ibm-watson/auth')
 
@@ -14,14 +14,6 @@ ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3')
 #   url: Meteor.settings.private.tts.url,
 # });
 
-tone_analyzer = new ToneAnalyzerV3(
-    version: '2017-09-21'
-    authenticator: new IamAuthenticator({
-        apikey: Meteor.settings.private.tone.apikey
-    })
-    url: Meteor.settings.private.tone.url)
-
-
 
 
 natural_language_understanding = new NaturalLanguageUnderstandingV1(
@@ -31,42 +23,10 @@ natural_language_understanding = new NaturalLanguageUnderstandingV1(
     })
     url: Meteor.settings.private.language.url)
 
-
-# visual_recognition = new VisualRecognitionV3({
-#   version: '2018-03-19',
-#   authenticator: new IamAuthenticator({
-#     apikey: Meteor.settings.private.visual.apikey,
-#   }),
-#   url: Meteor.settings.private.visual.url,
-# });
-
 # const classify_params = {
 #   url: 'https://ibm.biz/BdzLPG',
 # };
 Meteor.methods
-    call_tone: (doc_id)->
-        self = @
-        doc = Docs.findOne doc_id
-        # if doc.html or doc.body
-        #     # stringed = JSON.stringify(doc.html, null, 2)
-        # if mode is 'html'
-        #     params =
-        #         toneInput:doc["#{key}"]
-        #         content_type:'text/html'
-        # if mode is 'text'
-        params =
-            toneInput: { 'text': doc.watson.analyzed_text }
-            contentType: 'application/json'
-        tone_analyzer.tone params, Meteor.bindEnvironment((err, response)->
-            if err
-            else
-                # console.dir response
-                Docs.update { _id: doc_id},
-                    $set:
-                        tone: response
-            )
-        # else return
-
     call_watson: (doc_id, key, mode) ->
         self = @
         doc = Docs.findOne doc_id
@@ -90,8 +50,8 @@ Meteor.methods
                     sentiment: false
                     limit: 30
                 concepts: {}
-                # categories:
-                #     explanation:false
+                categories:
+                    explanation:false
                 metadata: {}
                 emotion:{}
                 # relations: {}
@@ -171,8 +131,8 @@ Meteor.methods
                         metadata:response.metadata
                         watson:true
                         sentiment:response.sentiment
-                        # watson_concepts: concept_array
-                        # watson_keywords: keyword_array
+                        watson_concepts: concept_array
+                        watson_keywords: keyword_array
                         doc_sentiment_score: response.sentiment.document.score
                         doc_sentiment_label: response.sentiment.document.label
                         max_emotion_name:max_emotion_name

@@ -113,7 +113,7 @@ template(name='wiki')
                             +wcard
             .four.wide.column
                 div
-                .ui.inline.header
+                .ui.inline.small.header
                     i.marker.icon    
                     |locations
                 each Locations
@@ -121,10 +121,26 @@ template(name='wiki')
                         |#{name} 
                         // small #{count}
                 div
-                .ui.inline.header
+                .ui.inline.small.header
                     i.user.icon    
                     |people
                 each Persons
+                    .ui.basic.label.pick_Person(class=domain_selector_class)
+                        |#{name} 
+                        // small #{count}
+                div
+                .ui.inline.small.header
+                    i.building.icon    
+                    |companies
+                each Companys
+                    .ui.basic.label.pick_Person(class=domain_selector_class)
+                        |#{name} 
+                        // small #{count}
+                div
+                .ui.inline.small.header
+                    i.building.icon    
+                    |organizations
+                each Organizations
                     .ui.basic.label.pick_Person(class=domain_selector_class)
                         |#{name} 
                         // small #{count}
@@ -159,8 +175,6 @@ template(name='wcard')
             //     i.user.icon
             //     |#{data.author}
             |{{ trunc analyzed_text }}...
-            if in_dev
-                +print_this
             // div
    
 template(name='unpick_wtag')

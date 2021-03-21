@@ -117,22 +117,6 @@ Template.get_emotion.events
 #     'click #call_visual': ->
 #         Meteor.call 'call_visual', Router.current().params.doc_id, ->
 
-Template.call_tone.events
-    'click .call': ->
-        $('body').toast(
-            position: 'bottom center',
-            showIcon: 'smile'
-            message: 'getting tone'
-            displayTime: 'auto',
-        )
-        Meteor.call 'call_tone', Router.current().params.doc_id, (err,res)->
-            $('body').toast(
-                position: 'bottom center',
-                showIcon: 'checkmark'
-                message: 'tone', res
-                displayTime: 'auto',
-            )
-
 
 
 Template.doc_sentiment.onRendered ->
@@ -152,35 +136,3 @@ Template.doc_sentiment.helpers
     sentiment_bar_class: -> if @doc_sentiment_label is 'positive' then 'green' else 'red'
         
     is_positive: -> if @doc_sentiment_label is 'positive' then true else false
-    
-    
-Template.tone.helpers
-    tone_label_class: () ->
-        # console.log @
-        # console.log @tones[0].tone_id
-        # switch @tones[0].tone_id
-        switch @tone_id
-            when 'sadness' then 'blue inverted'
-            when 'joy' then 'green inverted'
-            when 'confident' then 'teal inverted'
-            when 'analytical' then 'orange inverted'
-            when 'tentative' then 'yellow inverted'
-
-    tone_size: () ->
-        # console.log 'this weight', @weight
-        # console.log typeof parseFloat(@relevance)
-        # console.log typeof (@relevance*100).toFixed()
-        if @weight
-            if @weight is -5 then 'f6'
-            else if @weight is -4 then 'f7'
-            else if @weight is -3 then 'f8'
-            else if @weight is -2 then 'f9'
-            else if @weight is -1 then 'f10'
-            else if @weight is 0 then 'f12'
-            else if @weight is 1 then 'f12'
-            else if @weight is 2 then 'f13'
-            else if @weight is 3 then 'f14'
-            else if @weight is 4 then 'f15'
-            else if @weight is 5 then 'f16'
-        else
-            'f11'

@@ -412,23 +412,6 @@ Template.registerHelper 'current_doc', () ->
     else if found_doc_by_slug
         found_doc_by_slug
 
-Template.registerHelper 'current_subreddit', () ->
-    Docs.findOne 
-        model:'subreddit'
-        "data.display_name":Router.current().params.subreddit
-
-
-Template.registerHelper 'result_tags', () -> results.find(model:'tag')
-
-
-# Template.registerHelper 'lowered_title', ()-> 
-#     if @data
-#         if @title
-#             @title.toLowerCase()
-
-
-Template.registerHelper 'ufrom', (input)-> moment.unix(input).fromNow()
-
 
 Template.registerHelper 'session_key_value_is', (key, value) ->
     # console.log 'key', key
@@ -440,11 +423,6 @@ Template.registerHelper 'key_value_is', (key, value) ->
     # console.log 'value', value
     @["#{key}"] is value
 
-
-
-Template.registerHelper 'nl2br', (text)->
-    nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
-    new Spacebars.SafeString(nl2br)
 
 
 Template.registerHelper 'dev', -> Meteor.isDevelopment

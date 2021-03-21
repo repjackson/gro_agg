@@ -119,11 +119,10 @@ Meteor.publish 'wposts', (
 Meteor.publish 'wtags', (
     picked_tags
     toggle
-    # picked_domains
-    # picked_authors
-    # picked_time_tags
     picked_Locations
     picked_Persons
+    picked_Companys
+    picked_Organizations
     # query=''
     )->
     # @unblock()
@@ -145,11 +144,11 @@ Meteor.publish 'wtags', (
     # if picked_tags.length > 0 then match.tags = $all:picked_tags
     if picked_tags.length > 0
         match.tags = $all:picked_tags
-        # if picked_authors.length > 0 then match.author = $all:picked_authors
-        # if picked_domains.length > 0 then match.domain = $all:picked_domains
         if picked_Locations.length > 0 then match.Location = $all:picked_Locations
         if picked_Persons.length > 0 then match.Person = $all:picked_Persons
-        # if picked_times.length > 0 then match.timestamp_tags = $all:picked_times
+        if picked_Companys.length > 0 then match.Company = $all:picked_Companys
+        if picked_Organizations.length > 0 then match.Organization = $all:picked_Organizations
+
         doc_count = Docs.find(match).count()
         tag_cloud = Docs.aggregate [
             { $match: match }
@@ -159,7 +158,7 @@ Meteor.publish 'wtags', (
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:20  }
+            { $limit:25  }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         tag_cloud.forEach (wtag, i) ->
@@ -203,77 +202,42 @@ Meteor.publish 'wtags', (
                 count: Person.count
                 model:'Person'
         
+        Company_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "Company": 1 }
+            { $unwind: "$Company" }
+            { $group: _id: "$Company", count: $sum: 1 }
+            { $match: _id: $nin: picked_Companys }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        Company_cloud.forEach (Company, i) ->
+            self.added 'results', Random.id(),
+                name: Company.name
+                count: Company.count
+                model:'Company'
         
-        # timestamp_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "timestamp_tags": 1 }
-        #     { $unwind: "$timestamp_tags" }
-        #     { $group: _id: "$timestamp_tags", count: $sum: 1 }
-        #     # { $match: _id: $nin: picked_time }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $match: count: $lt: doc_count }
-        #     { $limit:10 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ]
-        # timestamp_cloud.forEach (time, i) ->
-        #     self.added 'results', Random.id(),
-        #         name: time.name
-        #         count: time.count
-        #         model:'timestamp_tag'
-        
-        
-        # time_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "time_tags": 1 }
-        #     { $unwind: "$time_tags" }
-        #     { $group: _id: "$time_tags", count: $sum: 1 }
-        #     # { $match: _id: $nin: picked_time }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $match: count: $lt: doc_count }
-        #     { $limit:10 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ]
-        # timestamp_cloud.forEach (time, i) ->
-        #     self.added 'results', Random.id(),
-        #         name: time.name
-        #         count: time.count
-        #         model:'time_tag'
-        
+                
+        Organization_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "Organization": 1 }
+            { $unwind: "$Organization" }
+            { $group: _id: "$Organization", count: $sum: 1 }
+            { $match: _id: $nin: picked_Organizations }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: doc_count }
+            { $limit:10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ]
+        Organization_cloud.forEach (Organization, i) ->
+            self.added 'results', Random.id(),
+                name: Organization.name
+                count: Organization.count
+                model:'Organization'
         
         
-        # author_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "data.author": 1 }
-        #     # { $unwind: "$author" }
-        #     { $group: _id: "$data.author", count: $sum: 1 }
-        #     { $match: _id: $nin: picked_authors }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $match: count: $lt: doc_count }
-        #     { $limit:10 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ]
-        # author_cloud.forEach (author, i) ->
-        #     self.added 'results', Random.id(),
-        #         name: author.name
-        #         count: author.count
-        #         model:'author'
-        
-        # domain_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "data.domain": 1 }
-        #     # { $unwind: "$author" }
-        #     { $group: _id: "$data.domain", count: $sum: 1 }
-        #     { $match: _id: $nin: picked_authors }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $match: count: $lt: doc_count }
-        #     { $limit:10 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ]
-        # domain_cloud.forEach (domain, i) ->
-        #     self.added 'results', Random.id(),
-        #         name: domain.name
-        #         count: domain.count
-        #         model:'domain'
         
         self.ready()
         

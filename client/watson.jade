@@ -203,7 +203,7 @@ template(name='keyword_list')
         |#{watson_keywords.length} keywords
     each watson_keywords
         .ui.large.label #{this}
-        span(class="{{calculated_size 'relevance'}}") #{this}
+        // span(class="{{calculated_size 'relevance'}}") #{this}
 
 
 
@@ -235,39 +235,6 @@ template(name='categories')
                 |{{ to_percent score }}%
 
 
-//- 
-template(name='tone')
-    // h3 tone
-    .ui.horizontal.list
-        each tone.result.document_tone.tones
-            .item #{tone_id} {{ to_percent score }}%
-    .ui.small.list
-        each tone.result.sentences_tone
-            .item
-                
-                //- span #{sentence_id}
-                span.tone_item(title="#{sentence_id}" class=tone_size) 
-                    |{{lowered text}}
-                    // .content
-                    // .header(title="#{sentence_id}") {{lowered text}}
-                    // |weight:#{weight}
-                    i.chevron.up.link.grey.large.icon.upvote_sentence
-                    i.chevron.down.link.grey.large.icon.downvote_sentence
-                    each tones
-                        // .ui.inverted.small.compact.label(class="{{calculated_size 'score'}} #{tone_label_class}") 
-                        .ui.inverted.small.compact.label(class="#{tone_label_class}") 
-                            span.ui.text
-                                |#{tone_id} &nbsp;
-                            | {{ to_percent score }}% 
-                    .ui.mini.transparent.icon.input
-                        input.tag_sentence(type='text' placeholder='tag')
-                    each tags 
-                        .ui.label #{this}
-    // unless tone                
-    //- #call_tone.ui.icon.button
-    //-     i.refresh.icon
-            // +jsonView(json=tone)
-// //- 
 //- 
 template(name='watson_view')
     // +tone

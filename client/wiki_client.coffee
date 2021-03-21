@@ -17,14 +17,12 @@ Template.wiki.onCreated ->
     # Session.setDefault('location_query', null)
     @autorun => Meteor.subscribe 'wposts', 
         picked_wtags.array()
-        # picked_domains.array()
-        # picked_authors.array()
-        # picked_time_wtags.array()
+        Session.get('toggle')
         picked_Locations.array()
         picked_Persons.array()
-        # Session.get('sort_key')
-        # Session.get('sort_direction')
-        # Session.get('limit')
+        picked_Companys.array()
+        picked_Organizations.array()
+  
     @autorun => Meteor.subscribe 'wiki_post_count', 
         picked_wtags.array()
         # picked_wiki_domain.array()
@@ -57,11 +55,10 @@ Template.wiki.onCreated ->
     @autorun => Meteor.subscribe 'wtags',
         picked_wtags.array()
         Session.get('toggle')
-        # picked_domains.array()
-        # picked_authors.array()
-        # picked_time_wtags.array()
         picked_Locations.array()
         picked_Persons.array()
+        picked_Companys.array()
+        picked_Organizations.array()
         
         
   
@@ -73,23 +70,19 @@ Template.wiki.events
         
         if e.which is 13 
             is_url = new RegExp(/^(ftp|http|https):\/\/[^ "]+$/)
-            if is_url.test(val)
-                # alert 'url'
-                Meteor.call 'import_url', val, (err,res)->
-                    $('.search_input').val('')
-                    Router.go("/post/#{res}")
-            else
-                val = val.toLowerCase()
-                picked_wtags.push val
-                # window.speechSynthesis.speak new SpeechSynthesisUtterance val
-                Meteor.call 'call_alpha', picked_wtags.array().toString(), ->
-    
-                $('.search_input').val('')
-                Session.set('loading',true)
-                # Meteor.call 'search_wiki', picked_wtags.array(), ->
-                Meteor.call 'search_wiki', val, ->
-                    Session.set('loading',false)
-                #     Session.set('wiki_query', null)
+            val = val.toLowerCase()
+            picked_wtags.push val
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance val
+            Meteor.call 'call_alpha', picked_wtags.array().toString(), ->
+
+            $('.search_input').val('')
+            Session.set('loading',true)
+            # Meteor.call 'search_wiki', picked_wtags.array(), ->
+            Meteor.call 'search_wiki', val, ->
+                Session.set('loading',false)
+            #     Session.set('wiki_query', null)
+  
+  
     'click .search': (e,t)->
         Session.set('toggle', !Session.get('toggle'))
 
@@ -98,16 +91,16 @@ Template.wiki.events
     #         val = t.$('.search').val().trim().toLowerCase()
     #         Session.set('loading',true)
     #         picked_wtags.push val   
-    #         # Meteor.call 'search', picked_wtags.array(), ->
-    #         #     Session.set('loading',false)
-    #         # Meteor.setTimeout ->
-    #         #     Session.set('toggle', !Session.get('toggle'))
-    #         # , 10000    
-    #         # url = new URL(window.location);
-    #         # url.searchParams.set('tags', picked_wtags.array());
-    #         # window.history.pushState({}, '', url);
-    #         # document.title = picked_wtags.array()
-    #         # Meteor.call 'call_alpha', picked_wtags.array().toString(), ->
+    #         Meteor.call 'search', picked_wtags.array(), ->
+    #             Session.set('loading',false)
+    #         Meteor.setTimeout ->
+    #             Session.set('toggle', !Session.get('toggle'))
+    #         , 10000    
+    #         url = new URL(window.location);
+    #         url.searchParams.set('tags', picked_wtags.array());
+    #         window.history.pushState({}, '', url);
+    #         document.title = picked_wtags.array()
+    #         Meteor.call 'call_alpha', picked_wtags.array().toString(), ->
             
     #         t.$('.search').val('')
     #         t.$('.search').focus()
@@ -135,6 +128,8 @@ Template.wiki.helpers
                 
     Locations: -> results.find({model:'Location'})               
     Persons: -> results.find({model:'Person'})               
+    Companys: -> results.find({model:'Company'})               
+    Organizations: -> results.find({model:'Organization'})               
                 
     post_count: -> Counts.get 'post_count'
     

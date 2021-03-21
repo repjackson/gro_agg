@@ -6,10 +6,6 @@ Template.registerHelper 'unique_tags', () ->
 @l = console.log
    
    
-Template.print_this.events
-    'click .print': ->
-        console.log @
-   
 Template.registerHelper 'thinking_class', ()->
     if Session.get('thinking') then 'disabled' else ''
 
@@ -26,19 +22,11 @@ Template.registerHelper 'thinking_class', ()->
         
 Session.setDefault('loading', false)
 
-Router.route '/reddit', (->
-    @layout 'layout'
-    @render 'reddit'
-    ), name:'reddit'
 
-
-
-@picked_tags = new ReactiveArray []
-@picked_time_tags = new ReactiveArray []
-@picked_domains = new ReactiveArray []
-@picked_authors = new ReactiveArray []
 @picked_Persons = new ReactiveArray []
 @picked_Locations = new ReactiveArray []
+@picked_Companys = new ReactiveArray []
+@picked_Organizations = new ReactiveArray []
 
 
 Router.configure
@@ -48,16 +36,7 @@ Router.configure
     trackPageView: false
 	progressTick: false
 # 	progressDelay: 100
-Router.route '*', -> @render 'home'
-
-Template.skve.helpers
-    calculated_class: ->
-        if Session.equals(@k,@v) then 'black' else 'basic'
-Template.skve.events
-    'click .set_session_v': ->
-        Session.set(@k, @v)
-
-    
+Router.route '*', -> @render 'wiki'
 
 
 # Template.registerHelper 'picked_authors', () -> picked_authors.array()
@@ -107,4 +86,3 @@ Template.wpost_view.onCreated ->
     @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
 Template.wpost_view.onRendered ->
     Meteor.call 'log_view', Router.current().params.doc_id
-    Meteor.call 'mark_read', Router.current().params.doc_id, ->
