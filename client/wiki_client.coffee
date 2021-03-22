@@ -300,6 +300,7 @@ Template.flat_tag_picker.events
         # results.update
         # window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+        picked_tags.clear()
         picked_tags.push @valueOf()
         Router.go "/"
         $('.search').val('')

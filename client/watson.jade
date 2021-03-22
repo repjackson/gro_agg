@@ -61,7 +61,7 @@ template(name='doc_emotion')
     span.say.ui.red.text(class="{{calculated_size anger_percent}}") {{ to_percent anger_percent }}% anger 
         |&nbsp;
     div.rounde(style="height:5px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
-
+    .ui.separator
 template(name='doc_emotion_small') 
     if kv_is 'doc_sentiment_label' 'positive'
         span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%
@@ -240,18 +240,16 @@ template(name='watson_view')
     // +tone
     // +doc_sentiment
     +doc_emotion
-    .ui.stackable.grid 
-        .three.column.row 
-            .column
-                +concepts
-            .column
-                +categories
-    +entities
+    .ui.divider
+    // +concepts
+    .ui.divider
+    +categories
+    // +entities
     // +semantic_roles
     // +keyword_list
     // +concept_list
-    +keywords
-    .ui.hidden.divider
+    // +keywords
+    // .ui.hidden.divider
     // +relations
     //- if dev
     //-     .ui.styled.accordion

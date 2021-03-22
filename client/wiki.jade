@@ -16,16 +16,16 @@ template(name='wiki')
                             input.search_input(type='text' value=query autofocus='' placeholder="search wikipedia...")
                         div
                         +wiki_search_shortcut tag='math' icon='calculator'
-                        +wiki_search_shortcut tag='camping' icon='campground'
+                        +wiki_search_shortcut tag='camping' icon='classical-tent'
                         +wiki_search_shortcut tag='business' icon='briefcase'
                         +wiki_search_shortcut tag='environment' icon='leaf'
                         +wiki_search_shortcut tag='money' icon='coins'
                         +wiki_search_shortcut tag='cat' icon='cat'
                         +wiki_search_shortcut tag='science' icon='flask'
                         +wiki_search_shortcut tag='video' icon='video'
-                        +wiki_search_shortcut tag='gaming' icon='gamepad'
+                        +wiki_search_shortcut tag='gaming' icon='atari-2600'
                         +wiki_search_shortcut tag='pics' icon='images'
-                        +wiki_search_shortcut tag='medicine' icon='pills'
+                        +wiki_search_shortcut tag='medicine' icon='medicine'
                         +wiki_search_shortcut tag='chess' icon='chess'
                         +wiki_search_shortcut tag='food' icon='food'
                         +wiki_search_shortcut tag='beer' icon='beer'
@@ -156,8 +156,8 @@ template(name='wiki')
                             // small #{count}
 
 template(name='wiki_search_shortcut')
-    i.big.grey.link.icon.click_shortcut.zoomer(class=icon title=tag)
-
+    // i.big.link.icon.click_shortcut.zoomer(class=icon title=tag)
+    img.pointer.click_shortcut.zoomer(src="https://img.icons8.com/color/48/000000/#{icon}.png")
    
 
 template(name='card')
@@ -184,19 +184,22 @@ template(name='card')
             // .ui.label 
             //     i.user.icon
             //     |#{data.author}
-            |{{ trunc analyzed_text }}...
+            if analyzed_text
+                |{{ trunc analyzed_text }}
+            else 
+                i.large.grey.yin.yang.loading.icon
             // div
    
 template(name='unpick_tag')
-    a.unpick.ui.black.image.large.label
+    a.unpick.ui.black.image.large.basic.label
         if term
             if term.metadata.image
                 img.ui.compact.image.superzoom(src=term.metadata.image)    
         strong #{this}
 
 template(name='flat_tag_picker')
-    // a.ui.big.image.basic.rounded.label.zoomer.pointer.select_wtag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    a.ui.image.large.label.zoomer.flat_tag_picker(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    // a.ui.big.image.basic.rounded.basic.label.zoomer.pointer.select_wtag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.image.large.basic.label.zoomer.flat_tag_picker(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.metadata.image
                 img.ui.image.superzoom(src=term.metadata.image )    
@@ -205,8 +208,8 @@ template(name='flat_tag_picker')
         //     small #{count}
 
 template(name='tag_picker')
-    // a.ui.big.image.rounded.label.zoomer.pointer.pick_wtag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
-    a.ui.image.large.label.zoomer.pick_wtag(title="#{count} results" class="#{picker_class} #{thinking_class}")
+    // a.ui.big.image.rounded.basic.label.zoomer.pointer.pick_wtag.pick_term(href='#' title="#{count} results" class="#{picker_class} #{thinking_class}")
+    a.ui.image.large.basic.label.zoomer.pick_wtag(title="#{count} results" class="#{picker_class} #{thinking_class}")
         if term
             if term.metadata.image
                 img.ui.avatar.image.superzoom(src=term.metadata.image)    

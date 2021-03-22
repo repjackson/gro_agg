@@ -677,15 +677,15 @@ img, .image {
 /*  height: 7px;*/
 /*}*/
 
-/*.label {*/
-/*  margin:1px !important;*/
-  /*border-radius: 7px !important; */
-/*}*/
+.label {
+  margin:1px !important;
+  border-radius: 7px !important; 
+}
 
-/*input {*/
+input {
     /*margin: 7px !important;*/
-/*    border-radius: 7px !important; */
-/*}*/
+    border-radius:70px !important; 
+}
 @media only screen and (max-width: 765px) {
   .mobile,
   .tablet.only,
