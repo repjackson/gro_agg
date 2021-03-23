@@ -36,36 +36,36 @@ template(name='wiki')
                         +wiki_search_shortcut tag='covid' icon='radiation'
                         +wiki_search_shortcut tag='cheese' icon='cheese'
                         +wiki_search_shortcut tag='solar' icon='sun'
-                        +wiki_search_shortcut tag='women' icon='venus'
-                        +wiki_search_shortcut tag='men' icon='mars'
-                        +wiki_search_shortcut tag='dungeons & dragons' icon='dice d20'
-                        +wiki_search_shortcut tag='physics' icon='atom'
-                        +wiki_search_shortcut tag='law' icon='balance scale'
+                        // +wiki_search_shortcut tag='women' icon='venus'
+                        // +wiki_search_shortcut tag='men' icon='mars'
+                        // +wiki_search_shortcut tag='dungeons & dragons' icon='dice d20'
+                        // +wiki_search_shortcut tag='physics' icon='atom'
+                        // +wiki_search_shortcut tag='law' icon='balance scale'
                         +wiki_search_shortcut tag='books' icon='book'
-                        +wiki_search_shortcut tag='biking' icon='biking'
-                        +wiki_search_shortcut tag='news' icon='newspaper'
+                        // +wiki_search_shortcut tag='biking' icon='biking'
+                        // +wiki_search_shortcut tag='news' icon='newspaper'
                         +wiki_search_shortcut tag='music' icon='music'
                         +wiki_search_shortcut tag='skiing' icon='skiing'
                         +wiki_search_shortcut tag='pizza' icon='pizza slice'
                         +wiki_search_shortcut tag='fish' icon='fish'
-                        +wiki_search_shortcut tag='gardening' icon='seedling'
-                        +wiki_search_shortcut tag='bible' icon='bible'
-                        +wiki_search_shortcut tag='daoism' icon='yin yang'
+                        // +wiki_search_shortcut tag='gardening' icon='seedling'
+                        // +wiki_search_shortcut tag='bible' icon='bible'
+                        // +wiki_search_shortcut tag='daoism' icon='yin yang'
                         +wiki_search_shortcut tag='car' icon='car'
-                        +wiki_search_shortcut tag='tarot' icon='moon'
+                        +wiki_search_shortcut tag='tarot' icon='predcit'
                         +wiki_search_shortcut tag='bacon' icon='bacon'
                         +wiki_search_shortcut tag='swimming' icon='swimmer'
                         +wiki_search_shortcut tag='spa' icon='spa'
                         +wiki_search_shortcut tag='cookies' icon='cookie'
                         +wiki_search_shortcut tag='spider' icon='spider'
-                        +wiki_search_shortcut tag='allergies' icon='allergies'
-                        +wiki_search_shortcut tag='giving' icon='hand holding heart'
-                        +wiki_search_shortcut tag='helping' icon='hands helping'
-                        +wiki_search_shortcut tag='prayer' icon='praying hands'
+                        // +wiki_search_shortcut tag='allergies' icon='allergies'
+                        // +wiki_search_shortcut tag='giving' icon='hand holding heart'
+                        // +wiki_search_shortcut tag='helping' icon='hands helping'
+                        // +wiki_search_shortcut tag='prayer' icon='praying hands'
                         +wiki_search_shortcut tag='love' icon='heart'
-                        +wiki_search_shortcut tag='cheers' icon='glass cheers'
-                        +wiki_search_shortcut tag='hot tub' icon='hot tub'
-                        +wiki_search_shortcut tag='smoothies' icon='blender'
+                        // +wiki_search_shortcut tag='cheers' icon='glass cheers'
+                        // +wiki_search_shortcut tag='hot tub' icon='hot tub'
+                        // +wiki_search_shortcut tag='smoothies' icon='blender'
                         +wiki_search_shortcut tag='tv' icon='tv'
                         +wiki_search_shortcut tag='lightning' icon='bolt'
                         +wiki_search_shortcut tag='writing' icon='pen fancy'
@@ -77,7 +77,7 @@ template(name='wiki')
                         +wiki_search_shortcut tag='tori' icon='torii gate'
                         +wiki_search_shortcut tag='peace' icon='dove'
                         +wiki_search_shortcut tag='brain' icon='brain'
-                        +wiki_search_shortcut tag='star trek' icon='hand spock'
+                        // +wiki_search_shortcut tag='star trek' icon='hand spock'
                         +wiki_search_shortcut tag='broken heart' icon='heart broken'
                         +wiki_search_shortcut tag='hockey' icon='hockey puck'
                         +wiki_search_shortcut tag='golf' icon='golf ball'
@@ -85,10 +85,10 @@ template(name='wiki')
                         +wiki_search_shortcut tag='feather' icon='feather'
                         +wiki_search_shortcut tag='batman' icon='batman'
                         +wiki_search_shortcut tag='horse' icon='horse'
-                        +wiki_search_shortcut tag='kiwi bird' icon='kiwi bird'
+                        // +wiki_search_shortcut tag='kiwi bird' icon='kiwi bird'
                         // +wiki_search_shortcut tag='vollyball' icon='vollyball ball'
-                        +wiki_search_shortcut tag='film' icon='film'
-                        +wiki_search_shortcut tag='meteor' icon='meteor'
+                        // +wiki_search_shortcut tag='film' icon='film'
+                        // +wiki_search_shortcut tag='meteor' icon='meteor'
                             
                 if picked_tags
                     each picked_tags
@@ -156,8 +156,8 @@ template(name='wiki')
                             // small #{count}
 
 template(name='wiki_search_shortcut')
-    // i.big.link.icon.click_shortcut.zoomer(class=icon title=tag)
-    img.pointer.click_shortcut.zoomer(src="https://img.icons8.com/color/48/000000/#{icon}.png")
+    i.big.link.icon.click_shortcut.zoomer(class=icon title=tag)
+    // img.pointer.click_shortcut.zoomer(src="https://img.icons8.com/fluent/48/000000/#{icon}.png")
    
 
 template(name='card')

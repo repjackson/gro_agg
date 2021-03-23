@@ -1,19 +1,36 @@
 Meteor.methods
+    search_users: (query)->
+        # term = query.split(' ').join('_')
+        # term = query[0]
+        @unblock()
+        term = query
+        # HTTP.get "https://en.wikipedia.org/wiki/#{term}",(err,response)=>
+        # HTTP.get "https://en.wikipedia.org/w/api.php?action=query&format=json&list=users&usprop=blockinfo%7Cgroups%7Ceditcount%7Cregistration%7Cemailable%7Cgender&ususers=1.2.3.4%7CCatrope%7CVandal01%7CBob}",(err,response)=>
+        HTTP.get "https://en.wikipedia.org/w/api.php?action=query&list=search&srwhat=text&srsearch=meaning&format=json",(err,response)=>
+            if err
+                console.log err
+            unless err
+                console.log response.data
+                # for term,i in response.data[1]
+                #     url = response.data[3][i]
+    
     search_wiki: (query)->
         # term = query.split(' ').join('_')
         # term = query[0]
         @unblock()
         term = query
         # HTTP.get "https://en.wikipedia.org/wiki/#{term}",(err,response)=>
+        # HTTP.get "https://en.wikipedia.org/w/api.php?action=query&list=search&srwhat=text&srsearch=#{term}&searchformat=json",(err,response)=>
         HTTP.get "https://en.wikipedia.org/w/api.php?action=opensearch&generator=searchformat=json&search=#{term}",(err,response)=>
+        # HTTP.get "https://en.wikipedia.org/w/api.php?action=query&list=search&srwhat=text&srsearch=#{term}&format=json",(err,response)=>
             if err
                 console.log err
             unless err
-                console.log response.data
+                # console.log response
                 for term,i in response.data[1]
                     url = response.data[3][i]
-    
-    
+                    # console.log response.data[3]
+                    # console.log term, 'term'
                     found_doc =
                         Docs.findOne
                             url: url
@@ -157,7 +174,7 @@ Meteor.publish 'wtags', (
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: doc_count }
-            { $limit:10  }
+            { $limit:20  }
             { $project: _id: 0, name: '$_id', count: 1 }
         ]
         tag_cloud.forEach (wtag, i) ->
