@@ -57,18 +57,18 @@ template(name='group')
                         each posts
                             .column.medscroll
                                 .content
-                                    a.ui.header.zoomer(href="/#{current_group}/p/#{_id}") #{title}
+                                    a.ui.header.zoomer(href="/g/#{current_group}/p/#{_id}") #{title}
                                     if image_id
-                                        a(href="/#{current_group}/p/#{_id}")
+                                        a(href="/g/#{current_group}/p/#{_id}")
                                             img.ui.fluid.rounded.zoomer.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                                     if image_link
-                                        a(href="/#{current_group}/p/#{_id}")
+                                        a(href="/g/#{current_group}/p/#{_id}")
                                             +image_link_view key='image_link' direct=true
                                     if youtube_id
                                         +youtube_view key='youtube_id' label='youtube id' direct=true
                                     if is_admin
                                         +text_edit key='group' label='slug' direct=true
-                                    a(href="/#{current_group}/p/#{_id}")
+                                    a(href="/g/#{current_group}/p/#{_id}")
                                         |!{content}
                                         if raw
                                             |!{raw}
@@ -113,19 +113,19 @@ template(name='flat_tag_selector')
         // if in_dev
         //     small #{count}
 template(name='group_post_view')
-    with doc_by_id
+    with current_doc
         .ui.stackable.grid
             .row 
                 .four.wide.column
                     .ui.segmen
-                        a.ui.large.icon.button(href="/#{group}")
+                        a.ui.large.icon.button(href="/g/#{group}")
                             i.chevron.left.icon
                         .ui.large.inline.header #{title}
                         // div
                         // .ui.inline.grey.header {{from_now start_datetime}}
                         
                         if can_edit
-                            a.edit_group_post(href="/#{group}/p/#{_id}/edit" title='edit')
+                            a.edit_group_post(href="/g/#{group}/p/#{_id}/edit" title='edit')
                                 i.large.link.pencil.icon
                         | #{views} views
                         +array_edit key='tags' label='tags' direct=true
@@ -150,16 +150,16 @@ template(name='group_post_view')
                     div 
                     .spacer
                     .spacer
-                    +comments
+                    // +comments
                     if watson
                         +watson_view
 
-template(name='post_edit')
-    with doc_by_id
+template(name='group_post_edit')
+    with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    a.ui.icon.green.big.button(href="/#{group}/p/#{_id}" title='save')
+                    a.ui.icon.green.big.button(href="/g/#{group}/p/#{_id}" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
                         i.pencil.icon

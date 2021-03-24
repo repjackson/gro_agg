@@ -40,12 +40,15 @@ Meteor.publish 'doc_by_title', (title)->
 Meteor.publish 'doc', (doc_id)->
     Docs.find doc_id
         
+Meteor.publish 'doc_by_id', (doc_id)->
+    Docs.find doc_id
+        
         
         
 # tsqp-gebk-xhpz-eobp-agle
 Docs.allow
-    insert: (userId, doc) -> false
-    update: (userId, doc) -> false
+    insert: (userId, doc) -> true
+    update: (userId, doc) -> true
     remove: (userId, doc) -> false
 
 
