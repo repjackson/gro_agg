@@ -4,6 +4,22 @@
 @results = new Meteor.Collection 'results'
 # @Tag_results = new Meteor.Collection 'tag_results'
 
+if Meteor.isClient
+    # console.log $
+    $.cloudinary.config
+        cloud_name:"facet"
+
+if Meteor.isServer
+    # console.log Meteor.settings.private.cloudinary_key
+    # console.log Meteor.settings.private.cloudinary_secret
+    Cloudinary.config
+        cloud_name: 'facet'
+        api_key: Meteor.settings.private.cloudinary_key
+        api_secret: Meteor.settings.private.cloudinary_secret
+
+
+
+
 Meteor.methods
     log_view: (doc_id)->
         doc = Docs.findOne doc_id
