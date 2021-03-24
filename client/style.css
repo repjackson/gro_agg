@@ -470,7 +470,7 @@ body {
 /*}*/
 
 img, .image {
-  border-radius:7px !important;
+  border-radius:5px !important;
 }
 /*a.segment:active {*/
 /*  transform: scale(.97) !important;*/
@@ -679,7 +679,7 @@ img, .image {
 
 .label {
   margin:1px !important;
-  border-radius: 7px !important; 
+  /*border-radius: 7px !important; */
 }
 
 input {

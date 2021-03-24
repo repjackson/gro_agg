@@ -40,15 +40,15 @@ Meteor.methods
                             # $pull:
                             #     tags:'wikipedia'
                             $addToSet:
-                                tags:term.toLowerCase()
+                                tags:term
                             $set:
-                                title:found_doc.title.toLowerCase()
+                                title:found_doc.title
                         unless found_doc.metadata
                             Meteor.call 'call_watson', found_doc._id, 'url','url', ->
                     else
                         new_wiki_id = Docs.insert
-                            title:term.toLowerCase()
-                            tags:[term.toLowerCase()]
+                            title:term
+                            tags:[term]
                             source: 'wikipedia'
                             model:'wikipedia'
                             # ups: 1
