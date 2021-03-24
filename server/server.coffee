@@ -43,6 +43,11 @@ Meteor.publish 'doc', (doc_id)->
 Meteor.publish 'doc_by_id', (doc_id)->
     Docs.find doc_id
         
+Meteor.publish 'children', (model,parent_id)->
+    Docs.find 
+        model:model
+        parent_id:parent_id
+        
         
         
 # tsqp-gebk-xhpz-eobp-agle

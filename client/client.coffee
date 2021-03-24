@@ -66,6 +66,10 @@ Template.registerHelper 'calculated_size', (metric) ->
         when 8 then 'f13'
         when 9 then 'f14'
         when 10 then 'f15'
+        
+        
+        
+        
 Template.registerHelper 'abs_percent', (num) -> 
     # console.l/og Math.abs(num*100)
     parseInt(Math.abs(num*100))
@@ -83,3 +87,68 @@ Template.post_view.onCreated ->
     @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
 Template.post_view.onRendered ->
     Meteor.call 'log_view', Router.current().params.doc_id
+    
+    
+Template.comments.onCreated ->
+    # if Router.current().params.doc_id
+    #     parent = Docs.findOne Router.current().params.doc_id
+    # else
+    #     parent = Docs.findOne Template.parentData()._id
+    # if parent
+    @autorun => Meteor.subscribe 'children', 'comment', @data._id
+Template.comments.helpers
+    doc_comments: ->
+        # console.log Template.parentData()
+        # console.log Template.parentData(1)
+        # console.log Template.parentData(2)
+        # console.log Template.currentData()
+        if Router.current().params.doc_id
+            parent = Docs.findOne Router.current().params.doc_id
+        else
+            parent = Docs.findOne Template.currentData()._id
+        # if Meteor.user()
+        Docs.find {
+            parent_id:parent._id
+            model:'comment'
+        }, sort:_timestamp:-1
+        # else
+        #     Docs.find
+        #         model:'comment'
+        #         parent_id:parent._id
+        #         _author_id:$exists:false
+                    
+Template.comments.events
+    'keyup .add_comment': (e,t)->
+        if e.which is 13
+            if Router.current().params.doc_id
+                parent = Docs.findOne Router.current().params.doc_id
+            else
+                parent = Docs.findOne Template.currentData()._id
+            # parent = Docs.findOne Router.current().params.doc_id
+            comment = t.$('.add_comment').val()
+            Docs.insert
+                parent_id: parent._id
+                model:'comment'
+                parent_model:parent.model
+                body:comment
+            t.$('.add_comment').val('')
+            found_bounty = Docs.findOne
+                model:'bounty'
+                status:$ne:'complete'
+                require_reply:true
+                reply_requirement_met:$ne:true
+                target_id:Meteor.userId()
+            if found_bounty
+                Docs.update found_bounty._id,
+                    $set:
+                        reply_requirement_met: true
+                if Meteor.isClient
+                    $('body').toast({
+                        class: 'success',
+                        message: "reply requirement met"
+                    })
+
+    'click .remove_comment': ->
+        if confirm 'Confirm remove comment'
+            Docs.remove @_id
+

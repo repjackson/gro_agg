@@ -4,6 +4,7 @@
 
 .black_text {
     color: black !important;
+    font-size:120% !important;
 }
 .label {
     margin: 1px !important;

@@ -68,7 +68,7 @@ template(name='group')
                                         +youtube_view key='youtube_id' label='youtube id' direct=true
                                     if is_admin
                                         +text_edit key='group' label='slug' direct=true
-                                    a(href="/g/#{current_group}/p/#{_id}")
+                                    a.pointer.black_text(href="/g/#{current_group}/p/#{_id}")
                                         |!{content}
                                         if raw
                                             |!{raw}
@@ -152,7 +152,7 @@ template(name='group_post_view')
                     div 
                     .spacer
                     .spacer
-                    // +comments
+                    +comments
                     if watson
                         +watson_view
 

@@ -54,3 +54,43 @@ template(name='not_found')
         a(href="search")
             i.massive.link.yin.yang.icon
         
+        
+        
+template(name='comments')
+    div
+    .ui.fluid.icon.input
+        i.plus.icon
+        input.add_comment(model='text' placeholder='comment (-1p from author, +1p to op')
+    .ui.comments
+        each doc_comments
+            .comment
+                unless anon
+                    a.avatar
+                        img.ui.avatar.image(src="{{c.url _author.profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
+                .content
+                    unless anon
+                        a.author(href="/u/#{_author_username}")
+                            |#{_author_username}
+                    .metadata
+                        span.date #{when}
+                    .text
+                        | !{body}
+                    span.actions
+                        if can_edit
+                            +remove_icon
+                        // else
+                        +voting_small
+                        // +anon_toggle
+        
+        
+template(name='voting_small')
+    if points
+        strong #{points}
+    i.thumbs.up.link.icon.upvote(class=upvote_class)
+    // |#{upvoter_ids.length}
+    each upvoter_ids
+        +user_info_tiny
+    i.thumbs.down.link.icon.downvote(class=downvote_class)
+    each downvoter_ids
+        +user_info_tiny
+        
