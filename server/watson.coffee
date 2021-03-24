@@ -31,11 +31,12 @@ Meteor.methods
         self = @
         @unblock()
         doc = Docs.findOne doc_id
+        console.log 'calling watson', doc_id, key, mode
         # if doc.skip_watson is false
         # else
         # unless doc.watson
         params =
-            url: doc.url
+            # url: doc.url
             returnAnalyzedText: true
             clean: true
             concepts:
@@ -53,12 +54,18 @@ Meteor.methods
                 concepts: {}
                 categories:
                     explanation:false
-                metadata: {}
                 emotion:{}
                 # relations: {}
                 # semantic_roles: {}
                 sentiment: {}
+        if mode is 'html'
+            params.html = doc["#{key}"]
+            params.returnAnalyzedText = true
+            # params.html = doc.data.description
 
+        else if doc.url
+            params.features.metadata = {}
+            params.url = doc.url
         natural_language_understanding.analyze params, Meteor.bindEnvironment((err, response)=>
             if err
                 # if err.code is 400
