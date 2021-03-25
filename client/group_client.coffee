@@ -10,21 +10,23 @@ Router.route '/:group', (->
 @selected_tags = new ReactiveArray []
 @selected_time_tags = new ReactiveArray []
 @selected_location_tags = new ReactiveArray []
+@selected_people_tags = new ReactiveArray []
 
 
     
 
 Template.group.onCreated ->
-    if Router.current().params.group
-        @autorun => Meteor.subscribe 'doc', Router.current().params.group
-    if Router.current().params.group
-        @autorun => Meteor.subscribe 'doc_from_group', Router.current().params.group
-    # @autorun => Meteor.subscribe 'shop_from_group', Router.current().params.group
+    @autorun => Meteor.subscribe 'agg_sentiment_group',
+        Router.current().params.group
+        selected_tags.array()
+        ()->Session.set('ready',true)
+
     @autorun => Meteor.subscribe 'group_tags',
         Router.current().params.group
         selected_tags.array()
         selected_time_tags.array()
         selected_location_tags.array()
+        selected_people_tags.array()
         # selected_group_authors.array()
         Session.get('toggle')
     @autorun => Meteor.subscribe 'group_count', 
@@ -32,12 +34,14 @@ Template.group.onCreated ->
         selected_tags.array()
         selected_time_tags.array()
         selected_location_tags.array()
+        selected_people_tags.array()
     
     @autorun => Meteor.subscribe 'group_posts', 
         Router.current().params.group
         selected_tags.array()
         selected_time_tags.array()
         selected_location_tags.array()
+        selected_people_tags.array()
         Session.get('group_sort_key')
         Session.get('group_sort_direction')
         Session.get('group_skip_value')
@@ -62,9 +66,13 @@ Template.group.helpers
     selected_location_tags: -> selected_location_tags.array()
     selected_people_tags: -> selected_people_tags.array()
     counter: -> Counts.get 'counter'
+    emotion_avg: -> results.findOne(model:'emotion_avg')
+
+    
     result_tags: -> results.find(model:'group_tag')
     time_tags: -> results.find(model:'time_tag')
     location_tags: -> results.find(model:'location_tag')
+    people_tags: -> results.find(model:'people_tag')
     current_group: ->
         Router.current().params.group
         
@@ -88,17 +96,31 @@ Template.group.events
     #     $('.search_subgroup').val('')
     #     Session.set('group_skip_value',0)
 
+    'click .unpick_time_tag': ->
+        picked_time_tags.remove @valueOf()
+    'click .pick_time_tag': ->
+        picked_time_tags.push @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        
+
     'click .unselect_time_tag': ->
         selected_time_tags.remove @valueOf()
     'click .select_time_tag': ->
         selected_time_tags.push @name
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        
+
+    'click .unselect_people_tag': ->
+        selected_people_tags.remove @valueOf()
+    'click .select_people_tag': ->
+        selected_people_tags.push @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         
     'click .unselect_location_tag': ->
         selected_location_tags.remove @valueOf()
     'click .select_location_tag': ->
         selected_location_tags.push @name
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
 
     'click .add_post': ->
         new_id = 
@@ -109,7 +131,7 @@ Template.group.events
     'keyup .search_group_tag': (e,t)->
          if e.which is 13
             val = t.$('.search_group_tag').val().trim().toLowerCase()
-            window.speechSynthesis.speak new SpeechSynthesisUtterance val
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance val
             selected_tags.push val   
             t.$('.search_group_tag').val('')
         

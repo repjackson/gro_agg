@@ -104,6 +104,7 @@ Meteor.publish 'group_count', (
     selected_tags
     selected_time_tags
     selected_location_tags
+    selected_people_tags
     )->
     match = {model:'post'}
     if group is 'all'
@@ -114,6 +115,8 @@ Meteor.publish 'group_count', (
     if selected_tags.length > 0 then match.tags = $all:selected_tags
     if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
     if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
+    if selected_people_tags.length > 0 then match.people_tags = $all:selected_people_tags
+
     Counts.publish this, 'counter', Docs.find(match)
     return undefined
             
@@ -122,6 +125,7 @@ Meteor.publish 'group_posts', (
     selected_tags
     selected_time_tags
     selected_location_tags
+    selected_people_tags
     sort_key
     sort_direction
     skip=0
@@ -147,7 +151,7 @@ Meteor.publish 'group_posts', (
     if selected_tags.length > 0 then match.tags = $all:selected_tags
     if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
     if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
-    # if selected_subgroup_domains.length > 0 then match.domain = $all:selected_subgroup_domains
+    if selected_people_tags.length > 0 then match.people_tags = $all:selected_people_tags
     # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
     console.log 'skip', skip
     Docs.find match,
@@ -191,7 +195,7 @@ Meteor.publish 'group_tags', (
     selected_tags
     selected_time_tags
     selected_location_tags
-    # selected_group_authors
+    selected_people_tags
     # view_bounties
     # view_unanswered
     # query=''
@@ -216,7 +220,7 @@ Meteor.publish 'group_tags', (
     # if selected_subgroup_domain.length > 0 then match.domain = $all:selected_subgroup_domain
     if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
     if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
-    # if selected_group_location.length > 0 then match.subgroup = $all:selected_group_location
+    if selected_people_tags.length > 0 then match.people_tags = $all:selected_people_tags
     # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
     # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
     doc_count = Docs.find(match).count()
@@ -240,22 +244,22 @@ Meteor.publish 'group_tags', (
             model:'group_tag'
     
     
-    # group_domain_cloud = Docs.aggregate [
-    #     { $match: match }
-    #     { $project: "data.domain": 1 }
-    #     # { $unwind: "$domain" }
-    #     { $group: _id: "$data.domain", count: $sum: 1 }
-    #     # { $match: _id: $nin: selected_domains }
-    #     { $sort: count: -1, _id: 1 }
-    #     { $match: count: $lt: doc_count }
-    #     { $limit:10 }
-    #     { $project: _id: 0, name: '$_id', count: 1 }
-    # ]
-    # group_domain_cloud.forEach (domain, i) ->
-    #     self.added 'results', Random.id(),
-    #         name: domain.name
-    #         count: domain.count
-    #         model:'group_domain_tag'
+    group_people_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "people_tags": 1 }
+        # { $unwind: "$people_tags" }
+        { $group: _id: "$people_tags", count: $sum: 1 }
+        # { $match: _id: $nin: selected_peoples }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:10 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    group_people_cloud.forEach (people, i) ->
+        self.added 'results', Random.id(),
+            name: people.name
+            count: people.count
+            model:'people_tag'
     
     
     group_location_cloud = Docs.aggregate [
@@ -296,3 +300,42 @@ Meteor.publish 'group_tags', (
   
     self.ready()
                                     
+                                    
+Meteor.publish 'agg_sentiment_group', (
+    group
+    selected_tags
+    )->
+    # @unblock()
+    self = @
+    match = {
+        model:$in:['post']
+        group:group
+    }
+        
+    doc_count = Docs.find(match).count()
+    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    emotion_avgs = Docs.aggregate [
+        { $match: match }
+        #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
+        { $group: 
+            _id:null
+            avg_sent_score: { $avg: "$doc_sentiment_score" }
+            avg_joy_score: { $avg: "$joy_percent" }
+            avg_anger_score: { $avg: "$anger_percent" }
+            avg_sadness_score: { $avg: "$sadness_percent" }
+            avg_disgust_score: { $avg: "$disgust_percent" }
+            avg_fear_score: { $avg: "$fear_percent" }
+        }
+    ]
+    emotion_avgs.forEach (res, i) ->
+        self.added 'results', Random.id(),
+            model:'emotion_avg'
+            avg_sent_score: res.avg_sent_score
+            avg_joy_score: res.avg_joy_score
+            avg_anger_score: res.avg_anger_score
+            avg_sadness_score: res.avg_sadness_score
+            avg_disgust_score: res.avg_disgust_score
+            avg_fear_score: res.avg_fear_score
+    self.ready()    
+                                
+                                

@@ -31,6 +31,7 @@ Session.setDefault('loading', false)
 @picked_Locations = new ReactiveArray []
 @picked_Companys = new ReactiveArray []
 @picked_Organizations = new ReactiveArray []
+@picked_timestamp_tags = new ReactiveArray []
 
 
 Router.configure

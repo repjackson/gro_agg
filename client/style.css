@@ -387,10 +387,12 @@ body {
 /*}*/
 
 
-/*.rounded {*/
-/*  border-radius: 7px !important; */
+.rounded {
+  border-radius: 7px !important; 
+  transition: all 2s ease !important; 
+  
   /*padding: 7px !important; */
-/*}*/
+}
 
 /*.card {*/
     /* background: black !important; */
