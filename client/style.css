@@ -451,17 +451,17 @@ body {
     filter: drop-shadow(0px 0px 5px white);    
 }
 
-/*.zoomer {*/
-    /*animation: fadeout .25s; */
-/*    transition: all .15s ease !important; */
+.zoomer {
+    animation: fadeout .25s; 
+    transition: all .15s ease !important; 
 
-/*}*/
-/*.zoomer:active {*/
-/*  transform: scale(.97) !important;*/
-/*}*/
-/*a:active {*/
-/*  transform: scale(.97) !important;*/
-/*}*/
+}
+.zoomer:active {
+  transform: scale(.97) !important;
+}
+a:active {
+  transform: scale(.97) !important;
+}
 
 /*.pulse:active {*/
 /*  transform: scale(.97) !important;*/
@@ -485,16 +485,16 @@ img, .image {
 /*.menu {*/
 /*    z-index: -1000 !important;*/
 /*}*/
-/*.zoomer:hover {*/
-/*    transition: all .15s ease !important; */
-    /*text-shadow: 0 0 3px grey !important;*/
-/*    filter: drop-shadow(0px 0px 3px white);    */
-/*    z-index: 1000 !important;*/
-    /*animation: fadein 1s !important;*/
-/*    transform: scale(1.05) !important;*/
-    /*animation: fadein 1s !important;*/
-    /*animation: fadeout .25s; */
-/*}*/
+.zoomer:hover {
+    transition: all .15s ease !important; 
+    text-shadow: 0 0 3px grey !important;
+    filter: drop-shadow(0px 0px 3px white);    
+    z-index: 1000 !important;
+    animation: fadein 1s !important;
+    transform: scale(1.05) !important;
+    animation: fadein 1s !important;
+    animation: fadeout .25s; 
+}
 
 /*.menu > .item {*/
 /*  z-index: 1000 !important;*/

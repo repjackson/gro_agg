@@ -33,7 +33,7 @@ template(name='group')
                         +tag_selector
                 // else
                 //     i.big.grey.loading.yin.yang.icon
-                    
+            .four.wide.column
                 i.big.clock.grey.icon(title='when tags')
                 if selected_time_tags
                     each selected_time_tags
@@ -51,7 +51,7 @@ template(name='group')
                     .ui.compact.small.button.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                         strong #{name}
                 .ui.hidden.divider
-            .sixteen.wide.column
+            .twelve.wide.column
                 .ui.stackable.four.column.centered.padded.grid
                     if posts.count
                         each posts
@@ -66,12 +66,13 @@ template(name='group')
                                             +image_link_view key='image_link' direct=true
                                     if youtube_id
                                         +youtube_view key='youtube_id' label='youtube id' direct=true
-                                    if is_admin
-                                        +text_edit key='group' label='slug' direct=true
+                                    // if is_admin
+                                    //     +text_edit key='group' label='slug' direct=true
                                     a.pointer.black_text(href="/g/#{current_group}/p/#{_id}")
                                         |!{content}
                                         if raw
                                             |!{raw}
+                                    .ui.inline.grey.header #{when}
                                     each tags
                                         +flat_tag_selector
                                     if is_admin 
@@ -86,10 +87,10 @@ template(name='group')
                 
 template(name='tag_selector')
     // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.compact.circular.button.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    .ui.basic.image.large.label.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
-            if term.watson.metadata.image
-                img.ui.avatar.image.superzoom(src=term.watson.metadata.image )    
+            if term.metadata.image
+                img.ui.avatar.image.superzoom(src=term.metadata.image )    
         strong #{name}
         // if in_dev
         //     small #{count}
@@ -123,7 +124,7 @@ template(name='group_post_view')
                             |#{group}
                         .ui.large.inline.header #{title}
                         // div
-                        // .ui.inline.grey.header {{from_now start_datetime}}
+                        .ui.grey.header {{when}}
                         
                         if can_edit
                             a.edit_group_post(href="/g/#{group}/p/#{_id}/edit" title='edit')
@@ -142,12 +143,12 @@ template(name='group_post_view')
                             +image_link_view key='image_link' direct=true
                     if image_id
                         a(href="/#{group}")
-                            img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                            img.ui.fluid.rounded.image.pointer.zoomer(src="{{c.url image_id }}" class=currentUser.invert_class)
                     if youtube_id
                         +youtube_view key='youtube_id' label='youtube id' direct=true
                     if raw 
                         |!{raw}
-                    .say_this.say_body
+                    .say_this.say_body.black_text
                         |!{content}
                     div 
                     .spacer
