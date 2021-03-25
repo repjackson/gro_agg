@@ -9,6 +9,17 @@ Template.registerHelper 'field_value', () ->
 
 
 
+Template.registerHelper 'sentence_color', () ->
+    console.log @tones[0].tone_id
+    switch @tones[0].tone_id
+        when 'sadness' then 'blue invert inverted'
+        when 'joy' then 'green invert inverted'
+        when 'confident' then 'teal invert inverted'
+        when 'analytical' then 'orange invert inverted'
+        when 'tentative' then 'yellow invert inverted'
+
+
+
 Template.registerHelper 'post_person', () ->
     # console.log @
     parent = Template.parentData()
@@ -20,33 +31,10 @@ Template.registerHelper 'post_person', () ->
 
 
 
-Template.registerHelper 'in_role', (role)->
-    if Meteor.user() and Meteor.user().roles
-        if role in Meteor.user().roles
-            true
-        else
-            false
-    else
-        false
-        
         
 Template.registerHelper 'page_doc', (key)->
     Docs.findOne 
         _id:Router.current().params.doc_id
-Template.registerHelper 'my_tribes', (key)->
-    if Meteor.user()
-        Docs.find 
-            model:'tribe'
-            member_ids:$in:[Meteor.userId()]
-Template.registerHelper 'user_id_in', (key)->
-    if Meteor.user()
-        if Meteor.userId() in @["#{key}"]
-            true
-        else
-            false
-    else
-        false
-        
         
 Template.registerHelper 'youtube_parse', (url) ->
     regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -107,34 +95,10 @@ Template.registerHelper 'tone_size', () ->
         'f11'
   
     
-Template.registerHelper 'is_in_admin', () ->
-    Meteor.user() and Meteor.userId() in ['vwCi2GTJgvBJN5F6c','EYGz4bDSAdWF3W4wi']
-Template.registerHelper 'is_this_user', () ->
-    Meteor.userId() is @_id
-Template.registerHelper 'is_seller', () ->
-    Meteor.userId() is @seller_id or 'admin' in Meteor.user().roles
-Template.registerHelper 'is_buyer', () ->
-    Meteor.userId() is @buyer_id or 'admin' in Meteor.user().roles
-Template.registerHelper 'current_user', () ->
-    Meteor.users.findOne username:Router.current().params.username
-
-Template.registerHelper 'user_from_id', (user_id) ->
-    # console.log @
-    Meteor.users.findOne _id:user_id
-
-Template.registerHelper 'is_current_user', () ->
-    if Meteor.user()
-        Meteor.user().username is Router.current().params.username
 
 Template.registerHelper 'is_dao', () -> @username is 'dao'
 
 
-Template.registerHelper 'user_class', () ->
-    if @online then 'user_online'
-
-Template.registerHelper 'recipient', () ->
-    Meteor.users.findOne @recipient_id
-    
 
 Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
@@ -148,43 +112,12 @@ Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 #     if parent
 #         parent["#{@key}"]
 
-Template.registerHelper 'i_have_points', () ->
-    if Meteor.user().username is 'one'
-        true
-    else
-        Meteor.user().points > 0
-
-
 Template.registerHelper 'doc_comments', () ->
     Docs.find
         model:'comment'
         parent_id:@_id
 
 Template.registerHelper 'is_logging_out', () -> Session.get('logging_out')
-
-
-Template.registerHelper 'is_admin', () ->
-    # Meteor.users.findOne username:Router.current().params.username
-    if Meteor.user() and Meteor.user().roles
-        if 'admin' in Meteor.user().roles then true else false
-
-Template.registerHelper 'is_dev', () ->
-    # Meteor.users.findOne username:Router.current().params.username
-    if Meteor.user() and Meteor.user().roles
-        if 'dev' in Meteor.user().roles then true else false
-
-
-Template.registerHelper 'is_author', () ->
-    # if @_author_id and Meteor.userId()
-    @_author_id is Meteor.userId()
-
-
-Template.registerHelper 'can_edit', () ->
-    # if @_author_id and Meteor.userId()
-    # @_author_id is Meteor.userId()
-    # if Meteor.user().roles
-    if Meteor.user()
-        if Meteor.user().roles and 'dev' in Meteor.user().roles or @_author_id is Meteor.userId() then true else false
 
 
 
@@ -277,9 +210,6 @@ Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 Template.registerHelper 'can_buy', ()->
     Meteor.userId() isnt @_author_id
 
-Template.registerHelper 'has_enough', ()->
-    Meteor.user().credit > @price
-
 
 Template.registerHelper 'is_image', ()->
     if @domain is 'i.redd.it'
@@ -350,13 +280,6 @@ Template.registerHelper 'when', ()-> moment(@_timestamp).fromNow()
 # Template.registerHelper 'current_day', ()-> moment(Date.now()).format("DD")
 
 
-Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
-Template.registerHelper 'publish_when', ()-> moment(@publish_date).fromNow()
-
-
-Template.registerHelper 'lowered', (input)-> input.toLowerCase()
-Template.registerHelper 'money_format', (input)-> (input/100).toFixed(2)
-
 
 Template.registerHelper 'kv_is', (key, value) ->
     @["#{key}"] is value
@@ -386,7 +309,6 @@ Template.registerHelper 'fixed0', (number)-> if number then number.toFixed().toL
 Template.registerHelper 'fixed', (number)-> if number then number.toFixed(2)
 
     
-Template.registerHelper 'when', ()-> moment(@_timestamp).fromNow()
 Template.registerHelper 'seven_tags', ()-> 
     cleaned = _.difference(@tags, picked_tags.array())
     # console.log cleaned

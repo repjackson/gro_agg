@@ -137,7 +137,7 @@ Template.tag_selector.helpers
             Docs.findOne 
                 title:@name.toLowerCase()
         if res and res.metadata
-            console.log res.metadata.image
+            # console.log res.metadata.image
             res
             
 Template.tag_selector.events

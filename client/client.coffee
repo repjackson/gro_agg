@@ -5,7 +5,14 @@ Template.registerHelper 'unique_tags', () ->
     
 @l = console.log
    
-   
+Template.registerHelper 'post_header_class', (metric) ->
+    # console.log @
+    if @max_emotion_name
+        if @max_emotion_name is 'joy' then 'green invert'
+        else if @max_emotion_name is 'anger' then 'red invert'
+        else if @max_emotion_name is 'sadness' then 'blue invert'
+        else if @max_emotion_name is 'disgust' then 'orange invert'
+
 Template.registerHelper 'thinking_class', ()->
     if Session.get('thinking') then 'disabled' else ''
 

@@ -1,9 +1,7 @@
 template(name='group')
     .ui.stackable.grid
         .row 
-            .sixteen.wide.center.aligned.column
-                .ui.inline.small.header    
-                    |#{counter}
+            .sixteen.wide.column
                 .ui.inline.header    
                     |#{current_group}
                 // a.ui.header(href=link title='link')
@@ -26,7 +24,7 @@ template(name='group')
                         +unselect_tag
                 .ui.icon.input
                     i.search.icon
-                    input.search_group_tag(type='text' value=group_query)
+                    input.search_group_tag(type='text' value=group_query placeholder="#{counter} results")
                     // .ui.label #{this}
                 if result_tags.count
                     each result_tags
@@ -40,24 +38,29 @@ template(name='group')
                         a.unselect_time_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
                 each time_tags
-                    .ui.compact.small.button.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                    a.ui.compact.label.button.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                         strong #{name}
+                div
                 i.big.marker.grey.icon(title='where tags')
                 if selected_location_tags
                     each selected_location_tags
                         a.unselect_location_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
                 each location_tags
-                    .ui.compact.small.button.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                    a.ui.compact.label.button.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                         strong #{name}
                 .ui.hidden.divider
             .twelve.wide.column
-                .ui.stackable.four.column.centered.padded.grid
+                .ui.circular.icon.button
+                    i.large.thumbs.up.icon
+                .ui.circular.icon.button
+                    i.clock.large.icon
+                .ui.stackable.three.column.centered.padded.grid.scrolling
                     if posts.count
                         each posts
                             .column.medscroll
                                 .content
-                                    a.ui.header.zoomer(href="/g/#{current_group}/p/#{_id}") #{title}
+                                    a.ui.header.zoomer(href="/g/#{current_group}/p/#{_id}" class=post_header_class) #{title}
                                     if image_id
                                         a(href="/g/#{current_group}/p/#{_id}")
                                             img.ui.fluid.rounded.zoomer.image(src="{{c.url image_id }}" class=currentUser.invert_class)
@@ -77,6 +80,7 @@ template(name='group')
                                         +flat_tag_selector
                                     if is_admin 
                                         +remove_button
+                                    +doc_emotion_small        
                                         // .ui.small.label #{this}
                                 // .ui.divider
                     else
@@ -87,7 +91,7 @@ template(name='group')
                 
 template(name='tag_selector')
     // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.basic.image.large.label.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.basic.image.large.label.zoomer.select_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
             if term.metadata.image
                 img.ui.avatar.image.superzoom(src=term.metadata.image )    
@@ -98,18 +102,18 @@ template(name='tag_selector')
 template(name='unselect_tag')
     a.unselect_tag.ui.large.black.compact.button(href='#')
         if term
-            if term.watson.metadata.image
-                img.ui.avatar.compact.image.superzoom(src=term.watson.metadata.image)    
+            if term.metadata.image
+                img.ui.avatar.compact.image.superzoom(src=term.metadata.image)    
         strong #{this}
 
         
         
 template(name='flat_tag_selector')
     // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
-    .ui.compact.tiny.basic.circular.button.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.compact.tiny.basic.image.label.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
         if term
-            if term.watson.metadata.image
-                img.ui.mini.rounded.inline.image.superzoom(src=term.watson.metadata.image )    
+            if term.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.metadata.image )    
         | #{this}
         // if in_dev
         //     small #{count}
