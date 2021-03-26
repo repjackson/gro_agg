@@ -242,9 +242,10 @@ template(name='group_post_edit')
                     +link_edit key='link' label='link' direct=true
                     +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    +raw_edit key='raw' label='raw' direct=true
+                    +array_edit key='people_tags' label='people tags' icon='user' direct=true
+                    // +raw_edit key='raw' label='raw' direct=true
                 .twelve.wide.column
                     +text_edit key='title' label='title' direct=true
-                    +html_edit key='content' label='content' direct=true
                     +image_link_edit key='image_link' direct=true
                     +youtube_edit key='youtube_id' label='youtube id' direct=true
+                    +html_edit key='content' label='content' direct=true
