@@ -119,38 +119,47 @@ template(name='group')
                 //     i.large.thumbs.up.icon
                 // .ui.circular.icon.button
                 //     i.clock.large.icon
-                .ui.stackable.three.column.centered.padded.grid.scrolling
-                    if posts.count
+                if one_post
+                    .ui.one.column.centered.padded.grid.scrolling
                         each posts
-                            .column.medscroll
-                                .content
-                                    a.ui.header.zoomer(href="/#{current_group}/p/#{_id}" class=post_header_class) #{title}
-                                    if image_id
-                                        a(href="/#{current_group}/p/#{_id}")
-                                            img.ui.fluid.rounded.zoomer.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-                                    if image_link
-                                        a(href="/#{current_group}/p/#{_id}")
-                                            +image_link_view key='image_link' direct=true
-                                    if youtube_id
-                                        +youtube_view key='youtube_id' label='youtube id' direct=true
-                                    // if is_admin
-                                    //     +text_edit key='group' label='slug' direct=true
-                                    a.pointer.black_text.zoomer(href="/#{current_group}/p/#{_id}")
-                                        |!{content}
-                                        if raw
-                                            |!{raw}
-                                    a.ui.inline.grey.header(href="/#{current_group}/p/#{_id}") #{when}
-                                    each tags
-                                        +flat_tag_selector
-                                    if is_admin 
-                                        +remove_button
-                                    +doc_emotion_small        
-                                        // .ui.small.label #{this}
-                                // .ui.divider
-                    else
-                        i.massive.grey.loading.yin.yang.icon
+                            +post_card
+                else 
+                    .ui.stackable.three.column.centered.padded.grid.scrolling
+                        if posts.count
+                            each posts
+                                +post_card
+                        else
+                            i.massive.grey.loading.yin.yang.icon
 
 
+     
+template(name='post_card')     
+    .column.medscroll
+        .content
+            a.ui.header.zoomer(href="/#{group}/p/#{_id}" class=post_header_class) #{title}
+            if image_id
+                a(href="/#{group}/p/#{_id}")
+                    img.ui.fluid.rounded.zoomer.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+            if image_link
+                a(href="/#{group}/p/#{_id}")
+                    +image_link_view key='image_link' direct=true
+            if youtube_id
+                +youtube_view key='youtube_id' label='youtube id' direct=true
+            // if is_admin
+            //     +text_edit key='group' label='slug' direct=true
+            a.pointer.black_text.zoomer(href="/#{group}/p/#{_id}")
+                |!{content}
+                if raw
+                    |!{raw}
+            a.ui.inline.grey.header(href="/#{group}/p/#{_id}") #{when}
+            each tags
+                +flat_tag_selector
+            if is_admin 
+                +remove_button
+            +doc_emotion_small        
+                // .ui.small.label #{this}
+        // .ui.divider
+     
                 
                 
 template(name='tag_selector')
@@ -164,7 +173,7 @@ template(name='tag_selector')
         //     small #{count}
         
 template(name='unselect_tag')
-    a.unselect_tag.ui.large.black.compact.button(href='#')
+    a.unselect_tag.ui.large.black.image.label(href='#')
         if term
             if term.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.metadata.image)    
@@ -185,9 +194,9 @@ template(name='group_post_view')
     with current_doc
         .ui.stackable.grid
             .row 
-                .four.wide.column
+                .three.wide.column
                     .ui.basic.segment
-                        a.ui.large.circular.basic.button(href="/#{group}")
+                        a.ui.large.fluid.basic.button(href="/#{group}")
                             i.chevron.left.icon
                             |#{group}
                         .ui.large.inline.header #{title}
@@ -202,7 +211,7 @@ template(name='group_post_view')
                         // +voting_full
                         +link_view key='link' label='link' direct=true
     
-                        +array_edit key='people_tags' label='people tags' icon='clock' direct=true
+                        +array_edit key='people_tags' label='people tags' icon='user outline' direct=true
                         +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                         +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                 .twelve.wide.column.scrolling

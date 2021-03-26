@@ -68,6 +68,12 @@ Template.group.helpers
     counter: -> Counts.get 'counter'
     emotion_avg: -> results.findOne(model:'emotion_avg')
 
+    one_post: ->
+        Docs.find({
+            model:'post'
+            group:Router.current().params.group
+        }).count() is 1
+
     
     result_tags: -> results.find(model:'group_tag')
     time_tags: -> results.find(model:'time_tag')

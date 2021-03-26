@@ -675,9 +675,9 @@ img, .image {
 
 
 
-/*.spacer {*/
-/*  height: 7px;*/
-/*}*/
+.spacer {
+  height: 7px;
+}
 
 .label {
   margin:1px !important;
