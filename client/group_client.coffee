@@ -53,10 +53,10 @@ Template.group.helpers
                 model:'post'
                 group:$exists:false
         else
-            Docs.find 
+            Docs.find {
                 model:'post'
                 group:Router.current().params.group
-                
+            }, sort:_timestamp:-1
     # group_posts: ->
     #     Docs.find 
     #         model:'post'

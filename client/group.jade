@@ -38,7 +38,7 @@ template(name='group')
                         a.unselect_time_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
                 each time_tags
-                    a.ui.compact.label.button.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                    a.ui.basic.large.label.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                         strong #{name}
                 div
                 i.big.marker.grey.icon(title='where tags')
@@ -47,7 +47,7 @@ template(name='group')
                         a.unselect_location_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
                 each location_tags
-                    a.ui.compact.label.button.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                    a.ui.basic.large.label.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                         strong #{name}
                 div
                 i.big.users.grey.icon(title='where tags')
@@ -56,7 +56,7 @@ template(name='group')
                         a.unselect_people_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
                 each people_tags
-                    a.ui.compact.label.button.zoomer.select_people_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                    a.ui.basic.large.label.zoomer.select_people_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                         strong #{name}
                 div
                 i.big.marker.grey.icon(title='where tags')
@@ -65,7 +65,7 @@ template(name='group')
                         a.unselect_timestamp_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
                 each timestamp_tags
-                    a.ui.compact.label.button.zoomer.select_timestamp_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                    a.ui.basic.large.label.zoomer.select_timestamp_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                         strong #{name}
                 .ui.hidden.divider
                 with emotion_avg
@@ -135,11 +135,11 @@ template(name='group')
                                         +youtube_view key='youtube_id' label='youtube id' direct=true
                                     // if is_admin
                                     //     +text_edit key='group' label='slug' direct=true
-                                    a.pointer.black_text(href="/#{current_group}/p/#{_id}")
+                                    a.pointer.black_text.zoomer(href="/#{current_group}/p/#{_id}")
                                         |!{content}
                                         if raw
                                             |!{raw}
-                                    .ui.inline.grey.header #{when}
+                                    a.ui.inline.grey.header(href="/#{current_group}/p/#{_id}") #{when}
                                     each tags
                                         +flat_tag_selector
                                     if is_admin 

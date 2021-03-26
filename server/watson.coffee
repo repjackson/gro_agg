@@ -1,7 +1,7 @@
 NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1.js');
 # VisualRecognitionV3 = require('ibm-watson/visual-recognition/v3')
 # TextToSpeechV1 = require('ibm-watson/text-to-speech/v1')
-# ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3')
+ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3')
 
 { IamAuthenticator } = require('ibm-watson/auth')
 
@@ -14,6 +14,12 @@ NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understand
 #   url: Meteor.settings.private.tts.url,
 # });
 
+tone_analyzer = new ToneAnalyzerV3(
+    version: '2017-09-21'
+    authenticator: new IamAuthenticator({
+        apikey: Meteor.settings.private.tone.apikey
+    })
+    url: Meteor.settings.private.tone.url)
 
 
 natural_language_understanding = new NaturalLanguageUnderstandingV1(
@@ -130,7 +136,7 @@ Meteor.methods
                 # Docs.update { _id: doc_id },
                 #     $addToSet:
                 #         tags:$each:lowered_concepts
-                # console.log response
+                console.log response
                 Docs.update { _id: doc_id },
                     $addToSet:
                         tags:$each:keywords_concepts
@@ -138,7 +144,6 @@ Meteor.methods
                         watson:response
                         analyzed_text:response.analyzed_text
                         metadata:response.metadata
-                        watson:true
                         sentiment:response.sentiment
                         watson_concepts: concept_array
                         watson_keywords: keyword_array
@@ -163,3 +168,32 @@ Meteor.methods
                 # if Meteor.isDevelopment
         )
         return doc_id
+        
+        
+        
+    call_tone: (doc_id)->
+        @unblock()
+        self = @
+        doc = Docs.findOne doc_id
+        # if doc.html or doc.body
+        #     # stringed = JSON.stringify(doc.html, null, 2)
+        # if mode is 'html'
+        #     params =
+        #         toneInput:doc.description
+        #         content_type:'text/html'
+        # if mode is 'text'
+        params =
+            toneInput: { 'text': doc.watson.analyzed_text }
+            contentType: 'application/json'
+        # console.log 'params', params
+        tone_analyzer.tone params, Meteor.bindEnvironment((err, response)->
+            if err
+                console.log err
+            else
+                # console.dir response
+                Docs.update { _id: doc_id},
+                    $set:
+                        tone: response
+                # console.log(JSON.stringify(response, null, 2))
+            )
+        # else return        
