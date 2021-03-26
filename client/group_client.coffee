@@ -127,7 +127,7 @@ Template.group.events
             Docs.insert 
                 model:'post'
                 group:Router.current().params.group
-        Router.go "/g/#{Router.current().params.group}/p/#{new_id}/edit"
+        Router.go "/#{Router.current().params.group}/p/#{new_id}/edit"
     'keyup .search_group_tag': (e,t)->
          if e.which is 13
             val = t.$('.search_group_tag').val().trim().toLowerCase()
@@ -229,18 +229,18 @@ Template.flat_tag_selector.events
     'click .select_flat_tag': -> 
         # results.update
         # window.speechSynthesis.cancel()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
         selected_tags.push @valueOf()
         $('.search_group').val('')
 
 
 
 
-Router.route '/g/:group/p/:doc_id/edit', (->
+Router.route '/:group/p/:doc_id/edit', (->
     @layout 'layout'
     @render 'group_post_edit'
     ), name:'group_post_edit'
-Router.route '/g/:group/p/:doc_id', (->
+Router.route '/:group/p/:doc_id', (->
     @layout 'layout'
     @render 'group_post_view'
     ), name:'group_post_view'

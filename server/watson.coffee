@@ -135,6 +135,7 @@ Meteor.methods
                     $addToSet:
                         tags:$each:keywords_concepts
                     $set:
+                        watson:response
                         analyzed_text:response.analyzed_text
                         metadata:response.metadata
                         watson:true

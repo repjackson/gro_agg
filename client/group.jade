@@ -1,5 +1,5 @@
 template(name='group')
-    .ui.stackable.grid
+    .ui.stackable.padded.grid
         .row 
             .sixteen.wide.column
                 .ui.inline.header    
@@ -124,18 +124,18 @@ template(name='group')
                         each posts
                             .column.medscroll
                                 .content
-                                    a.ui.header.zoomer(href="/g/#{current_group}/p/#{_id}" class=post_header_class) #{title}
+                                    a.ui.header.zoomer(href="/#{current_group}/p/#{_id}" class=post_header_class) #{title}
                                     if image_id
-                                        a(href="/g/#{current_group}/p/#{_id}")
+                                        a(href="/#{current_group}/p/#{_id}")
                                             img.ui.fluid.rounded.zoomer.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                                     if image_link
-                                        a(href="/g/#{current_group}/p/#{_id}")
+                                        a(href="/#{current_group}/p/#{_id}")
                                             +image_link_view key='image_link' direct=true
                                     if youtube_id
                                         +youtube_view key='youtube_id' label='youtube id' direct=true
                                     // if is_admin
                                     //     +text_edit key='group' label='slug' direct=true
-                                    a.pointer.black_text(href="/g/#{current_group}/p/#{_id}")
+                                    a.pointer.black_text(href="/#{current_group}/p/#{_id}")
                                         |!{content}
                                         if raw
                                             |!{raw}
@@ -183,11 +183,11 @@ template(name='flat_tag_selector')
         //     small #{count}
 template(name='group_post_view')
     with current_doc
-        .ui.stackable.padded.grid
+        .ui.stackable.grid
             .row 
                 .four.wide.column
-                    .ui.segmen
-                        a.ui.large.circular.basic.button(href="/g/#{group}")
+                    .ui.basic.segment
+                        a.ui.large.circular.basic.button(href="/#{group}")
                             i.chevron.left.icon
                             |#{group}
                         .ui.large.inline.header #{title}
@@ -195,7 +195,7 @@ template(name='group_post_view')
                         .ui.grey.header {{when}}
                         
                         if can_edit
-                            a.edit_group_post(href="/g/#{group}/p/#{_id}/edit" title='edit')
+                            a.edit_group_post(href="/#{group}/p/#{_id}/edit" title='edit')
                                 i.large.link.pencil.icon
                         | #{views} views
                         +array_edit key='tags' label='tags' direct=true
@@ -230,7 +230,7 @@ template(name='group_post_edit')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    a.ui.icon.green.big.button(href="/g/#{group}/p/#{_id}" title='save')
+                    a.ui.icon.green.big.button(href="/#{group}/p/#{_id}" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
                         i.pencil.icon
