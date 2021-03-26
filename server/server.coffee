@@ -233,7 +233,7 @@ Meteor.publish 'group_tags', (
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:33 }
+        { $limit:25 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_tag_cloud.forEach (tag, i) ->
@@ -247,9 +247,9 @@ Meteor.publish 'group_tags', (
     group_people_cloud = Docs.aggregate [
         { $match: match }
         { $project: "people_tags": 1 }
-        # { $unwind: "$people_tags" }
+        { $unwind: "$people_tags" }
         { $group: _id: "$people_tags", count: $sum: 1 }
-        # { $match: _id: $nin: selected_peoples }
+        # { $match: _id: $nin: selected_people_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:10 }
@@ -267,7 +267,7 @@ Meteor.publish 'group_tags', (
         { $project: "location_tags": 1 }
         { $unwind: "$location_tags" }
         { $group: _id: "$location_tags", count: $sum: 1 }
-        # { $match: _id: $nin: selected_location }
+        # { $match: _id: $nin: selected_location_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:25 }

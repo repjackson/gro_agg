@@ -115,10 +115,10 @@ template(name='group')
 
                 
             .twelve.wide.column
-                .ui.circular.icon.button
-                    i.large.thumbs.up.icon
-                .ui.circular.icon.button
-                    i.clock.large.icon
+                // .ui.circular.icon.button
+                //     i.large.thumbs.up.icon
+                // .ui.circular.icon.button
+                //     i.clock.large.icon
                 .ui.stackable.three.column.centered.padded.grid.scrolling
                     if posts.count
                         each posts
@@ -187,7 +187,7 @@ template(name='group_post_view')
             .row 
                 .four.wide.column
                     .ui.segmen
-                        a.ui.large.button(href="/g/#{group}")
+                        a.ui.large.circular.basic.button(href="/g/#{group}")
                             i.chevron.left.icon
                             |#{group}
                         .ui.large.inline.header #{title}

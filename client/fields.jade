@@ -519,13 +519,13 @@ template(name='array_edit')
     if field_value
         each field_value
             if currentUser
-                .ui.large.circular.label.touch_element
+                .ui.label.touch_element
                     i.delete.icon.remove_element
                     |#{this}
                 // .ui.compact.circular.button.pick_tag
                 //     |#{this}
             else
-                .ui.compact.circular.button.pick_tag
+                a.ui.basic.label.pick_tag
                     |#{this}
 
 // template(name='array_edit')
