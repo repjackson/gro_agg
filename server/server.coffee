@@ -158,6 +158,18 @@ Meteor.publish 'group_posts', (
         limit:20
         sort: "#{sk}":-1
         # skip:skip*20
+        fields:
+            title:1
+            content:1
+            group:1
+            tags:1
+            time_tags:1
+            location_tags:1
+            people_tags:1
+            image_id:1
+            model:1
+            _timestamp:1
+            youtube_id:1
     
     
 # Meteor.methods    
