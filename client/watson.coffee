@@ -19,6 +19,9 @@ Template.small_sentiment.helpers
             (@doc_sentiment_score*-100).toFixed()
     sentiment_bar_class: -> if @doc_sentiment_label is 'positive' then 'green' else 'red'
 
+Template.call_tone.events
+    'click #call_tone': ->
+        Meteor.call 'call_tone', Router.current().params.doc_id, ->
 
 Template.doc_emotion.helpers
     # sadness_percent: -> (@sadness*100).toFixed()            

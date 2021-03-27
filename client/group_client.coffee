@@ -48,6 +48,7 @@ Template.group.onCreated ->
 
 Template.group.helpers
     posts: ->
+        sort_key = Session.eu
         if Router.current().params.group is 'all'
             Docs.find 
                 model:'post'
@@ -56,7 +57,7 @@ Template.group.helpers
             Docs.find {
                 model:'post'
                 group:Router.current().params.group
-            }, sort:_timestamp:-1
+            }, sort:"#{Session.get('group_sort_key')}":-1
     # group_posts: ->
     #     Docs.find 
     #         model:'post'

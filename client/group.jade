@@ -177,7 +177,7 @@ template(name='post_card')
                 
 template(name='voting')
     i.thumbs.up.outline.link.big.icon.upvote
-    |#{points}
+    .ui.inline.header #{points}
     i.thumbs.down.outline.link.big.icon.downvote
     
                 
@@ -247,7 +247,7 @@ template(name='group_post_view')
     with current_doc
         .ui.stackable.grid
             .row 
-                .three.wide.column
+                .four.wide.column
                     a.ui.large.fluid.basic.button(href="/#{group}")
                         i.chevron.left.icon
                         |#{group}
@@ -267,7 +267,10 @@ template(name='group_post_view')
                         +array_edit key='people_tags' label='people tags' icon='user outline' direct=true
                         +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                         +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                .thirteen.wide.column.scrollin
+                        +call_tone
+                .twelve.wide.column.scrollin
+                    if tone
+                        +tone
                     if image_link
                         a(href="/#{group}")
                             +image_link_view key='image_link' direct=true
