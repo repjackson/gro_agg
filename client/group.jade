@@ -122,7 +122,11 @@ template(name='group')
                 if one_post
                     .ui.one.column.centered.padded.grid.scrolling
                         each posts
-                            +post_card
+                            +post_card_med
+                else if two_posts
+                    .ui.two.column.centered.padded.grid.scrolling
+                        each posts
+                            +post_card_med
                 else 
                     .ui.stackable.three.column.centered.padded.grid.scrolling
                         if posts.count
@@ -161,6 +165,34 @@ template(name='post_card')
         // .ui.divider
      
                 
+template(name='post_card_med')     
+    .column
+        .content
+            a.ui.header.zoomer(href="/#{group}/p/#{_id}" class=post_header_class) #{title}
+            if image_id
+                a(href="/#{group}/p/#{_id}")
+                    img.ui.fluid.rounded.zoomer.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+            if image_link
+                a(href="/#{group}/p/#{_id}")
+                    +image_link_view key='image_link' direct=true
+            if youtube_id
+                +youtube_view key='youtube_id' label='youtube id' direct=true
+            // if is_admin
+            //     +text_edit key='group' label='slug' direct=true
+            a.pointer.black_text.zoomer(href="/#{group}/p/#{_id}")
+                |!{content}
+                if raw
+                    |!{raw}
+            a.ui.inline.grey.header(href="/#{group}/p/#{_id}") #{when}
+            each tags
+                +flat_tag_selector
+            if is_admin 
+                +remove_button
+            +doc_emotion_small        
+                // .ui.small.label #{this}
+        // .ui.divider
+     
+                
                 
 template(name='tag_selector')
     // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
@@ -173,7 +205,7 @@ template(name='tag_selector')
         //     small #{count}
         
 template(name='unselect_tag')
-    a.unselect_tag.ui.large.black.image.label(href='#')
+    a.unselect_tag.ui.big.black.image.label(href='#')
         if term
             if term.metadata.image
                 img.ui.avatar.compact.image.superzoom(src=term.metadata.image)    
@@ -195,10 +227,10 @@ template(name='group_post_view')
         .ui.stackable.grid
             .row 
                 .three.wide.column
+                    a.ui.large.fluid.basic.button(href="/#{group}")
+                        i.chevron.left.icon
+                        |#{group}
                     .ui.basic.segment
-                        a.ui.large.fluid.basic.button(href="/#{group}")
-                            i.chevron.left.icon
-                            |#{group}
                         .ui.large.inline.header #{title}
                         // div
                         .ui.grey.header {{when}}
@@ -214,7 +246,7 @@ template(name='group_post_view')
                         +array_edit key='people_tags' label='people tags' icon='user outline' direct=true
                         +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                         +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                .twelve.wide.column.scrolling
+                .thirteen.wide.column.scrollin
                     if image_link
                         a(href="/#{group}")
                             +image_link_view key='image_link' direct=true

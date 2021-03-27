@@ -138,7 +138,7 @@ template(name='keywords')
         |#{watson.keywords.length} keywords
     .ui.three.column.stackable.grid
         each watson.keywords
-            .ui.center.aligned.column
+            .ui.column
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
                 .spacer
                 .meta
@@ -247,8 +247,8 @@ template(name='watson_view')
     +categories
     +entities
     // +semantic_roles
-    +keyword_list
-    +concept_list
+    // +keyword_list
+    // +concept_list
     +keywords
     // .ui.hidden.divider
     // +relations

@@ -73,6 +73,11 @@ Template.group.helpers
             model:'post'
             group:Router.current().params.group
         }).count() is 1
+    two_posts: ->
+        Docs.find({
+            model:'post'
+            group:Router.current().params.group
+        }).count() is 2
 
     
     result_tags: -> results.find(model:'group_tag')
