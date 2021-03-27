@@ -167,6 +167,7 @@ Meteor.publish 'group_posts', (
             location_tags:1
             people_tags:1
             views:1
+            points:1
             image_link:1
             image_id:1
             model:1

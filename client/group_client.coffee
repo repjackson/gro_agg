@@ -173,6 +173,15 @@ Template.tag_selector.helpers
             # console.log res.metadata.image
             res
             
+Template.voting.events
+    'click .upvote': ->
+        console.log @
+        Docs.update @_id,
+            $inc:points:1
+    'click .downvote': ->
+        console.log @
+        Docs.update @_id,
+            $inc:points:-1
 Template.tag_selector.events
     'click .select_tag': -> 
         # results.update
