@@ -126,7 +126,7 @@ Meteor.publish 'group_posts', (
     selected_time_tags
     selected_location_tags
     selected_people_tags
-    sort_key
+    sort_key='_timestamp'
     sort_direction
     skip=0
     )->
@@ -140,10 +140,6 @@ Meteor.publish 'group_posts', (
     else
         match.group = group
 
-    if sort_key
-        sk = sort_key
-    else
-        sk = '_timestamp'
     # if view_bounties
     #     match.bounty = true
     # if view_unanswered
@@ -153,11 +149,11 @@ Meteor.publish 'group_posts', (
     if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
     if selected_people_tags.length > 0 then match.people_tags = $all:selected_people_tags
     # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
-    console.log 'skip', skip
+    # console.log 'skip', skip
     Docs.find match,
-        limit:33
-        sort: "#{sk}":-1
-        # skip:skip*20
+        limit:20
+        sort: "#{sort_key}":-1
+        skip:skip*20
         fields:
             title:1
             content:1

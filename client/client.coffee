@@ -58,6 +58,8 @@ Template.registerHelper 'trunc', (input) ->
    
    
 Template.registerHelper 'emotion_avg', (metric) -> results.findOne(model:'emotion_avg')
+Template.registerHelper 'skv_is', (key,val) -> 
+    Session.equals(key,val)
 
 Template.registerHelper 'calculated_size', (metric) ->
     # whole = parseInt(@["#{metric}"]*10)

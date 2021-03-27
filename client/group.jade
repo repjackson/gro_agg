@@ -105,10 +105,25 @@ template(name='group')
 
                 
             .twelve.wide.column
-                // .ui.circular.icon.button
-                //     i.large.thumbs.up.icon
-                // .ui.circular.icon.button
-                //     i.clock.large.icon
+                |sort by
+                if skv_is 'group_sort_key' 'points'
+                    .ui.circular.black.icon.button.set_sort_points
+                        i.large.thumbs.up.icon
+                else
+                    .ui.circular.basic.icon.button.set_sort_points
+                        i.large.thumbs.up.icon
+                if skv_is 'group_sort_key' '_timestamp'
+                    .ui.circular.black.icon.button.set_sort_timestamp
+                        i.clock.large.icon
+                else
+                    .ui.circular.basic.icon.button.set_sort_timestamp
+                        i.clock.large.icon
+                if skv_is 'group_sort_key' 'views'
+                    .ui.circular.black.icon.button.set_sort_views
+                        i.eye.large.icon
+                else
+                    .ui.circular.basic.icon.button.set_sort_views
+                        i.eye.large.icon
                 if one_post
                     .ui.one.column.centered.padded.grid.scrolling
                         each posts

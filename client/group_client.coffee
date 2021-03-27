@@ -88,6 +88,9 @@ Template.group.helpers
         Router.current().params.group
         
 Template.group.events
+    'click .set_sort_points': -> Session.set('group_sort_key', 'points')
+    'click .set_sort_timestamp': -> Session.set('group_sort_key', '_timestamp')
+    'click .set_sort_views': -> Session.set('group_sort_key', 'views')
     # 'click .unselect_group_tag': -> 
     #     Session.set('skip',0)
     #     # console.log @
@@ -118,6 +121,12 @@ Template.group.events
         selected_time_tags.remove @valueOf()
     'click .select_time_tag': ->
         selected_time_tags.push @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        
+    'click .unpick_emotion': ->
+        selected_top_emotions.remove @valueOf()
+    'click .pick_emotion': ->
+        selected_top_emotions.push @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         
 
