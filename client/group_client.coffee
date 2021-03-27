@@ -11,6 +11,7 @@ Router.route '/:group', (->
 @selected_time_tags = new ReactiveArray []
 @selected_location_tags = new ReactiveArray []
 @selected_people_tags = new ReactiveArray []
+@picked_emotion = new ReactiveArray []
 
 
     
@@ -27,6 +28,7 @@ Template.group.onCreated ->
         selected_time_tags.array()
         selected_location_tags.array()
         selected_people_tags.array()
+        picked_emotion.array()
         # selected_group_authors.array()
         Session.get('toggle')
     @autorun => Meteor.subscribe 'group_count', 
@@ -42,6 +44,7 @@ Template.group.onCreated ->
         selected_time_tags.array()
         selected_location_tags.array()
         selected_people_tags.array()
+        picked_emotion.array()
         Session.get('group_sort_key')
         Session.get('group_sort_direction')
         Session.get('group_skip_value')
@@ -58,14 +61,11 @@ Template.group.helpers
                 model:'post'
                 group:Router.current().params.group
             }, sort:"#{Session.get('group_sort_key')}":-1
-    # group_posts: ->
-    #     Docs.find 
-    #         model:'post'
-    #         course_id:Router.current().params.group
     selected_tags: -> selected_tags.array()
     selected_time_tags: -> selected_time_tags.array()
     selected_location_tags: -> selected_location_tags.array()
     selected_people_tags: -> selected_people_tags.array()
+    picked_emotion: -> picked_emotion.array()
     counter: -> Counts.get 'counter'
     emotion_avg: -> results.findOne(model:'emotion_avg')
 
@@ -85,6 +85,7 @@ Template.group.helpers
     time_tags: -> results.find(model:'time_tag')
     location_tags: -> results.find(model:'location_tag')
     people_tags: -> results.find(model:'people_tag')
+    emotion_results: -> results.find(model:'emotion')
     current_group: ->
         Router.current().params.group
         
@@ -125,9 +126,9 @@ Template.group.events
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         
     'click .unpick_emotion': ->
-        selected_top_emotions.remove @valueOf()
+        picked_emotion.remove @valueOf()
     'click .pick_emotion': ->
-        selected_top_emotions.push @name
+        picked_emotion.push @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         
 

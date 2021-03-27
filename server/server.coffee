@@ -126,6 +126,7 @@ Meteor.publish 'group_posts', (
     selected_time_tags
     selected_location_tags
     selected_people_tags
+    picked_max_emotion
     sort_key='_timestamp'
     sort_direction
     skip=0
@@ -140,10 +141,8 @@ Meteor.publish 'group_posts', (
     else
         match.group = group
 
-    # if view_bounties
-    #     match.bounty = true
-    # if view_unanswered
-    #     match.is_answered = false
+    if picked_max_emotion.length > 0 then match.max_emotion_name = $all:picked_max_emotion
+
     if selected_tags.length > 0 then match.tags = $all:selected_tags
     if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
     if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
@@ -207,6 +206,7 @@ Meteor.publish 'group_tags', (
     selected_time_tags
     selected_location_tags
     selected_people_tags
+    picked_max_emotion
     # view_bounties
     # view_unanswered
     # query=''
@@ -228,7 +228,7 @@ Meteor.publish 'group_tags', (
     # if view_unanswered
     #     match.is_answered = false
     if selected_tags.length > 0 then match.tags = $all:selected_tags
-    # if selected_subgroup_domain.length > 0 then match.domain = $all:selected_subgroup_domain
+    if picked_max_emotion.length > 0 then match.max_emotion_name = $all:picked_max_emotion
     if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
     if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
     if selected_people_tags.length > 0 then match.people_tags = $all:selected_people_tags
@@ -308,6 +308,23 @@ Meteor.publish 'group_tags', (
             name: time_tag.name
             count: time_tag.count
             model:'time_tag'
+  
+    emotion_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "max_emotion_name": 1 }
+        # { $unwind: "$max_emotion_name" }
+        { $group: _id: "$max_emotion_name", count: $sum: 1 }
+        { $match: _id: $nin: selected_time_tags }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:25 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    emotion_cloud.forEach (emotion, i) ->
+        self.added 'results', Random.id(),
+            name: emotion.name
+            count: emotion.count
+            model:'emotion'
   
     self.ready()
                                     

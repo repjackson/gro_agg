@@ -31,6 +31,17 @@ template(name='group')
                     a.ui.basic.large.label.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                         strong #{name}
                 div
+                i.big.smile.grey.icon(title='where tags')
+                if picked_emotion
+                    each picked_emotion
+                        a.unpick_emotion.ui.active.large.compact.button(href='#')
+                            strong #{this}
+                each emotion_results
+                    if name
+                        a.ui.basic.large.label.zoomer.pick_emotion(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                            strong #{name}
+                div
+                div
                 i.big.marker.grey.icon(title='where tags')
                 if selected_location_tags
                     each selected_location_tags
