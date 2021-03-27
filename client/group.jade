@@ -22,7 +22,7 @@ template(name='group')
                     //         i.remove.icon
                     each selected_tags
                         +unselect_tag
-                .ui.icon.input
+                .ui.icon.small.input
                     i.search.icon
                     input.search_group_tag(type='text' value=group_query placeholder="#{counter} results")
                     // .ui.label #{this}
@@ -252,7 +252,7 @@ template(name='group_post_view')
                             +image_link_view key='image_link' direct=true
                     if image_id
                         a(href="/#{group}")
-                            img.ui.fluid.rounded.image.pointer.zoomer(src="{{c.url image_id }}" class=currentUser.invert_class)
+                            img.ui.fluid.image.pointer(src="{{c.url image_id }}" class=currentUser.invert_class)
                     if youtube_id
                         +youtube_view key='youtube_id' label='youtube id' direct=true
                     if raw 

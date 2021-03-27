@@ -136,7 +136,7 @@ template(name='call_visual')
 template(name='keywords')
     .ui.small.grey.header 
         |#{watson.keywords.length} keywords
-    .ui.three.column.stackable.grid
+    .ui.four.column.stackable.grid
         each watson.keywords
             .ui.column
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}

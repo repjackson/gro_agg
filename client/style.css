@@ -446,7 +446,7 @@ body {
     /*font-size: 130% !important; */
     /*zoom: 105% !important;*/
     /*padding-top: 5em !important; */
-    transform: scale(1.05) !important;
+    /*transform: scale(1.05) !important;*/
     z-index: 1000 !important;
     /*text-shadow: 0 20px 20px 20px rgba(50, 50, 100, 0.1) !important; */
     /*text-shadow: 0 0 3px grey !important;*/
@@ -473,7 +473,7 @@ a:active {
 /*}*/
 
 img, .image {
-  border-radius:5px !important;
+  border-radius:2px !important;
 }
 /*a.segment:active {*/
 /*  transform: scale(.97) !important;*/
@@ -533,10 +533,10 @@ img, .image {
 /*.inset {*/
 /*  box-shadow: inset 3px 3px 5px 0px rgba(0,0,0,0.75);*/
 /*}*/
-/*.pointer:active {*/
-/*  box-shadow: inset 1px 1px 5px 0px rgba(0,0,0,0.75);*/
-/*  box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);*/
-/*}*/
+.pointer:active {
+  box-shadow: inset 1px 1px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+}
 /*.menu > a.item :active {*/
 /*  box-shadow: inset 1px 1px 5px 0px rgba(0,0,0,0.75);*/
 /*  box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);*/
