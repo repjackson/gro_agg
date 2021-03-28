@@ -407,6 +407,10 @@ template(name='tone')
                     i.chevron.down.link.grey.icon.downvote_sentence
                     each tones
                         // .ui.basic.inverted.small.compact.circular.label(class="{{calculated_size 'score'}} #{tone_label_class}") 
+                        if kv_is 'tone_id' 'joy'
+                            +emoji name='joy'
+                        if kv_is 'tone_id' 'analytical'
+                            +emoji name='thinking'
                         .ui.basic.inverted.small.compact.circular.label(class="#{tone_label_class}") 
                             span.ui.text
                                 |#{tone_id} &nbsp;
