@@ -74,3 +74,63 @@ Docs.before.insert (userId, doc)->
         # console.log date_array
         doc._timestamp_tags = date_array
     return
+    
+Meteor.methods  
+    upvote_sentence: (doc_id, sentence)->
+        # console.log sentence
+        if sentence.weight
+            Docs.update(
+                { _id:doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
+                $inc: 
+                    "tone.result.sentences_tone.$.weight": 1
+                    points:1
+            )
+        else
+            Docs.update(
+                { _id:doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
+                {
+                    $set: 
+                        "tone.result.sentences_tone.$.weight": 1
+                    $inc:
+                        points:1
+                }
+            )
+    tag_sentence: (doc_id, sentence, tag)->
+        # console.log sentence
+        Docs.update(
+            { _id:doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
+            { $addToSet: 
+                "tone.result.sentences_tone.$.tags": tag
+                "tags": tag
+            }
+        )
+
+    reset_sentence: (doc_id, sentence)->
+        # console.log sentence
+        Docs.update(
+            { _id:doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
+            { $set: 
+                "tone.result.sentences_tone.$.weight": -2
+            } 
+        )
+
+
+    downvote_sentence: (doc_id, sentence)->
+        # console.log sentence
+        Docs.update(
+            { _id:doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
+            { $inc: 
+                "tone.result.sentences_tone.$.weight": -1
+                points: -1
+            }
+        )
+    check_url: (str)->
+        # console.log 'testing', str
+        pattern = new RegExp('^(https?:\\/\\/)?'+ # protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ # domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))'+ # OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ # port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?'+ # query string
+        '(\\#[-a-z\\d_]*)?$','i') # fragment locator
+        return !!pattern.test(str)
+

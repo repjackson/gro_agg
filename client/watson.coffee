@@ -23,6 +23,16 @@ Template.call_tone.events
     'click #call_tone': ->
         Meteor.call 'call_tone', Router.current().params.doc_id, ->
 
+Template.tone.events
+    'click .upvote_sentence': ->
+        console.log @
+        Meteor.call 'upvote_sentence', Router.current().params.doc_id, @, ->
+    'click .downvote_sentence': ->
+        console.log @
+        Meteor.call 'downvote_sentence', Router.current().params.doc_id, @, ->
+
+
+
 Template.doc_emotion.helpers
     # sadness_percent: -> (@sadness*100).toFixed()            
     # joy_percent: -> (@joy*100).toFixed()   

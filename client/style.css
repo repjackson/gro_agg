@@ -574,91 +574,91 @@ img, .image {
 } */
 
 
-/*.f20 {*/
-/*  font-size: 200% !important;*/
-  /* line-height: 200% !important; */
-  /* margin-bottom: 7px !important;  */
-/*}*/
-/*.f19 {*/
-/*  font-size: 190% !important;*/
-  /* line-height: 190% !important; */
-  /* margin-bottom: 7px !important;  */
-/*}*/
-/*.f18 {*/
-/*  font-size: 180% !important;*/
-  /* line-height: 180% !important; */
-  /* margin-bottom: 7px !important;  */
-/*}*/
-/*.f17 {*/
-/*  font-size: 170% !important;*/
-  /* line-height: 170% !important; */
-  /* margin-bottom: 7px !important;  */
-/*}*/
-/*.f16 {*/
-/*  font-size: 160% !important;*/
-  /* line-height: 160% !important; */
-  /* margin-bottom: 7px !important;  */
-/*}*/
-/*.f15 {*/
-/*  font-size: 150% !important;*/
-  /* line-height: 150% !important; */
-  /* margin-bottom: 7px !important;  */
-/*}*/
-/*.f14 {*/
-/*  font-size: 140% !important;*/
-/*  line-height: 110% !important;*/
-  /* margin-bottom: 7px !important;  */
-/*}*/
-/*.f13 {*/
-/*  font-size: 130% !important;*/
-/*  line-height: 120% !important;*/
-  /* margin-bottom: 7px !important;  */
-/*}*/
-/*.f12 {*/
-/*  font-size: 120% !important;*/
-/*  line-height: 150% !important;*/
-  /* margin-bottom: 7px !important;  */
-/*}*/
-/*.f11 {*/
-/*  font-size: 110% !important;*/
-/*  line-height: 140% !important;*/
-  /* margin-bottom: 7px !important;  */
-/*}*/
-/*.f10 {*/
-/*    font-size: 100% !important;*/
-/*    line-height: 100% !important;*/
-    /* margin-bottom: 7px !important;  */
-/*}*/
-/*.f9 {*/
-/*  font-size: 90% !important;*/
-/*  line-height: 90% !important;*/
-  /* margin-bottom: 5px !important;  */
-/*}*/
-/*.f8 {*/
-/*  font-size: 80% !important;*/
-/*  line-height: 80% !important; }*/
-/*.f7 {*/
-/*  font-size: 70% !important;*/
-/*  line-height: 70% !important; }*/
-/*.f6 {*/
-/*  font-size: 60% !important;*/
-/*  line-height: 60% !important; }*/
-/*.f5 {*/
-/*  font-size: 50% !important;*/
-/*  line-height: 50% !important; }*/
-/*.f4 {*/
-/*  font-size: 40% !important;*/
-/*  line-height: 40% !important; }*/
-/*.f3 {*/
-/*  font-size: 30% !important;*/
-/*  line-height: 30% !important; }*/
-/*.f2 {*/
-/*  font-size: 20% !important;*/
-/*  line-height: 20% !important; }*/
-/*.f1 {*/
-/*  font-size: 10% !important;*/
-/*  line-height: 10% !important; }*/
-/*.f0 { display:none; }*/
+.f20 {
+  font-size: 200% !important;
+   line-height: 200% !important; 
+   margin-bottom: 7px !important;  
+}
+.f19 {
+  font-size: 190% !important;
+   line-height: 190% !important; 
+   margin-bottom: 7px !important;  
+}
+.f18 {
+  font-size: 180% !important;
+   line-height: 180% !important; 
+   margin-bottom: 7px !important;  
+}
+.f17 {
+  font-size: 170% !important;
+   line-height: 170% !important; 
+   margin-bottom: 7px !important;  
+}
+.f16 {
+  font-size: 160% !important;
+   line-height: 160% !important; 
+   margin-bottom: 7px !important;  
+}
+.f15 {
+  font-size: 150% !important;
+   line-height: 150% !important; 
+   margin-bottom: 7px !important;  
+}
+.f14 {
+  font-size: 140% !important;
+  line-height: 110% !important;
+   margin-bottom: 7px !important;  
+}
+.f13 {
+  font-size: 130% !important;
+  line-height: 120% !important;
+   margin-bottom: 7px !important;  
+}
+.f12 {
+  font-size: 120% !important;
+  line-height: 150% !important;
+   margin-bottom: 7px !important;  
+}
+.f11 {
+  font-size: 110% !important;
+  line-height: 140% !important;
+   margin-bottom: 7px !important;  
+}
+.f10 {
+    font-size: 100% !important;
+    line-height: 100% !important;
+     margin-bottom: 7px !important;  
+}
+.f9 {
+  font-size: 90% !important;
+  line-height: 90% !important;
+   margin-bottom: 5px !important;  
+}
+.f8 {
+  font-size: 80% !important;
+  line-height: 80% !important; }
+.f7 {
+  font-size: 70% !important;
+  line-height: 70% !important; }
+.f6 {
+  font-size: 60% !important;
+  line-height: 60% !important; }
+.f5 {
+  font-size: 50% !important;
+  line-height: 50% !important; }
+.f4 {
+  font-size: 40% !important;
+  line-height: 40% !important; }
+.f3 {
+  font-size: 30% !important;
+  line-height: 30% !important; }
+.f2 {
+  font-size: 20% !important;
+  line-height: 20% !important; }
+.f1 {
+  font-size: 10% !important;
+  line-height: 10% !important; }
+.f0 { display:none; }
 
 
 /*.large120 {*/
@@ -786,10 +786,11 @@ input {
 /*} */
 
 
-.button,.card,.image,.header,p,img,.say,.pointer, .item{
+.button,.card,.image,.header,p,img,.say,.pointer, .tone_item, .item{
     animation: fadein 1s !important;
     -webkit-transition: opacity 1s ease-in !important;
     -webkit-transition: opacity 1s ease-out; 
+    transition: all 1s ease !important;
     animation: fadeout 1s; 
 }
 

@@ -163,6 +163,8 @@ Meteor.publish 'group_posts', (
             people_tags:1
             views:1
             points:1
+            max_emotion_name:1
+            doc_sentiment_label:1
             image_link:1
             image_id:1
             model:1
