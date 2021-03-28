@@ -393,9 +393,9 @@ template(name='tone')
     .ui.horizontal.list
         each tone.result.document_tone.tones
             .item #{tone_id} {{ to_percent score }}%
-    .ui.small.list
+    .ui.small.horizontal.list
         each tone.result.sentences_tone
-            .item
+            span.item
                 
                 //- span #{sentence_id}
                 span.tone_item(title="#{sentence_id}" class=tone_size) 
@@ -411,8 +411,9 @@ template(name='tone')
                             span.ui.text
                                 |#{tone_id} &nbsp;
                             | {{ to_percent score }}% 
-                    .ui.mini.transparent.icon.input
-                        input.tag_sentence(type='text' placeholder='tag')
+                    .ui.mini.transparent.icon.inline.input
+                        i.grey.tag.icon
+                        input.tag_sentence(type='text')
                     each tags 
                         .ui.label #{this}
     // unless tone                

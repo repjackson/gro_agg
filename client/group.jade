@@ -21,7 +21,7 @@ template(name='group')
                         +tag_selector
                 // else
                 //     i.big.grey.loading.yin.yang.icon
-            .four.wide.column
+            .four.wide.column.scrolling
                 i.big.clock.grey.icon(title='when tags')
                 if selected_time_tags
                     each selected_time_tags
@@ -135,6 +135,11 @@ template(name='group')
                 else
                     .ui.circular.basic.icon.button.set_sort_views
                         i.eye.large.icon
+                .ui.inline.header
+                    |view
+                +group_view_mode key='video' icon='video'
+                +group_view_mode key='image' icon='image'
+                +group_view_mode key='content' icon='content'
                 if one_post
                     .ui.one.column.centered.padded.grid.scrolling
                         each posts
@@ -151,6 +156,9 @@ template(name='group')
                         else
                             i.massive.grey.loading.yin.yang.icon
 
+template(name='group_view_mode')
+    .ui.circular.icon.button
+        i.icon(class=icon)
 
      
 template(name='post_card')     
@@ -219,9 +227,9 @@ template(name='post_card_med')
             if is_admin 
                 +remove_button
             +doc_emotion_small  
-            +array_view key='people_tags' label='people tags' icon='user outline' direct=true
-            +array_view key='time_tags' label='time tags' icon='clock' direct=true
-            +array_view key='location_tags' label='location tags' icon='marker' direct=true
+            +array_view key='people_tags' icon='user outline' direct=true
+            +array_view key='time_tags' icon='clock' direct=true
+            +array_view key='location_tags' icon='marker' direct=true
             
             +voting    
                 // .ui.small.label #{this}

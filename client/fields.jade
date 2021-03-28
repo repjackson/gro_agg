@@ -559,15 +559,12 @@ template(name='array_edit')
                 
 template(name='array_view')
     if field_value
-        div
+        // div
         if icon
             i.icon(class=icon)
         if label
             .ui.inline.small.grey.header.say_body(title=title)
                 |#{label}
-        else
-            .ui.inline.small.grey.header(title=title)
-                |#{key}
         each field_value
             .ui.label.say_body #{this}
 
