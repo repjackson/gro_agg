@@ -291,7 +291,10 @@ template(name='group_post_view')
                         +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                         +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                         +call_tone
-                .eight.wide.column.scrolling
+                    +comments
+                    if watson
+                        +watson_view
+                .twelve.wide.column.scrolling
                     if tone
                         +tone
                     if image_link
@@ -306,19 +309,12 @@ template(name='group_post_view')
                         |!{raw}
                     .say_this.say_body.black_text
                         |!{content}
-                    div 
-                    .spacer
-                    .spacer
-                .four.wide.column.scrolling
                     +emotion_edit key='joy'
                     +emotion_edit key='sadness'
                     +emotion_edit key='disgust'
                     +emotion_edit key='fear'
                     if joy_percent
                         +doc_emotion
-                    +comments
-                    if watson
-                        +watson_view
 
 
 template(name='emotion_edit')
