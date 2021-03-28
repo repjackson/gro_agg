@@ -281,7 +281,7 @@ Template.registerHelper 'when', ()-> moment(@_timestamp).fromNow()
 
 
 
-Template.registerHelper 'kv_is', (key, value) ->
+Template.registerHelper 'kve', (key, value) ->
     @["#{key}"] is value
 Template.registerHelper 'post_header_class', () ->
     if @max_emotion_name

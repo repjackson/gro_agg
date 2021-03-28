@@ -90,6 +90,26 @@ Template.group.helpers
     current_group: ->
         Router.current().params.group
         
+Template.emotion_edit.events
+    'click .up_emotion': ->
+        console.log @key
+        console.log Template.parentData()
+        parent = Template.parentData()
+        updated_percent = parseInt(parent["#{@key}_percent"])
+        # console.log updated_percent+.1
+        Docs.update Template.parentData()._id,
+            $inc:
+                "#{@key}_percent":updated_percent+.01
+    'click .down_emotion': ->
+        console.log @key
+        console.log Template.parentData()
+        parent = Template.parentData()
+        updated_percent = parseInt(parent["#{@key}_percent"])
+        # console.log updated_percent+.1
+        Docs.update Template.parentData()._id,
+            $inc:
+                "#{@key}_percent":updated_percent-.01
+        
 Template.group.events
     'click .set_sort_points': -> Session.set('group_sort_key', 'points')
     'click .set_sort_timestamp': -> Session.set('group_sort_key', '_timestamp')

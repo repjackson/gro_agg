@@ -77,11 +77,11 @@ template(name='group')
                     //     .item {{ to_percent avg_sadness_score}}% sad
                     //     .item {{ to_percent avg_disgust_score}}% disgust
                     //     .item {{ to_percent avg_fear_score}}% fear
-                    if kv_is 'doc_sentiment_label' 'positive'
+                    if kve 'doc_sentiment_label' 'positive'
                         span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label}
                             |&nbsp;
                         div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
-                    else if kv_is 'doc_sentiment_label' 'negative'
+                    else if kve 'doc_sentiment_label' 'negative'
                         span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  #{doc_sentiment_label} 
                             |&nbsp;
                         div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
@@ -117,19 +117,19 @@ template(name='group')
                 
             .twelve.wide.column
                 |sort by
-                if skv_is 'group_sort_key' 'points'
+                if skve 'group_sort_key' 'points'
                     .ui.circular.black.icon.button.set_sort_points
                         i.large.thumbs.up.icon
                 else
                     .ui.circular.basic.icon.button.set_sort_points
                         i.large.thumbs.up.icon
-                if skv_is 'group_sort_key' '_timestamp'
+                if skve 'group_sort_key' '_timestamp'
                     .ui.circular.black.icon.button.set_sort_timestamp
                         i.clock.large.icon
                 else
                     .ui.circular.basic.icon.button.set_sort_timestamp
                         i.clock.large.icon
-                if skv_is 'group_sort_key' 'views'
+                if skve 'group_sort_key' 'views'
                     .ui.circular.black.icon.button.set_sort_views
                         i.eye.large.icon
                 else
@@ -310,9 +310,26 @@ template(name='group_post_view')
                     .spacer
                     .spacer
                 .four.wide.column.scrolling
+                    +emotion_edit key='joy'
+                    +emotion_edit key='sadness'
+                    +emotion_edit key='disgust'
+                    +emotion_edit key='fear'
+                    if joy_percent
+                        +doc_emotion
                     +comments
                     if watson
                         +watson_view
+
+
+template(name='emotion_edit')
+    div
+    .ui.small.inline.header #{key}
+    .ui.circular.icon.button.up_emotion
+        i.chevron.up.icon
+    .ui.circular.icon.button.down_emotion
+        i.chevron.down.icon
+    if kve key 'joy'
+        i.smile.icon
 
 template(name='group_post_edit')
     with current_doc

@@ -10,15 +10,15 @@ template(name='doc_sentiment')
     //-         | positive
     //-     else
     //-         | negative
-    if kv_is 'doc_sentiment_label' 'positive'
+    if kve 'doc_sentiment_label' 'positive'
         span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label}
             |&nbsp;
         div.rounde(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
-    else if kv_is 'doc_sentiment_label' 'negative'
+    else if kve 'doc_sentiment_label' 'negative'
         span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  #{doc_sentiment_label} 
             |&nbsp;
         div.rounde(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
-    else if kv_is 'doc_sentiment_label' 'negative'
+    else if kve 'doc_sentiment_label' 'negative'
         span.say.ui.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label} 
             |&nbsp;
         div.rounde(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:black" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
@@ -64,11 +64,11 @@ template(name='doc_emotion')
     .ui.separator
 template(name='doc_emotion_small') 
     if joy_percent
-        if kv_is 'doc_sentiment_label' 'positive'
+        if kve 'doc_sentiment_label' 'positive'
             span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%
             i.large.green.plus.icon
                 |&nbsp;
-        else if kv_is 'doc_sentiment_label' 'negative'
+        else if kve 'doc_sentiment_label' 'negative'
             span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%
             i.large.minus.red.icon
                 |&nbsp;
@@ -407,15 +407,15 @@ template(name='tone')
                     i.chevron.down.link.grey.icon.downvote_sentence
                     each tones
                         // .ui.basic.inverted.small.compact.circular.label(class="{{calculated_size 'score'}} #{tone_label_class}") 
-                        if kv_is 'tone_id' 'joy'
+                        if kve 'tone_id' 'joy'
                             +emoji name='joy'
-                        else if kv_is 'tone_id' 'analytical'
+                        else if kve 'tone_id' 'analytical'
                             +emoji name='thinking'
-                        else if kv_is 'tone_id' 'sadness'
+                        else if kve 'tone_id' 'sadness'
                             +emoji name='sob'
-                        else if kv_is 'tone_id' 'confident'
+                        else if kve 'tone_id' 'confident'
                             +emoji name='smile'
-                        else if kv_is 'tone_id' 'tentative'
+                        else if kve 'tone_id' 'tentative'
                             +emoji name='fearful'
                         else
                             .ui.basic.inverted.small.compact.circular.label(class="#{tone_label_class}") 

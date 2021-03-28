@@ -699,7 +699,7 @@ input {
 }
 
 ::-webkit-scrollbar {
-  width: 1px !important;
+  width: 0px !important;
   /*border-radius: 7px !important;*/
 }
 /*.wrap_input {*/
