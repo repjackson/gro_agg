@@ -409,15 +409,22 @@ template(name='tone')
                         // .ui.basic.inverted.small.compact.circular.label(class="{{calculated_size 'score'}} #{tone_label_class}") 
                         if kv_is 'tone_id' 'joy'
                             +emoji name='joy'
-                        if kv_is 'tone_id' 'analytical'
+                        else if kv_is 'tone_id' 'analytical'
                             +emoji name='thinking'
-                        .ui.basic.inverted.small.compact.circular.label(class="#{tone_label_class}") 
-                            span.ui.text
-                                |#{tone_id} &nbsp;
-                            | {{ to_percent score }}% 
-                    .ui.mini.transparent.icon.inline.input
-                        i.grey.tag.icon
-                        input.tag_sentence(type='text')
+                        else if kv_is 'tone_id' 'sadness'
+                            +emoji name='sob'
+                        else if kv_is 'tone_id' 'confident'
+                            +emoji name='smile'
+                        else if kv_is 'tone_id' 'tentative'
+                            +emoji name='fearful'
+                        else
+                            .ui.basic.inverted.small.compact.circular.label(class="#{tone_label_class}") 
+                                span.ui.text
+                                    |#{tone_id} &nbsp;
+                                | {{ to_percent score }}% 
+                    // .ui.mini.transparent.icon.inline.input
+                    //     i.grey.tag.icon
+                    //     input.tag_sentence(type='text')
                     each tags 
                         .ui.label #{this}
     // unless tone                
