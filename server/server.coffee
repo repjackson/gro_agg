@@ -157,6 +157,7 @@ Meteor.publish 'group_posts', (
             title:1
             content:1
             group:1
+            tone:1
             tags:1
             time_tags:1
             location_tags:1
@@ -165,11 +166,17 @@ Meteor.publish 'group_posts', (
             points:1
             max_emotion_name:1
             doc_sentiment_label:1
+            doc_sentiment_score:1
             image_link:1
             image_id:1
             model:1
             _timestamp:1
             youtube_id:1
+            joy_percent:1
+            sadness_percent:1
+            fear_percent:1
+            disgust_percent:1
+            anger_percent:1
     
     
 # Meteor.methods    

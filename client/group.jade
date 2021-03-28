@@ -167,10 +167,13 @@ template(name='post_card')
                 +youtube_view key='youtube_id' label='youtube id' direct=true
             // if is_admin
             //     +text_edit key='group' label='slug' direct=true
-            a.pointer.black_text.zoomer(href="/#{group}/p/#{_id}")
-                |!{content}
-                if raw
-                    |!{raw}
+            if tone 
+                +tone
+            else 
+                a.pointer.black_text.zoomer(href="/#{group}/p/#{_id}")
+                    |!{content}
+                // if raw
+                //     |!{raw}
             a.ui.inline.grey.header(href="/#{group}/p/#{_id}") #{when}
             each tags
                 +flat_tag_selector
