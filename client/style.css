@@ -53,7 +53,7 @@ body {
 /*.mark_viewed {*/
 /*    animation: fadein 1s !important;*/
 /*    animation: fadeout 1s; */
-/*    transition: all 1s ease !important; */
+/*    transition: all .5s ease !important; */
     /*cursor: help !important;*/
     /*color: black !important; */
     /*transform: scale(1.5) !important;*/
@@ -790,14 +790,14 @@ input {
     animation: fadein 1s !important;
     -webkit-transition: opacity 1s ease-in !important;
     -webkit-transition: opacity 1s ease-out; 
-    transition: all 1s ease !important;
+    transition: all .5s ease !important;
     animation: fadeout 1s; 
 }
 
 
 .icon:not(.loading){
     animation: fadein 1s !important;
-    transition: all 1s ease !important;
+    transition: all .5s ease !important;
      -webkit-transition: opacity .15s ease-out; 
     animation: fadeout 1s; 
 }

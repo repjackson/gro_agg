@@ -64,9 +64,6 @@ template(name='comments')
     .ui.comments
         each doc_comments
             .comment
-                unless anon
-                    a.avatar
-                        img.ui.avatar.image(src="{{c.url _author.profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
                 .content
                     .metadata
                         span.date #{when}

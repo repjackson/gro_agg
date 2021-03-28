@@ -269,12 +269,13 @@ template(name='group_post_view')
     with current_doc
         .ui.stackable.grid
             .row 
-                .four.wide.column
-                    a.ui.large.fluid.basic.button(href="/#{group}")
+                .four.wide.column.scrolling
+                    a.ui.big.fluid.basic.button(href="/#{group}")
                         i.chevron.left.icon
                         |#{group}
                     .ui.basic.segment
-                        .ui.large.inline.header #{title}
+                        if title
+                            .ui.large.inline.header #{title}
                         // div
                         .ui.grey.header {{when}}
                         +voting
@@ -290,7 +291,7 @@ template(name='group_post_view')
                         +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                         +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                         +call_tone
-                .twelve.wide.column.scrollin
+                .eight.wide.column.scrolling
                     if tone
                         +tone
                     if image_link
@@ -308,6 +309,7 @@ template(name='group_post_view')
                     div 
                     .spacer
                     .spacer
+                .four.wide.column.scrolling
                     +comments
                     if watson
                         +watson_view

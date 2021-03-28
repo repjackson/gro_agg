@@ -136,7 +136,7 @@ template(name='call_visual')
 template(name='keywords')
     .ui.small.grey.header 
         |#{watson.keywords.length} keywords
-    .ui.four.column.stackable.grid
+    .ui.two.column.stackable.grid
         each watson.keywords
             .ui.column
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
@@ -217,11 +217,11 @@ template(name='concept_list')
 
 
 template(name='concepts')
-    .ui.small.grey.header 
+    .ui.small.grey.inline.header 
         |#{watson.concepts.length} concepts
-    .large150
+    .inline
         each watson.concepts
-            div(class="{{calculated_size 'relevance'}}" title="{{to_percent relevance}}% relevant")
+            .ui.basic.label(class="{{calculated_size 'relevance'}}" title="{{to_percent relevance}}% relevant")
                 a(href=dbpedia_resource target='_blank') #{text}
 
 
