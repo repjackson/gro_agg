@@ -7,11 +7,12 @@ Router.route '/:group', (->
     @render 'group'
     ), name:'group_short'
 
-@selected_tags = new ReactiveArray []
-@selected_time_tags = new ReactiveArray []
-@selected_location_tags = new ReactiveArray []
-@selected_people_tags = new ReactiveArray []
+@picked_tags = new ReactiveArray []
+@picked_time_tags = new ReactiveArray []
+@picked_location_tags = new ReactiveArray []
+@picked_people_tags = new ReactiveArray []
 @picked_emotion = new ReactiveArray []
+@picked_timestamp_tags = new ReactiveArray []
 
 
     
@@ -20,32 +21,39 @@ Template.group.onCreated ->
     Session.setDefault('group_sort_key', 'points')
     @autorun => Meteor.subscribe 'agg_sentiment_group',
         Router.current().params.group
-        selected_tags.array()
+        picked_tags.array()
+        picked_time_tags.array()
+        picked_location_tags.array()
+        picked_people_tags.array()
+        picked_emotion.array()
+        picked_timestamp_tags.array()
         ()->Session.set('ready',true)
 
     @autorun => Meteor.subscribe 'group_tags',
         Router.current().params.group
-        selected_tags.array()
-        selected_time_tags.array()
-        selected_location_tags.array()
-        selected_people_tags.array()
+        picked_tags.array()
+        picked_time_tags.array()
+        picked_location_tags.array()
+        picked_people_tags.array()
         picked_emotion.array()
+        picked_timestamp_tags.array()
         # selected_group_authors.array()
         Session.get('toggle')
     @autorun => Meteor.subscribe 'group_count', 
         Router.current().params.group
-        selected_tags.array()
-        selected_time_tags.array()
-        selected_location_tags.array()
-        selected_people_tags.array()
+        picked_tags.array()
+        picked_time_tags.array()
+        picked_location_tags.array()
+        picked_people_tags.array()
     
     @autorun => Meteor.subscribe 'group_posts', 
         Router.current().params.group
-        selected_tags.array()
-        selected_time_tags.array()
-        selected_location_tags.array()
-        selected_people_tags.array()
+        picked_tags.array()
+        picked_time_tags.array()
+        picked_location_tags.array()
+        picked_people_tags.array()
         picked_emotion.array()
+        picked_timestamp_tags.array()
         Session.get('group_sort_key')
         Session.get('group_sort_direction')
         Session.get('group_skip_value')
@@ -62,11 +70,12 @@ Template.group.helpers
                 model:'post'
                 group:Router.current().params.group
             }, sort:"#{Session.get('group_sort_key')}":-1
-    selected_tags: -> selected_tags.array()
-    selected_time_tags: -> selected_time_tags.array()
-    selected_location_tags: -> selected_location_tags.array()
-    selected_people_tags: -> selected_people_tags.array()
+    picked_tags: -> picked_tags.array()
+    picked_time_tags: -> picked_time_tags.array()
+    picked_location_tags: -> picked_location_tags.array()
+    picked_people_tags: -> picked_people_tags.array()
     picked_emotion: -> picked_emotion.array()
+    picked_timestamp_tags: -> picked_timestamp_tags.array()
     counter: -> Counts.get 'counter'
     emotion_avg: -> results.findOne(model:'emotion_avg')
 
@@ -87,6 +96,7 @@ Template.group.helpers
     location_tags: -> results.find(model:'location_tag')
     people_tags: -> results.find(model:'people_tag')
     emotion_results: -> results.find(model:'emotion')
+    timestamp_tag_results: -> results.find(model:'timestamp_tag')
     current_group: ->
         Router.current().params.group
         
@@ -102,7 +112,7 @@ Template.emotion_edit.events
         unless current is NaN
             # updated_percent = parseFloat(parent["#{@key}_percent"],2)
             updated_percent = parent["#{@key}_percent"]
-            # console.log updated_percent+.1
+            console.log updated_percent+.1
             if updated_percent > 1
                 Docs.update Template.parentData()._id,
                     $set:
@@ -133,8 +143,8 @@ Template.group.events
     # 'click .unselect_group_tag': -> 
     #     Session.set('skip',0)
     #     # console.log @
-    #     selected_tags.remove @valueOf()
-    #     # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+    #     picked_tags.remove @valueOf()
+    #     # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
 
     # 'click .select_tag': -> 
     #     # results.update
@@ -145,7 +155,7 @@ Template.group.events
     #     #     selected_emotions.push @name
     #     # else
     #     # if @model is 'group_tag'
-    #     selected_tags.push @name
+    #     picked_tags.push @name
     #     $('.search_subgroup').val('')
     #     Session.set('group_skip_value',0)
 
@@ -157,9 +167,9 @@ Template.group.events
         
 
     'click .unselect_time_tag': ->
-        selected_time_tags.remove @valueOf()
+        picked_time_tags.remove @valueOf()
     'click .select_time_tag': ->
-        selected_time_tags.push @name
+        picked_time_tags.push @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         
     'click .unpick_emotion': ->
@@ -170,15 +180,15 @@ Template.group.events
         
 
     'click .unselect_people_tag': ->
-        selected_people_tags.remove @valueOf()
+        picked_people_tags.remove @valueOf()
     'click .select_people_tag': ->
-        selected_people_tags.push @name
+        picked_people_tags.push @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         
     'click .unselect_location_tag': ->
-        selected_location_tags.remove @valueOf()
+        picked_location_tags.remove @valueOf()
     'click .select_location_tag': ->
-        selected_location_tags.push @name
+        picked_location_tags.push @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
 
     'click .add_post': ->
@@ -191,7 +201,7 @@ Template.group.events
          if e.which is 13
             val = t.$('.search_group_tag').val().trim().toLowerCase()
             # window.speechSynthesis.speak new SpeechSynthesisUtterance val
-            selected_tags.push val   
+            picked_tags.push val   
             t.$('.search_group_tag').val('')
         
         
@@ -240,12 +250,12 @@ Template.tag_selector.events
         #     selected_emotions.push @name
         # else
         # if @model is 'group_tag'
-        selected_tags.push @name
+        picked_tags.push @name
         $('.search_subgroup').val('')
         Session.set('group_skip_value',0)
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
         # Session.set('group_loading',true)
         # Meteor.call 'search_group', @name, ->
         #     Session.set('group_loading',false)
@@ -270,8 +280,8 @@ Template.unselect_tag.events
     'click .unselect_tag': -> 
         Session.set('skip',0)
         # console.log @
-        selected_tags.remove @valueOf()
-        # window.speechSynthesis.speak new SpeechSynthesisUtterance selected_tags.array().toString()
+        picked_tags.remove @valueOf()
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance picked_tags.array().toString()
     
 
 Template.flat_tag_selector.onCreated ->
@@ -298,7 +308,7 @@ Template.flat_tag_selector.events
         # results.update
         # window.speechSynthesis.cancel()
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
-        selected_tags.push @valueOf()
+        picked_tags.push @valueOf()
         $('.search_group').val('')
 
 

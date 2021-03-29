@@ -6,11 +6,11 @@ template(name='group')
                     |#{current_group}
                 .ui.icon.circular.basic.button.add_post
                     i.plus.icon
-                if selected_tags
+                if picked_tags
                     // if many_tags
                     //     a#clear_tags.ui.black.invert.icon.compact.button.select_term
                     //         i.remove.icon
-                    each selected_tags
+                    each picked_tags
                         +unselect_tag
                 .ui.icon.small.input
                     i.search.icon
@@ -23,8 +23,8 @@ template(name='group')
                 //     i.big.grey.loading.yin.yang.icon
             .four.wide.column.scrolling
                 i.big.clock.grey.icon(title='when tags')
-                if selected_time_tags
-                    each selected_time_tags
+                if picked_time_tags
+                    each picked_time_tags
                         a.unselect_time_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
                 each time_tags
@@ -43,8 +43,8 @@ template(name='group')
                 div
                 div
                 i.big.marker.grey.icon(title='where tags')
-                if selected_location_tags
-                    each selected_location_tags
+                if picked_location_tags
+                    each picked_location_tags
                         a.unselect_location_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
                 each location_tags
@@ -52,8 +52,8 @@ template(name='group')
                         strong #{name}
                 div
                 i.big.users.grey.icon(title='where tags')
-                if selected_people_tags
-                    each selected_people_tags
+                if picked_people_tags
+                    each picked_people_tags
                         a.unselect_people_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
                 each people_tags
@@ -61,11 +61,11 @@ template(name='group')
                         strong #{name}
                 div
                 i.big.marker.grey.icon(title='where tags')
-                if selected_timestamp_tags
-                    each selected_timestamp_tags
+                if picked_timestamp_tags
+                    each picked_timestamp_tags
                         a.unselect_timestamp_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
-                each timestamp_tags
+                each timestamp_tag_results
                     a.ui.basic.large.label.zoomer.select_timestamp_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                         strong #{name}
                 .ui.hidden.divider
@@ -265,60 +265,9 @@ template(name='flat_tag_selector')
         | #{this}
         // if in_dev
         //     small #{count}
-template(name='group_post_view')
-    with current_doc
-        .ui.stackable.grid
-            .row 
-                .four.wide.column.scrolling
-                    a.ui.big.fluid.basic.button(href="/#{group}")
-                        i.chevron.left.icon
-                        |#{group}
-                    .ui.basic.segment
-                        if title
-                            .ui.large.inline.header #{title}
-                        // div
-                        .ui.grey.header {{when}}
-                        +voting
-                        if can_edit
-                            a.edit_group_post(href="/#{group}/p/#{_id}/edit" title='edit')
-                                i.large.link.pencil.icon
-                        | #{views} views
-                        +array_edit key='tags' label='tags' direct=true
-                        // +voting_full
-                        +link_view key='link' label='link' direct=true
-    
-                        +array_edit key='people_tags' label='people tags' icon='user outline' direct=true
-                        +array_edit key='time_tags' label='time tags' icon='clock' direct=true
-                        +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                        +call_tone
-                    +comments
-                    if watson
-                        +watson_view
-                .twelve.wide.column.scrolling
-                    if tone
-                        +tone
-                    if image_link
-                        a(href="/#{group}")
-                            +image_link_view key='image_link' direct=true
-                    if image_id
-                        a(href="/#{group}")
-                            img.ui.fluid.image.pointer(src="{{c.url image_id }}" class=currentUser.invert_class)
-                    if youtube_id
-                        +youtube_view key='youtube_id' label='youtube id' direct=true
-                    if raw 
-                        |!{raw}
-                    .say_this.say_body.black_text
-                        |!{content}
-                    +emotion_edit key='joy'
-                    +emotion_edit key='sadness'
-                    +emotion_edit key='disgust'
-                    +emotion_edit key='fear'
-                    if joy_percent
-                        +doc_emotion
-
 
 template(name='emotion_edit')
-    div
+    // div
     .ui.small.inline.header #{key}
     .ui.circular.icon.button.up_emotion
         i.chevron.up.icon

@@ -42,7 +42,7 @@ body {
   transform: scale(1.2) !important;
 }
 /*.tag_select_class:hover {*/
-/*    animation: fadein 1s !important;*/
+/*    animation: fadein .5s !important;*/
 /*    animation: fadeout .25s; */
 /*    transition: all .15s ease !important; */
     /*cursor: help !important;*/
@@ -51,7 +51,7 @@ body {
 /*}*/
 
 /*.mark_viewed {*/
-/*    animation: fadein 1s !important;*/
+/*    animation: fadein .5s !important;*/
 /*    animation: fadeout 1s; */
 /*    transition: all .5s ease !important; */
     /*cursor: help !important;*/
@@ -284,7 +284,7 @@ body {
 /*}*/
 /*.topnav.menu {*/
   /*border-radius: 0 0 7px 7px !important; */
-  /*transition: color 1s ease !important;*/
+  /*transition: color .5s ease !important;*/
   /*background-color: rgba(250,250,250,1) !important; */
   /*background-color: rgba(50,110,100,1) !important; */
   
@@ -297,7 +297,7 @@ body {
 /*}*/
 .hscroll {
   /*border-radius: 0 0 7px 7px !important; */
-  transition: background-color 1s ease !important;
+  transition: background-color .5s ease !important;
   /*background-color: rgba(250,250,250,.6) !important; */
   /*background-color: rgba(50,110,100,1) !important; */
   
@@ -418,12 +418,12 @@ body {
   }
 /*  */
 /*.say {*/
-    /*animation: fadein 1s !important;*/
+    /*animation: fadein .5s !important;*/
     /*animation: fadeout .25s; */
 /*    transition: all .15s ease !important; */
 /*}*/
 /*.say:hover {*/
-    /*animation: fadein 1s !important;*/
+    /*animation: fadein .5s !important;*/
     /*animation: fadeout .25s; */
     /*transition: all .15s ease !important; */
     /*cursor: help !important;*/
@@ -493,7 +493,7 @@ img, .image {
     /*filter: drop-shadow(0px 0px 3px white);    */
     z-index: 1000 !important;
     transform: scale(1.05) !important;
-    animation: fadein 1s !important;
+    animation: fadein .5s !important;
     animation: fadeout .25s; 
 }
 
@@ -524,7 +524,7 @@ img, .image {
     /*transform: rotate(20deg) !important;*/
 /*    z-index:1000 !important;*/
 /*    border-radius: 7px !important;*/
-    /*animation: fadein 1s !important;*/
+    /*animation: fadein .5s !important;*/
     /*-webkit-transition: opacity .15s ease-in !important;*/
     /* -webkit-transition: opacity .15s ease-out; */
     /*animation: fadeout .25s; */
@@ -737,20 +737,20 @@ input {
     /*padding-left: 1em;*/
 /*}*/
 .medscroll{
-     padding: 5px !important;
-    border-radius: 7px !important;
+    padding: 5px !important;
+    /*border-radius: 7px !important;*/
     /*border-width: 1px !important;*/
     /*border-color: grey !important;*/
     /*border-style: solid !important; */
     max-height: 500px !important;
     overflow-y:scroll;
     overflow-x:hidden;
-     padding-top: .2em; 
-    padding: 2em;
-    padding-left: 1em;
+     /*padding-top: .2em; */
+    /*padding: 2em;*/
+    /*padding-left: 1em;*/
 }
-.scrolling{
-    max-height: 95vh !important;
+.scrollng{
+    max-height: 100vh !important;
     /*min-height: 50vh !important;*/
     /*border-radius: 7px !important;*/
     /*border-width: 1px !important;*/
@@ -787,16 +787,16 @@ input {
 
 
 .button,.card,.image,.header,p,img,.say,.pointer, .tone_item, .item{
-    animation: fadein 1s !important;
-    -webkit-transition: opacity 1s ease-in !important;
-    -webkit-transition: opacity 1s ease-out; 
+    animation: fadein .5s !important;
+    -webkit-transition: opacity .5s ease-in !important;
+    -webkit-transition: opacity .5s ease-out; 
     transition: all .5s ease !important;
     animation: fadeout 1s; 
 }
 
 
 .icon:not(.loading){
-    animation: fadein 1s !important;
+    animation: fadein .5s !important;
     transition: all .5s ease !important;
      -webkit-transition: opacity .15s ease-out; 
     animation: fadeout 1s; 
@@ -933,7 +933,7 @@ input {
 /*}*/
 
 /*.circle-wrapper:active .circle {*/
-/*  animation: spin 1s linear infinite;*/
+/*  animation: spin .5s linear infinite;*/
 /*}*/
 
 /*.success {*/

@@ -58,12 +58,12 @@ Docs.allow
 
 
 
-Meteor.publish 'alpha_combo', (selected_tags)->
+Meteor.publish 'alpha_combo', (picked_tags)->
     @unblock()
     Docs.find 
         model:'alpha'
-        # query: $in: selected_tags
-        query: selected_tags.toString()
+        # query: $in: picked_tags
+        query: picked_tags.toString()
 Meteor.methods
     call_alpha: (query)->
         @unblock()
@@ -101,10 +101,11 @@ Meteor.methods
                             
 Meteor.publish 'group_count', (
     group
-    selected_tags
-    selected_time_tags
+    picked_tags
+    picked_time_tags
     selected_location_tags
     selected_people_tags
+    picked_timestamp_tags
     )->
     match = {model:'post'}
     if group is 'all'
@@ -112,8 +113,8 @@ Meteor.publish 'group_count', (
     else
         match.group = group
         
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
-    if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
     if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
     if selected_people_tags.length > 0 then match.people_tags = $all:selected_people_tags
 
@@ -122,11 +123,12 @@ Meteor.publish 'group_count', (
             
 Meteor.publish 'group_posts', (
     group
-    selected_tags
-    selected_time_tags
+    picked_tags
+    picked_time_tags
     selected_location_tags
     selected_people_tags
     picked_max_emotion
+    picked_timestamp_tags
     sort_key='_timestamp'
     sort_direction
     skip=0
@@ -143,10 +145,11 @@ Meteor.publish 'group_posts', (
 
     if picked_max_emotion.length > 0 then match.max_emotion_name = $all:picked_max_emotion
 
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
-    if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
     if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
     if selected_people_tags.length > 0 then match.people_tags = $all:selected_people_tags
+    if picked_timestamp_tags.length > 0 then match._timestamp_tags = $all:picked_timestamp_tags
     # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
     # console.log 'skip', skip
     Docs.find match,
@@ -211,11 +214,12 @@ Meteor.publish 'group_posts', (
            
 Meteor.publish 'group_tags', (
     group
-    selected_tags
-    selected_time_tags
+    picked_tags
+    picked_time_tags
     selected_location_tags
     selected_people_tags
     picked_max_emotion
+    picked_timestamp_tags
     # view_bounties
     # view_unanswered
     # query=''
@@ -236,12 +240,12 @@ Meteor.publish 'group_tags', (
     #     match.bounty = true
     # if view_unanswered
     #     match.is_answered = false
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
     if picked_max_emotion.length > 0 then match.max_emotion_name = $all:picked_max_emotion
-    if selected_time_tags.length > 0 then match.time_tags = $all:selected_time_tags
+    if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
     if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
     if selected_people_tags.length > 0 then match.people_tags = $all:selected_people_tags
-    # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
+    if picked_timestamp_tags.length > 0 then match._timestamp_tags = $all:picked_timestamp_tags
     # if selected_emotion.length > 0 then match.max_emotion_name = selected_emotion
     doc_count = Docs.find(match).count()
     # console.log 'doc_count', doc_count
@@ -250,7 +254,7 @@ Meteor.publish 'group_tags', (
         { $project: "tags": 1 }
         { $unwind: "$tags" }
         { $group: _id: "$tags", count: $sum: 1 }
-        { $match: _id: $nin: selected_tags }
+        { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
         { $limit:33 }
@@ -290,7 +294,7 @@ Meteor.publish 'group_tags', (
         # { $match: _id: $nin: selected_location_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_location_cloud.forEach (location, i) ->
@@ -306,10 +310,10 @@ Meteor.publish 'group_tags', (
         { $project: "time_tags": 1 }
         { $unwind: "$time_tags" }
         { $group: _id: "$time_tags", count: $sum: 1 }
-        { $match: _id: $nin: selected_time_tags }
+        { $match: _id: $nin: picked_time_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_time_cloud.forEach (time_tag, i) ->
@@ -323,10 +327,10 @@ Meteor.publish 'group_tags', (
         { $project: "max_emotion_name": 1 }
         # { $unwind: "$max_emotion_name" }
         { $group: _id: "$max_emotion_name", count: $sum: 1 }
-        { $match: _id: $nin: selected_time_tags }
+        { $match: _id: $nin: picked_time_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:25 }
+        { $limit:10 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     emotion_cloud.forEach (emotion, i) ->
@@ -335,22 +339,51 @@ Meteor.publish 'group_tags', (
             count: emotion.count
             model:'emotion'
   
+    timestamp_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "_timestamp_tags": 1 }
+        { $unwind: "$_timestamp_tags" }
+        { $group: _id: "$_timestamp_tags", count: $sum: 1 }
+        { $match: _id: $nin: picked_timestamp_tags }
+        { $sort: count: -1, _id: 1 }
+        { $match: count: $lt: doc_count }
+        { $limit:10 }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ]
+    timestamp_cloud.forEach (timestamp, i) ->
+        self.added 'results', Random.id(),
+            name: timestamp.name
+            count: timestamp.count
+            model:'timestamp_tag'
+  
     self.ready()
                                     
                                     
 Meteor.publish 'agg_sentiment_group', (
     group
-    selected_tags
+    picked_tags
+    picked_time_tags
+    selected_location_tags
+    selected_people_tags
+    picked_max_emotion
+    picked_timestamp_tags
     )->
     # @unblock()
     self = @
     match = {
         model:$in:['post']
         group:group
+        joy_percent:$exists:true
     }
         
     doc_count = Docs.find(match).count()
-    if selected_tags.length > 0 then match.tags = $all:selected_tags
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    if picked_max_emotion.length > 0 then match.max_emotion_name = $all:picked_max_emotion
+    if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
+    if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
+    if selected_people_tags.length > 0 then match.people_tags = $all:selected_people_tags
+    if picked_timestamp_tags.length > 0 then match._timestamp_tags = $all:picked_timestamp_tags
+    
     emotion_avgs = Docs.aggregate [
         { $match: match }
         #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
