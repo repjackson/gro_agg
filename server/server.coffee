@@ -153,9 +153,9 @@ Meteor.publish 'group_posts', (
     # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
     # console.log 'skip', skip
     Docs.find match,
-        limit:20
+        limit:10
         sort: "#{sort_key}":-1
-        skip:skip*20
+        skip:skip*10
         fields:
             title:1
             content:1
@@ -257,7 +257,7 @@ Meteor.publish 'group_tags', (
         { $match: _id: $nin: picked_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:33 }
+        { $limit:20 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_tag_cloud.forEach (tag, i) ->

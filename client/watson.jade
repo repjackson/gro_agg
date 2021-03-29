@@ -136,7 +136,7 @@ template(name='call_visual')
 template(name='keywords')
     .ui.small.grey.header 
         |#{watson.keywords.length} keywords
-    .ui.two.column.stackable.grid
+    .ui.three.column.stackable.grid
         each watson.keywords
             .ui.column
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
@@ -422,11 +422,11 @@ template(name='tone')
                                 span.ui.text
                                     |#{tone_id} &nbsp;
                                 | {{ to_percent score }}% 
-                    // .ui.mini.transparent.icon.inline.input
-                    //     i.grey.tag.icon
-                    //     input.tag_sentence(type='text')
+                    .ui.mini.transparent.icon.inline.input
+                        i.grey.tag.icon
+                        input.tag_sentence(type='text')
                     each tags 
-                        .ui.label #{this}
+                        .ui.small.basic.circular.label #{this}
     // unless tone                
     //- #call_tone.ui.icon.button
     //-     i.refresh.icon

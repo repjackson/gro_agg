@@ -140,21 +140,21 @@ template(name='group')
                 +group_view_mode key='video' icon='video'
                 +group_view_mode key='image' icon='image'
                 +group_view_mode key='content' icon='content'
-                if one_post
-                    .ui.one.column.centered.padded.grid.scrolling
+                // if one_post
+                //     .ui.one.column.centered.padded.grid.scrolling
+                //         each posts
+                //             +post_card_med
+                // else if two_posts
+                //     .ui.two.column.centered.padded.grid.scrolling
+                //         each posts
+                //             +post_card_med
+                // else 
+                .ui.stackable.one.column.padded.grid.scrolling
+                    if posts.count
                         each posts
-                            +post_card_med
-                else if two_posts
-                    .ui.two.column.centered.padded.grid.scrolling
-                        each posts
-                            +post_card_med
-                else 
-                    .ui.stackable.two.column.centered.padded.grid.scrolling
-                        if posts.count
-                            each posts
-                                +post_card
-                        else
-                            i.massive.grey.loading.yin.yang.icon
+                            +post_card
+                    else
+                        i.massive.grey.loading.yin.yang.icon
 
 template(name='group_view_mode')
     .ui.circular.icon.button

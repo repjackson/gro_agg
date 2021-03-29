@@ -109,8 +109,9 @@ Meteor.methods
         # console.log sentence
         Docs.update(
             { _id:doc_id, "tone.result.sentences_tone.sentence_id": sentence.sentence_id },
-            { $set: 
-                "tone.result.sentences_tone.$.weight": -2
+            { 
+                $set: 
+                    "tone.result.sentences_tone.$.weight": -2
             } 
         )
 

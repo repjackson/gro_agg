@@ -26,10 +26,20 @@ Template.call_tone.events
 Template.tone.events
     'click .upvote_sentence': ->
         console.log @
-        Meteor.call 'upvote_sentence', Router.current().params.doc_id, @, ->
+        console.log Template.currentData()
+        console.log Template.parentData()
+        Meteor.call 'upvote_sentence', Template.currentData()._id, @, ->
     'click .downvote_sentence': ->
         console.log @
-        Meteor.call 'downvote_sentence', Router.current().params.doc_id, @, ->
+        Meteor.call 'downvote_sentence', Template.currentData()._id, @, ->
+    'keyup .tag_sentence': (e,t)->
+        if e.which is 13
+            tag = $(e.currentTarget).closest('.tag_sentence').val().trim()
+            
+            # console.log tag
+            if tag
+                Meteor.call 'tag_sentence', Template.currentData()._id, @, tag, ->
+                $(e.currentTarget).closest('.tag_sentence').val('')
 
 
 
