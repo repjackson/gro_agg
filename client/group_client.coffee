@@ -18,7 +18,7 @@ Router.route '/:group', (->
     
 
 Template.group.onCreated ->
-    Session.setDefault('group_sort_key', 'points')
+    Session.setDefault('group_sort_key', '_timestamp')
     @autorun => Meteor.subscribe 'agg_sentiment_group',
         Router.current().params.group
         picked_tags.array()
