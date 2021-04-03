@@ -153,19 +153,20 @@ Meteor.publish 'group_posts', (
     # if selected_group_authors.length > 0 then match.author = $all:selected_group_authors
     # console.log 'skip', skip
     Docs.find match,
-        limit:10
+        limit:20
         sort: "#{sort_key}":-1
         skip:skip*10
         fields:
             title:1
-            content:1
+            # content:1
             group:1
-            tone:1
-            tags:1
-            time_tags:1
-            location_tags:1
-            people_tags:1
+            # tone:1
+            # tags:1
+            # time_tags:1
+            # location_tags:1
+            # people_tags:1
             views:1
+            # watsosn:1
             points:1
             max_emotion_name:1
             doc_sentiment_label:1
@@ -174,6 +175,7 @@ Meteor.publish 'group_posts', (
             image_id:1
             model:1
             _timestamp:1
+            _timestamp_tags:1
             youtube_id:1
             joy_percent:1
             sadness_percent:1

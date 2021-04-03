@@ -94,7 +94,7 @@ Template.registerHelper 'tone_size', () ->
         else if @weight > 5 then 'f16'
         
     else
-        'f11'
+        'f12'
   
     
 

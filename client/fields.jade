@@ -211,7 +211,7 @@ template(name='link_view')
         a.ui.header(href=field_value target='_window')
             if label 
                 |#{label}
-        a(href="www.#{field_value}" target='_window')
+        a(href="#{field_value}" target='_window')
             |#{field_value}
         //- img.ui.fluid.image(src=field_value)
         

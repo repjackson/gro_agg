@@ -57,16 +57,16 @@ template(name='group')
                         a.unselect_people_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
                 each people_tags
-                    a.ui.basic.large.label.zoomer.select_people_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                    a.ui.basic.large.label.zoomer.pick_people_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                         strong #{name}
                 div
                 i.big.marker.grey.icon(title='where tags')
                 if picked_timestamp_tags
                     each picked_timestamp_tags
-                        a.unselect_timestamp_tag.ui.active.large.compact.button(href='#')
+                        a.unpick_timestamp_tag.ui.active.large.compact.button(href='#')
                             strong #{this}
                 each timestamp_tag_results
-                    a.ui.basic.large.label.zoomer.select_timestamp_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                    a.ui.basic.large.label.zoomer.pick_timestamp_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
                         strong #{name}
                 .ui.hidden.divider
                 with emotion_avg
@@ -137,9 +137,9 @@ template(name='group')
                         i.eye.large.icon
                 .ui.inline.header
                     |view
-                +group_view_mode key='video' icon='video'
-                +group_view_mode key='image' icon='image'
-                +group_view_mode key='content' icon='content'
+                // +group_view_mode key='video' icon='video'
+                // +group_view_mode key='image' icon='image'
+                // +group_view_mode key='content' icon='content'
                 if one_post
                     .ui.one.column.centered.padded.grid.scrolling
                         each posts
@@ -149,7 +149,7 @@ template(name='group')
                         each posts
                             +post_card_med
                 else 
-                    .ui.stackable.two.column.padded.grid.scrolling
+                    .ui.stackable.three.column.padded.grid.scrolling
                         if posts.count
                             each posts
                                 +post_card
@@ -175,6 +175,8 @@ template(name='post_card')
                 +youtube_view key='youtube_id' label='youtube id' direct=true
             // if is_admin
             //     +text_edit key='group' label='slug' direct=true
+            +datetime_view key='publish_datetime' label='publish date/time' icon='clock' direct=true
+
             if tone 
                 +tone
             else 
@@ -294,6 +296,8 @@ template(name='group_post_edit')
                     +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     +array_edit key='people_tags' label='people tags' icon='user' direct=true
+                    +datetime_edit key='publish_datetime' label='publish date/time' icon='clock' direct=true
+
                     // +raw_edit key='raw' label='raw' direct=true
                 .twelve.wide.column
                     +text_edit key='title' label='title' direct=true

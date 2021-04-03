@@ -179,15 +179,22 @@ Template.group.events
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         
 
-    'click .unselect_people_tag': ->
+    'click .unpick_people_tag': ->
         picked_people_tags.remove @valueOf()
-    'click .select_people_tag': ->
+    'click .pick_people_tag': ->
         picked_people_tags.push @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         
-    'click .unselect_location_tag': ->
+
+    'click .unpick_timestamp_tag': ->
+        picked_timestamp_tags.remove @valueOf()
+    'click .pick_timestamp_tag': ->
+        picked_timestamp_tags.push @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        
+    'click .unpick_location_tag': ->
         picked_location_tags.remove @valueOf()
-    'click .select_location_tag': ->
+    'click .pick_location_tag': ->
         picked_location_tags.push @name
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
 

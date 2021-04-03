@@ -7,8 +7,6 @@ template(name='group_post_view')
                         i.chevron.left.icon
                         |#{group}
                     .ui.basic.segment
-                        if title
-                            .ui.large.inline.header #{title}
                         // div
                         .ui.grey.header {{when}}
                         +voting
@@ -16,17 +14,17 @@ template(name='group_post_view')
                             a.edit_group_post(href="/#{group}/p/#{_id}/edit" title='edit')
                                 i.large.link.pencil.icon
                         | #{views} views
-                        +array_edit key='tags' label='tags' direct=true
+                        +array_edit key='tags' label='tags' icon='tag' direct=true
                         // +voting_full
-                        +link_view key='link' label='link' direct=true
+                        +link_view key='link' label='link' icon='linkify' direct=true
     
+                        +datetime_edit key='publish_datetime' label='publish date/time' icon='clock' direct=true
                         +array_edit key='people_tags' label='people tags' icon='user outline' direct=true
                         +array_edit key='time_tags' label='time tags' icon='clock' direct=true
                         +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                        +call_tone
                 .twelve.wide.column.scrolling
-                    if tone
-                        +tone
+                    if title
+                        .ui.inline.header #{title}
                     if image_link
                         a(href="/#{group}")
                             +image_link_view key='image_link' direct=true
@@ -39,6 +37,10 @@ template(name='group_post_view')
                         |!{raw}
                     .say_this.say_body.black_text
                         |!{content}
+                    if tone
+                        +tone
+                    unless tone
+                        +call_tone
                     +emotion_edit key='joy'
                     +emotion_edit key='sadness'
                     +emotion_edit key='disgust'
