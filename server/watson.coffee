@@ -113,7 +113,7 @@ Meteor.methods
                                     $addToSet:location_tags:entity.text.toLowerCase()
                             if entity.type is 'Person'
                                 Docs.update { _id: doc_id },
-                                    $addToSet:peopl_tags:entity.text.toLowerCase()
+                                    $addToSet:people_tags:entity.text.toLowerCase()
                 emotions = response.emotion.document.emotion
 
                 emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']
