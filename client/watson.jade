@@ -187,15 +187,15 @@ template(name='entities')
                 if emotion
                     with emotion
                         span {{ to_percent sadness }}% sad
-                            .rounde(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad" )
+                            .rounded.invert(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad" )
                         span {{ to_percent joy }}% joy
-                            .rounde(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% sadness" )
+                            .rounded.invert(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% sadness" )
                         span {{ to_percent disgust }}% disgust
-                            .rounde(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% disgust" )
+                            .rounded.invert(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% disgust" )
                         span {{ to_percent fear }}% fear
-                            .rounde(style="height:5px;width:{{to_percent fear}}%;background-color:black" title="{{to_percent fear}}% fear" )
+                            .rounded.invert(style="height:5px;width:{{to_percent fear}}%;background-color:black" title="{{to_percent fear}}% fear" )
                         span {{ to_percent anger }}% anger
-                            .rounde(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% anger" )
+                            .rounded.invert(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% anger" )
 
 
 

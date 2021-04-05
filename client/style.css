@@ -28,7 +28,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   /*background: rgba(100,100,100,1) !important;*/
-  filter: invert(.7) !important; 
+  filter: invert(.9) !important; 
   /*overscroll-behavior: none; */
   transition: all .15s ease !important;
   /*background: #0e0e44 !important; */
