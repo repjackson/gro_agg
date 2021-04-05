@@ -156,7 +156,7 @@ Template.group.events
     #     # else
     #     # if @model is 'group_tag'
     #     picked_tags.push @name
-    #     $('.search_subgroup').val('')
+    #     $('.search_group_tag').val('')
     #     Session.set('group_skip_value',0)
 
     'click .unpick_time_tag': ->
@@ -252,13 +252,13 @@ Template.tag_selector.events
         # results.update
         # console.log @
         # window.speechSynthesis.cancel()
-        window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+        # window.speechSynthesis.speak new SpeechSynthesisUtterance @name
         # if @model is 'group_emotion'
         #     selected_emotions.push @name
         # else
         # if @model is 'group_tag'
         picked_tags.push @name
-        $('.search_subgroup').val('')
+        $('.search_group_tag').val('')
         Session.set('group_skip_value',0)
 
         # window.speechSynthesis.speak new SpeechSynthesisUtterance @name

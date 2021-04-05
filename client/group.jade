@@ -12,10 +12,10 @@ template(name='group')
                     //         i.remove.icon
                     each picked_tags
                         +unselect_tag
-                .ui.icon.small.input
-                    i.search.icon
-                    input.search_group_tag(type='text' value=group_query placeholder="#{counter} results")
-                    // .ui.label #{this}
+                // .ui.icon.small.input
+                //     i.search.icon
+                //     input.search_group_tag(type='text' value=group_query placeholder="#{counter} results")
+                //     // .ui.label #{this}
                 if result_tags.count
                     each result_tags
                         +tag_selector
@@ -135,8 +135,8 @@ template(name='group')
                 else
                     .ui.circular.basic.icon.button.set_sort_views
                         i.eye.large.icon
-                .ui.inline.header
-                    |view
+                // .ui.inline.header
+                //     |view
                 // +group_view_mode key='video' icon='video'
                 // +group_view_mode key='image' icon='image'
                 // +group_view_mode key='content' icon='content'
@@ -149,7 +149,7 @@ template(name='group')
                         each posts
                             +post_card_med
                 else 
-                    .ui.stackable.three.column.padded.grid.scrolling
+                    .ui.stackable.two.column.padded.grid.scrolling
                         if posts.count
                             each posts
                                 +post_card
@@ -175,7 +175,7 @@ template(name='post_card')
                 +youtube_view key='youtube_id' label='youtube id' direct=true
             // if is_admin
             //     +text_edit key='group' label='slug' direct=true
-            +datetime_view key='publish_datetime' label='publish date/time' icon='clock' direct=true
+            // +datetime_view key='publish_datetime' label='publish date/time' icon='clock' direct=true
 
             if tone 
                 +tone

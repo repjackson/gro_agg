@@ -158,7 +158,7 @@ Meteor.publish 'group_posts', (
         skip:skip*10
         fields:
             title:1
-            # content:1
+            content:1
             group:1
             # tone:1
             # tags:1
@@ -278,7 +278,7 @@ Meteor.publish 'group_tags', (
         # { $match: _id: $nin: selected_people_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:10 }
+        { $limit:7 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_people_cloud.forEach (people, i) ->
@@ -296,7 +296,7 @@ Meteor.publish 'group_tags', (
         # { $match: _id: $nin: selected_location_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:10 }
+        { $limit:7 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_location_cloud.forEach (location, i) ->
@@ -315,7 +315,7 @@ Meteor.publish 'group_tags', (
         { $match: _id: $nin: picked_time_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:10 }
+        { $limit:7 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     group_time_cloud.forEach (time_tag, i) ->
@@ -332,7 +332,7 @@ Meteor.publish 'group_tags', (
         { $match: _id: $nin: picked_time_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:10 }
+        { $limit:7 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     emotion_cloud.forEach (emotion, i) ->
@@ -349,7 +349,7 @@ Meteor.publish 'group_tags', (
         { $match: _id: $nin: picked_timestamp_tags }
         { $sort: count: -1, _id: 1 }
         { $match: count: $lt: doc_count }
-        { $limit:10 }
+        { $limit:7 }
         { $project: _id: 0, name: '$_id', count: 1 }
     ]
     timestamp_cloud.forEach (timestamp, i) ->
