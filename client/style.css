@@ -552,7 +552,7 @@ img, .image {
     /*border-radius: 7px !important;*/
 /*}*/
 
-.invert, img, input {
+.invert, img, .input, i, .icon, input {
   filter: invert(1) !important; 
 }
 /*.left.floated{*/
