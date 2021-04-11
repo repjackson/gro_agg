@@ -19,16 +19,16 @@ body {
   /*font-family: 'Ubuntu', sans-serif !important; */
   /* font-family: 'Lato+Mono', sans-serif !important; */
   /* font-family: 'Lato', sans-serif !important; */
-  font-size: 110% !important; 
+  font-size: 100% !important; 
   /* line-height: 200% !important; */
-  background: rgba(0,0,0,1) !important; 
+  /*background: rgba(0,0,0,1) !important; */
 /*  scroll-behavior: smooth;*/
   /*margin-top: 5em;*/
   -webkit-font-smoothing: antialiased; 
   -moz-osx-font-smoothing: grayscale;
 
   /*background: rgba(100,100,100,1) !important;*/
-  filter: invert(.9) !important; 
+  /*filter: invert(.9) !important; */
   /*overscroll-behavior: none; */
   transition: all .15s ease !important;
   /*background: #0e0e44 !important; */
@@ -552,9 +552,9 @@ img, .image {
     /*border-radius: 7px !important;*/
 /*}*/
 
-.invert, img, .input, i, .icon, input {
-  filter: invert(1) !important; 
-}
+/*.invert, img, .input, i, .icon, input {*/
+  /*filter: invert(1) !important; */
+/*}*/
 /*.left.floated{*/
 /*    margin:3px !important;*/
 /*}*/
