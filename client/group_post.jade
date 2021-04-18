@@ -11,7 +11,7 @@ template(name='group_post_view')
                         .ui.grey.header {{when}}
                         +voting
                         if can_edit
-                            a.edit_group_post(href="/#{group}/p/#{_id}/edit" title='edit')
+                            a.edit_group_post(href="/g/#{group}/p/#{_id}/edit" title='edit')
                                 i.large.link.pencil.icon
                         | #{views} views
                         +array_edit key='tags' label='tags' icon='tag' direct=true

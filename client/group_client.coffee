@@ -317,11 +317,11 @@ Template.flat_tag_selector.events
 
 
 
-Router.route '/:group/p/:doc_id/edit', (->
+Router.route '/g/:group/p/:doc_id/edit', (->
     @layout 'layout'
     @render 'group_post_edit'
     ), name:'group_post_edit'
-Router.route '/:group/p/:doc_id', (->
+Router.route '/g/:group/p/:doc_id', (->
     @layout 'layout'
     @render 'group_post_view'
     ), name:'group_post_view'
