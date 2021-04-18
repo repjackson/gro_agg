@@ -9,6 +9,10 @@ iron:router@=1.0.13
 mongo@1.11.0                   # The database Meteor supports right now
 session@1.2.0                 # Client-side reactive dictionary for your app
 tracker@1.2.0                 # Meteor's client-side reactive programming library
+zimme:active-route
+accounts-base@1.7.0
+accounts-password
+lepozepo:cloudinary
 
 
 random@1.2.0
@@ -36,6 +40,3 @@ francocatena:status
 lamhieu:unblock
 multiply:iron-router-progress
 reactive-var@1.0.11
-accounts-base@1.9.0
-lepozepo:cloudinary
-zimme:active-route

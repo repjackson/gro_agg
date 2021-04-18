@@ -1,3 +1,4 @@
+
 head
     title dao
     meta(name='viewport', content='user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width')
@@ -43,7 +44,7 @@ template(name='emoji')
     em(data-emoji=name)
 
 template(name='layout')
-    +status
+    // +status
     +nav
     +yield
     
@@ -54,9 +55,9 @@ template(name='layout')
 
 template(name='not_found')
     .ui.basic.center.aligned.segment
-        .ui.header page not found
-        a(href="search")
-            i.massive.link.yin.yang.icon
+        .ui.header not found
+        a.pointer.zoomer(href="/")
+            i.massive.yin.yang.black.icon
         
         
         

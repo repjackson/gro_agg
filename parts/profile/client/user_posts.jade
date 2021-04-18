@@ -1,0 +1,25 @@
+template(name='user_posts')
+    .ui.inline.header 
+        i.newspaper.icon
+        |posts
+    .ui.icon.button.skip_left
+        i.chevron.left.icon
+    .ui.icon.button.skip_right
+        i.chevron.right.icon
+    .ui.link.selection.animated.list.scrolling
+        each posts
+            a.ui.item(href="/post/#{_id}") 
+                .content
+                    if image_link
+                        +image_link_view key='image_link' direct=true
+                    if image_id
+                        img.ui.fluid.rounded.image.no_left(src="{{c.url image_id }}" class=currentUser.invert_class)
+                    if youtube_id
+                        .no_left
+                            +youtube_view key='youtube_id' label='youtube id' direct=true
+                
+                    .header #{title} 
+                    |#{when}
+                    each seven_tags 
+                        .ui.mini.label #{this}
+                    +author_info

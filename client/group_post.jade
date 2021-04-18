@@ -3,7 +3,7 @@ template(name='group_post_view')
         .ui.stackable.grid
             .row 
                 .four.wide.column.scrolling
-                    a.ui.big.fluid.basic.button(href="/#{group}")
+                    a.ui.big.fluid.basic.button(href="/g/#{group}")
                         i.chevron.left.icon
                         |#{group}
                     .ui.basic.segment
@@ -26,10 +26,10 @@ template(name='group_post_view')
                     if title
                         .ui.inline.header #{title}
                     if image_link
-                        a(href="/#{group}")
+                        a(href="/g/#{group}")
                             +image_link_view key='image_link' direct=true
                     if image_id
-                        a(href="/#{group}")
+                        a(href="/g/#{group}")
                             img.ui.fluid.image.pointer(src="{{c.url image_id }}" class=currentUser.invert_class)
                     if youtube_id
                         +youtube_view key='youtube_id' label='youtube id' direct=true

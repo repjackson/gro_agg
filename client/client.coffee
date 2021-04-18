@@ -29,12 +29,12 @@ Session.setDefault('loading', false)
 
 Router.configure
     layoutTemplate: 'layout'
-    notFoundTemplate: 'wiki'
+    notFoundTemplate: 'not_found'
     loadingTemplate: 'splash'
     trackPageView: false
 	progressTick: false
 # 	progressDelay: 100
-Router.route '*', -> @render 'wiki'
+Router.route '*', -> @render 'not_found'
 
 
 # Template.registerHelper 'picked_authors', () -> picked_authors.array()

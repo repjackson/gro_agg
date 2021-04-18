@@ -1,0 +1,168 @@
+template(name='user_dashboard')
+    .ui.stackable.grid
+        .row
+            .sixteen.wide.column
+                .ui.icon.input
+                    i.plus.icon
+                    input.add_feed_item(type='text' placeholder='add to feed (-10p)')
+                .ui.icon.small.disabled.button 
+                    i.gift.icon
+                .ui.icon.small.disabled.button 
+                    i.photo.icon
+                .ui.icon.small.disabled.button 
+                    i.hand.holding.icon
+                .ui.feed
+                    each feed_items 
+                        +feed_item
+                .ui.two.column.stackable.grid
+                    .column.smallscroll
+                        .ui.header bounties from
+                        .ui.divided.list
+                            each bounties_from
+                                .ui.item
+                                    // if is_author
+                                    //     +session_edit_toggle
+                                    //     if is_editing_this
+                                    //         +text_edit key='description' direct=true
+                                    //         +number_edit key='karma_bounty' direct=true
+                                    .ui.inline.header #{description}
+                                    .ui.inline.header #{karma_bounty}
+                                    // +boolean_view key='require_view' label='view' icon='eye' icon_only=true
+                                    // +boolean_view key='require_vote' label='vote' icon='thumbs up' icon_only=true
+                                    // +boolean_view key='require_reply' label='reply' icon='reply' icon_only=true
+                                    if require_view
+                                        +boolean_view key='view_requirement_met' label='view requirement met' icon_only=true icon='eye'
+                                    if require_vote
+                                        +boolean_view key='vote_requirement_met' label='vote requirement met' icon_only=true icon='thumbs up'
+                                    if require_reply
+                                        +boolean_view key='reply_requirement_met' label='reply requirement met' icon_only=true icon='reply'
+                                    +target_info
+                                    if is_admin
+                                        +print_this
+                                    .ui.label #{status}
+                                    a.ui.icon.button(href="/b/#{_id}")
+                                        i.chevron.right.icon
+                                    a.item(href="/b/#{_id}")
+                                        |#{when} 
+                                        +print_this
+                    .column.smallscroll
+                        .ui.header bounties to
+                        .ui.divided.list
+                            each bounties_to
+                                .ui.item
+                                    if is_author
+                                        +session_edit_toggle
+                                        if is_editing_this
+                                            +text_edit key='description' direct=true
+                                            +number_edit key='karma_bounty' direct=true
+                                    .ui.inline.header #{description}
+                                    .ui.inline.header #{karma_bounty}
+                                    // +boolean_view key='require_view' label='view' icon='eye' icon_only=true
+                                    // +boolean_view key='require_vote' label='vote' icon='thumbs up' icon_only=true
+                                    // +boolean_view key='require_reply' label='reply' icon='reply' icon_only=true
+                                    if require_view
+                                        +boolean_view key='view_requirement_met' label='view requirement met' icon_only=true icon='eye'
+                                    if require_vote
+                                        +boolean_view key='vote_requirement_met' label='vote requirement met' icon_only=true icon='thumbs up'
+                                    if require_reply
+                                        +boolean_view key='reply_requirement_met' label='reply requirement met' icon_only=true icon='reply'
+                                    +target_info
+                                    +print_this
+                                    +author_info
+                                    .ui.label #{status}
+                                    a.ui.icon.button(href="/b/#{_id}")
+                                        i.chevron.right.icon
+                                a.item(href="/b/#{_id}")
+                                    |#{when} 
+                                    +print_this
+                if currentUser
+                    .ui.two.column.stackable.grid
+                        .column
+                            a.ui.inline.spaced.header(href="/user/#{username}/debits")
+                                i.chevron.up.icon
+                                |karma sent
+                                |#{total_debit_amount}p
+                                // |sent
+                                small(title='debit count') (#{debit_count}x)
+                                small(title='rank') ##{global_debit_count_rank}
+                            each debit_tags
+                                .ui.small.label #{title} 
+                                    // small #{count}
+                            .ui.list.selection.animated.smallscroll
+                                each user_karma_sent
+                                    a.item(href="/debit/#{_id}/view") #{title} #{amount} #{points} #{when}, #{description}
+                                        each tags
+                                            .ui.small.label #{this}
+                                        +target_info
+                        .column
+                            a.ui.inline.header(href="/user/#{username}/credits")
+                                i.chevron.down.icon
+                                |karma received
+                                |#{total_credit_amount}p
+                                // |received
+                                small(title='received count') (#{credit_count}x) 
+                                small(title='rank') ##{global_credit_count_rank}
+                            each credit_tags
+                                .ui.small.label #{title}
+                            .ui.selection.animated.list.smallscroll
+                                each user_karma_received
+                                    a.item(href="/debit/#{_id}/view")
+                                        .header #{points}: #{title}
+                                        |#{description} #{amount} 
+                                        small #{when}
+                                        each tags
+                                            .ui.small.label #{this}
+                                        +author_info
+                        
+                    // .ui.small.header 
+                    //     label goto/create group
+                    // .ui.input
+                    //     input.goto_group(type='text' placeholder='name')
+                    // each group_bookmarks
+                    //     .ui.large.label
+                    //         i.remove.icon.remove_group
+                    //         span.pointer.click_group
+                    //             |#{name}
+                    //- .ui.icon.button.refresh_user_stats(title='refresh stats')
+                    //-     i.refresh.icon
+                    .ui.label #{user_post_count} posts x 10p = #{post_points}p
+                    i.minus.icon
+                    .ui.label #{user_comment_count} comments x 1p
+                    i.minus.icon
+                    .ui.label #{user_comment_count} tips sent totaling #{tips_sent_amount}
+                    i.plus.icon
+                    .ui.label #{tips_received_count} tips received totaling #{tips_received_amount}
+                    i.equals.icon
+                    .ui.big.label #{points}p
+                    .ui.header 
+                        i.chat.icon
+                        |comments
+                    .smallscroll
+                        each comments    
+                            +user_comment_small
+                    div
+                    .ui.header 
+                        i.users.icon
+                        |groups
+                    .smallscroll
+                        each groups    
+                            +user_group
+                    div
+                    .ui.inline.header 
+                        i.newspaper.icon
+                        |posts
+                    +session_select key='post_sort_key' value='viewer_ids' icon='eye'
+                    +session_select key='post_sort_key' value='points' icon='thumbs up'
+                    +session_select key='post_sort_key' value='_timestamp' icon='clock'
+                    .ui.link.list.smallscroll
+                        each posts
+                            +user_post_small
+                    .ui.header 
+                        i.donate.icon
+                        |tips
+                    .ui.link.list.smallscroll
+                        each tips
+                            +user_tip_small
+        .three.column.row
+            .column
+                +user_bookmarks_widget

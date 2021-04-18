@@ -1,0 +1,125 @@
+// template(name='rpost_card')
+//     .center.aligned.column.smallscroll
+//         .content.card_small.invert
+//             i.large.reddit.icon
+//             // a.ui.header.zoomer(href="/#{group}/p/#{_id}") #{title}
+//             // a.ui.center.aligned.small.header.view_post(href="/#{group}/p/#{_id}" class=emotion_color)
+//             a.ui.invert.header.thin.title.zoomer(href=url target='_window')
+//                 |!{title} #{lowered_title}
+//                 |#{lowered_title}
+//             span.ui.text {{ufrom data.created}}
+//             .spacer
+//             if embed
+//                 span.rounded.full
+//                     |!{embed}
+//                 div
+//             else if is_image
+//                 a(href=url target='_window')
+//                     img.ui.fluid.rounded.image.zoomer.toggle_view(src=url)
+//             else if data.thumbnail_width
+//                 a(href=url target='_window')
+//                     img.ui.fluid.rounded.image.zoomer(src=data.thumbnail)    
+//             unless simple
+//                 i.chevron.down.icon.dl.invert
+//                 span.invert
+//                     |#{ups}
+//                     i.thumbs.up.outline.icon
+//                     |#{comment_count}
+//                     i.chat.outline.icon
+//                 with subreddit
+//                     +flat_tag_picker
+//                     // .ui.basic.label #{this}
+//                 each five_tags
+//                     +flat_tag_picker
+//                 a.ui.icon.compact.basic.button(href="https://www.reddit.com#{permalink}" target='_window' title=domain)
+//                     // |#{domain}
+//                     i.external.icon
+//                 // div
+//                 .ui.tiny.invert.transparent.left.icon.input
+//                     i.tag.icon
+//                     input.add_tag(type='text' placeholder='...')
+//             .ui.hidden.divider   
+//             if selftext_html
+//                 unless simple
+//                     span.invert.smallscroll
+//                         |{{#markdown}} !{data.selftext_html} {{/markdown}}
+//             div    
+//             i.reddit.icon.get_post
+//         each tags
+//             .ui.label #{this}
+//         if embed
+//             // span.f11.full
+//             a.view_post(href="/p/#{_id}" class=post_header_class)
+//                 |!{embed}
+//         else if is_image
+//             a.view_post(href="/p/#{_id}" class=post_header_class)
+//                 img.ui.fluid.image.zoomer.toggle_view(src=data.url)
+//         else if metadata.image
+//             img.ui.image.pointer.zoomer.call_meta(src=metadata.image)
+//         else if data.is_reddit_media_domain
+//             a.view_post(href="/p/#{_id}" class=post_header_class)
+//                 img.ui.fluid.image.pointer(src=data.thumbnail)
+//                 // img.ui.centered.image.pointer.call_visual(src=data.url)
+//         else if has_thumbnail
+//             a.view_post(href="/p/#{_id}" class=post_header_class)
+//                 img.ui.fluid.image.pointer(src=data.thumbnail)
+//         else if is_youtube
+//             // .ui.fluid.embed
+//             //     iframe(id="ytplayer" type="text/html" width="100%" height="500" src="https://www.youtube.com/embed/#{youtube_parse}" frameborder="0" allowfullscreen)
+//             iframe(width="100%" height="600" src="https://www.youtube.com/embed/#{youtube_parse}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+//         else if preview_path
+//             img(src=preview_path)
+//         else if data.link_url
+//             img.ui.image.pointer.call_visual(src=data.link_url)
+
+//         // if image_link
+//         //     a(href="/p/#{_id}")
+//         //         img.ui.image(src=image_link)
+//         // if image_id
+//         //     a(href="/p/#{_id}")
+//         //         img.ui.image(src="{{c.url image_id }}" )
+//         // if youtube_id
+//         //     +youtube_view key='youtube_id' label='youtube id'
+
+//         .content
+//             a.ui.header(href="/p/#{_id}" class=emotion_header_class) #{title}
+//             div
+//             // if data.selftext_html
+//             //     a.f12(href="/p/#{_id}")
+//             //         |!{data.selftext_html}
+//             // else if data.selftext
+//             //     a.f12(href="/p/#{_id}")
+//             //         |!{data.selftext}
+                    
+//             //     |!{description}
+//             //     |!{body}
+//             // .ui.tiny.icon.input
+//             //     i.grey.tag.icon
+//             //     input.add_tag(type='text' placeholder='+')
+//             each seven_tags
+//                 +flat_tag_picker
+//             .ui.compact.small.basic.button.pick_sub
+//                 |#{subreddit}
+//                 // .ui.small.button.pick_flat_tag #{this}
+//             // each timestamp_tags
+//             //     .ui.small.button.pick_flat_time #{this}
+//             // if location
+//             //     i.grey.marker.icon
+//             //     |#{location}
+//             if in_dev
+//                 div
+//             |{{ufrom data.created}}
+//             // if watson
+//             //     +doc_emotion_small
+//             // i.thumbs.up.outline.grey.link.icon.upvote
+//             // |#{points}
+//             // i.thumbs.down.outline.grey.link.icon.downvote
+//             // i.chat.outline.grey.icon
+//             // |#{comment_count}
+//             // +voting
+//             // if in_dev
+//             //     i.large.lock.link.grey.icon.make_private
+//             // a.ui.icon.large.button(href="/p/#{_id}")
+//             //     |#{views}
+//             //     i.chevron.right.large.icon
+//         //   +comments
