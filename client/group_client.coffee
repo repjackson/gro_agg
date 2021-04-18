@@ -2,10 +2,6 @@ Router.route '/g/:group', (->
     @layout 'layout'
     @render 'group'
     ), name:'group'
-Router.route '/:group', (->
-    @layout 'layout'
-    @render 'group'
-    ), name:'group_short'
 
 @picked_tags = new ReactiveArray []
 @picked_time_tags = new ReactiveArray []
