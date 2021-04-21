@@ -1,0 +1,28 @@
+
+template(name='map')
+    #mapid
+    unless pos
+        .ui.large.compact.basic.fluid.button.refresh
+            i.marker.icon
+            |reload location data
+    .ui.one.column.padded.grid
+        .column
+            .ui.center.aligned.header People Near You: #{my_longform} (#{my_category})
+            .ui.four.column.stackable.padded.centered.grid
+                each nearby_people
+                    +nearby_person
+                    
+                    
+template(name='nearby_person')                    
+    .column
+        .ui.segment.rounded.zoomer.pointer.goto_user
+            img.ui.tiny.circular.inline.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
+            a.ui.header(href="/user/#{username}") #{username}
+                if age
+                    |#{age}
+            |!{about} #{formatted}
+            each tags
+                .ui.basic.small.label #{this}
+            |#{light_mode}
+            
+            
